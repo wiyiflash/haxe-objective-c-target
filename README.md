@@ -6,7 +6,7 @@ Objective-C target can build Xcode projects with pure objective-c code from Haxe
 
 ## Compiling Haxe
 
-Clone the ObjC target from git somewhere in your computer, it contains also the entire haxe compiler sources:
+Clone the ObjC target from git somewhere in your computer, it contains also the entire haxe compiler sources. I keep the Haxe svn sources update once at few days usually
 
 	git clone git@github.com:ralcr/haxe-objective-c-target.git
 
@@ -37,7 +37,7 @@ The starting point of your app is not very flexible, it should be like this, eve
 And the AppDelegate.hx should conform with the UIApplicationDelegate. The main entry point is:
 
 	class AppDelegate extends UIResponder implements UIApplicationDelegate {
-		public function applicationDidFinishLaunchingWithOptions (application:UIApplication, didFinishLaunchingWithOptions:NSDictionary) :Bool {
+		public function application (application:UIApplication, didFinishLaunchingWithOptions:NSDictionary) :Bool {
 			// See the demos please
 			return true;
 		}
