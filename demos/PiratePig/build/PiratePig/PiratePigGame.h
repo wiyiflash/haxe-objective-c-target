@@ -12,8 +12,8 @@
 
 #import "Array.h"
 #import "Tile.h"
-#import "Math.h"
 #import "PiratePigGame.h"
+#import "Math.h"
 #import "Std.h"
 
 @interface PiratePigGame : UIView 
@@ -46,6 +46,7 @@
 - (void) touchesMoved:(NSSet*)touches withEvent:(UIEvent*)withEvent;
 - (void) touchesEnded:(NSSet*)touches withEvent:(UIEvent*)withEvent;
 - (void) touchesCancelled:(NSSet*)touches withEvent:(UIEvent*)withEvent;
+- (void) loop;
 - (id) init;
 
 @end

@@ -1,7 +1,7 @@
 package objc.graphics;
 
 
-typedef struct CGDataConsumer *CGDataConsumerRef;
+typedef CGDataConsumer *CGDataConsumerRef;
 
 #include <CoreGraphics/CGBase.h>
 #include <CoreFoundation/CFURL.h>

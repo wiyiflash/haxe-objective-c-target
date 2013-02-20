@@ -23,7 +23,6 @@
 		287530DB16957A1E0048F960 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 287530BC16957A1D0048F960 /* Foundation.framework */; };
 		287530E316957A1E0048F960 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 287530E116957A1E0048F960 /* InfoPlist.strings */; };
 		287530E616957A1E0048F960 /* PlaygroundTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 287530E516957A1E0048F960 /* PlaygroundTests.m */; };
-		287530FD169712600048F960 /* Date.m in Sources */ = {isa = PBXBuildFile; fileRef = 287530FA1697125F0048F960 /* Date.m */; };
 		287530FE169712600048F960 /* Std.m in Sources */ = {isa = PBXBuildFile; fileRef = 287530FC1697125F0048F960 /* Std.m */; };
 		28BC52F516C2F05B000072BD /* haxe in Resources */ = {isa = PBXBuildFile; fileRef = 28BC52F416C2F05B000072BD /* haxe */; };
 		28BC52F816C2F19100000001 /* Log.m in Sources */ = {isa = PBXBuildFile; fileRef = 28BC52F816C2F19100000002 /* Log.m */; };
@@ -64,8 +63,6 @@
 		287530E216957A1E0048F960 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		287530E416957A1E0048F960 /* PlaygroundTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlaygroundTests.h; sourceTree = "<group>"; };
 		287530E516957A1E0048F960 /* PlaygroundTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlaygroundTests.m; sourceTree = "<group>"; };
-		287530F91697125F0048F960 /* Date.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Date.h; path = Tests/Date.h; sourceTree = SOURCE_ROOT; };
-		287530FA1697125F0048F960 /* Date.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Date.m; path = Tests/Date.m; sourceTree = SOURCE_ROOT; };
 		287530FB1697125F0048F960 /* Std.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Std.h; path = Tests/Std.h; sourceTree = SOURCE_ROOT; };
 		287530FC1697125F0048F960 /* Std.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Std.m; path = Tests/Std.m; sourceTree = SOURCE_ROOT; };
 		28BC52F416C2F05B000072BD /* haxe */ = {isa = PBXFileReference; lastKnownFileType = folder; path = haxe; sourceTree = "<group>"; };
@@ -143,8 +140,6 @@
 				287530CA16957A1D0048F960 /* AppDelegate.m */,
 				2839DCB016AE4F9A00068D3B /* HXObject.h */,
 				2839DCB116AE4F9A00068D3B /* HXObject.m */,
-				287530F91697125F0048F960 /* Date.h */,
-				287530FA1697125F0048F960 /* Date.m */,
 				287530FB1697125F0048F960 /* Std.h */,
 				287530FC1697125F0048F960 /* Std.m */,
 				287530C116957A1D0048F960 /* Supporting Files */,
@@ -297,7 +292,6 @@
 			files = (
 				287530C716957A1D0048F960 /* mainf.m in Sources */,
 				287530CB16957A1D0048F960 /* AppDelegate.m in Sources */,
-				287530FD169712600048F960 /* Date.m in Sources */,
 				287530FE169712600048F960 /* Std.m in Sources */,
 				2839DCB216AE4F9A00068D3B /* HXObject.m in Sources */,
 				28BC52F816C2F191000072BD /* RCHTTPRequest.m in Sources */,

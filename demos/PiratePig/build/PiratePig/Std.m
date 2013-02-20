@@ -9,7 +9,10 @@
 
 @implementation Std
 
-+ (int) int:(float)x{
++ (NSMutableString*) string:(id)s{
+	return [s description];
+}
++ (int) _int:(float)x{
 	return (int)x;
 }
 

@@ -7,10 +7,12 @@
 
 
 
+#import "String.h"
 
 @interface Std : HXObject
 
-+ (int) int:(float)x;
++ (NSMutableString*) string:(id)s;
++ (int) _int:(float)x;
 
 @end
 

@@ -21,7 +21,7 @@
 }
 - (void) moveTo:(float)duration targetX:(float)targetX targetY:(float)targetY{
 	self.moving = YES;
-	[UIView beginAnimations:(NSMutableString*)@"move_to" context:nil];
+	[UIView beginAnimations:[NSMutableString stringWithString:@"move_to"] context:nil];
 	[UIView setAnimationDelegate:self];
 	[UIView setAnimationDuration:duration];
 	[UIView setAnimationDidStopSelector: @selector(animationDidStop:finished:context:)];
@@ -33,12 +33,12 @@
 	[UIView commitAnimations];
 }
 - (void) remove:(BOOL)animate{
-	// Simulated optional arguments
-	if (animate == nil) animate = YES;
+	// Optional arguments
+	if (!animate) animate = YES;
 	
 	self.userInteractionEnabled = NO;
 	[self.superview insertSubview:self atIndex:0];
-	[UIView beginAnimations:(NSMutableString*)@"fade_out" context:nil];
+	[UIView beginAnimations:[NSMutableString stringWithString:@"fade_out"] context:nil];
 	[UIView setAnimationDelegate:self];
 	[UIView setAnimationDuration:0.6];
 	[UIView setAnimationDidStopSelector: @selector(animationDidStop:finished:context:)];
@@ -51,12 +51,11 @@
 	self.removed = YES;
 }
 - (void) animationDidStop:(NSMutableString*)animationID finished:(float)finished context:(id)context{
-	if (animationID == (NSMutableString*)@"fade_out") [self removeFromSuperview];
-	else if (animationID == (NSMutableString*)@"move_to") self.moving = NO;
+	if (animationID == [NSMutableString stringWithString:@"fade_out"]) [self removeFromSuperview];
+	else if (animationID == [NSMutableString stringWithString:@"move_to"]) self.moving = NO;
 }
 - (id) init:(NSMutableString*)imagePath{
 	self = [super init];
-	[super];
 	
 	UIImageView *image = [[[UIImageView alloc] init] initWithImage:[UIImage imageNamed:imagePath]];
 	[self addSubview:image];

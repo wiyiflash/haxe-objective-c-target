@@ -9,7 +9,7 @@
 
 @implementation NSMutableArray ( Array )
 
-// Getters/setters for property length
+// Getters/setters for property: length
 static int length__;
 - (int) length { return length__; }
 - (void) setLength:(int)val { length__ = val; }
@@ -30,7 +30,7 @@ static int length__;
 	return [self componentsJoinedByString:sep];
 }
 - (NSMutableString*) toString{
-	return [(NSMutableString*)@"[" stringByAppendingString: ([[self componentsJoinedByString:(NSMutableString*)@","] stringByAppendingString:(NSMutableString*)@"]"])];
+	return [[NSMutableString stringWithString:@"["] stringByAppendingString: ([[self componentsJoinedByString:[NSMutableString stringWithString:@","]] stringByAppendingString:[NSMutableString stringWithString:@"]"]])];
 }
 - (id) pop{
 	if (self.length == 0) return nil;
@@ -62,8 +62,8 @@ static int length__;
 	return nil;
 }
 - (NSMutableArray*) slice:(int)pos end:(int)end{
-	// Simulated optional arguments
-	if (end == nil) end = nil;
+	// Optional arguments
+	if (!end) end = nil;
 	
 	return [self splice:pos len:end - pos];
 }
@@ -71,7 +71,7 @@ static int length__;
 }
 - (NSMutableArray*) splice:(int)pos len:(int)len{
 	
-	NSMutableArray *newArray = (NSMutableArray*)[self subarrayWithRange:NSMakeRange (pos,len)];
+	NSMutableArray *newArray = [self subarrayWithRange:NSMakeRange (pos,len)];
 	[self removeObjectsInArray:newArray];
 	return [NSMutableArray arrayWithArray:newArray];
 }

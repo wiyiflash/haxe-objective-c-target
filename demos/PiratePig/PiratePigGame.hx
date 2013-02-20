@@ -45,19 +45,17 @@ class PiratePigGame extends UIView {
 	
 	
 	public function new () {
-		
 		super ();
-		
 		initialize ();
 		construct ();
-		
 		newGame ();
-		
 	}
 	
 	
 	private function addTile (row:Int, column:Int, animate:Bool = true):Void {
 		
+		var t = tileImages;
+		var t2 = tileImages.length;
 		var tile = null;
 		var type = Math.round (Math.random () * (tileImages.length - 1));
 		
@@ -76,7 +74,8 @@ class PiratePigGame extends UIView {
 		tile.type = type;
 		tile.row = row;
 		tile.column = column;
-		tiles[row][column] = tile;
+		var t = tiles[row];
+		t[column] = tile;
 		
 		var position = getPosition (row, column);
 		
@@ -104,12 +103,9 @@ class PiratePigGame extends UIView {
 			rect.origin.x = position.x;
 			rect.origin.y = position.y;
 			tile.frame = rect;
-			
 		}
-		
 		TileContainer.addSubview ( tile );
 		needToCheckMatches = true;
-		
 	}
 	
 	
@@ -191,8 +187,10 @@ class PiratePigGame extends UIView {
 						tile.moveTo (0.15 * spaces, position.x,position.y);
 						
 						tile.row = index + spaces;
-						tiles[index + spaces][column] = tile;
-						tiles[index][column] = null;
+						var t = tiles[index + spaces];
+						t[column] = tile;
+						t = tiles[index];
+						t[column] = null;
 						
 						needToCheckMatches = true;
 					}
@@ -233,9 +231,11 @@ class PiratePigGame extends UIView {
 				var tile:Tile;
 				
 				if (byRow) {
-					tile = tiles[index][secondIndex];
+					var t = tiles[index];
+					tile = t[secondIndex];
 				} else {
-					tile = tiles[secondIndex][index];
+					var t = tiles[secondIndex];
+					tile = t[index];
 				}
 				
 				if (tile != null && !tile.moving) {
@@ -250,9 +250,7 @@ class PiratePigGame extends UIView {
 						
 						foundTiles.push (tile);
 						matches++;
-						
 					}
-					
 				}
 				
 				if (tile == null || tile.moving || tile.type != previousType || secondIndex == secondMax - 1) {
@@ -310,7 +308,8 @@ class PiratePigGame extends UIView {
 			tiles[row] = new Array <Tile> ();
 			
 			for (column in 0...NUM_COLUMNS) {
-				tiles[row][column] = null;
+				var t = tiles[row];
+				t[column] = null;
 			}
 		}
 		
@@ -324,7 +323,6 @@ class PiratePigGame extends UIView {
 		Score.font = UIFont.boldSystemFontOfSize(30);
 		
 		TileContainer = new UIView();
-		
 	}
 	
 	
@@ -348,23 +346,21 @@ class PiratePigGame extends UIView {
 /*		IntroSound.play ();
 		removeEventListener (Event.ENTER_FRAME, this_onEnterFrame);
 		addEventListener (Event.ENTER_FRAME, this_onEnterFrame);*/
-		
 	}
 	
 	
 	public function removeTile (row:Int, column:Int, animate:Bool = true):Void {
 		
-		var tile = tiles[row][column];
+		var t = tiles[row];
+		var tile = t[column];
 		
 		if (tile != null) {
-			
 			tile.remove (animate);
 			usedTiles.push (tile);
-			
 		}
 		
-		tiles[row][column] = null;
-		
+		var t = tiles[row];
+		t[column] = null;
 	}
 	
 	
@@ -420,8 +416,10 @@ class PiratePigGame extends UIView {
 			
 			if (targetTile != null && !targetTile.moving) {
 				
-				tiles[targetRow][targetColumn] = tile;
-				tiles[tile.row][tile.column] = targetTile;
+				var t = tiles[targetRow];
+				t[targetColumn] = tile;
+				t = tiles[tile.row];
+				t[tile.column] = targetTile;
 				
 				if (findMatches (true, false).length > 0 || findMatches (false, false).length > 0) {
 					
@@ -439,8 +437,10 @@ class PiratePigGame extends UIView {
 					
 				} else {
 					
-					tiles[targetRow][targetColumn] = targetTile;
-					tiles[tile.row][tile.column] = tile;
+					var t = tiles[targetRow];
+					t[targetColumn] = targetTile;
+					t = tiles[tile.row];
+					t[tile.column] = tile;
 				}
 			}
 		}
@@ -451,26 +451,26 @@ class PiratePigGame extends UIView {
 	
 	// Event Handlers
 	
-	
 	override public function touchesBegan (touches:NSSet, withEvent:UIEvent) :Void {
-	
+		var touchesForView = withEvent.touchesForView(this);
+		var anyObject = touches.anyObject();
+/*		if (Std.is (withEvent.target, Tile)) {
+			selectedTile = cast withEvent.target;
+			cacheMouse = new CGPoint (withEvent.stageX, withEvent.stageY);
+		} else {
+			cacheMouse = null;
+			selectedTile = null;
+		}*/
 	}
 	override public function touchesMoved (touches:NSSet, withEvent:UIEvent) :Void {
 	
 	}
 	override public function touchesEnded (touches:NSSet, withEvent:UIEvent) :Void {
-	
-	}
-	override public function touchesCancelled (touches:NSSet, withEvent:UIEvent) :Void {
-	
-	}
-	/*
-	private function stage_onMouseUp (event:MouseEvent):Void {
 		
 		if (cacheMouse != null && selectedTile != null && !selectedTile.moving) {
 			
-			var differenceX = event.stageX - cacheMouse.x;
-			var differenceY = event.stageY - cacheMouse.y;
+			var differenceX = 0;//event.stageX - cacheMouse.x;
+			var differenceY = 0;//event.stageY - cacheMouse.y;
 			
 			if (Math.abs (differenceX) > 10 || Math.abs (differenceY) > 10) {
 				
@@ -480,42 +480,30 @@ class PiratePigGame extends UIView {
 				if (Math.abs (differenceX) > Math.abs (differenceY)) {
 					
 					if (differenceX < 0) {
-						
 						swapToColumn --;
-						
 					} else {
-						
 						swapToColumn ++;
-						
 					}
-					
 				} else {
-					
 					if (differenceY < 0) {
-						
 						swapToRow --;
-						
 					} else {
-						
 						swapToRow ++;
-						
 					}
-					
 				}
-				
 				swapTile (selectedTile, swapToRow, swapToColumn);
-				
 			}
-			
 		}
 		
 		selectedTile = null;
 		cacheMouse = null;
-		
+	}
+	override public function touchesCancelled (touches:NSSet, withEvent:UIEvent) :Void {
+	
 	}
 	
 	
-	private function this_onEnterFrame (event:Event):Void {
+	private function loop () :Void {
 		
 		if (needToCheckMatches) {
 			
@@ -525,38 +513,14 @@ class PiratePigGame extends UIView {
 			matchedTiles = matchedTiles.concat (findMatches (false));
 			
 			for (tile in matchedTiles) {
-				
 				removeTile (tile.row, tile.column);
-				
 			}
 			
 			if (matchedTiles.length > 0) {
-				
 				Score.text = Std.string (currentScore);
 				dropTiles ();
-				
 			}
-			
 		}
-		
 	}
-	
-	
-	private function TileContainer_onMouseDown (event:MouseEvent):Void {
-		
-		if (Std.is (event.target, Tile)) {
-			
-			selectedTile = cast event.target;
-			cacheMouse = new Point (event.stageX, event.stageY);
-			
-		} else {
-			
-			cacheMouse = null;
-			selectedTile = null;
-			
-		}
-		
-	}
-	*/
 	
 }

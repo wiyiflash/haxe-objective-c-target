@@ -47,14 +47,18 @@
 		
 		Affects the characters [a-z]. Other characters remain unchanged.
 	**/
-	public function toUpperCase() : String {return null;}
+	public function toUpperCase() : String {
+		return untyped this.uppercaseString();
+	}
 
 	/**
 		Returns a String where all characters of [this] String are lower case.
 		
 		Affects the characters [A-Z]. Other characters remain unchanged.
 	**/
-	public function toLowerCase() : String {return null;}
+	public function toLowerCase() : String {
+		return untyped this.lowercaseString();
+	}
 
 	/**
 		Returns the character at position [index] of [this] String.
@@ -62,7 +66,9 @@
 		If [index] is negative or exceeds [this].length, the empty String ""
 		is returned.
 	**/
-	public function charAt(index : Int) : String {return null;}
+	public function charAt(index : Int) : String {
+		return untyped this.characterAtIndex( index );
+	}
 
 	/**
 		Returns the character code at position [index] of [this] String.
@@ -73,7 +79,9 @@
 		instead to inline the character code at compile time. Note that this
 		only works on String literals of length 1.
 	**/
-	public function charCodeAt( index : Int) : Null<Int> {return null;}
+	public function charCodeAt( index : Int) : Null<Int> {
+		return untyped this.characterAtIndex( index );
+	}
 
 	/**
 		Returns the position of the leftmost occurence of [str] within [this]
@@ -132,7 +140,9 @@
 		result Array contains a leading (or trailing) empty String "" element.
 		Two subsequent delimiters also result in an empty String "" element.
 	**/
-	public function split( delimiter : String ) : Array<String> {return null;}
+	public function split( delimiter : String ) : Array<String> {
+		return untyped this.componentsSeparatedByString( delimiter );
+	}
 
 	/**
 		Returns [len] characters of [this] String, starting at position [pos].
@@ -210,7 +220,9 @@
 	/**
 		Returns the String itself.
 	**/
-	public function toString() : String {return null;}
+	public function toString() : String {
+		return untyped this.description();
+	}
 
 	/**
 		Returns the String corresponding to the character code [code].
@@ -219,6 +231,6 @@
 		unspecified.
 	**/	
 	static public function fromCharCode( code : Int ) : String {
-		return untyped __objc__("[NSString stringWithFormat: @\"%C\", code]");
+		return untyped __objc__("[NSString stringWithFormat:@\"%C\", code]");
 	}
 }

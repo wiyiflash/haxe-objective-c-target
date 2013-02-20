@@ -1,0 +1,193 @@
+<xml>
+<files id="haxe">
+<compilerflag value="-Iinclude"/>
+  <file name="src/haxe/io/Error.cpp">
+   <depend name="include/haxe/io/Error.h"/>
+  </file>
+  <file name="src/haxe/io/Bytes.cpp">
+   <depend name="include/StringBuf.h"/>
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/haxe/io/Error.h"/>
+  </file>
+  <file name="src/haxe/crypto/Sha1.cpp">
+   <depend name="include/haxe/crypto/Sha1.h"/>
+   <depend name="include/haxe/io/Bytes.h"/>
+  </file>
+  <file name="src/haxe/crypto/Md5.cpp">
+   <depend name="include/haxe/crypto/Md5.h"/>
+   <depend name="include/haxe/io/Bytes.h"/>
+  </file>
+  <file name="src/haxe/_FastList/FastListIterator_Int.cpp">
+   <depend name="include/cpp/FastIterator_Int.h"/>
+   <depend name="include/haxe/FastCell_Int.h"/>
+   <depend name="include/haxe/_FastList/FastListIterator_Int.h"/>
+  </file>
+  <file name="src/haxe/Log.cpp">
+   <depend name="include/haxe/Log.h"/>
+  </file>
+  <file name="src/haxe/FastList_Int.cpp">
+   <depend name="include/cpp/FastIterator_Int.h"/>
+   <depend name="include/haxe/FastCell_Int.h"/>
+   <depend name="include/haxe/FastList_Int.h"/>
+   <depend name="include/haxe/_FastList/FastListIterator_Int.h"/>
+  </file>
+  <file name="src/haxe/FastList.cpp">
+   <depend name="include/haxe/FastCell.h"/>
+   <depend name="include/haxe/FastList.h"/>
+   <depend name="include/haxe/_FastList/FastListIterator.h"/>
+  </file>
+  <file name="src/haxe/_FastList/FastListIterator.cpp">
+   <depend name="include/haxe/FastCell.h"/>
+   <depend name="include/haxe/_FastList/FastListIterator.h"/>
+  </file>
+  <file name="src/haxe/FastCell.cpp">
+   <depend name="include/haxe/FastCell.h"/>
+  </file>
+  <file name="src/haxe/FastCell_Int.cpp">
+   <depend name="include/haxe/FastCell_Int.h"/>
+  </file>
+  <file name="src/cpp/FastIterator_Int.cpp">
+   <depend name="include/cpp/FastIterator_Int.h"/>
+  </file>
+  <file name="src/Type.cpp">
+   <depend name="include/Reflect.h"/>
+   <depend name="include/Type.h"/>
+   <depend name="include/ValueType.h"/>
+  </file>
+  <file name="src/ValueType.cpp">
+   <depend name="include/ValueType.h"/>
+  </file>
+  <file name="src/Tests3.cpp">
+   <depend name="include/Tests3.h"/>
+  </file>
+  <file name="src/_Tests3/TestsEnumExtern.cpp">
+   <depend name="include/_Tests3/TestsEnumExtern.h"/>
+  </file>
+  <file name="src/_Tests3/Color.cpp">
+   <depend name="include/_Tests3/Color.h"/>
+  </file>
+  <file name="src/Color2.cpp">
+   <depend name="include/Color2.h"/>
+  </file>
+  <file name="src/Tests2.cpp">
+   <depend name="include/Tests2.h"/>
+   <depend name="include/haxe/Log.h"/>
+  </file>
+  <file name="src/Tests.cpp">
+   <depend name="include/Color.h"/>
+   <depend name="include/Color2.h"/>
+   <depend name="include/Date.h"/>
+   <depend name="include/DateTools.h"/>
+   <depend name="include/EReg.h"/>
+   <depend name="include/Hash.h"/>
+   <depend name="include/IntHash.h"/>
+   <depend name="include/Interface1.h"/>
+   <depend name="include/Interface2.h"/>
+   <depend name="include/Lambda.h"/>
+   <depend name="include/List.h"/>
+   <depend name="include/Reflect.h"/>
+   <depend name="include/Std.h"/>
+   <depend name="include/StringBuf.h"/>
+   <depend name="include/StringTools.h"/>
+   <depend name="include/Tests.h"/>
+   <depend name="include/Tests2.h"/>
+   <depend name="include/TestsEnumExtern.h"/>
+   <depend name="include/Type.h"/>
+   <depend name="include/haxe/FastCell_Int.h"/>
+   <depend name="include/haxe/FastList_Int.h"/>
+   <depend name="include/haxe/Log.h"/>
+   <depend name="include/haxe/crypto/Md5.h"/>
+   <depend name="include/haxe/crypto/Sha1.h"/>
+  </file>
+  <file name="src/TestsEnumExtern.cpp">
+   <depend name="include/TestsEnumExtern.h"/>
+  </file>
+  <file name="src/Color.cpp">
+   <depend name="include/Color.h"/>
+  </file>
+  <file name="src/StringTools.cpp">
+   <depend name="include/StringTools.h"/>
+  </file>
+  <file name="src/StringBuf.cpp">
+   <depend name="include/StringBuf.h"/>
+  </file>
+  <file name="src/Std.cpp">
+   <depend name="include/Std.h"/>
+  </file>
+  <file name="src/Reflect.cpp">
+   <depend name="include/Reflect.h"/>
+  </file>
+  <file name="src/List.cpp">
+   <depend name="include/List.h"/>
+   <depend name="include/Std.h"/>
+   <depend name="include/StringBuf.h"/>
+  </file>
+  <file name="src/Lambda.cpp">
+   <depend name="include/Lambda.h"/>
+   <depend name="include/List.h"/>
+  </file>
+  <file name="src/Interface2.cpp">
+   <depend name="include/Interface2.h"/>
+  </file>
+  <file name="src/Interface1.cpp">
+   <depend name="include/Interface1.h"/>
+  </file>
+  <file name="src/IntIterator.cpp">
+   <depend name="include/IntIterator.h"/>
+  </file>
+  <file name="src/IntHash.cpp">
+   <depend name="include/IntHash.h"/>
+   <depend name="include/Std.h"/>
+   <depend name="include/StringBuf.h"/>
+  </file>
+  <file name="src/Hash.cpp">
+   <depend name="include/Hash.h"/>
+   <depend name="include/Std.h"/>
+   <depend name="include/StringBuf.h"/>
+  </file>
+  <file name="src/EReg.cpp">
+   <depend name="include/EReg.h"/>
+   <depend name="include/Std.h"/>
+   <depend name="include/StringBuf.h"/>
+   <depend name="include/cpp/Lib.h"/>
+  </file>
+  <file name="src/cpp/Lib.cpp">
+   <depend name="include/cpp/Lib.h"/>
+  </file>
+  <file name="src/DateTools.cpp">
+   <depend name="include/Date.h"/>
+   <depend name="include/DateTools.h"/>
+   <depend name="include/Std.h"/>
+   <depend name="include/StringBuf.h"/>
+   <depend name="include/StringTools.h"/>
+  </file>
+  <file name="src/Date.cpp">
+   <depend name="include/Date.h"/>
+   <depend name="include/Std.h"/>
+  </file>
+  <file name="src/__boot__.cpp">
+  </file>
+  <file name="src/__files__.cpp">
+  </file>
+  <file name="src/__resources__.cpp">
+  </file>
+</files>
+<files id="__lib__">
+<compilerflag value="-Iinclude"/>
+  <file name="src/__lib__.cpp">
+   <depend name="include/Interface1.h"/>
+   <depend name="include/Interface2.h"/>
+   <depend name="include/Tests.h"/>
+  </file>
+</files>
+<files id="__main__">
+<compilerflag value="-Iinclude"/>
+  <file name="src/__main__.cpp">
+   <depend name="include/Interface1.h"/>
+   <depend name="include/Interface2.h"/>
+   <depend name="include/Tests.h"/>
+  </file>
+</files>
+<set name="HAXE_OUTPUT" value="Tests" />
+<include name="${HXCPP}/build-tool/BuildCommon.xml"/>
+</xml>

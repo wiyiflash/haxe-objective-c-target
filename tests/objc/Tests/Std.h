@@ -8,8 +8,9 @@
 
 
 #import "String.h"
+#import "HXObject.h"
 
-@interface Std : HXObject
+@interface Std : NSObject
 
 + (BOOL) is:(id)v t:(id)t;
 + (NSMutableString*) string:(id)s;

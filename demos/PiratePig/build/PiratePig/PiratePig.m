@@ -17,7 +17,7 @@
 @synthesize footer;
 @synthesize game;
 - (BOOL) application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)didFinishLaunchingWithOptions{
-	[Log trace:(NSMutableString*)@"Start" infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"PiratePig.hx",@"34",@"PiratePig",@"application",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[Log trace:[NSMutableString stringWithString:@"Start"] infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"PiratePig.hx",@"34",@"PiratePig",@"application",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
 	self.window = [[UIWindow alloc] init];
 	
 	UIScreen *screen = [UIScreen mainScreen];
@@ -41,8 +41,8 @@
 	[self.view addSubview:self.game];
 }
 - (void) initialize{
-	self.background = [[[UIImageView alloc] init] initWithImage:[UIImage imageNamed:(NSMutableString*)@"background_tile.png"]];
-	self.footer = [[[UIImageView alloc] init] initWithImage:[UIImage imageNamed:(NSMutableString*)@"center_bottom.png"]];
+	self.background = [[[UIImageView alloc] init] initWithImage:[UIImage imageNamed:[NSMutableString stringWithString:@"background_tile.png"]]];
+	self.footer = [[[UIImageView alloc] init] initWithImage:[UIImage imageNamed:[NSMutableString stringWithString:@"center_bottom.png"]]];
 	self.game = [[PiratePigGame alloc] init];
 }
 - (void) applicationDidBecomeActive:(UIApplication*)application{

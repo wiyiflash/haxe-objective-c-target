@@ -80,6 +80,8 @@ type platform_config = {
 	pf_pad_nulls : bool;
 	(** add a final return to methods not having one already - prevent some compiler warnings *)
 	pf_add_final_return : bool;
+	(** does the platform natively support overloaded functions *)
+	pf_overload : bool;
 }
 
 type context = {
@@ -118,7 +120,7 @@ type context = {
 	mutable php_lib : string option;
 	mutable php_prefix : string option;
 	mutable swf_libs : (string * (unit -> Swf.swf) * (unit -> ((string list * string),As3hl.hl_class) Hashtbl.t)) list;
-	mutable java_libs : (string * (unit -> unit)) list;
+	mutable java_libs : (string * (unit -> unit) * (unit -> ((string list * string) list)) * ((string list * string) -> JData.jclass option)) list;
 	mutable js_gen : (unit -> unit) option;
 	mutable objc_platform : string;
 	mutable objc_libs : string list;(* A list of Xcode projects that you wish to link with your project *)
@@ -279,6 +281,7 @@ let default_config =
 		pf_capture_policy = CPNone;
 		pf_pad_nulls = false;
 		pf_add_final_return = false;
+		pf_overload = false;
 	}
 
 let get_config com =
@@ -297,6 +300,7 @@ let get_config com =
 			pf_capture_policy = CPLoopVars;
 			pf_pad_nulls = false;
 			pf_add_final_return = false;
+			pf_overload = false;
 		}
 	| Js ->
 		{
@@ -309,6 +313,7 @@ let get_config com =
 			pf_capture_policy = CPLoopVars;
 			pf_pad_nulls = false;
 			pf_add_final_return = false;
+			pf_overload = false;
 		}
 	| Neko ->
 		{
@@ -321,6 +326,7 @@ let get_config com =
 			pf_capture_policy = CPNone;
 			pf_pad_nulls = true;
 			pf_add_final_return = false;
+			pf_overload = false;
 		}
 	| Flash when defined Define.As3 ->
 		{
@@ -333,6 +339,7 @@ let get_config com =
 			pf_capture_policy = CPLoopVars;
 			pf_pad_nulls = false;
 			pf_add_final_return = true;
+			pf_overload = false;
 		}
 	| Flash ->
 		{
@@ -345,6 +352,7 @@ let get_config com =
 			pf_capture_policy = CPLoopVars;
 			pf_pad_nulls = false;
 			pf_add_final_return = false;
+			pf_overload = false;
 		}
 	| Php ->
 		{
@@ -355,13 +363,14 @@ let get_config com =
 			pf_unique_locals = false;
 			pf_can_init_member = (fun cf ->
 				match cf.cf_kind, cf.cf_expr with
-				| Var { v_write = AccCall _ },  _ -> false
+				| Var { v_write = AccCall _ },	_ -> false
 				| _, Some { eexpr = TTypeExpr _ } -> false
 				| _ -> true
 			);
 			pf_capture_policy = CPNone;
 			pf_pad_nulls = true;
 			pf_add_final_return = false;
+			pf_overload = false;
 		}
 	| Cpp ->
 		{
@@ -374,6 +383,7 @@ let get_config com =
 			pf_capture_policy = CPWrapRef;
 			pf_pad_nulls = true;
 			pf_add_final_return = true;
+			pf_overload = false;
 		}
 	| Cs ->
 		{
@@ -386,6 +396,7 @@ let get_config com =
 			pf_capture_policy = CPWrapRef;
 			pf_pad_nulls = true;
 			pf_add_final_return = false;
+			pf_overload = true;
 		}
 	| Java ->
 		{
@@ -398,6 +409,7 @@ let get_config com =
 			pf_capture_policy = CPWrapRef;
 			pf_pad_nulls = true;
 			pf_add_final_return = false;
+			pf_overload = true;
 		}
 	| ObjC ->
 		{
@@ -410,6 +422,7 @@ let get_config com =
 			pf_capture_policy = CPWrapRef;
 			pf_pad_nulls = true;
 			pf_add_final_return = true;
+			pf_overload = true;
 		}
 
 let create v args =
@@ -599,6 +612,7 @@ let rec has_feature com f =
 				let path = List.rev pack, cl in
 				(match List.find (fun t -> t_path t = path && not (Ast.Meta.has Ast.Meta.RealPath (t_infos t).mt_meta)) com.types with
 				| t when meth = "*" -> (match t with TAbstractDecl a -> Ast.Meta.has Ast.Meta.ValueUsed a.a_meta | _ -> Ast.Meta.has Ast.Meta.Used (t_infos t).mt_meta)
+				| TClassDecl ({cl_extern = true} as c) -> Meta.has Meta.Used (try PMap.find meth c.cl_statics with Not_found -> PMap.find meth c.cl_fields).cf_meta
 				| TClassDecl c -> PMap.exists meth c.cl_statics || PMap.exists meth c.cl_fields
 				| _ -> false)
 			with Not_found ->

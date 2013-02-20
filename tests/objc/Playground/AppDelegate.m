@@ -33,7 +33,6 @@ typedef void (*FunctionType3)(int);
 
 
 #import "AppDelegate.h"
-#import "Date.h"
 #import "Std.h"
 #import <objc/runtime.h>
 #import "RCHTTPRequest.h"
@@ -75,6 +74,11 @@ int main(int argc, char *argv[])
 	
 	NSLog(@"%i", [Std random:100]);
 	NSLog(@"%i", [Std random:100]);
+	
+	
+	NSMutableString *ms = [NSMutableString stringWithString:@"abc"];
+	NSLog(@"%@", ms);
+	[ms appendString:@"def"];	NSLog(@"%@", ms);
 //	NSLog(@"%@", [Std string:self]);
 //	NSLog(@"%i", [Std parseInt:(NSMutableString*)@"5425345.3"]);
 //	NSLog(@"%2f", [Std parseFloat:(NSMutableString*)@"5425345.3"]);
@@ -353,21 +357,21 @@ static int length__;
 	twin->appearance = appearance;
 	return twin;
 }
-- (id) iterator{
-	typedef struct {
-		h:self.d1;
-		hasNext:^ (id) {
-			return self.d1 != nil;
-		};
-		next:^ (id) {
-			if (self.d1 == nil) return nil;
-//			id x = [self.h objectAtIndex:0];
-//			self.h = [self.h objectAtIndex:1];
-			return self.d1;
-		}
-	} IteratorStruct;
-	return IteratorStruct;
-}
+//- (id) iterator{
+//	typedef struct {
+//		h:self.d1;
+//		hasNext:^ (id) {
+//			return self.d1 != nil;
+//		};
+//		next:^ (id) {
+//			if (self.d1 == nil) return nil;
+////			id x = [self.h objectAtIndex:0];
+////			self.h = [self.h objectAtIndex:1];
+//			return self.d1;
+//		}
+//	} IteratorStruct;
+//	return IteratorStruct;
+//}
 
 @end
 

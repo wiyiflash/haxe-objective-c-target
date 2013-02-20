@@ -1,0 +1,10 @@
+cpp
+dce
+haxe_207
+haxe_208
+haxe_209
+haxe_210
+haxe_211
+sys
+true
+/Users/Cristi/Documents/NME/hxcpp/

@@ -31,7 +31,7 @@
 	self.label.backgroundColor = [UIColor clearColor];
 	self.label.textAlignment =  NSTextAlignmentCenter;
 	self.label.font = [UIFont boldSystemFontOfSize:30];
-	self.label.text = (NSMutableString*)@"Hello world!";
+	self.label.text = [NSMutableString stringWithString:@"Hello world!"];
 	[self.view addSubview:self.label];
 	self.map = [[CustomMapView alloc] init];
 	self.map.frame = CGRectMake (10,10,300,300);
@@ -39,16 +39,16 @@
 	[self.map locateLondon];
 	self.but = [[UIButton alloc] init];
 	self.but.frame =  CGRectMake(0, 430, 320, 30);
-	[self.but setTitle:(NSMutableString*)@"Locate London" forState: UIControlStateNormal];
-	[self.but setTitle:(NSMutableString*)@"...Locate London..." forState: UIControlStateHighlighted];
+	[self.but setTitle:[NSMutableString stringWithString:@"Locate London"] forState: UIControlStateNormal];
+	[self.but setTitle:[NSMutableString stringWithString:@"...Locate London..."] forState: UIControlStateHighlighted];
 	[self.view addSubview:self.but];
 	self.viewController = [[UIViewController alloc] init];
 	self.viewController.view = self.view;
 	self.window.rootViewController = self.viewController;
 	[self.window makeKeyAndVisible];
-	[Log trace:(NSMutableString*)@"Great, it works!" infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"AppDelegate.hx",@"67",@"AppDelegate",@"application",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[Log trace:[NSMutableString stringWithString:@"Great, it works!"] infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"AppDelegate.hx",@"67",@"AppDelegate",@"application",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
 	
-	NSMutableArray *o = [[NSMutableArray alloc] initWithObjects:(NSMutableString*)@"1", (NSMutableString*)@"2", (NSMutableString*)@"3", nil];
+	NSMutableArray *o = [[NSMutableArray alloc] initWithObjects:[NSMutableString stringWithString:@"1"], [NSMutableString stringWithString:@"2"], [NSMutableString stringWithString:@"3"], nil];
 	[Log trace:[o objectAtIndex:1] infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"AppDelegate.hx",@"70",@"AppDelegate",@"application",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
 	return YES;
 }

@@ -15,7 +15,7 @@ class Tile extends UIView {
 	
 	public function new (imagePath:String) {
 		
-		super ();
+		super();
 		
 		var image = new UIImageView().initWithImage ( UIImage.imageNamed(imagePath));
 		addSubview (image);
