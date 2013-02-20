@@ -1,14 +1,12 @@
 ## Overview
 
-Objective-C target can build Xcode projects with pure objective-c code from a Haxe project. The target can use Cocoa and CocoaTouch frameworks to build iPhone and Mac applications
+Objective-C target can build Xcode projects with pure objective-c code from Haxe. The target can use Cocoa and CocoaTouch frameworks to build iPhone and Mac applications
 
-> NOTE:  is still in it's early stages of development, so is not safe to use, but if you want to help you can do tests and report errors:
+> NOTE:  this is still work in progress and is not good for real life applications, but if you want to have fun and try it, go for it:
 
-## Installation
+## Compiling Haxe
 
-Checkout the oficial Haxe sources from googlecode
-
-Clone the ObjC target from git somewhere in your computer:
+Clone the ObjC target from git somewhere in your computer, it contains also the entire haxe compiler sources:
 
 	git clone git@github.com:ralcr/haxe-objective-c-target.git
 
@@ -18,16 +16,19 @@ Navigate to haxe directory:
 
 Build Haxe with:
 
-	make clean
 	make haxe
 
-On Mac you can run the build.sh script that will compile Haxe but will run the tests and demos as well:
+On Mac you can run the build.sh script that will compile Haxe but will run the demos as well:
 
 	./build.sh
+	
+In some cases, first time you compile Haxe i think, you should run first a:
 
-## Getting started
+	make clean
 
-The main class should be of this form, everything else is ignored
+## Getting started with iOS
+
+The starting point of your app is not very flexible, it should be like this, everything else is ignored:
 
 	public static function main() {
 		return new UIApplicationMain ( AppDelegate );
@@ -35,6 +36,11 @@ The main class should be of this form, everything else is ignored
 
 And the AppDelegate.hx should conform with the UIApplicationDelegate. The main entry point is:
 
-	public function applicationDidFinishLaunchingWithOptions (application:UIApplication, didFinishLaunchingWithOptions:NSDictionary) :Bool
+	class AppDelegate extends UIResponder implements UIApplicationDelegate {
+		public function applicationDidFinishLaunchingWithOptions (application:UIApplication, didFinishLaunchingWithOptions:NSDictionary) :Bool {
+			// See the demos please
+			return true;
+		}
+	}
 	
-You should start building your app from this point up
+You should start building your app from this method
