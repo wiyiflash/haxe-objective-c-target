@@ -148,7 +148,7 @@ let make_path f =
 		let msg =
 			if String.length f == 0 then
 				"Class name must not be empty"
-			else match f.[0] with
+			else match (List.hd (List.rev cl)).[0] with
 				| 'A'..'Z' -> "Invalid class name"
 				| _ -> "Class name must start with uppercase character"
 		in
@@ -232,6 +232,18 @@ let rec read_type_path com p =
 			loop path p
 		) (extract());
 	) com.swf_libs;
+  List.iter (fun (path,close,all_files,lookup) ->
+    List.iter (fun (path, name) ->
+      if path = p then classes := name :: !classes else
+      let rec loop p1 p2 =
+        match p1, p2 with
+        | [], _ -> ()
+        | x :: _, [] -> packages := x :: !packages
+        | a :: p1, b :: p2 -> if a = b then loop p1 p2
+      in
+      loop path p
+    ) (all_files())
+  ) com.java_libs;
 	unique !packages, unique !classes
 
 let delete_file f = try Sys.remove f with _ -> ()
@@ -458,6 +470,12 @@ let rec process_params create pl =
 			| Some _ ->
 				(* already connected : skip *)
 				loop acc l)
+		| "--run" :: cl :: args ->
+			let acc = (cl ^ ".main()") :: "--macro" :: acc in
+			let ctx = create (!each_params @ (List.rev acc)) in
+			ctx.com.sys_args <- args;
+			init ctx;
+			ctx.flush()
 		| arg :: l ->
 			match List.rev (ExtString.String.nsplit arg ".") with
 			| "hxml" :: _ when (match acc with "-cmd" :: _ -> false | _ -> true) -> loop acc (parse_hxml arg @ l)
@@ -743,8 +761,8 @@ and do_connect host port args =
 
 and init ctx =
 	let usage = Printf.sprintf
-		"Haxe Compiler %d.%.2d - (C)2005-2013 Haxe Foundation\n Usage : haxe%s -main <class> [-swf|-js|-neko|-php|-cpp|-as3] <output> [options]\n Options :"
-		(version / 100) (version mod 100) (if Sys.os_type = "Win32" then ".exe" else "")
+		"Haxe Compiler %d.%d.%d - (C)2005-2013 Haxe Foundation\n Usage : haxe%s -main <class> [-swf|-js|-neko|-php|-cpp|-as3] <output> [options]\n Options :"
+		(version / 100) ((version mod 100)/10) (version mod 10) (if Sys.os_type = "Win32" then ".exe" else "")
 	in
 	let com = ctx.com in
 	let classes = ref [([],"Std")] in
@@ -777,7 +795,7 @@ try
 	Parser.display_error := (fun e p -> com.error (Parser.error_msg e) p);
 	Parser.use_doc := !Common.display_default || (!global_cache <> None);
 	(try
-		let p = Sys.getenv "HAXE_LIBRARY_PATH" in
+		let p = Sys.getenv "HAXE_STD_PATH" in
 		let rec loop = function
 			| drive :: path :: l ->
 				if String.length drive = 1 && ((drive.[0] >= 'a' && drive.[0] <= 'z') || (drive.[0] >= 'A' && drive.[0] <= 'Z')) then
@@ -1015,6 +1033,10 @@ try
 		("--cwd", Arg.String (fun dir ->
 			(try Unix.chdir dir with _ -> raise (Arg.Bad "Invalid directory"))
 		),"<dir> : set current working directory");
+		("-version",Arg.Unit (fun() ->
+			message ctx (Printf.sprintf "%d.%d.%d" (version / 100) ((version mod 100)/10) (version mod 10)) Ast.null_pos;
+			did_something := true;
+		),": print version and exit");
 		("--help-defines", Arg.Unit (fun() ->
 			let rec loop i =
 				let d = Obj.magic i in
@@ -1027,9 +1049,6 @@ try
 			loop 0;
 			did_something := true
 		),": print help for all compiler specific defines");
-		("-swf9",Arg.String (fun file ->
-			set_platform Flash file;
-		),"<file> : [deprecated] compile code to Flash9 SWF file");
 		(* ObjectiveC related parameters. Configure the xcode plist *)
 		("-objc-platform",Arg.String (fun v ->
 			com.objc_platform <- v;
@@ -1170,7 +1189,7 @@ try
 		if Common.defined_value_safe com Define.DisplayMode = "usage" then
 			Codegen.detect_usage com;
 		let filters = [
-			Codegen.handle_abstract_casts tctx;
+			Codegen.Abstract.handle_abstract_casts tctx;
 			if com.foptimize then Optimizer.reduce_expression tctx else Optimizer.sanitize tctx;
 			Codegen.check_local_vars_init;
 			Codegen.captured_vars com;
@@ -1240,7 +1259,7 @@ try
 			Common.log com ("Generating Cs in : " ^ com.file);
 			Gencs.generate com;
 		| Java ->
-			Common.log com ("Generating Cs in : " ^ com.file);
+			Common.log com ("Generating Java in : " ^ com.file);
 			Genjava.generate com;
 		| ObjC ->
 			if com.verbose then print_endline ("Generating Xcode project in : " ^ com.file);
@@ -1275,8 +1294,8 @@ with
 		message ctx msg p;
 		List.iter (message ctx "Called from") l;
 		error ctx "Aborted" Ast.null_pos;
-	| Failure msg | Arg.Bad msg ->
-		error ctx ("Error : " ^ msg) Ast.null_pos
+	| Arg.Bad msg | Failure msg ->
+		error ctx ("Error: " ^ msg) Ast.null_pos
 	| Arg.Help msg ->
 		message ctx msg Ast.null_pos
 	| Typer.DisplayFields fields ->
@@ -1318,7 +1337,7 @@ with
 	| Typer.DisplayMetadata m ->
 		let b = Buffer.create 0 in
 		List.iter (fun (m,el,p) ->
-			Buffer.add_string b ("<meta name=\"" ^ (fst (Ast.Meta.to_string m)) ^ "\"");
+			Buffer.add_string b ("<meta name=\"" ^ (fst (MetaInfo.to_string m)) ^ "\"");
 			if el = [] then Buffer.add_string b "/>" else begin
 				Buffer.add_string b ">\n";
 				List.iter (fun e -> Buffer.add_string b ((htmlescape (Genxml.sexpr e)) ^ "\n")) el;

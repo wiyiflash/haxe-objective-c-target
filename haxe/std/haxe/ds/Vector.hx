@@ -25,6 +25,10 @@ private typedef VectorData<T> = #if flash10
 	flash.Vector<T>
 #elseif neko
 	neko.NativeArray<T>
+#elseif cs
+	cs.NativeArray<T>
+#elseif java
+	java.NativeArray<T>
 #else
 	Array<T>
 #end
@@ -53,13 +57,14 @@ abstract Vector<T>(VectorData<T>) {
 			this = untyped __dollar__amake(length);
 		#elseif js
 			this = untyped __new__(Array, length);
+		#elseif cs
+			this = new cs.NativeArray(length);
+		#elseif java
+			this = new java.NativeArray(length);
 		#else
 			this = [];
 			#if cpp
 				untyped this.__SetSize(length);
-			#elseif (java || cs)
-				//TODO optimize
-				this[length-1] = cast null;
 			#else
 				untyped this.length = length;
 			#end
@@ -89,11 +94,38 @@ abstract Vector<T>(VectorData<T>) {
 	/**
 		Returns the length of [this] Vector.
 	**/
-	public inline function length():Int {
+	public var length(get, never):Int;
+
+	inline function get_length():Int {
 		#if neko
 			return untyped __dollar__asize(this);
+		#elseif cs
+			return this.Length;
+		#elseif java
+			return this.length;
 		#else
 			return untyped this.length;
+		#end
+	}
+
+	/**
+		Copies [length] of elements from [src] Vector, beginning at [srcPos] to [dest] Vector, beginning at [destPos]
+
+		The results are unspecified if [length] results in out-of-bounds access, or if [src] or [dest] are null
+	**/
+	public static #if (cs || java || neko) inline #end function blit<T>(src:Vector<T>, srcPos:Int, dest:Vector<T>, destPos:Int, len:Int):Void
+	{
+		#if neko
+			untyped __dollar__ablit(dest,destPos,src,srcPos,len);
+		#elseif java
+			java.lang.System.arraycopy(src, srcPos, dest, destPos, len);
+		#elseif cs
+			cs.system.Array.Copy(cast src, srcPos,cast dest, destPos, len);
+		#else
+			for (i in 0...len)
+			{
+				dest[destPos + i] = src[srcPos + i];
+			}
 		#end
 	}
 
@@ -103,7 +135,7 @@ abstract Vector<T>(VectorData<T>) {
 		This returns the internal representation type.
 	**/
 	public inline function toData():VectorData<T>
-		return cast this
+		return cast this;
 
 	/**
 		Initializes a new Vector from [data].
@@ -113,7 +145,7 @@ abstract Vector<T>(VectorData<T>) {
 		If [data] is null, the corresponding Vector is also [null].
 	**/
 	static public inline function fromData<T>(data:VectorData<T>):Vector<T>
-		return cast data
+		return cast data;
 
 	/**
 		Creates a new Vector by copying the elements of [array].

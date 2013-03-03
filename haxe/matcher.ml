@@ -83,6 +83,7 @@ type pat_matrix = pat_vec list
 type pattern_ctx = {
 	mutable pc_locals : (string, pvar) PMap.t;
 	mutable pc_sub_vars : (string, pvar) PMap.t option;
+	mutable pc_reify : bool;
 }
 
 type dt =
@@ -180,7 +181,7 @@ let mk_subs st con =
 	match con.c_def with
 	| CFields (_,fl) -> List.map (fun (s,cf) -> mk_st (SField(st,s)) (map cf.cf_type) st.st_pos) fl
 	| CEnum (en,({ef_type = TFun _} as ef)) ->
-		let pl = match follow con.c_type with TEnum(_,pl) -> pl | _ -> assert false in
+		let pl = match follow con.c_type with TEnum(_,pl) | TAbstract({a_this = TEnum(_)},pl)-> pl | _ -> assert false in
 		begin match apply_params en.e_types pl (monomorphs ef.ef_params ef.ef_type) with
 			| TFun(args,r) ->
 				ExtList.List.mapi (fun i (_,_,t) ->
@@ -309,7 +310,11 @@ let to_pattern ctx e t =
 		| EConst(Ident "null") ->
 			error "null-patterns are not allowed" p
 		| ECheckType(e, CTPath({tpackage=["haxe";"macro"]; tname="Expr"})) ->
-			loop pctx e t
+			let old = pctx.pc_reify in
+			pctx.pc_reify <- true;
+			let e = loop pctx e t in
+			pctx.pc_reify <- old;
+			e
 		| EParenthesis e ->
 			loop pctx e t
 		| ECast(e1,None) ->
@@ -344,16 +349,14 @@ let to_pattern ctx e t =
 					| TField (_,FEnum (_,f)) -> f
 					| _ -> error ("Expected constructor for enum " ^ (s_type_path en.e_path)) p
 				in
-				let mono_map,monos,tpl = List.fold_left (fun (mm,ml,tpl) (n,t) ->
-					let mono = mk_mono() in
-					(n,mono) :: mm, mono :: ml, t :: tpl) ([],[],[]) ef.ef_params
-				in
+				let monos = List.map (fun _ -> mk_mono()) ef.ef_params in
 				let tl = match apply_params en.e_types pl (apply_params ef.ef_params monos ef.ef_type) with
 					| TFun(args,r) ->
 						unify ctx r t p;
+						List.iter2 (fun m (_,t) -> match follow m with TMono _ -> Type.unify m t | _ -> ()) monos ef.ef_params;
 						List.map (fun (n,_,t) ->
-							let tf = apply_params mono_map tpl (follow t) in
-							if is_null t then ctx.t.tnull tf else tf
+							let t = follow t in
+							if is_null t then ctx.t.tnull t else t
 						) args
 					| _ -> error "Arguments expected" p
 				in
@@ -457,11 +460,14 @@ let to_pattern ctx e t =
 					if not (is_matchable cf) then
 						sl,pl,i
 					else
-						try
-							let pat = try loop pctx (List.assoc n fl) cf.cf_type with Not_found when n <> "pos" -> (mk_any cf.cf_type p) in
-							(n,cf) :: sl,pat :: pl,i + 1
-						with (Unrecognized_pattern _ | Not_found) when n = "pos" ->
-							sl,pl,i
+						let pat =
+							try
+								if pctx.pc_reify && cf.cf_name = "pos" then raise Not_found;
+								loop pctx (List.assoc n fl) cf.cf_type
+							with Not_found ->
+								(mk_any cf.cf_type p)
+						in
+						(n,cf) :: sl,pat :: pl,i + 1
 				) fields ([],[],0) in
 				mk_con_pat (CFields(i,sl)) pl t p
 			| TInst(c,tl) ->
@@ -518,6 +524,7 @@ let to_pattern ctx e t =
 					let pctx2 = {
 						pc_sub_vars = Some pctx.pc_locals;
 						pc_locals = old;
+						pc_reify = pctx.pc_reify;
 					} in
 					let pat2 = loop pctx2 e2 t in
 					PMap.iter (fun s (_,p) -> if not (PMap.mem s pctx2.pc_locals) then verror s p) pctx.pc_locals;
@@ -530,6 +537,7 @@ let to_pattern ctx e t =
 	let pctx = {
 		pc_locals = PMap.empty;
 		pc_sub_vars = None;
+		pc_reify = false;
 	} in
 	loop pctx e t, pctx.pc_locals
 
@@ -918,7 +926,7 @@ let rec to_typed_ast mctx dt =
 		end
 	| Switch(st,cases) ->
 		match follow st.st_type with
-		| TEnum(en,pl) -> to_enum_switch mctx en pl st cases
+		| TEnum(en,pl) | TAbstract({a_this = TEnum(en,_)},pl) -> to_enum_switch mctx en pl st cases
 		| TInst({cl_path = [],"Array"},[t]) -> to_array_switch mctx t st cases
 		| t -> to_value_switch mctx t st cases
 
@@ -1078,7 +1086,9 @@ let match_expr ctx e cases def with_type p =
 			cases @ [[(EConst(Ident "_")),p],None,def]
 		| _ -> cases
 	in
-	let evals = match fst e with
+	let old_error = ctx.on_error in
+	ctx.on_error <- (fun ctx s p -> ctx.on_error <- old_error; error s p);
+	let evals = try (match fst e with
 		| EArrayDecl el | EParenthesis(EArrayDecl el,_) ->
 			List.map (fun e -> type_expr ctx e Value) el
 		| _ ->
@@ -1089,8 +1099,12 @@ let match_expr ctx e cases def with_type p =
 			| _ ->
 				()
 			end;
-			[e]
+			[e])
+		with e ->
+			ctx.on_error <- old_error;
+			raise e
 	in
+	ctx.on_error <- old_error;
 	let var_inits = ref [] in
 	let a = List.length evals in
 	let stl = ExtList.List.mapi (fun i e ->
@@ -1149,13 +1163,22 @@ let match_expr ctx e cases def with_type p =
 			| None -> mk (TBlock []) ctx.com.basic.tvoid (punion_el el)
 			| Some e ->
 				let e = type_expr ctx e with_type in
-				(match with_type with
-				| WithType t -> unify ctx e.etype t e.epos
-				| WithTypeResume t -> (try unify_raise ctx e.etype t e.epos with Error (Unify l,p) -> raise (Typer.WithTypeError (l,p)) )
-				| _ -> ());
-				e
+				match with_type with
+				| WithType t ->
+					unify ctx e.etype t e.epos;
+					Codegen.Abstract.check_cast ctx t e e.epos;
+				| WithTypeResume t ->
+					(try unify_raise ctx e.etype t e.epos with Error (Unify l,p) -> raise (Typer.WithTypeError (l,p)));
+					Codegen.Abstract.check_cast ctx t e e.epos
+				| _ -> e
 		in
-		let eg = match eg with None -> None | Some e -> Some (type_expr ctx e Value) in
+		let eg = match eg with
+			| None -> None
+			| Some e ->
+				let eg = type_expr ctx e (WithType ctx.com.basic.tbool) in
+				unify ctx eg.etype ctx.com.basic.tbool eg.epos;
+				Some eg
+		in
 		save();
 		let out = mk_out mctx i e eg pl (pos ep) in
 		Array.of_list pl,out

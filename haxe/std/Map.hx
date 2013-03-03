@@ -65,7 +65,7 @@ abstract Map< K, V > (IMap< K, V > ) {
 		
 		If [key] is null, the result is unspecified.
 	**/
-	public inline function set(key:K, value:V) this.set(key, value)
+	public inline function set(key:K, value:V) this.set(key, value);
 	
 	/**
 		Returns the current mapping of [key].
@@ -79,14 +79,14 @@ abstract Map< K, V > (IMap< K, V > ) {
 		
 		If [key] is null, the result is unspecified.
 	**/
-	@:arrayAccess public inline function get(key:K) return this.get(key)
+	public inline function get(key:K) return this.get(key);
 	
 	/**
 		Returns true if [key] has a mapping, false otherwise.
 		
 		If [key] is null, the result is unspecified.
 	**/
-	public inline function exists(key:K) return this.exists(key)
+	public inline function exists(key:K) return this.exists(key);
 	
 	/**
 		Removes the mapping of [key] and returns true if such a mapping existed,
@@ -94,7 +94,7 @@ abstract Map< K, V > (IMap< K, V > ) {
 		
 		If [key] is null, the result is unspecified.
 	**/
-	public inline function remove(key:K) return this.remove(key)
+	public inline function remove(key:K) return this.remove(key);
 	
 	/**
 		Returns an Iterator over the keys of [this] Map.
@@ -114,9 +114,13 @@ abstract Map< K, V > (IMap< K, V > ) {
 		return this.iterator();
 	}
 	
-	@:arrayAccess @:noCompletion public inline function arrayWrite(k:K, v:V):V {
-		this.set(k, v);
-		return v;
+	/**
+		Returns a String representation of [this] Map.
+		
+		The exact representation depends on the platform and key-type.
+	**/
+	public inline function toString():String {
+		return this.toString();
 	}
 	
 	@:to static inline function toStringMap(t:IMap < String, V > ):StringMap<V> {
@@ -152,13 +156,14 @@ abstract Map< K, V > (IMap< K, V > ) {
 	}
 }
 
-private typedef IMap < K, V > = {
+typedef IMap < K, V > = {
 	public function get(k:K):Null<V>;
 	public function set(k:K, v:V):Void;
 	public function exists(k:K):Bool;
 	public function remove(k:K):Bool;
 	public function keys():Iterator<K>;
 	public function iterator():Iterator<V>;
+	public function toString():String;
 }
 
 private typedef Hashable = {

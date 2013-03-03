@@ -130,8 +130,15 @@ let make_module ctx mpath file tdecls loadp =
 					let stat = List.mem AStatic f.cff_access in
 					let p = f.cff_pos in
 					match f.cff_kind with
-					| FVar _ | FProp _ when not stat ->
-						display_error ctx "Cannot declare member variable or property in abstract" p;
+					| FProp (("get" | "never"),("set" | "never"),_,_) ->
+						(* TODO: hack to avoid issues with abstract property generation on As3 *)
+						if Common.defined ctx.com Define.As3 then f.cff_meta <- (Meta.Extern,[],p) :: f.cff_meta;
+						{ f with cff_access = AStatic :: f.cff_access; cff_meta = (Meta.Impl,[],p) :: f.cff_meta }
+					| FProp _ when not stat ->
+						display_error ctx "Member property accessors must be get/set or never" p;
+						f
+					| FVar _ when not stat ->
+						display_error ctx "Cannot declare member variable in abstract" p;
 						f
 					| FFun fu when f.cff_name = "new" && not stat ->
 						let init p = (EVars ["this",Some this_t,None],p) in
@@ -649,6 +656,18 @@ let rec get_overloads c i =
 	| Some (c,tl) ->
 			ret @ ( List.map (fun (t,f) -> apply_params c.cl_types tl t, f) (get_overloads c i) )
 
+let same_overload_args t1 t2 f1 f2 =
+  if List.length f1.cf_params <> List.length f2.cf_params then
+    false
+  else
+    match follow (apply_params f1.cf_params (List.map (fun (_,t) -> t) f2.cf_params) t1), follow t2 with
+    | TFun(a1,_), TFun(a2,_) ->
+      (try
+        List.for_all2 (fun (_,_,t1) (_,_,t2) -> type_iseq t1 t2) a1 a2
+      with | Invalid_argument("List.for_all2") ->
+        false)
+    | _ -> assert false
+
 let check_overriding ctx c =
 	let p = c.cl_pos in
 	match c.cl_super with
@@ -703,7 +722,7 @@ let check_overriding ctx c =
 				(* check if field with same signature was declared more than once *)
 				List.iter (fun f2 ->
 					try
-						ignore (List.find (fun f3 -> f3 != f2 && type_iseq f2.cf_type f3.cf_type) (f :: f.cf_overloads));
+						ignore (List.find (fun f3 -> f3 != f2 && same_overload_args f2.cf_type f3.cf_type f2 f3) (f :: f.cf_overloads));
 						display_error ctx ("Another overloaded field of same signature was already declared : " ^ f2.cf_name) f2.cf_pos
 					with | Not_found -> ()
 				) (f :: f.cf_overloads);
@@ -712,7 +731,7 @@ let check_overriding ctx c =
 					(* find the exact field being overridden *)
 					check_field f (fun csup i ->
 						List.find (fun (t,f2) ->
-							type_iseq f.cf_type (apply_params csup.cl_types params t)
+							same_overload_args f.cf_type (apply_params csup.cl_types params t) f f2
 						) overloads
 					) true
 				) f.cf_overloads
@@ -751,7 +770,7 @@ let rec check_interface ctx c intf params =
 					let overloads = get_overloads c i in
 					is_overload := true;
 					let t = (apply_params intf.cl_types params f.cf_type) in
-					List.find (fun (t1,f1) -> type_iseq t t1) overloads
+					List.find (fun (t1,f1) -> same_overload_args t t1 f f1) overloads
 				else
 					t2, f2
 			in
@@ -885,7 +904,7 @@ let set_heritance ctx c herits p =
 			| TInst (intf,params) ->
 				intf.cl_build();
 				if is_parent c intf then error "Recursive class" p;
-				if c.cl_interface then error "Interfaces cannot implements another interface (use extends instead)" p;
+				if c.cl_interface then error "Interfaces cannot implement another interface (use extends instead)" p;
 				if not intf.cl_interface then error "You can only implements an interface" p;
 				process_meta intf;
 				c.cl_implements <- (intf, params) :: c.cl_implements;
@@ -1408,8 +1427,8 @@ let init_class ctx c p context_init herits fields =
 			else
 				let tdyn = Some (CTPath { tpackage = []; tname = "Dynamic"; tparams = []; tsub = None }) in
 				let to_dyn = function
-					| { tpackage = ["haxe";"macro"]; tname = "Expr"; tsub = Some ("ExprRequire"|"ExprOf"); tparams = [TPType t] } -> Some t
-					| { tpackage = []; tname = ("ExprRequire"|"ExprOf"); tsub = None; tparams = [TPType t] } -> Some t
+					| { tpackage = ["haxe";"macro"]; tname = "Expr"; tsub = Some ("ExprOf"); tparams = [TPType t] } -> Some t
+					| { tpackage = []; tname = ("ExprOf"); tsub = None; tparams = [TPType t] } -> Some t
 					| { tpackage = ["haxe"]; tname = ("PosInfos"); tsub = None; tparams = [] } -> error "haxe.PosInfos is not allowed on macro functions, use Context.currentPos() instead" p
 					| _ -> tdyn
 				in
@@ -1424,7 +1443,7 @@ let init_class ctx c p context_init herits fields =
 			let dynamic = List.mem ADynamic f.cff_access || (match parent with Some { cf_kind = Method MethDynamic } -> true | _ -> false) in
 			if inline && dynamic then error "You can't have both 'inline' and 'dynamic'" p;
 			ctx.type_params <- (match c.cl_kind with
-				| KAbstractImpl a ->
+				| KAbstractImpl a when Meta.has Meta.Impl f.cff_meta || Meta.has Meta.From f.cff_meta || Meta.has Meta.MultiType a.a_meta && Meta.has Meta.To f.cff_meta ->
 					params @ a.a_types
 				| _ ->
 					if stat then params else params @ ctx.type_params);
@@ -1465,6 +1484,8 @@ let init_class ctx c p context_init herits fields =
 					end else if Meta.has Meta.To f.cff_meta then begin
 						let ta = monomorphs a.a_types (monomorphs params a.a_this) in
 						(try unify_raise ctx t (tfun [ta] m) f.cff_pos with Error (Unify l,p) -> error (error_msg (Unify l)) p);
+						(* multitype @:to functions must unify with a_this *)
+						if Meta.has Meta.MultiType a.a_meta then delay ctx PFinal (fun () -> unify ctx m (monomorphs a.a_types a.a_this) f.cff_pos);
 						if not (Meta.has Meta.Impl cf.cf_meta) then cf.cf_meta <- (Meta.Impl,[],cf.cf_pos) :: cf.cf_meta;
 						a.a_to <- (follow m, Some cf) :: a.a_to
 					end else if Meta.has Meta.ArrayAccess f.cff_meta then begin
@@ -1522,6 +1543,13 @@ let init_class ctx c p context_init herits fields =
 				| None, _ -> mk_mono()
 				| Some t, _ -> load_complex_type ctx p t
 			) in
+			let t_get,t_set = match c.cl_kind with
+				| KAbstractImpl a ->
+					if Meta.has Meta.IsVar f.cff_meta then error "Abstract properties cannot be real variables" f.cff_pos;
+					let ta = apply_params a.a_types (List.map snd a.a_types) a.a_this in
+					tfun [ta] ret, tfun [ta;ret] ret
+				| _ -> tfun [] ret, tfun [ret] ret
+			in
 			let check_method m t req_name =
 				if ctx.com.display then () else
 				try
@@ -1546,7 +1574,7 @@ let init_class ctx c p context_init herits fields =
 				| "default" -> AccNormal
 				| _ ->
 					let get = if get = "get" then "get_" ^ name else get in
-					delay ctx PForce (fun() -> check_method get (TFun ([],ret)) (if get <> "get" && get <> "get_" ^ name then Some ("get_" ^ name) else None));
+					delay ctx PForce (fun() -> check_method get t_get (if get <> "get" && get <> "get_" ^ name then Some ("get_" ^ name) else None));
 					AccCall get
 			) in
 			let set = (match set with
@@ -1561,7 +1589,7 @@ let init_class ctx c p context_init herits fields =
 				| "default" -> AccNormal
 				| _ ->
 					let set = if set = "set" then "set_" ^ name else set in
-					delay ctx PForce (fun() -> check_method set (TFun (["",false,ret],ret)) (if set <> "set" && set <> "set_" ^ name then Some ("set_" ^ name) else None));
+					delay ctx PForce (fun() -> check_method set t_set (if set <> "set" && set <> "set_" ^ name then Some ("set_" ^ name) else None));
 					AccCall set
 			) in
 			if set = AccNormal && (match get with AccCall _ -> true | _ -> false) then error "Unsupported property combination" p;
@@ -1600,8 +1628,8 @@ let init_class ctx c p context_init herits fields =
 	in
 	let cl_req = check_require c.cl_meta in
 	List.iter (fun f ->
+		let p = f.cff_pos in
 		try
-			let p = f.cff_pos in
 			let fd , constr, f = loop_cf f in
 			let is_static = List.mem AStatic fd.cff_access in
 			if (is_static || constr) && c.cl_interface && f.cf_name <> "__init__" then error "You can't declare static fields in interfaces" p;
@@ -1641,7 +1669,7 @@ let init_class ctx c p context_init herits fields =
 					c.cl_ordered_fields <- f :: c.cl_ordered_fields;
 				end;
 			end
-		with Error (Custom str,p) ->
+		with Error (Custom str,p2) when p = p2 ->
 			display_error ctx str p
 	) fields;
 	(match c.cl_kind with
@@ -1720,7 +1748,7 @@ let init_class ctx c p context_init herits fields =
 		List.iter (fun f ->
 			try
 				(* TODO: consider making a broader check, and treat some types, like TAnon and type parameters as Dynamic *)
-				ignore(List.find (fun f2 -> f != f2 && type_iseq f.cf_type f2.cf_type) (ctor :: ctor.cf_overloads));
+				ignore(List.find (fun f2 -> f != f2 && same_overload_args f.cf_type f2.cf_type f f2) (ctor :: ctor.cf_overloads));
 				display_error ctx ("Another overloaded field of same signature was already declared : " ^ f.cf_name) f.cf_pos;
 			with Not_found -> ()
 		) (ctor :: ctor.cf_overloads)
@@ -2034,12 +2062,13 @@ let rec init_module_type ctx context_init do_init (decl,p) =
 		let a = (match get_type d.d_name with TAbstractDecl a -> a | _ -> assert false) in
 		let ctx = { ctx with type_params = a.a_types } in
 		let is_type = ref false in
-		let load_type t =
+		let load_type t from =
 			let t = load_complex_type ctx p t in
 			if not (Meta.has Meta.CoreType a.a_meta) then begin
 				if !is_type then begin
 					delay ctx PFinal (fun () ->
-						(try type_eq EqStrict a.a_this t with Unify_error _ -> error "You can only declare from/to with your underlying type" p)
+						let at = monomorphs a.a_types a.a_this in
+						(try (if from then Type.unify t at else Type.unify at t) with Unify_error _ -> error "You can only declare from/to with compatible types" p)
 					);
 				end else
 					error "Missing underlying type declaration or @:coreType declaration" p;
@@ -2047,8 +2076,8 @@ let rec init_module_type ctx context_init do_init (decl,p) =
 			t
 		in
 		List.iter (function
-			| AFromType t -> a.a_from <- (load_type t, None) :: a.a_from
-			| AToType t -> a.a_to <- (load_type t, None) :: a.a_to
+			| AFromType t -> a.a_from <- (load_type t true, None) :: a.a_from
+			| AToType t -> a.a_to <- (load_type t false, None) :: a.a_to
 			| AIsType t ->
 				if a.a_impl = None then error "Abstracts with underlying type must have an implementation" a.a_pos;
 				let at = load_complex_type ctx p t in

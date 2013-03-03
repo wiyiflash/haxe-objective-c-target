@@ -13,6 +13,7 @@ extern enum NSBinarySearchingOptions
 	NSBinarySearchingInsertionIndex;
 }
 
+@:framework("Foundation")
 extern class NSArray extends NSObject implements NSCopying implements NSMutableCopying implements NSSecureCoding/* implements NSFastEnumeration*/ {
 
 	public function count () :Int;
@@ -95,6 +96,7 @@ extern class NSArray extends NSObject implements NSCopying implements NSMutableC
 
 /****************	Mutable Array		****************/
 
+@:framework("Foundation")
 extern class NSMutableArray extends NSArray {
 
 	public function addObject (anObject:Dynamic) :Int;

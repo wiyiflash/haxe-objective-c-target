@@ -69,7 +69,7 @@ class PiratePigGame extends UIView {
 			tile = new Tile (tileImages[type]);
 		}
 		
-		tile.initialize ();
+		tile.initialize();
 		
 		tile.type = type;
 		tile.row = row;

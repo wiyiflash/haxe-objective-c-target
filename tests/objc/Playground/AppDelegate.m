@@ -373,5 +373,14 @@ static int length__;
 //	return IteratorStruct;
 //}
 
+- (id) iterator{
+	id a = self;
+	int p = 0;
+	return [NSMutableDictionary dictionaryWithObjectsAndKeys:
+			[^(BOOL){return p < a.length;} copy], @"hasNext",
+			[^(id) { id i = [a objectAtIndex:p]; p += 1; return i; } copy], @"next",
+			nil];
+}
+
 @end
 

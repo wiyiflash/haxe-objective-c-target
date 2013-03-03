@@ -116,6 +116,13 @@
 	}
 
 
+	@:functionCode('
+		if ("Bool".equals(name)) return boolean.class;
+		Class r = resolveClass(name);
+		if (r != null && (r.getSuperclass() == java.lang.Enum.class || r.getSuperclass() == haxe.lang.Enum.class))
+			return r;
+		return null;
+	')
 	public static function resolveEnum( name : String ) : Enum<Dynamic> untyped
 	{
 		if (name == "Bool") return Bool;
@@ -249,7 +256,7 @@
 	@:functionCode('
 		if (params == null || params.length == 0)
 		{
-			java.lang.Object ret = haxe.lang.Runtime.slowGetField(e, constr, false);
+			java.lang.Object ret = haxe.lang.Runtime.slowGetField(e, constr, true);
 			if (ret instanceof haxe.lang.Function)
 				throw haxe.lang.HaxeException.wrap("Constructor " + constr + " needs parameters");
 			return (T) ret;

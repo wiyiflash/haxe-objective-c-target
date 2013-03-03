@@ -132,7 +132,7 @@ struct
         (* Std.is() *)
         | TCall(
             { eexpr = TField( _, FStatic({ cl_path = ([], "Std") }, { cf_name = "is" })) },
-            [ obj; { eexpr = TTypeExpr(TClassDecl { cl_path = [], "Dynamic" }) }]
+            [ obj; { eexpr = TTypeExpr(TClassDecl { cl_path = [], "Dynamic" } | TAbstractDecl { a_path = [], "Dynamic" }) }]
           ) ->
             Type.map_expr run e
         | TCall(
@@ -574,6 +574,8 @@ let configure gen =
       | TAbstract ({ a_path = ["cs"],"Out" },_)
       | TType ({ t_path = [],"Single" },[])
       | TAbstract ({ a_path = [],"Single" },[]) -> Some t
+      | TAbstract ({ a_impl = Some _ } as a, pl) ->
+          Some (gen.gfollow#run_f ( Codegen.Abstract.get_underlying_type a pl) )
       | TAbstract( { a_path = ([], "EnumValue") }, _  )
       | TInst( { cl_path = ([], "EnumValue") }, _  ) -> Some t_dynamic
       | _ -> None);
@@ -593,6 +595,8 @@ let configure gen =
   let rec real_type t =
     let t = gen.gfollow#run_f t in
     let ret = match t with
+      | TAbstract ({ a_impl = Some _ } as a, pl) ->
+        real_type (Codegen.Abstract.get_underlying_type a pl)
       | TInst( { cl_path = (["haxe"], "Int32") }, [] ) -> gen.gcon.basic.tint
       | TInst( { cl_path = (["haxe"], "Int64") }, [] ) -> ti64
       | TAbstract( { a_path = [],"Class" }, _ )
@@ -737,6 +741,8 @@ let configure gen =
           | Statics _ | EnumStatics _ -> "System.Type"
           | _ -> "object")
       | TDynamic _ -> "object"
+      | TAbstract(a,pl) when a.a_impl <> None ->
+        t_s (Codegen.Abstract.get_underlying_type a pl)
       (* No Lazy type nor Function type made. That's because function types will be at this point be converted into other types *)
       | _ -> if !strict_mode then begin trace ("[ !TypeError " ^ (Type.s_type (Type.print_context()) t) ^ " ]"); assert false end else "[ !TypeError " ^ (Type.s_type (Type.print_context()) t) ^ " ]"
 
@@ -1275,7 +1281,7 @@ let configure gen =
 
     (match cf.cf_kind with
       | Var _
-      | Method (MethDynamic) ->
+      | Method (MethDynamic) when not (Type.is_extern_field cf) ->
         (if is_overload || List.exists (fun cf -> cf.cf_expr <> None) cf.cf_overloads then
           gen.gcon.error "Only normal (non-dynamic) methods can be overloaded" cf.cf_pos);
         if not is_interface then begin
@@ -1290,6 +1296,11 @@ let configure gen =
               print w "%s %s%s %s %s;" access (if is_static then "static " else "") (String.concat " " modifiers) (t_s (run_follow gen cf.cf_type)) (change_field name)
           )
         end (* TODO see how (get,set) variable handle when they are interfaces *)
+      | Method _ when Type.is_extern_field cf || (match cl.cl_kind, cf.cf_expr with | KAbstractImpl _, None -> true | _ -> false) ->
+        List.iter (fun cf -> if cl.cl_interface || cf.cf_expr <> None then
+          gen_class_field w ~is_overload:true is_static cl (Meta.has Meta.Final cf.cf_meta) cf
+        ) cf.cf_overloads
+      | Var _ | Method MethDynamic -> ()
       | Method mkind ->
         List.iter (fun cf ->
           if cl.cl_interface || cf.cf_expr <> None then
@@ -1320,7 +1331,12 @@ let configure gen =
         print w "%s %s %s %s %s" (visibility) v_n (String.concat " " modifiers) (if is_new then "" else rett_s (run_follow gen ret_type)) (change_field name);
         let params, params_ext = get_string_params cf.cf_params in
         (* <T>(string arg1, object arg2) with T : object *)
-        print w "%s(%s)%s" (params) (String.concat ", " (List.map (fun (name, _, t) -> sprintf "%s %s" (argt_s (run_follow gen t)) (change_id name)) args)) (params_ext);
+        (match cf.cf_expr with
+        | Some { eexpr = TFunction tf } ->
+            print w "%s(%s)%s" (params) (String.concat ", " (List.map (fun (var, _) -> sprintf "%s %s" (argt_s (run_follow gen var.v_type)) (change_id var.v_name)) tf.tf_args)) (params_ext)
+        | _ ->
+            print w "%s(%s)%s" (params) (String.concat ", " (List.map (fun (name, _, t) -> sprintf "%s %s" (argt_s (run_follow gen t)) (change_id name)) args)) (params_ext)
+        );
         if is_interface then
           write w ";"
         else begin
@@ -1470,6 +1486,8 @@ let configure gen =
   in
 
   let gen_class w cl =
+    write w "#pragma warning disable 109, 114, 219, 429, 168, 162";
+    newline w;
     let should_close = match change_ns (fst (cl.cl_path)) with
       | [] -> false
       | ns ->
@@ -1490,7 +1508,6 @@ let configure gen =
           write w "public static void Main()";
           begin_block w;
           (if Hashtbl.mem gen.gtypes (["cs"], "Boot") then write w "cs.Boot.init();"; newline w);
-          write w "global::";
           expr_s w { eexpr = TTypeExpr(TClassDecl cl); etype = t_dynamic; epos = Ast.null_pos };
           write w ".main();";
           end_block w;
@@ -1560,7 +1577,7 @@ let configure gen =
 
     print w "public enum %s" (change_clname (snd e.e_path));
     begin_block w;
-    write w (String.concat ", " e.e_names);
+    write w (String.concat ", " (List.map (change_id) e.e_names));
     end_block w;
 
     if should_close then end_block w
@@ -1687,6 +1704,8 @@ let configure gen =
     true
   );
 
+  AbstractImplementationFix.configure gen;
+
   IteratorsInterface.configure gen (fun e -> e);
 
   OverrideFix.configure gen;
@@ -1781,6 +1800,14 @@ let configure gen =
 
   (* let closure_func = ReflectionCFs.implement_closure_cl rcf_ctx ( get_cl (get_type gen (["haxe";"lang"],"Closure")) ) in *)
   let closure_cl = get_cl (get_type gen (["haxe";"lang"],"Closure")) in
+  let varargs_cl = get_cl (get_type gen (["haxe";"lang"],"VarArgsFunction")) in
+  let dynamic_name = gen.gmk_internal_name "hx" "invokeDynamic" in
+
+  List.iter (fun cl ->
+    List.iter (fun cf ->
+      if cf.cf_name = dynamic_name then cl.cl_overrides <- cf :: cl.cl_overrides
+    ) cl.cl_ordered_fields
+  ) [closure_cl; varargs_cl];
 
   let closure_func = ReflectionCFs.get_closure_func rcf_ctx closure_cl in
 
@@ -1866,6 +1893,11 @@ let configure gen =
       | _ -> false
   in
 
+  let string_cl = match gen.gcon.basic.tstring with
+    | TInst(c,[]) -> c
+    | _ -> assert false
+  in
+
   DynamicOperators.configure gen
     (DynamicOperators.abstract_implementation gen (fun e -> match e.eexpr with
       | TBinop (Ast.OpEq, e1, e2)
@@ -1926,7 +1958,7 @@ let configure gen =
           mk_cast e.etype { eexpr = TCall(static, [e1; e2]); etype = t_dynamic; epos=e1.epos })
     (fun e1 e2 ->
       if is_string e1.etype then begin
-        { e1 with eexpr = TCall(mk_field_access gen e1 "compareTo" e1.epos, [ e2 ]); etype = gen.gcon.basic.tint }
+        { e1 with eexpr = TCall(mk_static_field_access_infer string_cl "Compare" e1.epos [], [ e1; e2 ]); etype = gen.gcon.basic.tint }
       end else begin
         let static = mk_static_field_access_infer (runtime_cl) "compare" e1.epos [] in
         { eexpr = TCall(static, [e1; e2]); etype = gen.gcon.basic.tint; epos=e1.epos }
@@ -2003,7 +2035,7 @@ let configure gen =
 
   IntDivisionSynf.configure gen (IntDivisionSynf.default_implementation gen true);
 
-  UnreachableCodeEliminationSynf.configure gen (UnreachableCodeEliminationSynf.traverse gen true true true false);
+  UnreachableCodeEliminationSynf.configure gen (UnreachableCodeEliminationSynf.traverse gen false true true false);
 
   let native_arr_cl = get_cl ( get_type gen (["cs"], "NativeArray") ) in
   ArrayDeclSynf.configure gen (ArrayDeclSynf.default_implementation gen native_arr_cl);

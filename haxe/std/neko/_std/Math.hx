@@ -28,28 +28,28 @@ import neko.Lib;
 	public static var POSITIVE_INFINITY(default,null) : Float;
 	public static var NEGATIVE_INFINITY(default,null) : Float;
 
-	public static function min(a:Float,b:Float) : Float { return if( a < b ) a else b; }
-	public static function max(a:Float,b:Float) : Float { return if( a < b ) b else a; }
+	public static function min(a:Float,b:Float) : Float { return if( a < b ) a else if( untyped $isnan(a) ) a else b; }
+	public static function max(a:Float,b:Float) : Float { return if( a < b ) b else if( untyped $isnan(b) ) b else a; }
 
-	public static function abs( v : Float ) : Float return 0.
-	public static function sin( v : Float ) : Float return 0.
-	public static function cos( v : Float ) : Float return 0.
-	public static function atan2( y : Float, x : Float ) : Float return 0.
-	public static function tan( v : Float ) : Float return 0.
-	public static function exp( v : Float ) : Float return 0.
-	public static function log( v : Float ) : Float return 0.
-	public static function sqrt( v : Float ) : Float return 0.
-	public static function round( v : Float ) : Int return 0
-	public static function floor( v : Float ) : Int return 0
-	public static function ceil( v : Float ) : Int return 0
-	public static function atan( v : Float ) : Float return 0.
-	public static function asin( v : Float ) : Float return 0.
-	public static function acos( v : Float ) : Float return 0.
-	public static function pow( v : Float, exp : Float ) : Float return 0.
+	public static function abs( v : Float ) : Float return 0.;
+	public static function sin( v : Float ) : Float return 0.;
+	public static function cos( v : Float ) : Float return 0.;
+	public static function atan2( y : Float, x : Float ) : Float return 0.;
+	public static function tan( v : Float ) : Float return 0.;
+	public static function exp( v : Float ) : Float return 0.;
+	public static function log( v : Float ) : Float return 0.;
+	public static function sqrt( v : Float ) : Float return 0.;
+	public static function round( v : Float ) : Int return 0;
+	public static function floor( v : Float ) : Int return 0;
+	public static function ceil( v : Float ) : Int return 0;
+	public static function atan( v : Float ) : Float return 0.;
+	public static function asin( v : Float ) : Float return 0.;
+	public static function acos( v : Float ) : Float return 0.;
+	public static function pow( v : Float, exp : Float ) : Float return 0.;
 
-	public static function fround( v : Float ) : Float return 0.
-	public static function ffloor( v : Float ) : Float return 0.
-	public static function fceil( v : Float ) : Float return 0.
+	public static function fround( v : Float ) : Float return 0.;
+	public static function ffloor( v : Float ) : Float return 0.;
+	public static function fceil( v : Float ) : Float return 0.;
 
 	static var __rnd;
 	static var _rand_float = Lib.load("std","random_float",1);

@@ -355,7 +355,8 @@ let rec build_generic ctx c p tl =
 		List.iter loop tl;
 		let build_field f =
 			let t = generic_substitute_type gctx f.cf_type in
-			{ f with cf_type = t; cf_expr = (match f.cf_expr with None -> None | Some e -> Some (generic_substitute_expr gctx e)) }
+			try { f with cf_type = t; cf_expr = (match f.cf_expr with None -> None | Some e -> Some (generic_substitute_expr gctx e)) }
+			with Unify_error l -> error (error_msg (Unify l)) f.cf_pos
 		in
 		if c.cl_init <> None || c.cl_dynamic <> None then error "This class can't be generic" p;
 		if c.cl_ordered_statics <> [] then error "A generic class can't have static fields" p;
@@ -571,8 +572,8 @@ let save_class_state ctx t = match t with
 		let meta = c.cl_meta and path = c.cl_path and ext = c.cl_extern in
 		let fl = c.cl_fields and ofl = c.cl_ordered_fields and st = c.cl_statics and ost = c.cl_ordered_statics in
 		let cst = c.cl_constructor and over = c.cl_overrides in
-		let oflk = List.map (fun f -> f.cf_kind,f.cf_expr) ofl in
-		let ostk = List.map (fun f -> f.cf_kind,f.cf_expr) ost in
+		let oflk = List.map (fun f -> f.cf_kind,f.cf_expr,f.cf_type) ofl in
+		let ostk = List.map (fun f -> f.cf_kind,f.cf_expr,f.cf_type) ost in
 		c.cl_restore <- (fun() ->
 			c.cl_meta <- meta;
 			c.cl_extern <- ext;
@@ -584,8 +585,8 @@ let save_class_state ctx t = match t with
 			c.cl_constructor <- cst;
 			c.cl_overrides <- over;
 			(* DCE might modify the cf_kind, so let's restore it as well *)
-			List.iter2 (fun f (k,e) -> f.cf_kind <- k; f.cf_expr <- e) ofl oflk;
-			List.iter2 (fun f (k,e) -> f.cf_kind <- k; f.cf_expr <- e) ost ostk;
+			List.iter2 (fun f (k,e,t) -> f.cf_kind <- k; f.cf_expr <- e; f.cf_type <- t;) ofl oflk;
+			List.iter2 (fun f (k,e,t) -> f.cf_kind <- k; f.cf_expr <- e; f.cf_type <- t;) ost ostk;
 		)
 	| _ ->
 		()
@@ -1303,28 +1304,41 @@ let check_local_vars_init e =
 (* -------------------------------------------------------------------------- *)
 (* ABSTRACT CASTS *)
 
-let find_abstract_to ab pl b = List.find (Type.unify_to_field ab pl b) ab.a_to
+module Abstract = struct
 
-let get_underlying_type a pl =
-	if Meta.has Meta.MultiType a.a_meta then begin
-		let m = mk_mono() in
-		let _ = find_abstract_to a pl m in
-		follow m
-	end else
-		apply_params a.a_types pl a.a_this
+	let find_to ab pl b = List.find (Type.unify_to_field ab pl b) ab.a_to
+	let find_from ab pl a b = List.find (Type.unify_from_field ab pl a b) ab.a_from
 
-let handle_abstract_casts ctx e =
-	let find_from ab pl a b = List.find (Type.unify_from_field ab pl a b) ab.a_from in
-	let rec make_static_call c cf a pl args t p =
+	let cast_stack = ref []
+
+	let get_underlying_type a pl =
+		try
+			if not (Meta.has Meta.MultiType a.a_meta) then raise Not_found;
+			let m = mk_mono() in
+			let _ = find_to a pl m in
+			follow m
+		with Not_found ->
+			apply_params a.a_types pl a.a_this
+
+	let rec make_static_call ctx c cf a pl args t p =
 		let ta = TAnon { a_fields = c.cl_statics; a_status = ref (Statics c) } in
 		let ethis = mk (TTypeExpr (TClassDecl c)) ta p in
+		let monos = List.map (fun _ -> mk_mono()) cf.cf_params in
+		let map t = apply_params a.a_types pl (apply_params cf.cf_params monos t) in
+		(* TODO: temp RC fix for from-functions to infer type parameters *)
+		let tcf = match follow (map cf.cf_type),args with
+			| TFun((_,_,ta) :: args,r) as tf,e :: el when Meta.has Meta.From cf.cf_meta ->
+				unify ctx e.etype ta p;
+				tf
+			| t,_ -> t
+		in
 		let def () =
-			let e = mk (TField (ethis,(FStatic (c,cf)))) cf.cf_type p in
-			mk (TCall(e,args)) t p
+			let e = mk (TField (ethis,(FStatic (c,cf)))) tcf p in
+			mk (TCall(e,args)) (map t) p
 		in
 		let e = match cf.cf_expr with
 		| Some { eexpr = TFunction fd } when cf.cf_kind = Method MethInline ->
-			let config = if Meta.has Meta.Impl cf.cf_meta then (Some (a.a_types <> [] || cf.cf_params <> [], fun t -> apply_params a.a_types pl (monomorphs cf.cf_params t))) else None in
+			let config = if Meta.has Meta.Impl cf.cf_meta then (Some (a.a_types <> [] || cf.cf_params <> [], map)) else None in
 			(match Optimizer.type_inline ctx cf fd ethis args t config p true with
 				| Some e -> (match e.eexpr with TCast(e,None) -> e | _ -> e)
 				| None ->
@@ -1333,43 +1347,65 @@ let handle_abstract_casts ctx e =
 			def()
 		in
 		(* TODO: can this cause loops? *)
-		loop e
-	and check_cast tleft eright p =
-		let eright = loop eright in
-		try (match follow eright.etype,follow tleft with
+		loop ctx e
+
+	and check_cast ctx tleft eright p =
+		let tright = follow eright.etype in
+		let tleft = follow tleft in
+		if tleft == tright then eright else
+		let recurse cf f =
+			if cf == ctx.curfield || List.mem cf !cast_stack then error "Recursive implicit cast" p;
+			cast_stack := cf :: !cast_stack;
+			let r = f() in
+			cast_stack := List.tl !cast_stack;
+			r
+		in
+		try (match tright,tleft with
 			| (TAbstract({a_impl = Some c1} as a1,pl1) as t1),(TAbstract({a_impl = Some c2} as a2,pl2) as t2) ->
 				if a1 == a2 then
 					eright
 				else begin
 					let c,cfo,a,pl = try
 						if Meta.has Meta.MultiType a1.a_meta then raise Not_found;
-						c1,snd (find_abstract_to a1 pl1 t2),a1,pl1
+						c1,snd (find_to a1 pl1 t2),a1,pl1
 					with Not_found ->
 						if Meta.has Meta.MultiType a2.a_meta then raise Not_found;
 						c2,snd (find_from a2 pl2 t1 t2),a2,pl2
 					in
-					match cfo with None -> eright | Some cf -> make_static_call c cf a pl [eright] tleft p
+					match cfo with
+					| None -> eright
+					| Some cf ->
+						recurse cf (fun () -> make_static_call ctx c cf a pl [eright] tleft p)
 				end
 			| TDynamic _,_ | _,TDynamic _ ->
 				eright
 			| TAbstract({a_impl = Some c} as a,pl),t2 when not (Meta.has Meta.MultiType a.a_meta) ->
-				begin match snd (find_abstract_to a pl t2) with None -> eright | Some cf -> make_static_call c cf a pl [eright] tleft p end
+				begin match snd (find_to a pl t2) with
+					| None -> eright
+					| Some cf ->
+						recurse cf (fun () -> make_static_call ctx c cf a pl [eright] tleft p)
+				end
 			| t1,(TAbstract({a_impl = Some c} as a,pl) as t2) when not (Meta.has Meta.MultiType a.a_meta) ->
-				begin match snd (find_from a pl t1 t2) with None -> eright | Some cf -> make_static_call c cf a pl [eright] tleft p end
+				begin match snd (find_from a pl t1 t2) with
+					| None -> eright
+					| Some cf ->
+						recurse cf (fun () -> make_static_call ctx c cf a pl [eright] tleft p)
+				end
 			| _ ->
 				eright)
 		with Not_found ->
 			eright
-	and loop e = match e.eexpr with
+
+	and loop ctx e = match e.eexpr with
 		| TBinop(OpAssign,e1,e2) ->
-			let e2 = check_cast e1.etype e2 e.epos in
-			{ e with eexpr = TBinop(OpAssign,loop e1,e2) }
+			let e2 = check_cast ctx e1.etype (loop ctx e2) e.epos in
+			{ e with eexpr = TBinop(OpAssign,loop ctx e1,e2) }
 		| TVars vl ->
 			let vl = List.map (fun (v,eo) -> match eo with
 				| None -> (v,eo)
 				| Some e ->
 					let is_generic_abstract = match e.etype with TAbstract ({a_impl = Some _} as a,_) -> Meta.has Meta.MultiType a.a_meta | _ -> false in
-					let e = check_cast v.v_type e e.epos in
+					let e = check_cast ctx v.v_type (loop ctx e) e.epos in
 					(* we can rewrite this for better field inference *)
 					if is_generic_abstract then v.v_type <- e.etype;
 					v, Some e
@@ -1380,7 +1416,7 @@ let handle_abstract_casts ctx e =
 			let at = apply_params a.a_types pl a.a_this in
 			let m = mk_mono() in
 			let _,cfo =
-				try find_abstract_to a pl m
+				try find_to a pl m
 				with Not_found ->
 					let st = s_type (print_context()) at in
 					if has_mono at then
@@ -1392,28 +1428,31 @@ let handle_abstract_casts ctx e =
 			| None -> assert false
 			| Some cf ->
 				let m = follow m in
-				let e = make_static_call c cf a pl ((mk (TConst TNull) at e.epos) :: el) m e.epos in
+				let e = make_static_call ctx c cf a pl ((mk (TConst TNull) at e.epos) :: el) m e.epos in
 				{e with etype = m}
 			end
 		| TCall(e1, el) ->
-			let e1 = loop e1 in
+			let e1 = loop ctx e1 in
 			begin try
 				begin match e1.eexpr with
+ 					| TField(_,FStatic(_,cf)) when Meta.has Meta.To cf.cf_meta ->
+ 						(* do not recurse over @:to functions to avoid infinite recursion *)
+						{ e with eexpr = TCall(e1,el)}
 					| TField(e2,fa) ->
-						let e2 = loop e2 in
 						begin match follow e2.etype with
 							| TAbstract(a,pl) when Meta.has Meta.MultiType a.a_meta ->
 								let m = get_underlying_type a pl in
 								let fname = field_name fa in
+								let el = List.map (loop ctx) el in
 								begin try
 									let ef = mk (TField({e2 with etype = m},quick_field m fname)) e2.etype e2.epos in
-									make_call ctx ef (List.map loop el) e.etype e.epos
+									make_call ctx ef el e.etype e.epos
 								with Not_found ->
 									(* quick_field raises Not_found if m is an abstract, we have to replicate the 'using' call here *)
 									match follow m with
 									| TAbstract({a_impl = Some c} as a,pl) ->
 										let cf = PMap.find fname c.cl_statics in
-										make_static_call c cf a pl (e2 :: (List.map loop el)) e.etype e.epos
+										make_static_call ctx c cf a pl (e2 :: el) e.etype e.epos
 									| _ -> raise Not_found
 								end
 							| _ -> raise Not_found
@@ -1426,23 +1465,23 @@ let handle_abstract_casts ctx e =
 					| TFun(args,_) ->
 						let rec loop2 el tl = match el,tl with
 							| [],_ -> []
-							| e :: el, [] -> (loop e) :: loop2 el []
+							| e :: el, [] -> (loop ctx e) :: loop2 el []
 							| e :: el, (_,_,t) :: tl ->
-								(check_cast t e e.epos) :: loop2 el tl
+								(check_cast ctx t (loop ctx e) e.epos) :: loop2 el tl
 						in
 						let el = loop2 el args in
-						{ e with eexpr = TCall(loop e1,el)}
+						{ e with eexpr = TCall(loop ctx e1,el)}
 					| _ ->
-						Type.map_expr loop e
+						Type.map_expr (loop ctx) e
 				end
 			end
 		| TArrayDecl el ->
 			begin match e.etype with
 				| TInst(_,[t]) ->
-					let el = List.map (fun e -> check_cast t e e.epos) el in
+					let el = List.map (fun e -> check_cast ctx t (loop ctx e) e.epos) el in
 					{ e with eexpr = TArrayDecl el}
 				| _ ->
-					Type.map_expr loop e
+					Type.map_expr (loop ctx) e
 			end
 		| TObjectDecl fl ->
 			begin match follow e.etype with
@@ -1451,19 +1490,21 @@ let handle_abstract_casts ctx e =
 					try
 						let cf = PMap.find n a.a_fields in
 						let e = match e.eexpr with TCast(e1,None) -> e1 | _ -> e in
-						(n,check_cast cf.cf_type e e.epos)
+						(n,check_cast ctx cf.cf_type (loop ctx e) e.epos)
 					with Not_found ->
-						(n,loop e)
+						(n,loop ctx e)
 				) fl in
 				{ e with eexpr = TObjectDecl fl }
 			| _ ->
-				Type.map_expr loop e
+				Type.map_expr (loop ctx) e
 			end
 		| _ ->
-			Type.map_expr loop e
-	in
-	loop e
+			Type.map_expr (loop ctx) e
 
+
+	let handle_abstract_casts ctx e =
+		loop ctx e
+end
 (* -------------------------------------------------------------------------- *)
 (* USAGE *)
 
@@ -1506,7 +1547,9 @@ let post_process filters t =
 			match f.cf_expr with
 			| None -> ()
 			| Some e ->
-				f.cf_expr <- Some (List.fold_left (fun e f -> f e) e filters)
+				Abstract.cast_stack := f :: !Abstract.cast_stack;
+				f.cf_expr <- Some (List.fold_left (fun e f -> f e) e filters);
+				Abstract.cast_stack := List.tl !Abstract.cast_stack;
 		in
 		List.iter process_field c.cl_ordered_fields;
 		List.iter process_field c.cl_ordered_statics;
@@ -1658,9 +1701,8 @@ let rec find_field c f =
 		f
 
 let fix_override com c f fd =
-	c.cl_fields <- PMap.remove f.cf_name c.cl_fields;
 	let f2 = (try Some (find_field c f) with Not_found -> None) in
-	let f = (match f2,fd with
+	match f2,fd with
 		| Some (f2), Some(fd) ->
 			let targs, tret = (match follow f2.cf_type with TFun (args,ret) -> args, ret | _ -> assert false) in
 			let changed_args = ref [] in
@@ -1693,15 +1735,13 @@ let fix_override com c f fd =
 			if Common.defined com Define.As3 && f.cf_public then f2.cf_public <- true;
 			let targs = List.map (fun(v,c) -> (v.v_name, Option.is_some c, v.v_type)) nargs in
 			let fde = (match f.cf_expr with None -> assert false | Some e -> e) in
-			{ f with cf_expr = Some { fde with eexpr = TFunction fd2 }; cf_type = TFun(targs,tret) }
+			f.cf_expr <- Some { fde with eexpr = TFunction fd2 };
+			f.cf_type <- TFun(targs,tret);
 		| Some(f2), None when c.cl_interface ->
 			let targs, tret = (match follow f2.cf_type with TFun (args,ret) -> args, ret | _ -> assert false) in
-			{ f with cf_type = TFun(targs,tret) }
+			f.cf_type <- TFun(targs,tret)
 		| _ ->
-			f
-	) in
-	c.cl_fields <- PMap.add f.cf_name f c.cl_fields;
-	f
+			()
 
 let fix_overrides com t =
 	match t with
@@ -1716,14 +1756,14 @@ let fix_overrides com t =
 				with Not_found ->
 					true
 			) c.cl_ordered_fields;
-		c.cl_ordered_fields <- List.map (fun f ->
+		List.iter (fun f ->
 			match f.cf_expr, f.cf_kind with
 			| Some { eexpr = TFunction fd }, Method (MethNormal | MethInline) ->
 				fix_override com c f (Some fd)
 			| None, Method (MethNormal | MethInline) when c.cl_interface ->
 				fix_override com c f None
 			| _ ->
-				f
+				()
 		) c.cl_ordered_fields
 	| _ ->
 		()

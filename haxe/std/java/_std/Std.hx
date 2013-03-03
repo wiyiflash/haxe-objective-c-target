@@ -52,8 +52,8 @@ import java.internal.Exceptions;
 		return untyped clt.isAssignableFrom(clv);
 	}
 
-	public static inline function string( s : Dynamic ) : String {
-		return cast s;
+	public static function string( s : Dynamic ) : String {
+		return cast(s, String) + "";
 	}
 
 	public static inline function int( x : Float ) : Int {

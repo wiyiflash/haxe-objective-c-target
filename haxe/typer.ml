@@ -270,7 +270,7 @@ let parse_expr_string ctx s p inl =
 	let head = "class X{static function main() " in
 	let head = (if p.pmin > String.length head then head ^ String.make (p.pmin - String.length head) ' ' else head) in
 	let rec loop e = let e = Ast.map_expr loop e in (fst e,p) in
-	match parse_string ctx (head ^ s ^ "}") p inl with
+	match parse_string ctx (head ^ s ^ ";}") p inl with
 	| EClass { d_data = [{ cff_name = "main"; cff_kind = FFun { f_expr = Some e } }]} -> if inl then e else loop e
 	| _ -> assert false
 
@@ -1082,15 +1082,35 @@ and type_field ctx e i p mode =
 		field_access ctx mode f (FAnon f) (Type.field_type f) e p
 	| TAbstract (a,pl) ->
 		(try
-			let c = (match a.a_impl with None -> raise Not_found | Some c -> c) in
+ 			let c = (match a.a_impl with None -> raise Not_found | Some c -> c) in
 			let f = PMap.find i c.cl_statics in
-			let t = field_type ctx c [] f p in
-			let t = apply_params a.a_types pl t in
-			if not (Meta.has Meta.Impl f.cf_meta) then (match follow t with
-				| TFun((_,_,ta) :: _,_) -> unify ctx e.etype ta p
-				| _ -> raise Not_found);
+			let field_type f =
+				let t = field_type ctx c [] f p in
+				apply_params a.a_types pl t
+			in
 			let et = type_module_type ctx (TClassDecl c) None p in
-			AKUsing ((mk (TField (et,FStatic (c,f))) t p),c,f,e)
+			let field_expr f t = mk (TField (et,FStatic (c,f))) t p in
+			(match mode, f.cf_kind with
+			| MGet, Var {v_read = AccCall s} ->
+				(* getter call *)
+				let f = PMap.find s c.cl_statics in
+				let t = field_type f in
+				let r = match follow t with TFun(_,r) -> r | _ -> raise Not_found in
+				let ef = field_expr f r in
+				AKExpr(make_call ctx ef [e] r p)
+			| MSet, Var {v_write = AccCall s} ->
+				let f = PMap.find s c.cl_statics in
+				let t = field_type f in
+				let ef = field_expr f t in
+				AKUsing (ef,c,f,e)
+			| MGet, Var {v_read = AccNever} ->
+				AKNo f.cf_name
+			| (MGet | MCall), _ ->
+				let t = field_type f in
+				let ef = field_expr f t in
+				AKUsing (ef,c,f,e)
+			| MSet, _ ->
+				error "This operation is unsupported" p)
 		with Not_found -> try
 			using_field ctx mode e i p
 		with Not_found -> try
@@ -1298,7 +1318,10 @@ let rec type_binop ctx op e1 e2 is_assign_op p =
 			let et = type_module_type ctx (TClassDecl c) None p in
 			let ef = mk (TField(et,(FStatic(c,cf)))) tf p in
 			make_call ctx ef [ebase;ekey;e2] r p
-		| AKInline _ | AKUsing _ | AKMacro _ ->
+		| AKUsing(ef,_,_,et) ->
+			(* this must be an abstract setter *)
+			make_call ctx ef [et;e2] e2.etype p
+		| AKInline _ | AKMacro _ ->
 			assert false)
 	| OpAssignOp op ->
 		(match type_access ctx (fst e1) (snd e1) MSet with
@@ -1576,7 +1599,7 @@ let rec type_binop ctx op e1 e2 is_assign_op p =
 			let f,r,assign = find_overload a c e2.etype true in
 			begin match f.cf_expr with
 				| None ->
-					let e2 = match e2.etype with TAbstract(a,pl) -> {e2 with etype = apply_params a.a_types pl a.a_this} | _ -> e2 in
+					let e2 = match follow e2.etype with TAbstract(a,pl) -> {e2 with etype = apply_params a.a_types pl a.a_this} | _ -> e2 in
 					cast_rec {e1 with etype = apply_params a.a_types pl a.a_this} e2 r
 				| Some _ ->
 					mk_cast_op c f a pl e1 e2 r assign
@@ -1588,7 +1611,7 @@ let rec type_binop ctx op e1 e2 is_assign_op p =
 			let f,r,assign = find_overload a c e1.etype false in
 			begin match f.cf_expr with
 				| None ->
-					let e1 = match e1.etype with TAbstract(a,pl) -> {e1 with etype = apply_params a.a_types pl a.a_this} | _ -> e1 in
+					let e1 = match follow e1.etype with TAbstract(a,pl) -> {e1 with etype = apply_params a.a_types pl a.a_this} | _ -> e1 in
 					cast_rec e1 {e2 with etype = apply_params a.a_types pl a.a_this} r
 				| Some _ ->
 					mk_cast_op c f a pl e2 e1 r assign
@@ -2523,6 +2546,7 @@ and type_expr ctx (e,p) (with_type:with_type) =
 			| Some e ->
 				let e = type_expr ctx e (WithType ctx.ret) in
 				unify ctx e.etype ctx.ret e.epos;
+				let e = Codegen.Abstract.check_cast ctx ctx.ret e p in
 				Some e , e.etype
 		) in
 		mk (TReturn e) t_dynamic p
@@ -2599,14 +2623,15 @@ and type_expr ctx (e,p) (with_type:with_type) =
 			if not (Codegen.is_generic_parameter ctx c) then error "Only generic type parameters can be constructed" p;
 			let el = List.map (fun e -> type_expr ctx e Value) el in
 			let ct = (tfun (List.map (fun e -> e.etype) el) ctx.t.tvoid) in
-			List.iter (fun t -> match follow t with
+			if not (List.exists (fun t -> match follow t with
 				| TAnon a ->
 					(try
 						unify ctx (PMap.find "new" a.a_fields).cf_type ct p;
+						true
 					with Not_found ->
-						())
-				| _ -> ()
-			) tl;
+						 false)
+				| _ -> false
+			) tl) then error (s_type_path c.cl_path ^ " does not have a constructor") p;
 			mk (TNew (c,params,el)) t p
 		| TInst (c,params) ->
 			let ct, f = get_constructor ctx c params p in
@@ -3552,7 +3577,7 @@ and flush_macro_context mint ctx =
 		mint
 	end else mint in
 	(* we should maybe ensure that all filters in Main are applied. Not urgent atm *)
-	(try Interp.add_types mint types (Codegen.post_process [Codegen.handle_abstract_casts mctx; Codegen.captured_vars mctx.com; Codegen.rename_local_vars mctx.com])
+	(try Interp.add_types mint types (Codegen.post_process [Codegen.Abstract.handle_abstract_casts mctx; Codegen.captured_vars mctx.com; Codegen.rename_local_vars mctx.com])
 	with Error (e,p) -> display_error ctx (error_msg e) p; raise Fatal_error);
 	Codegen.post_process_end()
 

@@ -20,38 +20,8 @@
  * DEALINGS IN THE SOFTWARE.
  */
 import java.util.regex.Regex;
-/*
- * Copyright (c) 2005, The haXe Project Contributors
- * All rights reserved.
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE HAXE PROJECT CONTRIBUTORS "AS IS" AND ANY
- * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL THE HAXE PROJECT CONTRIBUTORS BE LIABLE FOR
- * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
- * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
- * DAMAGE.
- */
 
-/**
-	Regular expressions are a way to find regular patterns into
-	Strings. Have a look at the tutorial on haXe website to learn
-	how to use them.
-**/
-@:coreApi
-class EReg {
+@:coreType class EReg {
 
 	private var pattern:String;
 	private var matcher:Matcher;
@@ -59,10 +29,6 @@ class EReg {
 	private var sub:Int;
 	private var isGlobal:Bool;
 
-	/**
-		Creates a new regular expression with pattern [r] and
-		options [opt].
-	**/
 	public function new( r : String, opt : String ) {
 		var flags = 0;
 		for (i in 0...opt.length)
@@ -112,10 +78,6 @@ class EReg {
 		return r;
 	}
 
-	/**
-		Tells if the regular expression matches the String.
-		Updates the internal state accordingly.
-	**/
 	public function match( s : String ) : Bool {
 		sub = 0;
 		cur = s;
@@ -123,11 +85,6 @@ class EReg {
 		return matcher.find();
 	}
 
-	/**
-		Returns a matched group or throw an expection if there
-		is no such group. If [n = 0], the whole matched substring
-		is returned.
-	**/
 	public function matched( n : Int ) : String
 	{
 		if (n == 0)
@@ -136,28 +93,16 @@ class EReg {
 			return matcher.group(n);
 	}
 
-	/**
-		Returns the part of the string that was as the left of
-		of the matched substring.
-	**/
 	public function matchedLeft() : String
 	{
 		return untyped cur.substring(0, sub + matcher.start());
 	}
 
-	/**
-		Returns the part of the string that was at the right of
-		of the matched substring.
-	**/
 	public function matchedRight() : String
 	{
 		return untyped cur.substring(sub + matcher.end(), cur.length);
 	}
 
-	/**
-		Returns the position of the matched substring within the
-		original matched string.
-	**/
 	public function matchedPos() : { pos : Int, len : Int } {
 		var start = matcher.start();
 		return { pos : sub + start, len : matcher.end() - start };
@@ -171,10 +116,6 @@ class EReg {
 		return matcher.find();
 	}
 
-	/**
-		Split a string by using the regular expression to match
-		the separators.
-	**/
 	public function split( s : String ) : Array<String>
 	{
 		if (isGlobal)
@@ -199,28 +140,69 @@ class EReg {
 		}
 	}
 
-	/**
-		Replaces a pattern by another string. The [by] format can
-		contains [$1] to [$9] that will correspond to groups matched
-		while replacing. [$$] means the [$] character.
-	**/
-	public function replace( s : String, by : String ) : String {
-		var matcher = matcher;
-		matcher.reset(s);
-		if (isGlobal)
-		{
-			return matcher.replaceAll(by);
-		} else {
-			matcher.find();
-			return untyped (s.substring(0, matcher.start()) + by + s.substring(matcher.end(), s.length));
-		}
+	inline function start(group:Int)
+	{
+		return matcher.start(group) + sub;
 	}
 
-	/**
-		For each occurence of the pattern in the string [s], the function [f] is called and
-		can return the string that needs to be replaced. All occurences are matched anyway,
-		and setting the [g] flag might cause some incorrect behavior on some platforms.
-	**/
+	inline function len(group:Int)
+	{
+		return matcher.end(group) - matcher.start(group);
+	}
+
+	public function replace( s : String, by : String ) : String
+	{
+      var b = new StringBuf();
+      var pos = 0;
+      var len = s.length;
+      var a = by.split("$");
+      var first = true;
+      do {
+        if( !matchSub(s,pos,len) )
+          break;
+        var p = matchedPos();
+        if( p.len == 0 && !first ) {
+          if( p.pos == s.length )
+            break;
+          p.pos += 1;
+        }
+        b.addSub(s,pos,p.pos-pos);
+        if( a.length > 0 )
+          b.add(a[0]);
+        var i = 1;
+        while( i < a.length ) {
+          var k = a[i];
+          var c = k.charCodeAt(0);
+          // 1...9
+          if( c >= 49 && c <= 57 ) {
+						try {
+							var ppos = start( c-48 ), plen = this.len( c-48 );
+							b.addSub(s, ppos, plen);
+						}
+						catch(e:Dynamic)
+						{
+							b.add("$");
+							b.add(k);
+						}
+          } else if( c == null ) {
+            b.add("$");
+            i++;
+            var k2 = a[i];
+            if( k2 != null && k2.length > 0 )
+              b.add(k2);
+          } else
+            b.add("$"+k);
+          i++;
+        }
+        var tot = p.pos + p.len - pos;
+        pos += tot;
+        len -= tot;
+        first = false;
+      } while( isGlobal );
+      b.addSub(s,pos,len);
+      return b.toString();
+	}
+
 	public function map( s : String, f : EReg -> String ) : String {
 		var offset = 0;
 		var buf = new StringBuf();
@@ -241,7 +223,7 @@ class EReg {
 			else
 				offset = p.pos + p.len;
 		} while (isGlobal);
-		if (!isGlobal && offset < s.length)
+		if (!isGlobal && offset > 0 && offset < s.length)
 			buf.add(s.substr(offset));
 		return buf.toString();
 	}

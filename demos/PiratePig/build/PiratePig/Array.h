@@ -8,9 +8,10 @@
 
 
 #import "Array.h"
+#import "Array/T.h"
 #import "String.h"
 
-@interface NSMutableArray ( Array )
+@interface Array : HXObject
 
 @property (nonatomic) int length;
 - (NSMutableArray*) concat:(NSMutableArray*)a;

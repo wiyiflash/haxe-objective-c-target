@@ -20,7 +20,7 @@
  * DEALINGS IN THE SOFTWARE.
  */
 #if !(core_api || cross)
-#error "Please don't add haxe/std to your classpath, instead set HAXE_LIBRARY_PATH env var"
+#error "Please don't add haxe/std to your classpath, instead set HAXE_STD_PATH env var"
 #end
 
 /**
@@ -54,9 +54,9 @@ extern class Std {
 	public static function string( s : Dynamic ) : String;
 
 	/**
-		Converts a Float to an Int, rounded down.
+		Converts a Float to an Int, rounded towards 0.
 
-		If x is NaN, NEGATIVE_INFINITY or POSITIVE_INFINITY, the result is unspecified.
+		If x is outside of the signed Int32 range, or is NaN, NEGATIVE_INFINITY or POSITIVE_INFINITY, the result is unspecified.
 	**/
 	public static function int( x : Float ) : Int;
 

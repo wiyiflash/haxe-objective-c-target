@@ -62,7 +62,7 @@ import cs.internal.Runtime;
 @:keep @:coreApi class Type {
 
 	@:functionCode('
-		if (o is haxe.lang.DynamicObject || o is System.Type)
+		if (o == null || o is haxe.lang.DynamicObject || o is System.Type)
 			return null;
 
 		return o.GetType();
@@ -96,7 +96,7 @@ import cs.internal.Runtime;
 
 	public static function getClassName( c : Class<Dynamic> ) : String {
 		var ret:String = cast Lib.toNativeType(c);
-#if no-root
+#if no_root
 		if (ret.length > 10 && StringTools.startsWith(ret, "haxe.root."))
 			ret = ret.substr(10);
 #end
@@ -115,7 +115,7 @@ import cs.internal.Runtime;
 	public static function getEnumName( e : Enum<Dynamic> ) : String
 	{
 		var ret:String = cast Lib.toNativeType(untyped e);
-#if no-root
+#if no_root
 		if (ret.length > 10 && StringTools.startsWith(ret, "haxe.root."))
 			ret = ret.substr(10);
 #end
@@ -126,7 +126,7 @@ import cs.internal.Runtime;
 
 	public static function resolveClass( name : String ) : Class<Dynamic>
 	{
-#if no-root
+#if no_root
 		if (name.indexOf(".") == -1)
 			name = "haxe.root." + name;
 #end
@@ -135,11 +135,11 @@ import cs.internal.Runtime;
 		{
 			switch(name)
 			{
-				case #if no-root "haxe.root.Int" #else "Int" #end: return cast Int;
-				case #if no-root "haxe.root.Float" #else "Float" #end: return cast Float;
-				case #if no-root "haxe.root.Class" #else "Class" #end: return cast Class;
-				case #if no-root "haxe.root.Dynamic" #else "Dynamic" #end: return cast Dynamic;
-				case #if no-root "haxe.root.String" #else "String" #end: return cast String;
+				case #if no_root "haxe.root.Int" #else "Int" #end: return cast Int;
+				case #if no_root "haxe.root.Float" #else "Float" #end: return cast Float;
+				case #if no_root "haxe.root.Class" #else "Class" #end: return cast Class;
+				case #if no_root "haxe.root.Dynamic" #else "Dynamic" #end: return cast Dynamic;
+				case #if no_root "haxe.root.String" #else "String" #end: return cast String;
 				default: return null;
 			}
 		} else if (t.IsInterface && cast(untyped __typeof__(IGenericObject), cs.system.Type).IsAssignableFrom(t)) {
@@ -159,7 +159,13 @@ import cs.internal.Runtime;
 		}
 	}
 
-
+	@:functionCode('
+		if (name == "Bool") return typeof(bool);
+		System.Type t = resolveClass(name);
+		if (t != null && (t.BaseType.Equals(typeof(System.Enum)) || t.BaseType.Equals(typeof(haxe.lang.Enum))))
+			return t;
+		return null;
+	')
 	public static function resolveEnum( name : String ) : Enum<Dynamic> untyped
 	{
 		if (name == "Bool") return Bool;
@@ -168,6 +174,8 @@ import cs.internal.Runtime;
 
 	public static function createInstance<T>( cl : Class<T>, args : Array<Dynamic> ) : T
 	{
+		if (untyped cl == String)
+			return args[0];
 		var t:cs.system.Type = Lib.toNativeType(cl);
 		var ctors = t.GetConstructors();
 		return Runtime.callMethod(null, cast ctors, ctors.Length, args);
@@ -181,9 +189,9 @@ import cs.internal.Runtime;
 	}
 
 	@:functionCode('
-		if (@params == null)
+		if (@params == null || @params[0] == null)
 		{
-			object ret = haxe.lang.Runtime.slowGetField(e, constr, false);
+			object ret = haxe.lang.Runtime.slowGetField(e, constr, true);
 			if (ret is haxe.lang.Function)
 				throw haxe.lang.HaxeException.wrap("Constructor " + constr + " needs parameters");
 			return (T) ret;
@@ -209,13 +217,13 @@ import cs.internal.Runtime;
 
 		Array<object> ret = new Array<object>();
 
-        System.Reflection.MemberInfo[] mis = c.GetMembers(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.DeclaredOnly | System.Reflection.BindingFlags.Instance);
+        System.Reflection.MemberInfo[] mis = c.GetMembers(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.FlattenHierarchy);
         for (int i = 0; i < mis.Length; i++)
         {
 			if (mis[i] is System.Reflection.PropertyInfo)
                 continue;
 			string n = mis[i].Name;
-			if (!n.StartsWith("__hx_") && n[0] != \'.\')
+			if (!n.StartsWith("__hx_") && n[0] != \'.\' && !n.Equals("Equals") && !n.Equals("ToString") && !n.Equals("GetHashCode") && !n.Equals("GetType"))
 				ret.push(mis[i].Name);
         }
 

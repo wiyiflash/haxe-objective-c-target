@@ -7,13 +7,9 @@
 
 #import "Array.h"
 
-@implementation NSMutableArray ( Array )
+@implementation Array
 
-// Getters/setters for property: length
-static int length__;
-- (int) length { return length__; }
-- (void) setLength:(int)val { length__ = val; }
-
+@synthesize length;
 - (NSMutableArray*) concat:(NSMutableArray*)a{
 	return [self arrayByAddingObjectsFromArray:a];
 }
@@ -21,7 +17,19 @@ static int length__;
 	return [NSMutableArray arrayWithArray:self];
 }
 - (id) iterator{
-	return nil;
+	
+	NSMutableArray *a = [[NSMutableArray alloc] initWithObjects:self, nil];
+	
+	NSMutableArray *p = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:0], nil];
+	return struct {
+	hasNext:^- (BOOL) {
+		return [p objectAtIndex:0] < [a objectAtIndex:0].length;
+	}; next:^- (id) {
+		id i = [[a objectAtIndex:0] objectAtIndex:[p objectAtIndex:0]];
+		[p objectAtIndex:0] += 1;
+		return i;
+	}
+	} structName;
 }
 - (void) insert:(int)pos x:(id)x{
 	[self insertObject:x atIndex:pos];

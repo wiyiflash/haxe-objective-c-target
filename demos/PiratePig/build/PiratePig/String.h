@@ -10,7 +10,7 @@
 #import "String.h"
 #import "Array.h"
 
-@interface NSMutableString ( String )
+@interface String : HXObject
 
 + (NSMutableString*) fromCharCode:(int)code;
 @property (nonatomic) int length;
