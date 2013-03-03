@@ -59,13 +59,13 @@
 + (id) copy:(id)o{
 	if (o == nil) return nil;
 	if ([o __GetType] == __global__ vtString) return o;
-	if ([o __GetType] == __global__ vtArray) return [[o __Field:(NSMutableString*)@"copy" :YES]];
+	if ([o __GetType] == __global__ vtArray) return [[o __Field:[NSMutableString stringWithString:@"copy"] :YES]];
 	id o2 = struct {
 	
 	} structName;
 	{
 		int _g = 0; 
-		NSMutableArray *_g1 = (NSMutableArray*)[Reflect fields:o];
+		NSMutableArray *_g1 = [Reflect fields:o];
 		while (_g < _g1.length) {
 			
 			NSMutableString *f = [_g1 objectAtIndex:_g];

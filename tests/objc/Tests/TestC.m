@@ -10,10 +10,10 @@
 @implementation TestC
 
 - (void) testMath{
-	float pi = MathM_PI;
-	float max = Math-DBL_MAX;
-	float min = MathDBL_MAX;
-	float nan = MathNAN;
+	float pi = -fa3-PI;
+	float max = -fa3-NEGATIVE_INFINITY;
+	float min = -fa3-POSITIVE_INFINITY;
+	float nan = -fa3-NaN;
 	float x = sqrtf(5);
 	x = fabsf(5);
 	x = fmaxf(5, 45555);
@@ -43,7 +43,7 @@
 	self = [super init];
 	float x = rand() * 50;
 	float y = cosf(x);
-	CGPoint p = .CGPointMake(x, y);
+	CGPoint p =  CGPointMake(x, y);
 	return self;
 }
 

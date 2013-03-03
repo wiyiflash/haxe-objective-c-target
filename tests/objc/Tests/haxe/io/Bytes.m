@@ -11,46 +11,46 @@
 
 + (Bytes*) alloc:(int)length{
 	
-	NSMutableArray *a = (NSMutableArray*)[[NSMutableArray alloc] init];
+	NSMutableArray *a = [[NSMutableArray alloc] init];
 	{
 		int _g = 0;
 		while (_g < length) {
 			int i = _g++;
-			[a push:0];
+			[a.push:0];
 		}
 	}
 	return [[Bytes alloc] init:length b:a];
 }
 + (Bytes*) ofString:(NSMutableString*)s{
 	
-	NSMutableArray *a = (NSMutableArray*)[[NSMutableArray alloc] init];
+	NSMutableArray *a = [[NSMutableArray alloc] init];
 	{
 		int _g1 = 0; int _g = s.length;
 		while (_g1 < _g) {
 			int i = _g1++;
 			int c = [s characterAtIndex:i];
-			if (c <= 127) [a push:c];
+			if (c <= 127) [a.push:c];
 			else if (c <= 2047) {
-				[a push:192 | c >> 6];
-				[a push:128 | (c & 63)];
+				[a.push:192 | c >> 6];
+				[a.push:128 | (c & 63)];
 			}
 			else if (c <= 65535) {
-				[a push:224 | c >> 12];
-				[a push:128 | (c >> 6 & 63)];
-				[a push:128 | (c & 63)];
+				[a.push:224 | c >> 12];
+				[a.push:128 | (c >> 6 & 63)];
+				[a.push:128 | (c & 63)];
 			}
 			else {
-				[a push:240 | c >> 18];
-				[a push:128 | (c >> 12 & 63)];
-				[a push:128 | (c >> 6 & 63)];
-				[a push:128 | (c & 63)];
+				[a.push:240 | c >> 18];
+				[a.push:128 | (c >> 12 & 63)];
+				[a.push:128 | (c >> 6 & 63)];
+				[a.push:128 | (c & 63)];
 			}
 		}
 	}
-	return [[Bytes alloc] init:a length b:a];
+	return [[Bytes alloc] init:a.length b:a];
 }
 + (Bytes*) ofData:(NSMutableArray*)b{
-	return [[Bytes alloc] init:b length b:b];
+	return [[Bytes alloc] init:b.length b:b];
 }
 + (int) fastGet:(NSMutableArray*)b pos:(int)pos{
 	return [b objectAtIndex:pos];
@@ -61,19 +61,19 @@
 	return [self.b objectAtIndex:pos];
 }
 - (void) set:(int)pos v:(int)v{
-	[self.b objectAtIndex:pos] = (v & 255);
+	[self.b replaceObjectAtIndex:pos withObject:(v & [NSNumber numberWithInt:255])];
 }
 - (void) blit:(int)pos src:(Bytes*)src srcpos:(int)srcpos len:(int)len{
 	if (pos < 0 || srcpos < 0 || len < 0 || pos + len > self.length || srcpos + len > src.length) @throw  OutsideBounds;;
 	
-	NSMutableArray *b1 = (NSMutableArray*)self.b;
+	NSMutableArray *b1 = self.b;
 	
-	NSMutableArray *b2 = (NSMutableArray*)src.b;
+	NSMutableArray *b2 = src.b;
 	if (b1 == b2 && pos > srcpos) {
 		int i = len;
 		while (i > 0) {
 			i--;
-			[b1 objectAtIndex:i + pos] = [b2 objectAtIndex:i + srcpos];
+			[b1 replaceObjectAtIndex:i + pos withObject:b2 replaceObjectAtIndex:i + srcpos];
 		}
 		return;
 	}
@@ -81,7 +81,7 @@
 		int _g = 0;
 		while (_g < len) {
 			int i = _g++;
-			[b1 objectAtIndex:i + pos] = [b2 objectAtIndex:i + srcpos];
+			[b1 replaceObjectAtIndex:i + pos withObject:b2 replaceObjectAtIndex:i + srcpos];
 		}
 	}
 }
@@ -91,9 +91,9 @@
 }
 - (int) compare:(Bytes*)other{
 	
-	NSMutableArray *b1 = (NSMutableArray*)self.b;
+	NSMutableArray *b1 = self.b;
 	
-	NSMutableArray *b2 = (NSMutableArray*)other.b;
+	NSMutableArray *b2 = other.b;
 	int len = ( (self.length < other.length) ? self.length : other.length);
 	{
 		int _g = 0;
@@ -107,10 +107,10 @@
 - (NSMutableString*) readString:(int)pos len:(int)len{
 	if (pos < 0 || len < 0 || pos + len > self.length) @throw  OutsideBounds;;
 	
-	NSMutableString *s = (NSMutableString*)@"";
+	NSMutableString *s = [NSMutableString stringWithString:@""];
 	
-	NSMutableArray *b = (NSMutableArray*)self.b;
-	SEL fcc = NSMutableString fromCharCode;
+	NSMutableArray *b = self.b;
+	SEL fcc = NSMutableString;
 	int i = pos;
 	int max = pos + len;
 	while (i < max) {
@@ -141,12 +141,12 @@
 	
 	NSMutableArray *chars = [[NSMutableArray alloc] initWithObjects:, nil];
 	
-	NSMutableString *str = (NSMutableString*)@"0123456789abcdef";
+	NSMutableString *str = [NSMutableString stringWithString:@"0123456789abcdef"];
 	{
 		int _g1 = 0; int _g = str.length;
 		while (_g1 < _g) {
 			int i = _g1++;
-			[chars push:[str characterAtIndex:i]];
+			[chars push:[str charCodeAt:i]];
 		}
 	}
 	{
@@ -154,8 +154,8 @@
 		while (_g1 < _g) {
 			int i = _g1++;
 			int c = [self.b objectAtIndex:i];
-			s.b += [NSMutableString fromCharCode:[chars objectAtIndex:c >> 4]];
-			s.b += [NSMutableString fromCharCode:[chars objectAtIndex:c & 15]];
+			s.b += [NSMutableString:[chars objectAtIndex:c >> 4]];
+			s.b += [NSMutableString:[chars objectAtIndex:c & 15]];
 		}
 	}
 	return s.b;

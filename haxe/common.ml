@@ -402,6 +402,7 @@ module MetaInfo = struct
 		| Import -> ":import",("Generates an #import statement for a native class",[Platform ObjC])
 		| Framework -> ":framework",("Generates an #import statement for the framework of a class",[Platform ObjC])
 		| Last -> assert false
+		(* do not put any custom metadata after Last *)
 		| Dollar s -> "$" ^ s,("",[])
 		| Custom s -> s,("",[])
 

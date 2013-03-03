@@ -11,7 +11,7 @@
 
 + (NSMutableArray*) callStack{
 	
-	NSMutableArray *s = (NSMutableArray*)[NSThread callStackSymbols];
+	NSMutableArray *s = [NSThread callStackSymbols];
 	return [CallStack makeStack:s];
 }
 + (NSMutableArray*) exceptionStack{
@@ -26,7 +26,7 @@
 			
 			CallStack *s = [stack objectAtIndex:_g];
 			++_g;
-			[b.b appendString:(NSMutableString*)@"\nCalled from "];
+			[b.b appendString:[NSMutableString stringWithString:@"\nCalled from "]];
 			[CallStack itemToString:b s:s];
 		}
 	}
@@ -39,12 +39,12 @@
 		
 		case 0:
 		{
-			[b.b appendString:(NSMutableString*)@"a C function"]}break
+			[b.b appendString:[NSMutableString stringWithString:@"a C function"]]}break
 		case 1:
 		
 		var MATCH s_eModule_0 : NSMutableString = $e.params[0]{
 			{
-				[b.b appendString:(NSMutableString*)@"module "];
+				[b.b appendString:[NSMutableString stringWithString:@"module "]];
 				b.b += [Std string:s_eModule_0];
 			}}break
 		case 2:
@@ -53,35 +53,35 @@
 			{
 				if (s_eFilePos_0 != nil) {
 					[CallStack itemToString:b s:s_eFilePos_0];
-					[b.b appendString:(NSMutableString*)@" ("];
+					[b.b appendString:[NSMutableString stringWithString:@" ("]];
 				}
 				b.b += [Std string:s_eFilePos_1];
-				[b.b appendString:(NSMutableString*)@" line "];
+				[b.b appendString:[NSMutableString stringWithString:@" line "]];
 				b.b += [Std string:s_eFilePos_2];
-				if (s_eFilePos_0 != nil) [b.b appendString:(NSMutableString*)@")"];
+				if (s_eFilePos_0 != nil) [b.b appendString:[NSMutableString stringWithString:@")"]];
 			}}break
 		case 3:
 		
 		var MATCH s_eMethod_1 : NSMutableString = $e.params[1], MATCH s_eMethod_0 : NSMutableString = $e.params[0]{
 			{
 				b.b += [Std string:s_eMethod_0];
-				[b.b appendString:(NSMutableString*)@"."];
+				[b.b appendString:[NSMutableString stringWithString:@"."]];
 				b.b += [Std string:s_eMethod_1];
 			}}break
 		case 4:
 		
 		var MATCH s_eLambda_0 : int = $e.params[0]{
 			{
-				[b.b appendString:(NSMutableString*)@"local function #"];
+				[b.b appendString:[NSMutableString stringWithString:@"local function #"]];
 				b.b += [Std string:s_eLambda_0];
 			}}break
 	}
 }
 + (NSMutableArray*) makeStack:(NSMutableArray*)s{
 	
-	NSMutableArray *stack = (NSMutableArray*)s;
+	NSMutableArray *stack = s;
 	
-	NSMutableArray *m = (NSMutableArray*)[[NSMutableArray alloc] init];
+	NSMutableArray *m = [[NSMutableArray alloc] init];
 	{
 		int _g = 0;
 		while (_g < stack.length) {
@@ -89,10 +89,10 @@
 			NSMutableString *func = [stack objectAtIndex:_g];
 			++_g;
 			
-			NSMutableArray *words = (NSMutableArray*)[func componentsSeparatedByString:(NSMutableString*)@"::"];
-			if (words.length == 0) [m unshift: CFunction];
-			else if (words.length == 2) [m unshift:FEnum[ Method:[words objectAtIndex:0] method:[words objectAtIndex:1]]];
-			else if (words.length == 4) [m unshift:FEnum[ FilePos:FEnum[ Method:[words objectAtIndex:0] method:[words objectAtIndex:1]] file:[words objectAtIndex:2] line:[Std parseInt:[words objectAtIndex:3]]]];
+			NSMutableArray *words = [func.split:[NSMutableString stringWithString:@"::"]];
+			if (words.length == 0) [m.unshift: CFunction];
+			else if (words.length == 2) [m.unshift:[ Method:[words objectAtIndex:0] method:[words objectAtIndex:1]]];
+			else if (words.length == 4) [m.unshift:[ FilePos:[ Method:[words objectAtIndex:0] method:[words objectAtIndex:1]] file:[words objectAtIndex:2] line:[Std parseInt:[words objectAtIndex:3]]]];
 		}
 	}
 	return m;

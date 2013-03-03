@@ -11,7 +11,7 @@
 
 @synthesize b;
 - (void) addByte:(int)byte{
-	[self.b appendBytes:self.b mutableBytes length:byte];
+	[self.b appendBytes:self.b.mutableBytes length:byte];
 }
 - (void) add:(Bytes*)src{
 }

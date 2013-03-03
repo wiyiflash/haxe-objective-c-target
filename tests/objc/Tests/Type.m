@@ -16,9 +16,9 @@
 		
 		NSMutableString *_g = [c toString];
 		switch (_g){
-			case (NSMutableString*)@"__Anon":{
+			case [NSMutableString stringWithString:@"__Anon"]:{
 				return nil}break;
-			case (NSMutableString*)@"Class":{
+			case [NSMutableString stringWithString:@"Class"]:{
 				return nil}break;
 		}
 	}
@@ -46,7 +46,7 @@
 }
 + (Enum*) resolveEnum:(NSMutableString*)name{
 	
-	Class *result = [TAbstractDecl Resolve:name];
+	Class *result = [ TAbstractDecl  Resolve:name];
 	if (result != nil && ![result __IsEnum]) return nil;
 	return result;
 }
@@ -58,19 +58,19 @@
 	return [cl alloc];
 }
 + (id) createEnum:(Enum*)e constr:(NSMutableString*)constr params:(NSMutableArray*)params{
-	// Simulated optional arguments
-	if (params == nil) params = nil;
+	// Optional arguments
+	if (!params) params = nil;
 	
 	if ([e mConstructEnum] != nil) return [e mConstructEnum:constr :params];
 	return nil;
 }
 + (id) createEnumIndex:(Enum*)e index:(int)index params:(NSMutableArray*)params{
-	// Simulated optional arguments
-	if (params == nil) params = nil;
+	// Optional arguments
+	if (!params) params = nil;
 	
 	
 	NSMutableString *c = [[Type getEnumConstructs:e] objectAtIndex:index];
-	if (c == nil) @throw [index stringByAppendingString:(NSMutableString*)@" is not a valid enum constructor index"];;
+	if (c == nil) @throw [index stringByAppendingString:[NSMutableString stringWithString:@" is not a valid enum constructor index"]];;
 	return [Type createEnum:e constr:c params:params];
 }
 + (NSMutableArray*) getInstanceFields:(Class*)c{
@@ -82,7 +82,7 @@
 + (NSMutableArray*) getEnumConstructs:(Enum*)e{
 	return [e GetClassFields];
 }
-+ (Type*) typeof:(id)v{
++ (Type*) _typeof:(id)v{
 	if (v == nil) return  TNull;
 	return  TNull;
 }
@@ -94,7 +94,7 @@
 }
 + (NSMutableArray*) enumParameters:(EnumValue*)e{
 	
-	NSMutableArray *result = (NSMutableArray*)[e __EnumParams];
+	NSMutableArray *result = [e __EnumParams];
 	return ( (result == nil) ? [[NSMutableArray alloc] initWithObjects:, nil] : result);
 }
 + (int) enumIndex:(EnumValue*)e{
@@ -102,9 +102,9 @@
 }
 + (NSMutableArray*) allEnums:(Enum*)e{
 	
-	NSMutableArray *names = (NSMutableArray*)[e GetClassFields];
+	NSMutableArray *names = [e GetClassFields];
 	
-	NSMutableArray *enums = (NSMutableArray*)[[NSMutableArray alloc] init];
+	NSMutableArray *enums = [[NSMutableArray alloc] init];
 	{
 		int _g = 0;
 		while (_g < names.length) {
@@ -113,7 +113,7 @@
 			++_g;
 			@try {
 				id result = [e mConstructEnum:name :nil];
-				[enums push:result];
+				[enums.push:result];
 			}
 			@catch (NSException *invalidArgCount) {
 			}

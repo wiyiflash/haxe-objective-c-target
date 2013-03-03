@@ -14,11 +14,11 @@
 	self.b += [Std string:x];
 }
 - (void) addChar:(int)c{
-	self.b += [NSMutableString fromCharCode:c];
+	self.b += [NSMutableString:c];
 }
 - (void) addSub:(NSMutableString*)s pos:(int)pos len:(int)len{
-	// Simulated optional arguments
-	if (len == nil) len = nil;
+	// Optional arguments
+	if (!len) len = nil;
 	
 	self.b += ( (len == nil) ? [s substr:pos len:nil] : [s substr:pos len:len]);
 }
@@ -27,7 +27,7 @@
 }
 - (id) init{
 	self = [super init];
-	self.b = (NSMutableString*)@"";
+	self.b = [NSMutableString stringWithString:@""];
 	return self;
 }
 

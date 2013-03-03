@@ -14,15 +14,15 @@
 }
 + (void) println:(id)v{
 	[Sys print:v];
-	[Sys print:(NSMutableString*)@"\n"];
+	[Sys print:[NSMutableString stringWithString:@"\n"]];
 }
-+ (Input*) stdin{
++ (Input*) _stdin{
 	return [[FileInput alloc] init:[file_stdin]];
 }
-+ (Output*) stdout{
++ (Output*) _stdout{
 	return [[FileOutput alloc] init:[file_stdout]];
 }
-+ (Output*) stderr{
++ (Output*) _stderr{
 	return [[FileOutput alloc] init:[file_stderr]];
 }
 + (int) getChar:(BOOL)echo{
@@ -58,21 +58,21 @@
 		int _g1 = 0; int _g = arg.length;
 		while (_g1 < _g) {
 			int i = _g1++;
-			int _g2 = [arg characterAtIndex:i];
+			int _g2 = [arg.charCodeAt:i];
 			switch (_g2){
 				case 32:case 34:{
 					ok = NO}break;
 				case 0:case 13:case 10:{
-					arg = [arg substr:0 len:i]}break;
+					arg = [arg.substr:0 len:i]}break;
 			}
 		}
 	}
 	if (ok) return arg;
-	return [[(NSMutableString*)@"\"" stringByAppendingString:[[arg componentsSeparatedByString:(NSMutableString*)@"\""] join:(NSMutableString*)@"\\\""]] stringByAppendingString:(NSMutableString*)@"\""];
+	return [[[NSMutableString stringWithString:@"\""] stringByAppendingString:[[arg.split:[NSMutableString stringWithString:@"\""]].join:[NSMutableString stringWithString:@"\\\""]]] stringByAppendingString:[NSMutableString stringWithString:@"\""]];
 }
 + (int) command:(NSMutableString*)cmd args:(NSMutableArray*)args{
-	// Simulated optional arguments
-	if (args == nil) args = nil;
+	// Optional arguments
+	if (!args) args = nil;
 	
 	if (args != nil) {
 		cmd = [Sys escapeArgument:cmd];
@@ -82,7 +82,7 @@
 				
 				NSMutableString *a = [args objectAtIndex:_g];
 				++_g;
-				[cmd appendString:[(NSMutableString*)@" " stringByAppendingString:[Sys escapeArgument:a]]];
+				[cmd appendString:[[NSMutableString stringWithString:@" "] stringByAppendingString:[Sys escapeArgument:a]]];
 			}
 		}
 	}
@@ -102,12 +102,12 @@
 }
 + (Hash*) environment{
 	
-	NSMutableArray *vars = (NSMutableArray*)nil;
+	NSMutableArray *vars = nil;
 	
 	Hash *result = [[Hash alloc] init];
 	int i = 0;
 	while (i < vars.length) {
-		[result set:[vars objectAtIndex:i] value:[vars objectAtIndex:i + 1]];
+		[result.set:[vars objectAtIndex:i] value:[vars objectAtIndex:i + 1]];
 		i += 2;
 	}
 	return result;

@@ -2714,6 +2714,8 @@ let generate common_ctx =
 				(* The frameworks are kept in a non-resetable variable for .pbxproj *)
 				imports_manager#reset;
 				print_endline ("> Generating class : "^(snd class_path)^" in module "^(join_class_path module_path "/"));
+				if (Meta.has Meta.Category class_def.cl_meta) then print_endline ("is_category "^"");
+				if (Meta.has Meta.Final class_def.cl_meta) then print_endline ("is final "^"");
 				
 				(* Generate implementation *)
 				(* If it's a new module close the old files and create new ones *)

@@ -66,21 +66,21 @@
 	}; next:^- (id) {
 		
 		FastCell *k = [l objectAtIndex:0];
-		[l objectAtIndex:0] = k.next;
+		[l replaceObjectAtIndex:0 withObject:k.next];
 		return k.elt;
 	}
 	} structName;
 }
 - (NSMutableString*) toString{
 	
-	NSMutableArray *a = (NSMutableArray*)[[NSMutableArray alloc] init];
+	NSMutableArray *a = [[NSMutableArray alloc] init];
 	
 	FastCell *l = self.head;
 	while (l != nil) {
-		[a push:l elt];
+		[a push:l.elt];
 		l = l.next;
 	}
-	return [[(NSMutableString*)@"{" stringByAppendingString:[a join:(NSMutableString*)@","]] stringByAppendingString:(NSMutableString*)@"}"];
+	return [[[NSMutableString stringWithString:@"{"] stringByAppendingString:[a join:[NSMutableString stringWithString:@","]]] stringByAppendingString:[NSMutableString stringWithString:@"}"]];
 }
 - (id) init{
 	self = [super init];

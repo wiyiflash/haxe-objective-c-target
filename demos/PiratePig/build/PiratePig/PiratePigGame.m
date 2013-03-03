@@ -211,7 +211,7 @@
 	return matchedTiles;
 }
 - (CGPoint) getPosition:(int)row column:(int)column{
-	return [CGGeometry CGPointMake:column * 73 y:row * 73];
+	return  CGPointMake(column * 73, row * 73);
 }
 - (void) initialize{
 	self.currentScale = 1;

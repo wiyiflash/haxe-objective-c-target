@@ -15,18 +15,18 @@
 	
 	NSMutableArray *t = [[NSMutableArray alloc] initWithObjects:[[Timer alloc] init:time_ms], nil];
 	[t objectAtIndex:0].run = ^+ (void) {
-		[[t objectAtIndex:0] stop];
+		[[t objectAtIndex:0].stop];
 		[[f1 objectAtIndex:0]];
 	}
 	return [t objectAtIndex:0];
 }
 + (id) measure:(SEL)f pos:(id)pos{
-	// Simulated optional arguments
-	if (pos == nil) pos = nil;
+	// Optional arguments
+	if (!pos) pos = nil;
 	
 	float t0 = [Timer stamp];
 	id r = [f];
-	[Log trace:[[Timer stamp] - t0 stringByAppendingString:(NSMutableString*)@"s"] infos:pos];
+	[Log trace:[[Timer stamp] - t0 stringByAppendingString:[NSMutableString stringWithString:@"s"]] infos:pos];
 	return r;
 }
 + (float) stamp{
@@ -35,20 +35,20 @@
 @synthesize nstimer;
 @synthesize _id;
 - (void) stop{
-	if (self._id == nil) return;
+	if (self.id == nil) return;
 	[self.nstimer invalidate];
 	self.nstimer = nil;
-	self._id = nil;
+	self.id = nil;
 }
 // Defining a dynamic method
 - (void) run{
-	[Log trace:(NSMutableString*)@"run" infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Timer.hx",@"109",@"haxe.Timer",@"run",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[Log trace:[NSMutableString stringWithString:@"run"] infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Timer.hx",@"109",@"haxe.Timer",@"run",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
 }
 @synthesize property_run;
 
 - (id) init:(int)time_ms{
 	self = [super init];
-	self.nstimer = [NSTimer timerWithTimeInterval:time_ms target:self selector:-FClosure--MethDynamic- userInfo:nil repeats:YES];
+	self.nstimer = [NSTimer timerWithTimeInterval:time_ms target:self selector:self run userInfo:nil repeats:YES];
 	return self;
 }
 

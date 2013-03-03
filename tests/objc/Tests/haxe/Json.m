@@ -10,30 +10,30 @@
 @implementation Json
 
 + (id) parse:(NSMutableString*)text{
-	return [[[Json alloc] init] doParse:text];
+	return [[[Json alloc] init].doParse:text];
 }
 + (NSMutableString*) stringify:(id)value replacer:(SEL)replacer{
-	// Simulated optional arguments
-	if (replacer == nil) replacer = nil;
+	// Optional arguments
+	if (!replacer) replacer = nil;
 	
-	return [[[Json alloc] init] toString:value replacer:replacer];
+	return [[[Json alloc] init].toString:value replacer:replacer];
 }
 @synthesize buf;
 @synthesize str;
 @synthesize pos;
 
 - (NSMutableString*) toString:(id)v replacer:(SEL)replacer{
-	// Simulated optional arguments
-	if (replacer == nil) replacer = nil;
+	// Optional arguments
+	if (!replacer) replacer = nil;
 	
 	self.buf = [[StringBuf alloc] init];
 	self.replacer = replacer;
-	[self toStringRec:(NSMutableString*)@"" v:v];
+	[self toStringRec:[NSMutableString stringWithString:@""] v:v];
 	return self.buf.b;
 }
 - (void) fieldsString:(id)v fields:(NSMutableArray*)fields{
 	BOOL first = YES;
-	[self.buf.b appendString:(NSMutableString*)@"{"];
+	[self.buf.b appendString:[NSMutableString stringWithString:@"{"]];
 	{
 		int _g = 0;
 		while (_g < fields.length) {
@@ -43,13 +43,13 @@
 			id value = [Reflect field:v field:f];
 			if ([Reflect isFunction:value]) continue;
 			if (first) first = NO;
-			else [self.buf.b appendString:(NSMutableString*)@","];
+			else [self.buf.b appendString:[NSMutableString stringWithString:@","]];
 			[self quote:f];
-			[self.buf.b appendString:(NSMutableString*)@":"];
+			[self.buf.b appendString:[NSMutableString stringWithString:@":"]];
 			[self toStringRec:f v:value];
 		}
 	}
-	[self.buf.b appendString:(NSMutableString*)@"}"];
+	[self.buf.b appendString:[NSMutableString stringWithString:@"}"]];
 }
 - (void) objString:(id)v{
 	[self fieldsString:v fields:[Reflect fields:v]];
@@ -65,7 +65,7 @@
 			
 			case 8:
 			{
-				[self.buf.b appendString:(NSMutableString*)@"\"???\""]}break
+				[self.buf.b appendString:[NSMutableString stringWithString:@"\"???\""]]}break
 			case 4:
 			{
 				[self objString:v]}break
@@ -78,28 +78,28 @@
 				}}break
 			case 2:
 			{
-				self.buf.b += [Std string:( (isfinite(v)) ? v : (NSMutableString*)@"null")]}break
+				self.buf.b += [Std string:( (isfinite(v)) ? v : [NSMutableString stringWithString:@"null"])]}break
 			case 5:
 			{
-				[self.buf.b appendString:(NSMutableString*)@"\"<fun>\""]}break
+				[self.buf.b appendString:[NSMutableString stringWithString:@"\"<fun>\""]]}break
 			case 6:
 			
 			var MATCH _g_eTClass_0 : Class = $e.params[0]{
 				if (_g_eTClass_0 == NSMutableString) [self quote:v];
 				else if (_g_eTClass_0 == NSMutableArray) {
 					
-					NSMutableArray *v1 = (NSMutableArray*)v;
-					[self.buf.b appendString:(NSMutableString*)@"["];
+					NSMutableArray *v1 = v;
+					[self.buf.b appendString:[NSMutableString stringWithString:@"["]];
 					int len = v1.length;
 					if (len > 0) {
 						[self toStringRec:0 v:[v1 objectAtIndex:0]];
 						int i = 1;
 						while (i < len) {
-							[self.buf.b appendString:(NSMutableString*)@","];
+							[self.buf.b appendString:[NSMutableString stringWithString:@","]];
 							[self toStringRec:i v:[v1 objectAtIndex:i++]];
 						}
 					}
-					[self.buf.b appendString:(NSMutableString*)@"]"];
+					[self.buf.b appendString:[NSMutableString stringWithString:@"]"]];
 				}
 				else if (_g_eTClass_0 == StringMap) {
 					
@@ -142,36 +142,36 @@
 				}}break
 			case 0:
 			{
-				[self.buf.b appendString:(NSMutableString*)@"null"]}break
+				[self.buf.b appendString:[NSMutableString stringWithString:@"null"]]}break
 		}
 	}
 }
 - (void) quote:(NSMutableString*)s{
-	[self.buf.b appendString:(NSMutableString*)@"\""];
+	[self.buf.b appendString:[NSMutableString stringWithString:@"\""]];
 	int i = 0;
 	while (YES) {
 		int c = [s characterAtIndex:i++];
 		if (c == -1) break;
 		switch (c){
 			case 34:{
-				[self.buf.b appendString:(NSMutableString*)@"\\\""]}break;
+				[self.buf.b appendString:[NSMutableString stringWithString:@"\\\""]]}break;
 			case 92:{
-				[self.buf.b appendString:(NSMutableString*)@"\\\\"]}break;
+				[self.buf.b appendString:[NSMutableString stringWithString:@"\\\\"]]}break;
 			case 10:{
-				[self.buf.b appendString:(NSMutableString*)@"\\n"]}break;
+				[self.buf.b appendString:[NSMutableString stringWithString:@"\\n"]]}break;
 			case 13:{
-				[self.buf.b appendString:(NSMutableString*)@"\\r"]}break;
+				[self.buf.b appendString:[NSMutableString stringWithString:@"\\r"]]}break;
 			case 9:{
-				[self.buf.b appendString:(NSMutableString*)@"\\t"]}break;
+				[self.buf.b appendString:[NSMutableString stringWithString:@"\\t"]]}break;
 			case 8:{
-				[self.buf.b appendString:(NSMutableString*)@"\\b"]}break;
+				[self.buf.b appendString:[NSMutableString stringWithString:@"\\b"]]}break;
 			case 12:{
-				[self.buf.b appendString:(NSMutableString*)@"\\f"]}break;
+				[self.buf.b appendString:[NSMutableString stringWithString:@"\\f"]]}break;
 			default:{
-				self.buf.b += [NSMutableString fromCharCode:c]}break;
+				self.buf.b += [NSMutableString:c]}break;
 		}
 	}
-	[self.buf.b appendString:(NSMutableString*)@"\""];
+	[self.buf.b appendString:[NSMutableString stringWithString:@"\""]];
 }
 - (id) doParse:(NSMutableString*)str{
 	self.str = str;
@@ -180,7 +180,7 @@
 }
 - (void) invalidChar{
 	self.pos--;
-	@throw [[[(NSMutableString*)@"Invalid char " stringByAppendingString:[self.str characterAtIndex:self.pos]] stringByAppendingString:(NSMutableString*)@" at position "] stringByAppendingString:self.pos];;
+	@throw [[[[NSMutableString stringWithString:@"Invalid char "] stringByAppendingString:[self.str characterAtIndex:self.pos]] stringByAppendingString:[NSMutableString stringWithString:@" at position "]] stringByAppendingString:self.pos];;
 }
 - (int) nextChar{
 	return [self.str characterAtIndex:self.pos++];
@@ -248,7 +248,7 @@
 											{
 												if (comma) [self invalidChar];
 												self.pos--;
-												[arr push:[self.parseRec]];
+												[arr push:[self parseRec]];
 												comma = YES;
 											}}break;
 									}
@@ -257,7 +257,7 @@
 						case 116:{
 							{
 								int save = self.pos;
-								if ([self.str characterAtIndex:self.pos++] != 114 || [self str characterAtIndex:self.pos++] != 117 || [self str characterAtIndex:self.pos++] != 101) {
+								if ([self.str characterAtIndex:self.pos++] != 114 || [self.str characterAtIndex:self.pos++] != 117 || [self.str characterAtIndex:self.pos++] != 101) {
 									self.pos = save;
 									[self invalidChar];
 								}
@@ -266,7 +266,7 @@
 						case 102:{
 							{
 								int save = self.pos;
-								if ([self.str characterAtIndex:self.pos++] != 97 || [self str characterAtIndex:self.pos++] != 108 || [self str characterAtIndex:self.pos++] != 115 || [self str characterAtIndex:self.pos++] != 101) {
+								if ([self.str characterAtIndex:self.pos++] != 97 || [self.str characterAtIndex:self.pos++] != 108 || [self.str characterAtIndex:self.pos++] != 115 || [self.str characterAtIndex:self.pos++] != 101) {
 									self.pos = save;
 									[self invalidChar];
 								}
@@ -275,7 +275,7 @@
 						case 110:{
 							{
 								int save = self.pos;
-								if ([self.str characterAtIndex:self.pos++] != 117 || [self str characterAtIndex:self.pos++] != 108 || [self str characterAtIndex:self.pos++] != 108) {
+								if ([self.str characterAtIndex:self.pos++] != 117 || [self.str characterAtIndex:self.pos++] != 108 || [self.str characterAtIndex:self.pos++] != 108) {
 									self.pos = save;
 									[self invalidChar];
 								}
@@ -289,7 +289,7 @@
 							BOOL minus = c1 == 45; BOOL digit = !minus; BOOL zero = c1 == 48
 							BOOL point = NO; BOOL e = NO; BOOL pm = NO; BOOL end = NO
 							while (YES) {
-								c1 = [self str characterAtIndex:self.pos++];
+								c1 = [self.str characterAtIndex:self.pos++];
 								switch (c1){
 									case 48:{
 										{
@@ -360,32 +360,32 @@
 							NSMutableString *s = self.str; int len = self.pos - start - 1;
 							buf.b += ( (len == nil) ? [s substr:start len:nil] : [s substr:start len:len]);
 						}
-						c = [self str characterAtIndex:self.pos++];
+						c = [self.str characterAtIndex:self.pos++];
 						switch (c){
 							case 114:{
-								[buf.b appendString:(NSMutableString*)@"\r"]}break;
+								[buf.b appendString:[NSMutableString stringWithString:@"\r"]]}break;
 							case 110:{
-								[buf.b appendString:(NSMutableString*)@"\n"]}break;
+								[buf.b appendString:[NSMutableString stringWithString:@"\n"]]}break;
 							case 116:{
-								[buf.b appendString:(NSMutableString*)@"\t"]}break;
+								[buf.b appendString:[NSMutableString stringWithString:@"\t"]]}break;
 							case 98:{
-								[buf.b appendString:(NSMutableString*)@""]}break;
+								[buf.b appendString:[NSMutableString stringWithString:@""]]}break;
 							case 102:{
-								[buf.b appendString:(NSMutableString*)@""]}break;
+								[buf.b appendString:[NSMutableString stringWithString:@""]]}break;
 							case 47:case 92:case 34:{
-								buf.b += [NSMutableString fromCharCode:c]}break;
+								buf.b += [NSMutableString:c]}break;
 							case 117:{
 								{
-									int uc = [Std parseInt:[(NSMutableString*)@"0x" stringByAppendingString:[self.str substr:self.pos len:@"4"]]];
+									int uc = [Std parseInt:[[NSMutableString stringWithString:@"0x"] stringByAppendingString:[self.str substr:self.pos len:@"4"]]];
 									self.pos += 4;
-									buf.b += [NSMutableString fromCharCode:uc];
+									buf.b += [NSMutableString:uc];
 								}}break;
 							default:{
-								@throw [[[(NSMutableString*)@"Invalid escape sequence \\" stringByAppendingString:[NSMutableString fromCharCode:c]] stringByAppendingString:(NSMutableString*)@" at position "] stringByAppendingString: (self.pos - @"1")];}break;
+								@throw [[[[NSMutableString stringWithString:@"Invalid escape sequence \\"] stringByAppendingString:[NSMutableString:c]] stringByAppendingString:[NSMutableString stringWithString:@" at position "]] stringByAppendingString: (self.pos - @"1")];}break;
 						}
 						start = self.pos;
 					}
-					else if (c == -1) @throw (NSMutableString*)@"Unclosed string";;
+					else if (c == -1) @throw [NSMutableString stringWithString:@"Unclosed string"];;
 				}
 				{
 					
@@ -395,14 +395,14 @@
 				return buf.b;
 			}
 			- (void) invalidNumber:(int)start{
-				@throw [[[(NSMutableString*)@"Invalid number at position " stringByAppendingString:start] stringByAppendingString:(NSMutableString*)@": "] stringByAppendingString:[self.str substr:start len:self.pos - start]];;
+				@throw [[[[NSMutableString stringWithString:@"Invalid number at position "] stringByAppendingString:start] stringByAppendingString:[NSMutableString stringWithString:@": "]] stringByAppendingString:[self.str substr:start len:self.pos - start]];;
 			}
 			- (float) parseNumber:(int)c{
 				int start = self.pos - 1;
 				BOOL minus = c == 45; BOOL digit = !minus; BOOL zero = c == 48;
 				BOOL point = NO; BOOL e = NO; BOOL pm = NO; BOOL end = NO;
 				while (YES) {
-					c = [self str characterAtIndex:self.pos++];
+					c = [self.str characterAtIndex:self.pos++];
 					switch (c){
 						case 48:{
 							{

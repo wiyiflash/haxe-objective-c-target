@@ -16,7 +16,7 @@
 + (List*) list:(id)it;
 + (List*) map:(id)it f:(SEL)f;
 + (List*) mapi:(id)it f:(SEL)f;
-+ (BOOL) has:(id)it elt:(id)elt cmp:(SEL)cmp;
++ (BOOL) has:(id)it elt:(id)elt;
 + (BOOL) exists:(id)it f:(SEL)f;
 + (BOOL) foreach:(id)it f:(SEL)f;
 + (void) iter:(id)it f:(SEL)f;

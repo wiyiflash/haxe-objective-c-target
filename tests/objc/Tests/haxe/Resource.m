@@ -16,14 +16,14 @@
 	return _val;
 }
 + (NSMutableArray*) listNames{
-	return [Resource.__plist__ allKeys];
+	return [[Resource __plist__:nil].allKeys];
 }
 + (NSMutableString*) getString:(NSMutableString*)name{
-	return [Resource.__plist__ objectForKey:name];
+	return [[Resource __plist__:nil].objectForKey:name];
 }
 + (Bytes*) getBytes:(NSMutableString*)name{
 	
-	NSMutableArray *array = (NSMutableArray*)[Resource.__plist__ __hxcpp_resource_bytes-TDynamic-];
+	NSMutableArray *array = [[Resource __plist__:nil] __hxcpp_resource_bytes-TDynamic-];
 	if (array == nil) return nil;
 	return [Bytes ofData:array];
 }

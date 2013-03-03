@@ -13,8 +13,8 @@
 	
 	NSCalendar *calendar = [NSCalendar currentCalendar];
 	
-	NSDateComponents *components = [calendar components:7 fromDate:[NSDate date]];
-	return [[NSDate alloc] init:[components year] month:[components month] day:[components day] hour:[components hour] min:[components minute] sec:[components second]];
+	NSDateComponents *components = [calendar.components:7 fromDate:[NSDate date]];
+	return [[NSDate alloc] init:[components.year] month:[components.month] day:[components.day] hour:[components.hour] min:[components.minute] sec:[components.second]];
 }
 + (NSDate*) fromTime:(float)t{
 	
@@ -27,7 +27,7 @@
 		case 8:{
 			{
 				
-				NSMutableArray *k = (NSMutableArray*)[s componentsSeparatedByString:(NSMutableString*)@":"];
+				NSMutableArray *k = [s.split:[NSMutableString stringWithString:@":"]];
 				
 				NSDate *d = [[NSDate alloc] init:0 month:0 day:0 hour:[Std parseInt:[k objectAtIndex:0]] min:[Std parseInt:[k objectAtIndex:1]] sec:[Std parseInt:[k objectAtIndex:2]]];
 				return d;
@@ -35,35 +35,35 @@
 		case 10:{
 			{
 				
-				NSMutableArray *k = (NSMutableArray*)[s componentsSeparatedByString:(NSMutableString*)@"-"];
+				NSMutableArray *k = [s.split:[NSMutableString stringWithString:@"-"]];
 				return [[NSDate alloc] init:[Std parseInt:[k objectAtIndex:0]] month:[Std parseInt:[k objectAtIndex:1]] - 1 day:[Std parseInt:[k objectAtIndex:2]] hour:0 min:0 sec:0];
 			}}break;
 		case 19:{
 			{
 				
-				NSMutableArray *k = (NSMutableArray*)[s componentsSeparatedByString:(NSMutableString*)@" "];
+				NSMutableArray *k = [s.split:[NSMutableString stringWithString:@" "]];
 				
-				NSMutableArray *y = (NSMutableArray*)[[k objectAtIndex:0] componentsSeparatedByString:(NSMutableString*)@"-"];
+				NSMutableArray *y = [[k objectAtIndex:0].split:[NSMutableString stringWithString:@"-"]];
 				
-				NSMutableArray *t = (NSMutableArray*)[[k objectAtIndex:1] componentsSeparatedByString:(NSMutableString*)@":"];
+				NSMutableArray *t = [[k objectAtIndex:1].split:[NSMutableString stringWithString:@":"]];
 				return [[NSDate alloc] init:[Std parseInt:[y objectAtIndex:0]] month:[Std parseInt:[y objectAtIndex:1]] - 1 day:[Std parseInt:[y objectAtIndex:2]] hour:[Std parseInt:[t objectAtIndex:0]] min:[Std parseInt:[t objectAtIndex:1]] sec:[Std parseInt:[t objectAtIndex:2]]];
 			}}break;
 		default:{
-			@throw [(NSMutableString*)@"Invalid date format : " stringByAppendingString:s];}break;
+			@throw [[NSMutableString stringWithString:@"Invalid date format : "] stringByAppendingString:s];}break;
 	}
 	return nil;
 }
-// Getters/setters for property _seconds
+// Getters/setters for property: _seconds
 static float _seconds__;
 - (float) _seconds { return _seconds__; }
 - (void) set_seconds:(float)val { _seconds__ = val; }
 
-// Getters/setters for property _calendar
+// Getters/setters for property: _calendar
 static NSCalendar* _calendar__;
 - (NSCalendar*) _calendar { return _calendar__; }
 - (void) set_calendar:(NSCalendar*)val { _calendar__ = val; }
 
-// Getters/setters for property _components
+// Getters/setters for property: _components
 static NSDateComponents* _components__;
 - (NSDateComponents*) _components { return _components__; }
 - (void) set_components:(NSDateComponents*)val { _components__ = val; }
@@ -72,25 +72,25 @@ static NSDateComponents* _components__;
 	return self._seconds * 1000.0;
 }
 - (int) getHours{
-	return [self._components.hour];
+	return [self._components hour];
 }
 - (int) getMinutes{
-	return [self._components.minute];
+	return [self._components minute];
 }
 - (int) getSeconds{
-	return [self._components.second];
+	return [self._components second];
 }
 - (int) getFullYear{
-	return [self._components.year];
+	return [self._components year];
 }
 - (int) getMonth{
-	return [self._components.month];
+	return [self._components month];
 }
 - (int) getDate{
-	return [self._components.weekday];
+	return [self._components weekday];
 }
 - (int) getDay{
-	return [self._components.day];
+	return [self._components day];
 }
 - (NSMutableString*) toString{
 	return nil;
@@ -99,12 +99,12 @@ static NSDateComponents* _components__;
 	self = [super init];
 	self._calendar = [NSCalendar currentCalendar];
 	self._components = [self._calendar components:7 fromDate:[NSDate date]];
-	[self._components.setYear:year];
-	[self._components.setMonth:month];
-	[self._components.setDay:day];
-	[self._components.setHour:hour];
-	[self._components.setMinute:min];
-	[self._components.setSecond:sec];
+	[self._components setYear:year];
+	[self._components setMonth:month];
+	[self._components setDay:day];
+	[self._components setHour:hour];
+	[self._components setMinute:min];
+	[self._components setSecond:sec];
 	self = [self._calendar dateFromComponents:self._components];
 	return self;
 }

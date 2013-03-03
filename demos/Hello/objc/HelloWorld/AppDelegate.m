@@ -38,7 +38,7 @@
 	[self.view addSubview:self.map];
 	[self.map locateLondon];
 	self.but = [[UIButton alloc] init];
-	self.but.frame = [CGGeometry CGRectMake:0 y:430 width:320 height:30];
+	self.but.frame =  CGRectMake(0, 430, 320, 30);
 	[self.but setTitle:[NSMutableString stringWithString:@"Locate London"] forState: UIControlStateNormal];
 	[self.but setTitle:[NSMutableString stringWithString:@"...Locate London..."] forState: UIControlStateHighlighted];
 	[self.view addSubview:self.but];

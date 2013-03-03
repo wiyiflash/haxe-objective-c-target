@@ -19,7 +19,7 @@
 }
 + (Bytes*) make:(Bytes*)b{
 	
-	NSMutableArray *h = (NSMutableArray*)[[[Md5 alloc] init] doEncode:[Md5 bytes2blks:b]];
+	NSMutableArray *h = [[[Md5 alloc] init].doEncode:[Md5 bytes2blks:b]];
 	
 	Bytes *_out = [Bytes alloc:16];
 	int p = 0;
@@ -27,10 +27,10 @@
 		int _g = 0;
 		while (_g < 4) {
 			int i = _g++;
-			[_out.b objectAtIndex:p++] = (([h objectAtIndex:i] & 255) & 255);
-			[_out.b objectAtIndex:p++] = (([h objectAtIndex:i] >> 8 & 255) & 255);
-			[_out.b objectAtIndex:p++] = (([h objectAtIndex:i] >> 16 & 255) & 255);
-			[_out.b objectAtIndex:p++] = ([h objectAtIndex:i] >>> 24 & 255);
+			[_out.b replaceObjectAtIndex:p++ withObject:((h replaceObjectAtIndex:i & [NSNumber numberWithInt:255]) & [NSNumber numberWithInt:255])];
+			[_out.b replaceObjectAtIndex:p++ withObject:((h replaceObjectAtIndex:i >> [NSNumber numberWithInt:8] & [NSNumber numberWithInt:255]) & [NSNumber numberWithInt:255])];
+			[_out.b replaceObjectAtIndex:p++ withObject:((h replaceObjectAtIndex:i >> [NSNumber numberWithInt:16] & [NSNumber numberWithInt:255]) & [NSNumber numberWithInt:255])];
+			[_out.b replaceObjectAtIndex:p++ withObject:(h replaceObjectAtIndex:i >>> [NSNumber numberWithInt:24] & [NSNumber numberWithInt:255])];
 		}
 	}
 	return _out;
@@ -38,13 +38,13 @@
 + (NSMutableArray*) bytes2blks:(Bytes*)b{
 	int nblk =  (b.length + 8 >> 6) + 1;
 	
-	NSMutableArray *blks = (NSMutableArray*)[[NSMutableArray alloc] init];
+	NSMutableArray *blks = [[NSMutableArray alloc] init];
 	int blksSize = nblk * 16;
 	{
 		int _g = 0;
 		while (_g < (int)blksSize) {
 			int i = _g++;
-			[blks objectAtIndex:i] = 0;
+			[blks replaceObjectAtIndex:i withObject:[NSNumber numberWithInt:0]];
 		}
 	}
 	int i = 0;
@@ -55,7 +55,7 @@
 	[blks objectAtIndex:i >> 2] |= 128 <<  (b.length * 8 + i) % 4 * 8;
 	int l = b.length * 8;
 	int k = nblk * 16 - 2;
-	[blks objectAtIndex:k] = (l & 255);
+	[blks replaceObjectAtIndex:k withObject:(l & [NSNumber numberWithInt:255])];
 	[blks objectAtIndex:k] |=  (l >>> 8 & 255) << 8;
 	[blks objectAtIndex:k] |=  (l >>> 16 & 255) << 16;
 	[blks objectAtIndex:k] |=  (l >>> 24 & 255) << 24;
@@ -64,24 +64,24 @@
 + (NSMutableArray*) str2blks:(NSMutableString*)str{
 	int nblk =  (str.length + 8 >> 6) + 1;
 	
-	NSMutableArray *blks = (NSMutableArray*)[[NSMutableArray alloc] init];
+	NSMutableArray *blks = [[NSMutableArray alloc] init];
 	int blksSize = nblk * 16;
 	{
 		int _g = 0;
 		while (_g < (int)blksSize) {
 			int i = _g++;
-			[blks objectAtIndex:i] = 0;
+			[blks replaceObjectAtIndex:i withObject:[NSNumber numberWithInt:0]];
 		}
 	}
 	int i = 0;
 	while (i < str.length) {
-		[blks objectAtIndex:i >> 2] |= [str characterAtIndex:i] <<  (str.length * 8 + i) % 4 * 8;
+		[blks objectAtIndex:i >> 2] |= [str.charCodeAt:i] <<  (str.length * 8 + i) % 4 * 8;
 		i++;
 	}
 	[blks objectAtIndex:i >> 2] |= 128 <<  (str.length * 8 + i) % 4 * 8;
 	int l = str.length * 8;
 	int k = nblk * 16 - 2;
-	[blks objectAtIndex:k] = (l & 255);
+	[blks replaceObjectAtIndex:k withObject:(l & [NSNumber numberWithInt:255])];
 	[blks objectAtIndex:k] |=  (l >>> 8 & 255) << 8;
 	[blks objectAtIndex:k] |=  (l >>> 16 & 255) << 16;
 	[blks objectAtIndex:k] |=  (l >>> 24 & 255) << 24;
@@ -109,9 +109,9 @@
 }
 - (NSMutableString*) hex:(NSMutableArray*)a{
 	
-	NSMutableString *str = (NSMutableString*)@"";
+	NSMutableString *str = [NSMutableString stringWithString:@""];
 	
-	NSMutableString *hex_chr = (NSMutableString*)@"0123456789abcdef";
+	NSMutableString *hex_chr = [NSMutableString stringWithString:@"0123456789abcdef"];
 	{
 		int _g = 0;
 		while (_g < a.length) {
@@ -120,7 +120,7 @@
 			int _g1 = 0;
 			while (_g1 < 4) {
 				int j = _g1++;
-				[str appendString:[[hex_chr characterAtIndex:num >> j * @"8" + @"4" & @"15"] stringByAppendingString:[hex_chr characterAtIndex:num >> j * @"8" & @"15"]]];
+				[str appendString:[[hex_chr.charAt:num >> j * @"8" + @"4" & @"15"] stringByAppendingString:[hex_chr.charAt:num >> j * @"8" & @"15"]]];
 			}
 		}
 	}
@@ -130,19 +130,19 @@
 	return num << cnt | num >>> 32 - cnt;
 }
 - (int) cmn:(int)q a:(int)a b:(int)b x:(int)x s:(int)s t:(int)t{
-	return [self addme:[self.rol:[self.addme:[self.addme:a y:q] y:[self.addme:x y:t]] cnt:s] y:b];
+	return [self addme:[self rol:[self addme:[self addme:a y:q] y:[self addme:x y:t]] cnt:s] y:b];
 }
 - (int) ff:(int)a b:(int)b c:(int)c d:(int)d x:(int)x s:(int)s t:(int)t{
-	return [self cmn:[self.bitOR:[self.bitAND:b b:c] b:[self.bitAND:~b b:d]] a:a b:b x:x s:s t:t];
+	return [self cmn:[self bitOR:[self bitAND:b b:c] b:[self bitAND:~b b:d]] a:a b:b x:x s:s t:t];
 }
 - (int) gg:(int)a b:(int)b c:(int)c d:(int)d x:(int)x s:(int)s t:(int)t{
-	return [self cmn:[self.bitOR:[self.bitAND:b b:d] b:[self.bitAND:c b:~d]] a:a b:b x:x s:s t:t];
+	return [self cmn:[self bitOR:[self bitAND:b b:d] b:[self bitAND:c b:~d]] a:a b:b x:x s:s t:t];
 }
 - (int) hh:(int)a b:(int)b c:(int)c d:(int)d x:(int)x s:(int)s t:(int)t{
-	return [self cmn:[self.bitXOR:[self.bitXOR:b b:c] b:d] a:a b:b x:x s:s t:t];
+	return [self cmn:[self bitXOR:[self bitXOR:b b:c] b:d] a:a b:b x:x s:s t:t];
 }
 - (int) ii:(int)a b:(int)b c:(int)c d:(int)d x:(int)x s:(int)s t:(int)t{
-	return [self cmn:[self.bitXOR:c b:[self.bitOR:b b:~d]] a:a b:b x:x s:s t:t];
+	return [self cmn:[self bitXOR:c b:[self bitOR:b b:~d]] a:a b:b x:x s:s t:t];
 }
 - (NSMutableArray*) doEncode:(NSMutableArray*)x{
 	int a = 1732584193;

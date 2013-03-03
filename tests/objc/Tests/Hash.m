@@ -27,12 +27,12 @@
 }
 - (id) keys{
 	
-	NSMutableArray *a = (NSMutableArray*)[self allKeys];
+	NSMutableArray *a = [self allKeys];
 	return [a iterator];
 }
 - (id) iterator{
 	
-	NSMutableArray *a = (NSMutableArray*)[self allValues];
+	NSMutableArray *a = [self allValues];
 	
 	NSMutableArray *it = [[NSMutableArray alloc] initWithObjects:[a iterator], nil];
 	
@@ -41,7 +41,7 @@
 	hasNext:^- (BOOL) {
 		return [[it objectAtIndex:0] hasNext];
 	}; next:^- (id) {
-		return [[me objectAtIndex:0].__Internal __Field:[[it objectAtIndex:0] next] :YES];
+		return [[me objectAtIndex:0] __Internal __Field:[[it objectAtIndex:0] next] :YES];
 	}
 	} structName;
 }

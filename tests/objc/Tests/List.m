@@ -16,7 +16,7 @@
 	
 	NSMutableArray *x = [[NSMutableArray alloc] initWithObjects:item, nil];
 	if (self.h == nil) self.h = x;
-	else [self.q objectAtIndex:1] = x;
+	else [self.q replaceObjectAtIndex:1 withObject:x];
 	self.q = x;
 	self.length++;
 }
@@ -51,13 +51,13 @@
 }
 - (BOOL) remove:(id)v{
 	
-	NSMutableArray *prev = (NSMutableArray*)nil;
+	NSMutableArray *prev = nil;
 	
-	NSMutableArray *l = (NSMutableArray*)self.h;
+	NSMutableArray *l = self.h;
 	while (l != nil) {
 		if ([l objectAtIndex:0] == v) {
 			if (prev == nil) self.h = [l objectAtIndex:1];
-			else [prev objectAtIndex:1] = [l objectAtIndex:1];
+			else [prev replaceObjectAtIndex:1 withObject:l replaceObjectAtIndex:[NSNumber numberWithInt:1]];
 			if (self.q == l) self.q = prev;
 			self.length--;
 			return YES;
@@ -84,15 +84,15 @@
 	StringBuf *s = [[StringBuf alloc] init];
 	BOOL first = YES;
 	
-	NSMutableArray *l = (NSMutableArray*)self.h;
-	[s.b appendString:(NSMutableString*)@"{"];
+	NSMutableArray *l = self.h;
+	[s.b appendString:[NSMutableString stringWithString:@"{"]];
 	while (l != nil) {
 		if (first) first = NO;
-		else [s.b appendString:(NSMutableString*)@", "];
+		else [s.b appendString:[NSMutableString stringWithString:@", "]];
 		s.b += [Std string:[Std string:[l objectAtIndex:0]]];
 		l = [l objectAtIndex:1];
 	}
-	[s.b appendString:(NSMutableString*)@"}"];
+	[s.b appendString:[NSMutableString stringWithString:@"}"]];
 	return s.b;
 }
 - (NSMutableString*) join:(NSMutableString*)sep{
@@ -100,7 +100,7 @@
 	StringBuf *s = [[StringBuf alloc] init];
 	BOOL first = YES;
 	
-	NSMutableArray *l = (NSMutableArray*)self.h;
+	NSMutableArray *l = self.h;
 	while (l != nil) {
 		if (first) first = NO;
 		else s.b += [Std string:sep];
@@ -113,7 +113,7 @@
 	
 	List *l2 = [[List alloc] init];
 	
-	NSMutableArray *l = (NSMutableArray*)self.h;
+	NSMutableArray *l = self.h;
 	while (l != nil) {
 		id v = [l objectAtIndex:0];
 		l = [l objectAtIndex:1];
@@ -125,7 +125,7 @@
 	
 	List *b = [[List alloc] init];
 	
-	NSMutableArray *l = (NSMutableArray*)self.h;
+	NSMutableArray *l = self.h;
 	while (l != nil) {
 		id v = [l objectAtIndex:0];
 		l = [l objectAtIndex:1];

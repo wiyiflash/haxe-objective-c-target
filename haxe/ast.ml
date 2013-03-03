@@ -130,11 +130,12 @@ module Meta = struct
 		| Unsafe
 		| Usage
 		| Used
-		| Last
 		| C
 		| Category
 		| Import
 		| Framework
+		| Last
+		(* do not put any custom metadata after Last *)
 		| Dollar of string
 		| Custom of string
 

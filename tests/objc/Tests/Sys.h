@@ -20,9 +20,9 @@
 
 + (void) print:(id)v;
 + (void) println:(id)v;
-+ (Input*) stdin;
-+ (Output*) stdout;
-+ (Output*) stderr;
++ (Input*) _stdin;
++ (Output*) _stdout;
++ (Output*) _stderr;
 + (int) getChar:(BOOL)echo;
 + (NSMutableArray*) args;
 + (NSMutableString*) getEnv:(NSMutableString*)s;

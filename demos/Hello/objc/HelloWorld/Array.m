@@ -7,9 +7,13 @@
 
 #import "Array.h"
 
-@implementation Array
+@implementation NSMutableArray ( Array )
 
-@synthesize length;
+// Getters/setters for property: length
+static int length__;
+- (int) length { return length__; }
+- (void) setLength:(int)val { length__ = val; }
+
 - (NSMutableArray*) concat:(NSMutableArray*)a{
 	return [self arrayByAddingObjectsFromArray:a];
 }
@@ -23,7 +27,7 @@
 	NSMutableArray *p = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:0], nil];
 	return struct {
 	hasNext:^- (BOOL) {
-		return [p objectAtIndex:0] < [a objectAtIndex:0].length;
+		return [p objectAtIndex:0] < [[a objectAtIndex:0] length];
 	}; next:^- (id) {
 		id i = [[a objectAtIndex:0] objectAtIndex:[p objectAtIndex:0]];
 		[p objectAtIndex:0] += 1;

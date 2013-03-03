@@ -11,7 +11,7 @@
 
 + (NSMutableString*) staticVar1:(NSMutableString*)val {
 	static NSMutableString *_val;
-	if (val == nil) { if (_val == nil) _val = (NSMutableString*)@"abcd"; }
+	if (val == nil) { if (_val == nil) _val = [NSMutableString stringWithString:@"abcd"]; }
 	else { if (_val != nil) _val = val; }
 	return _val;
 }
@@ -35,23 +35,23 @@
 @synthesize s;
 - (void) testVariables{
 	
-	NSMutableArray *a = (NSMutableArray*)[[NSMutableArray alloc] init];
+	NSMutableArray *a = [[NSMutableArray alloc] init];
 	int b = 5;
 	float c = 5.0;
 	
-	NSMutableString *d = (NSMutableString*)@"xyz";
+	NSMutableString *d = [NSMutableString stringWithString:@"xyz"];
 	BOOL e = YES;
 	int f;
 	int g = (int)5.3;
 	id g1 = (id)6.3;
 	id g2 = (id)a;
 	int xy = a.length;
-	[a push:(NSMutableString*)@"6"];
+	[a.push:[NSMutableString stringWithString:@"6"]];
 	if (a.length > 3) f = 3;
 	else f = a.length;
 	f = ( (a.length > 3) ? 3 : a.length);
-	[Lib print:(NSMutableString*)@"print print and print again"];
-	[Lib println:(NSMutableString*)@"print print and print again"];
+	[Lib print:[NSMutableString stringWithString:@"print print and print again"]];
+	[Lib println:[NSMutableString stringWithString:@"print print and print again"]];
 }
 - (void) testingFor{
 	
@@ -60,14 +60,14 @@
 		int _g = 0;
 		while (_g < 5) {
 			int i = _g++;
-			[aa push:i];
+			[aa.push:i];
 		}
 	}
 	{
 		int _g1 = 0; int _g = aa.length;
 		while (_g1 < _g) {
 			int i = _g1++;
-			[aa push:i];
+			[aa.push:i];
 		}
 	}
 	{
@@ -75,14 +75,14 @@
 		while (_g < aa.length) {
 			int i = [aa objectAtIndex:_g];
 			++_g;
-			[aa push:i];
+			[aa.push:i];
 		}
 	}
 }
 - (void) testWhile{
 	int aa = 5;
 	do {
-		[Log trace:(NSMutableString*)@"do something" infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Tests.hx",@"84",@"Tests",@"testWhile",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+		[Log trace:[NSMutableString stringWithString:@"do something"] infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Tests.hx",@"84",@"Tests",@"testWhile",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
 		aa++;
 	}while (aa < 10);
 	while (aa > 0) aa--;
@@ -92,7 +92,7 @@
 		int a = 3;
 	}
 	@catch (NSException *e) {
-		[Log trace:(NSMutableString*)@"error" infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Tests.hx",@"101",@"Tests",@"testTry",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+		[Log trace:[NSMutableString stringWithString:@"error"] infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Tests.hx",@"101",@"Tests",@"testTry",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
 	}
 }
 - (void) testSwitch{
@@ -110,40 +110,40 @@
 }
 - (void) testArray{
 	
-	NSMutableArray *as = (NSMutableArray*)[[NSMutableArray alloc] init];
+	NSMutableArray *as = [[NSMutableArray alloc] init];
 	
 	NSMutableArray *aa = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithFloat:1.0], [NSNumber numberWithInt:2], [NSNumber numberWithInt:3], [NSNumber numberWithInt:4], [NSNumber numberWithInt:5], nil];
 	float aaa = [aa objectAtIndex:2];
 	[aa objectAtIndex:3];
 	
-	NSMutableArray *concatArray = (NSMutableArray*)[as concat:[[NSMutableArray alloc] initWithObjects:(NSMutableString*)@"5", (NSMutableString*)@"6", (NSMutableString*)@"7", nil]];
-	concatArray = [as copy];
-	[concatArray insert:2 x:(NSMutableString*)@"2"];
-	id iter = [as iterator];
+	NSMutableArray *concatArray = [as.concat:[[NSMutableArray alloc] initWithObjects:[NSMutableString stringWithString:@"5"], [NSMutableString stringWithString:@"6"], [NSMutableString stringWithString:@"7"], nil]];
+	concatArray = [as.copy];
+	[concatArray.insert:2 x:[NSMutableString stringWithString:@"2"]];
+	id iter = [as.iterator];
 	
-	NSMutableString *s = [concatArray join:(NSMutableString*)@", "];
+	NSMutableString *s = [concatArray.join:[NSMutableString stringWithString:@", "]];
 	
-	NSMutableString *item = [as pop];
-	[as push:(NSMutableString*)@"454"];
-	BOOL bool = [as remove:(NSMutableString*)@"5"];
-	[as reverse];
-	item = [as shift];
+	NSMutableString *item = [as.pop];
+	[as.push:[NSMutableString stringWithString:@"454"]];
+	BOOL bool = [as.remove:[NSMutableString stringWithString:@"5"]];
+	[as.reverse];
+	item = [as.shift];
 	
-	NSMutableArray *sliceArray = (NSMutableArray*)[as slice:1 end:3];
-	[as sort:^- (int) :(NSMutableString*)a b:(NSMutableString*)b{
+	NSMutableArray *sliceArray = [as.slice:1 end:3];
+	[as.sort:^- (int) :(NSMutableString*)a b:(NSMutableString*)b{
 		return 0;
 	}];
-	sliceArray = [as splice:2 len:2];
-	s = [as toString];
-	[as unshift:(NSMutableString*)@"44"];
+	sliceArray = [as.splice:2 len:2];
+	s = [as.toString];
+	[as.unshift:[NSMutableString stringWithString:@"44"]];
 	
-	NSMutableArray *a_comprehention = (NSMutableArray*)((NSMutableArray)($this:(snd ctx.path)) 
+	NSMutableArray *a_comprehention = ((NSMutableArray)($this:(snd ctx.path)) 
 	NSMutableArray *_g = [[NSMutableArray alloc] initWithObjects:, nil]
 	{
 		int _g1 = 0;
 		while (_g1 < 10) {
 			int x = _g1++;
-			[_g push:x];
+			[_g.push:x];
 		}
 	}
 	__r__ = _g
@@ -152,14 +152,14 @@
 		NSMutableArray* __r__}
 	}(self));
 	
-	NSMutableArray *b_comprehention = (NSMutableArray*)((NSMutableArray)($this:(snd ctx.path)) 
+	NSMutableArray *b_comprehention = ((NSMutableArray)($this:(snd ctx.path)) 
 	NSMutableArray *_g1 = [[NSMutableArray alloc] initWithObjects:, nil]
 	{
 		int _g2 = 0;
 		while (_g2 < a_comprehention.length) {
 			int x = [a_comprehention objectAtIndex:_g2];
 			++_g2;
-			if (x % 2 == 0) [_g1 push:x];
+			if (x % 2 == 0) [_g1.push:x];
 		}
 	}
 	__r__2 = _g1
@@ -168,7 +168,7 @@
 		NSMutableArray* __r__2}
 	}(self));
 	
-	NSMutableArray *c_comprehention = (NSMutableArray*)((NSMutableArray)($this:(snd ctx.path)) 
+	NSMutableArray *c_comprehention = ((NSMutableArray)($this:(snd ctx.path)) 
 	NSMutableArray *_g2 = [[NSMutableArray alloc] initWithObjects:, nil]
 	{
 		int _g3 = 0;
@@ -177,7 +177,7 @@
 			int _g5 = 0; int _g4 = x + 1;
 			while (_g5 < _g4) {
 				int i = _g5++;
-				[_g2 push:i];
+				[_g2.push:i];
 			}
 		}
 	}
@@ -190,25 +190,25 @@
 - (void) testDate{
 	
 	NSDate *d = [[NSDate alloc] init:2012 month:11 day:13 hour:19 min:30 sec:0];
-	int _int = [d getDate];
-	_int = [d getDay];
-	_int = [d getFullYear];
-	_int = [d getHours];
-	_int = [d getMinutes];
-	_int = [d getMonth];
-	_int = [d getSeconds];
-	float _float = [d getTime];
+	int _int = [d.getDate];
+	_int = [d.getDay];
+	_int = [d.getFullYear];
+	_int = [d.getHours];
+	_int = [d.getMinutes];
+	_int = [d.getMonth];
+	_int = [d.getSeconds];
+	float _float = [d.getTime];
 	
-	NSMutableString *str = [d toString];
+	NSMutableString *str = [d.toString];
 	
-	NSDate *d2 = [NSDate fromString:(NSMutableString*)@"2012-12-12 06:40:00"];
+	NSDate *d2 = [NSDate fromString:[NSMutableString stringWithString:@"2012-12-12 06:40:00"]];
 	d2 = [NSDatefromTime:120000];
 	d2 = [NSDatenow];
 	int x = [DateTools getMonthDays:d2];
 	_float = 432000000.;
 	
-	NSDate *d3 = [NSDatefromTime:[d getTime] + 1000.0];
-	str = [DateTools format:d f:(NSMutableString*)@"HH:mm"];
+	NSDate *d3 = [NSDatefromTime:[d.getTime] + 1000.0];
+	str = [DateTools format:d f:[NSMutableString stringWithString:@"HH:mm"]];
 	_int = [DateTools getMonthDays:d];
 	_float = 3600000000.;
 	_float = [DateTools make:struct {
@@ -293,34 +293,34 @@
 }
 - (void) testEReg{
 	
-	EReg *ereg = [[EReg alloc] init:(NSMutableString*)@"ytrytrevev76" opt:(NSMutableString*)@"099"];
+	EReg *ereg = [[EReg alloc] init:[NSMutableString stringWithString:@"ytrytrevev76"] opt:[NSMutableString stringWithString:@"099"]];
 	
-	NSMutableString *s = [ereg customReplace:(NSMutableString*)@"s" f:^- (NSMutableString*) :(EReg*)e{
-		return (NSMutableString*)@"ss";
+	NSMutableString *s = [ereg customReplace:[NSMutableString stringWithString:@"s"] f:^- (NSMutableString*) :(EReg*)e{
+		return [NSMutableString stringWithString:@"ss"];
 	}];
-	BOOL b = [ereg match:(NSMutableString*)@"s"];
+	BOOL b = [ereg match:[NSMutableString stringWithString:@"s"]];
 	s = [ereg matched:5];
 	s = [ereg matchedLeft];
 	id o = [ereg matchedPos];
 	s = [ereg matchedRight];
-	s = [ereg replace:(NSMutableString*)@"s" by:(NSMutableString*)@"by"];
+	s = [ereg replace:[NSMutableString stringWithString:@"s"] by:[NSMutableString stringWithString:@"by"]];
 	
-	NSMutableArray *arr = (NSMutableArray*)[ereg split:(NSMutableString*)@","];
+	NSMutableArray *arr = [ereg split:[NSMutableString stringWithString:@","]];
 }
 - (void) testHash{
 	
 	Hash *h = [[Hash alloc] init];
-	[h set:(NSMutableString*)@"key" value:(NSMutableString*)@"value"];
-	[h get:(NSMutableString*)@"key"];
-	[h remove:(NSMutableString*)@"key"];
-	BOOL b = [h exists:(NSMutableString*)@"key"];
+	[h set:[NSMutableString stringWithString:@"key"] value:[NSMutableString stringWithString:@"value"]];
+	[h get:[NSMutableString stringWithString:@"key"]];
+	[h remove:[NSMutableString stringWithString:@"key"]];
+	BOOL b = [h exists:[NSMutableString stringWithString:@"key"]];
 	id arr = [h keys];
 	id iter = [h iterator];
 	
 	NSMutableString *str = [h toString];
 	
 	IntHash *hi = [[IntHash alloc] init];
-	[hi set:0 value:(NSMutableString*)@"value"];
+	[hi set:0 value:[NSMutableString stringWithString:@"value"]];
 	[hi get:0];
 	[hi remove:0];
 	BOOL bi = [hi exists:0];
@@ -331,7 +331,7 @@
 }
 - (void) testLambda{
 	
-	NSMutableArray *a = (NSMutableArray*)[Lambda array:[[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:0], [NSNumber numberWithInt:1], [NSNumber numberWithInt:2], [NSNumber numberWithInt:3], nil]];
+	NSMutableArray *a = [Lambda array:[[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:0], [NSNumber numberWithInt:1], [NSNumber numberWithInt:2], [NSNumber numberWithInt:3], nil]];
 	
 	List *l = [Lambda concat:[[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:0], [NSNumber numberWithInt:1], [NSNumber numberWithInt:2], [NSNumber numberWithInt:3], nil] b:[[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:4], [NSNumber numberWithInt:5], nil]];
 }
@@ -348,14 +348,14 @@
 	BOOL empty = [l isEmpty];
 	id iter = [l iterator];
 	
-	NSMutableString *s = [l join:(NSMutableString*)@", "];
+	NSMutableString *s = [l join:[NSMutableString stringWithString:@", "]];
 	s = [l toString];
 	item = [l last];
 	item = [l pop];
 	BOOL r = [l remove:5];
-	[Log trace:l length infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Tests.hx",@"285",@"Tests",@"testList",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[Log trace:l.length infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Tests.hx",@"285",@"Tests",@"testList",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
 	[l clear];
-	[Log trace:l length infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Tests.hx",@"287",@"Tests",@"testList",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[Log trace:l.length infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Tests.hx",@"287",@"Tests",@"testList",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
 	
 	List *newList = [l map:^- (NSMutableString*) :(int)i{
 		return [Std string:i];
@@ -366,94 +366,94 @@
 }
 - (void) testReflect{
 	id obj = struct {
-	a:(NSMutableString*)@"aaaaa"
+	a:[NSMutableString stringWithString:@"aaaaa"]
 	} structName;
-	BOOL b = [Reflect hasField:obj field:(NSMutableString*)@"a"];
-	id f = [Reflect field:obj field:(NSMutableString*)@"a"];
+	BOOL b = [Reflect hasField:obj field:[NSMutableString stringWithString:@"a"]];
+	id f = [Reflect field:obj field:[NSMutableString stringWithString:@"a"]];
 	if (obj != nil) [obj __SetField-TDynamic-];
 	[self __SetField-TDynamic-];
 	id p = (id)[self __Field-TDynamic-];
-	[Reflect callMethod:self func:self.testStd args:[[NSMutableArray alloc] initWithObjects:, nil]];
-	[Reflect callMethod:self func:self.callLotsOfArguments args:[[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:1], [NSNumber numberWithInt:2], [NSNumber numberWithInt:3], [NSNumber numberWithInt:4], nil]];
+	[Reflect callMethod:self func:self testStd args:[[NSMutableArray alloc] initWithObjects:, nil]];
+	[Reflect callMethod:self func:self callLotsOfArguments args:[[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:1], [NSNumber numberWithInt:2], [NSNumber numberWithInt:3], [NSNumber numberWithInt:4], nil]];
 	
-	NSMutableArray *fs = (NSMutableArray*)[Reflect fields:obj];
-	BOOL isf = [Reflect isFunction:self.testStd];
+	NSMutableArray *fs = [Reflect fields:obj];
+	BOOL isf = [Reflect isFunction:self testStd];
 	int i = [Reflect compare:1 b:2];
-	BOOL cm = [Reflect compareMethods:self.testStd f2:self.testString];
+	BOOL cm = [Reflect compareMethods:self testStd f2:self testString];
 	BOOL isobj = [Reflect isObject:obj];
-	isobj = [Reflect isObject:-FClosure-^(){ [self testStd]; }];
-	[Reflect deleteField:obj f:(NSMutableString*)@"a"];
+	isobj = [Reflect isObject:self testStd];
+	[Reflect deleteField:obj f:[NSMutableString stringWithString:@"a"]];
 	id obj2 = [Reflect copy:obj];
 }
 - (void) testStd{
 	int _int = 3;
-	BOOL _BOOL = [Std is:self.d1 t:TAbstractDecl];
-	float _float = [Std parseFloat:(NSMutableString*)@"55454.65"];
-	_int = [Std parseInt:(NSMutableString*)@"435345.23"];
+	BOOL _BOOL = [Std is:self.d1 t: TAbstractDecl ];
+	float _float = [Std parseFloat:[NSMutableString stringWithString:@"55454.65"]];
+	_int = [Std parseInt:[NSMutableString stringWithString:@"435345.23"]];
 	_int = [Std random:543];
 	
 	NSMutableString *string = [Std string:_int];
 }
 - (void) testString{
 	
-	NSMutableString *string = [[NSMutableString alloc] init:(NSMutableString*)@"abcdefghijklmnopqrstuvwxyz"];
+	NSMutableString *string = [[NSMutableString alloc] init:[NSMutableString stringWithString:@"abcdefghijklmnopqrstuvwxyz"]];
 	int len = string.length;
 	
-	NSMutableString *s = [string characterAtIndex:5];
-	int ch = [string characterAtIndex:5];
-	int i = [string indexOf:(NSMutableString*)@"abc" startIndex:nil];
-	int i1 = [string indexOf:(NSMutableString*)@"abc" startIndex:2];
-	int li = [string lastIndexOf:(NSMutableString*)@"abc" startIndex:nil];
+	NSMutableString *s = [string charAt:5];
+	int ch = [string charCodeAt:5];
+	int i = [string indexOf:[NSMutableString stringWithString:@"abc"] startIndex:nil];
+	int i1 = [string indexOf:[NSMutableString stringWithString:@"abc"] startIndex:2];
+	int li = [string lastIndexOf:[NSMutableString stringWithString:@"abc"] startIndex:nil];
 	
-	NSMutableArray *components = (NSMutableArray*)[string componentsSeparatedByString:(NSMutableString*)@"-"];
+	NSMutableArray *components = [string split:[NSMutableString stringWithString:@"-"]];
 	
 	NSMutableString *s2 = [string substr:5 len:nil];
 	s2 = [string substr:5 len:len];
 	s2 = [string substring:5 endIndex:nil];
 	s2 = [string substring:1 endIndex:len];
-	s2 = [string lowercaseString];
-	s2 = [string uppercaseString];
-	s2 = [string description];
+	s2 = [string toLowerCase];
+	s2 = [string toUpperCase];
+	s2 = [string toString];
 	
-	NSMutableString *s3 = (NSMutableString*)@"\t";
+	NSMutableString *s3 = [NSMutableString stringWithString:@"\t"];
 	
 	StringBuf *buf = [[StringBuf alloc] init];
-	[buf.b appendString:(NSMutableString*)@"abc"];
-	[buf.b appendString:(NSMutableString*)@""];
-	[buf.b appendString:[(NSMutableString*)@"abcdefghijklmnopqerstuvwxyz" substr:@"5" len:nil]];
-	[buf.b appendString:[(NSMutableString*)@"abcdefghijklmnopqerstuvwxyz" substr:@"5" len:@"10"]];
+	[buf.b appendString:[NSMutableString stringWithString:@"abc"]];
+	[buf.b appendString:[NSMutableString stringWithString:@""]];
+	[buf.b appendString:[[NSMutableString stringWithString:@"abcdefghijklmnopqerstuvwxyz"] substr:@"5" len:nil]];
+	[buf.b appendString:[[NSMutableString stringWithString:@"abcdefghijklmnopqerstuvwxyz"] substr:@"5" len:@"10"]];
 	
 	NSMutableString *strbuf = buf.b;
 	
-	NSMutableString *st = [StringTools urlEncode:(NSMutableString*)@"http://imagin.ro/Gorgeous Elena/2"];
-	st = [StringTools urlDecode:(NSMutableString*)@"http://imagin.ro/Gorgeous Elena/2"];
-	st = [StringTools htmlEscape:(NSMutableString*)@"<a href= &>" quotes:nil];
-	st = [StringTools htmlUnescape:(NSMutableString*)@"<a href= &>"];
-	st = [StringTools ltrim:(NSMutableString*)@" abcdefgh"];
-	st = [StringTools rtrim:(NSMutableString*)@"abcdefgh "];
-	st = [StringTools trim:(NSMutableString*)@" abcdefgh "];
-	st = [StringTools rpad:(NSMutableString*)@"abcdefgh" c:(NSMutableString*)@"0" l:10];
-	st = [StringTools lpad:(NSMutableString*)@"abcdefgh" c:(NSMutableString*)@"0" l:10];
-	st = [StringTools replace:(NSMutableString*)@"abcdefgh" sub:(NSMutableString*)@"abc" by:(NSMutableString*)@"_abc"];
-	BOOL b = [StringTools startsWith:(NSMutableString*)@"abcdefg" start:(NSMutableString*)@"abc"];
-	b = [StringTools endsWith:(NSMutableString*)@"abcdefg" end:(NSMutableString*)@"efg"];
-	b = [StringTools isSpace:(NSMutableString*)@"abcdefg" pos:3];
+	NSMutableString *st = [StringTools urlEncode:[NSMutableString stringWithString:@"http://imagin.ro/Gorgeous Elena/2"]];
+	st = [StringTools urlDecode:[NSMutableString stringWithString:@"http://imagin.ro/Gorgeous Elena/2"]];
+	st = [StringTools htmlEscape:[NSMutableString stringWithString:@"<a href= &>"] quotes:nil];
+	st = [StringTools htmlUnescape:[NSMutableString stringWithString:@"<a href= &>"]];
+	st = [StringTools ltrim:[NSMutableString stringWithString:@" abcdefgh"]];
+	st = [StringTools rtrim:[NSMutableString stringWithString:@"abcdefgh "]];
+	st = [StringTools trim:[NSMutableString stringWithString:@" abcdefgh "]];
+	st = [StringTools rpad:[NSMutableString stringWithString:@"abcdefgh"] c:[NSMutableString stringWithString:@"0"] l:10];
+	st = [StringTools lpad:[NSMutableString stringWithString:@"abcdefgh"] c:[NSMutableString stringWithString:@"0"] l:10];
+	st = [StringTools replace:[NSMutableString stringWithString:@"abcdefgh"] sub:[NSMutableString stringWithString:@"abc"] by:[NSMutableString stringWithString:@"_abc"]];
+	BOOL b = [StringTools startsWith:[NSMutableString stringWithString:@"abcdefg"] start:[NSMutableString stringWithString:@"abc"]];
+	b = [StringTools endsWith:[NSMutableString stringWithString:@"abcdefg"] end:[NSMutableString stringWithString:@"efg"]];
+	b = [StringTools isSpace:[NSMutableString stringWithString:@"abcdefg"] pos:3];
 	
 	NSMutableString *i2 = [StringTools hex:345345 digits:10];
 	
 	NSMutableString *sfin = [strbuf stringByAppendingString:st];
 	sfin = [[strbuf stringByAppendingString:st] stringByAppendingString:s2];
-	[sfin appendString:(NSMutableString*)@"abc"];
-	sfin = [[st stringByAppendingString:(NSMutableString*)@"abc"] stringByAppendingString:@"5"];
-	sfin = [@"55" stringByAppendingString:(NSMutableString*)@"abc"];
+	[sfin appendString:[NSMutableString stringWithString:@"abc"]];
+	sfin = [[st stringByAppendingString:[NSMutableString stringWithString:@"abc"]] stringByAppendingString:@"5"];
+	sfin = [@"55" stringByAppendingString:[NSMutableString stringWithString:@"abc"]];
 }
 - (void) testSys{
-	[Sys print:(NSMutableString*)@"hello world"];
-	[Sys println:(NSMutableString*)@"hello world"];
+	[Sys print:[NSMutableString stringWithString:@"hello world"]];
+	[Sys println:[NSMutableString stringWithString:@"hello world"]];
 	
-	NSMutableArray *arr = (NSMutableArray*)[Sys args];
-	int _int = [Sys command:(NSMutableString*)@"cd" args:[[NSMutableArray alloc] initWithObjects:(NSMutableString*)@"~", nil]];
-	_int = [Sys command:(NSMutableString*)@"ls" args:[[NSMutableArray alloc] initWithObjects:, nil]];
+	NSMutableArray *arr = [Sys args];
+	int _int = [Sys command:[NSMutableString stringWithString:@"cd"] args:[[NSMutableArray alloc] initWithObjects:[NSMutableString stringWithString:@"~"], nil]];
+	_int = [Sys command:[NSMutableString stringWithString:@"ls"] args:[[NSMutableArray alloc] initWithObjects:, nil]];
 	float _float = [Sys cpuTime];
 	
 	Hash *hash = [Sys environment];
@@ -462,10 +462,10 @@
 	[Sys exit:0];
 	_int = [Sys getChar:YES];
 	string = [Sys getCwd];
-	string = [Sys getEnv:(NSMutableString*)@"VAR1"];
-	[Sys putEnv:(NSMutableString*)@"VAR1" v:(NSMutableString*)@"val 1"];
-	[Sys setCwd:(NSMutableString*)@"thisdir"];
-	BOOL bool = [Sys setTimeLocale:(NSMutableString*)@"loc"];
+	string = [Sys getEnv:[NSMutableString stringWithString:@"VAR1"]];
+	[Sys putEnv:[NSMutableString stringWithString:@"VAR1"] v:[NSMutableString stringWithString:@"val 1"]];
+	[Sys setCwd:[NSMutableString stringWithString:@"thisdir"]];
+	BOOL bool = [Sys setTimeLocale:[NSMutableString stringWithString:@"loc"]];
 	[Sys sleep:5.5];
 	
 	Output *_out = [Sys _stderr];
@@ -481,7 +481,7 @@
 	
 	NSMutableString *sups = [Type getClassName:NSString];
 	
-	Class *cl = [Type resolveClass:(NSMutableString*)@"ios.map.MKMapView"];
+	Class *cl = [Type resolveClass:[NSMutableString stringWithString:@"ios.map.MKMapView"]];
 	
 	NSString *inst = [Type createEmptyInstance:NSString];
 }
@@ -491,9 +491,9 @@
 }
 - (void) testOverload{
 	[self foo];
-	[self foo:(NSMutableString*)@"bar"];
-	[self foo:(NSMutableString*)@"str" arr:[[NSMutableArray alloc] initWithObjects:(NSMutableString*)@"bar1", (NSMutableString*)@"bar2", nil]];
-	[self foo:[[NSMutableArray alloc] initWithObjects:[[NSMutableArray alloc] initWithObjects:(NSMutableString*)@"bar", (NSMutableString*)@"1", nil], [[NSMutableArray alloc] initWithObjects:(NSMutableString*)@"bar", (NSMutableString*)@"2", nil], nil]];
+	[self foo:[NSMutableString stringWithString:@"bar"]];
+	[self foo:[NSMutableString stringWithString:@"str"] arr:[[NSMutableArray alloc] initWithObjects:[NSMutableString stringWithString:@"bar1"], [NSMutableString stringWithString:@"bar2"], nil]];
+	[self foo:[[NSMutableArray alloc] initWithObjects:[[NSMutableArray alloc] initWithObjects:[NSMutableString stringWithString:@"bar"], [NSMutableString stringWithString:@"1"], nil], [[NSMutableArray alloc] initWithObjects:[NSMutableString stringWithString:@"bar"], [NSMutableString stringWithString:@"2"], nil], nil]];
 }
 - (void) testFrameworksImport{
 }
@@ -516,50 +516,50 @@
 	[self optionalArguments3:0 arg2:1 arg3:nil arg4:nil];
 }
 - (void) optionalArguments:(int)arg1 arg2:(int)arg2 arg3:(int)arg3 arg4:(int)arg4{
-	// Simulated optional arguments
-	if (arg4 == nil) arg4 = nil;
+	// Optional arguments
+	if (!arg4) arg4 = nil;
 	
 }
 - (void) optionalArguments1:(int)arg1 arg2:(int)arg2 arg3:(int)arg3 arg4:(int)arg4{
-	// Simulated optional arguments
-	if (arg4 == nil) arg4 = 5;
+	// Optional arguments
+	if (!arg4) arg4 = 5;
 	
 }
 - (void) optionalArguments2:(int)arg1 arg2:(int)arg2 arg3:(int)arg3 arg4:(int)arg4{
-	// Simulated optional arguments
-	if (arg3 == nil) arg3 = nil;
-	if (arg2 == nil) arg2 = nil;
+	// Optional arguments
+	if (!arg3) arg3 = nil;
+	if (!arg2) arg2 = nil;
 	
 }
 - (void) optionalArguments3:(int)arg1 arg2:(int)arg2 arg3:(BOOL)arg3 arg4:(BOOL)arg4{
-	// Simulated optional arguments
-	if (arg4 == nil) arg4 = nil;
-	if (arg2 == nil) arg2 = 6;
-	if (arg3 == nil) arg3 = YES;
+	// Optional arguments
+	if (!arg4) arg4 = nil;
+	if (!arg2) arg2 = 6;
+	if (!arg3) arg3 = YES;
 	
 }
 - (void) init{
 	int x = 6;
-	self.s = (NSMutableString*)@"init";
+	self.s = [NSMutableString stringWithString:@"init"];
 }
 - (void) printHello{
-	[Log trace:(NSMutableString*)@"Hello from Haxe Objective-C" infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Tests.hx",@"539",@"Tests",@"printHello",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[Log trace:[NSMutableString stringWithString:@"Hello from Haxe Objective-C"] infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Tests.hx",@"539",@"Tests",@"printHello",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
 }
 - (void) functionToRedefine{
-	[Log trace:(NSMutableString*)@"do something else" infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Tests.hx",@"552",@"Tests",@"functionToRedefine",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[Log trace:[NSMutableString stringWithString:@"do something else"] infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Tests.hx",@"552",@"Tests",@"functionToRedefine",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
 }
 - (void) functionToRedefine2:(int)param1 param2:(NSMutableString*)param2{
 	int i = param1;
 }
 - (id) init{
 	self = [super init];
-	self.s = (NSMutableString*)@"str";
+	self.s = [NSMutableString stringWithString:@"str"];
 	self.d2 = 4.5;
 	self.d1 = 34;
 	
 	Tests2 *test2 = [[Tests2 alloc] init];
-	test2.functionToRedefine = -FClosure-^(){ [self functionToRedefine]; };
-	test2.functionToRedefine2 = -FClosure-^(int param1, NSMutableString *param2){ [self functionToRedefine2:param1 param2:param2]; };
+	test2.functionToRedefine = self functionToRedefine;
+	test2.functionToRedefine2 = self functionToRedefine2;
 	[[TestC alloc] init];
 	[[TestHaxePack alloc] init];
 	return self;
@@ -572,11 +572,11 @@
 @synthesize d1;
 - (void) methodInTests2{
 	[self functionToRedefine];
-	[self functionToRedefine2:0 param2:(NSMutableString*)@"00"];
+	[self functionToRedefine2:0 param2:[NSMutableString stringWithString:@"00"]];
 }
 // Defining a dynamic method
 - (void) functionToRedefine{
-	[Log trace:(NSMutableString*)@"originally do something" infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Tests.hx",@"575",@"Tests2",@"functionToRedefine",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[Log trace:[NSMutableString stringWithString:@"originally do something"] infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Tests.hx",@"575",@"Tests2",@"functionToRedefine",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
 }
 @synthesize property_functionToRedefine;
 

@@ -7,12 +7,16 @@
 
 #import "String.h"
 
-@implementation String
+@implementation NSMutableString ( String )
 
 + (NSMutableString*) fromCharCode:(int)code{
 	return [NSString stringWithFormat:@"%C", code];
 }
-@synthesize length;
+// Getters/setters for property: length
+static int length__;
+- (int) length { return length__; }
+- (void) setLength:(int)val { length__ = val; }
+
 - (NSMutableString*) toUpperCase{
 	return [self uppercaseString];
 }
