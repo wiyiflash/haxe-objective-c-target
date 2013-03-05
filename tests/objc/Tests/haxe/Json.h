@@ -6,18 +6,8 @@
 //
 
 
+#import <Foundation/Foundation.h>
 
-#import "../String.h"
-#import "../haxe/Json.h"
-#import "../StringBuf.h"
-#import "../Array.h"
-#import "../Reflect.h"
-#import "../Type.h"
-#import "../Std.h"
-#import "../Math.h"
-#import "../Class.h"
-#import "../haxe/ds/StringMap.h"
-#import "../EnumValue.h"
 
 @interface Json : HXObject
 

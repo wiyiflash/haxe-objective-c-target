@@ -6,11 +6,7 @@
 //
 
 
-#import <UIKit/UIKit.h>
-#import <Foundation/Foundation.h>
 
-#import "PiratePigGame.h"
-#import "haxe/Log.h"
 
 @interface PiratePig : UIResponder <UIApplicationDelegate>
 

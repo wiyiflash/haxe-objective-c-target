@@ -29,7 +29,7 @@ package  {
 		
 		static public function isSpace(s : String,pos : int) : Boolean {
 			var c : * = s["charCodeAtHX"](pos);
-			return c >= 9 && c <= 13 || c == 32;
+			return c > 8 && c < 14 || c == 32;
 		}
 		
 		static public function ltrim(s : String) : String {

@@ -96,9 +96,31 @@ package  {
 				aproto.setPropertyIsEnumerable("insert",false);
 				aproto.setPropertyIsEnumerable("remove",false);
 				aproto.setPropertyIsEnumerable("iterator",false);
-				String.prototype.charCodeAtHX = function(i1 : *) : * {
+				aproto.filterHX = function(f : Function) : Array {
+					var ret : Array = [];
+					var i1 : int = 0;
+					var l : int = this.length;
+					while(i1 < l) {
+						if(f(this[i1])) ret.push(this[i1]);
+						i1++;
+					}
+					return ret;
+				}
+				aproto.mapHX = function(f1 : Function) : Array {
+					var ret1 : Array = [];
+					var i2 : int = 0;
+					var l1 : int = this.length;
+					while(i2 < l1) {
+						ret1.push(f1(this[i2]));
+						i2++;
+					}
+					return ret1;
+				}
+				aproto.setPropertyIsEnumerable("mapHX",false);
+				aproto.setPropertyIsEnumerable("filterHX",false);
+				String.prototype.charCodeAtHX = function(i3 : *) : * {
 					var s : String = this;
-					var x1 : Number = s.charCodeAt(i1);
+					var x1 : Number = s.charCodeAt(i3);
 					if(isNaN(x1)) return null;
 					return Std._int(x1);
 				}

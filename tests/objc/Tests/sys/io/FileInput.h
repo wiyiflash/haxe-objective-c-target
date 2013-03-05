@@ -7,9 +7,6 @@
 
 
 
-#import "../../haxe/io/Bytes.h"
-#import "../../sys/io/FileSeek.h"
-#import "../../haxe/io/Input.h"
 
 @interface FileInput : Input 
 

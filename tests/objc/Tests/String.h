@@ -6,9 +6,8 @@
 //
 
 
+#import <Foundation/Foundation.h>
 
-#import "String.h"
-#import "Array.h"
 
 @interface NSMutableString ( String )
 

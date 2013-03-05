@@ -30,7 +30,7 @@
 	String can be concatenated by using the + operator. If an operand is not a
 	String, it is passed through Std.string() first.
 **/
-@:category("NSMutableString") @:core_api class String {
+@:framework("Foundation") @:category("NSMutableString") @:core_api class String {
 
 	/**
 		The number of characters in [this] String.

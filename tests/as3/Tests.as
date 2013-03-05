@@ -1,11 +1,8 @@
 package  {
-	import haxe.crypto.Md5;
 	import haxe.FastList_Int;
 	import haxe.Log;
-	import haxe.Timer;
 	import flash.Boot;
-	import haxe.crypto.Sha1;
-	public class Tests implements Interface2, Interface1{
+	public class Tests {
 		public function Tests() : void { if( !flash.Boot.skip_constructor ) {
 			var test2 : Tests2 = new Tests2();
 			test2.functionToRedefine = this.functionToRedefine;
@@ -17,11 +14,11 @@ package  {
 		}
 		
 		protected function functionToRedefine() : void {
-			haxe.Log._trace("do something else",{ fileName : "Tests.hx", lineNumber : 603, className : "Tests", methodName : "functionToRedefine"});
+			haxe.Log._trace("do something else",{ fileName : "Tests.hx", lineNumber : 557, className : "Tests", methodName : "functionToRedefine"});
 		}
 		
 		public function printHello() : void {
-			haxe.Log._trace("Hello from Haxe Objective-C",{ fileName : "Tests.hx", lineNumber : 593, className : "Tests", methodName : "printHello"});
+			haxe.Log._trace("Hello from Haxe Objective-C",{ fileName : "Tests.hx", lineNumber : 542, className : "Tests", methodName : "printHello"});
 		}
 		
 		public function init() : void {
@@ -40,6 +37,7 @@ package  {
 		}
 		
 		public function optionalArguments(arg1 : int,arg2 : int,arg3 : int,arg4 : * = null) : void {
+			var x : int = arg4 + 5;
 		}
 		
 		public function callLotsOfArguments(arg1 : int,arg2 : int,arg3 : int,arg4 : int) : void {
@@ -57,11 +55,11 @@ package  {
 			return a + b;
 		}
 		
-		public function setWidth(v : int) : int {
+		protected function set_width(v : int) : int {
 			return 0;
 		}
 		
-		public function getWidth() : int {
+		protected function get_width() : int {
 			return 0;
 		}
 		
@@ -78,29 +76,10 @@ package  {
 		public function foo() : void {
 		}
 		
-		protected function testCrypto() : void {
-			var str1 : String = haxe.crypto.Md5.encode("Hello world");
-			var str2 : String = haxe.crypto.Sha1.encode("Hello world");
-		}
-		
-		protected function testTimer() : void {
-			var _g : Tests = this;
-			var timer : haxe.Timer = new haxe.Timer(50);
-			timer.run = this.testXml;
-			timer.stop();
-			timer = haxe.Timer.delay(this.testTimer,50);
-			timer = haxe.Timer.delay(function() : void {
-				_g.testTimer();
-			},50);
-			haxe.Timer.measure(this.testTimer,{ fileName : "Tests.hx", lineNumber : 521, className : "Tests", methodName : "testTimer"});
-			var f : Number = haxe.Timer.stamp();
-		}
-		
 		protected function testXml() : void {
 		}
 		
 		protected function testType() : void {
-			var cl : Class = Type.resolveClass("ios.map.MKMapView");
 		}
 		
 		protected function testString() : void {
@@ -175,37 +154,6 @@ package  {
 			var obj2 : * = Reflect.copy(obj);
 		}
 		
-		protected function testMath() : void {
-			var pi : Number = Math.PI;
-			var max : Number = Math["NEGATIVE_INFINITY"];
-			var min : Number = Math["POSITIVE_INFINITY"];
-			var nan : Number = Math["NaN"];
-			var x : Number = Math.sqrt(5);
-			x = Math.abs(5);
-			x = Math.max(5,45555);
-			x = Math.min(5,45555);
-			x = Math.sin(5);
-			x = Math.cos(5);
-			x = Math.atan2(5,3);
-			x = Math.tan(5);
-			x = Math.exp(5);
-			x = Math.log(5);
-			x = Math.sqrt(5);
-			var xr : int = Math.round(5);
-			xr = Math.floor(5);
-			xr = Math.ceil(5);
-			x = Math.atan(5);
-			x = Math.asin(5);
-			x = Math.acos(5);
-			x = Math.pow(5,4);
-			x = Math.random() * 5;
-			var b : Boolean = Math["isFinite"](45454);
-			b = Math["isNaN"](45454);
-			var j : Number = x + xr;
-			j += x;
-			var k : Number = ((b)?-x:x);
-		}
-		
 		protected function testList() : void {
 			var l : List = new List();
 			l.add(2);
@@ -257,7 +205,7 @@ package  {
 		
 		protected function testEReg() : void {
 			var ereg : EReg = new EReg("ytrytrevev76","099");
-			var s : String = ereg.customReplace("s",function(e : EReg) : String {
+			var s : String = ereg.map("s",function(e : EReg) : String {
 				return "ss";
 			});
 			var b : Boolean = ereg.match("s");
@@ -519,15 +467,11 @@ package  {
 			if(a.length > 3) f = 3;
 			else f = a.length;
 			f = ((a.length > 3)?3:a.length);
-			var x : int = new Tests().add(1,1);
 		}
 		
 		protected var s : String = "str";
 		protected var d2 : Number = 4.5;
 		protected var d1 : int = 34;
-		public function get width() : int { return getWidth(); }
-		public function set width( __v : int ) : void { setWidth(__v); }
-		protected var $width : int;
 		public var interfaceVar2 : Number;
 		public var interfaceVar1 : int;
 		static public var staticVar1 : String = "abcd";

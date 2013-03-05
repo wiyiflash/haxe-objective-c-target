@@ -295,7 +295,7 @@
 	
 	EReg *ereg = [[EReg alloc] init:[NSMutableString stringWithString:@"ytrytrevev76"] opt:[NSMutableString stringWithString:@"099"]];
 	
-	NSMutableString *s = [ereg customReplace:[NSMutableString stringWithString:@"s"] f:^- (NSMutableString*) :(EReg*)e{
+	NSMutableString *s = [ereg map:[NSMutableString stringWithString:@"s"] f:^- (NSMutableString*) :(EReg*)e{
 		return [NSMutableString stringWithString:@"ss"];
 	}];
 	BOOL b = [ereg match:[NSMutableString stringWithString:@"s"]];
@@ -519,6 +519,7 @@
 	// Optional arguments
 	if (!arg4) arg4 = nil;
 	
+	int x = arg4 + 5;
 }
 - (void) optionalArguments1:(int)arg1 arg2:(int)arg2 arg3:(int)arg3 arg4:(int)arg4{
 	// Optional arguments
@@ -543,10 +544,10 @@
 	self.s = [NSMutableString stringWithString:@"init"];
 }
 - (void) printHello{
-	[Log trace:[NSMutableString stringWithString:@"Hello from Haxe Objective-C"] infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Tests.hx",@"539",@"Tests",@"printHello",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[Log trace:[NSMutableString stringWithString:@"Hello from Haxe Objective-C"] infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Tests.hx",@"542",@"Tests",@"printHello",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
 }
 - (void) functionToRedefine{
-	[Log trace:[NSMutableString stringWithString:@"do something else"] infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Tests.hx",@"552",@"Tests",@"functionToRedefine",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[Log trace:[NSMutableString stringWithString:@"do something else"] infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Tests.hx",@"557",@"Tests",@"functionToRedefine",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
 }
 - (void) functionToRedefine2:(int)param1 param2:(NSMutableString*)param2{
 	int i = param1;
@@ -576,7 +577,7 @@
 }
 // Defining a dynamic method
 - (void) functionToRedefine{
-	[Log trace:[NSMutableString stringWithString:@"originally do something"] infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Tests.hx",@"575",@"Tests2",@"functionToRedefine",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[Log trace:[NSMutableString stringWithString:@"originally do something"] infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Tests.hx",@"580",@"Tests2",@"functionToRedefine",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
 }
 @synthesize property_functionToRedefine;
 

@@ -6,9 +6,8 @@
 //
 
 
+#import <Foundation/Foundation.h>
 
-#import "String.h"
-#import "Std.h"
 
 @interface StringBuf : HXObject
 

@@ -6,10 +6,8 @@
 //
 
 
-#import <UIKit/UIKit.h>
-#import <CoreGraphics/CoreGraphics.h>
+#import <Foundation/Foundation.h>
 
-#import "String.h"
 
 @interface Tile : UIView 
 

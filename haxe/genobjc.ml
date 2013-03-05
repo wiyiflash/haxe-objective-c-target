@@ -1,6 +1,6 @@
 (*
  *  Haxe/Objective-C Compiler
- *  Copyright (c)2012 Băluță Cristian
+ *  Copyright (c)2013 Băluță Cristian
  *  Based on and including code by (c)2005-2008 Nicolas Cannasse and Hugh Sanderson
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -21,59 +21,26 @@ open Ast
 open Type
 open Common
 
-let join_class_path path separator =
-	let result = match fst path, snd path with
+let joinClassPath path separator =
+	match fst path, snd path with
 	| [], s -> s
-	| el, s -> String.concat separator el ^ separator ^ s in
-	if (String.contains result '+') then begin
-		let idx = String.index result '+' in
-		(String.sub result 0 idx) ^ (String.sub result (idx+1) ((String.length result) - idx -1 ) )
-	end else
-		result
+	| el, s -> String.concat separator el ^ separator ^ s
+;;
+let getMetaString key meta =
+	let rec loop = function
+		| [] -> ""
+		| (k,[Ast.EConst (Ast.String name),_],_) :: _ when k = key -> name
+		| _ :: l -> loop l
+		in
+	loop meta
 ;;
 
-(* This packages are cocoa frameworks, do not include this classes but include the framework *)
-let getFrameworkOfPath class_path = 
-	let pack = fst class_path in
-	if List.length pack < 1 then "" else
-	match List.nth pack ((List.length pack) -1) with
-	(* Cross-target frameworks *)
-	| "addressbook" -> "AddressBook"
-	| "av" -> "AVFoundation"
-	| "coredata" -> "CoreData"
-	| "foundation" -> "Foundation"
-	| "game" -> "GameKit"
-	| "graphics" -> "CoreGraphics"
-	| "image" -> "CoreImage"
-	| "location" -> "CoreLocation"
-	| "message" -> "MessageUI"
-	| "network" -> "CFNetwork"
-	| "openal" -> "OpenAL"
-	| "quartz" -> "QuartzCore"
-	| "store" -> "StoreKit"
-	| "SanTestings" -> "SanTestings"
-	(* iOS *)
-	| "iad" -> "iAd"
-	| "map" -> "MapKit"
-	| "mediaplayer" -> "MediaPlayer"
-	| "opengles" -> "OpenGLES"
-	| "twitter" -> "Twitter"
-	| "ui" -> "UIKit"
-	(* OSX *)
-	| _ -> ""
-;;
-
-type fileKind =
-	| FSource
-	| FResource
-	| FFramework
-	
 class importsManager =
 	object
 	val mutable all_frameworks : string list = []
 	val mutable class_frameworks : string list = []
 	val mutable class_imports : path list = []
-	val mutable class_imports_extra : string list = []
+	val mutable class_imports_custom : string list = []
 	method add_class_path (class_path:path) = match class_path with
 		| ([],"StdTypes")
 		| ([],"Int")
@@ -81,21 +48,23 @@ class importsManager =
 		| ([],"Dynamic")
 		| ([],"T")
 		| ([],"Bool") -> ();
-		| _ -> let f_name = getFrameworkOfPath class_path in
-		if f_name <> "" then begin
+		| _ -> ()
+	method add_framework (class_def:tclass) = 
+		if (Meta.has Meta.Framework class_def.cl_meta) then begin
+			let f_name = getMetaString Meta.Framework class_def.cl_meta in
 			if not (List.mem f_name all_frameworks) then all_frameworks <- List.append all_frameworks [f_name];
 			if not (List.mem f_name class_frameworks) then class_frameworks <- List.append class_frameworks [f_name];
-		end else begin
+		end (* else begin
 			if not (List.mem class_path class_imports) then class_imports <- List.append class_imports [class_path];
-		end
-	method add_class_import_extra (class_path:string) = class_imports_extra <- List.append class_imports_extra ["\""^class_path^"\""];
-	method add_class_include_extra (class_path:string) = class_imports_extra <- List.append class_imports_extra ["<"^class_path^">"];
+		end *)
+	method add_class_import_custom (class_path:string) = class_imports_custom <- List.append class_imports_custom ["\""^class_path^"\""];
+	method add_class_include_custom (class_path:string) = class_imports_custom <- List.append class_imports_custom ["<"^class_path^">"];
 	method remove_class_path (class_path:path) = ()(* List.remove class_imports [class_path] *)(* TODO: *)
 	method get_all_frameworks = all_frameworks
 	method get_class_frameworks = class_frameworks
 	method get_imports = class_imports
-	method get_imports_extra = class_imports_extra
-	method reset = class_frameworks <- []; class_imports <- []; class_imports_extra <- []
+	method get_imports_custom = class_imports_custom
+	method reset = class_frameworks <- []; class_imports <- []; class_imports_custom <- []
 end;;
 
 class filesManager imports_manager =
@@ -166,10 +135,10 @@ class sourceWriter write_func close_func =
 	method write_header_import (module_path:path) (class_path:path) = 
 		let steps = ref "" in
 		if List.length (fst module_path) > 0 then List.iter (fun (p) -> steps := !steps ^ "../") (fst module_path);
-		this#write ("#import \"" ^ !steps ^ (join_class_path class_path "/") ^ ".h\"\n")
+		this#write ("#import \"" ^ !steps ^ (joinClassPath class_path "/") ^ ".h\"\n")
 	method write_headers_imports (module_path:path) class_paths =
 		List.iter (fun class_path -> this#write_header_import module_path class_path ) class_paths
-	method write_headers_imports_extra class_paths =
+	method write_headers_imports_custom class_paths =
 		List.iter (fun class_path -> this#write ("#import " ^ class_path ^ "\n")) class_paths
 	method write_frameworks_imports f_list = 
 		List.iter (fun name ->
@@ -476,6 +445,7 @@ let rec typeToString ctx t p =
 		(match c.cl_kind with
 		| KNormal | KGeneric | KGenericInstance _ ->
 			ctx.imports_manager#add_class_path c.cl_module.m_path;
+			ctx.imports_manager#add_framework c;
 			remapHaxeTypeToObjc ctx false c.cl_path p
 		| KTypeParameter _ | KExtension _ | KExpr _ | KMacroType | KAbstractImpl _ -> "id")
 	| TFun _ -> "SEL"
@@ -1249,7 +1219,9 @@ and generateExpression ctx e =
 			(match v.v_type with
 			| TMono r -> (match !r with None -> () | Some t -> 
 				match t with
-				| TInst (c,_) -> ctx.imports_manager#add_class_path c.cl_path
+				| TInst (c,_) ->
+					ctx.imports_manager#add_class_path c.cl_path;
+					ctx.imports_manager#add_framework c
 				| _ -> ())
 			| _ -> ());
 			match eo with
@@ -1283,6 +1255,7 @@ and generateExpression ctx e =
 				ctx.writer#write ")"
 			| _ ->
 				ctx.imports_manager#add_class_path c.cl_module.m_path;
+				ctx.imports_manager#add_framework c;
 				ctx.writer#write (Printf.sprintf "[[%s alloc] init" (remapHaxeTypeToObjc ctx false c.cl_path c.cl_pos));
 				if List.length el > 0 then begin
 					ctx.generating_calls <- ctx.generating_calls + 1;
@@ -1920,7 +1893,7 @@ let pbxproj common_ctx files_manager =
 			can_add_new_package := true;
 			List.iter ( fun (existing_path) -> 
 				if List.hd (fst existing_path) = List.hd (fst path) then can_add_new_package := false;
-				(* print_endline ((join_class_path existing_path "/")^" = "^(join_class_path path "/")); *)
+				(* print_endline ((joinClassPath existing_path "/")^" = "^(joinClassPath path "/")); *)
 			) !packages;
 			if (!can_add_new_package) then packages := List.append !packages [path];
 		end;
@@ -1972,7 +1945,7 @@ let pbxproj common_ctx files_manager =
 		file#write ("		"^fileRef^" /* "^name^".framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "^name^".framework; path = System/Library/Frameworks/"^name^".framework; sourceTree = SDKROOT; };\n");
 	) files_manager#get_frameworks;
 	List.iter ( fun (uuid, fileRef, path, ext) -> 
-		let full_path = (join_class_path path "/") in
+		let full_path = (joinClassPath path "/") in
 		let file_type = (if ext = ".h" then "h" else "objc") in
 		if (fst path = []) then
 			file#write ("		"^fileRef^" /* "^full_path^ext^" */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c."^file_type^"; path = "^full_path^ext^"; sourceTree = \"<group>\"; };\n")
@@ -1981,7 +1954,7 @@ let pbxproj common_ctx files_manager =
 	) files_manager#get_source_files;
 	List.iter ( fun (uuid, fileRef, path, ext) -> 
 		let n = if List.length (fst path) > 0 then List.hd (fst path) else (snd path) in
-		file#write ("		"^fileRef^" /* "^(join_class_path path "/")^" */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "^n^"; sourceTree = \"<group>\"; };\n"); 
+		file#write ("		"^fileRef^" /* "^(joinClassPath path "/")^" */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "^n^"; sourceTree = \"<group>\"; };\n"); 
 	) files_manager#get_folders;
 	(* Add some hardcoded files *)
 	file#write ("		"^fileref_en^" /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = \"<group>\"; };\n");
@@ -2060,12 +2033,12 @@ let pbxproj common_ctx files_manager =
 			isa = PBXGroup;
 			children = (\n");
 	List.iter ( fun (uuid, fileRef, path, ext) -> 
-		let full_path = (join_class_path path "/") in
+		let full_path = (joinClassPath path "/") in
 			if (fst path = []) then
 				file#write ("				"^fileRef^" /* "^full_path^ext^" */,\n")
 	) files_manager#get_source_files;
 	List.iter ( fun (uuid, fileRef, path, ext) ->
-		file#write ("				"^fileRef^" /* "^(join_class_path path "/")^" */,\n"); 
+		file#write ("				"^fileRef^" /* "^(joinClassPath path "/")^" */,\n"); 
 	) files_manager#get_folders;
 	
 	file#write ("				"^children_supporting_files^" /* Supporting Files */,
@@ -2186,7 +2159,7 @@ let pbxproj common_ctx files_manager =
 			files = (
 				"^build_file_infoplist_strings^" /* InfoPlist.strings in Resources */,\n");
 	List.iter ( fun (uuid, fileRef, path, ext) ->
-		file#write ("		"^uuid^" /* "^(join_class_path path "/")^" in Resoures */,\n"); 
+		file#write ("		"^uuid^" /* "^(joinClassPath path "/")^" in Resoures */,\n"); 
 	) files_manager#get_folders;
 	(* TODO: add png resources *)
 	file#write ("			);
@@ -2224,7 +2197,7 @@ let pbxproj common_ctx files_manager =
 			buildActionMask = 2147483647;
 			files = (\n"^build_file_main^" /* main.m in Sources */,\n");
 	List.iter ( fun (uuid, fileRef, path, ext) -> 
-		if ext=".m" then file#write ("				"^uuid^" /* "^(join_class_path path "/")^ext^" in Sources */,\n");
+		if ext=".m" then file#write ("				"^uuid^" /* "^(joinClassPath path "/")^ext^" in Sources */,\n");
 	) files_manager#get_source_files;
 	file#write ("			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2466,14 +2439,6 @@ let generatePch common_ctx class_def =
 	file#close
 ;;
 
-let getMetaString key meta =
-	let rec loop = function
-		| [] -> ""
-		| (k,[Ast.EConst (Ast.String name),_],_) :: _  when k=key-> name
-		| _ :: l -> loop l
-		in
-	loop meta
-;;
 let generatePlist common_ctx file_info  =
 	(* TODO: Allows the application to specify what location will be used for in their app. 
 	This will be displayed along with the standard Location permissions dialogs. 
@@ -2597,18 +2562,21 @@ let generateHeader ctx files_manager imports_manager =
 	(* Import the super class *)
 	(match ctx.class_def.cl_super with
 		| None -> ()
-		| Some (csup,_) -> ctx.imports_manager#add_class_path csup.cl_path);
+		| Some (csup,_) ->
+			ctx.imports_manager#add_class_path csup.cl_path;
+			ctx.imports_manager#add_framework csup
+	);
 	
 	(* Import extra classes *)
 	let has_custom_import = (Meta.has Meta.Import ctx.class_def.cl_meta) in
 	let has_custom_include = (Meta.has Meta.Include ctx.class_def.cl_meta) in
 	if has_custom_import then begin
 	let import_statement = getMetaString Meta.Import ctx.class_def.cl_meta in
-		 imports_manager#add_class_import_extra import_statement;
+		 imports_manager#add_class_import_custom import_statement;
 	end;
 	if has_custom_include then begin
 	let include_statement = getMetaString Meta.Include ctx.class_def.cl_meta in
-		 imports_manager#add_class_include_extra include_statement;
+		 imports_manager#add_class_include_custom include_statement;
 	end;
 	
 	(* Import frameworks *)
@@ -2618,7 +2586,7 @@ let generateHeader ctx files_manager imports_manager =
 	(* Import classes *)
 	imports_manager#remove_class_path ctx.class_def.cl_path;
 	ctx.writer#write_headers_imports ctx.class_def.cl_module.m_path imports_manager#get_imports;
-	ctx.writer#write_headers_imports_extra imports_manager#get_imports_extra;
+	ctx.writer#write_headers_imports_custom imports_manager#get_imports_custom;
 	ctx.writer#new_line;
 	
 	let class_path = ctx.class_def.cl_path in
@@ -2713,9 +2681,7 @@ let generate common_ctx =
 				(* When we create a new module reset the 'frameworks' and 'imports' that where stored for the previous module *)
 				(* The frameworks are kept in a non-resetable variable for .pbxproj *)
 				imports_manager#reset;
-				print_endline ("> Generating class : "^(snd class_path)^" in module "^(join_class_path module_path "/"));
-				if (Meta.has Meta.Category class_def.cl_meta) then print_endline ("is_category "^"");
-				if (Meta.has Meta.Final class_def.cl_meta) then print_endline ("is final "^"");
+				print_endline ("> Generating class : "^(snd class_path)^" in module "^(joinClassPath module_path "/"));
 				
 				(* Generate implementation *)
 				(* If it's a new module close the old files and create new ones *)

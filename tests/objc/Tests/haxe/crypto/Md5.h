@@ -6,11 +6,8 @@
 //
 
 
+#import <Foundation/Foundation.h>
 
-#import "../../String.h"
-#import "../../haxe/io/Bytes.h"
-#import "../../Array.h"
-#import "../../haxe/crypto/Md5.h"
 
 @interface Md5 : HXObject
 

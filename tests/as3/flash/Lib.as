@@ -1,8 +1,10 @@
 package flash {
+	import flash.external.ExternalInterface;
 	import flash.net.URLRequest;
 	import flash.utils.getDefinitionByName;
 	import flash.system.fscommand;
 	import flash.display.MovieClip;
+	import haxe.Log;
 	import flash.utils.getTimer;
 	import flash.net.navigateToURL;
 	public class Lib {
@@ -57,6 +59,24 @@ package flash {
 		
 		static public function _as(v : *,c : Class) : * {
 			return v as c;
+		}
+		
+		static public function redirectTraces() : void {
+			if(flash.external.ExternalInterface.available) haxe.Log._trace = flash.Lib.traceToConsole;
+		}
+		
+		static protected function traceToConsole(v : *,inf : * = null) : void {
+			var type : String = ((inf != null && inf.customParams != null)?inf.customParams[0]:null);
+			if(type != "warn" && type != "info" && type != "debug" && type != "error") type = ((inf == null)?"error":"log");
+			var str : String = ((inf == null)?"":inf.fileName + ":" + inf.lineNumber + " : ");
+			try {
+				str += Std.string(v);
+			}
+			catch( e : * ){
+				str += "????";
+			}
+			str = str.split("\\").join("\\\\");
+			flash.external.ExternalInterface.call("console." + type,str);
 		}
 		
 	}

@@ -6,24 +6,8 @@
 //
 
 
+#import <Foundation/Foundation.h>
 
-#import "../String.h"
-#import "../haxe/Serializer.h"
-#import "../StringBuf.h"
-#import "../Array.h"
-#import "../haxe/ds/StringMap.h"
-#import "../Std.h"
-#import "../StringTools.h"
-#import "../Reflect.h"
-#import "../Type.h"
-#import "../Math.h"
-#import "../Class.h"
-#import "../List.h"
-#import "../Date.h"
-#import "../haxe/ds/IntMap.h"
-#import "../haxe/ds/ObjectMap.h"
-#import "../haxe/io/Bytes.h"
-#import "../Enum.h"
 
 @interface Serializer : HXObject
 

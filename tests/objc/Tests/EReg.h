@@ -6,11 +6,8 @@
 //
 
 
+#import <Foundation/Foundation.h>
 
-#import "String.h"
-#import "Array.h"
-#import "StringBuf.h"
-#import "Std.h"
 
 @interface NSRegularExpression ( EReg )
 

@@ -6,12 +6,8 @@
 //
 
 
+#import <Foundation/Foundation.h>
 
-#import "../../haxe/io/Bytes.h"
-#import "../../Array.h"
-#import "../../String.h"
-#import "../../haxe/io/Error.h"
-#import "../../StringBuf.h"
 
 @interface Bytes : HXObject
 

@@ -7,8 +7,6 @@
 
 
 
-#import "Array.h"
-#import "List.h"
 
 @interface Lambda : HXObject
 

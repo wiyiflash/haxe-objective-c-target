@@ -15,12 +15,6 @@ typedef enum{
 
 #import <Foundation/Foundation.h>
 
-#import "../Array.h"
-#import "../haxe/CallStack.h"
-#import "../String.h"
-#import "../StringBuf.h"
-#import "../Std.h"
-#import "../haxe/StackItem.h"
 
 @interface CallStack : HXObject
 

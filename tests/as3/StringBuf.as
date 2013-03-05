@@ -8,7 +8,7 @@ package  {
 		}
 		
 		public function addSub(s : String,pos : int,len : * = null) : void {
-			this.b += s.substr(pos,len);
+			this.b += ((len == null)?s.substr(pos):s.substr(pos,len));
 		}
 		
 		public function addChar(c : int) : void {

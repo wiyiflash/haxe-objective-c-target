@@ -111,7 +111,6 @@ class PiratePigGame extends UIView {
 	
 	private function construct ():Void {
 		
-		//Logo.smoothing = true;
 		addSubview (Logo);
 		
 /*		var font = Assets.getFont ("fonts/FreebooterUpdated.ttf");

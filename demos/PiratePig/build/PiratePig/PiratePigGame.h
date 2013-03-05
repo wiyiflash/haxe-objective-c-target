@@ -6,15 +6,7 @@
 //
 
 
-#import <UIKit/UIKit.h>
-#import <CoreGraphics/CoreGraphics.h>
-#import <Foundation/Foundation.h>
 
-#import "Array.h"
-#import "Tile.h"
-#import "PiratePigGame.h"
-#import "Math.h"
-#import "Std.h"
 
 @interface PiratePigGame : UIView 
 

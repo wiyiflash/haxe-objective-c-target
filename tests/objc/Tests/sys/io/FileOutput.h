@@ -7,9 +7,6 @@
 
 
 
-#import "../../haxe/io/Bytes.h"
-#import "../../sys/io/FileSeek.h"
-#import "../../haxe/io/Output.h"
 
 @interface FileOutput : Output 
 

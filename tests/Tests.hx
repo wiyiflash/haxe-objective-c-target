@@ -211,7 +211,7 @@ class Tests/* implements Interface1 implements Interface2*/ {
 	
 	function testEReg(){
 		var ereg = new EReg("ytrytrevev76", "099");
-		var s = ereg.customReplace("s", function(e:EReg):String{return "ss";});
+		var s = ereg.map("s", function(e:EReg):String{return "ss";});
 		var b = ereg.match("s");
 		s = ereg.matched(5);
 		s = ereg.matchedLeft();
@@ -419,10 +419,11 @@ class Tests/* implements Interface1 implements Interface2*/ {
 		#if objc
 		var sup = Type.getSuperClass ( objc.foundation.NSString );
 		var sups = Type.getClassName ( objc.foundation.NSString );
-		#end
 		
 		var cl = Type.resolveClass ( "ios.map.MKMapView" );
 		var inst = Type.createEmptyInstance ( objc.foundation.NSString );
+		#end
+		
 	/*	
 		allEnums<T>(e : Enum<T>) : Array<T>
 		Returns the list of all enum values that dont take any parameter.
@@ -522,7 +523,9 @@ class Tests/* implements Interface1 implements Interface2*/ {
 		optionalArguments2 (0,null,null,3);
 		optionalArguments3 (0,1);
 	}
-	public function optionalArguments (arg1:Int, arg2:Int, arg3:Int, ?arg4:Int) :Void {}
+	public function optionalArguments (arg1:Int, arg2:Int, arg3:Int, ?arg4:Null<Int>) :Void {
+		var x = arg4 + 5;
+	}
 	public function optionalArguments1 (arg1:Int, arg2:Int, arg3:Int, arg4:Int=5) :Void {}
 	public function optionalArguments2 (arg1:Int, ?arg2:Int, ?arg3:Int, arg4:Int) :Void {}
 	public function optionalArguments3 (arg1:Int, arg2:Int=6, ?arg3:Bool=true, ?arg4:Null<Bool>) :Void {}
@@ -545,8 +548,10 @@ class Tests/* implements Interface1 implements Interface2*/ {
 		test2.functionToRedefine = functionToRedefine;
 		test2.functionToRedefine2 = functionToRedefine2;
 		
+		#if objc
 		new TestC();
 		new TestHaxePack();
+		#end
 	}
 	function functionToRedefine () {
 		trace("do something else");

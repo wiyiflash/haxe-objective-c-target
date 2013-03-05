@@ -37,19 +37,11 @@ package  {
 			return l;
 		}
 		
-		static public function has(it : *,elt : *,cmp : Function = null) : Boolean {
-			if(cmp == null) {
-				{ var $it : * = it.iterator();
-				while( $it.hasNext() ) { var x : * = $it.next();
-				if(x == elt) return true;
-				}}
-			}
-			else {
-				{ var $it2 : * = it.iterator();
-				while( $it2.hasNext() ) { var x1 : * = $it2.next();
-				if(cmp(x1,elt)) return true;
-				}}
-			}
+		static public function has(it : *,elt : *) : Boolean {
+			{ var $it : * = it.iterator();
+			while( $it.hasNext() ) { var x : * = $it.next();
+			if(x == elt) return true;
+			}}
 			return false;
 		}
 		

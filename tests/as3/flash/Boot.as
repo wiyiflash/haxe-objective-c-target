@@ -165,6 +165,9 @@ package flash {
 				case "function":
 				return "<function>";
 				break;
+				case "undefined":
+				return "null";
+				break;
 				}
 			}
 			break;

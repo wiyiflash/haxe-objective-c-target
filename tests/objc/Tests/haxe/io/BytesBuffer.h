@@ -6,10 +6,7 @@
 //
 
 
-#import <Foundation/Foundation.h>
 
-#import "../../haxe/io/Bytes.h"
-#import "../../haxe/io/Error.h"
 
 @interface BytesBuffer : HXObject
 

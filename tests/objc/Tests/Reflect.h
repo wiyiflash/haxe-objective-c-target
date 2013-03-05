@@ -6,10 +6,8 @@
 //
 
 
+#import <Foundation/Foundation.h>
 
-#import "String.h"
-#import "Array.h"
-#import "Reflect.h"
 
 @interface Reflect : HXObject
 

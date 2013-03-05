@@ -6,162 +6,152 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		RGSDTFJTBQ32TI9E1BB5VLRC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = H9VM404F962Z5UPAEBO134AX; };
-		6OZXJNODJ8AQUXTG56XOYZXX /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AJRLKCX8ETDYH587JTP7TDPE; };
-		0D9IDPYVALMHUP92KLP5C5O0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4HTT3HZD5NKXKCLG1O9O5L8E; };
-		HCQVCM8U3G5ZXN3WWOZ7NX6W /* Array.m in Sources */ = {isa = PBXBuildFile; fileRef = NZYHGAV1NPLPT9KLTNXYTFWJ; };
-		NWV8WYZU5H5S6RAGO1KR33G5 /* PiratePig.m in Sources */ = {isa = PBXBuildFile; fileRef = P9TDGXI8MVTLXF7OSEO16LR2; };
-		Y98R2C5NRRJPA7VHJNAIW32J /* PiratePigGame.m in Sources */ = {isa = PBXBuildFile; fileRef = SISAT6DGA0Q3SLLXDT3M24Q5; };
-		DZ0LMULOVVFAFADLHWILZQL0 /* Std.m in Sources */ = {isa = PBXBuildFile; fileRef = BKSMX5P9RQB9I330QRPD6NG7; };
-		ANRE4I7DXQG5ZZFEWJ4Z0A0N /* String.m in Sources */ = {isa = PBXBuildFile; fileRef = MQLJOVNCQEON6D1HYKMD5WDX; };
-		ESDQ409K5FP1LO784359L2LD /* Tile.m in Sources */ = {isa = PBXBuildFile; fileRef = W9601BCPI86HUWW97898DJWA; };
-		M76VNWK1IAQ21HMCFUOXUWVO /* Log.m in Sources */ = {isa = PBXBuildFile; fileRef = 994RDQH1R566AO3PCUN1RC3U; };
-		BR4Q9VY8LICZ74MHBQEAVW7L /* haxe in Resources */ = {isa = PBXBuildFile; fileRef = BOA8LMT79W6XHT2K51AHDSCC; };
-		M21K6MU6YHF16WHJ9J91RHHV /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0NVLY3ZEN5EASVAMZLWF6KET /* InfoPlist.strings */; };
-		MKF5H5Y45QODBKTIX898NU2M /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = LAMLBN9ARRBKY1KWK1NRBX1R /* InfoPlist.strings */; };
-		89R6Q67UH4MPB5ZHIUU6ZVAJ /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 20WHQEIIYTCM3XRKDTSVDQAJ /* main.m */; };
+		MR6WJ06O83EB71MSIN3M0BFM /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DO3AHXF6S2D6CGLGTO083NZ; };
+		AYLF6F6CLNP76CHLTKB0VSVO /* Array.m in Sources */ = {isa = PBXBuildFile; fileRef = VX9NOK056QO0XMK3YOVISPV2; };
+		PBSEB0MGB83JAJOEWOYGB020 /* PiratePig.m in Sources */ = {isa = PBXBuildFile; fileRef = L5GF0GYIGJDEQGXY3C61TKIZ; };
+		KRKOWKDUT6W9RCXTY80YWISQ /* PiratePigGame.m in Sources */ = {isa = PBXBuildFile; fileRef = 75BUKFCVWDM97ISPUSVAB8XF; };
+		I00H32JZ64R443AQVKRFJ2JV /* Std.m in Sources */ = {isa = PBXBuildFile; fileRef = 94XI340K9UT5JGIFD5M1CD88; };
+		6BHP5WBQWPY3NWGXIA0H458U /* String.m in Sources */ = {isa = PBXBuildFile; fileRef = NQAEI37XZEDPGFC5HNROM5S4; };
+		94RX0C25R3IGNC5UFCBSZOS6 /* Tile.m in Sources */ = {isa = PBXBuildFile; fileRef = VZ4DVBG62HO0V3R4MHL5QO2X; };
+		PWDGQCE9ZS9UM335XPEYKYZU /* Log.m in Sources */ = {isa = PBXBuildFile; fileRef = AQF8RTFHSQC6TP4I9FYJXZT1; };
+		T8MK6XNX3SNCPKKOTC745H1D /* haxe in Resources */ = {isa = PBXBuildFile; fileRef = QHV8CTDO0XH3H34AHJG5K88I; };
+		D6VUDKQM5Y5IKR77D1Z8IJWW /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = VHC85AAJ2W6CC63DLFUGU47J /* InfoPlist.strings */; };
+		F6QH6VDOU9A7OJE21UVXJ0UA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = UPM54U22GR08EJDW5BB6FBBH /* InfoPlist.strings */; };
+		63PPSS1RR4W3N5E1NE92MVVD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = NE40Q56G09RTDC6EKC0GPBCN /* main.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		WTQXZ60CVHLKQTU1L1X9TC6L /* PBXContainerItemProxy */ = {
+		G7DOCWXAMJST3MKAD3DEC0UG /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = JSCH0IOXF0Y30I5FLOYNB6N1 /* Project object */;
+			containerPortal = UM29LPMPMY46L1769P8QD8S4 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 56KNIBLW4BLHI7IB4GNN3V7A;
+			remoteGlobalIDString = QJ0G63KEKP0NQSF8W9ZVNUE0;
 			remoteInfo = PiratePig;
 		};
 /* End PBXContainerItemProxy section */
 
 
 /* Begin PBXFileReference section */
-		H9VM404F962Z5UPAEBO134AX /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		AJRLKCX8ETDYH587JTP7TDPE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		4HTT3HZD5NKXKCLG1O9O5L8E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		NZYHGAV1NPLPT9KLTNXYTFWJ /* Array.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Array.m; sourceTree = "<group>"; };
-		T4N6GOF9M2GNWDND279ZSGBO /* Array.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Array.h; sourceTree = "<group>"; };
-		P9TDGXI8MVTLXF7OSEO16LR2 /* PiratePig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PiratePig.m; sourceTree = "<group>"; };
-		ASO9WMRV47NW0E4LS23ZG5LC /* PiratePig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PiratePig.h; sourceTree = "<group>"; };
-		SISAT6DGA0Q3SLLXDT3M24Q5 /* PiratePigGame.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PiratePigGame.m; sourceTree = "<group>"; };
-		0DNHYBZBO26UH4MJU5H8ZBTY /* PiratePigGame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PiratePigGame.h; sourceTree = "<group>"; };
-		BKSMX5P9RQB9I330QRPD6NG7 /* Std.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Std.m; sourceTree = "<group>"; };
-		FRXJOFTLF812W8UCLU8AVYB2 /* Std.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Std.h; sourceTree = "<group>"; };
-		MQLJOVNCQEON6D1HYKMD5WDX /* String.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = String.m; sourceTree = "<group>"; };
-		ZULP6LVQYDHVN6OO08B3C59M /* String.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = String.h; sourceTree = "<group>"; };
-		W9601BCPI86HUWW97898DJWA /* Tile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tile.m; sourceTree = "<group>"; };
-		RYE6BRVWKFSZ73AW1SIUMCG3 /* Tile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tile.h; sourceTree = "<group>"; };
-		994RDQH1R566AO3PCUN1RC3U /* haxe/Log.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Log.m; path = PiratePig/haxe/Log.m; sourceTree = SOURCE_ROOT; };
-		42L1DFV54CU4DG3RDRY7TQ0X /* haxe/Log.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Log.h; path = PiratePig/haxe/Log.h; sourceTree = SOURCE_ROOT; };
-		BOA8LMT79W6XHT2K51AHDSCC /* haxe/ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = haxe; sourceTree = "<group>"; };
-		KQI1U04RTFN0R6J0YZ8C64ND /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		7GZTXU029XJRJJ315XJ1WPIM /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		MKTD2YUJ6NAZH0NOAME2JN2E /* PiratePig-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PiratePig-Info.plist"; sourceTree = "<group>"; };
-		4W65P4EJFE4ZP3MKVIDKZZNZ /* PiratePig-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PiratePig-Prefix.pch"; sourceTree = "<group>"; };
-		20WHQEIIYTCM3XRKDTSVDQAJ /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		E19ULN510RUNK6NOH8QP9AMP /* PiratePig.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PiratePig.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		0ZFB3HDW7ZSFZYEK30YUMTBQ /* PiratePigTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PiratePigTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5DO3AHXF6S2D6CGLGTO083NZ /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		VX9NOK056QO0XMK3YOVISPV2 /* Array.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Array.m; sourceTree = "<group>"; };
+		GL8ZL0VKUGG0E4D7VJTUZRRA /* Array.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Array.h; sourceTree = "<group>"; };
+		L5GF0GYIGJDEQGXY3C61TKIZ /* PiratePig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PiratePig.m; sourceTree = "<group>"; };
+		1BM40DTEX8KRE9FUJWNXJHMD /* PiratePig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PiratePig.h; sourceTree = "<group>"; };
+		75BUKFCVWDM97ISPUSVAB8XF /* PiratePigGame.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PiratePigGame.m; sourceTree = "<group>"; };
+		6R7TFEWILK8CNB77GJ2OCYSC /* PiratePigGame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PiratePigGame.h; sourceTree = "<group>"; };
+		94XI340K9UT5JGIFD5M1CD88 /* Std.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Std.m; sourceTree = "<group>"; };
+		Z91SECUTVMVZD44BJ21UQMYA /* Std.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Std.h; sourceTree = "<group>"; };
+		NQAEI37XZEDPGFC5HNROM5S4 /* String.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = String.m; sourceTree = "<group>"; };
+		DTMWD95FBJ13I0LL21V0YXJO /* String.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = String.h; sourceTree = "<group>"; };
+		VZ4DVBG62HO0V3R4MHL5QO2X /* Tile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tile.m; sourceTree = "<group>"; };
+		MB8GLDE82CVK3H8SF4JWBL1Q /* Tile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tile.h; sourceTree = "<group>"; };
+		AQF8RTFHSQC6TP4I9FYJXZT1 /* haxe/Log.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Log.m; path = PiratePig/haxe/Log.m; sourceTree = SOURCE_ROOT; };
+		B3BXRS6NNA66X86NNIBLHXFS /* haxe/Log.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Log.h; path = PiratePig/haxe/Log.h; sourceTree = SOURCE_ROOT; };
+		QHV8CTDO0XH3H34AHJG5K88I /* haxe/ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = haxe; sourceTree = "<group>"; };
+		684XL4DPLB3PLPZYALTYZJG7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		JHBIMPOROC14HZXB65D8AQOI /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		RPBJNWJ37C67WWJ7FX1Y4MXF /* PiratePig-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PiratePig-Info.plist"; sourceTree = "<group>"; };
+		QO37URL8JG1YQ7KWO52X9677 /* PiratePig-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PiratePig-Prefix.pch"; sourceTree = "<group>"; };
+		NE40Q56G09RTDC6EKC0GPBCN /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		DKSA66ME79UMVGV93S7P9CWJ /* PiratePig.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PiratePig.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		00RF8HKP9RBIXUJH8ZL9Y583 /* PiratePigTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PiratePigTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 
 /* Begin PBXFrameworksBuildPhase section */
-		OM2M6O404LJYPWO5QLITX4VH /* Frameworks */ = {
+		IQBDKL46AT0PCHCDRW5C88RW /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				RGSDTFJTBQ32TI9E1BB5VLRC /* UIKit.framework in Frameworks */,
-				6OZXJNODJ8AQUXTG56XOYZXX /* Foundation.framework in Frameworks */,
-				0D9IDPYVALMHUP92KLP5C5O0 /* CoreGraphics.framework in Frameworks */,
+				MR6WJ06O83EB71MSIN3M0BFM /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		PCBXV2X3C3G288W5KCJLFMEQ /* Frameworks */ = {
+		SLJBFMUJNZ4R4KXCELKBCOLO /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				RGSDTFJTBQ32TI9E1BB5VLRC /* UIKit.framework in Frameworks */,
-				6OZXJNODJ8AQUXTG56XOYZXX /* Foundation.framework in Frameworks */,
-				0D9IDPYVALMHUP92KLP5C5O0 /* CoreGraphics.framework in Frameworks */,
+				MR6WJ06O83EB71MSIN3M0BFM /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		RP00ZO0143BH134AAZ1TVHXA = {
+		SSK5S5C3BOUBILA9U0AF58IP = {
 			isa = PBXGroup;
 			children = (
-				EUXRVXTA71XLHQZT8D6X1M53 /* PiratePig */,
-				FEDO1CIEJHBF1909U5RTCOOM /* PiratePigTests */,
-				CGQDXT0WL0QAFSXHGPD832BB /* Frameworks */,
-				0WD1VK90MLQVQY1N11E9Z1EC /* Products */,
+				6Z1XBB59E38R20G3KHPUKATH /* PiratePig */,
+				0GERUQJ82B4JUY7Z2W7XYTD6 /* PiratePigTests */,
+				3X0ME2QBOMXF8BI8ISWTKA7Z /* Frameworks */,
+				I2IJX30CNRGO0UO4X8R24KH1 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		0WD1VK90MLQVQY1N11E9Z1EC /* Products */ = {
+		I2IJX30CNRGO0UO4X8R24KH1 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E19ULN510RUNK6NOH8QP9AMP /* PiratePig.app */,
-				0ZFB3HDW7ZSFZYEK30YUMTBQ /* PiratePigTests.octest */,
+				DKSA66ME79UMVGV93S7P9CWJ /* PiratePig.app */,
+				00RF8HKP9RBIXUJH8ZL9Y583 /* PiratePigTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		CGQDXT0WL0QAFSXHGPD832BB /* Frameworks */ = {
+		3X0ME2QBOMXF8BI8ISWTKA7Z /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				H9VM404F962Z5UPAEBO134AX /* UIKit.framework in Frameworks */,
-				AJRLKCX8ETDYH587JTP7TDPE /* Foundation.framework in Frameworks */,
-				4HTT3HZD5NKXKCLG1O9O5L8E /* CoreGraphics.framework in Frameworks */,
+				5DO3AHXF6S2D6CGLGTO083NZ /* Foundation.framework in Frameworks */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		EUXRVXTA71XLHQZT8D6X1M53 /* PiratePig */ = {
+		6Z1XBB59E38R20G3KHPUKATH /* PiratePig */ = {
 			isa = PBXGroup;
 			children = (
-				NZYHGAV1NPLPT9KLTNXYTFWJ /* Array.m */,
-				T4N6GOF9M2GNWDND279ZSGBO /* Array.h */,
-				P9TDGXI8MVTLXF7OSEO16LR2 /* PiratePig.m */,
-				ASO9WMRV47NW0E4LS23ZG5LC /* PiratePig.h */,
-				SISAT6DGA0Q3SLLXDT3M24Q5 /* PiratePigGame.m */,
-				0DNHYBZBO26UH4MJU5H8ZBTY /* PiratePigGame.h */,
-				BKSMX5P9RQB9I330QRPD6NG7 /* Std.m */,
-				FRXJOFTLF812W8UCLU8AVYB2 /* Std.h */,
-				MQLJOVNCQEON6D1HYKMD5WDX /* String.m */,
-				ZULP6LVQYDHVN6OO08B3C59M /* String.h */,
-				W9601BCPI86HUWW97898DJWA /* Tile.m */,
-				RYE6BRVWKFSZ73AW1SIUMCG3 /* Tile.h */,
-				BOA8LMT79W6XHT2K51AHDSCC /* haxe/ */,
-				HK8R5E4U5TPZ3WBLIMNP2H1X /* Supporting Files */,
+				VX9NOK056QO0XMK3YOVISPV2 /* Array.m */,
+				GL8ZL0VKUGG0E4D7VJTUZRRA /* Array.h */,
+				L5GF0GYIGJDEQGXY3C61TKIZ /* PiratePig.m */,
+				1BM40DTEX8KRE9FUJWNXJHMD /* PiratePig.h */,
+				75BUKFCVWDM97ISPUSVAB8XF /* PiratePigGame.m */,
+				6R7TFEWILK8CNB77GJ2OCYSC /* PiratePigGame.h */,
+				94XI340K9UT5JGIFD5M1CD88 /* Std.m */,
+				Z91SECUTVMVZD44BJ21UQMYA /* Std.h */,
+				NQAEI37XZEDPGFC5HNROM5S4 /* String.m */,
+				DTMWD95FBJ13I0LL21V0YXJO /* String.h */,
+				VZ4DVBG62HO0V3R4MHL5QO2X /* Tile.m */,
+				MB8GLDE82CVK3H8SF4JWBL1Q /* Tile.h */,
+				QHV8CTDO0XH3H34AHJG5K88I /* haxe/ */,
+				BIMFC1M9UG56VPCDVF7LNU10 /* Supporting Files */,
 			);
 			path = PiratePig;
 			sourceTree = "<group>";
 		};
-		HK8R5E4U5TPZ3WBLIMNP2H1X /* Supporting Files */ = {
+		BIMFC1M9UG56VPCDVF7LNU10 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				MKTD2YUJ6NAZH0NOAME2JN2E /* PiratePig-Info.plist */,
-				0NVLY3ZEN5EASVAMZLWF6KET /* InfoPlist.strings */,
-				20WHQEIIYTCM3XRKDTSVDQAJ /* main.m */,
-				4W65P4EJFE4ZP3MKVIDKZZNZ /* PiratePig-Prefix.pch */,
+				RPBJNWJ37C67WWJ7FX1Y4MXF /* PiratePig-Info.plist */,
+				VHC85AAJ2W6CC63DLFUGU47J /* InfoPlist.strings */,
+				NE40Q56G09RTDC6EKC0GPBCN /* main.m */,
+				QO37URL8JG1YQ7KWO52X9677 /* PiratePig-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		FEDO1CIEJHBF1909U5RTCOOM /* PiratePigTests */ = {
+		0GERUQJ82B4JUY7Z2W7XYTD6 /* PiratePigTests */ = {
 			isa = PBXGroup;
 			children = (
 				/* 28BFDA091628A95900882B34 PiratePigTests.h ,*/
 				/* 28BFDA0A1628A95900882B34 PiratePigTests.m ,*/
-				3WU8ACDOT6MR3VL93L34AGU1 /* Supporting Files */,
+				W3GFZQTE2G425TIJ25SD5GUY /* Supporting Files */,
 			);
 			path = PiratePigTests;
 			sourceTree = "<group>";
 		};
-		3WU8ACDOT6MR3VL93L34AGU1 /* Supporting Files */ = {
+		W3GFZQTE2G425TIJ25SD5GUY /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
 				/* 28BFDA051628A95900882B34 PiratePigTests-Info.plist ,*/
-				LAMLBN9ARRBKY1KWK1NRBX1R /* InfoPlist.strings */,
+				UPM54U22GR08EJDW5BB6FBBH /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -169,13 +159,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		56KNIBLW4BLHI7IB4GNN3V7A /* PiratePig */ = {
+		QJ0G63KEKP0NQSF8W9ZVNUE0 /* PiratePig */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = KZJTDOATWX8U9LC153YN6LE6 /* Build configuration list for PBXNativeTarget "PiratePig" */;
+			buildConfigurationList = QNG9SF4TYQPE48KRCIKEXZJT /* Build configuration list for PBXNativeTarget "PiratePig" */;
 			buildPhases = (
-				31T4J8837HKXLBWEEHP6RVM9 /* Sources */,
-				OM2M6O404LJYPWO5QLITX4VH /* Frameworks */,
-				XBAHHX59O5SB7GFLW545TY2X /* Resources */,
+				RC1K1IXO4LPG844HOWS4ALGO /* Sources */,
+				IQBDKL46AT0PCHCDRW5C88RW /* Frameworks */,
+				VLGXR5TUE8G1HG2ZALD0OZ1L /* Resources */,
 			);
 			buildRules = (
 			);
@@ -183,77 +173,77 @@
 			);
 			name = PiratePig;
 			productName = PiratePig;
-			productReference = E19ULN510RUNK6NOH8QP9AMP /* PiratePig.app */;
+			productReference = DKSA66ME79UMVGV93S7P9CWJ /* PiratePig.app */;
 			productType = "com.apple.product-type.application";
 		};
-		EDLK2JG6MK8SP6VJA9FJTCVT /* PiratePigTests */ = {
+		UBD13HVDRQFA1DEPC5J6XZ8C /* PiratePigTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CJ6JSU3Z5XDC0PLOARR8AACD /* Build configuration list for PBXNativeTarget "PiratePigTests" */;
+			buildConfigurationList = 5SIUX5S5LL1D652QCHQDKP4I /* Build configuration list for PBXNativeTarget "PiratePigTests" */;
 			buildPhases = (
-				KLNFUXYMY8NWHJ1UIOEREH84 /* Sources */,
-				PCBXV2X3C3G288W5KCJLFMEQ /* Frameworks */,
-				SSZGBT8KQ3H9QPIQYIHGFG9Z /* Resources */,
-				SSW7W4YL833UFDHV1GBWYYQS /* ShellScript */,
+				G7XP80I1ZVEY0GXQTW3JVING /* Sources */,
+				SLJBFMUJNZ4R4KXCELKBCOLO /* Frameworks */,
+				S96ROTZ5IEKNVAWL26ETMMPH /* Resources */,
+				1O9CUKKBKO8XTKHQZQV8M9PP /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				C91RY1CRQWMHW0HROBLAFBM3 /* PBXTargetDependency */,
+				SYOD3TFQU4HN8UKC7MIWCSK8 /* PBXTargetDependency */,
 			);
 			name = PiratePigTests;
 			productName = PiratePigTests;
-			productReference = 0ZFB3HDW7ZSFZYEK30YUMTBQ /* PiratePigTests.octest */;
+			productReference = 00RF8HKP9RBIXUJH8ZL9Y583 /* PiratePigTests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		JSCH0IOXF0Y30I5FLOYNB6N1 /* Project object */ = {
+		UM29LPMPMY46L1769P8QD8S4 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = "You";
 			};
-			buildConfigurationList = VLKDLP9ZH5G2I90JRJCRCOJ3 /* Build configuration list for PBXProject "PiratePig" */;
+			buildConfigurationList = FM8EY30QIJGLU1N08P6G0JIM /* Build configuration list for PBXProject "PiratePig" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
-			mainGroup = RP00ZO0143BH134AAZ1TVHXA;
-			productRefGroup = 0WD1VK90MLQVQY1N11E9Z1EC /* Products */;
+			mainGroup = SSK5S5C3BOUBILA9U0AF58IP;
+			productRefGroup = I2IJX30CNRGO0UO4X8R24KH1 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				56KNIBLW4BLHI7IB4GNN3V7A /* PiratePig */,
-				EDLK2JG6MK8SP6VJA9FJTCVT /* PiratePigTests */,
+				QJ0G63KEKP0NQSF8W9ZVNUE0 /* PiratePig */,
+				UBD13HVDRQFA1DEPC5J6XZ8C /* PiratePigTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		XBAHHX59O5SB7GFLW545TY2X /* Resources */ = {
+		VLGXR5TUE8G1HG2ZALD0OZ1L /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				M21K6MU6YHF16WHJ9J91RHHV /* InfoPlist.strings in Resources */,
-		BR4Q9VY8LICZ74MHBQEAVW7L /* haxe/ in Resoures */,
+				D6VUDKQM5Y5IKR77D1Z8IJWW /* InfoPlist.strings in Resources */,
+		T8MK6XNX3SNCPKKOTC745H1D /* haxe/ in Resoures */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		SSZGBT8KQ3H9QPIQYIHGFG9Z /* Resources */ = {
+		S96ROTZ5IEKNVAWL26ETMMPH /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				MKF5H5Y45QODBKTIX898NU2M /* InfoPlist.strings in Resources */,
+				F6QH6VDOU9A7OJE21UVXJ0UA /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		SSW7W4YL833UFDHV1GBWYYQS /* ShellScript */ = {
+		1O9CUKKBKO8XTKHQZQV8M9PP /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -271,22 +261,22 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		31T4J8837HKXLBWEEHP6RVM9 /* Sources */ = {
+		RC1K1IXO4LPG844HOWS4ALGO /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-89R6Q67UH4MPB5ZHIUU6ZVAJ /* main.m in Sources */,
-				HCQVCM8U3G5ZXN3WWOZ7NX6W /* Array.m in Sources */,
-				NWV8WYZU5H5S6RAGO1KR33G5 /* PiratePig.m in Sources */,
-				Y98R2C5NRRJPA7VHJNAIW32J /* PiratePigGame.m in Sources */,
-				DZ0LMULOVVFAFADLHWILZQL0 /* Std.m in Sources */,
-				ANRE4I7DXQG5ZZFEWJ4Z0A0N /* String.m in Sources */,
-				ESDQ409K5FP1LO784359L2LD /* Tile.m in Sources */,
-				M76VNWK1IAQ21HMCFUOXUWVO /* haxe/Log.m in Sources */,
+63PPSS1RR4W3N5E1NE92MVVD /* main.m in Sources */,
+				AYLF6F6CLNP76CHLTKB0VSVO /* Array.m in Sources */,
+				PBSEB0MGB83JAJOEWOYGB020 /* PiratePig.m in Sources */,
+				KRKOWKDUT6W9RCXTY80YWISQ /* PiratePigGame.m in Sources */,
+				I00H32JZ64R443AQVKRFJ2JV /* Std.m in Sources */,
+				6BHP5WBQWPY3NWGXIA0H458U /* String.m in Sources */,
+				94RX0C25R3IGNC5UFCBSZOS6 /* Tile.m in Sources */,
+				PWDGQCE9ZS9UM335XPEYKYZU /* haxe/Log.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		KLNFUXYMY8NWHJ1UIOEREH84 /* Sources */ = {
+		G7XP80I1ZVEY0GXQTW3JVING /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -297,26 +287,26 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		C91RY1CRQWMHW0HROBLAFBM3 /* PBXTargetDependency */ = {
+		SYOD3TFQU4HN8UKC7MIWCSK8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 56KNIBLW4BLHI7IB4GNN3V7A /* PiratePig */;
-			targetProxy = WTQXZ60CVHLKQTU1L1X9TC6L /* PBXContainerItemProxy */;
+			target = QJ0G63KEKP0NQSF8W9ZVNUE0 /* PiratePig */;
+			targetProxy = G7DOCWXAMJST3MKAD3DEC0UG /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		0NVLY3ZEN5EASVAMZLWF6KET /* InfoPlist.strings */ = {
+		VHC85AAJ2W6CC63DLFUGU47J /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				KQI1U04RTFN0R6J0YZ8C64ND /* en */,
+				684XL4DPLB3PLPZYALTYZJG7 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		LAMLBN9ARRBKY1KWK1NRBX1R /* InfoPlist.strings */ = {
+		UPM54U22GR08EJDW5BB6FBBH /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				7GZTXU029XJRJJ315XJ1WPIM /* en */,
+				JHBIMPOROC14HZXB65D8AQOI /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -324,7 +314,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		UKJSJRU7OXEWBVSM3PF3FYC2 /* Debug */ = {
+		XUZ34HCJWR6G3HXHDDW5ROQS /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -352,7 +342,7 @@
 			};
 			name = Debug;
 		};
-		Y0GQDYO6879X1B3WATOHJ6MZ /* Release */ = {
+		47Q2AJO6OXHH5FTXCG2TK6TE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -374,7 +364,7 @@
 			};
 			name = Release;
 		};
-		EVV95WRWETADKYYMSQGT5D4A /* Debug */ = {
+		S0OAV8CG0YK9O0MMTQVJWJKF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -387,7 +377,7 @@
 			};
 			name = Debug;
 		};
-		6JRU6EY6UGXSL6LMM6F5TM5E /* Release */ = {
+		UWWPJZVD2TMOIMY7DWCXC7IZ /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -398,7 +388,7 @@
 			};
 			name = Release;
 		};
-		GHBMSZIEA6K9MI49L6VD7YQH /* Debug */ = {
+		RFYJ6FSNSEXD32BRY5VVK4F0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/PiratePig.app/PiratePig";
@@ -415,7 +405,7 @@
 			};
 			name = Debug;
 		};
-		TTQ01BK13DB1F4PJKG143RWH /* Release */ = {
+		JIVBNUH9RJ6N3JY8EJLZE35A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/PiratePig.app/PiratePig";
@@ -435,34 +425,34 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		VLKDLP9ZH5G2I90JRJCRCOJ3 /* Build configuration list for PBXProject "PiratePig" */ = {
+		FM8EY30QIJGLU1N08P6G0JIM /* Build configuration list for PBXProject "PiratePig" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				UKJSJRU7OXEWBVSM3PF3FYC2 /* Debug */,
-				Y0GQDYO6879X1B3WATOHJ6MZ /* Release */,
+				XUZ34HCJWR6G3HXHDDW5ROQS /* Debug */,
+				47Q2AJO6OXHH5FTXCG2TK6TE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		KZJTDOATWX8U9LC153YN6LE6 /* Build configuration list for PBXNativeTarget "PiratePig" */ = {
+		QNG9SF4TYQPE48KRCIKEXZJT /* Build configuration list for PBXNativeTarget "PiratePig" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				EVV95WRWETADKYYMSQGT5D4A /* Debug */,
-				6JRU6EY6UGXSL6LMM6F5TM5E /* Release */,
+				S0OAV8CG0YK9O0MMTQVJWJKF /* Debug */,
+				UWWPJZVD2TMOIMY7DWCXC7IZ /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CJ6JSU3Z5XDC0PLOARR8AACD /* Build configuration list for PBXNativeTarget "PiratePigTests" */ = {
+		5SIUX5S5LL1D652QCHQDKP4I /* Build configuration list for PBXNativeTarget "PiratePigTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				GHBMSZIEA6K9MI49L6VD7YQH /* Debug */,
-				TTQ01BK13DB1F4PJKG143RWH /* Release */,
+				RFYJ6FSNSEXD32BRY5VVK4F0 /* Debug */,
+				JIVBNUH9RJ6N3JY8EJLZE35A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = JSCH0IOXF0Y30I5FLOYNB6N1 /* Project object */;
+	rootObject = UM29LPMPMY46L1769P8QD8S4 /* Project object */;
 }

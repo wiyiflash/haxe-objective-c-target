@@ -8,10 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-#import "../Array.h"
-#import "../haxe/Resource.h"
-#import "../String.h"
-#import "../haxe/io/Bytes.h"
 
 @interface Resource : HXObject
 

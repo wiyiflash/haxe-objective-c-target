@@ -6,13 +6,7 @@
 //
 
 
-#import <Foundation/Foundation.h>
 
-#import "../haxe/Timer.h"
-#import "../Array.h"
-#import "../measure/T.h"
-#import "../haxe/Log.h"
-#import "../Sys.h"
 
 @interface Timer : HXObject
 

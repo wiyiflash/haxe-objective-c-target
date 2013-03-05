@@ -16,33 +16,6 @@ typedef enum{
 
 #import <Foundation/Foundation.h>
 
-#import "String.h"
-#import "Array.h"
-#import "objc/Lib.h"
-#import "haxe/Log.h"
-#import "Date.h"
-#import "DateTools.h"
-#import "Tests.h"
-#import "TestsEnumExtern.h"
-#import "Color2.h"
-#import "EReg.h"
-#import "Hash.h"
-#import "IntHash.h"
-#import "Lambda.h"
-#import "List.h"
-#import "Std.h"
-#import "haxe/FastList.h"
-#import "Reflect.h"
-#import "StringBuf.h"
-#import "StringTools.h"
-#import "Sys.h"
-#import "haxe/io/Output.h"
-#import "haxe/io/Input.h"
-#import "Class.h"
-#import "Type.h"
-#import "Tests2.h"
-#import "TestC.h"
-#import "TestHaxePack.h"
 
 @interface Tests : HXObject
 
@@ -95,10 +68,8 @@ typedef enum{
 @end
 
 
+#import <Foundation/Foundation.h>
 
-#import "haxe/Log.h"
-#import "String.h"
-#import "Array.h"
 
 @interface Tests2 : HXObject
 

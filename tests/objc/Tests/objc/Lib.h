@@ -6,9 +6,7 @@
 //
 
 
-#import <CoreLocation/CoreLocation.h>
 
-#import "../objc/Lib.h"
 
 @interface Lib : HXObject
 

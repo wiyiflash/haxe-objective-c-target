@@ -6,8 +6,8 @@
 //
 
 
+#import <Foundation/Foundation.h>
 
-#import "../../String.h"
 
 @interface Eof : HXObject
 

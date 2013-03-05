@@ -1,18 +1,8 @@
 package objc.foundation;
 
+extern class NSAutoreleasePool {
 
-extern class NSAutoreleasePool
-{
-
-	//Constants
-
-	//Static Methods
-	public  function addObject( anObject:Dynamic):Void;
-
-	//Properties
-
-	//Methods
-	public  function addObject( anObject:Dynamic):Void;
-	public  function drain():Void;
+	//public static function addObject( anObject:Dynamic):Void;
+	public function addObject( anObject:Dynamic):Void;
+	public function drain():Void;
 }
-

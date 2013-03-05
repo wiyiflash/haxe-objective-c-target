@@ -5,27 +5,6 @@ package  {
 			this.r = new RegExp(r,opt);
 		}}
 		
-		public function customReplace(s : String,f : Function) : String {
-			var offset : int = 0;
-			var buf : StringBuf = new StringBuf();
-			do {
-				if(offset >= s.length) break;
-				else if(!this.matchSub(s,offset)) {
-					buf.add(s.substr(offset));
-					break;
-				}
-				var p : * = this.matchedPos();
-				buf.add(s.substr(offset,p.pos - offset));
-				buf.add(f(this));
-				if(p.len == 0) {
-					buf.add(s.substr(p.pos,1));
-					offset = p.pos + 1;
-				}
-				else offset = p.pos + p.len;
-			} while(true);
-			return buf.toString();
-		}
-		
 		public function map(s : String,f : Function) : String {
 			var offset : int = 0;
 			var buf : StringBuf = new StringBuf();
@@ -46,7 +25,7 @@ package  {
 				else offset = p.pos + p.len;
 				first = false;
 			} while(this.r.global);
-			if(!this.r.global && offset < s.length) buf.add(s.substr(offset));
+			if(!this.r.global && offset > 0 && offset < s.length) buf.add(s.substr(offset));
 			return buf.toString();
 		}
 		

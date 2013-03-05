@@ -147,5 +147,9 @@ package  {
 			return o.ms + 1000.0 * (o.seconds + 60.0 * (o.minutes + 60.0 * (o.hours + 24.0 * o.days)));
 		}
 		
+		static public function makeUtc(year : int,month : int,day : int,hour : int,min : int,sec : int) : Number {
+			return Date.UTC(year,month,day,hour,min,sec);
+		}
+		
 	}
 }

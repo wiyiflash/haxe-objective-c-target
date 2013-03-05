@@ -6,13 +6,7 @@
 //
 
 
-#import <UIKit/UIKit.h>
-#import <Foundation/Foundation.h>
-#import <CoreGraphics/CoreGraphics.h>
 
-#import "CustomMapView.h"
-#import "haxe/Log.h"
-#import "Array.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
