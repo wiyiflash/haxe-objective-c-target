@@ -25,7 +25,6 @@ typedef enum{
 #import "TestsEnumExtern.h"
 #import "Color2.h"
 #import "EReg.h"
-#import "haxe/ds/StringMap.h"
 #import "Lambda.h"
 #import "List.h"
 #import "Std.h"

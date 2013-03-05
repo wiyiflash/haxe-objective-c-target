@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-#import "haxe/ds/StringMap.h"
 #import "haxe/ds/IntMap.h"
 #import "haxe/ds/HashMap.h"
 #import "haxe/ds/_HashMap/HashMapImpl.h"

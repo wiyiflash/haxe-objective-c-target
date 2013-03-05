@@ -41,7 +41,7 @@
 	return [HashMapImpl _new];
 }
 + (ObjectMap*) toObjectMap:(id)t{
-	return [[ObjectMap alloc] init:nil];
+	return [[ObjectMap alloc] init];
 }
 + (Map*) fromStringMap:(StringMap*)map{
 	return map;

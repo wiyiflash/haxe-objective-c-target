@@ -275,7 +275,7 @@
 			case 77:{
 				{
 					
-					ObjectMap *h = [[ObjectMap alloc] init:nil];
+					ObjectMap *h = [[ObjectMap alloc] init];
 					[self.cache push:h];
 					
 					NSMutableString *buf = self.buf;

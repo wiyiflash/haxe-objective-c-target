@@ -17,7 +17,6 @@
 #import "../String.h"
 #import "../StringTools.h"
 #import "../List.h"
-#import "../haxe/ds/StringMap.h"
 #import "../haxe/ds/IntMap.h"
 #import "../haxe/ds/ObjectMap.h"
 #import "../Date.h"
