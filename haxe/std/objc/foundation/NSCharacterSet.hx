@@ -1,13 +1,9 @@
 package objc.foundation;
 import objc.foundation.NSObject;
 
+@:framework("Foundation")
+extern class NSCharacterSet extends NSObject implements NSCopying implements NSMutableCopying implements NSCoding {
 
-extern class NSCharacterSet extends NSObject implements NSCopying implements NSMutableCopying implements NSCoding
-{
-
-	//Constants
-
-	//Static Methods
 	public  function decomposableCharacterSet():Dynamic;
 	public  function symbolCharacterSet():Dynamic;
 	public  function newlineCharacterSet():Dynamic;
@@ -26,11 +22,8 @@ extern class NSCharacterSet extends NSObject implements NSCopying implements NSM
 	public  function capitalizedLetterCharacterSet():Dynamic;
 	public  function characterSetWithCharactersInString( aString:String):Dynamic;
 	public  function decimalDigitCharacterSet():Dynamic;
-	public  function characterSetWithRange( aRange:NSRange):Dynamic;
+	public static function characterSetWithRange( aRange:NSRange):Dynamic;
 
-	//Properties
-
-	//Methods
 	public  function invertedSet():NSCharacterSet;
 	public  function isSupersetOfSet( theOtherSet:NSCharacterSet):Bool;
 	public  function removeCharactersInString( aString:String):Void;

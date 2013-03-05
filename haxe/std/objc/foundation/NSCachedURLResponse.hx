@@ -1,18 +1,12 @@
 package objc.foundation;
 
 
-extern class NSCachedURLResponse implements NSCoding implements NSCopying
-{
+@:framework("Foundation")
+extern class NSCachedURLResponse implements NSCoding implements NSCopying {
 
-	//Constants
+	public static function sharedURLCache():NSURLCache;
+	public static function setSharedURLCache( cache:NSURLCache):Void;
 
-	//Static Methods
-	public  function sharedURLCache():NSURLCache;
-	public  function setSharedURLCache( cache:NSURLCache):Void;
-
-	//Properties
-
-	//Methods
 	public  function response():NSURLResponse;
 	public  function cachedResponseForRequest( request:NSURLRequest):NSCachedURLResponse;
 	public  function currentDiskUsage():Int;

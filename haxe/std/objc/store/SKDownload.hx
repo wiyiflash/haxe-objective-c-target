@@ -10,6 +10,7 @@ extern enum SKDownloadState {
     SKDownloadStateCancelled;   // Download was cancelled
 }
 //@:require(ios6_0)
+@:framework("StoreKit")
 extern class SKDownload extends NSObject {
 
 // State of the download

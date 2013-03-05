@@ -9,6 +9,7 @@ typedef CLLocationDirection = Float;
 typedef CLLocationDistance = Float;
 
 
+@:framework("CoreLocation")
 extern class CLLocationCoordinate2D {
 	
 	public var latitude :CLLocationDegrees;
@@ -38,6 +39,7 @@ BOOL CLLocationCoordinate2DIsValid(CLLocationCoordinate2D coord) __OSX_AVAILABLE
  *  Discussion:
  *    Represents a geographical coordinate along with accuracy and timestamp information.
  */
+@:framework("CoreLocation")
 extern class CLLocation extends NSObject implements NSCopying implements NSCoding {
 
 	public function initWithLatitude (latitude:CLLocationDegrees, longitude:CLLocationDegrees) :CLLocation;

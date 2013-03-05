@@ -1,5 +1,6 @@
 package objc.graphics;
 
+@:framework("CoreGraphics")
 extern class CGAffineTransform {
     
 	public var a :Float;

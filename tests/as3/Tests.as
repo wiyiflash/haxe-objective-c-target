@@ -1,5 +1,6 @@
 package  {
 	import haxe.FastList_Int;
+	import haxe.ds.StringMap;
 	import haxe.Log;
 	import flash.Boot;
 	public class Tests {
@@ -14,11 +15,11 @@ package  {
 		}
 		
 		protected function functionToRedefine() : void {
-			haxe.Log._trace("do something else",{ fileName : "Tests.hx", lineNumber : 557, className : "Tests", methodName : "functionToRedefine"});
+			haxe.Log._trace("do something else",{ fileName : "Tests.hx", lineNumber : 548, className : "Tests", methodName : "functionToRedefine"});
 		}
 		
 		public function printHello() : void {
-			haxe.Log._trace("Hello from Haxe Objective-C",{ fileName : "Tests.hx", lineNumber : 542, className : "Tests", methodName : "printHello"});
+			haxe.Log._trace("Hello from Haxe Objective-C",{ fileName : "Tests.hx", lineNumber : 533, className : "Tests", methodName : "printHello"});
 		}
 		
 		public function init() : void {
@@ -169,9 +170,9 @@ package  {
 			item = l.last();
 			item = l.pop();
 			var r : Boolean = l.remove(5);
-			haxe.Log._trace(l.length,{ fileName : "Tests.hx", lineNumber : 285, className : "Tests", methodName : "testList"});
+			haxe.Log._trace(l.length,{ fileName : "Tests.hx", lineNumber : 276, className : "Tests", methodName : "testList"});
 			l.clear();
-			haxe.Log._trace(l.length,{ fileName : "Tests.hx", lineNumber : 287, className : "Tests", methodName : "testList"});
+			haxe.Log._trace(l.length,{ fileName : "Tests.hx", lineNumber : 278, className : "Tests", methodName : "testList"});
 			var newList : List = l.map(function(i1 : int) : String {
 				return Std.string(i1);
 			});
@@ -184,8 +185,8 @@ package  {
 			var l : List = Lambda.concat([0,1,2,3],[4,5]);
 		}
 		
-		protected function testHash() : void {
-			var h : Hash = new Hash();
+		protected function testMap() : void {
+			var h : haxe.ds.StringMap = new haxe.ds.StringMap();
 			h.set("key","value");
 			h.get("key");
 			h.remove("key");
@@ -193,14 +194,6 @@ package  {
 			var arr : * = h.keys();
 			var iter : * = h.iterator();
 			var str : String = h.toString();
-			var hi : IntHash = new IntHash();
-			hi.set(0,"value");
-			hi.get(0);
-			hi.remove(0);
-			var bi : Boolean = hi.exists(0);
-			var arri : * = hi.keys();
-			var iteri : * = hi.iterator();
-			var stri : String = hi.toString();
 		}
 		
 		protected function testEReg() : void {

@@ -6,6 +6,7 @@
 //
 
 
+#import <CoreGraphics/CoreGraphics.h>
 
 #import "Math.h"
 #import "objc/graphics/CGGeometry.h"

@@ -27,6 +27,7 @@ enum CGColorSpaceModel {
 }
 
 
+@:framework("CoreGraphics")
 class CGColorSpace {
 #if ddddddddd
 /* The name of the "Generic" gray color space. */

@@ -26,6 +26,7 @@ extern enum CGBitmapInfo {
 }
 
 
+@:framework("CoreGraphics")
 extern class CGImage {
 /* Return the CFTypeID for CGImageRefs. */
 #if dddddddd

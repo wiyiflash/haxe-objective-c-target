@@ -4,6 +4,7 @@ import objc.foundation.NSObject;
 
 //#import <CoreVideo/CoreVideo.h>
 
+@:framework("CoreImage")
 extern class CIContext extends NSObject {
 
 /* Keys that may be passed in the dictionary while creating contexts: */

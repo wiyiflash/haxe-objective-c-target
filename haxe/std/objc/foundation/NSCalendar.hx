@@ -9,6 +9,7 @@ import objc.foundation.NSRange;
 typedef NSCalendarUnit = Int;
 private typedef NSTimeInterval = Int;
 
+@:framework("Foundation")
 extern class NSCalendar extends NSObject/* implements NSCopying implements NSCoding*/ {
 	
 	inline public static var kCFCalendarUnitEra = 0;

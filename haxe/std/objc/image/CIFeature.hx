@@ -3,6 +3,7 @@ package objc.image;
 import objc.foundation.NSObject;
 
 
+@:framework("CoreImage")
 extern class CIFeature extends NSObject {
 
 /** The type of the feature. */
@@ -20,6 +21,7 @@ extern class CIFeature extends NSObject {
 /** A face feature found by a CIDetector.
  All positions are relative to the original image. */
 
+@:framework("CoreImage")
 extern class CIFaceFeature extends CIFeature {
 
 /** coordinates of various cardinal points within a face.

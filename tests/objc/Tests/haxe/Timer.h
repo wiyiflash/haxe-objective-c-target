@@ -6,6 +6,7 @@
 //
 
 
+#import <Foundation/Foundation.h>
 
 #import "../haxe/Timer.h"
 #import "../Array.h"

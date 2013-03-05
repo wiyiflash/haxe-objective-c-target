@@ -1,6 +1,6 @@
 package objc.foundation;
 
-
+@:framework("Foundation")
 extern class NSURLCredential implements NSCoding implements NSCopying
 {
 

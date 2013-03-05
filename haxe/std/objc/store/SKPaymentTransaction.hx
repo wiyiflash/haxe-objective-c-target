@@ -8,6 +8,7 @@ extern enum SKPaymentTransactionState {
     SKPaymentTransactionStateRestored;       // Transaction was restored from user's purchase history.  Client should complete the transaction.
 }
 
+@:framework("StoreKit")
 extern class SKPaymentTransaction extends NSObject {
 
 // Only set if state is SKPaymentTransactionFailed

@@ -6,10 +6,10 @@
 //
 
 
+#import <CoreGraphics/CoreGraphics.h>
 #import <Foundation/Foundation.h>
 
 #import "ios/ui/UIView.h"
-#import "objc/graphics/CGGeometry.h"
 #import "ios/ui/UIImageView.h"
 #import "ios/ui/UIImage.h"
 

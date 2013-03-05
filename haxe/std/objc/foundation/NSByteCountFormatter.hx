@@ -1,13 +1,10 @@
 package objc.foundation;
 
 
-extern class NSByteCountFormatter extends NSFormatter
-{
+@:framework("Foundation")
+extern class NSByteCountFormatter extends NSFormatter {
 
-	//Constants
-
-	//Static Methods
-	public  function stringFromByteCount( byteCount:longlong,  countStyle:NSByteCountFormatterCountStyle):String;
+	public static function stringFromByteCount (byteCount:longlong, countStyle:NSByteCountFormatterCountStyle) :String;
 
 	//Properties
 	public var allowedUnits(default, default):NSByteCountFormatterUnits;

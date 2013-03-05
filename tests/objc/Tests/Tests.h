@@ -25,8 +25,7 @@ typedef enum{
 #import "TestsEnumExtern.h"
 #import "Color2.h"
 #import "EReg.h"
-#import "Hash.h"
-#import "IntHash.h"
+#import "haxe/ds/StringMap.h"
 #import "Lambda.h"
 #import "List.h"
 #import "Std.h"
@@ -35,6 +34,7 @@ typedef enum{
 #import "StringBuf.h"
 #import "StringTools.h"
 #import "Sys.h"
+#import "Hash.h"
 #import "haxe/io/Output.h"
 #import "haxe/io/Input.h"
 #import "Class.h"
@@ -64,7 +64,7 @@ typedef enum{
 - (int) enumToInt:(Tests*)c;
 - (void) testEnum:(id)v;
 - (void) testEReg;
-- (void) testHash;
+- (void) testMap;
 - (void) testLambda;
 - (void) testList;
 - (void) testReflect;

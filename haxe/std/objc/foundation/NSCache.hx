@@ -1,16 +1,9 @@
 package objc.foundation;
 
 
-extern class NSCache
-{
+@:framework("Foundation")
+extern class NSCache {
 
-	//Constants
-
-	//Static Methods
-
-	//Properties
-
-	//Methods
 	public  function name():String;
 	public  function objectForKey( key:Dynamic):Dynamic;
 	public  function removeAllObjects():Void;

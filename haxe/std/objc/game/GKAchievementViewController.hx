@@ -3,6 +3,7 @@ import objc.foundation.NSObject;
 
 // View controller that provides the standard user interface for achievements. Present modally from the top view controller.
 NS_CLASS_AVAILABLE(NA, 4_1)
+@:framework("GameKit")
 extern class GKAchievementViewController extends GKGameCenterViewController {
 
 // Optional delegate

@@ -3,6 +3,7 @@ package objc.location;
 import objc.foundation.NSObject;
 import objc.location.CLLocation;
 
+@:framework("CoreLocation")
 extern class CLRegion extends NSObject implements NSCopying implements NSCoding {
 
 /*

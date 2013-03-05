@@ -1,8 +1,8 @@
 package objc.foundation;
 
 
-extern class NSStream
-{
+@:framework("Foundation")
+extern class NSStream {
 
 	//Constants
 

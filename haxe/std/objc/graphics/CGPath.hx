@@ -20,6 +20,7 @@ extern enum CGLineCap {
     kCGLineCapSquare;
 }
 
+@:framework("CoreGraphics")
 extern class CGPath {
 #if ddddddd
 /* Return the CFTypeID for CGPathRefs. */

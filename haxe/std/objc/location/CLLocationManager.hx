@@ -67,6 +67,7 @@ extern enum CLActivityType {
  *  Discussion:
  *    The CLLocationManager object is your entry point to the location service.
  */
+@:framework("CoreLocation")
 extern class CLLocationManager extends NSObject {
 
 /*

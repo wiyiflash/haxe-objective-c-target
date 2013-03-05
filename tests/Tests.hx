@@ -224,8 +224,8 @@ class Tests/* implements Interface1 implements Interface2*/ {
 	
 	// Test Hashes
 	
-	function testHash () {
-		var h = new Hash<String>();// NSMutableDictionary
+	function testMap () {
+		var h = new Map<String,String>();// NSMutableDictionary
 			h.set ("key", "value");
 			h.get ("key");
 			h.remove ("key");
@@ -233,15 +233,6 @@ class Tests/* implements Interface1 implements Interface2*/ {
 		var arr = h.keys();
 		var iter = h.iterator();
 		var str = h.toString();
-		
-		var hi = new IntHash<String>();
-			hi.set (0, "value");
-			hi.get (0);
-			hi.remove (0);
-		var bi = hi.exists (0);
-		var arri = hi.keys();
-		var iteri = hi.iterator();
-		var stri = hi.toString();
 	}
 	
 	

@@ -65,9 +65,9 @@ class PiratePig extends UIResponder implements UIApplicationDelegate {
 	}
 	public function applicationDidBecomeActive (application:UIApplication) :Void {}
 	public function applicationWillResignActive (application:UIApplication) :Void {}
-		
-		
-		
+	
+	
+	
 
 	public static function main() {
 		return new UIApplicationMain ( PiratePig );

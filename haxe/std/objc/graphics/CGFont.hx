@@ -34,6 +34,7 @@ extern enum {
   /* The maximum allowed value of a CGGlyph. */
   kCGGlyphMax;
 }
+@:framework("CoreGraphics")
 
 /* Return the CFTypeID for CGFontRefs. */
 

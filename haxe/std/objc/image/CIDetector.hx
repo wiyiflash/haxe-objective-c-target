@@ -8,7 +8,9 @@ import objc.foundation.NSDictionary;
  
  This class potentially holds onto a lot of state. Hence it may be beneficial from a performance perspective to re-use the same CIDetector instance. Specifying a CIContext when creating a detector may have an impact on performance since this context may be used when analyzing an image.
  */
-@require(osx_10_7, ios_5_0) extern class CIDetector extends NSObject {
+@require(osx_10_7, ios_5_0)
+@:framework("CoreImage")
+extern class CIDetector extends NSObject {
 
 /** Returns a new detector instance of the given type.
  

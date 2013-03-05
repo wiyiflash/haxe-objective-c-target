@@ -6,6 +6,7 @@ import objc.foundation.NSObject;
 
 @:require(osx10_8)
 @:require(ios6_0)
+@:framework("Foundation")
 extern class NSUUID extends NSObject implements NSCopying implements NSSecureCoding {
 
 /* Create a new autoreleased NSUUID with RFC 4122 version 4 random bytes */

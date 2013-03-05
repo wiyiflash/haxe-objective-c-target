@@ -3,6 +3,7 @@ package objc.image;
 import objc.foundation.NSObject;
 
 
+@:framework("CoreImage")
 extern class CIVector extends NSObject implements NSCopying implements NSCoding {
 
 /* Create a new vector object. */

@@ -307,27 +307,17 @@
 	
 	NSMutableArray *arr = [ereg split:[NSMutableString stringWithString:@","]];
 }
-- (void) testHash{
+- (void) testMap{
 	
-	Hash *h = [[Hash alloc] init];
-	[h set:[NSMutableString stringWithString:@"key"] value:[NSMutableString stringWithString:@"value"]];
-	[h get:[NSMutableString stringWithString:@"key"]];
-	[h remove:[NSMutableString stringWithString:@"key"]];
-	BOOL b = [h exists:[NSMutableString stringWithString:@"key"]];
+	StringMap *h = [[StringMap alloc] init];
+	[h set-TAbstract];
+	[h get-TAbstract];
+	[h remove-TAbstract];
+	BOOL b = [h exists-TAbstract];
 	id arr = [h keys];
 	id iter = [h iterator];
 	
 	NSMutableString *str = [h toString];
-	
-	IntHash *hi = [[IntHash alloc] init];
-	[hi set:0 value:[NSMutableString stringWithString:@"value"]];
-	[hi get:0];
-	[hi remove:0];
-	BOOL bi = [hi exists:0];
-	id arri = [hi keys];
-	id iteri = [hi iterator];
-	
-	NSMutableString *stri = [hi toString];
 }
 - (void) testLambda{
 	
@@ -353,9 +343,9 @@
 	item = [l last];
 	item = [l pop];
 	BOOL r = [l remove:5];
-	[Log trace:l.length infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Tests.hx",@"285",@"Tests",@"testList",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[Log trace:l.length infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Tests.hx",@"276",@"Tests",@"testList",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
 	[l clear];
-	[Log trace:l.length infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Tests.hx",@"287",@"Tests",@"testList",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[Log trace:l.length infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Tests.hx",@"278",@"Tests",@"testList",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
 	
 	List *newList = [l map:^- (NSMutableString*) :(int)i{
 		return [Std string:i];
@@ -544,10 +534,10 @@
 	self.s = [NSMutableString stringWithString:@"init"];
 }
 - (void) printHello{
-	[Log trace:[NSMutableString stringWithString:@"Hello from Haxe Objective-C"] infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Tests.hx",@"542",@"Tests",@"printHello",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[Log trace:[NSMutableString stringWithString:@"Hello from Haxe Objective-C"] infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Tests.hx",@"533",@"Tests",@"printHello",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
 }
 - (void) functionToRedefine{
-	[Log trace:[NSMutableString stringWithString:@"do something else"] infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Tests.hx",@"557",@"Tests",@"functionToRedefine",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[Log trace:[NSMutableString stringWithString:@"do something else"] infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Tests.hx",@"548",@"Tests",@"functionToRedefine",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
 }
 - (void) functionToRedefine2:(int)param1 param2:(NSMutableString*)param2{
 	int i = param1;
@@ -577,7 +567,7 @@
 }
 // Defining a dynamic method
 - (void) functionToRedefine{
-	[Log trace:[NSMutableString stringWithString:@"originally do something"] infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Tests.hx",@"580",@"Tests2",@"functionToRedefine",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[Log trace:[NSMutableString stringWithString:@"originally do something"] infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Tests.hx",@"571",@"Tests2",@"functionToRedefine",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
 }
 @synthesize property_functionToRedefine;
 

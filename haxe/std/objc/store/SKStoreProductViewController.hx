@@ -1,6 +1,7 @@
 package objc.store;
 
 // ios 6 ?
+@:framework("StoreKit")
 extern class SKStoreProductViewController extends UIViewController {
 
 	// Delegate for product page events

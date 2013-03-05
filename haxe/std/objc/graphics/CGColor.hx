@@ -3,6 +3,7 @@ package objc.graphics;
 
 typedef CGColorRef = CGColor;
 
+@:framework("CoreGraphics")
 class CGColor {
 #if dddddddd
 /* Create a color in the color space `space' with color components

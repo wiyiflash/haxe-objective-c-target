@@ -1,8 +1,8 @@
 package objc.game;
-import objc.foundation.NSObject;
 
 // GKAchievement represents a game achievement that the player has started or completely achieved.
 NS_CLASS_AVAILABLE(10_8, 4_1)
+@:framework("GameKit")
 extern class GKAchievement extends NSObject {
 
 // Asynchronously load all achievements for the local player

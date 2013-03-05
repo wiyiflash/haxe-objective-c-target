@@ -25,6 +25,7 @@ extern enum GKPlayerConnectionState {
 
 // GKMatch represents an active networking sessions between players. It handles network communications and can report player connection status. All matches are created by a GKMatchmaker.
 NS_CLASS_AVAILABLE(10_8, 4_1)
+	@:framework("GameKit")
 extern class GKMatch extends NSObject {
 }
 

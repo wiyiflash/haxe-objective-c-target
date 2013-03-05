@@ -1,5 +1,6 @@
 package objc.foundation;
 
+@:framework("Foundation")
 extern class NSTimer extends NSObject {
 	
 	//public static function timerWithTimeInterval (ti:Float, invocation:NSInvocation, repeats:Bool) :NSTimer;

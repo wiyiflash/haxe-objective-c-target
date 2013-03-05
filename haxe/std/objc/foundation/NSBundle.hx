@@ -1,5 +1,6 @@
 package objc.foundation;
 
+@:framework("Foundation")
 extern class NSBundle extends NSObject {
 
 	public static function mainBundle () :NSBundle;

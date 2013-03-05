@@ -8,6 +8,7 @@ import objc.foundation.NSObject;
 // geocoding handler, CLPlacemarks are provided in order of most confident to least confident
 typedef CLGeocodeCompletionHandler = Array<CLPlacemarks>->NSError->Void;// Objc block
 
+@:framework("CoreLocation")
 extern class CLGeocoder extends NSObject {
 	
 	public var geocoding :Bool;

@@ -2,6 +2,7 @@ package objc.store;
 import objc.foundation.NSObject;
 
 // Base class used to fetch data from the store.  Should not be used directly.
+@:framework("StoreKit")
 extern class SKRequest extends NSObject {
 
 	public var delegate :SKRequestDelegate;

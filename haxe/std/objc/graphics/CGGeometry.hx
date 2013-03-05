@@ -3,6 +3,7 @@ package objc.graphics;
 
 /* Points. */
 
+@:framework("CoreGraphics")
 extern class CGPoint {
 	public var x :Float;
 	public var y :Float;
@@ -12,6 +13,7 @@ extern class CGPoint {
 
 /* Sizes. */
 
+@:framework("CoreGraphics")
 extern class CGSize {
 	public var width :Float;
 	public var height :Float;
@@ -21,6 +23,7 @@ extern class CGSize {
 
 /* Rectangles. */
 
+@:framework("CoreGraphics")
 extern class CGRect {
 	public var origin :CGPoint;
 	public var size :CGSize;
@@ -34,6 +37,7 @@ extern enum CGRectEdge {
 	CGRectMinXEdge; CGRectMinYEdge; CGRectMaxXEdge; CGRectMaxYEdge;
 }
 
+@:framework("CoreGraphics")
 extern class CGGeometry {
 
 /* The "zero" point -- equivalent to CGPointMake(0, 0). */ 

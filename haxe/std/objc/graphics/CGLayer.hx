@@ -2,6 +2,7 @@ package objc.graphics;
 
 typedef CGLayerRef = CGLayer;
 
+@:framework("CoreGraphics")
 extern class CGLayer {
 /* Create a layer of size `size' relative to the context `context'. The
    value of `size' is specified in default user space (base space) units.

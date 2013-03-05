@@ -1,6 +1,6 @@
 package objc.foundation;
 
-extern class FoundationErrors {
+@:framework("Foundation") extern class FoundationErrors {
 	
 	inline static public var NSFileNoSuchFileError = 4;                                              // Attempt to do a file system operation on a non-existent file
 	inline static public var NSFileLockingError = 255;                                               // Couldn't get a lock on file

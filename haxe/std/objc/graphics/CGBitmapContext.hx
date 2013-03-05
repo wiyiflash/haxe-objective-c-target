@@ -8,6 +8,7 @@ typedef void (*CGBitmapContextReleaseDataCallback)(void *releaseInfo,
   void *data);
 
 
+@:framework("CoreGraphics")
 extern class CGBitmapContext {
 	  
 /* Create a bitmap context. The context draws into a bitmap which is `width'

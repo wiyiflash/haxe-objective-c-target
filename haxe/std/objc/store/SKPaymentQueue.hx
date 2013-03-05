@@ -1,6 +1,7 @@
 package objc.store;
 import objc.foundation.NSObject;
 
+@:framework("StoreKit")
 extern class SKPaymentQueue extends NSObject {
 
 	public static function defaultQueue () :SKPaymentQueue;

@@ -11,6 +11,7 @@ interface SKProductsRequestDelegate extends SKRequestDelegate {
 
 
 // request information about products for your application
+@:framework("StoreKit")
 extern class SKProductsRequest extends SKRequest {
 
 	// Set of string product identifiers
@@ -20,6 +21,7 @@ extern class SKProductsRequest extends SKRequest {
 
 }
 
+@:framework("StoreKit")
 extern class SKProductsResponse extends NSObject {
 
 	public var products (default, null) :Array<SKProduct>;

@@ -15,6 +15,7 @@ typedef NSURLBookmarkCreationOptions = Int;
 typedef NSURLBookmarkResolutionOptions = Int;
 typedef NSURLBookmarkFileCreationOptions = Int;
 
+@:framework("Foundation")
 extern class NSURL extends NSObject {
         
 // Convenience initializers

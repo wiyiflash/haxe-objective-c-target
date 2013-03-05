@@ -1,16 +1,9 @@
 package objc.foundation;
 
 
-extern class NSAttributedString implements NSCopying implements NSMutableCopying implements NSCoding
-{
+@:framework("Foundation")
+extern class NSAttributedString implements NSCopying implements NSMutableCopying implements NSCoding {
 
-	//Constants
-
-	//Static Methods
-
-	//Properties
-
-	//Methods
 	public  function endEditing():Void;
 	public  function isEqualToAttributedString( other:NSAttributedString):Bool;
 	public  function addAttribute( name:String,  value:Dynamic,  range:NSRange):Void;

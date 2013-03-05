@@ -3,6 +3,7 @@ package objc.store;
 import objc.foundation.NSObject;
 import objc.foundation.NSLocale;
 
+@:framework("StoreKit")
 extern class SKProduct extends NSObject {
 
 	public var localizedDescription :String;

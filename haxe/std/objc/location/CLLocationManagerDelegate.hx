@@ -2,6 +2,7 @@ package objc.location;
 
 import objc.foundation.NSObject;
 
+@:framework("CoreLocation")
 external interface CLLocationManagerDelegate {
 
 //@optional

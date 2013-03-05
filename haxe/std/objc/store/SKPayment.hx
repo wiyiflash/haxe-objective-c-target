@@ -4,6 +4,7 @@ import objc.foundation.NSObject;
 import objc.foundation.NSData;
 
 
+@:framework("StoreKit")
 extern class SKPayment extends NSObject implements NSCopying/*, NSMutableCopying>*/ {
 
 	public static function paymentWithProduct (product:SKProduct) :SKPayment;
@@ -15,6 +16,7 @@ extern class SKPayment extends NSObject implements NSCopying/*, NSMutableCopying
 }
 
 
+@:framework("StoreKit")
 extern class SKMutablePayment extends SKPayment {
 
 	public var productIdentifier :String;
