@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "Array.h"
+#import "Reflect.h"
 
 @interface Reflect : HXObject
 

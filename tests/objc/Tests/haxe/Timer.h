@@ -7,6 +7,11 @@
 
 
 
+#import "../haxe/Timer.h"
+#import "../Array.h"
+#import "../haxe/Log.h"
+#import "../Sys.h"
+#import "../objc/foundation/NSTimer.h"
 
 @interface Timer : HXObject
 

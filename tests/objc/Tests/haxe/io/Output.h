@@ -8,6 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+#import "../../Math.h"
+#import "../../haxe/io/Bytes.h"
+#import "../../Array.h"
+#import "../../haxe/io/Error.h"
+#import "../../haxe/io/Input.h"
 
 @interface Output : HXObject
 

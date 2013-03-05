@@ -7,6 +7,24 @@
 
 
 
+#import "ios/ui/UIWindow.h"
+#import "ios/ui/UIViewController.h"
+#import "ios/ui/UIView.h"
+#import "ios/ui/UILabel.h"
+#import "CustomMapView.h"
+#import "ios/ui/UIButton.h"
+#import "ios/ui/UIApplication.h"
+#import "objc/foundation/NSDictionary.h"
+#import "ios/ui/UIScreen.h"
+#import "ios/ui/UIViewAutoresizing.h"
+#import "ios/ui/UIColor.h"
+#import "ios/ui/NSTextAlignment.h"
+#import "ios/ui/UIFont.h"
+#import "objc/graphics/CGGeometry.h"
+#import "ios/ui/UIControlState.h"
+#import "haxe/Log.h"
+#import "Array.h"
+#import "ios/ui/UIResponder.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 

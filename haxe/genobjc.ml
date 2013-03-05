@@ -26,7 +26,7 @@ let joinClassPath path separator =
 	| [], s -> s
 	| el, s -> String.concat separator el ^ separator ^ s
 ;;
-let getMetaString key meta =
+let getMetaValue key meta =
 	let rec loop = function
 		| [] -> ""
 		| (k,[Ast.EConst (Ast.String name),_],_) :: _ when k = key -> name
@@ -36,7 +36,7 @@ let getMetaString key meta =
 ;;
 
 class importsManager =
-	object
+	object(this)
 	val mutable all_frameworks : string list = []
 	val mutable class_frameworks : string list = []
 	val mutable class_imports : path list = []
@@ -48,15 +48,15 @@ class importsManager =
 		| ([],"Dynamic")
 		| ([],"T")
 		| ([],"Bool") -> ();
-		| _ -> ()
-	method add_framework (class_def:tclass) = 
+		| _ -> if not (List.mem class_path class_imports) then class_imports <- List.append class_imports [class_path];
+	method add_class (class_def:tclass) = 
 		if (Meta.has Meta.Framework class_def.cl_meta) then begin
-			let f_name = getMetaString Meta.Framework class_def.cl_meta in
+			let f_name = getMetaValue Meta.Framework class_def.cl_meta in
 			if not (List.mem f_name all_frameworks) then all_frameworks <- List.append all_frameworks [f_name];
 			if not (List.mem f_name class_frameworks) then class_frameworks <- List.append class_frameworks [f_name];
-		end (* else begin
-			if not (List.mem class_path class_imports) then class_imports <- List.append class_imports [class_path];
-		end *)
+		end else begin
+			this#add_class_path class_def.cl_module.m_path;
+		end
 	method add_class_import_custom (class_path:string) = class_imports_custom <- List.append class_imports_custom ["\""^class_path^"\""];
 	method add_class_include_custom (class_path:string) = class_imports_custom <- List.append class_imports_custom ["<"^class_path^">"];
 	method remove_class_path (class_path:path) = ()(* List.remove class_imports [class_path] *)(* TODO: *)
@@ -444,8 +444,7 @@ let rec typeToString ctx t p =
 	| TInst (c,_) ->(* ctx.writer#write "TInst?"; *)
 		(match c.cl_kind with
 		| KNormal | KGeneric | KGenericInstance _ ->
-			ctx.imports_manager#add_class_path c.cl_module.m_path;
-			ctx.imports_manager#add_framework c;
+			ctx.imports_manager#add_class c;
 			remapHaxeTypeToObjc ctx false c.cl_path p
 		| KTypeParameter _ | KExtension _ | KExpr _ | KMacroType | KAbstractImpl _ -> "id")
 	| TFun _ -> "SEL"
@@ -1220,8 +1219,8 @@ and generateExpression ctx e =
 			| TMono r -> (match !r with None -> () | Some t -> 
 				match t with
 				| TInst (c,_) ->
-					ctx.imports_manager#add_class_path c.cl_path;
-					ctx.imports_manager#add_framework c
+					(* ctx.imports_manager#add_class_path c.cl_path; *)
+					ctx.imports_manager#add_class c
 				| _ -> ())
 			| _ -> ());
 			match eo with
@@ -1254,8 +1253,8 @@ and generateExpression ctx e =
 				concat ctx "," (generateValue ctx) el;
 				ctx.writer#write ")"
 			| _ ->
-				ctx.imports_manager#add_class_path c.cl_module.m_path;
-				ctx.imports_manager#add_framework c;
+				(* ctx.imports_manager#add_class_path c.cl_module.m_path; *)
+				ctx.imports_manager#add_class c;
 				ctx.writer#write (Printf.sprintf "[[%s alloc] init" (remapHaxeTypeToObjc ctx false c.cl_path c.cl_pos));
 				if List.length el > 0 then begin
 					ctx.generating_calls <- ctx.generating_calls + 1;
@@ -2460,8 +2459,8 @@ let generatePlist common_ctx file_info  =
 	let orientation = match common_ctx.objc_orientation with 
 		| Some o -> o
 		| None -> "UIInterfaceOrientationPortrait" in
-	(* let identifier = getMetaString class_def.cl_meta ":identifier" in
-	let version = getMetaString class_def.cl_meta ":version" in *)
+	(* let identifier = getMetaValue class_def.cl_meta ":identifier" in
+	let version = getMetaValue class_def.cl_meta ":version" in *)
 	let file = newSourceFile src_dir ([],app_name^"-Info") ".plist" in
 	file#write ("<?xml version=\"1.0\" encoding=\"UTF-8\"?>
 <!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
@@ -2526,7 +2525,7 @@ let generateImplementation ctx files_manager imports_manager =
 	
 	let class_path = ctx.class_def.cl_path in
 	if ctx.is_category then begin
-		let category_class = getMetaString Meta.Category ctx.class_def.cl_meta in
+		let category_class = getMetaValue Meta.Category ctx.class_def.cl_meta in
 		ctx.writer#write ("@implementation " ^ category_class ^ " ( " ^ (snd class_path) ^ " )");
 	end else
 		ctx.writer#write ("@implementation " ^ (snd ctx.class_def.cl_path));
@@ -2562,20 +2561,18 @@ let generateHeader ctx files_manager imports_manager =
 	(* Import the super class *)
 	(match ctx.class_def.cl_super with
 		| None -> ()
-		| Some (csup,_) ->
-			ctx.imports_manager#add_class_path csup.cl_path;
-			ctx.imports_manager#add_framework csup
+		| Some (csup,_) -> ctx.imports_manager#add_class csup
 	);
 	
 	(* Import extra classes *)
 	let has_custom_import = (Meta.has Meta.Import ctx.class_def.cl_meta) in
 	let has_custom_include = (Meta.has Meta.Include ctx.class_def.cl_meta) in
 	if has_custom_import then begin
-	let import_statement = getMetaString Meta.Import ctx.class_def.cl_meta in
+	let import_statement = getMetaValue Meta.Import ctx.class_def.cl_meta in
 		 imports_manager#add_class_import_custom import_statement;
 	end;
 	if has_custom_include then begin
-	let include_statement = getMetaString Meta.Include ctx.class_def.cl_meta in
+	let include_statement = getMetaValue Meta.Include ctx.class_def.cl_meta in
 		 imports_manager#add_class_include_custom include_statement;
 	end;
 	
@@ -2591,7 +2588,7 @@ let generateHeader ctx files_manager imports_manager =
 	
 	let class_path = ctx.class_def.cl_path in
 	if ctx.is_category then begin
-		let category_class = getMetaString Meta.Category ctx.class_def.cl_meta in
+		let category_class = getMetaValue Meta.Category ctx.class_def.cl_meta in
 		ctx.writer#write ("@interface " ^ category_class ^ " ( " ^ (snd class_path) ^ " )");
 	end
 	else begin
@@ -2667,8 +2664,8 @@ let generate common_ctx =
 			if is_main_class then begin
 				print_endline("FOUND MAIN CLASS");
 				if (has_meta ":version" class_def.cl_meta) then print_endline("has meta");
-				let vers = getMetaString ":version" class_def.cl_meta in
-				let orientation = getMetaString ":orientation" class_def.cl_meta in
+				let vers = getMetaValue ":version" class_def.cl_meta in
+				let orientation = getMetaValue ":orientation" class_def.cl_meta in
 				
 			end; *)
 			

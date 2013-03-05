@@ -7,6 +7,19 @@
 
 
 
+#import "ios/ui/UIWindow.h"
+#import "ios/ui/UIViewController.h"
+#import "ios/ui/UIView.h"
+#import "ios/ui/UIImageView.h"
+#import "PiratePigGame.h"
+#import "ios/ui/UIApplication.h"
+#import "objc/foundation/NSDictionary.h"
+#import "haxe/Log.h"
+#import "ios/ui/UIScreen.h"
+#import "ios/ui/UIViewAutoresizing.h"
+#import "ios/ui/UIColor.h"
+#import "ios/ui/UIImage.h"
+#import "ios/ui/UIResponder.h"
 
 @interface PiratePig : UIResponder <UIApplicationDelegate>
 

@@ -8,6 +8,20 @@
 
 #import <Foundation/Foundation.h>
 
+#import "../Type.h"
+#import "../Array.h"
+#import "../haxe/Unserializer.h"
+#import "../Class.h"
+#import "../Enum.h"
+#import "../Std.h"
+#import "../String.h"
+#import "../StringTools.h"
+#import "../List.h"
+#import "../haxe/ds/StringMap.h"
+#import "../haxe/ds/IntMap.h"
+#import "../haxe/ds/ObjectMap.h"
+#import "../Date.h"
+#import "../haxe/io/Bytes.h"
 
 @interface Unserializer : HXObject
 

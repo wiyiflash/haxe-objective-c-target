@@ -7,6 +7,7 @@
 
 
 
+#import "../haxe/FastList.h"
 
 @interface FastCell : HXObject
 
@@ -19,6 +20,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "../haxe/FastList.h"
+#import "../Array.h"
 
 @interface FastList : HXObject
 

@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+#import "Array.h"
+#import "StringBuf.h"
+#import "Std.h"
+#import "List.h"
 
 @interface List : HXObject
 

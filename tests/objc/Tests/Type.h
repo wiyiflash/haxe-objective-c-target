@@ -19,6 +19,13 @@ typedef enum{
 
 #import <Foundation/Foundation.h>
 
+#import "Class.h"
+#import "Reflect.h"
+#import "Enum.h"
+#import "EnumValue.h"
+#import "Array.h"
+#import "Type.h"
+#import "ValueType.h"
 #import <objc/runtime.h>
 
 @interface Type : HXObject

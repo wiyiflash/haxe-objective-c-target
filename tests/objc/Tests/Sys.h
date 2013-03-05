@@ -8,6 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+#import "Sys.h"
+#import "haxe/io/Input.h"
+#import "sys/io/FileInput.h"
+#import "haxe/io/Output.h"
+#import "sys/io/FileOutput.h"
+#import "Array.h"
+#import "Hash.h"
 
 @interface Sys : HXObject
 

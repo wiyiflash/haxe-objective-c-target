@@ -8,6 +8,17 @@
 
 #import <Foundation/Foundation.h>
 
+#import "Array.h"
+#import "haxe/Timer.h"
+#import "haxe/crypto/Md5.h"
+#import "haxe/crypto/Sha1.h"
+#import "haxe/Resource.h"
+#import "haxe/Log.h"
+#import "haxe/CallStack.h"
+#import "haxe/Serializer.h"
+#import "haxe/Unserializer.h"
+#import "haxe/Json.h"
+#import "haxe/Template.h"
 
 @interface TestHaxePack : HXObject
 
