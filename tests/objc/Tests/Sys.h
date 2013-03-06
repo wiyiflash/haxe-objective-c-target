@@ -13,10 +13,9 @@
 #import "sys/io/FileInput.h"
 #import "haxe/io/Output.h"
 #import "sys/io/FileOutput.h"
-#import "Array.h"
 #import "Hash.h"
 
-@interface Sys : HXObject
+@interface Sys : NSObject
 
 + (void) print:(id)v;
 + (void) println:(id)v;

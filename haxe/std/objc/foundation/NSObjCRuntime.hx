@@ -279,7 +279,7 @@ extern class NSObjCRuntime {}
 #define NS_CLASS_AVAILABLE(_mac, _ios)
 #endif
 
-#define NS_CLASS_AVAILABLE_IOS(_ios) NS_CLASS_AVAILABLE(NA, _ios)
+#define @:require(_ios) NS_CLASS_AVAILABLE(NA, _ios)
 #define NS_CLASS_AVAILABLE_MAC(_mac) NS_CLASS_AVAILABLE(_mac, NA)
 
 #if __has_feature(enumerator_attributes) && __has_attribute(availability)

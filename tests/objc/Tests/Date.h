@@ -11,7 +11,6 @@
 #import "Date.h"
 #import "objc/foundation/NSCalendar.h"
 #import "objc/foundation/NSDate.h"
-#import "Array.h"
 #import "Std.h"
 
 @interface NSDate ( Date )

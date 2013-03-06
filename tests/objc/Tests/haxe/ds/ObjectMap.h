@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-#import "../../Array.h"
 #import "../../Std.h"
 
 @interface NSMutableDictionary ( ObjectMap )

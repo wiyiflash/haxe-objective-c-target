@@ -13,7 +13,7 @@
 #import "NSObjCRuntime.h"
 #import <objc/runtime.h>
 
-@interface TestC : HXObject
+@interface TestC : NSObject
 
 - (void) testMath;
 - (id) init;

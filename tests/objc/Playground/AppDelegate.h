@@ -11,15 +11,13 @@
 #import "haxe/Log.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate, UIWebViewDelegate>{
-
-id self_c;
-	NSString *token;
-	UIActivityIndicatorView *activityIndicator;
+	id self_c;
 }
 @property (strong, nonatomic) UIWindow *window;
 @property (nonatomic) int length;
 
 @end
+
 
 @interface Tests2 : NSObject
 

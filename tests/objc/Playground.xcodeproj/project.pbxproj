@@ -13,7 +13,6 @@
 		287530BD16957A1D0048F960 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 287530BC16957A1D0048F960 /* Foundation.framework */; };
 		287530BF16957A1D0048F960 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 287530BE16957A1D0048F960 /* CoreGraphics.framework */; };
 		287530C516957A1D0048F960 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 287530C316957A1D0048F960 /* InfoPlist.strings */; };
-		287530C716957A1D0048F960 /* mainf.m in Sources */ = {isa = PBXBuildFile; fileRef = 287530C616957A1D0048F960 /* mainf.m */; };
 		287530CB16957A1D0048F960 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 287530CA16957A1D0048F960 /* AppDelegate.m */; };
 		287530CD16957A1D0048F960 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 287530CC16957A1D0048F960 /* Default.png */; };
 		287530CF16957A1D0048F960 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 287530CE16957A1D0048F960 /* Default@2x.png */; };
@@ -23,11 +22,11 @@
 		287530DB16957A1E0048F960 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 287530BC16957A1D0048F960 /* Foundation.framework */; };
 		287530E316957A1E0048F960 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 287530E116957A1E0048F960 /* InfoPlist.strings */; };
 		287530E616957A1E0048F960 /* PlaygroundTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 287530E516957A1E0048F960 /* PlaygroundTests.m */; };
-		287530FE169712600048F960 /* Std.m in Sources */ = {isa = PBXBuildFile; fileRef = 287530FC1697125F0048F960 /* Std.m */; };
 		28BC52F516C2F05B000072BD /* haxe in Resources */ = {isa = PBXBuildFile; fileRef = 28BC52F416C2F05B000072BD /* haxe */; };
 		28BC52F816C2F19100000001 /* Log.m in Sources */ = {isa = PBXBuildFile; fileRef = 28BC52F816C2F19100000002 /* Log.m */; };
 		28BC52F816C2F191000072BD /* RCHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 28BC52F716C2F191000072BD /* RCHTTPRequest.m */; };
 		28F13CCC16B92B9600A69694 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28F13CCB16B92B9600A69694 /* AVFoundation.framework */; };
+		28F9F98016E7AE8900FEF6BF /* Fb.m in Sources */ = {isa = PBXBuildFile; fileRef = 28F9F97F16E7AE8900FEF6BF /* Fb.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,7 +49,6 @@
 		287530BE16957A1D0048F960 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		287530C216957A1D0048F960 /* Playground-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Playground-Info.plist"; sourceTree = "<group>"; };
 		287530C416957A1D0048F960 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		287530C616957A1D0048F960 /* mainf.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = mainf.m; sourceTree = "<group>"; };
 		287530C816957A1D0048F960 /* Playground-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Playground-Prefix.pch"; sourceTree = "<group>"; };
 		287530C916957A1D0048F960 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		287530CA16957A1D0048F960 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -63,13 +61,13 @@
 		287530E216957A1E0048F960 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		287530E416957A1E0048F960 /* PlaygroundTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlaygroundTests.h; sourceTree = "<group>"; };
 		287530E516957A1E0048F960 /* PlaygroundTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlaygroundTests.m; sourceTree = "<group>"; };
-		287530FB1697125F0048F960 /* Std.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Std.h; path = Tests/Std.h; sourceTree = SOURCE_ROOT; };
-		287530FC1697125F0048F960 /* Std.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Std.m; path = Tests/Std.m; sourceTree = SOURCE_ROOT; };
 		28BC52F416C2F05B000072BD /* haxe */ = {isa = PBXFileReference; lastKnownFileType = folder; path = haxe; sourceTree = "<group>"; };
 		28BC52F616C2F191000072BD /* RCHTTPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCHTTPRequest.h; sourceTree = "<group>"; };
 		28BC52F716C2F191000072BD /* RCHTTPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCHTTPRequest.m; sourceTree = "<group>"; };
 		28BC52F816C2F19100000002 /* Log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Log.m; path = Playground/haxe/Log.m; sourceTree = SOURCE_ROOT; };
 		28F13CCB16B92B9600A69694 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		28F9F97E16E7AE8900FEF6BF /* Fb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Fb.h; sourceTree = "<group>"; };
+		28F9F97F16E7AE8900FEF6BF /* Fb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Fb.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,13 +133,13 @@
 			children = (
 				28BC52F616C2F191000072BD /* RCHTTPRequest.h */,
 				28BC52F716C2F191000072BD /* RCHTTPRequest.m */,
-				28BC52F416C2F05B000072BD /* haxe */,
 				287530C916957A1D0048F960 /* AppDelegate.h */,
 				287530CA16957A1D0048F960 /* AppDelegate.m */,
+				28F9F97E16E7AE8900FEF6BF /* Fb.h */,
+				28F9F97F16E7AE8900FEF6BF /* Fb.m */,
 				2839DCB016AE4F9A00068D3B /* HXObject.h */,
 				2839DCB116AE4F9A00068D3B /* HXObject.m */,
-				287530FB1697125F0048F960 /* Std.h */,
-				287530FC1697125F0048F960 /* Std.m */,
+				28BC52F416C2F05B000072BD /* haxe */,
 				287530C116957A1D0048F960 /* Supporting Files */,
 			);
 			path = Playground;
@@ -152,7 +150,6 @@
 			children = (
 				287530C216957A1D0048F960 /* Playground-Info.plist */,
 				287530C316957A1D0048F960 /* InfoPlist.strings */,
-				287530C616957A1D0048F960 /* mainf.m */,
 				287530C816957A1D0048F960 /* Playground-Prefix.pch */,
 				287530CC16957A1D0048F960 /* Default.png */,
 				287530CE16957A1D0048F960 /* Default@2x.png */,
@@ -290,12 +287,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				287530C716957A1D0048F960 /* mainf.m in Sources */,
 				287530CB16957A1D0048F960 /* AppDelegate.m in Sources */,
-				287530FE169712600048F960 /* Std.m in Sources */,
 				2839DCB216AE4F9A00068D3B /* HXObject.m in Sources */,
 				28BC52F816C2F191000072BD /* RCHTTPRequest.m in Sources */,
 				28BC52F816C2F19100000001 /* Log.m in Sources */,
+				28F9F98016E7AE8900FEF6BF /* Fb.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

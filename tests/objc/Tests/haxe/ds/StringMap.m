@@ -37,13 +37,14 @@
 	NSMutableArray *it = [[NSMutableArray alloc] initWithObjects:[a iterator], nil];
 	
 	NSMutableArray *me = [[NSMutableArray alloc] initWithObjects:self, nil];
-	return struct {
-	hasNext:^- (BOOL) {
+	return [NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[^BOOL(){
 		return [[it objectAtIndex:0] hasNext];
-	}; next:^- (id) {
+	} copy], @"hasNext",
+	[^id(){
 		return [[me objectAtIndex:0] __Internal __Field:[[it objectAtIndex:0] next] :YES];
-	}
-	} structName;
+	} copy], @"next",
+	nil];
 }
 - (NSMutableString*) toString{
 	return [self description];

@@ -41,9 +41,8 @@
 }
 + (id) globals:(id)val {
 	static id _val;
-	if (val == nil) { if (_val == nil) _val = struct {
-
-} structName; }
+	if (val == nil) { if (_val == nil) _val = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+nil]; }
 	else { if (_val != nil) _val = val; }
 	return _val;
 }
@@ -56,9 +55,8 @@
 	// Optional arguments
 	if (!macros) macros = nil;
 	
-	self.macros = ( (macros == nil) ? struct {
-	
-	} structName : macros);
+	self.macros = ( (macros == nil) ? [NSMutableDictionary dictionaryWithObjectsAndKeys:
+	nil] : macros);
 	self.context = context;
 	self.stack = [[List alloc] init];
 	self.buf = [[StringBuf alloc] init];
@@ -82,13 +80,17 @@
 	List *tokens = [[List alloc] init];
 	while ([-TMono- match:data]) {
 		id p = [-TMono- matchedPos];
-		if (p pos > 0) [tokens add:struct {
-		p:[data substr:0 len:p pos]; s:YES; l:nil
-		} structName];
+		if (p pos > 0) [tokens add:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+		[[data substr:0 len:p pos] copy], @"p",
+		[YES copy], @"s",
+		[nil copy], @"l",
+		nil]];
 		if ([data charCodeAt:p pos] == 58) {
-			[tokens add:struct {
-			p:[data substr:p pos + 2 len:p len - 4]; s:NO; l:nil
-			} structName];
+			[tokens add:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+			[[data substr:p pos + 2 len:p len - 4] copy], @"p",
+			[NO copy], @"s",
+			[nil copy], @"l",
+			nil]];
 			data = [-TMono- matchedRight];
 			continue;
 		}
@@ -103,14 +105,18 @@
 		}
 		
 		NSMutableArray *params = [[data.substr:p pos + p len len:parp -  (p pos + p len) - 1] split:[NSMutableString stringWithString:@","]];
-		[tokens add:struct {
-		p:[-TMono- matched:2]; s:NO; l:params
-		} structName];
+		[tokens add:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+		[[-TMono- matched:2] copy], @"p",
+		[NO copy], @"s",
+		[params copy], @"l",
+		nil]];
 		data = [data substr:parp len:data.length - parp];
 	}
-	if (data.length > 0) [tokens add:struct {
-	p:data; s:YES; l:nil
-	} structName];
+	if (data.length > 0) [tokens add:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[data copy], @"p",
+	[YES copy], @"s",
+	[nil copy], @"l",
+	nil]];
 	return tokens;
 }
 - (Template*) parseBlock:(List*)tokens{
@@ -190,19 +196,22 @@
 	while ([-TMono- match:data]) {
 		id p = [-TMono- matchedPos];
 		int k = p pos + p len;
-		if (p pos != 0) [l add:struct {
-		p:[data substr:0 len:p pos]; s:YES
-		} structName];
+		if (p pos != 0) [l add:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+		[[data substr:0 len:p pos] copy], @"p",
+		[YES copy], @"s",
+		nil]];
 		
 		NSMutableString *p1 = [-TMono- matched:0];
-		[l add:struct {
-		p:p1; s:[p1 indexOf:[NSMutableString stringWithString:@"\""] startIndex:nil] >= 0
-		} structName];
+		[l add:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+		[p1 copy], @"p",
+		[[p1 indexOf:[NSMutableString stringWithString:@"\""] startIndex:nil] >= 0 copy], @"s",
+		nil]];
 		data = [-TMono- matchedRight];
 	}
-	if (data.length != 0) [l add:struct {
-	p:data; s:YES
-	} structName];
+	if (data.length != 0) [l add:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[data copy], @"p",
+	[YES copy], @"s",
+	nil]];
 	
 	NSMutableArray *e = [[NSMutableArray alloc] initWithObjects:, nil];
 	@try {

@@ -49,13 +49,14 @@
 @synthesize scache;
 @synthesize resolver;
 - (void) setResolver:(id)r{
-	if (r == nil) self.resolver = struct {
-	resolveClass:^- (Class*) :(NSMutableString*)_{
+	if (r == nil) self.resolver = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[^Class*(NSMutableString*){
 		return nil;
-	}; resolveEnum:^- (Enum*) :(NSMutableString*)_{
+	} copy], @"resolveClass",
+	[^Enum*(NSMutableString*){
 		return nil;
-	}
-	} structName;
+	} copy], @"resolveEnum",
+	nil];
 	else self.resolver = r;
 }
 - (id) getResolver{
@@ -170,9 +171,8 @@
 				}}break;
 			case 111:{
 				{
-					id o = struct {
-					
-					} structName;
+					id o = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+					nil];
 					[self.cache push:o];
 					[self unserializeObject:o];
 					return o;

@@ -6,7 +6,7 @@ package  {
 			if(this.functionToRedefine2 == null) this.functionToRedefine2 = function(param1 : int,param2 : String) : void {
 			}
 			if(this.functionToRedefine == null) this.functionToRedefine = function() : void {
-				haxe.Log._trace("originally do something",{ fileName : "Tests.hx", lineNumber : 571, className : "Tests2", methodName : "functionToRedefine"});
+				haxe.Log._trace("originally do something",{ fileName : "Tests.hx", lineNumber : 575, className : "Tests2", methodName : "functionToRedefine"});
 			}
 			var arr : Array = [this.d1,this.d1,50];
 		}}

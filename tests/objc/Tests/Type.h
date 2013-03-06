@@ -23,12 +23,11 @@ typedef enum{
 #import "Reflect.h"
 #import "Enum.h"
 #import "EnumValue.h"
-#import "Array.h"
 #import "Type.h"
 #import "ValueType.h"
 #import <objc/runtime.h>
 
-@interface Type : HXObject
+@interface Type : NSObject
 
 + (Class*) getClass:(id)o;
 + (Enum*) getEnum:(EnumValue*)o;

@@ -130,9 +130,13 @@
 	float s = t / 1000;
 	float m = s / 60;
 	float h = m / 60;
-	return struct {
-	ms:t % 1000; seconds:[Std _int:s % 60]; minutes:[Std _int:m % 60]; hours:[Std _int:h % 24]; days:[Std _int:h / 24]
-	} structName;
+	return [NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[t % 1000 copy], @"ms",
+	[[Std _int:s % 60] copy], @"seconds",
+	[[Std _int:m % 60] copy], @"minutes",
+	[[Std _int:h % 24] copy], @"hours",
+	[[Std _int:h / 24] copy], @"days",
+	nil];
 }
 + (float) make:(id)o{
 	return o ms + 1000.0 *  (o seconds + 60.0 *  (o minutes + 60.0 *  (o hours + 24.0 * o days)));

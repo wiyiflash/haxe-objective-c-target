@@ -9,12 +9,11 @@
 #import <Foundation/Foundation.h>
 
 #import "../haxe/Timer.h"
-#import "../Array.h"
 #import "../haxe/Log.h"
 #import "../Sys.h"
 #import "../objc/foundation/NSTimer.h"
 
-@interface Timer : HXObject
+@interface Timer : NSObject
 
 + (Timer*) delay:(SEL)f time_ms:(int)time_ms;
 + (id) measure:(SEL)f pos:(id)pos;

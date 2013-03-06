@@ -6,11 +6,11 @@
 //
 
 
+#import <Foundation/Foundation.h>
 
-#import "Array.h"
 #import "List.h"
 
-@interface Lambda : HXObject
+@interface Lambda : NSObject
 
 + (NSMutableArray*) array:(id)it;
 + (List*) list:(id)it;

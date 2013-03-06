@@ -14,7 +14,7 @@
 #import "haxe/ds/ObjectMap.h"
 #import "Map.h"
 
-@interface MapImpl : HXObject
+@interface MapImpl : NSObject
 
 
 + (void) set:(id)this1 key:(id)key value:(id)value;

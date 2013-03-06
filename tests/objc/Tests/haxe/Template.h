@@ -22,11 +22,10 @@ typedef enum{
 #import "../List.h"
 #import "../StringBuf.h"
 #import "../Reflect.h"
-#import "../Array.h"
 #import "../haxe/_Template/TemplateExpr.h"
 #import "../Std.h"
 
-@interface Template : HXObject
+@interface Template : NSObject
 
 + (EReg*) splitter:(EReg*)val;
 + (EReg*) expr_splitter:(EReg*)val;

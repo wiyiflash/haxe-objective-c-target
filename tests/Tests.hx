@@ -142,6 +142,10 @@ class Tests/* implements Interface1 implements Interface2*/ {
 		var a_comprehention = [for( x in 0...10 ) x];
 		var b_comprehention = [for( x in a_comprehention ) if( x % 2 == 0 ) x];
 		var c_comprehention = [for( x in 0...4 ) for( i in 0...x+1 ) i];
+		
+		for (val in concatArray) {
+			trace(val);
+		}
 	}
 	
 	

@@ -20,7 +20,7 @@
 	timer = [Timer delay:^- (void) {
 		[[_g objectAtIndex:0] testTimerLoop];
 	} time_ms:50];
-	[Timer measure:self testTimerLoop pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestHaxePack.hx",@"22",@"TestHaxePack",@"testTimer",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[Timer measure:self testTimerLoop pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestHaxePack.hx",@"fileName", @"22",@"lineNumber", @"TestHaxePack",@"className", @"testTimer",@"methodName", nil]];
 	float f = [Timer stamp];
 }
 - (void) testTimerLoop{
@@ -34,7 +34,7 @@
 - (void) testResources{
 	
 	NSMutableString *str = [Resource getString:[NSMutableString stringWithString:@"welcome"]];
-	[Log trace:str infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestHaxePack.hx",@"39",@"TestHaxePack",@"testResources",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[Log trace:str infos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestHaxePack.hx",@"fileName", @"39",@"lineNumber", @"TestHaxePack",@"className", @"testResources",@"methodName", nil]];
 }
 - (void) testCallstack{
 	
@@ -42,17 +42,17 @@
 }
 - (void) testSerialization{
 	
-	NSMutableString *str = [Serializer run:struct {
-	a:[NSMutableString stringWithString:@"a"]
-	} structName];
+	NSMutableString *str = [Serializer run:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"a"] copy], @"a",
+	nil]];
 	id obj = [Unserializer run:str];
 }
 - (id) init{
 	self = [super init];
 	
-	NSMutableString *str = [Json stringify:struct {
-	a:[NSMutableString stringWithString:@"a"]
-	} structName replacer:nil];
+	NSMutableString *str = [Json stringify:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"a"] copy], @"a",
+	nil] replacer:nil];
 	id obj = [Json parse:str];
 	
 	Template *t = [[Template alloc] init:str];

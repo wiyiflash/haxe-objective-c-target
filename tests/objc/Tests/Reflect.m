@@ -60,9 +60,8 @@
 	if (o == nil) return nil;
 	if ([o __GetType] == __global__ vtString) return o;
 	if ([o __GetType] == __global__ vtArray) return [[o __Field:[NSMutableString stringWithString:@"copy"] :YES]];
-	id o2 = struct {
-	
-	} structName;
+	id o2 = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+	nil];
 	{
 		int _g = 0; 
 		NSMutableArray *_g1 = [Reflect fields:o];

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface Std : HXObject
+@interface Std : NSObject
 
 + (NSMutableString*) string:(id)s;
 + (int) _int:(float)x;

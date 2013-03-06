@@ -82,7 +82,7 @@
 - (void) testWhile{
 	int aa = 5;
 	do {
-		[Log trace:[NSMutableString stringWithString:@"do something"] infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Tests.hx",@"84",@"Tests",@"testWhile",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+		[Log trace:[NSMutableString stringWithString:@"do something"] infos:[NSDictionary dictionaryWithObjectsAndKeys:@"Tests.hx",@"fileName", @"84",@"lineNumber", @"Tests",@"className", @"testWhile",@"methodName", nil]];
 		aa++;
 	}while (aa < 10);
 	while (aa > 0) aa--;
@@ -92,7 +92,7 @@
 		int a = 3;
 	}
 	@catch (NSException *e) {
-		[Log trace:[NSMutableString stringWithString:@"error"] infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Tests.hx",@"101",@"Tests",@"testTry",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+		[Log trace:[NSMutableString stringWithString:@"error"] infos:[NSDictionary dictionaryWithObjectsAndKeys:@"Tests.hx",@"fileName", @"101",@"lineNumber", @"Tests",@"className", @"testTry",@"methodName", nil]];
 	}
 }
 - (void) testSwitch{
@@ -186,6 +186,15 @@
 		
 		NSMutableArray* __r__3}
 	}(self));
+	{
+		int _g3 = 0;
+		while (_g3 < concatArray.length) {
+			
+			NSMutableString *val = [concatArray objectAtIndex:_g3];
+			++_g3;
+			[Log trace:val infos:[NSDictionary dictionaryWithObjectsAndKeys:@"Tests.hx",@"fileName", @"147",@"lineNumber", @"Tests",@"className", @"testArray",@"methodName", nil]];
+		}
+	}
 }
 - (void) testDate{
 	
@@ -211,9 +220,13 @@
 	str = [DateTools format:d f:[NSMutableString stringWithString:@"HH:mm"]];
 	_int = [DateTools getMonthDays:d];
 	_float = 3600000000.;
-	_float = [DateTools make:struct {
-	seconds:0; ms:110; minutes:6; hours:8; days:5
-	} structName];
+	_float = [DateTools make:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[0 copy], @"seconds",
+	[110 copy], @"ms",
+	[6 copy], @"minutes",
+	[8 copy], @"hours",
+	[5 copy], @"days",
+	nil]];
 	_float = 3360000.;
 	id obj = [DateTools parse:45546];
 	_float = 1000000.;
@@ -343,9 +356,9 @@
 	item = [l last];
 	item = [l pop];
 	BOOL r = [l remove:5];
-	[Log trace:l.length infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Tests.hx",@"276",@"Tests",@"testList",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[Log trace:l.length infos:[NSDictionary dictionaryWithObjectsAndKeys:@"Tests.hx",@"fileName", @"280",@"lineNumber", @"Tests",@"className", @"testList",@"methodName", nil]];
 	[l clear];
-	[Log trace:l.length infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Tests.hx",@"278",@"Tests",@"testList",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[Log trace:l.length infos:[NSDictionary dictionaryWithObjectsAndKeys:@"Tests.hx",@"fileName", @"282",@"lineNumber", @"Tests",@"className", @"testList",@"methodName", nil]];
 	
 	List *newList = [l map:^- (NSMutableString*) :(int)i{
 		return [Std string:i];
@@ -355,9 +368,9 @@
 	fl.head = [[FastCell alloc] init:8 next:fl head];
 }
 - (void) testReflect{
-	id obj = struct {
-	a:[NSMutableString stringWithString:@"aaaaa"]
-	} structName;
+	id obj = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"aaaaa"] copy], @"a",
+	nil];
 	BOOL b = [Reflect hasField:obj field:[NSMutableString stringWithString:@"a"]];
 	id f = [Reflect field:obj field:[NSMutableString stringWithString:@"a"]];
 	if (obj != nil) [obj __SetField-TDynamic-];
@@ -534,10 +547,10 @@
 	self.s = [NSMutableString stringWithString:@"init"];
 }
 - (void) printHello{
-	[Log trace:[NSMutableString stringWithString:@"Hello from Haxe Objective-C"] infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Tests.hx",@"533",@"Tests",@"printHello",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[Log trace:[NSMutableString stringWithString:@"Hello from Haxe Objective-C"] infos:[NSDictionary dictionaryWithObjectsAndKeys:@"Tests.hx",@"fileName", @"537",@"lineNumber", @"Tests",@"className", @"printHello",@"methodName", nil]];
 }
 - (void) functionToRedefine{
-	[Log trace:[NSMutableString stringWithString:@"do something else"] infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Tests.hx",@"548",@"Tests",@"functionToRedefine",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[Log trace:[NSMutableString stringWithString:@"do something else"] infos:[NSDictionary dictionaryWithObjectsAndKeys:@"Tests.hx",@"fileName", @"552",@"lineNumber", @"Tests",@"className", @"functionToRedefine",@"methodName", nil]];
 }
 - (void) functionToRedefine2:(int)param1 param2:(NSMutableString*)param2{
 	int i = param1;
@@ -567,7 +580,7 @@
 }
 // Defining a dynamic method
 - (void) functionToRedefine{
-	[Log trace:[NSMutableString stringWithString:@"originally do something"] infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Tests.hx",@"571",@"Tests2",@"functionToRedefine",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[Log trace:[NSMutableString stringWithString:@"originally do something"] infos:[NSDictionary dictionaryWithObjectsAndKeys:@"Tests.hx",@"fileName", @"575",@"lineNumber", @"Tests2",@"className", @"functionToRedefine",@"methodName", nil]];
 }
 @synthesize property_functionToRedefine;
 

@@ -25,15 +25,16 @@ static int length__;
 	NSMutableArray *a = [[NSMutableArray alloc] initWithObjects:self, nil];
 	
 	NSMutableArray *p = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:0], nil];
-	return struct {
-	hasNext:^- (BOOL) {
+	return [NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[^BOOL(){
 		return [p objectAtIndex:0] < [[a objectAtIndex:0] length];
-	}; next:^- (id) {
+	} copy], @"hasNext",
+	[^id(){
 		id i = [[a objectAtIndex:0] objectAtIndex:[p objectAtIndex:0]];
 		[p objectAtIndex:0] += 1;
 		return i;
-	}
-	} structName;
+	} copy], @"next",
+	nil];
 }
 - (void) insert:(int)pos x:(id)x{
 	[self insertObject:x atIndex:pos];

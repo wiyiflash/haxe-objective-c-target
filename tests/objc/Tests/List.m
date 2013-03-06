@@ -68,16 +68,18 @@
 	return NO;
 }
 - (id) iterator{
-	return (id)struct {
-	h:self.h; hasNext:^- (id) {
+	return (id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[self.h copy], @"h",
+	[^id(){
 		return self.h != nil;
-	}; next:^- (id) {
+	} copy], @"hasNext",
+	[^id(){
 		if (self.h == nil) return nil;
 		id x = [self.h objectAtIndex:0];
 		self.h = [self.h objectAtIndex:1];
 		return x;
-	}
-	} structName;
+	} copy], @"next",
+	nil];
 }
 - (NSMutableString*) toString{
 	

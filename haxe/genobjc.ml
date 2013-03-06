@@ -78,8 +78,15 @@ class filesManager imports_manager =
 		let chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ" in
 		for i = 0 to 23 do id.[i] <- chars.[Random.int 36] done;
 		id
+	method generate_uuid_for_file app_name file_path =
+		let id = String.make 24 'A' in
+		let md5 = Digest.to_hex (Digest.string (joinClassPath file_path "/")) in
+		for i = 0 to 23 do
+			id.[i] <- if String.length app_name > i then app_name.[i] else md5.[i];
+		done;
+		id
 	method register_source_file file_path ext =
-		source_files <- List.append source_files [this#generate_uuid, this#generate_uuid, file_path, ext];
+		source_files <- List.append source_files [this#generate_uuid_for_file ("HAXE"^ext) file_path, this#generate_uuid_for_file ("HAXEREF"^ext) file_path, file_path, ext];
 	method register_resource_file file_path ext =
 		resource_files <- List.append resource_files [this#generate_uuid, this#generate_uuid, file_path, ext];
 	(* method get_uuid c_path =
@@ -218,6 +225,7 @@ type context = {
 	mutable handle_break : bool;
 	mutable generating_header : bool;
 	mutable generating_objc_block : bool;
+	mutable generating_object_declaration : bool;
 	mutable generating_constructor : bool;
 	mutable generating_self_access : bool;
 	mutable generating_property_access : bool;
@@ -246,6 +254,7 @@ let newContext common_ctx writer imports_manager file_info = {
 	handle_break = false;
 	generating_header = false;
 	generating_objc_block = false;
+	generating_object_declaration = false;
 	generating_constructor = false;
 	generating_self_access = false;
 	generating_property_access = false;
@@ -627,13 +636,20 @@ let generateFunctionHeader ctx name f params p is_static =
 		) f.tf_args;
 		ctx.writer#write "]; };\n"
 	end; *)
+	if ctx.generating_object_declaration then
+		(* [^BOOL() { return p < [a count]; } copy] *)
+		ctx.writer#write (Printf.sprintf "%s%s" return_type (addPointerIfNeeded return_type))
+	else
 	if ctx.generating_objc_block then
 		(* void(^block3)(NSString); *)
 		ctx.writer#write (Printf.sprintf "%s%s" return_type (addPointerIfNeeded return_type))
 	else
 		ctx.writer#write (Printf.sprintf "%s (%s%s)" (if is_static then "+" else "-") return_type (addPointerIfNeeded return_type));(* Print the return type of the function *)
-
-	if ctx.generating_objc_block then
+	
+	
+	if ctx.generating_object_declaration then
+		()
+	else if ctx.generating_objc_block then
 		ctx.writer#write (Printf.sprintf "(^property_%s)" func_name)
 	else
 		ctx.writer#write (Printf.sprintf " %s" (remapKeyword func_name));
@@ -641,7 +657,7 @@ let generateFunctionHeader ctx name f params p is_static =
 	Hashtbl.clear ctx.function_arguments;
 	(* Generate the arguments of the function. Ignore the message name of the first arg *)
 	(* TODO: add (void) if no argument is present. Not mandatory *)
-	if ctx.generating_objc_block then begin
+	if (ctx.generating_objc_block || ctx.generating_object_declaration) then begin
 		ctx.writer#write "(";
 		concat ctx ", " (fun (v,c) ->
 			let type_name = typeToString ctx v.v_type p in
@@ -1162,13 +1178,20 @@ and generateExpression ctx e =
 		end;
 		ctx.writer#end_block;
 	| TFunction f ->
-		ctx.writer#write "^";
-		let h = generateFunctionHeader ctx None f [] e.epos ctx.in_static in
-		let old = ctx.in_static in
-		ctx.in_static <- true;
-		generateExpression ctx f.tf_expr;
-		ctx.in_static <- old;
-		h();
+		if ctx.generating_object_declaration then begin
+			ctx.writer#write "^";
+			let h = generateFunctionHeader ctx None f [] e.epos ctx.in_static in
+			generateExpression ctx f.tf_expr;
+			h();
+		end else begin
+			ctx.writer#write "^";
+			let h = generateFunctionHeader ctx None f [] e.epos ctx.in_static in
+			let old = ctx.in_static in
+			ctx.in_static <- true;
+			generateExpression ctx f.tf_expr;
+			ctx.in_static <- old;
+			h();
+		end
 	| TCall (func, arg_list) when
 		(match func.eexpr with
 		| TLocal { v_name = "__objc__" } -> true
@@ -1189,13 +1212,26 @@ and generateExpression ctx e =
 		("lineNumber" , { eexpr = (TConst (TInt line)) }) ::
 		("className" , { eexpr = (TConst (TString class_name)) }) ::
 		("methodName", { eexpr = (TConst (TString meth)) }) :: [] ) ->
-			ctx.writer#write ("[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@\""^file^"\",@\""^(Printf.sprintf "%ld" line)^"\",@\""^class_name^"\",@\""^meth^"\",nil] forKeys:[NSArray arrayWithObjects:@\"fileName\",@\"lineNumber\",@\"className\",@\"methodName\",nil]]");
+			(* ctx.writer#write ("[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@\""^file^"\",@\""^(Printf.sprintf "%ld" line)^"\",@\""^class_name^"\",@\""^meth^"\",nil] forKeys:[NSArray arrayWithObjects:@\"fileName\",@\"lineNumber\",@\"className\",@\"methodName\",nil]]"); *)
+			ctx.writer#write ("[NSDictionary dictionaryWithObjectsAndKeys:@\""^file^"\",@\"fileName\", @\""^(Printf.sprintf "%ld" line)^"\",@\"lineNumber\", @\""^class_name^"\",@\"className\", @\""^meth^"\",@\"methodName\", nil]");
 	| TObjectDecl fields ->
-		ctx.writer#write "struct {";
+		ctx.generating_object_declaration <- true;
+		ctx.writer#write "[NSMutableDictionary dictionaryWithObjectsAndKeys:";
 		ctx.writer#new_line;
-		concat ctx "; " (fun (f,e) -> ctx.writer#write (Printf.sprintf "%s:" (f)); generateValue ctx e) fields;
-		ctx.writer#new_line;
-		ctx.writer#write "} structName"
+		List.iter ( fun (key, expr) ->
+			ctx.writer#write ("[");
+			generateValue ctx expr;(* Generate a block here *)
+			ctx.writer#write (" copy], @\""^key^"\",");
+			ctx.writer#new_line;
+		) fields;
+		ctx.writer#write "nil]";
+		ctx.generating_object_declaration <- false;
+			
+			(* return [NSMutableDictionary dictionaryWithObjectsAndKeys:
+						[^BOOL() { return p < [a count]; } copy], @"hasNext",
+						[^id() { id i = [a objectAtIndex:p]; p += 1; return i; } copy], @"next",
+						nil]; *)
+						
 	| TArrayDecl el ->
 		ctx.writer#write "[[NSMutableArray alloc] initWithObjects:";
 		ctx.require_pointer <- true;
@@ -1906,21 +1942,21 @@ let pbxproj common_ctx files_manager =
 		file#write ("		"^uuid^" /* "^n^ext^" in Resources */ = {isa = PBXBuildFile; fileRef = "^fileRef^"; };\n"); 
 	) files_manager#get_resource_files;
 	(* Add some hardcoded files *)
-	let build_file_main = files_manager#generate_uuid in
-	let build_file_main_fileref = files_manager#generate_uuid in
-	let build_file_infoplist_strings = files_manager#generate_uuid in
-	let build_file_infoplist_strings_tests = files_manager#generate_uuid in
-	let build_file_infoplist_strings_fileref = files_manager#generate_uuid in
-	let build_file_infoplist_strings_tests_fileref = files_manager#generate_uuid in
+	let build_file_main = files_manager#generate_uuid_for_file app_name ([],"build_file_main") in
+	let build_file_main_fileref = files_manager#generate_uuid_for_file app_name ([],"build_file_main_fileref") in
+	let build_file_infoplist_strings = files_manager#generate_uuid_for_file app_name ([],"build_file_infoplist_strings") in
+	let build_file_infoplist_strings_tests = files_manager#generate_uuid_for_file app_name ([],"build_file_infoplist_strings_tests") in
+	let build_file_infoplist_strings_fileref = files_manager#generate_uuid_for_file app_name ([],"build_file_infoplist_strings_fileref") in
+	let build_file_infoplist_strings_tests_fileref = files_manager#generate_uuid_for_file app_name ([],"build_file_infoplist_strings_tests_fileref") in
 	file#write ("		"^build_file_infoplist_strings^" /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = "^build_file_infoplist_strings_fileref^" /* InfoPlist.strings */; };\n");
 	file#write ("		"^build_file_infoplist_strings_tests^" /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = "^build_file_infoplist_strings_tests_fileref^" /* InfoPlist.strings */; };\n");
 	file#write ("		"^build_file_main^" /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = "^build_file_main_fileref^" /* main.m */; };\n");
 	file#write ("/* End PBXBuildFile section */\n");
 	
 	(* Begin PBXContainerItemProxy section *)
-	let container_item_proxy = files_manager#generate_uuid in
-	let remote_global_id_string = files_manager#generate_uuid in
-	let root_object = files_manager#generate_uuid in
+	let container_item_proxy = files_manager#generate_uuid_for_file app_name ([],"container_item_proxy") in
+	let remote_global_id_string = files_manager#generate_uuid_for_file app_name ([],"remote_global_id_string") in
+	let root_object = files_manager#generate_uuid_for_file app_name ([],"root_object") in
 	file#write ("\n/* Begin PBXContainerItemProxy section */
 		"^container_item_proxy^" /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1934,12 +1970,12 @@ let pbxproj common_ctx files_manager =
 	(* Begin PBXFileReference section *)
 	(* {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Log.m; path = Playground/haxe/Log.m; sourceTree = SOURCE_ROOT; }; *)
 	file#write ("\n\n/* Begin PBXFileReference section */\n");
-	let fileref_en = files_manager#generate_uuid in
-	let fileref_en_tests = files_manager#generate_uuid in
-	let fileref_plist = files_manager#generate_uuid in
-	let fileref_pch = files_manager#generate_uuid in
-	let fileref_app = files_manager#generate_uuid in
-	let fileref_octest = files_manager#generate_uuid in
+	let fileref_en = files_manager#generate_uuid_for_file app_name ([],"fileref_en") in
+	let fileref_en_tests = files_manager#generate_uuid_for_file app_name ([],"fileref_en_tests") in
+	let fileref_plist = files_manager#generate_uuid_for_file app_name ([],"fileref_plist") in
+	let fileref_pch = files_manager#generate_uuid_for_file app_name ([],"fileref_pch") in
+	let fileref_app = files_manager#generate_uuid_for_file app_name ([],"fileref_app") in
+	let fileref_octest = files_manager#generate_uuid_for_file app_name ([],"fileref_octest") in
 	List.iter ( fun (uuid, fileRef, name) -> 
 		file#write ("		"^fileRef^" /* "^name^".framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "^name^".framework; path = System/Library/Frameworks/"^name^".framework; sourceTree = SDKROOT; };\n");
 	) files_manager#get_frameworks;
@@ -1966,8 +2002,8 @@ let pbxproj common_ctx files_manager =
 	file#write ("/* End PBXFileReference section */\n");
 	
 	(* Begin PBXFrameworksBuildPhase section *)
-	let frameworks_build_phase_app = files_manager#generate_uuid in
-	let frameworks_build_phase_tests = files_manager#generate_uuid in
+	let frameworks_build_phase_app = files_manager#generate_uuid_for_file app_name ([],"frameworks_build_phase_app") in
+	let frameworks_build_phase_tests = files_manager#generate_uuid_for_file app_name ([],"frameworks_build_phase_tests") in
 	file#write ("\n\n/* Begin PBXFrameworksBuildPhase section */
 		"^frameworks_build_phase_app^" /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
@@ -1991,13 +2027,13 @@ let pbxproj common_ctx files_manager =
 /* End PBXFrameworksBuildPhase section */");
 
 	(* Begin PBXGroup section *)
-	let main_group = files_manager#generate_uuid in
-	let product_ref_group = files_manager#generate_uuid in
-	let frameworks_group = files_manager#generate_uuid in
-	let children_app = files_manager#generate_uuid in
-	let children_tests = files_manager#generate_uuid in
-	let children_supporting_files = files_manager#generate_uuid in
-	let children_supporting_files_tests = files_manager#generate_uuid in
+	let main_group = files_manager#generate_uuid_for_file app_name ([],"main_group") in
+	let product_ref_group = files_manager#generate_uuid_for_file app_name ([],"product_ref_group") in
+	let frameworks_group = files_manager#generate_uuid_for_file app_name ([],"frameworks_group") in
+	let children_app = files_manager#generate_uuid_for_file app_name ([],"children_app") in
+	let children_tests = files_manager#generate_uuid_for_file app_name ([],"children_tests") in
+	let children_supporting_files = files_manager#generate_uuid_for_file app_name ([],"children_supporting_files") in
+	let children_supporting_files_tests = files_manager#generate_uuid_for_file app_name ([],"children_supporting_files_tests") in
 	file#write ("\n\n/* Begin PBXGroup section */
 		"^main_group^" = {
 			isa = PBXGroup;
@@ -2077,16 +2113,16 @@ let pbxproj common_ctx files_manager =
 		};
 /* End PBXGroup section */");
 	(* Begin PBXNativeTarget section *)
-	let sources_build_phase_app = files_manager#generate_uuid in
-	let sources_build_phase_tests = files_manager#generate_uuid in
-	let resources_build_phase_app = files_manager#generate_uuid in
-	let resources_build_phase_tests = files_manager#generate_uuid in
-	let remote_global_id_string_tests = files_manager#generate_uuid in
-	let shell_build_phase_tests = files_manager#generate_uuid in
-	let target_dependency = files_manager#generate_uuid in
-	let build_config_list_app = files_manager#generate_uuid in
-	let build_config_list_tests = files_manager#generate_uuid in
-	let build_config_list_proj = files_manager#generate_uuid in
+	let sources_build_phase_app = files_manager#generate_uuid_for_file app_name ([],"sources_build_phase_app") in
+	let sources_build_phase_tests = files_manager#generate_uuid_for_file app_name ([],"sources_build_phase_tests") in
+	let resources_build_phase_app = files_manager#generate_uuid_for_file app_name ([],"resources_build_phase_app") in
+	let resources_build_phase_tests = files_manager#generate_uuid_for_file app_name ([],"resources_build_phase_tests") in
+	let remote_global_id_string_tests = files_manager#generate_uuid_for_file app_name ([],"remote_global_id_string_tests") in
+	let shell_build_phase_tests = files_manager#generate_uuid_for_file app_name ([],"shell_build_phase_tests") in
+	let target_dependency = files_manager#generate_uuid_for_file app_name ([],"target_dependency") in
+	let build_config_list_app = files_manager#generate_uuid_for_file app_name ([],"build_config_list_app") in
+	let build_config_list_tests = files_manager#generate_uuid_for_file app_name ([],"build_config_list_tests") in
+	let build_config_list_proj = files_manager#generate_uuid_for_file app_name ([],"build_config_list_proj") in
 	file#write ("\n\n/* Begin PBXNativeTarget section */
 		"^remote_global_id_string^" /* "^app_name^" */ = {
 			isa = PBXNativeTarget;
@@ -2238,12 +2274,12 @@ let pbxproj common_ctx files_manager =
 		};
 /* End PBXVariantGroup section */");
 	(* Begin XCBuildConfiguration section *)
-	let build_config_list_proj_debug = files_manager#generate_uuid in
-	let build_config_list_proj_release = files_manager#generate_uuid in
-	let build_config_list_app_debug = files_manager#generate_uuid in
-	let build_config_list_app_release = files_manager#generate_uuid in
-	let build_config_list_tests_debug = files_manager#generate_uuid in
-	let build_config_list_tests_release = files_manager#generate_uuid in
+	let build_config_list_proj_debug = files_manager#generate_uuid_for_file app_name ([],"build_config_list_proj_debug") in
+	let build_config_list_proj_release = files_manager#generate_uuid_for_file app_name ([],"build_config_list_proj_release") in
+	let build_config_list_app_debug = files_manager#generate_uuid_for_file app_name ([],"build_config_list_app_debug") in
+	let build_config_list_app_release = files_manager#generate_uuid_for_file app_name ([],"build_config_list_app_release") in
+	let build_config_list_tests_debug = files_manager#generate_uuid_for_file app_name ([],"build_config_list_tests_debug") in
+	let build_config_list_tests_release = files_manager#generate_uuid_for_file app_name ([],"build_config_list_tests_release") in
 	file#write ("\n\n/* Begin XCBuildConfiguration section */
 		"^build_config_list_proj_debug^" /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -2412,8 +2448,6 @@ let generateXcodeStructure common_ctx =
 	
 	(* Create Main Xcode bundle *)
 	mkdir base_dir ( (app_name^".xcodeproj") :: []);
-		mkdir base_dir ( (app_name^".xcodeproj") :: ["project.xcworkspace"]);
-			mkdir base_dir ( (app_name^".xcodeproj") :: "project.xcworkspace" :: ["Cristi.xcuserdatad"])
 ;;
 
 let generatePch common_ctx class_def =
@@ -2596,7 +2630,7 @@ let generateHeader ctx files_manager imports_manager =
 		ctx.writer#write ("@interface " ^ (snd class_path));
 		(* Add the super class *)
 		(match ctx.class_def.cl_super with
-			| None -> ctx.writer#write " : HXObject"
+			| None -> ctx.writer#write " : NSObject"
 			| Some (csup,_) -> ctx.writer#write (Printf.sprintf " : %s " (snd csup.cl_path)));
 		(* ctx.writer#write (Printf.sprintf "\npublic %s%s%s %s " (final c.cl_meta) 
 		(match c.cl_dynamic with None -> "" | Some _ -> if c.cl_interface then "" else "dynamic ") 
@@ -2658,17 +2692,6 @@ let generate common_ctx =
 		match obj_def with
 		| TClassDecl class_def ->
 			
-			(* let is_main_class = match common_ctx.main_class with
-				| Some path -> (path = class_def.cl_path)
-				| _ -> false in
-			if is_main_class then begin
-				print_endline("FOUND MAIN CLASS");
-				if (has_meta ":version" class_def.cl_meta) then print_endline("has meta");
-				let vers = getMetaValue ":version" class_def.cl_meta in
-				let orientation = getMetaValue ":orientation" class_def.cl_meta in
-				
-			end; *)
-			
 			if not class_def.cl_extern then begin
 				let module_path = class_def.cl_module.m_path in
 				let class_path = class_def.cl_path in
@@ -2676,15 +2699,13 @@ let generate common_ctx =
 				let is_new_module_m = (m.module_path_m != module_path) in
 				let is_new_module_h = (m.module_path_h != module_path) in
 				(* When we create a new module reset the 'frameworks' and 'imports' that where stored for the previous module *)
-				(* The frameworks are kept in a non-resetable variable for .pbxproj *)
+				(* A copy of the frameworks are kept in a non-resetable variable for later usage in .pbxproj *)
 				imports_manager#reset;
 				print_endline ("> Generating class : "^(snd class_path)^" in module "^(joinClassPath module_path "/"));
 				
 				(* Generate implementation *)
 				(* If it's a new module close the old files and create new ones *)
 				if is_new_module_m then begin
-					(* print_endline ("> Is new module_m "^(snd module_path)); *)
-					(* Close the current files because this is a new module *)
 					m.ctx_m.writer#close;
 					m.module_path_m <- module_path;
 					
@@ -2709,8 +2730,6 @@ let generate common_ctx =
 				(* Generate header *)
 				(* If it's a new module close the old files and create new ones *)
 				if is_new_module_h then begin
-					(* print_endline ("> Is new module_h "^(snd module_path)); *)
-					(* Close the current files because this is a new module *)
 					m.ctx_h.writer#close;
 					m.module_path_h <- module_path;
 					(* Create the header file *)
@@ -2760,8 +2779,6 @@ let generate common_ctx =
 	generatePch common_ctx file_info;
 	generatePlist common_ctx file_info;
 	generateResources common_ctx;
-	(*  *)
 	localizations common_ctx;
-	xcworkspacedata common_ctx;
 	pbxproj common_ctx files_manager
 ;;

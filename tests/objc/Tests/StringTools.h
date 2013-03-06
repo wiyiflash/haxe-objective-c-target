@@ -10,7 +10,7 @@
 
 #import "StringTools.h"
 
-@interface StringTools : HXObject
+@interface StringTools : NSObject
 
 + (NSMutableString*) urlEncode:(NSMutableString*)s;
 + (NSMutableString*) urlDecode:(NSMutableString*)s;

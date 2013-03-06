@@ -10,17 +10,17 @@
 
 #import "../haxe/Json.h"
 #import "../StringBuf.h"
-#import "../Array.h"
 #import "../Reflect.h"
 #import "../Type.h"
 #import "../Std.h"
 #import "../Math.h"
 #import "../Class.h"
 #import "../String.h"
+#import "../Array.h"
 #import "../haxe/ds/StringMap.h"
 #import "../EnumValue.h"
 
-@interface Json : HXObject
+@interface Json : NSObject
 
 + (id) parse:(NSMutableString*)text;
 + (NSMutableString*) stringify:(id)value replacer:(SEL)replacer;

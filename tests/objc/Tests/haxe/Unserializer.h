@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 
 #import "../Type.h"
-#import "../Array.h"
 #import "../haxe/Unserializer.h"
 #import "../Class.h"
 #import "../Enum.h"
@@ -22,7 +21,7 @@
 #import "../Date.h"
 #import "../haxe/io/Bytes.h"
 
-@interface Unserializer : HXObject
+@interface Unserializer : NSObject
 
 + (id) DEFAULT_RESOLVER:(id)val;
 + (NSMutableString*) BASE64:(NSMutableString*)val;

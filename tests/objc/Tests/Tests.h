@@ -16,7 +16,6 @@ typedef enum{
 
 #import <Foundation/Foundation.h>
 
-#import "Array.h"
 #import "objc/Lib.h"
 #import "haxe/Log.h"
 #import "Date.h"
@@ -42,7 +41,7 @@ typedef enum{
 #import "TestC.h"
 #import "TestHaxePack.h"
 
-@interface Tests : HXObject
+@interface Tests : NSObject
 
 + (NSMutableString*) staticVar1:(NSMutableString*)val;
 + (int) staticVar2:(int)val;
@@ -96,9 +95,8 @@ typedef enum{
 #import <Foundation/Foundation.h>
 
 #import "haxe/Log.h"
-#import "Array.h"
 
-@interface Tests2 : HXObject
+@interface Tests2 : NSObject
 
 @property (nonatomic) int d1;
 - (void) methodInTests2;

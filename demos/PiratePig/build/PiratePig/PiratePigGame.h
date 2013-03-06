@@ -6,12 +6,11 @@
 //
 
 
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import <CoreGraphics/CoreGraphics.h>
 
-#import "Array.h"
-#import "ios/ui/UIView.h"
 #import "ios/ui/UIImageView.h"
-#import "ios/ui/UILabel.h"
 #import "Tile.h"
 #import "PiratePigGame.h"
 #import "Math.h"
@@ -22,7 +21,6 @@
 #import "ios/ui/NSTextAlignment.h"
 #import "ios/ui/UIFont.h"
 #import "objc/foundation/NSSet.h"
-#import "ios/ui/UIEvent.h"
 
 @interface PiratePigGame : UIView 
 

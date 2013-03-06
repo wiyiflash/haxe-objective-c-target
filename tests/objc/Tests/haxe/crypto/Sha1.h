@@ -9,10 +9,9 @@
 #import <Foundation/Foundation.h>
 
 #import "../../haxe/io/Bytes.h"
-#import "../../Array.h"
 #import "../../haxe/crypto/Sha1.h"
 
-@interface Sha1 : HXObject
+@interface Sha1 : NSObject
 
 + (NSMutableString*) encode:(NSMutableString*)s;
 + (Bytes*) make:(Bytes*)b;

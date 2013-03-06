@@ -10,7 +10,6 @@
 
 #import "../haxe/Serializer.h"
 #import "../StringBuf.h"
-#import "../Array.h"
 #import "../Std.h"
 #import "../StringTools.h"
 #import "../Reflect.h"
@@ -18,6 +17,7 @@
 #import "../Math.h"
 #import "../Class.h"
 #import "../String.h"
+#import "../Array.h"
 #import "../List.h"
 #import "../Date.h"
 #import "../haxe/ds/StringMap.h"
@@ -26,7 +26,7 @@
 #import "../haxe/io/Bytes.h"
 #import "../Enum.h"
 
-@interface Serializer : HXObject
+@interface Serializer : NSObject
 
 + (BOOL) USE_CACHE:(BOOL)val;
 + (BOOL) USE_ENUM_INDEX:(BOOL)val;

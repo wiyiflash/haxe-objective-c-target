@@ -8,6 +8,7 @@
 
 #import <CoreGraphics/CoreGraphics.h>
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 #import "ios/ui/UIView.h"
 #import "ios/ui/UIImageView.h"

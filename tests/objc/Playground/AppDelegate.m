@@ -33,9 +33,7 @@ typedef void (*FunctionType3)(int);
 
 
 #import "AppDelegate.h"
-#import "Std.h"
 #import <objc/runtime.h>
-#import "RCHTTPRequest.h"
 
 @implementation AppDelegate
 id me;
@@ -43,7 +41,6 @@ char fooKey;
 
 int main(int argc, char *argv[])
 {
-	NSLog(@"start");
 	srand(time(NULL));
 	@autoreleasepool {
 	    return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
@@ -59,39 +56,9 @@ int main(int argc, char *argv[])
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
 	
-//	NSLog(@"%i", self.length);
-//	self.length = 5;
-//	NSLog(@"%i", self.length);
-//	self.length += 5;
-//	NSLog(@"%i", self.length);
-	//int iii = 555;
-	//int i = 666;
-	
-	
-	[Log trace:(NSMutableString*)@"do something" infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Tests.hx",@"84",@"Tests",@"testWhile",nil]
-																				   forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	
-	
-	NSLog(@"%i", [Std random:100]);
-	NSLog(@"%i", [Std random:100]);
-	
-	
 	NSMutableString *ms = [NSMutableString stringWithString:@"abc"];
 	NSLog(@"%@", ms);
 	[ms appendString:@"def"];	NSLog(@"%@", ms);
-//	NSLog(@"%@", [Std string:self]);
-//	NSLog(@"%i", [Std parseInt:(NSMutableString*)@"5425345.3"]);
-//	NSLog(@"%2f", [Std parseFloat:(NSMutableString*)@"5425345.3"]);
-//	NSLog(@"%i", [Std int:54.53]);
-//	
-//	NSDate *date = [NSDate now];
-//	NSLog(@"%@", date);
-//	NSDate *date2 = [NSDate fromTime:1000000000];
-//	NSLog(@"%@", date2);
-//	NSDate *date3 = [NSDate fromString:(NSMutableString*)@"2013-02-18 15:34:50"];
-//	NSLog(@"%@", date3);
-//	NSLog(@"%@", [date toString]);
-	
 	//[self callThis:@selector(func)];
 	//[self callBlock:^(){ NSLog(@"Block was called"); }];
 	
@@ -101,7 +68,7 @@ int main(int argc, char *argv[])
 	Tests2 *test2 = [[Tests2 alloc] init];
 	test2.block1 = block_block1;
 	test2.block2 = block_block2;
-	test2.block3 = ^(NSString*str){ NSLog(@"block3 called %@", str); [self login]; };
+//	test2.block3 = ^(NSString*str){ NSLog(@"block3 called %@", str); [self login]; };
 	test2.block4 = ^(NSString*str){ NSLog(@"block4 called %@", str); return @"block 4 called inline"; };
 	[test2 callBlocks];
 	
@@ -111,40 +78,6 @@ int main(int argc, char *argv[])
 //	w.loadFinished = &ttt;
 //	w.callString = &ttt2;
 //	[w webViewDidFinishLoad:nil];
-	
-	UIButton *loginB = [[UIButton alloc] initWithFrame:CGRectMake(0, 50, 100, 30)];
-	[loginB setTitle:@"Login" forState:UIControlStateNormal];// titleLabel.text = @"Login";//[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
-	[loginB addTarget:self action:@selector(login) forControlEvents:UIControlEventTouchUpInside];
-	[self.window addSubview:loginB];
-	
-	UIButton *logoutB = [[UIButton alloc] initWithFrame:CGRectMake(100, 50, 100, 30)];
-	[logoutB setTitle:@"Logout" forState:UIControlStateNormal];// titleLabel.text = @"Login";//[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
-	[logoutB addTarget:self action:@selector(logout) forControlEvents:UIControlEventTouchUpInside];
-	[self.window addSubview:logoutB];
-	
-//	static const char * const defaultVtable[] = {
-//		"allocWithZone:",
-//		"alloc",
-//		"class",
-//		"self",
-//		"isKindOfClass:",
-//		"respondsToSelector:",
-//		"isFlipped",
-//		"length",
-//		"objectForKey:",
-//		"count",
-//		"objectAtIndex:",
-//		"isEqualToString:",
-//		"isEqual:",
-//		"retain",
-//		"release",
-//		"autorelease",
-//	};
-//	CFArrayRef arr = CFArrayCreate(NULL, (NSArray)*defaultVtable, 16, NULL);
-//	
-//	NSLog(@"%@", arr);
-	
-	
 	
 	
 	id e = [[NSObject alloc] init];
@@ -158,29 +91,14 @@ int main(int argc, char *argv[])
 	
 	self.window.backgroundColor = [UIColor grayColor];
 	
-	int x = 20;
-	int y = 25;
-	BOOL white = YES;
-	BOOL large = YES;
-	UIActivityIndicatorViewStyle style;
-	if (white && large) {
-		style = UIActivityIndicatorViewStyleWhiteLarge;
+	Tests2 *t = [[Tests2 alloc] init];
+	id it = [t iterator];
+	BOOL(^hasNext)() = [it objectForKey:@"hasNext"];
+	id(^next)() = [it objectForKey:@"next"];
+	while ( hasNext() ) {
+		id obj = next();
+		NSLog(@"print element of array here %@", obj);
 	}
-	else if (white && !large) {
-		style = UIActivityIndicatorViewStyleWhite;
-	}
-	else {
-		style = UIActivityIndicatorViewStyleGray;
-	}
-	
-	activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:style];
-	CGRect rect = activityIndicator.frame;
-	rect.origin.x = x - rect.size.width/2;
-	rect.origin.y = y - rect.size.height/2;
-	activityIndicator.frame = rect;
-	[activityIndicator startAnimating];
-	
-	[[[UIApplication sharedApplication] keyWindow] addSubview:activityIndicator];
 	
 	
     return YES;
@@ -209,79 +127,7 @@ void(^block_block2)(int i) = ^(int i){ NSLog(@"block_block2 block_block2 block_b
 //}
 
 
-- (void)login{
-	NSLog(@"login");
-	return;
-	UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 80, 320, 500)];
-	webView.delegate = self;
-	NSURL *url = [[NSURL alloc] initWithString:@"https://graph.facebook.com/oauth/authorize?client_id=456093077787894&redirect_uri=http://www.facebook.com/connect/login_success.html&display=touch&response_type=token"];
-	NSURLRequest *req = [[NSURLRequest alloc] initWithURL:url];
-	[webView loadRequest:req];
-	[self.window addSubview:webView];
-}
--(void)logout {
-	NSLog(@"logout");
-	[activityIndicator stopAnimating];
-	[activityIndicator removeFromSuperview];
-	//[activityIndicator release];
-	activityIndicator = nil;
-	return;
-	NSString *str2 = [NSString stringWithFormat:@"https://graph.facebook.com/oauth/authorize_cancel?client_id=456093077787894&redirect_uri=&access_token=%@", token];
-	NSURL *url2 = [[NSURL alloc] initWithString:str2];
-	NSString *str = [NSString stringWithFormat:@"https://m.facebook.com/logout.php?next=&confirm=1&access_token=%@", token];
-	//NSURL *url = [[NSURL alloc] initWithString:str];
-	NSURLRequest *req = [NSURLRequest requestWithURL:url2];
-	NSLog(@"logout %@", str);
-	
-	UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 80, 320, 500)];
-	//webView.delegate = self;
-	[webView loadRequest:req];
-	[self.window addSubview:webView];
-	
-	NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:req delegate:self startImmediately:YES];
-}
 
--(void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
-{
-    //[receivingData appendData:data];
-    //the received data is added to receivingData
-}
-
--(void) connectionDidFinishLoading:(NSURLConnection *)connection
-{
-	NSLog(@"done logout");
-   // NSString *str = [[NSString alloc] initWithData:receivingData encoding:NSUTF8StringEncoding];
-    //We make the data a string
-    //receivedData = [NSMutableArray arrayWithArray:[str componentsSeparatedByString:@"\n"]];
-    //receivedData now has an array with every line of the request
-    //You could do something with the data here, store it, or send it to another function
-}
--(void)webViewDidFinishLoad:(UIWebView *)webView {
-	NSLog(@"load complete at url %@", webView.request.URL);
-	//[webView.request.URL.absoluteString cStringUsingEncoding:NSUTF8StringEncoding];
-	
-	NSArray *arr = [webView.request.URL.absoluteString componentsSeparatedByString:@"access_token="];
-	NSArray *arr2 = [[arr lastObject] componentsSeparatedByString:@"&"];
-	token = [arr2 objectAtIndex:0];
-	NSLog(@"token = %@", token);
-	webView.delegate = nil;
-	
-//	NSString *str = [NSString stringWithFormat:@"https://graph.facebook.com/me/friends?access_token=%@", token];
-//	NSURL *url = [[NSURL alloc] initWithString:str];
-//	NSURLRequest *req = [[NSURLRequest alloc] initWithURL:url];
-//	[webView loadRequest:req];
-	
-	
-	NSArray *keys = [NSArray arrayWithObjects:@"access_token",@"app_secret", @"message", nil];
-	NSArray *objects = [NSArray arrayWithObjects:token, @"7a779b67a3182aece3675e9c81fc41de", @"messagegegegege", nil];
-	NSDictionary *dictionary = [NSDictionary dictionaryWithObjects:objects forKeys:keys];
-	
-//	RCHttpRequest *req = [[RCHttpRequest alloc] initWithURL:@"https://graph.facebook.com/me/friends" delegate:nil];
-//	RCHttpRequest *req = [[RCHttpRequest alloc] initWithURL:@"https://graph.facebook.com/me/feed" delegate:nil];
-	RCHttpRequest *req = [[RCHttpRequest alloc] initWithURL:[NSString stringWithFormat:@"https://graph.facebook.com/me/friends?access_token=%@", token] delegate:nil];
-	//RCHttpRequest *req = [[RCHttpRequest alloc] initWithURL:@"http://ralcr.com/insert.php?" delegate:nil];
-	[req call:@"" variables:dictionary method:@"GET"];
-}
 
 - (void) callThis:(SEL)sel {
 	[self performSelector:sel];
@@ -297,10 +143,10 @@ void(^block_block2)(int i) = ^(int i){ NSLog(@"block_block2 block_block2 block_b
 
 
 static int length__;
-- (int) length{
++ (int) length{
 	return length__;
 }
-- (void) setLength:(int)val{
++ (void) setLength:(int)val{
 	length__ = val;
 }
 
@@ -332,7 +178,7 @@ static int length__;
 	NSLog(@"callBlock is calling block1 : %@", block1);
 	block1();
 	block2(0);
-	block3(@"dgdcgdfgcgcgdfg");
+	//block3(@"dgdcgdfgcgcgdfg");
 	block4(@"block 4 called");
 	
 	NSLog(@"%@",[NSThread callStackSymbols]);
@@ -373,12 +219,17 @@ static int length__;
 //	return IteratorStruct;
 //}
 
-- (id) iterator{
-	id a = self;
-	int p = 0;
+- (id) iterator {
+	
+	NSArray* a = [NSArray arrayWithObjects:@"a", @"b", @"c", nil];
+	__block int p = 0;
+	
+	//BOOL(^hasNext)() = ^BOOL() { return p < [a count]; };
+	//id(^next)() = ^id() { id i = [a objectAtIndex:p]; p += 1; return i; };
+	
 	return [NSMutableDictionary dictionaryWithObjectsAndKeys:
-			[^(BOOL){return p < a.length;} copy], @"hasNext",
-			[^(id) { id i = [a objectAtIndex:p]; p += 1; return i; } copy], @"next",
+			[^BOOL() { return p < [a count]; } copy], @"hasNext",
+			[^id() { id i = [a objectAtIndex:p]; p += 1; return i; } copy], @"next",
 			nil];
 }
 

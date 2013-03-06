@@ -104,9 +104,8 @@
 				else if (_g_eTClass_0 == StringMap) {
 					
 					StringMap *v1 = v;
-					id o = struct {
-					
-					} structName;
+					id o = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+					nil];
 					{
 						id _it2 = [v1 keys];
 						while ( [_it2 hasNext] ) do {
@@ -193,9 +192,8 @@
 				break;
 				case 123:{
 					{
-						id obj = struct {
-						
-						} structName; 
+						id obj = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+						nil]; 
 						NSMutableString *field = nil; BOOL comma = nil;
 						while (YES) {
 							int c1 = [self.str characterAtIndex:self.pos++];

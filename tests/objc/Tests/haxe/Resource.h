@@ -9,11 +9,10 @@
 #import <Foundation/Foundation.h>
 
 #import "../objc/foundation/NSDictionary.h"
-#import "../Array.h"
 #import "../haxe/Resource.h"
 #import "../haxe/io/Bytes.h"
 
-@interface Resource : HXObject
+@interface Resource : NSObject
 
 + (NSMutableDictionary*) __plist__:(NSMutableDictionary*)val;
 + (NSMutableArray*) listNames;

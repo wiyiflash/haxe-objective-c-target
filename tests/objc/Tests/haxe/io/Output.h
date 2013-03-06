@@ -10,11 +10,10 @@
 
 #import "../../Math.h"
 #import "../../haxe/io/Bytes.h"
-#import "../../Array.h"
 #import "../../haxe/io/Error.h"
 #import "../../haxe/io/Input.h"
 
-@interface Output : HXObject
+@interface Output : NSObject
 
 + (float) LN2:(float)val;
 @property (nonatomic, setter=set_bigEndian) BOOL bigEndian;

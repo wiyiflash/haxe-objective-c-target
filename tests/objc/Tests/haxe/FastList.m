@@ -60,16 +60,17 @@
 - (id) iterator{
 	
 	NSMutableArray *l = [[NSMutableArray alloc] initWithObjects:self.head, nil];
-	return struct {
-	hasNext:^- (BOOL) {
+	return [NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[^BOOL(){
 		return [l objectAtIndex:0] != nil;
-	}; next:^- (id) {
+	} copy], @"hasNext",
+	[^id(){
 		
 		FastCell *k = [l objectAtIndex:0];
 		[l replaceObjectAtIndex:0 withObject:k.next];
 		return k.elt;
-	}
-	} structName;
+	} copy], @"next",
+	nil];
 }
 - (NSMutableString*) toString{
 	

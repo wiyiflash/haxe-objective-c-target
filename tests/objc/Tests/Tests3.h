@@ -13,7 +13,7 @@ typedef enum{
 
 
 
-@interface Tests3 : HXObject
+@interface Tests3 : NSObject
 
 @property (nonatomic) int d1;
 - (id) init;

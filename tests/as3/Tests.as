@@ -15,11 +15,11 @@ package  {
 		}
 		
 		protected function functionToRedefine() : void {
-			haxe.Log._trace("do something else",{ fileName : "Tests.hx", lineNumber : 548, className : "Tests", methodName : "functionToRedefine"});
+			haxe.Log._trace("do something else",{ fileName : "Tests.hx", lineNumber : 552, className : "Tests", methodName : "functionToRedefine"});
 		}
 		
 		public function printHello() : void {
-			haxe.Log._trace("Hello from Haxe Objective-C",{ fileName : "Tests.hx", lineNumber : 533, className : "Tests", methodName : "printHello"});
+			haxe.Log._trace("Hello from Haxe Objective-C",{ fileName : "Tests.hx", lineNumber : 537, className : "Tests", methodName : "printHello"});
 		}
 		
 		public function init() : void {
@@ -170,9 +170,9 @@ package  {
 			item = l.last();
 			item = l.pop();
 			var r : Boolean = l.remove(5);
-			haxe.Log._trace(l.length,{ fileName : "Tests.hx", lineNumber : 276, className : "Tests", methodName : "testList"});
+			haxe.Log._trace(l.length,{ fileName : "Tests.hx", lineNumber : 280, className : "Tests", methodName : "testList"});
 			l.clear();
-			haxe.Log._trace(l.length,{ fileName : "Tests.hx", lineNumber : 278, className : "Tests", methodName : "testList"});
+			haxe.Log._trace(l.length,{ fileName : "Tests.hx", lineNumber : 282, className : "Tests", methodName : "testList"});
 			var newList : List = l.map(function(i1 : int) : String {
 				return Std.string(i1);
 			});
@@ -376,6 +376,14 @@ package  {
 				$r3 = _g21;
 				return $r3;
 			}(this));
+			{
+				var _g31 : int = 0;
+				while(_g31 < concatArray.length) {
+					var val : String = concatArray[_g31];
+					++_g31;
+					haxe.Log._trace(val,{ fileName : "Tests.hx", lineNumber : 147, className : "Tests", methodName : "testArray"});
+				}
+			}
 		}
 		
 		protected function testSwitch() : void {

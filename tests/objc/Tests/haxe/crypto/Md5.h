@@ -9,10 +9,9 @@
 #import <Foundation/Foundation.h>
 
 #import "../../haxe/io/Bytes.h"
-#import "../../Array.h"
 #import "../../haxe/crypto/Md5.h"
 
-@interface Md5 : HXObject
+@interface Md5 : NSObject
 
 + (NSMutableString*) encode:(NSMutableString*)s;
 + (Bytes*) make:(Bytes*)b;
