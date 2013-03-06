@@ -3,6 +3,7 @@ import objc.foundation.NSObject;
 typedef NSTimeInterval = Int;
 typedef NSComparisonResult = Int;
 
+@:framework("Foundation")
 extern class NSDate extends NSObject implements NSCopying implements NSSecureCoding {
 
 	//Constants

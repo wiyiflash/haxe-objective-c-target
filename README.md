@@ -6,9 +6,13 @@ Objective-C target can build Xcode projects with pure objective-c code from Haxe
 
 ## Compiling Haxe
 
-Clone the ObjC target from git somewhere in your computer, it contains also the entire haxe compiler sources. I keep the Haxe svn sources update once at few days usually
+Clone the ObjC target from git somewhere in your computer, it contains also the entire haxe compiler sources. I keep the Haxe svn sources update once in few days usually
 
 	git clone git@github.com:ralcr/haxe-objective-c-target.git
+	
+You now need to hardcode the path to the new std lib. In main.ml file at line 816 change the first path to match yours:
+
+	com.class_path <- ["/Users/Cristi/Documents/haxecompiler/haxe/std/";"/usr/lib/haxe/std/";"/usr/local/lib/haxe/std/";"/usr/lib/haxe/std/libs/";"/usr/local/lib/haxe/std/libs/";"";"/"]
 
 Navigate to haxe directory:
 
@@ -18,7 +22,11 @@ Build Haxe with:
 
 	make haxe
 
-On Mac you can run the build.sh script that will compile Haxe but will run the demos as well:
+Or build Haxe and the tools with:
+
+	make
+
+On Mac you can run the build.sh script that will compile Haxe but will build the demos as well:
 
 	./build.sh
 	
