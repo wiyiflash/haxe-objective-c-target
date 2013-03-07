@@ -34,9 +34,9 @@
 	
 	NSMutableArray *a = [self allValues];
 	
-	NSMutableArray *it = [[NSMutableArray alloc] initWithObjects:[a iterator], nil];
+	NSMutableArray *it = [[NSMutableArray alloc] initWithObject:[a iterator]];
 	
-	NSMutableArray *me = [[NSMutableArray alloc] initWithObjects:self, nil];
+	NSMutableArray *me = [[NSMutableArray alloc] initWithObject:self];
 	return [NSMutableDictionary dictionaryWithObjectsAndKeys:
 	[^BOOL(){
 		return [[it objectAtIndex:0] hasNext];

@@ -192,7 +192,7 @@ nil]; }
 	
 	List *l = [[List alloc] init];
 	
-	NSMutableArray *expr = [[NSMutableArray alloc] initWithObjects:data, nil];
+	NSMutableArray *expr = [[NSMutableArray alloc] initWithObject:data];
 	while ([-TMono- match:data]) {
 		id p = [-TMono- matchedPos];
 		int k = p pos + p len;
@@ -233,46 +233,46 @@ nil]; }
 }
 - (SEL) makeConst:(NSMutableString*)v{
 	
-	NSMutableArray *v1 = [[NSMutableArray alloc] initWithObjects:v, nil];
+	NSMutableArray *v1 = [[NSMutableArray alloc] initWithObject:v];
 	[-TMono- match:[v1 objectAtIndex:0]];
 	[v1 replaceObjectAtIndex:0 withObject:[-TMono- matched:[NSNumber numberWithInt:1]]];
 	if ([[v1 objectAtIndex:0] charCodeAt:0] == 34) {
 		
-		NSMutableArray *str = [[NSMutableArray alloc] initWithObjects:[[v1 objectAtIndex:[NSNumber numberWithInt:0]] substr:[NSNumber numberWithInt:1] len:[v1 objectAtIndex:[NSNumber numberWithInt:0]].length - [NSNumber numberWithInt:2]], nil];
+		NSMutableArray *str = [[NSMutableArray alloc] initWithObject:[[v1 objectAtIndex:[NSNumber numberWithInt:0]] substr:[NSNumber numberWithInt:1] len:[v1 objectAtIndex:[NSNumber numberWithInt:0]].length - [NSNumber numberWithInt:2]]];
 		return ^- (NSMutableString*) {
 			return [str objectAtIndex:0];
 		}
 	}
 	if ([-TMono- match:[v1 objectAtIndex:0]]) {
 		
-		NSMutableArray *i = [[NSMutableArray alloc] initWithObjects:[Std parseInt:[v1 objectAtIndex:[NSNumber numberWithInt:0]]], nil];
+		NSMutableArray *i = [[NSMutableArray alloc] initWithObject:[Std parseInt:[v1 objectAtIndex:[NSNumber numberWithInt:0]]]];
 		return ^- (int) {
 			return [i objectAtIndex:0];
 		}
 	}
 	if ([-TMono- match:[v1 objectAtIndex:0]]) {
 		
-		NSMutableArray *f = [[NSMutableArray alloc] initWithObjects:[Std parseFloat:[v1 objectAtIndex:[NSNumber numberWithInt:0]]], nil];
+		NSMutableArray *f = [[NSMutableArray alloc] initWithObject:[Std parseFloat:[v1 objectAtIndex:[NSNumber numberWithInt:0]]]];
 		return ^- (float) {
 			return [f objectAtIndex:0];
 		}
 	}
 	
-	NSMutableArray *me = [[NSMutableArray alloc] initWithObjects:self, nil];
+	NSMutableArray *me = [[NSMutableArray alloc] initWithObject:self];
 	return ^- (id) {
 		return [[me objectAtIndex:0] resolve:[v1 objectAtIndex:0]];
 	}
 }
 - (SEL) makePath:(SEL)e l:(List*)l{
 	
-	NSMutableArray *e1 = [[NSMutableArray alloc] initWithObjects:e, nil];
+	NSMutableArray *e1 = [[NSMutableArray alloc] initWithObject:e];
 	id p = [l first];
 	if (p == nil || p p != [NSMutableString stringWithString:@"."]) return [e1 objectAtIndex:0];
 	[l pop];
 	id field = [l pop];
 	if (field == nil || !field s) @throw field p;;
 	
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObjects:field p, nil];
+	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:field p];
 	[-TMono- match:[f objectAtIndex:0]];
 	[f replaceObjectAtIndex:0 withObject:[-TMono- matched:[NSNumber numberWithInt:1]]];
 	return [self makePath:^- (id) {
@@ -290,12 +290,12 @@ nil]; }
 		case [NSMutableString stringWithString:@"("]:{
 			{
 				
-				NSMutableArray *e1 = [[NSMutableArray alloc] initWithObjects:[self makeExpr:l], nil];
+				NSMutableArray *e1 = [[NSMutableArray alloc] initWithObject:[self makeExpr:l]];
 				id p1 = [l pop];
 				if (p1 == nil || p1 s) @throw p1 p;;
 				if (p1 p == [NSMutableString stringWithString:@")"]) return [e1 objectAtIndex:0];
 				
-				NSMutableArray *e2 = [[NSMutableArray alloc] initWithObjects:[self makeExpr:l], nil];
+				NSMutableArray *e2 = [[NSMutableArray alloc] initWithObject:[self makeExpr:l]];
 				id p2 = [l pop];
 				if (p2 == nil || p2 p != [NSMutableString stringWithString:@")"]) @throw p2 p;;
 				return ((SEL)($this:(snd ctx.path)) switch (p1 p){
@@ -362,7 +362,7 @@ nil]; }
 		case [NSMutableString stringWithString:@"!"]:{
 			{
 				
-				NSMutableArray *e = [[NSMutableArray alloc] initWithObjects:[self makeExpr:l], nil];
+				NSMutableArray *e = [[NSMutableArray alloc] initWithObject:[self makeExpr:l]];
 				return ^- (BOOL) {
 					id v = [[e objectAtIndex:0]];
 					return v == nil || v == NO;
@@ -371,7 +371,7 @@ nil]; }
 		case [NSMutableString stringWithString:@"-"]:{
 			{
 				
-				NSMutableArray *e = [[NSMutableArray alloc] initWithObjects:[self makeExpr:l], nil];
+				NSMutableArray *e = [[NSMutableArray alloc] initWithObject:[self makeExpr:l]];
 				return ^- (int) {
 					return -[[e objectAtIndex:0]];
 				}

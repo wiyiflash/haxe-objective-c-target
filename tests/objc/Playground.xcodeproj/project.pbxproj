@@ -27,6 +27,7 @@
 		28BC52F816C2F191000072BD /* RCHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 28BC52F716C2F191000072BD /* RCHTTPRequest.m */; };
 		28F13CCC16B92B9600A69694 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28F13CCB16B92B9600A69694 /* AVFoundation.framework */; };
 		28F9F98016E7AE8900FEF6BF /* Fb.m in Sources */ = {isa = PBXBuildFile; fileRef = 28F9F97F16E7AE8900FEF6BF /* Fb.m */; };
+		28F9F9EC16E8138800FEF6BF /* NSArray+Arr.m in Sources */ = {isa = PBXBuildFile; fileRef = 28F9F9EB16E8138800FEF6BF /* NSArray+Arr.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +69,8 @@
 		28F13CCB16B92B9600A69694 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		28F9F97E16E7AE8900FEF6BF /* Fb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Fb.h; sourceTree = "<group>"; };
 		28F9F97F16E7AE8900FEF6BF /* Fb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Fb.m; sourceTree = "<group>"; };
+		28F9F9EA16E8138800FEF6BF /* NSArray+Arr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Arr.h"; sourceTree = "<group>"; };
+		28F9F9EB16E8138800FEF6BF /* NSArray+Arr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Arr.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +138,8 @@
 				28BC52F716C2F191000072BD /* RCHTTPRequest.m */,
 				287530C916957A1D0048F960 /* AppDelegate.h */,
 				287530CA16957A1D0048F960 /* AppDelegate.m */,
+				28F9F9EA16E8138800FEF6BF /* NSArray+Arr.h */,
+				28F9F9EB16E8138800FEF6BF /* NSArray+Arr.m */,
 				28F9F97E16E7AE8900FEF6BF /* Fb.h */,
 				28F9F97F16E7AE8900FEF6BF /* Fb.m */,
 				2839DCB016AE4F9A00068D3B /* HXObject.h */,
@@ -292,6 +297,7 @@
 				28BC52F816C2F191000072BD /* RCHTTPRequest.m in Sources */,
 				28BC52F816C2F19100000001 /* Log.m in Sources */,
 				28F9F98016E7AE8900FEF6BF /* Fb.m in Sources */,
+				28F9F9EC16E8138800FEF6BF /* NSArray+Arr.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

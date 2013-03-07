@@ -91,8 +91,8 @@ int main(int argc, char *argv[])
 	
 	self.window.backgroundColor = [UIColor grayColor];
 	
-	Tests2 *t = [[Tests2 alloc] init];
-	id it = [t iterator];
+	NSArray* arr = [NSArray arrayWithObjects:@"a", @"b", @"c", nil];
+	id it = [arr iterator];
 	BOOL(^hasNext)() = [it objectForKey:@"hasNext"];
 	id(^next)() = [it objectForKey:@"next"];
 	while ( hasNext() ) {
@@ -202,35 +202,6 @@ static int length__;
 	twin->gender = gender;
 	twin->appearance = appearance;
 	return twin;
-}
-//- (id) iterator{
-//	typedef struct {
-//		h:self.d1;
-//		hasNext:^ (id) {
-//			return self.d1 != nil;
-//		};
-//		next:^ (id) {
-//			if (self.d1 == nil) return nil;
-////			id x = [self.h objectAtIndex:0];
-////			self.h = [self.h objectAtIndex:1];
-//			return self.d1;
-//		}
-//	} IteratorStruct;
-//	return IteratorStruct;
-//}
-
-- (id) iterator {
-	
-	NSArray* a = [NSArray arrayWithObjects:@"a", @"b", @"c", nil];
-	__block int p = 0;
-	
-	//BOOL(^hasNext)() = ^BOOL() { return p < [a count]; };
-	//id(^next)() = ^id() { id i = [a objectAtIndex:p]; p += 1; return i; };
-	
-	return [NSMutableDictionary dictionaryWithObjectsAndKeys:
-			[^BOOL() { return p < [a count]; } copy], @"hasNext",
-			[^id() { id i = [a objectAtIndex:p]; p += 1; return i; } copy], @"next",
-			nil];
 }
 
 @end

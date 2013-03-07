@@ -14,7 +14,7 @@
 @synthesize length;
 - (void) add:(id)item{
 	
-	NSMutableArray *x = [[NSMutableArray alloc] initWithObjects:item, nil];
+	NSMutableArray *x = [[NSMutableArray alloc] initWithObject:item];
 	if (self.h == nil) self.h = x;
 	else [self.q replaceObjectAtIndex:1 withObject:x];
 	self.q = x;

@@ -20,22 +20,6 @@ static int length__;
 - (NSMutableArray*) copy{
 	return [NSMutableArray arrayWithArray:self];
 }
-- (id) iterator{
-	
-	NSMutableArray *a = [[NSMutableArray alloc] initWithObjects:self, nil];
-	
-	NSMutableArray *p = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:0], nil];
-	return [NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[^BOOL(){
-		return [p objectAtIndex:0] < [[a objectAtIndex:0] length];
-	} copy], @"hasNext",
-	[^id(){
-		id i = [[a objectAtIndex:0] objectAtIndex:[p objectAtIndex:0]];
-		[p objectAtIndex:0] += 1;
-		return i;
-	} copy], @"next",
-	nil];
-}
 - (void) insert:(int)pos x:(id)x{
 	[self insertObject:x atIndex:pos];
 }
@@ -87,6 +71,16 @@ static int length__;
 	NSMutableArray *newArray = [self subarrayWithRange:NSMakeRange (pos,len)];
 	[self removeObjectsInArray:newArray];
 	return [NSMutableArray arrayWithArray:newArray];
+}
+- (id) iterator{
+	__block int p = 0;		return [NSMutableDictionary dictionaryWithObjectsAndKeys:			[^BOOL() { return p < [self count]; } copy], @"hasNext",			[^id() { id i = [self objectAtIndex:p]; p += 1; return i; } copy], @"next",			nil];
+	return nil;
+}
+- (NSMutableArray*) map:(SEL)f{
+	return nil;
+}
+- (NSMutableArray*) filter:(SEL)f{
+	return nil;
 }
 - (id) init{
 	self = [super init];

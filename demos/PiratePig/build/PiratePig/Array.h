@@ -15,7 +15,6 @@
 @property (nonatomic) int length;
 - (NSMutableArray*) concat:(NSMutableArray*)a;
 - (NSMutableArray*) copy;
-- (id) iterator;
 - (void) insert:(int)pos x:(id)x;
 - (NSMutableString*) join:(NSMutableString*)sep;
 - (NSMutableString*) toString;
@@ -28,6 +27,9 @@
 - (NSMutableArray*) slice:(int)pos end:(int)end;
 - (void) sort:(SEL)f;
 - (NSMutableArray*) splice:(int)pos len:(int)len;
+- (id) iterator;
+- (NSMutableArray*) map:(SEL)f;
+- (NSMutableArray*) filter:(SEL)f;
 - (id) init;
 
 @end

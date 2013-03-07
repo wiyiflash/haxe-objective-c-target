@@ -11,7 +11,7 @@
 
 - (void) testTimer{
 	
-	NSMutableArray *_g = [[NSMutableArray alloc] initWithObjects:self, nil];
+	NSMutableArray *_g = [[NSMutableArray alloc] initWithObject:self];
 	
 	Timer *timer = [[Timer alloc] init:50];
 	timer.run = self testTimerLoop;

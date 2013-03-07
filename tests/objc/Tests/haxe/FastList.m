@@ -59,7 +59,7 @@
 }
 - (id) iterator{
 	
-	NSMutableArray *l = [[NSMutableArray alloc] initWithObjects:self.head, nil];
+	NSMutableArray *l = [[NSMutableArray alloc] initWithObject:self.head];
 	return [NSMutableDictionary dictionaryWithObjectsAndKeys:
 	[^BOOL(){
 		return [l objectAtIndex:0] != nil;

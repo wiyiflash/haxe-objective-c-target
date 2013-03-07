@@ -455,7 +455,7 @@
 	[Sys println:[NSMutableString stringWithString:@"hello world"]];
 	
 	NSMutableArray *arr = [Sys args];
-	int _int = [Sys command:[NSMutableString stringWithString:@"cd"] args:[[NSMutableArray alloc] initWithObjects:[NSMutableString stringWithString:@"~"], nil]];
+	int _int = [Sys command:[NSMutableString stringWithString:@"cd"] args:[[NSMutableArray alloc] initWithObject:[NSMutableString stringWithString:@"~"]]];
 	_int = [Sys command:[NSMutableString stringWithString:@"ls"] args:[[NSMutableArray alloc] initWithObjects:, nil]];
 	float _float = [Sys cpuTime];
 	

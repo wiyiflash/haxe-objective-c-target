@@ -1233,11 +1233,12 @@ and generateExpression ctx e =
 						nil]; *)
 						
 	| TArrayDecl el ->
-		ctx.writer#write "[[NSMutableArray alloc] initWithObjects:";
+		let one_object = (List.length el) = 1 in
+		ctx.writer#write ("[[NSMutableArray alloc] "^(if one_object then "initWithObject:" else "initWithObjects:"));
 		ctx.require_pointer <- true;
 		concat ctx ", " (generateValue ctx) el;
 		ctx.require_pointer <- false;
-		ctx.writer#write ", nil]"
+		ctx.writer#write (if one_object then "]" else ", nil]");
 	| TThrow e ->
 		ctx.writer#write "@throw ";
 		generateValue ctx e;
