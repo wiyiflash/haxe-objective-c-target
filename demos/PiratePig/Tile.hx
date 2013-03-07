@@ -1,6 +1,7 @@
 import ios.ui.UIImageView;
 import ios.ui.UIImage;
 import ios.ui.UIView;
+import ios.ui.UIColor;
 import objc.graphics.CGGeometry;
 
 
@@ -14,11 +15,13 @@ class Tile extends UIView {
 	
 	
 	public function new (imagePath:String) {
-		
+		trace("new tile "+imagePath);
 		super();
 		
 		var image = new UIImageView().initWithImage ( UIImage.imageNamed(imagePath));
 		addSubview (image);
+		this.frame = image.frame;
+		this.backgroundColor = UIColor.redColor();
 		
 		userInteractionEnabled = true;
 		

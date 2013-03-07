@@ -56,9 +56,12 @@
 }
 - (id) init:(NSMutableString*)imagePath{
 	self = [super init];
+	[Log trace:[[NSMutableString stringWithString:@"new tile "] stringByAppendingString:imagePath] infos:[NSDictionary dictionaryWithObjectsAndKeys:@"Tile.hx",@"fileName", @"18",@"lineNumber", @"Tile",@"className", @"new",@"methodName", nil]];
 	
-	UIImageView *image = [[[UIImageView alloc] init] initWithImage:[UIImage imageNamed:imagePath]];
+	UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imagePath]];
 	[self addSubview:image];
+	self.frame = image.frame;
+	self.backgroundColor = [UIColor redColor];
 	self.userInteractionEnabled = YES;
 	return self;
 }

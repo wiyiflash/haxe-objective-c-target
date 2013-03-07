@@ -82,6 +82,10 @@ static int length__;
 - (NSMutableArray*) filter:(SEL)f{
 	return nil;
 }
+- (void) safeReplaceObjectAtIndex:(int)index withObject:(id)withObject{
+	if (index >= [self count]) while ([self count] <= index) [self addObject:[NSNull null]];
+	[self replaceObjectAtIndex:index withObject:withObject];
+}
 - (id) init{
 	self = [super init];
 	return self;

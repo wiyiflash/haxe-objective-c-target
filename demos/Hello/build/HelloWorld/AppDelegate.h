@@ -8,18 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
+#import <CoreGraphics/CoreGraphics.h>
 
 #import "CustomMapView.h"
-#import "objc/foundation/NSDictionary.h"
-#import "ios/ui/UIScreen.h"
-#import "ios/ui/UIViewAutoresizing.h"
-#import "ios/ui/UIColor.h"
-#import "ios/ui/NSTextAlignment.h"
-#import "ios/ui/UIFont.h"
-#import "objc/graphics/CGGeometry.h"
-#import "ios/ui/UIControlState.h"
 #import "haxe/Log.h"
-#import "ios/ui/UIResponder.h"
+#import "Array.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 

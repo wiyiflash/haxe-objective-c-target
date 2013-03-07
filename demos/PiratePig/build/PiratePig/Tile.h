@@ -6,13 +6,11 @@
 //
 
 
-#import <CoreGraphics/CoreGraphics.h>
-#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import <CoreGraphics/CoreGraphics.h>
 
-#import "ios/ui/UIView.h"
-#import "ios/ui/UIImageView.h"
-#import "ios/ui/UIImage.h"
+#import "String.h"
+#import "haxe/Log.h"
 
 @interface Tile : UIView 
 

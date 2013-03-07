@@ -57,6 +57,14 @@ class importsManager =
 		end else begin
 			this#add_class_path class_def.cl_module.m_path;
 		end
+	method add_abstract (a_def:tabstract) = 
+		if (Meta.has Meta.Framework a_def.a_meta) then begin
+			let f_name = getMetaValue Meta.Framework a_def.a_meta in
+			if not (List.mem f_name all_frameworks) then all_frameworks <- List.append all_frameworks [f_name];
+			if not (List.mem f_name class_frameworks) then class_frameworks <- List.append class_frameworks [f_name];
+		end else begin
+			this#add_class_path a_def.a_module.m_path;
+		end
 	method add_class_import_custom (class_path:string) = class_imports_custom <- List.append class_imports_custom ["\""^class_path^"\""];
 	method add_class_include_custom (class_path:string) = class_imports_custom <- List.append class_imports_custom ["<"^class_path^">"];
 	method remove_class_path (class_path:path) = ()(* List.remove class_imports [class_path] *)(* TODO: *)
@@ -163,8 +171,6 @@ class sourceWriter write_func close_func =
 	end
 ;;
 
-let readWholeFile chan = Std.input_all chan;;
-
 let rec mkdir base dir_list =
 	( match dir_list with
 	| [] -> ()
@@ -183,7 +189,7 @@ let rec mkdir base dir_list =
 let cachedSourceWriter filename =
 	try
 		let in_file = open_in filename in
-		let old_contents = readWholeFile in_file in
+		let old_contents = Std.input_all in_file in
 		close_in in_file;
 		let buffer = Buffer.create 0 in
 		let add_buf str = Buffer.add_string buffer str in
@@ -438,7 +444,7 @@ let rec typeToString ctx t p =
 	| TEnum _ | TInst _ when List.memq t ctx.local_types ->
 		"id"
 	| TAbstract (a,_) ->(* ctx.writer#write "TAbstract?"; *)
-		ctx.imports_manager#add_class_path a.a_module.m_path;
+		ctx.imports_manager#add_abstract a;
 		remapHaxeTypeToObjc ctx true a.a_path p;
 	| TEnum (e,_) ->(* ctx.writer#write "TEnum?"; *)
 		if e.e_extern then
@@ -510,17 +516,7 @@ let handleBreak ctx e =
 			)
 ;;
 
-let this ctx = if ctx.in_value <> None then "$this" else "self"
-
-let escapeBin s =
-	let b = Buffer.create 0 in
-	for i = 0 to String.length s - 1 do
-		match Char.code (String.unsafe_get s i) with
-		| c when c < 32 -> Buffer.add_string b (Printf.sprintf "\\x%.2X" c)
-		| c -> Buffer.add_char b (Char.chr c)
-	done;
-	Buffer.contents b
-;;
+let this ctx = if ctx.in_value <> None then "__self" else "self"
 
 (* TODO: Generate resources that Objective-C can understand *)
 (* Put strings in a .plist file
@@ -717,11 +713,14 @@ let rec generateCall ctx func arg_list =
 	(* Generate an Objective-C call with [] *)
 	end else begin
 		
+		(* A call should cancel the TField *)
+		(* When we have a self followed bby 2 TFields in a row we use dot notation for the first field *)
+		if ctx.generating_fields > 0 then ctx.generating_fields <- ctx.generating_fields - 1;
 		ctx.generating_calls <- ctx.generating_calls + 1;
 		ctx.writer#write "[";
 		
 		generateValue ctx func;
-		
+		(* ctx.writer#write "-END_GEN_FUNC_CALL-"; *)
 		ctx.generating_calls <- ctx.generating_calls - 1;
 		
 		if List.length arg_list > 0 then begin
@@ -730,7 +729,7 @@ let rec generateCall ctx func arg_list =
 			let index = ref 0 in
 			let rec gen et =
 			(match et with
-				| TFun(args, ret) ->
+				| TFun (args, ret) ->
 					List.iter (
 					fun (name, b, t) ->
 						(* ctx.generating_method_argument <- true; *)
@@ -873,7 +872,7 @@ and generateExpression ctx e =
 		(* "-E-Binop>""-gen_val_op-""-E-Array>"["-E-Array>"["-E-Field>""-E-Const>"self.tiles objectAtIndex:"-E-Local>"row] objectAtIndex:"-E-Local>"column] = "-gen_val_op-""-E-Const>"nil; *)
 		if ctx.generating_array_insert then begin
 			generateValue ctx e1;
-			ctx.writer#write " replaceObjectAtIndex:";
+			ctx.writer#write " safeReplaceObjectAtIndex:";
 			generateValue ctx e2;
 		end else begin
 			ctx.writer#write "[";
@@ -1039,6 +1038,9 @@ and generateExpression ctx e =
 			| FInstance _ -> (* ctx.writer#write "-FInstance-"; *)
 				(* if ctx.generating_calls = 0 then ctx.generating_property_access <- true; *)
 				generateValue ctx e;
+				(* if ctx.generating_self_access then ctx.writer#write "-generating_self_access-";
+				if ctx.generating_calls>0 then ctx.writer#write "-ctx.generating_calls>0-";
+				if ctx.generating_fields>=2 then ctx.writer#write "-ctx.generating_fields>=2-"; *)
 				(* generateFieldAccess ctx e.etype (field_name fa); *)
 				(* ctx.writer#write (Printf.sprintf "%d" ctx.generating_calls); *)
 				let fan = if (ctx.generating_self_access && ctx.generating_calls>0 && ctx.generating_fields>=2) then "." 
@@ -1079,7 +1081,7 @@ and generateExpression ctx e =
 			
 				
 			(* | FAnon _ -> ctx.writer#write "-FAnon-"; *)
-			| FDynamic name ->
+			| FDynamic name -> (* ctx.writer#write "-FDynamic-"; *)
 				if ctx.generating_calls = 0 then ctx.writer#write "[";
 				generateValue ctx e;
 				(* generateFieldAccess ctx e.etype name; *)
@@ -1102,13 +1104,14 @@ and generateExpression ctx e =
 				(* if ctx.generating_c_call then ctx.writer#write "-is-c-call-"
 				else if not ctx.generating_c_call then ctx.writer#write "-not-c-call-"; *)
 				if not ctx.generating_c_call then ctx.writer#write (remapHaxeTypeToObjc ctx true p e.epos);
+				ctx.imports_manager#add_class c;
 			| TEnumDecl e -> ();(* ctx.writer#write "TEnumDecl"; (* of tenum *) *)
 			(* TODO: consider the fakeEnum *)
 			| TTypeDecl d -> ctx.writer#write " TTypeDecl "; (* of tdef *)
 			| TAbstractDecl a -> ctx.writer#write " TAbstractDecl "); (* of tabstract *)
 		(* end; *)
 		ctx.generating_c_call <- false;
-		ctx.imports_manager#add_class_path p;
+		(* ctx.imports_manager#add_class_path p; *)
 	| TParenthesis e ->
 		ctx.writer#write " (";
 		generateValue ctx e;
@@ -1291,7 +1294,11 @@ and generateExpression ctx e =
 			| _ ->
 				(* ctx.imports_manager#add_class_path c.cl_module.m_path; *)
 				ctx.imports_manager#add_class c;
-				ctx.writer#write (Printf.sprintf "[[%s alloc] init" (remapHaxeTypeToObjc ctx false c.cl_path c.cl_pos));
+				let inited = ref true in
+				(match c.cl_path with
+					| (["ios";"ui"],"UIImageView") -> ctx.writer#write (Printf.sprintf "[%s alloc]" (remapHaxeTypeToObjc ctx false c.cl_path c.cl_pos)); inited := false;
+					| _ -> ctx.writer#write (Printf.sprintf "[[%s alloc] init" (remapHaxeTypeToObjc ctx false c.cl_path c.cl_pos));
+				);
 				if List.length el > 0 then begin
 					ctx.generating_calls <- ctx.generating_calls + 1;
 					(match c.cl_constructor with
@@ -1311,7 +1318,7 @@ and generateExpression ctx e =
 						
 					ctx.generating_calls <- ctx.generating_calls - 1;
 				end;
-				ctx.writer#write "]";
+				if !inited then ctx.writer#write "]";
 		)
 	| TIf (cond,e,eelse) ->
 		ctx.writer#write "if";
@@ -1586,7 +1593,8 @@ let generateProperty ctx field pos is_static =
 	(* let class_name = (snd ctx.class_def.cl_path) in *)
 	if ctx.generating_header then begin
 		if is_static then begin
-			ctx.writer#write ("+ ("^t^(addPointerIfNeeded t)^") "^id^":("^t^(addPointerIfNeeded t)^")val;")
+			ctx.writer#write ("+ ("^t^(addPointerIfNeeded t)^") "^id^";\n");
+			ctx.writer#write ("+ (void) set"^(String.capitalize id)^":("^t^(addPointerIfNeeded t)^")val;")
 		end
 	else begin
 		let getter = match field.cf_kind with
@@ -1614,6 +1622,7 @@ let generateProperty ctx field pos is_static =
 	if ("^id^" == nil) "^id^" = ");
 			gen_init_value();
 			ctx.writer#write (";
+	return "^id^";
 }
 + (void) set"^(String.capitalize id)^":("^t^(addPointerIfNeeded t)^")val {
 	"^id^" = val;

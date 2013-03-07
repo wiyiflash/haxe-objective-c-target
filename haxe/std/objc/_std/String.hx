@@ -30,7 +30,8 @@
 	String can be concatenated by using the + operator. If an operand is not a
 	String, it is passed through Std.string() first.
 **/
-@:framework("Foundation") @:category("NSMutableString") @:coreApi class String {
+/*@:framework("Foundation")*/
+@:category("NSMutableString") @:coreApi class String {
 
 	/**
 		The number of characters in [this] String.
@@ -67,7 +68,7 @@
 		is returned.
 	**/
 	public function charAt(index : Int) : String {
-		return untyped this.characterAtIndex( index );
+		return null;//untyped this.characterAtIndex( index );
 	}
 
 	/**

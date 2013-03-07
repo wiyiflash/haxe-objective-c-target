@@ -6,27 +6,25 @@
 //
 
 
-#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import <CoreGraphics/CoreGraphics.h>
+#import <Foundation/Foundation.h>
 
-#import "ios/ui/UIImageView.h"
+#import "Array.h"
 #import "Tile.h"
+#import "haxe/Log.h"
 #import "PiratePigGame.h"
-#import "Math.h"
 #import "Std.h"
-#import "objc/graphics/CGGeometry.h"
-#import "ios/ui/UIImage.h"
-#import "ios/ui/UIColor.h"
-#import "ios/ui/NSTextAlignment.h"
-#import "ios/ui/UIFont.h"
-#import "objc/foundation/NSSet.h"
+#import "Math.h"
 
 @interface PiratePigGame : UIView 
 
-+ (int) NUM_COLUMNS:(int)val;
-+ (int) NUM_ROWS:(int)val;
-+ (NSMutableArray*) tileImages:(NSMutableArray*)val;
++ (int) NUM_COLUMNS;
++ (void) setNUM_COLUMNS:(int)val;
++ (int) NUM_ROWS;
++ (void) setNUM_ROWS:(int)val;
++ (NSMutableArray*) tileImages;
++ (void) setTileImages:(NSMutableArray*)val;
 @property (nonatomic, strong) UIView *Background;
 @property (nonatomic, strong) UIImageView *Logo;
 @property (nonatomic, strong) UILabel *Score;
@@ -38,21 +36,21 @@
 @property (nonatomic, strong) Tile *selectedTile;
 @property (nonatomic, strong) NSMutableArray *tiles;
 @property (nonatomic, strong) NSMutableArray *usedTiles;
-- (void) addTile:(int)row column:(int)column animate:(BOOL)animate;
+- (void) initialize;
 - (void) construct;
-- (void) dropTiles;
+- (void) newGame;
 - (NSMutableArray*) findMatches:(BOOL)byRow accumulateScore:(BOOL)accumulateScore;
 - (CGPoint) getPosition:(int)row column:(int)column;
-- (void) initialize;
-- (void) newGame;
+- (void) addTile:(int)row column:(int)column animate:(BOOL)animate;
 - (void) removeTile:(int)row column:(int)column animate:(BOOL)animate;
-- (void) resize:(int)newWidth newHeight:(int)newHeight;
 - (void) swapTile:(Tile*)tile targetRow:(int)targetRow targetColumn:(int)targetColumn;
+- (void) dropTiles;
 - (void) touchesBegan:(NSSet*)touches withEvent:(UIEvent*)withEvent;
 - (void) touchesMoved:(NSSet*)touches withEvent:(UIEvent*)withEvent;
 - (void) touchesEnded:(NSSet*)touches withEvent:(UIEvent*)withEvent;
 - (void) touchesCancelled:(NSSet*)touches withEvent:(UIEvent*)withEvent;
 - (void) loop;
+- (void) resize:(int)newWidth newHeight:(int)newHeight;
 - (id) init;
 
 @end

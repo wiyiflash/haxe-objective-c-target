@@ -6,9 +6,9 @@
 //
 
 
-#import <Foundation/Foundation.h>
 
 #import "Array.h"
+#import "String.h"
 
 @interface NSMutableArray ( Array )
 
@@ -30,6 +30,7 @@
 - (id) iterator;
 - (NSMutableArray*) map:(SEL)f;
 - (NSMutableArray*) filter:(SEL)f;
+- (void) safeReplaceObjectAtIndex:(int)index withObject:(id)withObject;
 - (id) init;
 
 @end

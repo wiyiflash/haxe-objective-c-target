@@ -111,6 +111,11 @@ int main(int argc, char *argv[])
 	[AppDelegate setArr: [[NSMutableArray alloc] initWithObjects:[NSMutableString stringWithString:@"game_panda.png"], [NSMutableString stringWithString:@"game_piratePig.png"], nil] ];
 	NSLog(@"%@", [AppDelegate arr]);
 	
+	NSLog(@"-------------");
+	int type = roundf(rand() %  (8 - 1));
+	int type2 = roundf(rand() %  (8 - 1));
+	NSLog(@"%i %i", type, type2);
+	
     return YES;
 }
 

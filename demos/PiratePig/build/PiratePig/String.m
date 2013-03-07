@@ -24,7 +24,7 @@ static int length__;
 	return [self lowercaseString];
 }
 - (NSMutableString*) charAt:(int)index{
-	return [self characterAtIndex:index];
+	return nil;
 }
 - (int) charCodeAt:(int)index{
 	return [self characterAtIndex:index];
