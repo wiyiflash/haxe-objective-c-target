@@ -11,7 +11,6 @@ haxe/std/tools
 haxe/std/haxe/macro
 haxe/tests
 haxe/doc
-haxelib-objc-ios-externs
-haxelib-objc-osx-externs
 haxe/haxe.hxproj
 haxe/haxe
+cocoa-haxe-externs
