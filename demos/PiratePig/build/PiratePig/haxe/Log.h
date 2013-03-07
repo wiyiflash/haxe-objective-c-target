@@ -8,7 +8,7 @@
 
 
 
-@interface Log : HXObject
+@interface Log : NSObject
 
 // Defining a dynamic method
 + (void) trace:(id)v infos:(id)infos;

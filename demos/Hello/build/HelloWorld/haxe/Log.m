@@ -11,8 +11,8 @@
 
 // Defining a dynamic method
 + (void) trace:(id)v infos:(id)infos{
-	// Simulated optional arguments
-	if (infos == nil) infos = nil;
+	// Optional arguments
+	if (!infos) infos = nil;
 	
 	printf("%s:%s: %s\n",
 		   [[infos objectForKey:@"fileName"] cStringUsingEncoding:NSStringEncodingConversionAllowLossy],

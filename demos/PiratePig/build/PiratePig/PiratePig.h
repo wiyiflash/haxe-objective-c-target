@@ -8,15 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-#import "ios/ui/UIImageView.h"
+//#import "ios/ui/UIImageView.h"
 #import "PiratePigGame.h"
-#import "objc/foundation/NSDictionary.h"
+//#import "objc/foundation/NSDictionary.h"
 #import "haxe/Log.h"
-#import "ios/ui/UIScreen.h"
-#import "ios/ui/UIViewAutoresizing.h"
-#import "ios/ui/UIColor.h"
-#import "ios/ui/UIImage.h"
-#import "ios/ui/UIResponder.h"
+//#import "ios/ui/UIScreen.h"
+//#import "ios/ui/UIViewAutoresizing.h"
+//#import "ios/ui/UIColor.h"
+//#import "ios/ui/UIImage.h"
+//#import "ios/ui/UIResponder.h"
 
 @interface PiratePig : UIResponder <UIApplicationDelegate>
 

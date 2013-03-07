@@ -316,7 +316,7 @@
 			[t replaceObjectAtIndex:targetColumn withObject:tile];
 			t = [self.tiles objectAtIndex:tile.row];
 			[t replaceObjectAtIndex:tile.column withObject:targetTile];
-			if ([self.findMatches:YES accumulateScore:NO].length > 0 || [self.findMatches:NO accumulateScore:NO].length > 0) {
+			if ([self findMatches:YES accumulateScore:NO].length > 0 || [self findMatches:NO accumulateScore:NO].length > 0) {
 				targetTile.row = tile.row;
 				targetTile.column = tile.column;
 				tile.row = targetRow;
