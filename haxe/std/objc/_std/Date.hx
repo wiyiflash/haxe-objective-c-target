@@ -23,10 +23,11 @@
  * DAMAGE.
  */
 
-import objc.foundation.NSDate;
-import objc.foundation.NSCalendar;
+typedef NSDate = objc.foundation.NSDate;
+typedef NSCalendar = objc.foundation.NSCalendar;
+typedef NSDateComponents = Dynamic;
 
-@:category("NSDate") @:core_api class Date {
+@:framework("Foundation") @:category("NSDate") @:coreApi class Date {
 
 	private var _seconds :Float;
 	private var _calendar :NSCalendar;

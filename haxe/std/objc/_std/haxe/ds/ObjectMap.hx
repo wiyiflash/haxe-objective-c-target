@@ -1,6 +1,6 @@
 package haxe.ds;
 
-@:category("NSMutableDictionary") @:core_api class ObjectMap<K,V> {
+@:category("NSMutableDictionary") @:coreApi class ObjectMap<K,V> {
 	
 	public function new() : Void {
 		

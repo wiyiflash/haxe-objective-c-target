@@ -24,21 +24,21 @@
 			nil];
 }
 
-- (id) iterator2{
-	
-	NSMutableArray *_g = [[NSMutableArray alloc] initWithArray:self];
-	NSMutableArray *i = [[NSMutableArray alloc] initWithObject:[NSNumber numberWithInt:0]];
-	NSMutableArray *len = [[NSMutableArray alloc] initWithObject:self.length];
-	
-	return [NSMutableDictionary dictionaryWithObjectsAndKeys:
-			[^BOOL(){
-		return [i objectAtIndex:0] < [len objectAtIndex:0];
-	} copy], @"hasNext",
-			[^id(){
-		return [[_g objectAtIndex:0] objectAtIndex:[i objectAtIndex:0]++];
-	} copy], @"next",
-			nil];
-}
+//- (id) iterator2{
+//	
+//	NSMutableArray *_g = [[NSMutableArray alloc] initWithArray:self];
+//	NSMutableArray *i = [[NSMutableArray alloc] initWithObject:[NSNumber numberWithInt:0]];
+//	NSMutableArray *len = [[NSMutableArray alloc] initWithObject:self.length];
+//	
+//	return [NSMutableDictionary dictionaryWithObjectsAndKeys:
+//			[^BOOL(){
+//		return [i objectAtIndex:0] < [len objectAtIndex:0];
+//	} copy], @"hasNext",
+//			[^id(){
+//		return [[_g objectAtIndex:0] objectAtIndex:[i objectAtIndex:0]++];
+//	} copy], @"next",
+//			nil];
+//}
 
 
 @end

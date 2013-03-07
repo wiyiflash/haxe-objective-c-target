@@ -1060,9 +1060,8 @@ and generateExpression ctx e =
 						(* generateFieldAccess ctx e.etype (field_name fa); *)
 						ctx.writer#write ("-fa3-"^(remapKeyword (field_name fa)));
 					| _ ->
-						ctx.writer#write "[";
 						generateValue ctx e;
-						ctx.writer#write (" "^(remapKeyword (field_name fa))^":nil]")
+						ctx.writer#write ("."^(remapKeyword (field_name fa)))
 					);
 				| TType _ -> ctx.writer#write "-TType-";
 				| TFun _ -> (* Generating static call *)
@@ -1610,13 +1609,14 @@ let generateProperty ctx field pos is_static =
 			let gen_init_value () = match field.cf_expr with
 			| None -> ()
 			| Some e -> generateValue ctx e in
-			ctx.writer#write ("+ ("^t^(addPointerIfNeeded t)^") "^id^":("^t^(addPointerIfNeeded t)^")val {
-	static "^t^" "^(addPointerIfNeeded t)^"_val;
-	if (val == nil) { if (_val == nil) _val = ");
+			ctx.writer#write ("static "^t^(addPointerIfNeeded t)^" "^id^";
++ ("^t^(addPointerIfNeeded t)^") "^id^" {
+	if ("^id^" == nil) "^id^" = ");
 			gen_init_value();
-			ctx.writer#write ("; }
-	else { if (_val != nil) _val = val; }
-	return _val;
+			ctx.writer#write (";
+}
++ (void) set"^(String.capitalize id)^":("^t^(addPointerIfNeeded t)^")val {
+	"^id^" = val;
 }")
 		end
 		else begin

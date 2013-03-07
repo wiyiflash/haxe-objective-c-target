@@ -100,6 +100,16 @@ int main(int argc, char *argv[])
 		NSLog(@"print element of array here %@", obj);
 	}
 	
+	NSLog(@"%i", AppDelegate.length);
+//	NSLog(@"%i", [AppDelegate length]);
+	AppDelegate.length = 6;
+	NSLog(@"%i", AppDelegate.length);
+	//[AppDelegate setLength:6];
+//	NSLog(@"%i", [AppDelegate length]);
+	
+	NSLog(@"%@", [AppDelegate arr]);
+	[AppDelegate setArr: [[NSMutableArray alloc] initWithObjects:[NSMutableString stringWithString:@"game_panda.png"], [NSMutableString stringWithString:@"game_piratePig.png"], nil] ];
+	NSLog(@"%@", [AppDelegate arr]);
 	
     return YES;
 }
@@ -140,14 +150,31 @@ void(^block_block2)(int i) = ^(int i){ NSLog(@"block_block2 block_block2 block_b
 	NSLog(@"block1 was called");
 }
 
+static int NUM_COLUMNS;
++ (int) NUM_COLUMNS:(int)val {
+	static int _val;
+	if (val == nil) { if (_val == nil) _val = 8; }
+	else { if (_val != nil) _val = val; }
+	return _val;
+}
 
-
-static int length__;
+static int length;
 + (int) length{
-	return length__;
+	// You get a warning but is working
+	if (length == nil) length = 8;
+	return length;
 }
 + (void) setLength:(int)val{
-	length__ = val;
+	length = val;
+}
+
+static NSMutableArray *arr__;
++ (NSMutableArray*) arr{
+	if (arr__ == nil) arr__ = [[NSMutableArray alloc] initWithObjects:[NSMutableString stringWithString:@"game_panda.png"], [NSMutableString stringWithString:@"game_piratePig.png"], nil];
+	return arr__;
+}
++ (void) setArr:(NSMutableArray*)val{
+	arr__ = val;
 }
 
 

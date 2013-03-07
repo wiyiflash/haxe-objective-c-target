@@ -10,9 +10,9 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-//#import "ios/ui/UIView.h"
-//#import "ios/ui/UIImageView.h"
-//#import "ios/ui/UIImage.h"
+#import "ios/ui/UIView.h"
+#import "ios/ui/UIImageView.h"
+#import "ios/ui/UIImage.h"
 
 @interface Tile : UIView 
 

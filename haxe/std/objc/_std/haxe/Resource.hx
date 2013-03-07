@@ -25,7 +25,7 @@
 package haxe;
 import objc.foundation.NSDictionary;
 
-@:core_api
+@:coreApi
 class Resource {
 	
 	private static var __plist__ :NSMutableDictionary = new NSMutableDictionary();
