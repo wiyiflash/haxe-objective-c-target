@@ -162,7 +162,7 @@ class PiratePigGame extends UIView {
 	
 	
 	private function findMatches (byRow:Bool, accumulateScore:Bool = true) :Array<Tile> {
-		
+		trace("find matches");
 		var matchedTiles = new Array<Tile>();
 		
 		var max:Int;
@@ -197,13 +197,11 @@ class PiratePigGame extends UIView {
 				if (tile != null && !tile.moving) {
 					
 					if (previousType == -1) {
-						
 						previousType = tile.type;
 						foundTiles.push (tile);
 						continue;
 						
 					} else if (tile.type == previousType) {
-						
 						foundTiles.push (tile);
 						matches++;
 					}
@@ -228,7 +226,7 @@ class PiratePigGame extends UIView {
 					}
 					
 					matches = 0;
-					foundTiles = new Array <Tile> ();
+					foundTiles = new Array<Tile>();
 					
 					if (tile == null || tile.moving) {
 						needToCheckMatches = true;
@@ -321,13 +319,13 @@ class PiratePigGame extends UIView {
 		t[column] = null;
 	}
 	private function swapTile (tile:Tile, targetRow:Int, targetColumn:Int):Void {
-		
+		trace("swipe tile "+tile);
 		if (targetColumn >= 0 && targetColumn < NUM_COLUMNS && targetRow >= 0 && targetRow < NUM_ROWS) {
-			
+			trace("ok");
 			var targetTile = tiles[targetRow][targetColumn];
-			
+			trace("to tile "+targetTile);
 			if (targetTile != null && !targetTile.moving) {
-				
+				trace("ok");
 				var t = tiles[targetRow];
 				t[targetColumn] = tile;
 				t = tiles[tile.row];
@@ -400,7 +398,7 @@ class PiratePigGame extends UIView {
 	override public function touchesBegan (touches:NSSet, withEvent:UIEvent) :Void {
 		var touchesForView = withEvent.touchesForView(this);
 		var aTouch = touches.anyObject();
-		//trace(aTouch);
+		trace(aTouch);
 		
 		if (touches.count() == 1) {
 			for (i in 0...NUM_ROWS) {
@@ -426,19 +424,24 @@ class PiratePigGame extends UIView {
 		
 	}
 	override public function touchesEnded (touches:NSSet, withEvent:UIEvent) :Void {
+		trace("release finger");
+/*		if (!CGGeometry.CGPointEqualToPoint(cacheMouse, new CGPoint(0,0))) trace("-- collision");
+		if (selectedTile != null) trace("-- selectedTile != null");
+		if (!selectedTile.moving) trace("-- !selectedTile.moving");*/
 		
 		if (!CGGeometry.CGPointEqualToPoint(cacheMouse, new CGPoint(0,0)) && selectedTile != null && !selectedTile.moving) {
-		
-			var differenceX = 0;//event.stageX - cacheMouse.x;
-			var differenceY = 0;//event.stageY - cacheMouse.y;
+			trace("ok");
+			var aTouch = touches.anyObject();
+			var pos :CGPoint = aTouch.locationInView(this);
+			var differenceX = pos.x - cacheMouse.x;
+			var differenceY = pos.y - cacheMouse.y;
 			
 			if (Math.abs (differenceX) > 10 || Math.abs (differenceY) > 10) {
-				
+				trace("ok");
 				var swapToRow = selectedTile.row;
 				var swapToColumn = selectedTile.column;
 				
 				if (Math.abs (differenceX) > Math.abs (differenceY)) {
-					
 					if (differenceX < 0) {
 						swapToColumn --;
 					} else {

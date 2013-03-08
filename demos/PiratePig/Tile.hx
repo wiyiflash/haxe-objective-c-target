@@ -94,10 +94,10 @@ class Tile extends UIView {
 	// Event Handlers
 	
 	function animationDidStop (animationID:String, finished:Float, context:Dynamic) {
-		if (animationID == "fade_out") {
+		if (untyped animationID.isEqualToString("fade_out")) {
 			this.removeFromSuperview();
 		}
-		else if (animationID == "move_to") {
+		else if (untyped animationID.isEqualToString("move_to")) {
 			moving = false;
 		}
 	}

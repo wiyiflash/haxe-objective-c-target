@@ -51,8 +51,8 @@
 	self.removed = YES;
 }
 - (void) animationDidStop:(NSMutableString*)animationID finished:(float)finished context:(id)context{
-	if (animationID == [NSMutableString stringWithString:@"fade_out"]) [self removeFromSuperview];
-	else if (animationID == [NSMutableString stringWithString:@"move_to"]) self.moving = NO;
+	if ([animationID isEqualToString:[NSMutableString stringWithString:@"fade_out"]]) [self removeFromSuperview];
+	else if ([animationID isEqualToString:[NSMutableString stringWithString:@"move_to"]]) self.moving = NO;
 }
 - (id) init:(NSMutableString*)imagePath{
 	self = [super init];
