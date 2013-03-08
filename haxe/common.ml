@@ -401,6 +401,7 @@ module MetaInfo = struct
 		| Category -> ":category",("Converts a class to an Objective-C category of another class",[Platform ObjC])
 		| Import -> ":import",("Generates an #import statement for a native class",[Platform ObjC])
 		| Framework -> ":framework",("Generates an #import statement for the framework of a class",[Platform ObjC])
+		| Selector -> ":sel",("It uses this signature to generate methods and method calls instead the method arguments",[Platform ObjC])
 		| Last -> assert false
 		(* do not put any custom metadata after Last *)
 		| Dollar s -> "$" ^ s,("",[])

@@ -134,6 +134,7 @@ module Meta = struct
 		| Category
 		| Import
 		| Framework
+		| Selector
 		| Last
 		(* do not put any custom metadata after Last *)
 		| Dollar of string
