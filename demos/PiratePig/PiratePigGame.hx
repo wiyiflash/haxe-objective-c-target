@@ -16,6 +16,8 @@ import ios.ui.UIEvent;
 import objc.foundation.NSDictionary;
 import objc.foundation.NSSet;
 import objc.foundation.NSValue;
+import objc.foundation.NSTimer;
+import objc.foundation.NSRunLoop;
 import objc.graphics.CGGeometry;
 
 class PiratePigGame extends UIView {
@@ -100,7 +102,7 @@ class PiratePigGame extends UIView {
 		var contentWidth = 75 * NUM_COLUMNS;
 		
 		var rect:CGRect = Score.frame;
-		rect.origin.x = contentWidth - 200;
+		rect.origin.x = 0;//contentWidth - 200;
 		rect.origin.y = 12;
 		rect.size.width = 200;
 		Score.frame = rect;
@@ -155,9 +157,12 @@ class PiratePigGame extends UIView {
 			}
 		}
 		
-/*		IntroSound.play ();
-		removeEventListener (Event.ENTER_FRAME, this_onEnterFrame);
-		addEventListener (Event.ENTER_FRAME, this_onEnterFrame);*/
+/*		IntroSound.play ();*/
+		
+		var timer :NSTimer = null;
+		untyped __objc__("timer = [NSTimer timerWithTimeInterval:0.2 target:self selector:@selector(loop:) userInfo:nil repeats:YES]");
+		var runner = NSRunLoop.currentRunLoop();
+		runner.addTimer (timer, NSDefaultRunLoopMode);
 	}
 	
 	
@@ -179,11 +184,11 @@ class PiratePigGame extends UIView {
 		for (index in 0...max) {
 			
 			var matches = 0;
-			var foundTiles = new Array <Tile> ();
+			var foundTiles = new Array<Tile>();
 			var previousType = -1;
 			
 			for (secondIndex in 0...secondMax) {
-				
+				//trace("analize");
 				var tile:Tile;
 				
 				if (byRow) {
@@ -222,7 +227,9 @@ class PiratePigGame extends UIView {
 							
 							currentScore += Std.int (Math.pow (matches, 2) * 50);
 						}
-						matchedTiles = matchedTiles.concat (foundTiles);
+						trace("foundTiles");
+						trace(foundTiles);
+						matchedTiles = matchedTiles.concat ( foundTiles );
 					}
 					
 					matches = 0;
@@ -233,11 +240,13 @@ class PiratePigGame extends UIView {
 						previousType = -1;
 					} else {
 						previousType = tile.type;
-						foundTiles.push (tile);
+						foundTiles.push ( tile );
 					}
 				}
 			}
 		}
+		trace("matchedTiles");
+		trace(matchedTiles);
 		return matchedTiles;
 	}
 	
@@ -249,13 +258,13 @@ class PiratePigGame extends UIView {
 	
 	
 	private function addTile (row:Int, column:Int, animate:Bool = true) :Void {
-		trace("add tile");
+		//trace("add tile");
 		var tile = null;
-		var type = Math.round (Math.random () % (tileImages.length - 1));
+		var type = Math.round (Math.random () % (untyped tileImages.count() - 1));
 /*		trace(usedTiles);*/
 		trace(NSNumber.numberWithInt(type));
 		for (usedTile in usedTiles) {
-			trace("used tile "+usedTile);
+			//trace("used tile "+usedTile);
 			if (usedTile.removed && usedTile.superview == null && usedTile.type == type) {
 				tile = usedTile;
 			}
@@ -264,9 +273,7 @@ class PiratePigGame extends UIView {
 		if (tile == null) {
 			tile = new Tile (tileImages[type]);
 		}
-		
 		tile.initialize();
-		
 		tile.type = type;
 		tile.row = row;
 		tile.column = column;
@@ -330,9 +337,9 @@ class PiratePigGame extends UIView {
 				t[targetColumn] = tile;
 				t = tiles[tile.row];
 				t[tile.column] = targetTile;
-				
-				if (findMatches (true, false).length > 0 || findMatches (false, false).length > 0) {
-					
+				trace("CHECK FOR MATCHES");
+				if (untyped findMatches(true,false).count() > 0 || untyped findMatches(false,false).count() > 0) {
+					trace("found matches");
 					targetTile.row = tile.row;
 					targetTile.column = tile.column;
 					tile.row = targetRow;
@@ -346,7 +353,7 @@ class PiratePigGame extends UIView {
 					needToCheckMatches = true;
 					
 				} else {
-					
+					trace("matches not found");
 					var t = tiles[targetRow];
 					t[targetColumn] = targetTile;
 					t = tiles[tile.row];
@@ -398,24 +405,29 @@ class PiratePigGame extends UIView {
 	override public function touchesBegan (touches:NSSet, withEvent:UIEvent) :Void {
 		var touchesForView = withEvent.touchesForView(this);
 		var aTouch = touches.anyObject();
+		cacheMouse = aTouch.locationInView(this);
 		trace(aTouch);
+		untyped __objc__("NSLog(@\"cacheMouse %ix%i\", cacheMouse.x, cacheMouse.y)");
 		
 		if (touches.count() == 1) {
 			for (i in 0...NUM_ROWS) {
 				for (j in 0...NUM_COLUMNS) {
 					var tile = tiles[i][j];
-					untyped __objc__("NSLog(@\"%i %i\", i, j)");
-					cacheMouse = aTouch.locationInView(this);
-					//trace(cacheMouse);
+					untyped __objc__("NSLog(@\"%ix%i %.2f,%.2f %.2fx%.2f\", i, j, tile.frame.origin.x, tile.frame.origin.y, tile.frame.size.width, tile.frame.size.height)");
+					
 					if (CGGeometry.CGRectContainsPoint(tile.frame, cacheMouse)) {
+						trace("------------------touched something");
 						selectedTile = tile;
+						selectedTile.alpha = 0.5;
 						trace(selectedTile);
 						return;
 					} else {
-						cacheMouse = new CGPoint(0,0);
 						selectedTile = null;
 					}
 				}
+			}
+			if (selectedTile == null) {
+				cacheMouse = new CGPoint(0,0);
 			}
 			trace(selectedTile);
 		}
@@ -466,22 +478,25 @@ class PiratePigGame extends UIView {
 	}
 	
 	
-	private function loop () :Void {
+	private function loop (aTimer:NSTimer) :Void {
 		
 		if (needToCheckMatches) {
-			
-			var matchedTiles = new Array <Tile> ();
-			
-			matchedTiles = matchedTiles.concat (findMatches (true));
-			matchedTiles = matchedTiles.concat (findMatches (false));
+			trace("loop");
+			var matchedTiles = new Array<Tile>();
+			var m1 = findMatches (true);trace(m1);
+			var m2 = findMatches (false);trace(m2);
+			//matchedTiles = matchedTiles.concat ( m1 );
+			//matchedTiles = matchedTiles.concat ( m2 );
+			for (m in m1) matchedTiles.push ( m );
+			for (m in m2) matchedTiles.push ( m );
 			
 			for (tile in matchedTiles) {
 				removeTile (tile.row, tile.column);
 			}
 			
-			if (matchedTiles.length > 0) {
+			if (untyped matchedTiles.count() > 0) {
 				//Score.text = Std.string (currentScore);
-				dropTiles ();
+				dropTiles();
 			}
 		}
 	}

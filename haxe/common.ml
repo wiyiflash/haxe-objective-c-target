@@ -383,7 +383,7 @@ module MetaInfo = struct
 		| SkipCtor -> ":skipCtor",("",[Platforms [Java;Cs]])
 		| SkipReflection -> ":skipReflection",("",[Platforms [Java;Cs]])
 		| Sound -> ":sound",( "Includes a given .wav or .mp3 file into the target Swf and associates it with the class (must extend flash.media.Sound)",[HasParam "File path";UsedOn TClass;Platform Flash])
-		| Struct -> ":struct",("",[Platforms [Java;Cs]])
+		| Struct -> ":struct",("",[Platforms [Java;Cs;ObjC]])
 		| SuppressWarnings -> ":suppressWarnings",("",[Platforms [Java;Cs]])
 		| Synchronized -> ":synchronized",("",[Platforms [Java;Cs]])
 		| Throws -> ":throws",("",[Platforms [Java;Cs]])
@@ -401,7 +401,7 @@ module MetaInfo = struct
 		| Category -> ":category",("Converts a class to an Objective-C category of another class",[Platform ObjC])
 		| Import -> ":import",("Generates an #import statement for a native class",[Platform ObjC])
 		| Framework -> ":framework",("Generates an #import statement for the framework of a class",[Platform ObjC])
-		| Selector -> ":sel",("It uses this signature to generate methods and method calls instead the method arguments",[Platform ObjC])
+		| Selector -> ":sel",("It uses this as a signature instead the method arguments",[Platform ObjC])
 		| Last -> assert false
 		(* do not put any custom metadata after Last *)
 		| Dollar s -> "$" ^ s,("",[])

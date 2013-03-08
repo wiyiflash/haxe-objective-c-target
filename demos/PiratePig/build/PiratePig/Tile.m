@@ -60,7 +60,7 @@
 	
 	UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imagePath]];
 	[self addSubview:image];
-	self.frame = image.frame;
+	self.frame =  CGRectMake(image.frame.origin.x, image.frame.origin.y, image.frame.size.width, image.frame.size.height);
 	self.backgroundColor = [UIColor redColor];
 	self.userInteractionEnabled = YES;
 	return self;

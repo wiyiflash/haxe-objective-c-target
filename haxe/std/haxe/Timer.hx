@@ -23,6 +23,7 @@ package haxe;
 
 #if objc
 	import objc.foundation.NSTimer;
+	import objc.foundation.NSRunLoop;
 #end
 
 /**
@@ -66,7 +67,9 @@ class Timer {
 			var me = this;
 			id = untyped setInterval(function() me.run(),time_ms);
 		#elseif objc
-			nstimer = NSTimer.timerWithTimeInterval (time_ms, this, untyped run, null, true);
+			nstimer = NSTimer.timerWithTimeInterval (time_ms*1000, this, nsrun, null, true);
+			var runner = NSRunLoop.currentRunLoop();
+			runner.addTimer (nstimer, NSDefaultRunLoopMode);
 		#end
 	}
 
@@ -108,6 +111,11 @@ class Timer {
 	public dynamic function run() {
 		trace("run");
 	}
+	#if objc
+	function nsrun(aTimer:NSTimer) {
+		run();
+	}
+	#end
 
 	/**
 		Invokes [f] after [time_ms] milliseconds.

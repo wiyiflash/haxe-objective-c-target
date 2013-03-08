@@ -20,7 +20,7 @@ class Tile extends UIView {
 		
 		var image = new UIImageView().initWithImage ( UIImage.imageNamed(imagePath));
 		addSubview (image);
-		this.frame = image.frame;
+		this.frame = CGGeometry.CGRectMake (image.frame.origin.x, image.frame.origin.y, image.frame.size.width, image.frame.size.height);
 		this.backgroundColor = UIColor.redColor();
 		
 		userInteractionEnabled = true;

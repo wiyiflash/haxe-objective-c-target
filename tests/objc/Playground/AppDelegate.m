@@ -116,7 +116,14 @@ int main(int argc, char *argv[])
 	int type2 = roundf(rand() %  (8 - 1));
 	NSLog(@"%i %i", type, type2);
 	
+	timer = [NSTimer timerWithTimeInterval:0.2 target:self selector:@selector(loop:) userInfo:nil repeats:YES];
+	NSRunLoop *runner = [NSRunLoop currentRunLoop];
+	[runner addTimer:timer forMode: NSDefaultRunLoopMode];
+	
     return YES;
+}
+- (void)loop:(NSTimer*)theTimer {
+	NSLog(@"fff");
 }
 
 void(^block_block1)(void) = ^{ NSLog(@"block_block1 block_block1 block_block1"); };

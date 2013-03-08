@@ -49,7 +49,7 @@
 - (void) touchesMoved:(NSSet*)touches withEvent:(UIEvent*)withEvent;
 - (void) touchesEnded:(NSSet*)touches withEvent:(UIEvent*)withEvent;
 - (void) touchesCancelled:(NSSet*)touches withEvent:(UIEvent*)withEvent;
-- (void) loop;
+- (void) loop:(NSTimer*)aTimer;
 - (void) resize:(int)newWidth newHeight:(int)newHeight;
 - (id) init;
 

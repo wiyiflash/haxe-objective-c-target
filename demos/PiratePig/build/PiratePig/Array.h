@@ -8,6 +8,7 @@
 
 
 #import "Array.h"
+#import "haxe/Log.h"
 #import "String.h"
 
 @interface NSMutableArray ( Array )

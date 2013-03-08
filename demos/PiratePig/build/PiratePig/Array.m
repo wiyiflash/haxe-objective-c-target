@@ -15,7 +15,13 @@ static int length__;
 - (void) setLength:(int)val { length__ = val; }
 
 - (NSMutableArray*) concat:(NSMutableArray*)a{
-	return [self arrayByAddingObjectsFromArray:a];
+	[Log trace:[NSMutableString stringWithString:@"concat"] infos:[NSDictionary dictionaryWithObjectsAndKeys:@"Array.hx",@"fileName", @"43",@"lineNumber", @"Array",@"className", @"concat",@"methodName", nil]];
+	[Log trace:self infos:[NSDictionary dictionaryWithObjectsAndKeys:@"Array.hx",@"fileName", @"44",@"lineNumber", @"Array",@"className", @"concat",@"methodName", nil]];
+	[Log trace:a infos:[NSDictionary dictionaryWithObjectsAndKeys:@"Array.hx",@"fileName", @"45",@"lineNumber", @"Array",@"className", @"concat",@"methodName", nil]];
+	
+	NSMutableArray *b = [self arrayByAddingObjectsFromArray:a];
+	[Log trace:b infos:[NSDictionary dictionaryWithObjectsAndKeys:@"Array.hx",@"fileName", @"47",@"lineNumber", @"Array",@"className", @"concat",@"methodName", nil]];
+	return b;
 }
 - (NSMutableArray*) copy{
 	return [NSMutableArray arrayWithArray:self];

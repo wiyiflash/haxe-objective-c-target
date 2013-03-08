@@ -47,6 +47,7 @@ class PiratePig extends UIResponder implements UIApplicationDelegate {
 		var bs = background.frame;
 		bs.size.width = window.frame.size.width;
 		background.frame = bs;
+		background.alpha = 0.5;
 		footer = new UIImageView().initWithImage ( UIImage.imageNamed("center_bottom.png"));
 		var bs = footer.frame;
 		bs.origin.x = window.frame.size.width/2 - bs.size.width/2;
@@ -54,7 +55,7 @@ class PiratePig extends UIResponder implements UIApplicationDelegate {
 		footer.frame = bs;
 		game = new PiratePigGame ();
 		game.frame = view.frame;
-		game.resize (320, 480);
+		//game.resize (320, 480);
 		view.addSubview (background);
 		view.addSubview (footer);
 		view.addSubview (game);
