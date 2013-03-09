@@ -10,47 +10,54 @@
 @implementation NSMutableArray ( Array )
 
 // Getters/setters for property: length
-static int length__;
+int length__;
 - (int) length { return length__; }
 - (void) setLength:(int)val { length__ = val; }
 
 - (NSMutableArray*) concat:(NSMutableArray*)a{
-	[Log trace:[NSMutableString stringWithString:@"concat"] infos:[NSDictionary dictionaryWithObjectsAndKeys:@"Array.hx",@"fileName", @"43",@"lineNumber", @"Array",@"className", @"concat",@"methodName", nil]];
-	[Log trace:self infos:[NSDictionary dictionaryWithObjectsAndKeys:@"Array.hx",@"fileName", @"44",@"lineNumber", @"Array",@"className", @"concat",@"methodName", nil]];
-	[Log trace:a infos:[NSDictionary dictionaryWithObjectsAndKeys:@"Array.hx",@"fileName", @"45",@"lineNumber", @"Array",@"className", @"concat",@"methodName", nil]];
 	
-	NSMutableArray *b = [self arrayByAddingObjectsFromArray:a];
-	[Log trace:b infos:[NSDictionary dictionaryWithObjectsAndKeys:@"Array.hx",@"fileName", @"47",@"lineNumber", @"Array",@"className", @"concat",@"methodName", nil]];
+	NSMutableArray *b = [[NSMutableArray alloc] init];
+	[b addObjectsFromArray:self];
+	[b addObjectsFromArray:a];
+	[b setLength:[b count]];
 	return b;
 }
 - (NSMutableArray*) copy{
 	return [NSMutableArray arrayWithArray:self];
 }
 - (void) insert:(int)pos x:(id)x{
-	[self insertObject:x atIndex:pos];
+	[self insertObject:(x!=nil?x:[NSNull null]) atIndex:pos];
+	length__++;
 }
 - (NSMutableString*) join:(NSMutableString*)sep{
-	return [self componentsJoinedByString:sep];
+	return [NSMutableString stringWithString:[self componentsJoinedByString:sep]];
 }
 - (NSMutableString*) toString{
-	return [[NSMutableString stringWithString:@"["] stringByAppendingString: ([[self componentsJoinedByString:[NSMutableString stringWithString:@","]] stringByAppendingString:[NSMutableString stringWithString:@"]"]])];
+	return [NSMutableString stringWithString:[self description]];
 }
 - (id) pop{
-	if (self.length == 0) return nil;
+	if ([self count] == 0) return nil;
 	id theLastObject = [self lastObject];
+	if ([theLastObject isKindOfClass:[NSNull class]]) theLastObject = nil;
 	[self removeLastObject];
+	length__--;
 	return theLastObject;
 }
 - (int) push:(id)x{
-	[self addObject:x];
+	[self addObject:(x!=nil?x:[NSNull null])];
+	length__++;
 	return [self count];
 }
 - (void) unshift:(id)x{
-	[self insertObject:x atIndex:0];
+	[self insertObject:(x!=nil?x:[NSNull null]) atIndex:0];
+	length__++;
 }
 - (BOOL) remove:(id)x{
 	BOOL containsObject = [self containsObject:x];
-	if (containsObject) [self removeObject:x];
+	if (containsObject) {
+		[self removeObject:x];
+		length__--;
+	}
 	return containsObject;
 }
 - (void) reverse{
@@ -60,6 +67,7 @@ static int length__;
 	if ([self count] > 0) {
 		id obj = [self objectAtIndex:0];
 		[self removeObjectAtIndex:0];
+		length__--;
 		return obj;
 	}
 	return nil;
@@ -90,10 +98,19 @@ static int length__;
 }
 - (void) safeReplaceObjectAtIndex:(int)index withObject:(id)withObject{
 	if (index >= [self count]) while ([self count] <= index) [self addObject:[NSNull null]];
-	[self replaceObjectAtIndex:index withObject:withObject];
+	[self replaceObjectAtIndex:index withObject:(withObject==nil?[NSNull null]:withObject)];
+	length__ = [self count];
+}
+- (id) safeObjectAtIndex:(int)index{
+	if (index >= [self count]) while ([self count] <= index) [self addObject:[NSNull null]];
+	length__ = [self count];
+	id obj = [self objectAtIndex:index];
+	if ([obj isKindOfClass:[NSNull class]]) obj = nil;
+	return obj;
 }
 - (id) init{
 	self = [super init];
+	length__ = 0;
 	return self;
 }
 

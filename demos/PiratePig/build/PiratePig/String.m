@@ -13,7 +13,7 @@
 	return [NSString stringWithFormat:@"%C", code];
 }
 // Getters/setters for property: length
-static int length__;
+int length__;
 - (int) length { return length__; }
 - (void) setLength:(int)val { length__ = val; }
 

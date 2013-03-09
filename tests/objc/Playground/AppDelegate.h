@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <CoreFoundation/CoreFoundation.h>
 #import "haxe/Log.h"
-#import "NSArray+Arr.h"
+//#import "NSArray+Arr.h"
+#import "Array.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate, UIWebViewDelegate>{
 	id self_c;

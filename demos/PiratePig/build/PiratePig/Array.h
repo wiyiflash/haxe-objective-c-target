@@ -8,7 +8,6 @@
 
 
 #import "Array.h"
-#import "haxe/Log.h"
 #import "String.h"
 
 @interface NSMutableArray ( Array )
@@ -32,6 +31,7 @@
 - (NSMutableArray*) map:(SEL)f;
 - (NSMutableArray*) filter:(SEL)f;
 - (void) safeReplaceObjectAtIndex:(int)index withObject:(id)withObject;
+- (id) safeObjectAtIndex:(int)index;
 - (id) init;
 
 @end

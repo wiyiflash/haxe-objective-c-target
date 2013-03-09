@@ -877,7 +877,7 @@ and generateExpression ctx e =
 		end else begin
 			ctx.writer#write "[";
 			generateValue ctx e1;
-			ctx.writer#write " objectAtIndex:";
+			ctx.writer#write " safeObjectAtIndex:";
 			generateValue ctx e2;
 			ctx.writer#write "]";
 		end
@@ -1162,16 +1162,22 @@ and generateExpression ctx e =
 		end;
 		List.iter (fun e ->
 			(* Ignore the call to super from the main method: super(); *)
-			match e.eexpr with
+			(match e.eexpr with
 			| TCall (func, arg_list) ->
 				(match func.eexpr with
 					| TConst c -> ()
 					| _ ->
 						generateExpression ctx e;
-						ctx.writer#terminate_line);
+						ctx.writer#terminate_line
+				);
 			| _ -> 
 				generateExpression ctx e;
-				ctx.writer#terminate_line
+				ctx.writer#terminate_line;
+			);
+			(* After each new line reset the state of  *)
+			ctx.generating_calls <- 0;
+			ctx.generating_fields <- 0;
+			(* ctx.generating_self_access <- false; *)
 		) expr_list;
 		if ctx.generating_constructor then begin
 			ctx.writer#write "return self;";
@@ -1634,7 +1640,7 @@ let generateProperty ctx field pos is_static =
 				(* http://ddeville.me/2011/03/add-variables-to-an-existing-class-in-objective-c/ *)
 				(* let retain = String.length t == String.length (addPointerIfNeeded t) in *)
 				ctx.writer#write ("// Getters/setters for property: "^id^"\n");
-				ctx.writer#write ("static "^t^(addPointerIfNeeded t)^" "^id^"__;\n");
+				ctx.writer#write (""^t^(addPointerIfNeeded t)^" "^id^"__;\n");
 				ctx.writer#write ("- ("^t^(addPointerIfNeeded t)^") "^id^" { return "^id^"__; }\n");
 				ctx.writer#write ("- (void) set"^(String.capitalize id)^":("^t^(addPointerIfNeeded t)^")val { "^id^"__ = val; }\n");
 			end else begin

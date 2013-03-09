@@ -38,34 +38,40 @@ class PiratePig extends UIResponder implements UIApplicationDelegate {
 		window.frame = screen.bounds;
 		
 		view = new UIView();
-		view.frame = new CGRect(0, 0, window.frame.size.width, window.frame.size.height);
-		view.autoresizesSubviews = true;
-		view.autoresizingMask = untyped UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-		view.backgroundColor = UIColor.whiteColor();
-		
-		background = new UIImageView().initWithImage ( UIImage.imageNamed("background_tile.png") );
-		var bs = background.frame;
-		bs.size.width = window.frame.size.width;
-		background.frame = bs;
-		background.alpha = 0.5;
-		footer = new UIImageView().initWithImage ( UIImage.imageNamed("center_bottom.png"));
-		var bs = footer.frame;
-		bs.origin.x = window.frame.size.width/2 - bs.size.width/2;
-		bs.origin.y = window.frame.size.height - bs.size.height;
-		footer.frame = bs;
-		game = new PiratePigGame ();
-		game.frame = view.frame;
-		//game.resize (320, 480);
-		view.addSubview (background);
-		view.addSubview (footer);
-		view.addSubview (game);
 		
 		viewController = new UIViewController();
 		viewController.view = view;
 		window.rootViewController = viewController;
 		window.makeKeyAndVisible();
 		
-		//untyped __objc__("self.view.transform = CGAffineTransformScale(self.view.transform, 0.5, 0.5)");
+		
+		view.frame = new CGRect(0, 20, window.frame.size.width*2, window.frame.size.height*2);
+		view.autoresizesSubviews = true;
+		view.autoresizingMask = untyped UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+		view.backgroundColor = UIColor.grayColor();
+		view.clipsToBounds = true;
+		
+		background = new UIImageView().initWithImage ( UIImage.imageNamed("background_tile.png") );
+		var bs = background.frame;
+		bs.size.width = view.frame.size.width;
+		background.frame = bs;
+		view.addSubview (background);
+		
+		footer = new UIImageView().initWithImage ( UIImage.imageNamed("center_bottom.png"));
+		var bs = footer.frame;
+		bs.origin.x = view.frame.size.width/2 - bs.size.width/2;
+		bs.origin.y = view.frame.size.height - bs.size.height;
+		footer.frame = bs;
+		footer.alpha = 0.5;
+		view.addSubview (footer);
+		
+		game = new PiratePigGame();
+		game.frame = view.frame;
+		//game.resize (320, 480);
+		view.addSubview (game);
+		
+		untyped __objc__("self.view.transform = CGAffineTransformScale(self.view.transform, 0.5, 0.5)");
+		untyped __objc__("self.view.transform = CGAffineTransformTranslate(self.view.transform, -self.window.frame.size.width,-self.window.frame.size.height)");
 		
 		return true;
 	}

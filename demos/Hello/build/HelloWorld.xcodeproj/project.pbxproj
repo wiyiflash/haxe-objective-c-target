@@ -6,10 +6,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C2HCM0OIT3DGU54BEV4A89OG /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = S1U13XGRENVXDX4I41TVQ2VY; };
-		OS2MZVEF7E5NZVWDTLO76KAI /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = Z7YK0CZBVO9LS0EJMO46Q2TU; };
-		V5C82VYZ2V3ZN54GOYGZDA7S /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4Q13AU0Y1KZT64VS09QOS8DM; };
-		Z0MG7FRWQA8REVY5F2C10PJI /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = RK9FSM54BDA9MRMXBZOE2YZL; };
+		AIT14RBPKQZU837SPLYWJYST /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = T19VE2QWBYV8ES3DEHETMHIL; };
+		YDX01ALTJZXBQ0JESI0HZ7ZX /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = O73UOTJ152U3AJGJNGPGUZOL; };
+		4IJZYSHF2WLK8Y8OY5W8Q74S /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = JU4G01UKGYTN5Q5JY7D0VMVN; };
+		Q5HGQT9B9868CMGEQ627LKK6 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DUQU9S5R7UVPZ0F31XO5BUA9; };
 		HAXE.m4d8bd2a07f893120cf /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = HAXEREF.mbd2a07f893120cf; };
 		HAXE.m34d9e6c1a68100ca0c /* Array.m in Sources */ = {isa = PBXBuildFile; fileRef = HAXEREF.m9e6c1a68100ca0c; };
 		HAXE.m18696c9756056a5c1f /* CustomMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = HAXEREF.m96c9756056a5c1f; };
@@ -19,8 +19,8 @@
 		HAXE.mc7a87cb8f63c40e9b2 /* CGColor.m in Sources */ = {isa = PBXBuildFile; fileRef = HAXEREF.m87cb8f63c40e9b2; };
 		HAXE.mfab4c364f2395a5286 /* CGColorSpace.m in Sources */ = {isa = PBXBuildFile; fileRef = HAXEREF.m4c364f2395a5286; };
 		HAXE.m36f2f73291138756c2 /* CGPattern.m in Sources */ = {isa = PBXBuildFile; fileRef = HAXEREF.m2f73291138756c2; };
-		JLXFRWZBRFRHUY8EU91313JQ /* haxe in Resources */ = {isa = PBXBuildFile; fileRef = BODKG9FIOX7DTLCYQKUHPQ0C; };
-		TH3ALTNIUHIE1XSDKRLQGASM /* objc in Resources */ = {isa = PBXBuildFile; fileRef = KT0I5EVLF8S3QF4MEIPWKEGD; };
+		KQ8L6SUR4HRCOVZBTZSZ19FH /* haxe in Resources */ = {isa = PBXBuildFile; fileRef = 05ELSY8XHZSX2547ATGLKOBV; };
+		7WKAL5E2TH5X499ITO3L7U9D /* objc in Resources */ = {isa = PBXBuildFile; fileRef = DOE0TQ15DR7RG3OX9F4Y13YU; };
 		HelloWorld12485253914667 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = HelloWorldff3d47309baf6c /* InfoPlist.strings */; };
 		HelloWorld0cedfd52164e4f /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = HelloWorldad34034122b42f /* InfoPlist.strings */; };
 		HelloWorld489b1422e28349 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = HelloWorld086269c989d672 /* main.m */; };
@@ -38,10 +38,10 @@
 
 
 /* Begin PBXFileReference section */
-		S1U13XGRENVXDX4I41TVQ2VY /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		Z7YK0CZBVO9LS0EJMO46Q2TU /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		4Q13AU0Y1KZT64VS09QOS8DM /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		RK9FSM54BDA9MRMXBZOE2YZL /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		T19VE2QWBYV8ES3DEHETMHIL /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		O73UOTJ152U3AJGJNGPGUZOL /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		JU4G01UKGYTN5Q5JY7D0VMVN /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		DUQU9S5R7UVPZ0F31XO5BUA9 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		HAXEREF.mbd2a07f893120cf /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		HAXEREF.hbd2a07f893120cf /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		HAXEREF.m9e6c1a68100ca0c /* Array.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Array.m; sourceTree = "<group>"; };
@@ -58,8 +58,8 @@
 		HAXEREF.h87cb8f63c40e9b2 /* objc/graphics/CGColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CGColor.h; path = HelloWorld/objc/graphics/CGColor.h; sourceTree = SOURCE_ROOT; };
 		HAXEREF.m4c364f2395a5286 /* objc/graphics/CGColorSpace.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CGColorSpace.m; path = HelloWorld/objc/graphics/CGColorSpace.m; sourceTree = SOURCE_ROOT; };
 		HAXEREF.m2f73291138756c2 /* objc/graphics/CGPattern.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CGPattern.m; path = HelloWorld/objc/graphics/CGPattern.m; sourceTree = SOURCE_ROOT; };
-		BODKG9FIOX7DTLCYQKUHPQ0C /* haxe/ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = haxe; sourceTree = "<group>"; };
-		KT0I5EVLF8S3QF4MEIPWKEGD /* objc/graphics/ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = objc; sourceTree = "<group>"; };
+		05ELSY8XHZSX2547ATGLKOBV /* haxe/ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = haxe; sourceTree = "<group>"; };
+		DOE0TQ15DR7RG3OX9F4Y13YU /* objc/graphics/ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = objc; sourceTree = "<group>"; };
 		HelloWorldc398b4972fe836 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		HelloWorldd17feb0de87b92 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		HelloWorld96bf51aa985ffe /* HelloWorld-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "HelloWorld-Info.plist"; sourceTree = "<group>"; };
@@ -75,10 +75,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C2HCM0OIT3DGU54BEV4A89OG /* UIKit.framework in Frameworks */,
-				OS2MZVEF7E5NZVWDTLO76KAI /* Foundation.framework in Frameworks */,
-				V5C82VYZ2V3ZN54GOYGZDA7S /* CoreGraphics.framework in Frameworks */,
-				Z0MG7FRWQA8REVY5F2C10PJI /* MapKit.framework in Frameworks */,
+				AIT14RBPKQZU837SPLYWJYST /* UIKit.framework in Frameworks */,
+				YDX01ALTJZXBQ0JESI0HZ7ZX /* Foundation.framework in Frameworks */,
+				4IJZYSHF2WLK8Y8OY5W8Q74S /* CoreGraphics.framework in Frameworks */,
+				Q5HGQT9B9868CMGEQ627LKK6 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,10 +86,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C2HCM0OIT3DGU54BEV4A89OG /* UIKit.framework in Frameworks */,
-				OS2MZVEF7E5NZVWDTLO76KAI /* Foundation.framework in Frameworks */,
-				V5C82VYZ2V3ZN54GOYGZDA7S /* CoreGraphics.framework in Frameworks */,
-				Z0MG7FRWQA8REVY5F2C10PJI /* MapKit.framework in Frameworks */,
+				AIT14RBPKQZU837SPLYWJYST /* UIKit.framework in Frameworks */,
+				YDX01ALTJZXBQ0JESI0HZ7ZX /* Foundation.framework in Frameworks */,
+				4IJZYSHF2WLK8Y8OY5W8Q74S /* CoreGraphics.framework in Frameworks */,
+				Q5HGQT9B9868CMGEQ627LKK6 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,10 +118,10 @@
 		HelloWorldbebf3b8bb1f58c /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				S1U13XGRENVXDX4I41TVQ2VY /* UIKit.framework in Frameworks */,
-				Z7YK0CZBVO9LS0EJMO46Q2TU /* Foundation.framework in Frameworks */,
-				4Q13AU0Y1KZT64VS09QOS8DM /* CoreGraphics.framework in Frameworks */,
-				RK9FSM54BDA9MRMXBZOE2YZL /* MapKit.framework in Frameworks */,
+				T19VE2QWBYV8ES3DEHETMHIL /* UIKit.framework in Frameworks */,
+				O73UOTJ152U3AJGJNGPGUZOL /* Foundation.framework in Frameworks */,
+				JU4G01UKGYTN5Q5JY7D0VMVN /* CoreGraphics.framework in Frameworks */,
+				DUQU9S5R7UVPZ0F31XO5BUA9 /* MapKit.framework in Frameworks */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -139,8 +139,8 @@
 				HAXEREF.h40ca72a15e05cc2 /* HelloWorld.h */,
 				HAXEREF.m06d3829667a400a /* String.m */,
 				HAXEREF.h06d3829667a400a /* String.h */,
-				BODKG9FIOX7DTLCYQKUHPQ0C /* haxe/ */,
-				KT0I5EVLF8S3QF4MEIPWKEGD /* objc/graphics/ */,
+				05ELSY8XHZSX2547ATGLKOBV /* haxe/ */,
+				DOE0TQ15DR7RG3OX9F4Y13YU /* objc/graphics/ */,
 				HelloWorld45e84e321c8f8f /* Supporting Files */,
 			);
 			path = HelloWorld;
@@ -248,8 +248,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				HelloWorld12485253914667 /* InfoPlist.strings in Resources */,
-		JLXFRWZBRFRHUY8EU91313JQ /* haxe/ in Resoures */,
-		TH3ALTNIUHIE1XSDKRLQGASM /* objc/graphics/ in Resoures */,
+		KQ8L6SUR4HRCOVZBTZSZ19FH /* haxe/ in Resoures */,
+		7WKAL5E2TH5X499ITO3L7U9D /* objc/graphics/ in Resoures */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

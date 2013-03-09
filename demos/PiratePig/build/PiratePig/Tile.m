@@ -40,11 +40,10 @@
 	[self.superview insertSubview:self atIndex:0];
 	[UIView beginAnimations:[NSMutableString stringWithString:@"fade_out"] context:nil];
 	[UIView setAnimationDelegate:self];
-	[UIView setAnimationDuration:0.6];
+	[UIView setAnimationDuration:0.3];
 	[UIView setAnimationDidStopSelector: @selector(animationDidStop:finished:context:)];
 	self.alpha = 0;
 	CGRect rect = self.frame;
-	rect.origin.x = rect.origin.x - rect.size.width / 2;
 	rect.origin.y = rect.origin.y - rect.size.height / 2;
 	self.frame = rect;
 	[UIView commitAnimations];
@@ -56,12 +55,11 @@
 }
 - (id) init:(NSMutableString*)imagePath{
 	self = [super init];
-	[Log trace:[[NSMutableString stringWithString:@"new tile "] stringByAppendingString:imagePath] infos:[NSDictionary dictionaryWithObjectsAndKeys:@"Tile.hx",@"fileName", @"18",@"lineNumber", @"Tile",@"className", @"new",@"methodName", nil]];
+	[Log trace:[[NSMutableString stringWithString:@"crate new tile "] stringByAppendingString:imagePath] infos:[NSDictionary dictionaryWithObjectsAndKeys:@"Tile.hx",@"fileName", @"18",@"lineNumber", @"Tile",@"className", @"new",@"methodName", nil]];
 	
 	UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imagePath]];
 	[self addSubview:image];
 	self.frame =  CGRectMake(image.frame.origin.x, image.frame.origin.y, image.frame.size.width, image.frame.size.height);
-	self.backgroundColor = [UIColor redColor];
 	self.userInteractionEnabled = YES;
 	return self;
 }

@@ -91,7 +91,9 @@ int main(int argc, char *argv[])
 	
 	self.window.backgroundColor = [UIColor grayColor];
 	
-	NSArray* arr = [NSArray arrayWithObjects:@"a", @"b", @"c", nil];
+	NSMutableArray* arr = [[NSMutableArray alloc] initWithObjects:@"a", @"b", @"c", nil];
+	NSMutableArray* arr2 = [[NSMutableArray alloc] initWithObjects:@"d", @"e", @"f", nil];
+	NSMutableArray* arr3 = [arr concat:arr2];
 	id it = [arr iterator];
 	BOOL(^hasNext)() = [it objectForKey:@"hasNext"];
 	id(^next)() = [it objectForKey:@"next"];
@@ -100,31 +102,32 @@ int main(int argc, char *argv[])
 		NSLog(@"print element of array here %@", obj);
 	}
 	
-	NSLog(@"%i", AppDelegate.length);
-//	NSLog(@"%i", [AppDelegate length]);
-	AppDelegate.length = 6;
-	NSLog(@"%i", AppDelegate.length);
-	//[AppDelegate setLength:6];
-//	NSLog(@"%i", [AppDelegate length]);
+	NSLog(@"arr %@", arr);
+	NSLog(@"arr2 %@", arr2);
+	NSLog(@"arr3 %@", arr3);
+	[arr pop];
+	NSLog(@"arr after pop %@", arr);
+	NSLog(@"arr3 after pop %@", arr3);
 	
-	NSLog(@"%@", [AppDelegate arr]);
-	[AppDelegate setArr: [[NSMutableArray alloc] initWithObjects:[NSMutableString stringWithString:@"game_panda.png"], [NSMutableString stringWithString:@"game_piratePig.png"], nil] ];
-	NSLog(@"%@", [AppDelegate arr]);
+	NSLog(@"%@", [arr safeObjectAtIndex:2]);
+	NSLog(@"%i %i", arr.length, [arr count]);
+	NSLog(@"%@", [arr safeObjectAtIndex:5]);
+	NSLog(@"%i %i", arr.length, [arr count]);
 	
-	NSLog(@"-------------");
-	int type = roundf(rand() %  (8 - 1));
-	int type2 = roundf(rand() %  (8 - 1));
-	NSLog(@"%i %i", type, type2);
+	NSLog(@"%i %i", arr.length, [arr count]);
+	NSLog(@"arr3 %i %i", arr3.length, [arr3 count]);
+	[arr insert:3 x:@"VVVV"];
+	[arr safeReplaceObjectAtIndex:1 withObject:[NSNull null]];
+	[arr push:@"asdsafdsf"];
+	NSLog(@"arr after pop %@", arr);
 	
-	timer = [NSTimer timerWithTimeInterval:0.2 target:self selector:@selector(loop:) userInfo:nil repeats:YES];
-	NSRunLoop *runner = [NSRunLoop currentRunLoop];
-	[runner addTimer:timer forMode: NSDefaultRunLoopMode];
+	
 	
     return YES;
 }
-- (void)loop:(NSTimer*)theTimer {
-	NSLog(@"fff");
-}
+//- (void)loop:(NSTimer*)theTimer {
+//	NSLog(@"fff");
+//}
 
 void(^block_block1)(void) = ^{ NSLog(@"block_block1 block_block1 block_block1"); };
 void(^block_block2)(int i) = ^(int i){ NSLog(@"block_block2 block_block2 block_block2 called %i", i); /*[me login];*/ };

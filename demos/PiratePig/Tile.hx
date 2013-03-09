@@ -15,13 +15,13 @@ class Tile extends UIView {
 	
 	
 	public function new (imagePath:String) {
-		trace("new tile "+imagePath);
+		trace("crate new tile "+imagePath);
 		super();
 		
 		var image = new UIImageView().initWithImage ( UIImage.imageNamed(imagePath));
 		addSubview (image);
 		this.frame = CGGeometry.CGRectMake (image.frame.origin.x, image.frame.origin.y, image.frame.size.width, image.frame.size.height);
-		this.backgroundColor = UIColor.redColor();
+		//this.backgroundColor = UIColor.redColor();
 		
 		userInteractionEnabled = true;
 		
@@ -72,12 +72,12 @@ class Tile extends UIView {
 		// This is how the animations are done
 		UIView.beginAnimations ("fade_out", null);
 		UIView.setAnimationDelegate(this);
-		UIView.setAnimationDuration ( 0.6 );
+		UIView.setAnimationDuration ( 0.3 );
 		untyped __objc__("[UIView setAnimationDidStopSelector: @selector(animationDidStop:finished:context:)]");
 		
 		this.alpha = 0;
 		var rect :CGRect = this.frame;
-		rect.origin.x = rect.origin.x - rect.size.width / 2;
+		//rect.origin.x = rect.origin.x - rect.size.width / 2;
 		rect.origin.y = rect.origin.y - rect.size.height / 2;
 		this.frame = rect;
 		
