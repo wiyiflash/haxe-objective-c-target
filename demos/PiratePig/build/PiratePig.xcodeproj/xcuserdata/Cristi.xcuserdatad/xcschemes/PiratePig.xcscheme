@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "DYBTVP0DURTWW9NM3IYHBR5A"
+               BlueprintIdentifier = "PiratePig97cda0d4237f7d7"
                BuildableName = "PiratePig.app"
                BlueprintName = "PiratePig"
                ReferencedContainer = "container:PiratePig.xcodeproj">
@@ -32,7 +32,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0SJAMQ18OLID4ENPSQE4HJLJ"
+               BlueprintIdentifier = "PiratePig0145bef20b58677"
                BuildableName = "PiratePigTests.octest"
                BlueprintName = "PiratePigTests"
                ReferencedContainer = "container:PiratePig.xcodeproj">
@@ -42,7 +42,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "DYBTVP0DURTWW9NM3IYHBR5A"
+            BlueprintIdentifier = "PiratePig97cda0d4237f7d7"
             BuildableName = "PiratePig.app"
             BlueprintName = "PiratePig"
             ReferencedContainer = "container:PiratePig.xcodeproj">
@@ -61,7 +61,7 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "DYBTVP0DURTWW9NM3IYHBR5A"
+            BlueprintIdentifier = "PiratePig97cda0d4237f7d7"
             BuildableName = "PiratePig.app"
             BlueprintName = "PiratePig"
             ReferencedContainer = "container:PiratePig.xcodeproj">
@@ -79,7 +79,7 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "DYBTVP0DURTWW9NM3IYHBR5A"
+            BlueprintIdentifier = "PiratePig97cda0d4237f7d7"
             BuildableName = "PiratePig.app"
             BlueprintName = "PiratePig"
             ReferencedContainer = "container:PiratePig.xcodeproj">

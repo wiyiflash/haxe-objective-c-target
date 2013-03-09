@@ -12,10 +12,7 @@
 + (NSMutableString*) fromCharCode:(int)code{
 	return [NSString stringWithFormat:@"%C", code];
 }
-// Getters/setters for property: length
-int length__;
-- (int) length { return length__; }
-- (void) setLength:(int)val { length__ = val; }
+// Please provide a getterBody for the property: length
 
 - (NSMutableString*) toUpperCase{
 	return [self uppercaseString];

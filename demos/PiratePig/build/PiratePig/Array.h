@@ -30,8 +30,8 @@
 - (id) iterator;
 - (NSMutableArray*) map:(SEL)f;
 - (NSMutableArray*) filter:(SEL)f;
-- (void) safeReplaceObjectAtIndex:(int)index withObject:(id)withObject;
-- (id) safeObjectAtIndex:(int)index;
+- (void) hx_replaceObjectAtIndex:(int)index withObject:(id)withObject;
+- (id) hx_objectAtIndex:(int)index;
 - (id) init;
 
 @end

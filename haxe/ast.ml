@@ -132,6 +132,7 @@ module Meta = struct
 		| Used
 		| C
 		| Category
+		| GetterBody
 		| Import
 		| Framework
 		| Selector

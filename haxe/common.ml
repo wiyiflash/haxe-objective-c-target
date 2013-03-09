@@ -399,6 +399,7 @@ module MetaInfo = struct
 		| Used -> ":used",("Internally used by DCE to mark a class or field as used",[])
 		| C -> ":c",("Mark a C method in Objective-C code",[Platform ObjC])
 		| Category -> ":category",("Converts a class to an Objective-C category of another class",[Platform ObjC])
+		| GetterBody -> ":getterBody",("Set the code inside a getter method",[UsedOn TClassField;Platform ObjC])
 		| Import -> ":import",("Generates an #import statement for a native class",[Platform ObjC])
 		| Framework -> ":framework",("Generates an #import statement for the framework of a class",[Platform ObjC])
 		| Selector -> ":sel",("It uses this as a signature instead the method arguments",[Platform ObjC])

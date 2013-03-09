@@ -10,16 +10,14 @@
 @implementation NSMutableArray ( Array )
 
 // Getters/setters for property: length
-int length__;
-- (int) length { return length__; }
-- (void) setLength:(int)val { length__ = val; }
+- (int) length { return [self count]; }
+- (void) setLength:(int)val { nil; }
 
 - (NSMutableArray*) concat:(NSMutableArray*)a{
 	
 	NSMutableArray *b = [[NSMutableArray alloc] init];
 	[b addObjectsFromArray:self];
 	[b addObjectsFromArray:a];
-	[b setLength:[b count]];
 	return b;
 }
 - (NSMutableArray*) copy{
@@ -27,7 +25,6 @@ int length__;
 }
 - (void) insert:(int)pos x:(id)x{
 	[self insertObject:(x!=nil?x:[NSNull null]) atIndex:pos];
-	length__++;
 }
 - (NSMutableString*) join:(NSMutableString*)sep{
 	return [NSMutableString stringWithString:[self componentsJoinedByString:sep]];
@@ -40,34 +37,27 @@ int length__;
 	id theLastObject = [self lastObject];
 	if ([theLastObject isKindOfClass:[NSNull class]]) theLastObject = nil;
 	[self removeLastObject];
-	length__--;
 	return theLastObject;
 }
 - (int) push:(id)x{
 	[self addObject:(x!=nil?x:[NSNull null])];
-	length__++;
 	return [self count];
 }
 - (void) unshift:(id)x{
 	[self insertObject:(x!=nil?x:[NSNull null]) atIndex:0];
-	length__++;
 }
 - (BOOL) remove:(id)x{
 	BOOL containsObject = [self containsObject:x];
-	if (containsObject) {
-		[self removeObject:x];
-		length__--;
-	}
+	if (containsObject) [self removeObject:x];
 	return containsObject;
 }
 - (void) reverse{
 	id reverseArray = [[self reverseObjectEnumerator] allObjects];
 }
 - (id) shift{
-	if ([self count] > 0) {
+	if (self.length > 0) {
 		id obj = [self objectAtIndex:0];
 		[self removeObjectAtIndex:0];
-		length__--;
 		return obj;
 	}
 	return nil;
@@ -96,21 +86,18 @@ int length__;
 - (NSMutableArray*) filter:(SEL)f{
 	return nil;
 }
-- (void) safeReplaceObjectAtIndex:(int)index withObject:(id)withObject{
+- (void) hx_replaceObjectAtIndex:(int)index withObject:(id)withObject{
 	if (index >= [self count]) while ([self count] <= index) [self addObject:[NSNull null]];
 	[self replaceObjectAtIndex:index withObject:(withObject==nil?[NSNull null]:withObject)];
-	length__ = [self count];
 }
-- (id) safeObjectAtIndex:(int)index{
+- (id) hx_objectAtIndex:(int)index{
 	if (index >= [self count]) while ([self count] <= index) [self addObject:[NSNull null]];
-	length__ = [self count];
 	id obj = [self objectAtIndex:index];
 	if ([obj isKindOfClass:[NSNull class]]) obj = nil;
 	return obj;
 }
 - (id) init{
 	self = [super init];
-	length__ = 0;
 	return self;
 }
 

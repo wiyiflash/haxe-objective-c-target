@@ -872,12 +872,12 @@ and generateExpression ctx e =
 		(* "-E-Binop>""-gen_val_op-""-E-Array>"["-E-Array>"["-E-Field>""-E-Const>"self.tiles objectAtIndex:"-E-Local>"row] objectAtIndex:"-E-Local>"column] = "-gen_val_op-""-E-Const>"nil; *)
 		if ctx.generating_array_insert then begin
 			generateValue ctx e1;
-			ctx.writer#write " safeReplaceObjectAtIndex:";
+			ctx.writer#write " hx_replaceObjectAtIndex:";
 			generateValue ctx e2;
 		end else begin
 			ctx.writer#write "[";
 			generateValue ctx e1;
-			ctx.writer#write " safeObjectAtIndex:";
+			ctx.writer#write " hx_objectAtIndex:";
 			generateValue ctx e2;
 			ctx.writer#write "]";
 		end
@@ -1639,10 +1639,16 @@ let generateProperty ctx field pos is_static =
 				(* A category can't use the @synthesize, so we create a getter and setter for the property *)
 				(* http://ddeville.me/2011/03/add-variables-to-an-existing-class-in-objective-c/ *)
 				(* let retain = String.length t == String.length (addPointerIfNeeded t) in *)
-				ctx.writer#write ("// Getters/setters for property: "^id^"\n");
-				ctx.writer#write (""^t^(addPointerIfNeeded t)^" "^id^"__;\n");
-				ctx.writer#write ("- ("^t^(addPointerIfNeeded t)^") "^id^" { return "^id^"__; }\n");
-				ctx.writer#write ("- (void) set"^(String.capitalize id)^":("^t^(addPointerIfNeeded t)^")val { "^id^"__ = val; }\n");
+				(* Also, keeping a variable in the category affects all the instances *)
+				(* So we use a metadata to place content in the methods *)
+	
+				if (Meta.has Meta.GetterBody field.cf_meta) then begin
+					
+					ctx.writer#write ("// Getters/setters for property: "^id^"\n");
+					ctx.writer#write ("- ("^t^(addPointerIfNeeded t)^") "^id^" { "^(getMetaValue Meta.GetterBody field.cf_meta)^" }\n");
+					ctx.writer#write ("- (void) set"^(String.capitalize id)^":("^t^(addPointerIfNeeded t)^")val { nil; }\n");
+				end else
+					ctx.writer#write ("// Please provide a getterBody for the property: "^id^"\n");
 			end else begin
 				ctx.writer#write (Printf.sprintf "@synthesize %s;" (remapKeyword id))
 			end
@@ -1799,7 +1805,7 @@ let generateHXObject common_ctx =
 ;;
 
 let generateField ctx is_static field =
-	
+	debug ctx ("\n-F-");
 	ctx.writer#new_line;
 	ctx.in_static <- is_static;
 	ctx.gen_uid <- 0;
