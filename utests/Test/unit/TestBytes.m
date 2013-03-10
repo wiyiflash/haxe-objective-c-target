@@ -11,137 +11,137 @@
 
 - (void) test{
 	
-	NSMutableArray *b = [[NSMutableArray alloc] initWithObjects:[Bytes alloc:[NSNumber numberWithInt:10]], nil];
-	[self eq:[b objectAtIndex:0] length v2:10 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"7",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	NSMutableArray *b = [[NSMutableArray alloc] initWithObject:[Bytes alloc:[NSNumber numberWithInt:10]]];
+	[self eq:[b hx_objectAtIndex:0].length v2:10 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"7",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
 	{
 		int _g = 0;
 		while (_g < 10) {
 			int i = _g++;
-			[self eq:[[b objectAtIndex:0] b objectAtIndex:i] v2:0 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"10",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+			[self eq:[[b hx_objectAtIndex:0].b hx_objectAtIndex:i] v2:0 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"10",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
 		}
 	}
 	[self unspec:^- (void) {
-		[[b objectAtIndex:0] b objectAtIndex:-1];
+		[[b hx_objectAtIndex:0].b hx_objectAtIndex:-1];
 	} pos:nil];
 	[self unspec:^- (void) {
-		[[b objectAtIndex:0] b objectAtIndex:11];
+		[[b hx_objectAtIndex:0].b hx_objectAtIndex:11];
 	} pos:nil];
-	[[b objectAtIndex:0].b objectAtIndex:1] = 20;
-	[self eq:[[b objectAtIndex:0] b objectAtIndex:1] v2:20 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"14",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[b hx_replaceObjectAtIndex:0.b hx_replaceObjectAtIndex:1 withObject:[NSNumber numberWithInt:20]];
+	[self eq:[[b hx_objectAtIndex:0].b hx_objectAtIndex:1] v2:20 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"14",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
 	[self unspec:^- (void) {
-		[[b objectAtIndex:0] b objectAtIndex:-1] = 20;
-	} pos:nil];
-	[self unspec:^- (void) {
-		[[b objectAtIndex:0] b objectAtIndex:11] = 20;
+		[b hx_replaceObjectAtIndex:0.b hx_replaceObjectAtIndex:-1 withObject:[NSNumber numberWithInt:20]];
 	} pos:nil];
 	[self unspec:^- (void) {
-		[[b objectAtIndex:0] b objectAtIndex:0] = 232;
+		[b hx_replaceObjectAtIndex:0.b hx_replaceObjectAtIndex:11 withObject:[NSNumber numberWithInt:20]];
 	} pos:nil];
-	[[b objectAtIndex:0].b objectAtIndex:1] = 86;
-	[self eq:[[b objectAtIndex:0] b objectAtIndex:1] v2:86 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"19",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self unspec:^- (void) {
+		[b hx_replaceObjectAtIndex:0.b hx_replaceObjectAtIndex:0 withObject:[NSNumber numberWithInt:232]];
+	} pos:nil];
+	[b hx_replaceObjectAtIndex:0.b hx_replaceObjectAtIndex:1 withObject:[NSNumber numberWithInt:86]];
+	[self eq:[[b hx_objectAtIndex:0].b hx_objectAtIndex:1] v2:86 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"19",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
 	
-	NSMutableArray *b2 = [[NSMutableArray alloc] initWithObjects:[Bytes ofString:(NSMutableString*)@"ABCD"], nil];
-	[self eq:[b2 objectAtIndex:0] length v2:4 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"22",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[[b2 objectAtIndex:0] b objectAtIndex:0] v2:[(NSMutableString*)@"A" characterAtIndex:0] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"23",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[[b2 objectAtIndex:0] b objectAtIndex:1] v2:[(NSMutableString*)@"B" characterAtIndex:0] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"24",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[[b2 objectAtIndex:0] b objectAtIndex:2] v2:[(NSMutableString*)@"C" characterAtIndex:0] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"25",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[[b2 objectAtIndex:0] b objectAtIndex:3] v2:[(NSMutableString*)@"D" characterAtIndex:0] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"26",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	NSMutableArray *b2 = [[NSMutableArray alloc] initWithObject:[Bytes ofString:[NSMutableString stringWithString:@"ABCD"]]];
+	[self eq:[b2 hx_objectAtIndex:0].length v2:4 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"22",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
+	[self eq:[[b2 hx_objectAtIndex:0].b hx_objectAtIndex:0] v2:[[NSMutableString stringWithString:@"A"] charCodeAt:0] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"23",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
+	[self eq:[[b2 hx_objectAtIndex:0].b hx_objectAtIndex:1] v2:[[NSMutableString stringWithString:@"B"] charCodeAt:0] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"24",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
+	[self eq:[[b2 hx_objectAtIndex:0].b hx_objectAtIndex:2] v2:[[NSMutableString stringWithString:@"C"] charCodeAt:0] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"25",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
+	[self eq:[[b2 hx_objectAtIndex:0].b hx_objectAtIndex:3] v2:[[NSMutableString stringWithString:@"D"] charCodeAt:0] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"26",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
 	
-	Bytes *b3 = [Bytes ofString:(NSMutableString*)@"é"];
-	[self eq:b3 length v2:2 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"28",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[b3 b objectAtIndex:0] v2:195 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"29",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[b3 b objectAtIndex:1] v2:169 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"30",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[[b objectAtIndex:0] blit:3 src:[b2 objectAtIndex:0] srcpos:1 len:3];
-	[self eq:[[b objectAtIndex:0] b objectAtIndex:2] v2:0 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"33",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[[b objectAtIndex:0] b objectAtIndex:3] v2:[(NSMutableString*)@"B" characterAtIndex:0] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"34",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[[b objectAtIndex:0] b objectAtIndex:4] v2:[(NSMutableString*)@"C" characterAtIndex:0] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"35",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[[b objectAtIndex:0] b objectAtIndex:5] v2:[(NSMutableString*)@"D" characterAtIndex:0] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"36",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[[b objectAtIndex:0] b objectAtIndex:6] v2:0 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"37",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	Bytes *b3 = [Bytes ofString:[NSMutableString stringWithString:@"é"]];
+	[self eq:b3.length v2:2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"28",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
+	[self eq:[b3.b hx_objectAtIndex:0] v2:195 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"29",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
+	[self eq:[b3.b hx_objectAtIndex:1] v2:169 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"30",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
+	[[b hx_objectAtIndex:0] blit:3 src:[b2 hx_objectAtIndex:0] srcpos:1 len:3];
+	[self eq:[[b hx_objectAtIndex:0].b hx_objectAtIndex:2] v2:0 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"33",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
+	[self eq:[[b hx_objectAtIndex:0].b hx_objectAtIndex:3] v2:[[NSMutableString stringWithString:@"B"] charCodeAt:0] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"34",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
+	[self eq:[[b hx_objectAtIndex:0].b hx_objectAtIndex:4] v2:[[NSMutableString stringWithString:@"C"] charCodeAt:0] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"35",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
+	[self eq:[[b hx_objectAtIndex:0].b hx_objectAtIndex:5] v2:[[NSMutableString stringWithString:@"D"] charCodeAt:0] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"36",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
+	[self eq:[[b hx_objectAtIndex:0].b hx_objectAtIndex:6] v2:0 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"37",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
 	[self exc:^- (void) {
-		[[b objectAtIndex:0] blit:-1 src:[b2 objectAtIndex:0] srcpos:1 len:3];
-	} pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"38",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+		[[b hx_objectAtIndex:0] blit:-1 src:[b2 hx_objectAtIndex:0] srcpos:1 len:3];
+	} pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"38",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
 	[self exc:^- (void) {
-		[[b objectAtIndex:0] blit:0 src:[b2 objectAtIndex:0] srcpos:2 len:3];
-	} pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"39",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+		[[b hx_objectAtIndex:0] blit:0 src:[b2 hx_objectAtIndex:0] srcpos:2 len:3];
+	} pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"39",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
 	[self exc:^- (void) {
-		[[b objectAtIndex:0] blit:9 src:[b2 objectAtIndex:0] srcpos:1 len:3];
-	} pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"40",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+		[[b hx_objectAtIndex:0] blit:9 src:[b2 hx_objectAtIndex:0] srcpos:1 len:3];
+	} pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"40",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
 	[self exc:^- (void) {
-		[[b objectAtIndex:0] blit:0 src:[b2 objectAtIndex:0] srcpos:-1 len:3];
-	} pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"41",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+		[[b hx_objectAtIndex:0] blit:0 src:[b2 hx_objectAtIndex:0] srcpos:-1 len:3];
+	} pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"41",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
 	[self exc:^- (void) {
-		[[b objectAtIndex:0] blit:0 src:[b2 objectAtIndex:0] srcpos:1 len:-1];
-	} pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"42",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+		[[b hx_objectAtIndex:0] blit:0 src:[b2 hx_objectAtIndex:0] srcpos:1 len:-1];
+	} pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"42",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
 	[self exc:^- (void) {
-		[[b objectAtIndex:0] blit:0 src:[b2 objectAtIndex:0] srcpos:1 len:20];
-	} pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"43",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[[b objectAtIndex:0] blit:4 src:[b objectAtIndex:0] srcpos:3 len:3];
-	[self eq:[[b objectAtIndex:0] b objectAtIndex:2] v2:0 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"46",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[[b objectAtIndex:0] b objectAtIndex:3] v2:[(NSMutableString*)@"B" characterAtIndex:0] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"47",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[[b objectAtIndex:0] b objectAtIndex:4] v2:[(NSMutableString*)@"B" characterAtIndex:0] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"48",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[[b objectAtIndex:0] b objectAtIndex:5] v2:[(NSMutableString*)@"C" characterAtIndex:0] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"49",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[[b objectAtIndex:0] b objectAtIndex:6] v2:[(NSMutableString*)@"D" characterAtIndex:0] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"50",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[[b objectAtIndex:0] b objectAtIndex:7] v2:0 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"51",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[[b objectAtIndex:0] blit:3 src:[b objectAtIndex:0] srcpos:5 len:3];
-	[self eq:[[b objectAtIndex:0] b objectAtIndex:2] v2:0 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"54",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[[b objectAtIndex:0] b objectAtIndex:3] v2:[(NSMutableString*)@"C" characterAtIndex:0] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"55",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[[b objectAtIndex:0] b objectAtIndex:4] v2:[(NSMutableString*)@"D" characterAtIndex:0] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"56",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[[b objectAtIndex:0] b objectAtIndex:5] v2:0 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"57",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[[b objectAtIndex:0] b objectAtIndex:6] v2:[(NSMutableString*)@"D" characterAtIndex:0] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"58",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[[b objectAtIndex:0] b objectAtIndex:7] v2:0 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"59",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+		[[b hx_objectAtIndex:0] blit:0 src:[b2 hx_objectAtIndex:0] srcpos:1 len:20];
+	} pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"43",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
+	[[b hx_objectAtIndex:0] blit:4 src:[b hx_objectAtIndex:0] srcpos:3 len:3];
+	[self eq:[[b hx_objectAtIndex:0].b hx_objectAtIndex:2] v2:0 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"46",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
+	[self eq:[[b hx_objectAtIndex:0].b hx_objectAtIndex:3] v2:[[NSMutableString stringWithString:@"B"] charCodeAt:0] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"47",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
+	[self eq:[[b hx_objectAtIndex:0].b hx_objectAtIndex:4] v2:[[NSMutableString stringWithString:@"B"] charCodeAt:0] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"48",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
+	[self eq:[[b hx_objectAtIndex:0].b hx_objectAtIndex:5] v2:[[NSMutableString stringWithString:@"C"] charCodeAt:0] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"49",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
+	[self eq:[[b hx_objectAtIndex:0].b hx_objectAtIndex:6] v2:[[NSMutableString stringWithString:@"D"] charCodeAt:0] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"50",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
+	[self eq:[[b hx_objectAtIndex:0].b hx_objectAtIndex:7] v2:0 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"51",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
+	[[b hx_objectAtIndex:0] blit:3 src:[b hx_objectAtIndex:0] srcpos:5 len:3];
+	[self eq:[[b hx_objectAtIndex:0].b hx_objectAtIndex:2] v2:0 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"54",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
+	[self eq:[[b hx_objectAtIndex:0].b hx_objectAtIndex:3] v2:[[NSMutableString stringWithString:@"C"] charCodeAt:0] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"55",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
+	[self eq:[[b hx_objectAtIndex:0].b hx_objectAtIndex:4] v2:[[NSMutableString stringWithString:@"D"] charCodeAt:0] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"56",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
+	[self eq:[[b hx_objectAtIndex:0].b hx_objectAtIndex:5] v2:0 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"57",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
+	[self eq:[[b hx_objectAtIndex:0].b hx_objectAtIndex:6] v2:[[NSMutableString stringWithString:@"D"] charCodeAt:0] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"58",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
+	[self eq:[[b hx_objectAtIndex:0].b hx_objectAtIndex:7] v2:0 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"59",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
 	
-	NSMutableArray *bs = [[NSMutableArray alloc] initWithObjects:[Bytes ofString:(NSMutableString*)@"One é accent"], nil];
-	[[bs objectAtIndex:0].b objectAtIndex:3] = 0;
-	[self eq:[[bs objectAtIndex:0] readString:0 len:3] v2:(NSMutableString*)@"One" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"63",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[[bs objectAtIndex:0] readString:4 len:[bs objectAtIndex:0] length - 4] v2:(NSMutableString*)@"é accent" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"64",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[[bs objectAtIndex:0] readString:4 len:2] v2:(NSMutableString*)@"é" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"65",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	NSMutableArray *bs = [[NSMutableArray alloc] initWithObject:[Bytes ofString:[NSMutableString stringWithString:@"One é accent"]]];
+	[bs hx_replaceObjectAtIndex:0.b hx_replaceObjectAtIndex:3 withObject:[NSNumber numberWithInt:0]];
+	[self eq:[[bs hx_objectAtIndex:0] readString:0 len:3] v2:[NSMutableString stringWithString:@"One"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"63",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
+	[self eq:[[bs hx_objectAtIndex:0] readString:4 len:[bs hx_objectAtIndex:0].length - 4] v2:[NSMutableString stringWithString:@"é accent"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"64",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
+	[self eq:[[bs hx_objectAtIndex:0] readString:4 len:2] v2:[NSMutableString stringWithString:@"é"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"65",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
 	[self exc:^- (void) {
-		[[bs objectAtIndex:0] readString:-1 len:1];
-	} pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"66",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+		[[bs hx_objectAtIndex:0] readString:-1 len:1];
+	} pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"66",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
 	[self exc:^- (void) {
-		[[bs objectAtIndex:0] readString:1 len:20];
-	} pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"67",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+		[[bs hx_objectAtIndex:0] readString:1 len:20];
+	} pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"67",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
 	[self unspec:^- (void) {
-		[[bs objectAtIndex:0] readString:4 len:1];
+		[[bs hx_objectAtIndex:0] readString:4 len:1];
 	} pos:nil];
 	[self unspec:^- (void) {
-		[[bs objectAtIndex:0] readString:1 len:5];
+		[[bs hx_objectAtIndex:0] readString:1 len:5];
 	} pos:nil];
-	[self eq:[[b2 objectAtIndex:0] toString] v2:(NSMutableString*)@"ABCD" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"80",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[[b2 hx_objectAtIndex:0] toString] v2:[NSMutableString stringWithString:@"ABCD"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"80",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
 	
-	NSMutableArray *strings = [[NSMutableArray alloc] initWithObjects:(NSMutableString*)@"ABCD", (NSMutableString*)@"ABDC", (NSMutableString*)@"ABCDE", (NSMutableString*)@"ABC", (NSMutableString*)@"BC", (NSMutableString*)@"AAAAAAAAA", nil];
+	NSMutableArray *strings = [[NSMutableArray alloc] initWithObjects:[NSMutableString stringWithString:@"ABCD"], [NSMutableString stringWithString:@"ABDC"], [NSMutableString stringWithString:@"ABCDE"], [NSMutableString stringWithString:@"ABC"], [NSMutableString stringWithString:@"BC"], [NSMutableString stringWithString:@"AAAAAAAAA"], nil];
 	{
 		int _g = 0;
 		while (_g < strings.length) {
 			
-			NSMutableString *s1 = [strings objectAtIndex:_g];
+			NSMutableString *s1 = [strings hx_objectAtIndex:_g];
 			++_g;
 			int _g1 = 0;
 			while (_g1 < strings.length) {
 				
-				NSMutableString *s2 = [strings objectAtIndex:_g1];
+				NSMutableString *s2 = [strings hx_objectAtIndex:_g1];
 				++_g1;
 				int c = [[Bytes ofString:s1] compare:[Bytes ofString:s2]];
-				[self infos:[[[(NSMutableString*)@"compare " stringByAppendingString:s1] stringByAppendingString:(NSMutableString*)@" and "] stringByAppendingString:s2]];
-				[self eq:c < 0 v2:s1 < s2 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"88",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-				[self eq:c > 0 v2:s1 > s2 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"89",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-				[self eq:c == 0 v2:s1 == s2 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"90",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+				[self infos:[[[[NSMutableString stringWithString:@"compare "] stringByAppendingString:s1] stringByAppendingString:[NSMutableString stringWithString:@" and "]] stringByAppendingString:s2]];
+				[self eq:c < 0 v2:s1 < s2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"88",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
+				[self eq:c > 0 v2:s1 > s2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"89",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
+				[self eq:c == 0 v2:s1 == s2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"90",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
 			}
 		}
 	}
 	[self infos:nil];
 	
-	NSMutableArray *bs1 = [[NSMutableArray alloc] initWithObjects:[Bytes ofString:(NSMutableString*)@"ABCDEFGH"], nil];
-	[self eq:[[[bs1 objectAtIndex:0] sub:1 len:3] compare:[Bytes ofString:(NSMutableString*)@"BCD"]] v2:0 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"95",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	NSMutableArray *bs1 = [[NSMutableArray alloc] initWithObject:[Bytes ofString:[NSMutableString stringWithString:@"ABCDEFGH"]]];
+	[self eq:[[[bs1 hx_objectAtIndex:0] sub:1 len:3] compare:[Bytes ofString:[NSMutableString stringWithString:@"BCD"]]] v2:0 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"95",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
 	[self exc:^- (void) {
-		[[bs1 objectAtIndex:0] sub:-1 len:3];
-	} pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"96",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+		[[bs1 hx_objectAtIndex:0] sub:-1 len:3];
+	} pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"96",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
 	[self exc:^- (void) {
-		[[bs1 objectAtIndex:0] sub:1 len:-1];
-	} pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"97",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+		[[bs1 hx_objectAtIndex:0] sub:1 len:-1];
+	} pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"97",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
 	[self exc:^- (void) {
-		[[bs1 objectAtIndex:0] sub:1 len:10];
-	} pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"98",@"unit.TestBytes",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+		[[bs1 hx_objectAtIndex:0] sub:1 len:10];
+	} pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"98",@"lineNumber", @"unit.TestBytes",@"className", @"test",@"methodName", nil]];
 }
 - (void) testBuffer{
 	
@@ -150,33 +150,32 @@
 		int _g = 1;
 		while (_g < 6) {
 			int i = _g++;
-			[_out.b appendBytes:_out.b mutableBytes length:i];
+			[_out.b appendBytes:_out.b.mutableBytes length:i];
 		}
 	}
-	if (4 > [Bytes ofString:(NSMutableString*)@"ABCDEF"].length) @throw  OutsideBounds;;
+	if (4 > [Bytes ofString:[NSMutableString stringWithString:@"ABCDEF"]].length) @throw  OutsideBounds;;
 	
 	Bytes *b = [_out getBytes];
 	
-	NSMutableString *str = (NSMutableString*)@"ABCDEFBCD";
-	[self eq:b length v2:str.length pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"109",@"unit.TestBytes",@"testBuffer",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	NSMutableString *str = [NSMutableString stringWithString:@"ABCDEFBCD"];
+	[self eq:b.length v2:str.length pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"109",@"lineNumber", @"unit.TestBytes",@"className", @"testBuffer",@"methodName", nil]];
 	{
 		int _g1 = 0; int _g = str.length;
 		while (_g1 < _g) {
 			int i = _g1++;
-			[self eq:[b b objectAtIndex:i] v2:[str characterAtIndex:i] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"111",@"unit.TestBytes",@"testBuffer",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+			[self eq:[b.b hx_objectAtIndex:i] v2:[str charCodeAt:i] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"111",@"lineNumber", @"unit.TestBytes",@"className", @"testBuffer",@"methodName", nil]];
 		}
 	}
 }
 - (void) testInput{
 	
-	Bytes *bs = [Bytes ofString:(NSMutableString*)@"One é accent"];
+	Bytes *bs = [Bytes ofString:[NSMutableString stringWithString:@"One é accent"]];
 	
 	BytesInput *input = [[BytesInput alloc] init:bs pos:nil len:nil];
-	[self eq:[[input readAll:nil] toString] v2:(NSMutableString*)@"One é accent" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBytes.hx",@"118",@"unit.TestBytes",@"testInput",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[[input readAll:nil] toString] v2:[NSMutableString stringWithString:@"One é accent"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBytes.hx",@"fileName", @"118",@"lineNumber", @"unit.TestBytes",@"className", @"testInput",@"methodName", nil]];
 }
 - (id) init{
 	self = [super init];
-	[super];
 	return self;
 }
 

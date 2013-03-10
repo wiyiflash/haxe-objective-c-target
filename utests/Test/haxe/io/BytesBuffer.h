@@ -6,11 +6,11 @@
 //
 
 
-#import <Foundation/Foundation.h>
 
+#import "../../objc/foundation/NSData.h"
 #import "../../haxe/io/Bytes.h"
 
-@interface BytesBuffer : HXObject
+@interface BytesBuffer : NSObject
 
 @property (nonatomic, strong) NSMutableData *b;
 - (Bytes*) getBytes;

@@ -10,9 +10,10 @@
 @implementation HashMapImpl
 
 + (id) _new{
-	return struct {
-	keys:[[IntMap alloc] init]; values:[[IntMap alloc] init]
-	} structName;
+	return [NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[[IntMap alloc] init] copy], @"keys",
+	[[[IntMap alloc] init] copy], @"values",
+	nil];
 }
 
 @end

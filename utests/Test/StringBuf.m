@@ -12,7 +12,7 @@
 @synthesize b;
 - (id) init{
 	self = [super init];
-	self.b = (NSMutableString*)@"";
+	self.b = [NSMutableString stringWithString:@""];
 	return self;
 }
 

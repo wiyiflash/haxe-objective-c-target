@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "Date.h"
+#import "objc/foundation/NSCalendar.h"
 #import "String.h"
 #import "Array.h"
 #import "Std.h"
@@ -18,7 +18,7 @@
 + (NSDate*) now;
 + (NSDate*) fromString:(NSMutableString*)s;
 @property (nonatomic, strong) NSCalendar *_calendar;
-@property (nonatomic, strong) NSDateComponents *_components;
+@property (nonatomic) id _components;
 - (int) getHours;
 - (int) getMinutes;
 - (int) getSeconds;

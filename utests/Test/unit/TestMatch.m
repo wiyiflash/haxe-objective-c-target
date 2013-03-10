@@ -17,7 +17,7 @@
 		case 0:
 		
 		var MATCH e_fexpr_eEConst_0 : Expr = $e2.params[0]{
-			__r__ = ^(NSMutableString*)
+			__r__ = ^(id)
 			var $e4 : enum =  (e_fexpr_eEConst_0)
 			switch ( $e4.index ) {
 				
@@ -26,23 +26,23 @@
 				var MATCH e_fexpr_eEConst_0_eCString_0 : NSMutableString = $e4.params[0]{
 					__r__3 = e_fexpr_eEConst_0_eCString_0}break
 				default:{
-					__r__3 = (NSMutableString*)@"not_found"}break
+					__r__3 = [NSMutableString stringWithString:@"not_found"]}break
 			}
 			return __r__3{
 				
-				NSMutableString* __r__3}
+				id* __r__3}
 			}()}break
 		case 4:
 		
 		var MATCH e_fexpr_eEParenthesis_0 : id = $e2.params[0]{
-			__r__ = ^(NSMutableString*)
+			__r__ = ^(id)
 			var $e6 : enum =  (e_fexpr_eEParenthesis_0 expr)
 			switch ( $e6.index ) {
 				
 				case 0:
 				
 				var MATCH e_fexpr_eEParenthesis_0_fexpr_eEConst_0 : Expr = $e6.params[0]{
-					__r__5 = ^(NSMutableString*)
+					__r__5 = ^(id)
 					var $e8 : enum =  (e_fexpr_eEParenthesis_0_fexpr_eEConst_0)
 					switch ( $e8.index ) {
 						
@@ -51,30 +51,30 @@
 						var MATCH e_fexpr_eEParenthesis_0_fexpr_eEConst_0_eCString_0 : NSMutableString = $e8.params[0]{
 							__r__7 = e_fexpr_eEParenthesis_0_fexpr_eEConst_0_eCString_0}break
 						default:{
-							__r__7 = (NSMutableString*)@"not_found"}break
+							__r__7 = [NSMutableString stringWithString:@"not_found"]}break
 					}
 					return __r__7{
 						
-						NSMutableString* __r__7}
+						id* __r__7}
 					}()}break
 				default:{
-					__r__5 = (NSMutableString*)@"not_found"}break
+					__r__5 = [NSMutableString stringWithString:@"not_found"]}break
 			}
 			return __r__5{
 				
-				NSMutableString* __r__5}
+				id* __r__5}
 			}()}break
 		case 22:
 		
 		var MATCH e_fexpr_eEUntyped_0 : id = $e2.params[0]{
-			__r__ = ^(NSMutableString*)
+			__r__ = ^(id)
 			var $e10 : enum =  (e_fexpr_eEUntyped_0 expr)
 			switch ( $e10.index ) {
 				
 				case 0:
 				
 				var MATCH e_fexpr_eEUntyped_0_fexpr_eEConst_0 : Expr = $e10.params[0]{
-					__r__9 = ^(NSMutableString*)
+					__r__9 = ^(id)
 					var $e12 : enum =  (e_fexpr_eEUntyped_0_fexpr_eEConst_0)
 					switch ( $e12.index ) {
 						
@@ -83,18 +83,18 @@
 						var MATCH e_fexpr_eEUntyped_0_fexpr_eEConst_0_eCString_0 : NSMutableString = $e12.params[0]{
 							__r__11 = e_fexpr_eEUntyped_0_fexpr_eEConst_0_eCString_0}break
 						default:{
-							__r__11 = (NSMutableString*)@"not_found"}break
+							__r__11 = [NSMutableString stringWithString:@"not_found"]}break
 					}
 					return __r__11{
 						
-						NSMutableString* __r__11}
+						id* __r__11}
 					}()}break
 				default:{
-					__r__9 = (NSMutableString*)@"not_found"}break
+					__r__9 = [NSMutableString stringWithString:@"not_found"]}break
 			}
 			return __r__9{
 				
-				NSMutableString* __r__9}
+				id* __r__9}
 			}()}break
 		case 3:
 		
@@ -103,14 +103,14 @@
 		case 1:
 		
 		var MATCH e_fexpr_eEArray_1 : id = $e2.params[1], MATCH e_fexpr_eEArray_0 : id = $e2.params[0]{
-			__r__ = ^(NSMutableString*)
+			__r__ = ^(id)
 			var $e14 : enum =  (e_fexpr_eEArray_1 expr)
 			switch ( $e14.index ) {
 				
 				case 0:
 				
 				var MATCH e_fexpr_eEArray_1_fexpr_eEConst_0 : Expr = $e14.params[0]{
-					__r__13 = ^(NSMutableString*)
+					__r__13 = ^(id)
 					var $e16 : enum =  (e_fexpr_eEArray_1_fexpr_eEConst_0)
 					switch ( $e16.index ) {
 						
@@ -121,25 +121,25 @@
 						var MATCH e_fexpr_eEArray_1_fexpr_eEConst_0_eCInt_0 : NSMutableString = $e16.params[0]{
 							__r__15 = [Std string:e_fexpr_eEArray_1_fexpr_eEConst_0_eCInt_0]}break
 						default:{
-							__r__15 = (NSMutableString*)@"not_found"}break
+							__r__15 = [NSMutableString stringWithString:@"not_found"]}break
 					}
 					return __r__15{
 						
-						NSMutableString* __r__15}
+						id* __r__15}
 					}()}break
 				default:{
-					__r__13 = (NSMutableString*)@"not_found"}break
+					__r__13 = [NSMutableString stringWithString:@"not_found"]}break
 			}
 			return __r__13{
 				
-				NSMutableString* __r__13}
+				id* __r__13}
 			}()}break
 		case 14:
 		
 		var MATCH e_fexpr_eEIn_1 : id = $e2.params[1]{
 			__r__ = [Std string:e_fexpr_eEIn_1 expr]}break
 		default:{
-			__r__ = (NSMutableString*)@"not_found"}break
+			__r__ = [NSMutableString stringWithString:@"not_found"]}break
 	}
 	return __r__{
 		
@@ -154,42 +154,42 @@
 		case 0:
 		
 		var MATCH e_fexpr_eEConst_0 : Expr = $e2.params[0]{
-			__r__ = ^(Expr*)
+			__r__ = ^(id)
 			var $e4 : enum =  (e_fexpr_eEConst_0)
 			switch ( $e4.index ) {
 				
 				case 2:
 				
 				var MATCH e_fexpr_eEConst_0_eCString_0 : NSMutableString = $e4.params[0]{
-					__r__3 = ^(Expr*)switch (e_fexpr_eEConst_0_eCString_0){
-						case (NSMutableString*)@"foobar":{
+					__r__3 = ^(id)switch (e_fexpr_eEConst_0_eCString_0){
+						case [NSMutableString stringWithString:@"foobar"]:{
 							__r__5 = e_fexpr_eEConst_0}break;
 						default:{
 							__r__5 = nil}break;
 					}
 					return __r__5{
 						
-						Expr* __r__5}
+						id* __r__5}
 					}()}break
 				case 0:
 				
 				var MATCH e_fexpr_eEConst_0_eCInt_0 : NSMutableString = $e4.params[0]{
-					__r__3 = ^(Expr*)switch (e_fexpr_eEConst_0_eCInt_0){
-						case (NSMutableString*)@"9":{
+					__r__3 = ^(id)switch (e_fexpr_eEConst_0_eCInt_0){
+						case [NSMutableString stringWithString:@"9"]:{
 							__r__6 = e_fexpr_eEConst_0}break;
 						default:{
 							__r__6 = nil}break;
 					}
 					return __r__6{
 						
-						Expr* __r__6}
+						id* __r__6}
 					}()}break
 				default:{
 					__r__3 = nil}break
 			}
 			return __r__3{
 				
-				Expr* __r__3}
+				id* __r__3}
 			}()}break
 		default:{
 			__r__ = nil}break
@@ -207,22 +207,22 @@
 		case 6:
 		
 		var MATCH e_fexpr_eEArrayDecl_0 : NSMutableArray = $e2.params[0]{
-			__r__ = ^(NSMutableString*)switch (e_fexpr_eEArrayDecl_0.length){
+			__r__ = ^(id)switch (e_fexpr_eEArrayDecl_0.length){
 				case 0:{
-					__r__3 = (NSMutableString*)@"[]"}break;
+					__r__3 = [NSMutableString stringWithString:@"[]"]}break;
 				case 1:{
-					__r__3 = [[(NSMutableString*)@"[" stringByAppendingString:[Std string:[e_fexpr_eEArrayDecl_0 objectAtIndex:@"0"] expr]] stringByAppendingString:(NSMutableString*)@"]"]}break;
+					__r__3 = [[[NSMutableString stringWithString:@"["] stringByAppendingString:[Std string:[e_fexpr_eEArrayDecl_0 hx_objectAtIndex:@"0"] expr]] stringByAppendingString:[NSMutableString stringWithString:@"]"]]}break;
 				case 2:{
-					__r__3 = [[[[(NSMutableString*)@"[" stringByAppendingString:[Std string:[e_fexpr_eEArrayDecl_0 objectAtIndex:@"0"] expr]] stringByAppendingString:(NSMutableString*)@","] stringByAppendingString:[Std string:[e_fexpr_eEArrayDecl_0 objectAtIndex:@"1"] expr]] stringByAppendingString:(NSMutableString*)@"]"]}break;
+					__r__3 = [[[[[NSMutableString stringWithString:@"["] stringByAppendingString:[Std string:[e_fexpr_eEArrayDecl_0 hx_objectAtIndex:@"0"] expr]] stringByAppendingString:[NSMutableString stringWithString:@","]] stringByAppendingString:[Std string:[e_fexpr_eEArrayDecl_0 hx_objectAtIndex:@"1"] expr]] stringByAppendingString:[NSMutableString stringWithString:@"]"]]}break;
 				default:{
-					__r__3 = (NSMutableString*)@"_"}break;
+					__r__3 = [NSMutableString stringWithString:@"_"]}break;
 			}
 			return __r__3{
 				
-				NSMutableString* __r__3}
+				id* __r__3}
 			}()}break
 		default:{
-			__r__ = (NSMutableString*)@"_"}break
+			__r__ = [NSMutableString stringWithString:@"_"]}break
 	}
 	return __r__{
 		
@@ -232,42 +232,42 @@
 + (NSMutableString*) switchArray2:(NSMutableArray*)a{
 	return ^(NSMutableString*)switch (a.length){
 		case 2:{
-			__r__ = ^(NSMutableString*)switch ([a objectAtIndex:0]){
-				case (NSMutableString*)@"a":{
-					__r__2 = ^(NSMutableString*)switch ([a objectAtIndex:1]){
-						case (NSMutableString*)@"b":{
-							__r__3 = (NSMutableString*)@"0"}break;
+			__r__ = ^(id)switch ([a hx_objectAtIndex:0]){
+				case [NSMutableString stringWithString:@"a"]:{
+					__r__2 = ^(id)switch ([a hx_objectAtIndex:1]){
+						case [NSMutableString stringWithString:@"b"]:{
+							__r__3 = [NSMutableString stringWithString:@"0"]}break;
 						default:{
-							__r__3 = [[[(NSMutableString*)@"4:" stringByAppendingString:[a objectAtIndex:@"0"]] stringByAppendingString:(NSMutableString*)@","] stringByAppendingString:[a objectAtIndex:@"1"]]}break;
+							__r__3 = [[[[NSMutableString stringWithString:@"4:"] stringByAppendingString:[a hx_objectAtIndex:@"0"]] stringByAppendingString:[NSMutableString stringWithString:@","]] stringByAppendingString:[a hx_objectAtIndex:@"1"]]}break;
 					}
 					return __r__3{
 						
-						NSMutableString* __r__3}
+						id* __r__3}
 					}()}break;
 				default:{
-					__r__2 = [[[(NSMutableString*)@"4:" stringByAppendingString:[a objectAtIndex:@"0"]] stringByAppendingString:(NSMutableString*)@","] stringByAppendingString:[a objectAtIndex:@"1"]]}break;
+					__r__2 = [[[[NSMutableString stringWithString:@"4:"] stringByAppendingString:[a hx_objectAtIndex:@"0"]] stringByAppendingString:[NSMutableString stringWithString:@","]] stringByAppendingString:[a hx_objectAtIndex:@"1"]]}break;
 			}
 			return __r__2{
 				
-				NSMutableString* __r__2}
+				id* __r__2}
 			}()}break;
 		case 1:{
-			__r__ = ^(NSMutableString*)switch ([a objectAtIndex:0]){
-				case (NSMutableString*)@"a":{
-					__r__4 = (NSMutableString*)@"1"}break;
-				case (NSMutableString*)@"b":{
-					__r__4 = (NSMutableString*)@"2"}break;
+			__r__ = ^(id)switch ([a hx_objectAtIndex:0]){
+				case [NSMutableString stringWithString:@"a"]:{
+					__r__4 = [NSMutableString stringWithString:@"1"]}break;
+				case [NSMutableString stringWithString:@"b"]:{
+					__r__4 = [NSMutableString stringWithString:@"2"]}break;
 				default:{
-					__r__4 = [(NSMutableString*)@"3:" stringByAppendingString:[a objectAtIndex:@"0"]]}break;
+					__r__4 = [[NSMutableString stringWithString:@"3:"] stringByAppendingString:[a hx_objectAtIndex:@"0"]]}break;
 			}
 			return __r__4{
 				
-				NSMutableString* __r__4}
+				id* __r__4}
 			}()}break;
 		case 0:{
-			__r__ = ( (a.length == 3) ? [(NSMutableString*)@"5:" stringByAppendingString:a.length] : (NSMutableString*)@"6")}break;
+			__r__ = ( (a.length == 3) ? [[NSMutableString stringWithString:@"5:"] stringByAppendingString:a.length] : [NSMutableString stringWithString:@"6"])}break;
 		default:{
-			__r__ = ( (a.length == 3) ? [(NSMutableString*)@"5:" stringByAppendingString:a.length] : (NSMutableString*)@"7")}break;
+			__r__ = ( (a.length == 3) ? [[NSMutableString stringWithString:@"5:"] stringByAppendingString:a.length] : [NSMutableString stringWithString:@"7"])}break;
 	}
 	return __r__{
 		
@@ -276,27 +276,27 @@
 }
 + (NSMutableString*) switchStructure:(id)a{
 	return ^(NSMutableString*)switch (a foo){
-		case (NSMutableString*)@"val1":{
-			__r__ = ^(NSMutableString*)switch (a bar){
-				case (NSMutableString*)@"val2":{
-					__r__2 = (NSMutableString*)@"0"}break;
+		case [NSMutableString stringWithString:@"val1"]:{
+			__r__ = ^(id)switch (a bar){
+				case [NSMutableString stringWithString:@"val2"]:{
+					__r__2 = [NSMutableString stringWithString:@"0"]}break;
 				default:{
-					__r__2 = (NSMutableString*)@"1"}break;
+					__r__2 = [NSMutableString stringWithString:@"1"]}break;
 			}
 			return __r__2{
 				
-				NSMutableString* __r__2}
+				id* __r__2}
 			}()}break;
 		default:{
-			__r__ = ^(NSMutableString*)switch (a bar){
-				case (NSMutableString*)@"val2":{
-					__r__3 = (NSMutableString*)@"2"}break;
+			__r__ = ^(id)switch (a bar){
+				case [NSMutableString stringWithString:@"val2"]:{
+					__r__3 = [NSMutableString stringWithString:@"2"]}break;
 				default:{
 					__r__3 = a bar}break;
 			}
 			return __r__3{
 				
-				NSMutableString* __r__3}
+				id* __r__3}
 			}()}break;
 	}
 	return __r__{
@@ -312,93 +312,93 @@
 		case 22:
 		
 		var MATCH e_fexpr_eEUntyped_0 : id = $e2.params[0]{
-			__r__ = ^(NSMutableString*)
+			__r__ = ^(id)
 			var $e4 : enum =  (e_fexpr_eEUntyped_0 expr)
 			switch ( $e4.index ) {
 				
 				case 4:
 				
 				var MATCH e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0 : id = $e4.params[0]{
-					__r__3 = ^(NSMutableString*)
+					__r__3 = ^(id)
 					var $e6 : enum =  (e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0 expr)
 					switch ( $e6.index ) {
 						
 						case 1:
 						
 						var MATCH e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_1 : id = $e6.params[1], MATCH e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_0 : id = $e6.params[0]{
-							__r__5 = ^(NSMutableString*)
+							__r__5 = ^(id)
 							var $e8 : enum =  (e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_0 expr)
 							switch ( $e8.index ) {
 								
 								case 0:
 								
 								var MATCH e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_0_fexpr_eEConst_0 : Expr = $e8.params[0]{
-									__r__7 = ^(NSMutableString*)
+									__r__7 = ^(id)
 									var $e10 : enum =  (e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_0_fexpr_eEConst_0)
 									switch ( $e10.index ) {
 										
 										case 2:
 										
 										var MATCH e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_0_fexpr_eEConst_0_eCString_0 : NSMutableString = $e10.params[0]{
-											__r__9 = ^(NSMutableString*)
+											__r__9 = ^(id)
 											var $e12 : enum =  (e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_1 expr)
 											switch ( $e12.index ) {
 												
 												case 0:
 												
 												var MATCH e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_1_fexpr_eEConst_0 : Expr = $e12.params[0]{
-													__r__11 = ^(NSMutableString*)
+													__r__11 = ^(id)
 													var $e14 : enum =  (e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_1_fexpr_eEConst_0)
 													switch ( $e14.index ) {
 														
 														case 0:
 														
 														var MATCH e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_1_fexpr_eEConst_0_eCInt_0 : NSMutableString = $e14.params[0]{
-															__r__13 = [[[Std string:e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_0 expr] stringByAppendingString:(NSMutableString*)@":"] stringByAppendingString:e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_1_fexpr_eEConst_0_eCInt_0]}break
+															__r__13 = [[[Std string:e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_0 expr] stringByAppendingString:[NSMutableString stringWithString:@":"]] stringByAppendingString:e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_1_fexpr_eEConst_0_eCInt_0]}break
 														default:{
-															__r__13 = (NSMutableString*)@"_"}break
+															__r__13 = [NSMutableString stringWithString:@"_"]}break
 													}
 													return __r__13{
 														
-														NSMutableString* __r__13}
+														id* __r__13}
 													}()}break
 												default:{
-													__r__11 = (NSMutableString*)@"_"}break
+													__r__11 = [NSMutableString stringWithString:@"_"]}break
 											}
 											return __r__11{
 												
-												NSMutableString* __r__11}
+												id* __r__11}
 											}()}break
 										default:{
-											__r__9 = (NSMutableString*)@"_"}break
+											__r__9 = [NSMutableString stringWithString:@"_"]}break
 									}
 									return __r__9{
 										
-										NSMutableString* __r__9}
+										id* __r__9}
 									}()}break
 								default:{
-									__r__7 = (NSMutableString*)@"_"}break
+									__r__7 = [NSMutableString stringWithString:@"_"]}break
 							}
 							return __r__7{
 								
-								NSMutableString* __r__7}
+								id* __r__7}
 							}()}break
 						default:{
-							__r__5 = (NSMutableString*)@"_"}break
+							__r__5 = [NSMutableString stringWithString:@"_"]}break
 					}
 					return __r__5{
 						
-						NSMutableString* __r__5}
+						id* __r__5}
 					}()}break
 				default:{
-					__r__3 = (NSMutableString*)@"_"}break
+					__r__3 = [NSMutableString stringWithString:@"_"]}break
 			}
 			return __r__3{
 				
-				NSMutableString* __r__3}
+				id* __r__3}
 			}()}break
 		default:{
-			__r__ = (NSMutableString*)@"_"}break
+			__r__ = [NSMutableString stringWithString:@"_"]}break
 	}
 	return __r__{
 		
@@ -413,19 +413,19 @@
 		case 0:
 		
 		var MATCH e_fexpr_eEConst_0 : Expr = $e2.params[0]{
-			__r__ = ^(NSMutableString*)
+			__r__ = ^(id)
 			var $e4 : enum =  (e_fexpr_eEConst_0)
 			switch ( $e4.index ) {
 				
 				case 2:
 				
 				var MATCH e_fexpr_eEConst_0_eCString_0 : NSMutableString = $e4.params[0]{
-					__r__3 = ( ([StringTools startsWith:e_fexpr_eEConst_0_eCString_0 start:(NSMutableString*)@"foo"]) ? (NSMutableString*)@"1" : ( ([StringTools startsWith:e_fexpr_eEConst_0_eCString_0 start:(NSMutableString*)@"bar"]) ? (NSMutableString*)@"2" : (NSMutableString*)@"4"))}break
+					__r__3 = ( ([StringTools startsWith:e_fexpr_eEConst_0_eCString_0 start:[NSMutableString stringWithString:@"foo"]]) ? [NSMutableString stringWithString:@"1"] : ( ([StringTools startsWith:e_fexpr_eEConst_0_eCString_0 start:[NSMutableString stringWithString:@"bar"]]) ? [NSMutableString stringWithString:@"2"] : [NSMutableString stringWithString:@"4"]))}break
 				case 0:
 				
 				var MATCH e_fexpr_eEConst_0_eCInt_0 : NSMutableString = $e4.params[0]{
 					__r__3 = ( (^(BOOL)int _g = [Std parseInt:e_fexpr_eEConst_0_eCInt_0] * 2
-					__r__5 = ^(id)switch (_g){
+					__r__5 = ^(BOOL)switch (_g){
 						case 4:{
 							__r__6 = YES}break;
 						default:{
@@ -433,21 +433,21 @@
 					}
 					return __r__6{
 						
-						id* __r__6}
+						BOOL* __r__6}
 					}()
 					return __r__5{
 						
 						BOOL* __r__5}
-					}()) ? (NSMutableString*)@"3" : (NSMutableString*)@"4")}break
+					}()) ? [NSMutableString stringWithString:@"3"] : [NSMutableString stringWithString:@"4"])}break
 				default:{
-					__r__3 = (NSMutableString*)@"4"}break
+					__r__3 = [NSMutableString stringWithString:@"4"]}break
 			}
 			return __r__3{
 				
-				NSMutableString* __r__3}
+				id* __r__3}
 			}()}break
 		default:{
-			__r__ = (NSMutableString*)@"5"}break
+			__r__ = [NSMutableString stringWithString:@"5"]}break
 	}
 	return __r__{
 		
@@ -457,11 +457,11 @@
 + (NSMutableString*) switchClass:(Class*)cl{
 	return ^(NSMutableString*)switch (cl){
 		case NSMutableString:{
-			__r__ = (NSMutableString*)@"String"}break;
+			__r__ = [NSMutableString stringWithString:@"String"]}break;
 		case MyClass:{
-			__r__ = (NSMutableString*)@"unit.MyClass"}break;
+			__r__ = [NSMutableString stringWithString:@"unit.MyClass"]}break;
 		default:{
-			__r__ = [(NSMutableString*)@"other: " stringByAppendingString:[Type getClassName:cl]]}break;
+			__r__ = [[NSMutableString stringWithString:@"other: "] stringByAppendingString:[Type getClassName:cl]]}break;
 	}
 	return __r__{
 		
@@ -476,14 +476,14 @@
 		case 0:
 		
 		var MATCH x1_eU1_0 : int = $e2.params[0]{
-			__r__ = ( (x1_eU1_0 > 1) ? (NSMutableString*)@">1" : ( (x1_eU1_0 <= 1) ? (NSMutableString*)@"<=1" : ^(NSMutableString*)@throw (NSMutableString*)@"this is impossible to reach actually";
+			__r__ = ( (x1_eU1_0 > 1) ? [NSMutableString stringWithString:@">1"] : ( (x1_eU1_0 <= 1) ? [NSMutableString stringWithString:@"<=1"] : ^(NSMutableString*)@throw [NSMutableString stringWithString:@"this is impossible to reach actually"];
 			return __r__3{
 				
 				NSMutableString* __r__3}
 			}()))}break
 		case 1:
 		{
-			__r__ = (NSMutableString*)@"U2"}break
+			__r__ = [NSMutableString stringWithString:@"U2"]}break
 	}
 	return __r__{
 		
@@ -491,572 +491,707 @@
 	}();
 }
 - (void) testBasic{
-	[self eq:(NSMutableString*)@"bar" v2:[TestMatch switchNormal:(id)struct {
-	expr:FEnum[ EConst:FEnum[ CString:(NSMutableString*)@"bar"]]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:2832; max:2837
-	} structName
-	} structName] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"123",@"unit.TestMatch",@"testBasic",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"bar" v2:[TestMatch switchNormal:(id)struct {
-	expr:FEnum[ EParenthesis:struct {
-	expr:FEnum[ EConst:FEnum[ CString:(NSMutableString*)@"bar"]]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:2874; max:2879
-	} structName
-	} structName]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:2873; max:2880
-	} structName
-	} structName] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"124",@"unit.TestMatch",@"testBasic",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"bar" v2:[TestMatch switchNormal:(id)struct {
-	expr:FEnum[ EUntyped:struct {
-	expr:FEnum[ EConst:FEnum[ CString:(NSMutableString*)@"bar"]]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:2924; max:2929
-	} structName
-	} structName]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:2916; max:2929
-	} structName
-	} structName] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"125",@"unit.TestMatch",@"testBasic",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"foo" v2:[TestMatch switchNormal:(id)struct {
-	expr:FEnum[ EField:struct {
-	expr:FEnum[ EConst:FEnum[ CIdent:(NSMutableString*)@"null"]]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:2965; max:2969
-	} structName
-	} structName field:(NSMutableString*)@"foo"]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:2965; max:2973
-	} structName
-	} structName] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"126",@"unit.TestMatch",@"testBasic",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"22" v2:[TestMatch switchNormal:(id)struct {
-	expr:FEnum[ EArray:struct {
-	expr:FEnum[ EConst:FEnum[ CIdent:(NSMutableString*)@"null"]]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:3008; max:3012
-	} structName
-	} structName e2:struct {
-	expr:FEnum[ EConst:FEnum[ CInt:(NSMutableString*)@"22"]]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:3013; max:3015
-	} structName
-	} structName]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:3008; max:3016
-	} structName
-	} structName] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"127",@"unit.TestMatch",@"testBasic",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"22.5" v2:[TestMatch switchNormal:(id)struct {
-	expr:FEnum[ EArray:struct {
-	expr:FEnum[ EConst:FEnum[ CIdent:(NSMutableString*)@"null"]]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:3053; max:3057
-	} structName
-	} structName e2:struct {
-	expr:FEnum[ EConst:FEnum[ CFloat:(NSMutableString*)@"22.5"]]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:3058; max:3062
-	} structName
-	} structName]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:3053; max:3063
-	} structName
-	} structName] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"128",@"unit.TestMatch",@"testBasic",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"EConst(CInt(0))" v2:[TestMatch switchNormal:(id)struct {
-	expr:FEnum[ EIn:struct {
-	expr:FEnum[ EConst:FEnum[ CInt:(NSMutableString*)@"1"]]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:3111; max:3112
-	} structName
-	} structName e2:struct {
-	expr:FEnum[ EConst:FEnum[ CInt:(NSMutableString*)@"0"]]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:3116; max:3117
-	} structName
-	} structName]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:3111; max:3117
-	} structName
-	} structName] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"129",@"unit.TestMatch",@"testBasic",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"not_found" v2:[TestMatch switchNormal:(id)struct {
-	expr:FEnum[ EArray:struct {
-	expr:FEnum[ EConst:FEnum[ CIdent:(NSMutableString*)@"null"]]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:3159; max:3163
-	} structName
-	} structName e2:struct {
-	expr:FEnum[ EConst:FEnum[ CString:(NSMutableString*)@"22"]]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:3164; max:3168
-	} structName
-	} structName]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:3159; max:3169
-	} structName
-	} structName] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"130",@"unit.TestMatch",@"testBasic",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self t:nil != [TestMatch switchCapture:(id)struct {
-	expr:FEnum[ EConst:FEnum[ CString:(NSMutableString*)@"foobar"]]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:3208; max:3216
-	} structName
-	} structName] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"132",@"unit.TestMatch",@"testBasic",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self t:nil == [TestMatch switchCapture:(id)struct {
-	expr:FEnum[ EConst:FEnum[ CString:(NSMutableString*)@"fooba"]]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:3253; max:3260
-	} structName
-	} structName] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"133",@"unit.TestMatch",@"testBasic",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self t:nil != [TestMatch switchCapture:(id)struct {
-	expr:FEnum[ EConst:FEnum[ CInt:(NSMutableString*)@"9"]]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:3297; max:3298
-	} structName
-	} structName] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"134",@"unit.TestMatch",@"testBasic",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self t:nil == [TestMatch switchCapture:(id)struct {
-	expr:FEnum[ EConst:FEnum[ CInt:(NSMutableString*)@"10"]]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:3335; max:3337
-	} structName
-	} structName] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"135",@"unit.TestMatch",@"testBasic",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"[]" v2:[TestMatch switchArray:(id)struct {
-	expr:FEnum[ EArrayDecl:[[NSMutableArray alloc] initWithObjects:, nil]]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:3373; max:3375
-	} structName
-	} structName] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"137",@"unit.TestMatch",@"testBasic",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"_" v2:[TestMatch switchArray:(id)struct {
-	expr:FEnum[ EConst:FEnum[ CInt:(NSMutableString*)@"2"]]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:3408; max:3409
-	} structName
-	} structName] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"138",@"unit.TestMatch",@"testBasic",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"[EConst(CInt(22))]" v2:[TestMatch switchArray:(id)struct {
-	expr:FEnum[ EArrayDecl:[[NSMutableArray alloc] initWithObjects:struct {
-	expr:FEnum[ EConst:FEnum[ CInt:(NSMutableString*)@"22"]]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:[NSNumber numberWithInt:3460]; max:[NSNumber numberWithInt:3462]
-	} structName
-	} structName, nil]]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:3459; max:3463
-	} structName
-	} structName] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"139",@"unit.TestMatch",@"testBasic",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"[EConst(CInt(22)),EConst(CString(foo))]" v2:[TestMatch switchArray:(id)struct {
-	expr:FEnum[ EArrayDecl:[[NSMutableArray alloc] initWithObjects:struct {
-	expr:FEnum[ EConst:FEnum[ CInt:(NSMutableString*)@"22"]]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:[NSNumber numberWithInt:3535]; max:[NSNumber numberWithInt:3537]
-	} structName
-	} structName, struct {
-	expr:FEnum[ EConst:FEnum[ CString:(NSMutableString*)@"foo"]]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:[NSNumber numberWithInt:3538]; max:[NSNumber numberWithInt:3543]
-	} structName
-	} structName, nil]]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:3534; max:3544
-	} structName
-	} structName] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"140",@"unit.TestMatch",@"testBasic",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"_" v2:[TestMatch switchArray:(id)struct {
-	expr:FEnum[ EArrayDecl:[[NSMutableArray alloc] initWithObjects:struct {
-	expr:FEnum[ EConst:FEnum[ CInt:(NSMutableString*)@"22"]]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:[NSNumber numberWithInt:3578]; max:[NSNumber numberWithInt:3580]
-	} structName
-	} structName, struct {
-	expr:FEnum[ EConst:FEnum[ CString:(NSMutableString*)@"foo"]]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:[NSNumber numberWithInt:3582]; max:[NSNumber numberWithInt:3587]
-	} structName
-	} structName, struct {
-	expr:FEnum[ EConst:FEnum[ CString:(NSMutableString*)@"bar"]]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:[NSNumber numberWithInt:3589]; max:[NSNumber numberWithInt:3594]
-	} structName
-	} structName, nil]]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:3577; max:3595
-	} structName
-	} structName] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"141",@"unit.TestMatch",@"testBasic",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"0" v2:[TestMatch switchArray2:[[NSMutableArray alloc] initWithObjects:(NSMutableString*)@"a", (NSMutableString*)@"b", nil]] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"143",@"unit.TestMatch",@"testBasic",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"1" v2:[TestMatch switchArray2:[[NSMutableArray alloc] initWithObjects:(NSMutableString*)@"a", nil]] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"144",@"unit.TestMatch",@"testBasic",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"2" v2:[TestMatch switchArray2:[[NSMutableArray alloc] initWithObjects:(NSMutableString*)@"b", nil]] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"145",@"unit.TestMatch",@"testBasic",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"3:c" v2:[TestMatch switchArray2:[[NSMutableArray alloc] initWithObjects:(NSMutableString*)@"c", nil]] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"146",@"unit.TestMatch",@"testBasic",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"4:a,a" v2:[TestMatch switchArray2:[[NSMutableArray alloc] initWithObjects:(NSMutableString*)@"a", (NSMutableString*)@"a", nil]] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"147",@"unit.TestMatch",@"testBasic",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"4:b,a" v2:[TestMatch switchArray2:[[NSMutableArray alloc] initWithObjects:(NSMutableString*)@"b", (NSMutableString*)@"a", nil]] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"148",@"unit.TestMatch",@"testBasic",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"5:3" v2:[TestMatch switchArray2:[[NSMutableArray alloc] initWithObjects:(NSMutableString*)@"a", (NSMutableString*)@"a", (NSMutableString*)@"a", nil]] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"149",@"unit.TestMatch",@"testBasic",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"6" v2:[TestMatch switchArray2:[[NSMutableArray alloc] initWithObjects:, nil]] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"150",@"unit.TestMatch",@"testBasic",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"7" v2:[TestMatch switchArray2:[[NSMutableArray alloc] initWithObjects:(NSMutableString*)@"a", (NSMutableString*)@"a", (NSMutableString*)@"a", (NSMutableString*)@"b", nil]] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"151",@"unit.TestMatch",@"testBasic",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"EConst(CString(foobar)):12" v2:[TestMatch switchCrazy:(id)struct {
-	expr:FEnum[ EUntyped:struct {
-	expr:FEnum[ EParenthesis:struct {
-	expr:FEnum[ EArray:struct {
-	expr:FEnum[ EConst:FEnum[ CString:(NSMutableString*)@"foobar"]]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:4008; max:4016
-	} structName
-	} structName e2:struct {
-	expr:FEnum[ EConst:FEnum[ CInt:(NSMutableString*)@"12"]]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:4017; max:4019
-	} structName
-	} structName]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:4008; max:4020
-	} structName
-	} structName]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:4007; max:4021
-	} structName
-	} structName]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:3999; max:4021
-	} structName
-	} structName] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"153",@"unit.TestMatch",@"testBasic",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"1" v2:[TestMatch switchGuard:(id)struct {
-	expr:FEnum[ EConst:FEnum[ CString:(NSMutableString*)@"foobar"]]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:4056; max:4064
-	} structName
-	} structName] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"155",@"unit.TestMatch",@"testBasic",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"2" v2:[TestMatch switchGuard:(id)struct {
-	expr:FEnum[ EConst:FEnum[ CString:(NSMutableString*)@"barfoo"]]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:4097; max:4105
-	} structName
-	} structName] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"156",@"unit.TestMatch",@"testBasic",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"3" v2:[TestMatch switchGuard:(id)struct {
-	expr:FEnum[ EConst:FEnum[ CInt:(NSMutableString*)@"2"]]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:4138; max:4139
-	} structName
-	} structName] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"157",@"unit.TestMatch",@"testBasic",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"4" v2:[TestMatch switchGuard:(id)struct {
-	expr:FEnum[ EConst:FEnum[ CInt:(NSMutableString*)@"5"]]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:4172; max:4173
-	} structName
-	} structName] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"158",@"unit.TestMatch",@"testBasic",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"4" v2:[TestMatch switchGuard:(id)struct {
-	expr:FEnum[ EConst:FEnum[ CString:(NSMutableString*)@"bazfoo"]]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:4206; max:4214
-	} structName
-	} structName] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"159",@"unit.TestMatch",@"testBasic",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"5" v2:[TestMatch switchGuard:(id)struct {
-	expr:FEnum[ EArrayDecl:[[NSMutableArray alloc] initWithObjects:, nil]]; pos:struct {
-	file:(NSMutableString*)@"unit/TestMatch.hx"; min:4247; max:4249
-	} structName
-	} structName] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"160",@"unit.TestMatch",@"testBasic",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"0" v2:((NSMutableString)($this:(snd ctx.path)) BOOL _g = YES; int _g1 = 1; 
-	NSMutableString *_g2 = (NSMutableString*)@"foo"
-	__r__ = ((id)($this:(snd ctx.path)) switch (_g){
+	[self eq:[NSMutableString stringWithString:@"bar"] v2:[TestMatch switchNormal:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EConst:[ CString:[NSMutableString stringWithString:@"bar"]]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[2832 copy], @"min",
+	[2837 copy], @"max",
+	nil] copy], @"pos",
+	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"123",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"bar"] v2:[TestMatch switchNormal:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EParenthesis:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EConst:[ CString:[NSMutableString stringWithString:@"bar"]]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[2874 copy], @"min",
+	[2879 copy], @"max",
+	nil] copy], @"pos",
+	nil]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[2873 copy], @"min",
+	[2880 copy], @"max",
+	nil] copy], @"pos",
+	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"124",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"bar"] v2:[TestMatch switchNormal:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EUntyped:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EConst:[ CString:[NSMutableString stringWithString:@"bar"]]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[2924 copy], @"min",
+	[2929 copy], @"max",
+	nil] copy], @"pos",
+	nil]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[2916 copy], @"min",
+	[2929 copy], @"max",
+	nil] copy], @"pos",
+	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"125",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"foo"] v2:[TestMatch switchNormal:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EField:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EConst:[ CIdent:[NSMutableString stringWithString:@"null"]]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[2965 copy], @"min",
+	[2969 copy], @"max",
+	nil] copy], @"pos",
+	nil] field:[NSMutableString stringWithString:@"foo"]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[2965 copy], @"min",
+	[2973 copy], @"max",
+	nil] copy], @"pos",
+	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"126",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"22"] v2:[TestMatch switchNormal:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EArray:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EConst:[ CIdent:[NSMutableString stringWithString:@"null"]]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[3008 copy], @"min",
+	[3012 copy], @"max",
+	nil] copy], @"pos",
+	nil] e2:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EConst:[ CInt:[NSMutableString stringWithString:@"22"]]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[3013 copy], @"min",
+	[3015 copy], @"max",
+	nil] copy], @"pos",
+	nil]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[3008 copy], @"min",
+	[3016 copy], @"max",
+	nil] copy], @"pos",
+	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"127",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"22.5"] v2:[TestMatch switchNormal:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EArray:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EConst:[ CIdent:[NSMutableString stringWithString:@"null"]]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[3053 copy], @"min",
+	[3057 copy], @"max",
+	nil] copy], @"pos",
+	nil] e2:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EConst:[ CFloat:[NSMutableString stringWithString:@"22.5"]]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[3058 copy], @"min",
+	[3062 copy], @"max",
+	nil] copy], @"pos",
+	nil]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[3053 copy], @"min",
+	[3063 copy], @"max",
+	nil] copy], @"pos",
+	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"128",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"EConst(CInt(0))"] v2:[TestMatch switchNormal:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EIn:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EConst:[ CInt:[NSMutableString stringWithString:@"1"]]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[3111 copy], @"min",
+	[3112 copy], @"max",
+	nil] copy], @"pos",
+	nil] e2:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EConst:[ CInt:[NSMutableString stringWithString:@"0"]]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[3116 copy], @"min",
+	[3117 copy], @"max",
+	nil] copy], @"pos",
+	nil]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[3111 copy], @"min",
+	[3117 copy], @"max",
+	nil] copy], @"pos",
+	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"129",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"not_found"] v2:[TestMatch switchNormal:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EArray:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EConst:[ CIdent:[NSMutableString stringWithString:@"null"]]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[3159 copy], @"min",
+	[3163 copy], @"max",
+	nil] copy], @"pos",
+	nil] e2:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EConst:[ CString:[NSMutableString stringWithString:@"22"]]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[3164 copy], @"min",
+	[3168 copy], @"max",
+	nil] copy], @"pos",
+	nil]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[3159 copy], @"min",
+	[3169 copy], @"max",
+	nil] copy], @"pos",
+	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"130",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
+	[self t:nil != [TestMatch switchCapture:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EConst:[ CString:[NSMutableString stringWithString:@"foobar"]]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[3208 copy], @"min",
+	[3216 copy], @"max",
+	nil] copy], @"pos",
+	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"132",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
+	[self t:nil == [TestMatch switchCapture:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EConst:[ CString:[NSMutableString stringWithString:@"fooba"]]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[3253 copy], @"min",
+	[3260 copy], @"max",
+	nil] copy], @"pos",
+	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"133",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
+	[self t:nil != [TestMatch switchCapture:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EConst:[ CInt:[NSMutableString stringWithString:@"9"]]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[3297 copy], @"min",
+	[3298 copy], @"max",
+	nil] copy], @"pos",
+	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"134",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
+	[self t:nil == [TestMatch switchCapture:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EConst:[ CInt:[NSMutableString stringWithString:@"10"]]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[3335 copy], @"min",
+	[3337 copy], @"max",
+	nil] copy], @"pos",
+	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"135",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"[]"] v2:[TestMatch switchArray:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EArrayDecl:[[NSMutableArray alloc] initWithObjects:, nil]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[3373 copy], @"min",
+	[3375 copy], @"max",
+	nil] copy], @"pos",
+	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"137",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"_"] v2:[TestMatch switchArray:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EConst:[ CInt:[NSMutableString stringWithString:@"2"]]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[3408 copy], @"min",
+	[3409 copy], @"max",
+	nil] copy], @"pos",
+	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"138",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"[EConst(CInt(22))]"] v2:[TestMatch switchArray:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EArrayDecl:[[NSMutableArray alloc] initWithObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EConst:[ CInt:[NSMutableString stringWithString:@"22"]]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[[NSNumber numberWithInt:3460] copy], @"min",
+	[[NSNumber numberWithInt:3462] copy], @"max",
+	nil] copy], @"pos",
+	nil]]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[3459 copy], @"min",
+	[3463 copy], @"max",
+	nil] copy], @"pos",
+	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"139",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"[EConst(CInt(22)),EConst(CString(foo))]"] v2:[TestMatch switchArray:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EArrayDecl:[[NSMutableArray alloc] initWithObjects:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EConst:[ CInt:[NSMutableString stringWithString:@"22"]]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[[NSNumber numberWithInt:3535] copy], @"min",
+	[[NSNumber numberWithInt:3537] copy], @"max",
+	nil] copy], @"pos",
+	nil], [NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EConst:[ CString:[NSMutableString stringWithString:@"foo"]]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[[NSNumber numberWithInt:3538] copy], @"min",
+	[[NSNumber numberWithInt:3543] copy], @"max",
+	nil] copy], @"pos",
+	nil], nil]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[3534 copy], @"min",
+	[3544 copy], @"max",
+	nil] copy], @"pos",
+	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"140",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"_"] v2:[TestMatch switchArray:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EArrayDecl:[[NSMutableArray alloc] initWithObjects:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EConst:[ CInt:[NSMutableString stringWithString:@"22"]]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[[NSNumber numberWithInt:3578] copy], @"min",
+	[[NSNumber numberWithInt:3580] copy], @"max",
+	nil] copy], @"pos",
+	nil], [NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EConst:[ CString:[NSMutableString stringWithString:@"foo"]]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[[NSNumber numberWithInt:3582] copy], @"min",
+	[[NSNumber numberWithInt:3587] copy], @"max",
+	nil] copy], @"pos",
+	nil], [NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EConst:[ CString:[NSMutableString stringWithString:@"bar"]]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[[NSNumber numberWithInt:3589] copy], @"min",
+	[[NSNumber numberWithInt:3594] copy], @"max",
+	nil] copy], @"pos",
+	nil], nil]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[3577 copy], @"min",
+	[3595 copy], @"max",
+	nil] copy], @"pos",
+	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"141",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"0"] v2:[TestMatch switchArray2:[[NSMutableArray alloc] initWithObjects:[NSMutableString stringWithString:@"a"], [NSMutableString stringWithString:@"b"], nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"143",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"1"] v2:[TestMatch switchArray2:[[NSMutableArray alloc] initWithObject:[NSMutableString stringWithString:@"a"]]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"144",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"2"] v2:[TestMatch switchArray2:[[NSMutableArray alloc] initWithObject:[NSMutableString stringWithString:@"b"]]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"145",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"3:c"] v2:[TestMatch switchArray2:[[NSMutableArray alloc] initWithObject:[NSMutableString stringWithString:@"c"]]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"146",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"4:a,a"] v2:[TestMatch switchArray2:[[NSMutableArray alloc] initWithObjects:[NSMutableString stringWithString:@"a"], [NSMutableString stringWithString:@"a"], nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"147",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"4:b,a"] v2:[TestMatch switchArray2:[[NSMutableArray alloc] initWithObjects:[NSMutableString stringWithString:@"b"], [NSMutableString stringWithString:@"a"], nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"148",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"5:3"] v2:[TestMatch switchArray2:[[NSMutableArray alloc] initWithObjects:[NSMutableString stringWithString:@"a"], [NSMutableString stringWithString:@"a"], [NSMutableString stringWithString:@"a"], nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"149",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"6"] v2:[TestMatch switchArray2:[[NSMutableArray alloc] initWithObjects:, nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"150",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"7"] v2:[TestMatch switchArray2:[[NSMutableArray alloc] initWithObjects:[NSMutableString stringWithString:@"a"], [NSMutableString stringWithString:@"a"], [NSMutableString stringWithString:@"a"], [NSMutableString stringWithString:@"b"], nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"151",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"EConst(CString(foobar)):12"] v2:[TestMatch switchCrazy:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EUntyped:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EParenthesis:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EArray:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EConst:[ CString:[NSMutableString stringWithString:@"foobar"]]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[4008 copy], @"min",
+	[4016 copy], @"max",
+	nil] copy], @"pos",
+	nil] e2:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EConst:[ CInt:[NSMutableString stringWithString:@"12"]]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[4017 copy], @"min",
+	[4019 copy], @"max",
+	nil] copy], @"pos",
+	nil]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[4008 copy], @"min",
+	[4020 copy], @"max",
+	nil] copy], @"pos",
+	nil]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[4007 copy], @"min",
+	[4021 copy], @"max",
+	nil] copy], @"pos",
+	nil]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[3999 copy], @"min",
+	[4021 copy], @"max",
+	nil] copy], @"pos",
+	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"153",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"1"] v2:[TestMatch switchGuard:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EConst:[ CString:[NSMutableString stringWithString:@"foobar"]]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[4056 copy], @"min",
+	[4064 copy], @"max",
+	nil] copy], @"pos",
+	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"155",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"2"] v2:[TestMatch switchGuard:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EConst:[ CString:[NSMutableString stringWithString:@"barfoo"]]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[4097 copy], @"min",
+	[4105 copy], @"max",
+	nil] copy], @"pos",
+	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"156",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"3"] v2:[TestMatch switchGuard:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EConst:[ CInt:[NSMutableString stringWithString:@"2"]]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[4138 copy], @"min",
+	[4139 copy], @"max",
+	nil] copy], @"pos",
+	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"157",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"4"] v2:[TestMatch switchGuard:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EConst:[ CInt:[NSMutableString stringWithString:@"5"]]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[4172 copy], @"min",
+	[4173 copy], @"max",
+	nil] copy], @"pos",
+	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"158",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"4"] v2:[TestMatch switchGuard:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EConst:[ CString:[NSMutableString stringWithString:@"bazfoo"]]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[4206 copy], @"min",
+	[4214 copy], @"max",
+	nil] copy], @"pos",
+	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"159",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"5"] v2:[TestMatch switchGuard:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[ EArrayDecl:[[NSMutableArray alloc] initWithObjects:, nil]] copy], @"expr",
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
+	[4247 copy], @"min",
+	[4249 copy], @"max",
+	nil] copy], @"pos",
+	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"160",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"0"] v2:((NSMutableString)($this:(snd ctx.path)) BOOL _g = YES; int _g1 = 1; 
+	NSMutableString *_g2 = [NSMutableString stringWithString:@"foo"]
+	__r__ = ((NSMutableString)($this:(snd ctx.path)) switch (_g){
 		case YES:{
 			__r__2 = ((id)($this:(snd ctx.path)) switch (_g1){
 				case 1:{
 					__r__3 = ((id)($this:(snd ctx.path)) switch (_g2){
-						case (NSMutableString*)@"foo":{
-							__r__4 = (NSMutableString*)@"0"}break;
+						case [NSMutableString stringWithString:@"foo"]:{
+							__r__4 = [NSMutableString stringWithString:@"0"]}break;
 						default:{
-							__r__4 = (NSMutableString*)@"1"}break;
+							__r__4 = [NSMutableString stringWithString:@"1"]}break;
 					}
 					return __r__4{
 						
 						id* __r__4}
-					}($this))}break;
+					}(__self))}break;
 				default:{
-					__r__3 = (NSMutableString*)@"_"}break;
+					__r__3 = [NSMutableString stringWithString:@"_"]}break;
 			}
 			return __r__3{
 				
 				id* __r__3}
-			}($this))}break;
+			}(__self))}break;
 		default:{
-			__r__2 = (NSMutableString*)@"_"}break;
+			__r__2 = [NSMutableString stringWithString:@"_"]}break;
 	}
 	return __r__2{
 		
-		id* __r__2}
-	}($this))
+		NSMutableString* __r__2}
+	}(__self))
 	return __r__{
 		
 		NSMutableString* __r__}
-	}(self)) pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"162",@"unit.TestMatch",@"testBasic",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"0" v2:((NSMutableString)($this:(snd ctx.path)) BOOL _g3 = YES; int _g4 = 1; 
-	NSMutableString *_g5 = (NSMutableString*)@"foo"
-	__r__5 = ((id)($this:(snd ctx.path)) switch (_g3){
+	}(self)) pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"162",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"0"] v2:((NSMutableString)($this:(snd ctx.path)) BOOL _g3 = YES; int _g4 = 1; 
+	NSMutableString *_g5 = [NSMutableString stringWithString:@"foo"]
+	__r__5 = ((NSMutableString)($this:(snd ctx.path)) switch (_g3){
 		case YES:{
 			__r__6 = ((id)($this:(snd ctx.path)) switch (_g4){
 				case 1:{
 					__r__7 = ((id)($this:(snd ctx.path)) switch (_g5){
-						case (NSMutableString*)@"foo":{
-							__r__8 = (NSMutableString*)@"0"}break;
+						case [NSMutableString stringWithString:@"foo"]:{
+							__r__8 = [NSMutableString stringWithString:@"0"]}break;
 						default:{
-							__r__8 = (NSMutableString*)@"1"}break;
+							__r__8 = [NSMutableString stringWithString:@"1"]}break;
 					}
 					return __r__8{
 						
 						id* __r__8}
-					}($this))}break;
+					}(__self))}break;
 				default:{
-					__r__7 = (NSMutableString*)@"_"}break;
+					__r__7 = [NSMutableString stringWithString:@"_"]}break;
 			}
 			return __r__7{
 				
 				id* __r__7}
-			}($this))}break;
+			}(__self))}break;
 		default:{
-			__r__6 = (NSMutableString*)@"_"}break;
+			__r__6 = [NSMutableString stringWithString:@"_"]}break;
 	}
 	return __r__6{
 		
-		id* __r__6}
-	}($this))
+		NSMutableString* __r__6}
+	}(__self))
 	return __r__5{
 		
 		NSMutableString* __r__5}
-	}(self)) pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"168",@"unit.TestMatch",@"testBasic",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"1" v2:((NSMutableString)($this:(snd ctx.path)) BOOL _g6 = YES; int _g7 = 1; 
-	NSMutableString *_g8 = (NSMutableString*)@"bar"
-	__r__9 = ((id)($this:(snd ctx.path)) switch (_g6){
+	}(self)) pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"168",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"1"] v2:((NSMutableString)($this:(snd ctx.path)) BOOL _g6 = YES; int _g7 = 1; 
+	NSMutableString *_g8 = [NSMutableString stringWithString:@"bar"]
+	__r__9 = ((NSMutableString)($this:(snd ctx.path)) switch (_g6){
 		case YES:{
 			__r__10 = ((id)($this:(snd ctx.path)) switch (_g7){
 				case 1:{
 					__r__11 = ((id)($this:(snd ctx.path)) switch (_g8){
-						case (NSMutableString*)@"foo":{
-							__r__12 = (NSMutableString*)@"0"}break;
+						case [NSMutableString stringWithString:@"foo"]:{
+							__r__12 = [NSMutableString stringWithString:@"0"]}break;
 						default:{
-							__r__12 = (NSMutableString*)@"1"}break;
+							__r__12 = [NSMutableString stringWithString:@"1"]}break;
 					}
 					return __r__12{
 						
 						id* __r__12}
-					}($this))}break;
+					}(__self))}break;
 				default:{
-					__r__11 = (NSMutableString*)@"_"}break;
+					__r__11 = [NSMutableString stringWithString:@"_"]}break;
 			}
 			return __r__11{
 				
 				id* __r__11}
-			}($this))}break;
+			}(__self))}break;
 		default:{
-			__r__10 = (NSMutableString*)@"_"}break;
+			__r__10 = [NSMutableString stringWithString:@"_"]}break;
 	}
 	return __r__10{
 		
-		id* __r__10}
-	}($this))
+		NSMutableString* __r__10}
+	}(__self))
 	return __r__9{
 		
 		NSMutableString* __r__9}
-	}(self)) pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"174",@"unit.TestMatch",@"testBasic",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"_" v2:((NSMutableString)($this:(snd ctx.path)) BOOL _g9 = NO; int _g10 = 1; 
-	NSMutableString *_g11 = (NSMutableString*)@"foo"
-	__r__13 = ((id)($this:(snd ctx.path)) switch (_g9){
+	}(self)) pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"174",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"_"] v2:((NSMutableString)($this:(snd ctx.path)) BOOL _g9 = NO; int _g10 = 1; 
+	NSMutableString *_g11 = [NSMutableString stringWithString:@"foo"]
+	__r__13 = ((NSMutableString)($this:(snd ctx.path)) switch (_g9){
 		case YES:{
 			__r__14 = ((id)($this:(snd ctx.path)) switch (_g10){
 				case 1:{
 					__r__15 = ((id)($this:(snd ctx.path)) switch (_g11){
-						case (NSMutableString*)@"foo":{
-							__r__16 = (NSMutableString*)@"0"}break;
+						case [NSMutableString stringWithString:@"foo"]:{
+							__r__16 = [NSMutableString stringWithString:@"0"]}break;
 						default:{
-							__r__16 = (NSMutableString*)@"1"}break;
+							__r__16 = [NSMutableString stringWithString:@"1"]}break;
 					}
 					return __r__16{
 						
 						id* __r__16}
-					}($this))}break;
+					}(__self))}break;
 				default:{
-					__r__15 = (NSMutableString*)@"_"}break;
+					__r__15 = [NSMutableString stringWithString:@"_"]}break;
 			}
 			return __r__15{
 				
 				id* __r__15}
-			}($this))}break;
+			}(__self))}break;
 		default:{
-			__r__14 = (NSMutableString*)@"_"}break;
+			__r__14 = [NSMutableString stringWithString:@"_"]}break;
 	}
 	return __r__14{
 		
-		id* __r__14}
-	}($this))
+		NSMutableString* __r__14}
+	}(__self))
 	return __r__13{
 		
 		NSMutableString* __r__13}
-	}(self)) pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"180",@"unit.TestMatch",@"testBasic",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"1" v2:((NSMutableString)($this:(snd ctx.path)) int _g12 = 1; int _g13 = 2
-	__r__17 = ((id)($this:(snd ctx.path)) switch (_g12){
+	}(self)) pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"180",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"1"] v2:((NSMutableString)($this:(snd ctx.path)) int _g12 = 1; int _g13 = 2
+	__r__17 = ((NSMutableString)($this:(snd ctx.path)) switch (_g12){
 		case 0:{
 			__r__18 = ((id)($this:(snd ctx.path)) switch (_g13){
 				case 0:{
-					__r__19 = (NSMutableString*)@"1"}break;
+					__r__19 = [NSMutableString stringWithString:@"1"]}break;
 				default:{
-					__r__19 = (NSMutableString*)@"_"}break;
+					__r__19 = [NSMutableString stringWithString:@"_"]}break;
 			}
 			return __r__19{
 				
 				id* __r__19}
-			}($this))}break;
+			}(__self))}break;
 		case 1:{
 			__r__18 = ((id)($this:(snd ctx.path)) switch (_g13){
 				case 2:{
-					__r__20 = (NSMutableString*)@"1"}break;
+					__r__20 = [NSMutableString stringWithString:@"1"]}break;
 				case 1:{
-					__r__20 = (NSMutableString*)@"2"}break;
+					__r__20 = [NSMutableString stringWithString:@"2"]}break;
 				default:{
-					__r__20 = (NSMutableString*)@"_"}break;
+					__r__20 = [NSMutableString stringWithString:@"_"]}break;
 			}
 			return __r__20{
 				
 				id* __r__20}
-			}($this))}break;
+			}(__self))}break;
 		default:{
-			__r__18 = (NSMutableString*)@"_"}break;
+			__r__18 = [NSMutableString stringWithString:@"_"]}break;
 	}
 	return __r__18{
 		
-		id* __r__18}
-	}($this))
+		NSMutableString* __r__18}
+	}(__self))
 	return __r__17{
 		
 		NSMutableString* __r__17}
-	}(self)) pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"186",@"unit.TestMatch",@"testBasic",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	}(self)) pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"186",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
 	
-	TestMatch *t = FEnum[ TA:(NSMutableString*)@"foo"];
-	[self eq:(NSMutableString*)@"0" v2:((NSMutableString)($this:(snd ctx.path)) 
+	TestMatch *t = [ TA:[NSMutableString stringWithString:@"foo"]];
+	[self eq:[NSMutableString stringWithString:@"0"] v2:((NSMutableString)($this:(snd ctx.path)) 
 	var $e22 : enum =  (t)
 	switch ( $e22.index ) {
 		
 		case 0:
 		
 		var MATCH t_eTA_0 : id = $e22.params[0]{
-			__r__21 = ((NSMutableString)($this:(snd ctx.path)) switch (t_eTA_0){
-				case (NSMutableString*)@"foo":{
-					__r__23 = (NSMutableString*)@"0"}break;
+			__r__21 = ((id)($this:(snd ctx.path)) switch (t_eTA_0){
+				case [NSMutableString stringWithString:@"foo"]:{
+					__r__23 = [NSMutableString stringWithString:@"0"]}break;
 				default:{
-					__r__23 = (NSMutableString*)@"1"}break;
+					__r__23 = [NSMutableString stringWithString:@"1"]}break;
 			}
 			return __r__23{
 				
-				NSMutableString* __r__23}
-			}($this))}break
+				id* __r__23}
+			}(__self))}break
 		case 2:
 		{
-			__r__21 = (NSMutableString*)@"2"}break
+			__r__21 = [NSMutableString stringWithString:@"2"]}break
 	}
 	return __r__21{
 		
 		NSMutableString* __r__21}
-	}(self)) pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"193",@"unit.TestMatch",@"testBasic",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	}(self)) pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"193",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
 }
 - (void) testTuple{
 	SEL test = ^- (NSMutableString*) :(int)a b:(int)b c:(int)c{
 		return ^(NSMutableString*)switch (a){
 			case 1:{
-				__r__ = ^(NSMutableString*)switch (b){
+				__r__ = ^(id)switch (b){
 					case 1:{
-						__r__2 = ^(NSMutableString*)switch (c){
+						__r__2 = ^(id)switch (c){
 							case 2:{
-								__r__3 = [(NSMutableString*)@"0|x:" stringByAppendingString:a]}break;
+								__r__3 = [[NSMutableString stringWithString:@"0|x:"] stringByAppendingString:a]}break;
 							default:{
-								__r__3 = [[[(NSMutableString*)@"2|y:" stringByAppendingString:b] stringByAppendingString:(NSMutableString*)@",z:"] stringByAppendingString:c]}break;
+								__r__3 = [[[[NSMutableString stringWithString:@"2|y:"] stringByAppendingString:b] stringByAppendingString:[NSMutableString stringWithString:@",z:"]] stringByAppendingString:c]}break;
 						}
 						return __r__3{
 							
-							NSMutableString* __r__3}
+							id* __r__3}
 						}()}break;
 					case 2:{
-						__r__2 = [(NSMutableString*)@"0|x:" stringByAppendingString:c]}break;
+						__r__2 = [[NSMutableString stringWithString:@"0|x:"] stringByAppendingString:c]}break;
 					case 3:{
-						__r__2 = ^(NSMutableString*)switch (c){
+						__r__2 = ^(id)switch (c){
 							case 2:{
-								__r__4 = [(NSMutableString*)@"0|x:" stringByAppendingString:b]}break;
+								__r__4 = [[NSMutableString stringWithString:@"0|x:"] stringByAppendingString:b]}break;
 							case 4:{
-								__r__4 = [(NSMutableString*)@"1|z:" stringByAppendingString:a]}break;
+								__r__4 = [[NSMutableString stringWithString:@"1|z:"] stringByAppendingString:a]}break;
 							default:{
-								__r__4 = [[[(NSMutableString*)@"2|y:" stringByAppendingString:b] stringByAppendingString:(NSMutableString*)@",z:"] stringByAppendingString:c]}break;
+								__r__4 = [[[[NSMutableString stringWithString:@"2|y:"] stringByAppendingString:b] stringByAppendingString:[NSMutableString stringWithString:@",z:"]] stringByAppendingString:c]}break;
 						}
 						return __r__4{
 							
-							NSMutableString* __r__4}
+							id* __r__4}
 						}()}break;
 					default:{
-						__r__2 = ^(NSMutableString*)switch (c){
+						__r__2 = ^(id)switch (c){
 							case 2:{
-								__r__5 = [(NSMutableString*)@"0|x:" stringByAppendingString:b]}break;
+								__r__5 = [[NSMutableString stringWithString:@"0|x:"] stringByAppendingString:b]}break;
 							default:{
-								__r__5 = [[[(NSMutableString*)@"2|y:" stringByAppendingString:b] stringByAppendingString:(NSMutableString*)@",z:"] stringByAppendingString:c]}break;
+								__r__5 = [[[[NSMutableString stringWithString:@"2|y:"] stringByAppendingString:b] stringByAppendingString:[NSMutableString stringWithString:@",z:"]] stringByAppendingString:c]}break;
 						}
 						return __r__5{
 							
-							NSMutableString* __r__5}
+							id* __r__5}
 						}()}break;
 				}
 				return __r__2{
 					
-					NSMutableString* __r__2}
+					id* __r__2}
 				}()}break;
 			case 3:{
-				__r__ = ^(NSMutableString*)switch (b){
+				__r__ = ^(id)switch (b){
 					case 1:{
-						__r__6 = ^(NSMutableString*)switch (c){
+						__r__6 = ^(id)switch (c){
 							case 2:{
-								__r__7 = [(NSMutableString*)@"0|x:" stringByAppendingString:a]}break;
+								__r__7 = [[NSMutableString stringWithString:@"0|x:"] stringByAppendingString:a]}break;
 							case 4:{
-								__r__7 = [(NSMutableString*)@"1|z:" stringByAppendingString:b]}break;
+								__r__7 = [[NSMutableString stringWithString:@"1|z:"] stringByAppendingString:b]}break;
 							default:{
-								__r__7 = [[[[[(NSMutableString*)@"_:x:" stringByAppendingString:a] stringByAppendingString:(NSMutableString*)@",y:"] stringByAppendingString:b] stringByAppendingString:(NSMutableString*)@",z:"] stringByAppendingString:c]}break;
+								__r__7 = [[[[[[NSMutableString stringWithString:@"_:x:"] stringByAppendingString:a] stringByAppendingString:[NSMutableString stringWithString:@",y:"]] stringByAppendingString:b] stringByAppendingString:[NSMutableString stringWithString:@",z:"]] stringByAppendingString:c]}break;
 						}
 						return __r__7{
 							
-							NSMutableString* __r__7}
+							id* __r__7}
 						}()}break;
 					case 4:{
-						__r__6 = [(NSMutableString*)@"1|z:" stringByAppendingString:c]}break;
+						__r__6 = [[NSMutableString stringWithString:@"1|z:"] stringByAppendingString:c]}break;
 					case 3:{
-						__r__6 = ^(NSMutableString*)switch (c){
+						__r__6 = ^(id)switch (c){
 							case 4:{
-								__r__8 = [(NSMutableString*)@"1|z:" stringByAppendingString:a]}break;
+								__r__8 = [[NSMutableString stringWithString:@"1|z:"] stringByAppendingString:a]}break;
 							default:{
-								__r__8 = [[[[[(NSMutableString*)@"_:x:" stringByAppendingString:a] stringByAppendingString:(NSMutableString*)@",y:"] stringByAppendingString:b] stringByAppendingString:(NSMutableString*)@",z:"] stringByAppendingString:c]}break;
+								__r__8 = [[[[[[NSMutableString stringWithString:@"_:x:"] stringByAppendingString:a] stringByAppendingString:[NSMutableString stringWithString:@",y:"]] stringByAppendingString:b] stringByAppendingString:[NSMutableString stringWithString:@",z:"]] stringByAppendingString:c]}break;
 						}
 						return __r__8{
 							
-							NSMutableString* __r__8}
+							id* __r__8}
 						}()}break;
 					default:{
-						__r__6 = ^(NSMutableString*)switch (c){
+						__r__6 = ^(id)switch (c){
 							case 4:{
-								__r__9 = [(NSMutableString*)@"1|z:" stringByAppendingString:b]}break;
+								__r__9 = [[NSMutableString stringWithString:@"1|z:"] stringByAppendingString:b]}break;
 							default:{
-								__r__9 = [[[[[(NSMutableString*)@"_:x:" stringByAppendingString:a] stringByAppendingString:(NSMutableString*)@",y:"] stringByAppendingString:b] stringByAppendingString:(NSMutableString*)@",z:"] stringByAppendingString:c]}break;
+								__r__9 = [[[[[[NSMutableString stringWithString:@"_:x:"] stringByAppendingString:a] stringByAppendingString:[NSMutableString stringWithString:@",y:"]] stringByAppendingString:b] stringByAppendingString:[NSMutableString stringWithString:@",z:"]] stringByAppendingString:c]}break;
 						}
 						return __r__9{
 							
-							NSMutableString* __r__9}
+							id* __r__9}
 						}()}break;
 				}
 				return __r__6{
 					
-					NSMutableString* __r__6}
+					id* __r__6}
 				}()}break;
 			case 2:{
-				__r__ = ^(NSMutableString*)switch (b){
+				__r__ = ^(id)switch (b){
 					case 1:{
-						__r__10 = ^(NSMutableString*)switch (c){
+						__r__10 = ^(id)switch (c){
 							case 2:{
-								__r__11 = [(NSMutableString*)@"0|x:" stringByAppendingString:a]}break;
+								__r__11 = [[NSMutableString stringWithString:@"0|x:"] stringByAppendingString:a]}break;
 							default:{
-								__r__11 = [[[(NSMutableString*)@"2|y:" stringByAppendingString:c] stringByAppendingString:(NSMutableString*)@",z:"] stringByAppendingString:b]}break;
+								__r__11 = [[[[NSMutableString stringWithString:@"2|y:"] stringByAppendingString:c] stringByAppendingString:[NSMutableString stringWithString:@",z:"]] stringByAppendingString:b]}break;
 						}
 						return __r__11{
 							
-							NSMutableString* __r__11}
+							id* __r__11}
 						}()}break;
 					case 3:{
-						__r__10 = ^(NSMutableString*)switch (c){
+						__r__10 = ^(id)switch (c){
 							case 4:{
-								__r__12 = [(NSMutableString*)@"1|z:" stringByAppendingString:a]}break;
+								__r__12 = [[NSMutableString stringWithString:@"1|z:"] stringByAppendingString:a]}break;
 							default:{
-								__r__12 = [[[(NSMutableString*)@"2|y:" stringByAppendingString:c] stringByAppendingString:(NSMutableString*)@",z:"] stringByAppendingString:b]}break;
+								__r__12 = [[[[NSMutableString stringWithString:@"2|y:"] stringByAppendingString:c] stringByAppendingString:[NSMutableString stringWithString:@",z:"]] stringByAppendingString:b]}break;
 						}
 						return __r__12{
 							
-							NSMutableString* __r__12}
+							id* __r__12}
 						}()}break;
 					default:{
-						__r__10 = [[[(NSMutableString*)@"2|y:" stringByAppendingString:c] stringByAppendingString:(NSMutableString*)@",z:"] stringByAppendingString:b]}break;
+						__r__10 = [[[[NSMutableString stringWithString:@"2|y:"] stringByAppendingString:c] stringByAppendingString:[NSMutableString stringWithString:@",z:"]] stringByAppendingString:b]}break;
 				}
 				return __r__10{
 					
-					NSMutableString* __r__10}
+					id* __r__10}
 				}()}break;
 			default:{
-				__r__ = ^(NSMutableString*)switch (b){
+				__r__ = ^(id)switch (b){
 					case 1:{
-						__r__13 = ^(NSMutableString*)switch (c){
+						__r__13 = ^(id)switch (c){
 							case 2:{
-								__r__14 = [(NSMutableString*)@"0|x:" stringByAppendingString:a]}break;
+								__r__14 = [[NSMutableString stringWithString:@"0|x:"] stringByAppendingString:a]}break;
 							default:{
-								__r__14 = [[[[[(NSMutableString*)@"_:x:" stringByAppendingString:a] stringByAppendingString:(NSMutableString*)@",y:"] stringByAppendingString:b] stringByAppendingString:(NSMutableString*)@",z:"] stringByAppendingString:c]}break;
+								__r__14 = [[[[[[NSMutableString stringWithString:@"_:x:"] stringByAppendingString:a] stringByAppendingString:[NSMutableString stringWithString:@",y:"]] stringByAppendingString:b] stringByAppendingString:[NSMutableString stringWithString:@",z:"]] stringByAppendingString:c]}break;
 						}
 						return __r__14{
 							
-							NSMutableString* __r__14}
+							id* __r__14}
 						}()}break;
 					case 3:{
-						__r__13 = ^(NSMutableString*)switch (c){
+						__r__13 = ^(id)switch (c){
 							case 4:{
-								__r__15 = [(NSMutableString*)@"1|z:" stringByAppendingString:a]}break;
+								__r__15 = [[NSMutableString stringWithString:@"1|z:"] stringByAppendingString:a]}break;
 							default:{
-								__r__15 = [[[[[(NSMutableString*)@"_:x:" stringByAppendingString:a] stringByAppendingString:(NSMutableString*)@",y:"] stringByAppendingString:b] stringByAppendingString:(NSMutableString*)@",z:"] stringByAppendingString:c]}break;
+								__r__15 = [[[[[[NSMutableString stringWithString:@"_:x:"] stringByAppendingString:a] stringByAppendingString:[NSMutableString stringWithString:@",y:"]] stringByAppendingString:b] stringByAppendingString:[NSMutableString stringWithString:@",z:"]] stringByAppendingString:c]}break;
 						}
 						return __r__15{
 							
-							NSMutableString* __r__15}
+							id* __r__15}
 						}()}break;
 					default:{
-						__r__13 = [[[[[(NSMutableString*)@"_:x:" stringByAppendingString:a] stringByAppendingString:(NSMutableString*)@",y:"] stringByAppendingString:b] stringByAppendingString:(NSMutableString*)@",z:"] stringByAppendingString:c]}break;
+						__r__13 = [[[[[[NSMutableString stringWithString:@"_:x:"] stringByAppendingString:a] stringByAppendingString:[NSMutableString stringWithString:@",y:"]] stringByAppendingString:b] stringByAppendingString:[NSMutableString stringWithString:@",z:"]] stringByAppendingString:c]}break;
 				}
 				return __r__13{
 					
-					NSMutableString* __r__13}
+					id* __r__13}
 				}()}break;
 		}
 		return __r__{
@@ -1064,31 +1199,31 @@
 			NSMutableString* __r__}
 		}();
 	}
-	[self eq:(NSMutableString*)@"0|x:9" v2:[test:9 b:1 c:2] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"207",@"unit.TestMatch",@"testTuple",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"0|x:9" v2:[test:1 b:2 c:9] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"208",@"unit.TestMatch",@"testTuple",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"0|x:9" v2:[test:1 b:9 c:2] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"209",@"unit.TestMatch",@"testTuple",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"1|z:12" v2:[test:3 b:4 c:12] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"210",@"unit.TestMatch",@"testTuple",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"1|z:12" v2:[test:12 b:3 c:4] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"211",@"unit.TestMatch",@"testTuple",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"1|z:12" v2:[test:3 b:12 c:4] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"212",@"unit.TestMatch",@"testTuple",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"2|y:9,z:8" v2:[test:1 b:9 c:8] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"213",@"unit.TestMatch",@"testTuple",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"2|y:9,z:8" v2:[test:2 b:8 c:9] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"214",@"unit.TestMatch",@"testTuple",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"_:x:9,y:8,z:7" v2:[test:9 b:8 c:7] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"215",@"unit.TestMatch",@"testTuple",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[NSMutableString stringWithString:@"0|x:9"] v2:[test:9 b:1 c:2] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"207",@"lineNumber", @"unit.TestMatch",@"className", @"testTuple",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"0|x:9"] v2:[test:1 b:2 c:9] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"208",@"lineNumber", @"unit.TestMatch",@"className", @"testTuple",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"0|x:9"] v2:[test:1 b:9 c:2] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"209",@"lineNumber", @"unit.TestMatch",@"className", @"testTuple",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"1|z:12"] v2:[test:3 b:4 c:12] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"210",@"lineNumber", @"unit.TestMatch",@"className", @"testTuple",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"1|z:12"] v2:[test:12 b:3 c:4] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"211",@"lineNumber", @"unit.TestMatch",@"className", @"testTuple",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"1|z:12"] v2:[test:3 b:12 c:4] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"212",@"lineNumber", @"unit.TestMatch",@"className", @"testTuple",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"2|y:9,z:8"] v2:[test:1 b:9 c:8] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"213",@"lineNumber", @"unit.TestMatch",@"className", @"testTuple",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"2|y:9,z:8"] v2:[test:2 b:8 c:9] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"214",@"lineNumber", @"unit.TestMatch",@"className", @"testTuple",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"_:x:9,y:8,z:7"] v2:[test:9 b:8 c:7] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"215",@"lineNumber", @"unit.TestMatch",@"className", @"testTuple",@"methodName", nil]];
 }
 - (void) testGrouping{
 	SEL test = ^- (NSMutableString*) :(int)v{
 		return ^(NSMutableString*)switch (v){
 			case 1:case 2:case 3:{
-				__r__ = (NSMutableString*)@"0"}break;
+				__r__ = [NSMutableString stringWithString:@"0"]}break;
 			case 4:{
-				__r__ = ( (v == 5) ? (NSMutableString*)@"1" : (NSMutableString*)@"2")}break;
+				__r__ = ( (v == 5) ? [NSMutableString stringWithString:@"1"] : [NSMutableString stringWithString:@"2"])}break;
 			case 5:{
-				__r__ = ( (v == 5) ? (NSMutableString*)@"1" : (NSMutableString*)@"2")}break;
+				__r__ = ( (v == 5) ? [NSMutableString stringWithString:@"1"] : [NSMutableString stringWithString:@"2"])}break;
 			case 6:{
-				__r__ = ( (v == 5) ? (NSMutableString*)@"1" : (NSMutableString*)@"2")}break;
+				__r__ = ( (v == 5) ? [NSMutableString stringWithString:@"1"] : [NSMutableString stringWithString:@"2"])}break;
 			case 8:case 9:{
-				__r__ = (NSMutableString*)@"3"}break;
+				__r__ = [NSMutableString stringWithString:@"3"]}break;
 			default:{
-				__r__ = [(NSMutableString*)@"_:" stringByAppendingString:v]}break;
+				__r__ = [[NSMutableString stringWithString:@"_:"] stringByAppendingString:v]}break;
 		}
 		return __r__{
 			
@@ -1096,12 +1231,12 @@
 		}();
 	}
 	
-	NSMutableArray *results = [[NSMutableArray alloc] initWithObjects:(NSMutableString*)@"_:0", (NSMutableString*)@"0", (NSMutableString*)@"0", (NSMutableString*)@"0", (NSMutableString*)@"2", (NSMutableString*)@"1", (NSMutableString*)@"2", (NSMutableString*)@"_:7", (NSMutableString*)@"3", (NSMutableString*)@"3", (NSMutableString*)@"_:10", nil];
+	NSMutableArray *results = [[NSMutableArray alloc] initWithObjects:[NSMutableString stringWithString:@"_:0"], [NSMutableString stringWithString:@"0"], [NSMutableString stringWithString:@"0"], [NSMutableString stringWithString:@"0"], [NSMutableString stringWithString:@"2"], [NSMutableString stringWithString:@"1"], [NSMutableString stringWithString:@"2"], [NSMutableString stringWithString:@"_:7"], [NSMutableString stringWithString:@"3"], [NSMutableString stringWithString:@"3"], [NSMutableString stringWithString:@"_:10"], nil];
 	{
 		int _g1 = 0; int _g = results.length;
 		while (_g1 < _g) {
 			int i = _g1++;
-			[self eq:[results objectAtIndex:i] v2:[test:i] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"228",@"unit.TestMatch",@"testGrouping",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+			[self eq:[results hx_objectAtIndex:i] v2:[test:i] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"228",@"lineNumber", @"unit.TestMatch",@"className", @"testGrouping",@"methodName", nil]];
 		}
 	}
 }
@@ -1110,58 +1245,61 @@
 	InitBase *c = [[InitBase alloc] init];
 	
 	NSMutableString *r = ((NSMutableString)($this:(snd ctx.path)) switch (c.s){
-		case (NSMutableString*)@"foo":{
-			__r__ = (NSMutableString*)@"s = foo"}break;
+		case [NSMutableString stringWithString:@"foo"]:{
+			__r__ = [NSMutableString stringWithString:@"s = foo"]}break;
 		default:{
-			__r__ = (NSMutableString*)@"_"}break;
+			__r__ = [NSMutableString stringWithString:@"_"]}break;
 	}
 	return __r__{
 		
 		NSMutableString* __r__}
 	}(self));
-	[self eq:(NSMutableString*)@"s = foo" v2:r pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"240",@"unit.TestMatch",@"testSubtyping",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"0" v2:[TestMatch switchStructure:struct {
-	foo:(NSMutableString*)@"val1"; bar:(NSMutableString*)@"val2"
-	} structName] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"242",@"unit.TestMatch",@"testSubtyping",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"1" v2:[TestMatch switchStructure:struct {
-	foo:(NSMutableString*)@"val1"; bar:(NSMutableString*)@"val1"
-	} structName] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"243",@"unit.TestMatch",@"testSubtyping",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"2" v2:[TestMatch switchStructure:struct {
-	foo:(NSMutableString*)@"val2"; bar:(NSMutableString*)@"val2"
-	} structName] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"244",@"unit.TestMatch",@"testSubtyping",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"val1" v2:[TestMatch switchStructure:struct {
-	foo:(NSMutableString*)@"val2"; bar:(NSMutableString*)@"val1"
-	} structName] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"245",@"unit.TestMatch",@"testSubtyping",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[NSMutableString stringWithString:@"s = foo"] v2:r pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"240",@"lineNumber", @"unit.TestMatch",@"className", @"testSubtyping",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"0"] v2:[TestMatch switchStructure:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"val1"] copy], @"foo",
+	[[NSMutableString stringWithString:@"val2"] copy], @"bar",
+	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"242",@"lineNumber", @"unit.TestMatch",@"className", @"testSubtyping",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"1"] v2:[TestMatch switchStructure:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"val1"] copy], @"foo",
+	[[NSMutableString stringWithString:@"val1"] copy], @"bar",
+	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"243",@"lineNumber", @"unit.TestMatch",@"className", @"testSubtyping",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"2"] v2:[TestMatch switchStructure:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"val2"] copy], @"foo",
+	[[NSMutableString stringWithString:@"val2"] copy], @"bar",
+	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"244",@"lineNumber", @"unit.TestMatch",@"className", @"testSubtyping",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"val1"] v2:[TestMatch switchStructure:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"val2"] copy], @"foo",
+	[[NSMutableString stringWithString:@"val1"] copy], @"bar",
+	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"245",@"lineNumber", @"unit.TestMatch",@"className", @"testSubtyping",@"methodName", nil]];
 }
 - (void) testGadt{
-	[self eq:(NSMutableString*)@"<=1" v2:[TestMatch toStringX:FEnum[ U1:1]] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"258",@"unit.TestMatch",@"testGadt",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@">1" v2:[TestMatch toStringX:FEnum[ U1:2]] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"259",@"unit.TestMatch",@"testGadt",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"U2" v2:[TestMatch toStringX: U2] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"260",@"unit.TestMatch",@"testGadt",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[NSMutableString stringWithString:@"<=1"] v2:[TestMatch toStringX:[ U1:1]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"258",@"lineNumber", @"unit.TestMatch",@"className", @"testGadt",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@">1"] v2:[TestMatch toStringX:[ U1:2]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"259",@"lineNumber", @"unit.TestMatch",@"className", @"testGadt",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"U2"] v2:[TestMatch toStringX: U2] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"260",@"lineNumber", @"unit.TestMatch",@"className", @"testGadt",@"methodName", nil]];
 }
 - (void) testClassSwitch{
-	[self eq:(NSMutableString*)@"String" v2:[TestMatch switchClass:NSMutableString] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"264",@"unit.TestMatch",@"testClassSwitch",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"unit.MyClass" v2:[TestMatch switchClass:MyClass] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"265",@"unit.TestMatch",@"testClassSwitch",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"other: unit.TestMatch" v2:[TestMatch switchClass:TestMatch] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"266",@"unit.TestMatch",@"testClassSwitch",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[NSMutableString stringWithString:@"String"] v2:[TestMatch switchClass:NSMutableString] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"264",@"lineNumber", @"unit.TestMatch",@"className", @"testClassSwitch",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"unit.MyClass"] v2:[TestMatch switchClass:MyClass] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"265",@"lineNumber", @"unit.TestMatch",@"className", @"testClassSwitch",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"other: unit.TestMatch"] v2:[TestMatch switchClass:TestMatch] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"266",@"lineNumber", @"unit.TestMatch",@"className", @"testClassSwitch",@"methodName", nil]];
 }
 - (void) testNonExhaustiveness{
-	[self eq:(NSMutableString*)@"Unmatched patterns: false" v2:(NSMutableString*)@"Unmatched patterns: false" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"270",@"unit.TestMatch",@"testNonExhaustiveness",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"Unmatched patterns: OpNegBits | OpNeg" v2:(NSMutableString*)@"Unmatched patterns: OpNegBits | OpNeg" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"273",@"unit.TestMatch",@"testNonExhaustiveness",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"Unmatched patterns: Node(Leaf(_),_)" v2:(NSMutableString*)@"Unmatched patterns: Node(Leaf(_),_)" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"278",@"unit.TestMatch",@"testNonExhaustiveness",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"Unmatched patterns: Leaf" v2:(NSMutableString*)@"Unmatched patterns: Leaf" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"282",@"unit.TestMatch",@"testNonExhaustiveness",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"Unmatched patterns: Leaf(_)" v2:(NSMutableString*)@"Unmatched patterns: Leaf(_)" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"286",@"unit.TestMatch",@"testNonExhaustiveness",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"Unmatched patterns: [_,false,_]" v2:(NSMutableString*)@"Unmatched patterns: [_,false,_]" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"290",@"unit.TestMatch",@"testNonExhaustiveness",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[NSMutableString stringWithString:@"Unmatched patterns: false"] v2:[NSMutableString stringWithString:@"Unmatched patterns: false"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"270",@"lineNumber", @"unit.TestMatch",@"className", @"testNonExhaustiveness",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"Unmatched patterns: OpNegBits | OpNeg"] v2:[NSMutableString stringWithString:@"Unmatched patterns: OpNegBits | OpNeg"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"273",@"lineNumber", @"unit.TestMatch",@"className", @"testNonExhaustiveness",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"Unmatched patterns: Node(Leaf(_),_)"] v2:[NSMutableString stringWithString:@"Unmatched patterns: Node(Leaf(_),_)"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"278",@"lineNumber", @"unit.TestMatch",@"className", @"testNonExhaustiveness",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"Unmatched patterns: Leaf"] v2:[NSMutableString stringWithString:@"Unmatched patterns: Leaf"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"282",@"lineNumber", @"unit.TestMatch",@"className", @"testNonExhaustiveness",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"Unmatched patterns: Leaf(_)"] v2:[NSMutableString stringWithString:@"Unmatched patterns: Leaf(_)"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"286",@"lineNumber", @"unit.TestMatch",@"className", @"testNonExhaustiveness",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"Unmatched patterns: [_,false,_]"] v2:[NSMutableString stringWithString:@"Unmatched patterns: [_,false,_]"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"290",@"lineNumber", @"unit.TestMatch",@"className", @"testNonExhaustiveness",@"methodName", nil]];
 }
 - (void) testInvalidBinding{
-	[self eq:(NSMutableString*)@"Variable y must appear exactly once in each sub-pattern" v2:(NSMutableString*)@"Variable y must appear exactly once in each sub-pattern" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"296",@"unit.TestMatch",@"testInvalidBinding",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"Variable y must appear exactly once in each sub-pattern" v2:(NSMutableString*)@"Variable y must appear exactly once in each sub-pattern" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"299",@"unit.TestMatch",@"testInvalidBinding",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"Variable x must appear exactly once in each sub-pattern" v2:(NSMutableString*)@"Variable x must appear exactly once in each sub-pattern" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"302",@"unit.TestMatch",@"testInvalidBinding",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"Variable l must appear exactly once in each sub-pattern" v2:(NSMutableString*)@"Variable l must appear exactly once in each sub-pattern" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"305",@"unit.TestMatch",@"testInvalidBinding",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"Variable l must appear exactly once in each sub-pattern" v2:(NSMutableString*)@"Variable l must appear exactly once in each sub-pattern" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"308",@"unit.TestMatch",@"testInvalidBinding",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"String should be unit.Tree<String>" v2:(NSMutableString*)@"String should be unit.Tree<String>" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMatch.hx",@"311",@"unit.TestMatch",@"testInvalidBinding",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[NSMutableString stringWithString:@"Variable y must appear exactly once in each sub-pattern"] v2:[NSMutableString stringWithString:@"Variable y must appear exactly once in each sub-pattern"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"296",@"lineNumber", @"unit.TestMatch",@"className", @"testInvalidBinding",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"Variable y must appear exactly once in each sub-pattern"] v2:[NSMutableString stringWithString:@"Variable y must appear exactly once in each sub-pattern"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"299",@"lineNumber", @"unit.TestMatch",@"className", @"testInvalidBinding",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"Variable x must appear exactly once in each sub-pattern"] v2:[NSMutableString stringWithString:@"Variable x must appear exactly once in each sub-pattern"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"302",@"lineNumber", @"unit.TestMatch",@"className", @"testInvalidBinding",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"Variable l must appear exactly once in each sub-pattern"] v2:[NSMutableString stringWithString:@"Variable l must appear exactly once in each sub-pattern"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"305",@"lineNumber", @"unit.TestMatch",@"className", @"testInvalidBinding",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"Variable l must appear exactly once in each sub-pattern"] v2:[NSMutableString stringWithString:@"Variable l must appear exactly once in each sub-pattern"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"308",@"lineNumber", @"unit.TestMatch",@"className", @"testInvalidBinding",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"String should be unit.Tree<String>"] v2:[NSMutableString stringWithString:@"String should be unit.Tree<String>"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"311",@"lineNumber", @"unit.TestMatch",@"className", @"testInvalidBinding",@"methodName", nil]];
 }
 - (id) init{
 	self = [super init];
-	[super];
 	return self;
 }
 

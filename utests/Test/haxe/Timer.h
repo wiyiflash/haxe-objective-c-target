@@ -10,7 +10,7 @@
 
 #import "../haxe/Log.h"
 
-@interface Timer : HXObject
+@interface Timer : NSObject
 
 @property (nonatomic, strong) NSTimer *nstimer;
 @property (nonatomic) int _id;
@@ -18,6 +18,7 @@
 // Defining a dynamic method
 - (void) run;
 @property (nonatomic,copy) void(^property_run)();
+- (void) nsrun:(NSTimer*)aTimer;
 - (id) init:(int)time_ms;
 
 @end

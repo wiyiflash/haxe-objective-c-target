@@ -9,11 +9,11 @@
 
 #import "String.h"
 
-@interface Std : HXObject
+@interface Std : NSObject
 
 + (BOOL) is:(id)v t:(id)t;
 + (NSMutableString*) string:(id)s;
-+ (int) int:(float)x;
++ (int) _int:(float)x;
 + (int) parseInt:(NSMutableString*)x;
 + (float) parseFloat:(NSMutableString*)x;
 

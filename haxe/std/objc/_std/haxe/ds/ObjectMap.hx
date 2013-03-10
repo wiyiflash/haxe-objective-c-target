@@ -2,7 +2,7 @@ package haxe.ds;
 
 @:category("NSMutableDictionary") @:coreApi class ObjectMap<K,V> {
 	
-	public function new() : Void {
+	public function new(?weakKeys:Bool = false) : Void {
 		
 	}
 

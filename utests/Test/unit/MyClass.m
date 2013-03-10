@@ -46,6 +46,27 @@
 
 @end
 
+@implementation MyDynamicChildWithToString
+
+- (NSMutableString*) toString{
+	return [NSMutableString stringWithString:@"Custom toString"];
+}
+- (id) init{
+	self = [super init];
+	return self;
+}
+
+@end
+
+@implementation MyDynamicChildWithoutToString
+
+- (id) init{
+	self = [super init];
+	return self;
+}
+
+@end
+
 @implementation MyChild1
 
 - (int) a{
@@ -59,7 +80,6 @@
 }
 - (id) init{
 	self = [super init];
-	[super];
 	return self;
 }
 
@@ -72,7 +92,6 @@
 }
 - (id) init{
 	self = [super init];
-	[super];
 	return self;
 }
 
@@ -92,7 +111,6 @@
 
 - (id) init{
 	self = [super init];
-	[super];
 	return self;
 }
 
@@ -102,7 +120,6 @@
 
 - (id) init{
 	self = [super init];
-	[super];
 	return self;
 }
 
@@ -112,7 +129,6 @@
 
 - (id) init{
 	self = [super init];
-	[super];
 	return self;
 }
 
@@ -142,7 +158,6 @@
 
 - (id) init{
 	self = [super init];
-	[super];
 	return self;
 }
 
@@ -152,7 +167,6 @@
 
 - (id) init{
 	self = [super init];
-	[super];
 	return self;
 }
 
@@ -162,7 +176,6 @@
 
 - (id) init{
 	self = [super init];
-	[super];
 	return self;
 }
 
@@ -172,7 +185,6 @@
 
 - (id) init{
 	self = [super init];
-	[super];
 	return self;
 }
 
@@ -191,7 +203,6 @@
 
 - (id) init{
 	self = [super init];
-	[super];
 	return self;
 }
 
@@ -201,7 +212,6 @@
 
 - (id) init:(id)t{
 	self = [super init];
-	[super];
 	return self;
 }
 
@@ -226,7 +236,6 @@
 }
 - (id) init{
 	self = [super init];
-	[super];
 	return self;
 }
 
@@ -263,7 +272,6 @@
 }
 - (id) init{
 	self = [super init];
-	[super];
 	return self;
 }
 
@@ -271,35 +279,45 @@
 
 @implementation InitBase
 
-+ (int) si:(int)val {
-	static int _val;
-	if (val == nil) { if (_val == nil) _val = 2; }
-	else { if (_val != nil) _val = val; }
-	return _val;
+static int si;
++ (int) si {
+	if (si == nil) si = 2;
+	return si;
 }
-+ (int) sop:(int)val {
-	static int _val;
-	if (val == nil) { if (_val == nil) _val = 27; }
-	else { if (_val != nil) _val = val; }
-	return _val;
++ (void) setSi:(int)val {
+	si = val;
 }
-+ (id) st:(id)val {
-	static id _val;
-	if (val == nil) { if (_val == nil) _val = NSMutableString; }
-	else { if (_val != nil) _val = val; }
-	return _val;
+static int sop;
++ (int) sop {
+	if (sop == nil) sop = 27;
+	return sop;
 }
-+ (int) sp:(int)val {
-	static int _val;
-	if (val == nil) { if (_val == nil) _val = 6; }
-	else { if (_val != nil) _val = val; }
-	return _val;
++ (void) setSop:(int)val {
+	sop = val;
 }
-+ (float) sinline:(float)val {
-	static float _val;
-	if (val == nil) { if (_val == nil) _val = 60000.; }
-	else { if (_val != nil) _val = val; }
-	return _val;
+static id st;
++ (id) st {
+	if (st == nil) st = NSMutableString;
+	return st;
+}
++ (void) setSt:(id)val {
+	st = val;
+}
+static int sp;
++ (int) sp {
+	if (sp == nil) sp = 6;
+	return sp;
+}
++ (void) setSp:(int)val {
+	sp = val;
+}
+static float sinline;
++ (float) sinline {
+	if (sinline == nil) sinline = 60000.;
+	return sinline;
+}
++ (void) setSinline:(float)val {
+	sinline = val;
 }
 @synthesize i;
 @synthesize s;
@@ -309,7 +327,7 @@
 	self = [super init];
 	self.t = NSMutableString;
 	self.b = YES;
-	self.s = (NSMutableString*)@"foo";
+	self.s = [NSMutableString stringWithString:@"foo"];
 	self.i = 2;
 	return self;
 }
@@ -320,7 +338,6 @@
 
 - (id) init{
 	self = [super init];
-	[super];
 	return self;
 }
 
@@ -330,7 +347,6 @@
 
 - (id) init:(id)_{
 	self = [super init];
-	[super];
 	return self;
 }
 
@@ -355,14 +371,14 @@
 @synthesize accNever;
 
 - (int) set_accFunc:(int)v{
-	return ((int)($this:(snd ctx.path)) @throw (NSMutableString*)@"setter was called";
+	return ((int)($this:(snd ctx.path)) @throw [NSMutableString stringWithString:@"setter was called"];
 	return __r__{
 		
 		int* __r__}
 	}(self));
 }
 - (id) set_accDynamic:(id)v{
-	return ((id)($this:(snd ctx.path)) @throw (NSMutableString*)@"setter was called";
+	return ((id)($this:(snd ctx.path)) @throw [NSMutableString stringWithString:@"setter was called"];
 	return __r__{
 		
 		id* __r__}
@@ -395,10 +411,10 @@
 	return b;
 }
 - (id) memberBasic:(id)a b:(id)b{
-	return [b objectAtIndex:0];
+	return [b hx_objectAtIndex:0];
 }
 - (float) memberAnon:(id)v{
-	return v.x + v.y;
+	return v x + v y;
 }
 - (void) memberOverload:(NSMutableString*)a b:(NSMutableString*)b{
 }
@@ -425,10 +441,10 @@
 @implementation UsingBase
 
 + (NSMutableString*) privFunc:(NSMutableString*)s{
-	return [s uppercaseString];
+	return [s toUpperCase];
 }
 + (NSMutableString*) pupFunc:(NSMutableString*)s{
-	return [s uppercaseString];
+	return [s toUpperCase];
 }
 
 @end
@@ -436,10 +452,10 @@
 @implementation UsingChild1
 
 + (NSMutableString*) test{
-	return [UsingBase pupFunc:(NSMutableString*)@"foo"] + [UsingBase privFunc:(NSMutableString*)@"foo"] + [UsingChild2 siblingFunc:(NSMutableString*)@"FOO"];
+	return [UsingBase pupFunc:[NSMutableString stringWithString:@"foo"]] + [UsingBase privFunc:[NSMutableString stringWithString:@"foo"]] + [UsingChild2 siblingFunc:[NSMutableString stringWithString:@"FOO"]];
 }
 + (NSMutableString*) siblingFunc:(NSMutableString*)s{
-	return [s lowercaseString];
+	return [s toLowerCase];
 }
 
 @end
@@ -447,10 +463,10 @@
 @implementation UsingChild2
 
 + (NSMutableString*) test{
-	return [UsingChild2 siblingFunc:(NSMutableString*)@"foo"];
+	return [UsingChild2 siblingFunc:[NSMutableString stringWithString:@"foo"]];
 }
 + (NSMutableString*) siblingFunc:(NSMutableString*)s{
-	return [s uppercaseString];
+	return [s toUpperCase];
 }
 
 @end
@@ -458,7 +474,7 @@
 @implementation UsingUnrelated
 
 + (NSMutableString*) test{
-	return [UsingBase pupFunc:(NSMutableString*)@"foo"] + [UsingChild2 siblingFunc:(NSMutableString*)@"foo"];
+	return [UsingBase pupFunc:[NSMutableString stringWithString:@"foo"]] + [UsingChild2 siblingFunc:[NSMutableString stringWithString:@"foo"]];
 }
 
 @end
@@ -522,7 +538,7 @@
 }
 - (SEL) get_fProp{
 	return ^- (NSMutableString*) :(int)i{
-		return [(NSMutableString*)@"test" stringByAppendingString:i];
+		return [[NSMutableString stringWithString:@"test"] stringByAppendingString:i];
 	}
 }
 - (id) init{
@@ -542,9 +558,9 @@
 }
 - (SEL) get_fProp{
 	
-	NSMutableArray *s = [[NSMutableArray alloc] initWithObjects:[[super get_fProp]:[NSNumber numberWithInt:0]], nil];
+	NSMutableArray *s = [[NSMutableArray alloc] initWithObject:[[super get_fProp]:[NSNumber numberWithInt:0]]];
 	return ^- (NSMutableString*) :(int)i{
-		return [s objectAtIndex:0] + i;
+		return [s hx_objectAtIndex:0] + i;
 	}
 }
 - (NSMutableString*) test{
@@ -552,7 +568,6 @@
 }
 - (id) init{
 	self = [super init];
-	[super];
 	return self;
 }
 
@@ -560,7 +575,7 @@
 
 @implementation InlineCastA
 
-- (InlineCastA*) self{
+- (InlineCastA*) _self{
 	return self;
 }
 
@@ -569,10 +584,10 @@
 @implementation InlineCastB
 
 - (InlineCastB*) test{
-	return (InlineCastB*)[self _self];
+	return (InlineCastB*)[self self];
 }
 - (NSMutableString*) quote{
-	return (NSMutableString*)@"I am the greatest.";
+	return [NSMutableString stringWithString:@"I am the greatest."];
 }
 - (id) init{
 	self = [super init];

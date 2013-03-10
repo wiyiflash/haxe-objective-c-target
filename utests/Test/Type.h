@@ -24,10 +24,9 @@ typedef enum{
 #import "Enum.h"
 #import "Array.h"
 #import "Type.h"
-#import "ValueType.h"
 #import <objc/runtime.h>
 
-@interface Type : HXObject
+@interface Type : NSObject
 
 + (Class*) getClass:(id)o;
 + (NSMutableString*) getClassName:(Class*)c;
@@ -40,7 +39,7 @@ typedef enum{
 + (NSMutableArray*) getInstanceFields:(Class*)c;
 + (NSMutableArray*) getClassFields:(Class*)c;
 + (NSMutableArray*) getEnumConstructs:(Enum*)e;
-+ (Type*) typeof:(id)v;
++ (Type*) _typeof:(id)v;
 + (BOOL) enumEq:(id)a b:(id)b;
 + (NSMutableArray*) allEnums:(Enum*)e;
 

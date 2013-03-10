@@ -11,7 +11,7 @@
 #import "Array.h"
 #import "Reflect.h"
 
-@interface Reflect : HXObject
+@interface Reflect : NSObject
 
 + (BOOL) hasField:(id)o field:(NSMutableString*)field;
 + (id) field:(id)o field:(NSMutableString*)field;

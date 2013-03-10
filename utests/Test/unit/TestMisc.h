@@ -7,15 +7,17 @@
 
 
 
-#import "../unit/MyDynamicClass.h"
+#import "../unit/TestMisc.h"
 
-@interface MyDynamicClass : HXObject
+@interface MyDynamicClass : NSObject
 
-+ (int) Z:(int)val;
++ (int) Z;
++ (void) setZ:(int)val;
 // Defining a dynamic method
 + (int) staticDynamic:(int)x y:(int)y;
 @property (nonatomic,copy) int(^property_staticDynamic)(int, int);
-+ (int) W:(int)val;
++ (int) W;
++ (void) setW:(int)val;
 + (int) get_W;
 + (int) set_W:(int)v;
 @property (nonatomic) int v;
@@ -30,7 +32,7 @@
 
 
 
-#import "../unit/MyDynamicClass.h"
+#import "../unit/TestMisc.h"
 
 @interface MyDynamicSubClass : MyDynamicClass 
 
@@ -43,7 +45,7 @@
 
 
 
-#import "../unit/MyDynamicClass.h"
+#import "../unit/TestMisc.h"
 
 @interface MyDynamicSubClass2 : MyDynamicClass 
 
@@ -56,7 +58,7 @@
 
 
 
-#import "../unit/MyDynamicClass.h"
+#import "../unit/TestMisc.h"
 
 @interface MyOtherDynamicClass : MyDynamicClass 
 
@@ -67,7 +69,7 @@
 
 
 
-@interface IDefArgs : HXObject
+@interface IDefArgs : NSObject
 
 
 
@@ -76,7 +78,7 @@
 
 
 
-@interface BaseDefArgs : HXObject
+@interface BaseDefArgs : NSObject
 
 - (int) get:(int)x;
 
@@ -84,7 +86,7 @@
 
 
 
-#import "../unit/BaseDefArgs.h"
+#import "../unit/TestMisc.h"
 
 @interface ExtDefArgs : BaseDefArgs <IDefArgs>
 
@@ -97,7 +99,7 @@
 
 #import "../String.h"
 
-@interface BaseConstrOpt : HXObject
+@interface BaseConstrOpt : NSObject
 
 @property (nonatomic, strong) NSMutableString *s;
 @property (nonatomic) int i;
@@ -108,7 +110,7 @@
 
 
 
-#import "../unit/BaseConstrOpt.h"
+#import "../unit/TestMisc.h"
 
 @interface SubConstrOpt : BaseConstrOpt 
 
@@ -119,7 +121,7 @@
 
 
 #import "../String.h"
-#import "../unit/BaseConstrOpt.h"
+#import "../unit/TestMisc.h"
 
 @interface SubConstrOpt2 : BaseConstrOpt 
 
@@ -130,7 +132,7 @@
 
 
 #import "../String.h"
-#import "../unit/BaseConstrOpt.h"
+#import "../unit/TestMisc.h"
 
 @interface SubConstrOpt3 : BaseConstrOpt 
 
@@ -139,36 +141,28 @@
 @end
 
 
+#import <Foundation/Foundation.h>
 
 #import "../String.h"
-#import "../unit/TestMisc.h"
-#import "../Date.h"
 #import "../unit/MyClass.h"
 #import "../Array.h"
 #import "../Math.h"
-#import "../unit/MyEnum.h"
 #import "../Type.h"
 #import "../haxe/crypto/Md5.h"
-#import "../unit/MyDynamicClass.h"
-#import "../unit/MyDynamicSubClass.h"
-#import "../unit/MyOtherDynamicClass.h"
+#import "../unit/TestMisc.h"
 #import "../haxe/io/Bytes.h"
 #import "../haxe/crypto/Sha1.h"
 #import "../haxe/crypto/BaseCode.h"
 #import "../StringTools.h"
-#import "../unit/ExtDefArgs.h"
 #import "../StringBuf.h"
 #import "../Std.h"
 #import "../haxe/Json.h"
-#import "../unit/BaseConstrOpt.h"
-#import "../unit/SubConstrOpt.h"
-#import "../unit/SubConstrOpt2.h"
-#import "../unit/SubConstrOpt3.h"
 #import "../unit/Test.h"
 
 @interface TestMisc : Test 
 
-+ (NSMutableString*) unit:(NSMutableString*)val;
++ (NSMutableString*) unit;
++ (void) setUnit:(NSMutableString*)val;
 + (int) foo:(int)x;
 
 - (void) testPackageConflict;
@@ -180,7 +174,7 @@
 - (void) testHiddenType;
 - (void) testHiddenTypeScope;
 - (void) testHiddenTypeCapture;
-- (int) id:(int)x;
+- (int) _id:(int)x;
 - (int) sq:(int)x;
 - (void) testPropertyInit;
 - (void) testInlineClosure;

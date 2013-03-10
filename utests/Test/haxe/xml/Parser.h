@@ -6,17 +6,18 @@
 //
 
 
+#import <Foundation/Foundation.h>
 
-#import "../../haxe/ds/StringMap.h"
 #import "../../String.h"
 #import "../../Xml.h"
 #import "../../haxe/xml/Parser.h"
 #import "../../StringBuf.h"
 #import "../../Std.h"
 
-@interface Parser : HXObject
+@interface Parser : NSObject
 
-+ (StringMap*) escapes:(StringMap*)val;
++ (StringMap*) escapes;
++ (void) setEscapes:(StringMap*)val;
 + (Xml*) parse:(NSMutableString*)str;
 + (int) doParse:(NSMutableString*)str p:(int)p parent:(Xml*)parent;
 

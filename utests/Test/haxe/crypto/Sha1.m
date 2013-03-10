@@ -20,7 +20,7 @@
 }
 + (Bytes*) make:(Bytes*)b{
 	
-	NSMutableArray *h = (NSMutableArray*)[[[Sha1 alloc] init] doEncode:[Sha1 bytes2blks:b]];
+	NSMutableArray *h = [[[Sha1 alloc] init].doEncode:[Sha1 bytes2blks:b]];
 	
 	Bytes *_out = [Bytes alloc:20];
 	int p = 0;
@@ -28,10 +28,10 @@
 		int _g = 0;
 		while (_g < 5) {
 			int i = _g++;
-			[_out.b objectAtIndex:p++] = ([h objectAtIndex:i] >>> 24 & 255);
-			[_out.b objectAtIndex:p++] = (([h objectAtIndex:i] >> 16 & 255) & 255);
-			[_out.b objectAtIndex:p++] = (([h objectAtIndex:i] >> 8 & 255) & 255);
-			[_out.b objectAtIndex:p++] = (([h objectAtIndex:i] & 255) & 255);
+			[_out.b hx_replaceObjectAtIndex:p++ withObject:(h hx_replaceObjectAtIndex:i >>> [NSNumber numberWithInt:24] & [NSNumber numberWithInt:255])];
+			[_out.b hx_replaceObjectAtIndex:p++ withObject:((h hx_replaceObjectAtIndex:i >> [NSNumber numberWithInt:16] & [NSNumber numberWithInt:255]) & [NSNumber numberWithInt:255])];
+			[_out.b hx_replaceObjectAtIndex:p++ withObject:((h hx_replaceObjectAtIndex:i >> [NSNumber numberWithInt:8] & [NSNumber numberWithInt:255]) & [NSNumber numberWithInt:255])];
+			[_out.b hx_replaceObjectAtIndex:p++ withObject:((h hx_replaceObjectAtIndex:i & [NSNumber numberWithInt:255]) & [NSNumber numberWithInt:255])];
 		}
 	}
 	return _out;
@@ -39,12 +39,12 @@
 + (NSMutableArray*) bytes2blks:(Bytes*)b{
 	int nblk =  (b.length + 8 >> 6) + 1;
 	
-	NSMutableArray *blks = (NSMutableArray*)[[NSMutableArray alloc] init];
+	NSMutableArray *blks = [[NSMutableArray alloc] init];
 	{
 		int _g1 = 0; int _g = nblk * 16;
 		while (_g1 < _g) {
 			int i = _g1++;
-			[blks objectAtIndex:i] = 0;
+			[blks hx_replaceObjectAtIndex:i withObject:[NSNumber numberWithInt:0]];
 		}
 	}
 	{
@@ -52,18 +52,18 @@
 		while (_g1 < _g) {
 			int i = _g1++;
 			int p = i >> 2;
-			[blks objectAtIndex:p] |= [b.b objectAtIndex:i] << 24 -  ( (i & 3) << 3);
+			[blks hx_objectAtIndex:p] |= [b.b hx_objectAtIndex:i] << 24 -  ( (i & 3) << 3);
 		}
 	}
 	int i = b.length;
 	int p = i >> 2;
-	[blks objectAtIndex:p] |= 128 << 24 -  ( (i & 3) << 3);
-	[blks objectAtIndex:nblk * 16 - 1] = b.length * 8;
+	[blks hx_objectAtIndex:p] |= 128 << 24 -  ( (i & 3) << 3);
+	[blks hx_replaceObjectAtIndex:nblk * 16 - 1 withObject:b.length * [NSNumber numberWithInt:8]];
 	return blks;
 }
 - (NSMutableArray*) doEncode:(NSMutableArray*)x{
 	
-	NSMutableArray *w = (NSMutableArray*)[[NSMutableArray alloc] init];
+	NSMutableArray *w = [[NSMutableArray alloc] init];
 	int a = 1732584193;
 	int b = -271733879;
 	int c = -1732584194;
@@ -78,14 +78,14 @@
 		int olde = e;
 		int j = 0;
 		while (j < 80) {
-			if (j < 16) [w objectAtIndex:j] = [x objectAtIndex:i + j];
-			else [w objectAtIndex:j] = ((int)($this:(snd ctx.path)) int num = (([w objectAtIndex:j - 3] ^ [w objectAtIndex:j - 8]) ^ [w objectAtIndex:j - 14]) ^ [w objectAtIndex:j - 16]
-			__r__ = (num << 1 | num >>> 31)
+			if (j < 16) [w hx_replaceObjectAtIndex:j withObject:x hx_replaceObjectAtIndex:i + j];
+			else [w hx_replaceObjectAtIndex:j withObject:((int)($this:(snd ctx.path)) int num = ((w hx_replaceObjectAtIndex:j - [NSNumber numberWithInt:3] ^ w hx_replaceObjectAtIndex:j - [NSNumber numberWithInt:8]) ^ w hx_replaceObjectAtIndex:j - [NSNumber numberWithInt:14]) ^ w hx_replaceObjectAtIndex:j - [NSNumber numberWithInt:16]
+			__r__ = (num << [NSNumber numberWithInt:1] | num >>> [NSNumber numberWithInt:31])
 			return __r__{
 				
 				int* __r__}
-			}(self));
-			int t =  (a << 5 | a >>> 27) + [self ft:j b:b c:c d:d] + e + [w objectAtIndex:j] + [self kt:j];
+			}(self))];
+			int t =  (a << 5 | a >>> 27) + [self ft:j b:b c:c d:d] + e + [w hx_objectAtIndex:j] + [self kt:j];
 			e = d;
 			d = c;
 			c = (b << 30 | b >>> 2);

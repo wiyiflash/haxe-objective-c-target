@@ -11,7 +11,6 @@
 #import "../Array.h"
 #import "../haxe/io/Bytes.h"
 #import "../haxe/io/BytesOutput.h"
-#import "../haxe/io/Error.h"
 #import "../String.h"
 #import "../haxe/io/BytesInput.h"
 #import "../unit/Test.h"

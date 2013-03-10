@@ -12,415 +12,438 @@
 - (void) testArray{
 	
 	NSMutableArray *a = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:1], [NSNumber numberWithInt:2], [NSNumber numberWithInt:3], nil];
-	[self eq:a length v2:3 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"7",@"unit.TestBasetypes",@"testArray",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[a objectAtIndex:0] v2:1 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"8",@"unit.TestBasetypes",@"testArray",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[a objectAtIndex:2] v2:3 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"9",@"unit.TestBasetypes",@"testArray",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[a objectAtIndex:3] v2:nil pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"11",@"unit.TestBasetypes",@"testArray",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[a objectAtIndex:1000] v2:nil pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"12",@"unit.TestBasetypes",@"testArray",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[a objectAtIndex:-1] v2:nil pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"13",@"unit.TestBasetypes",@"testArray",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:a.length v2:3 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"7",@"lineNumber", @"unit.TestBasetypes",@"className", @"testArray",@"methodName", nil]];
+	[self eq:[a hx_objectAtIndex:0] v2:1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"8",@"lineNumber", @"unit.TestBasetypes",@"className", @"testArray",@"methodName", nil]];
+	[self eq:[a hx_objectAtIndex:2] v2:3 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"9",@"lineNumber", @"unit.TestBasetypes",@"className", @"testArray",@"methodName", nil]];
+	[self eq:[a hx_objectAtIndex:3] v2:nil pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"11",@"lineNumber", @"unit.TestBasetypes",@"className", @"testArray",@"methodName", nil]];
+	[self eq:[a hx_objectAtIndex:1000] v2:nil pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"12",@"lineNumber", @"unit.TestBasetypes",@"className", @"testArray",@"methodName", nil]];
+	[self eq:[a hx_objectAtIndex:-1] v2:nil pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"13",@"lineNumber", @"unit.TestBasetypes",@"className", @"testArray",@"methodName", nil]];
 	[a remove:2];
-	[self eq:a length v2:2 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"16",@"unit.TestBasetypes",@"testArray",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[a objectAtIndex:0] v2:1 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"17",@"unit.TestBasetypes",@"testArray",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[a objectAtIndex:1] v2:3 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"18",@"unit.TestBasetypes",@"testArray",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[a objectAtIndex:2] v2:nil pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"19",@"unit.TestBasetypes",@"testArray",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:a.length v2:2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"16",@"lineNumber", @"unit.TestBasetypes",@"className", @"testArray",@"methodName", nil]];
+	[self eq:[a hx_objectAtIndex:0] v2:1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"17",@"lineNumber", @"unit.TestBasetypes",@"className", @"testArray",@"methodName", nil]];
+	[self eq:[a hx_objectAtIndex:1] v2:3 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"18",@"lineNumber", @"unit.TestBasetypes",@"className", @"testArray",@"methodName", nil]];
+	[self eq:[a hx_objectAtIndex:2] v2:nil pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"19",@"lineNumber", @"unit.TestBasetypes",@"className", @"testArray",@"methodName", nil]];
 	
 	NSMutableArray *a1 = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:1], [NSNumber numberWithInt:2], [NSNumber numberWithInt:3], nil];
 	[a1 splice:1 len:1];
-	[self eq:a1 length v2:2 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"23",@"unit.TestBasetypes",@"testArray",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[a1 objectAtIndex:0] v2:1 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"24",@"unit.TestBasetypes",@"testArray",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[a1 objectAtIndex:1] v2:3 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"25",@"unit.TestBasetypes",@"testArray",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[a1 objectAtIndex:2] v2:nil pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"26",@"unit.TestBasetypes",@"testArray",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:a1.length v2:2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"23",@"lineNumber", @"unit.TestBasetypes",@"className", @"testArray",@"methodName", nil]];
+	[self eq:[a1 hx_objectAtIndex:0] v2:1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"24",@"lineNumber", @"unit.TestBasetypes",@"className", @"testArray",@"methodName", nil]];
+	[self eq:[a1 hx_objectAtIndex:1] v2:3 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"25",@"lineNumber", @"unit.TestBasetypes",@"className", @"testArray",@"methodName", nil]];
+	[self eq:[a1 hx_objectAtIndex:2] v2:nil pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"26",@"lineNumber", @"unit.TestBasetypes",@"className", @"testArray",@"methodName", nil]];
 }
 - (void) testString{
-	[self eq:(NSMutableString*)@"M" v2:(NSMutableString*)@"M" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"30",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[NSMutableString stringWithString:@"M"] v2:[NSMutableString stringWithString:@"M"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"30",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
 	[self unspec:^- (void) {
-		[NSMutableString fromCharCode:0];
+		[NSMutableString:0];
 	} pos:nil];
 	[self unspec:^- (void) {
-		[NSMutableString fromCharCode:-1];
+		[NSMutableString:-1];
 	} pos:nil];
 	[self unspec:^- (void) {
-		[NSMutableString fromCharCode:256];
+		[NSMutableString:256];
 	} pos:nil];
-	[self eq:[nil stringByAppendingString:(NSMutableString*)@"x"] v2:(NSMutableString*)@"nullx" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"38",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[(NSMutableString*)@"x" stringByAppendingString:nil] v2:(NSMutableString*)@"xnull" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"39",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[nil stringByAppendingString:[NSMutableString stringWithString:@"x"]] v2:[NSMutableString stringWithString:@"nullx"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"38",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
+	[self eq:[[NSMutableString stringWithString:@"x"] stringByAppendingString:nil] v2:[NSMutableString stringWithString:@"xnull"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"39",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
 	
-	NSMutableArray *abc = (NSMutableArray*)[(NSMutableString*)@"abc" componentsSeparatedByString:(NSMutableString*)@""];
-	[self eq:abc length v2:3 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"43",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[abc objectAtIndex:0] v2:(NSMutableString*)@"a" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"44",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[abc objectAtIndex:1] v2:(NSMutableString*)@"b" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"45",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[abc objectAtIndex:2] v2:(NSMutableString*)@"c" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"46",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	NSMutableArray *abc = [[NSMutableString stringWithString:@"abc"] split:[NSMutableString stringWithString:@""]];
+	[self eq:abc.length v2:3 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"43",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
+	[self eq:[abc hx_objectAtIndex:0] v2:[NSMutableString stringWithString:@"a"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"44",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
+	[self eq:[abc hx_objectAtIndex:1] v2:[NSMutableString stringWithString:@"b"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"45",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
+	[self eq:[abc hx_objectAtIndex:2] v2:[NSMutableString stringWithString:@"c"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"46",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
 	
-	NSMutableString *str = (NSMutableString*)@"abc";
-	[self eq:[str characterAtIndex:0] v2:97 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"49",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[str characterAtIndex:1] v2:98 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"50",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[str characterAtIndex:2] v2:99 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"51",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[str characterAtIndex:-1] v2:nil pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"52",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[str characterAtIndex:3] v2:nil pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"53",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	NSMutableString *str = [NSMutableString stringWithString:@"abc"];
+	[self eq:[str charCodeAt:0] v2:97 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"49",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
+	[self eq:[str charCodeAt:1] v2:98 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"50",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
+	[self eq:[str charCodeAt:2] v2:99 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"51",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
+	[self eq:[str charCodeAt:-1] v2:nil pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"52",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
+	[self eq:[str charCodeAt:3] v2:nil pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"53",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
 	
-	NSMutableString *sentence = (NSMutableString*)@"Pack my box with five dozen liquor jugs.";
-	[self eq:[sentence substr:0 len:4] v2:(NSMutableString*)@"Pack" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"57",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[sentence substr:5 len:2] v2:(NSMutableString*)@"my" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"58",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[sentence substr:0 len:nil] v2:sentence pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"59",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[sentence substr:35 len:nil] v2:(NSMutableString*)@"jugs." pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"60",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[sentence substr:40 len:nil] v2:(NSMutableString*)@"" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"61",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[sentence substr:42 len:nil] v2:(NSMutableString*)@"" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"62",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[sentence substr:-5 len:4] v2:(NSMutableString*)@"jugs" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"63",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[sentence substr:-5 len:nil] v2:(NSMutableString*)@"jugs." pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"64",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[sentence substr:-42 len:nil] v2:sentence pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"65",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[sentence substr:4 len:0] v2:(NSMutableString*)@"" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"66",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[sentence substr:0 len:-36] v2:(NSMutableString*)@"Pack" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"67",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[(NSMutableString*)@"hello" stringByAppendingString:nil] v2:(NSMutableString*)@"hellonull" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"70",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[nil stringByAppendingString:(NSMutableString*)@"hello"] v2:(NSMutableString*)@"nullhello" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"71",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	NSMutableString *sentence = [NSMutableString stringWithString:@"Pack my box with five dozen liquor jugs."];
+	[self eq:[sentence substr:0 len:4] v2:[NSMutableString stringWithString:@"Pack"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"57",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
+	[self eq:[sentence substr:5 len:2] v2:[NSMutableString stringWithString:@"my"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"58",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
+	[self eq:[sentence substr:0 len:nil] v2:sentence pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"59",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
+	[self eq:[sentence substr:35 len:nil] v2:[NSMutableString stringWithString:@"jugs."] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"60",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
+	[self eq:[sentence substr:40 len:nil] v2:[NSMutableString stringWithString:@""] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"61",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
+	[self eq:[sentence substr:42 len:nil] v2:[NSMutableString stringWithString:@""] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"62",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
+	[self eq:[sentence substr:-5 len:4] v2:[NSMutableString stringWithString:@"jugs"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"63",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
+	[self eq:[sentence substr:-5 len:nil] v2:[NSMutableString stringWithString:@"jugs."] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"64",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
+	[self eq:[sentence substr:-42 len:nil] v2:sentence pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"65",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
+	[self eq:[sentence substr:4 len:0] v2:[NSMutableString stringWithString:@""] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"66",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
+	[self eq:[sentence substr:0 len:-36] v2:[NSMutableString stringWithString:@"Pack"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"67",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
+	[self eq:[[NSMutableString stringWithString:@"hello"] stringByAppendingString:nil] v2:[NSMutableString stringWithString:@"hellonull"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"70",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
+	[self eq:[nil stringByAppendingString:[NSMutableString stringWithString:@"hello"]] v2:[NSMutableString stringWithString:@"nullhello"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"71",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
 	id x = nil;
-	[self eq:[(NSMutableString*)@"hello" stringByAppendingString:[Std string:x]] v2:(NSMutableString*)@"hellonull" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"74",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[[Std string:x] stringByAppendingString:(NSMutableString*)@"hello"] v2:(NSMutableString*)@"nullhello" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"75",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	id y = (NSMutableString*)@"hello";
-	[self eq:x + y v2:(NSMutableString*)@"nullhello" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"78",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:y + x v2:(NSMutableString*)@"hellonull" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"79",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[[NSMutableString stringWithString:@"hello"] stringByAppendingString:[Std string:x]] v2:[NSMutableString stringWithString:@"hellonull"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"74",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
+	[self eq:[[Std string:x] stringByAppendingString:[NSMutableString stringWithString:@"hello"]] v2:[NSMutableString stringWithString:@"nullhello"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"75",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
+	id y = [NSMutableString stringWithString:@"hello"];
+	[self eq:x + y v2:[NSMutableString stringWithString:@"nullhello"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"78",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
+	[self eq:y + x v2:[NSMutableString stringWithString:@"hellonull"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"79",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
 	
 	NSMutableString *x1 = nil;
-	[self eq:[(NSMutableString*)@"hello" stringByAppendingString:x1] v2:(NSMutableString*)@"hellonull" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"82",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[x1 stringByAppendingString:(NSMutableString*)@"hello"] v2:(NSMutableString*)@"nullhello" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"83",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	id x2 = struct {
-	hello:(NSMutableString*)@"world"; val:5
-	} structName;
+	[self eq:[[NSMutableString stringWithString:@"hello"] stringByAppendingString:x1] v2:[NSMutableString stringWithString:@"hellonull"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"82",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
+	[self eq:[x1 stringByAppendingString:[NSMutableString stringWithString:@"hello"]] v2:[NSMutableString stringWithString:@"nullhello"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"83",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
+	id x2 = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"world"] copy], @"hello",
+	[5 copy], @"val",
+	nil];
 	
-	NSMutableString *xs = [(NSMutableString*)@"" stringByAppendingString:[Std string:x2]];
-	int h = [xs indexOf:(NSMutableString*)@"hello" startIndex:nil];
-	[self t:h != -1 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"90",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self t:[xs indexOf:(NSMutableString*)@"world" startIndex:h] != -1 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"91",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	h = [xs indexOf:(NSMutableString*)@"val" startIndex:nil];
-	[self t:h != -1 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"93",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self t:[xs indexOf:(NSMutableString*)@"5" startIndex:h] != -1 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"94",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[[Std string:x2] stringByAppendingString:(NSMutableString*)@""] v2:xs pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"95",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[@"5" stringByAppendingString:(NSMutableString*)@"5"] v2:(NSMutableString*)@"55" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"98",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[(NSMutableString*)@"5" stringByAppendingString:@"5"] v2:(NSMutableString*)@"55" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"99",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[(NSMutableString*)@"5" stringByAppendingString:@"5.1"] v2:(NSMutableString*)@"55.1" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"100",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[@"4" stringByAppendingString:(NSMutableString*)@"1"] v2:(NSMutableString*)@"41" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"103",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[[[[(NSMutableString*)@"1" stringByAppendingString:@"1"] stringByAppendingString:@"1"] stringByAppendingString:@"1"] stringByAppendingString:@"1"] v2:(NSMutableString*)@"11111" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"104",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[[@"2" stringByAppendingString:(NSMutableString*)@"1"] stringByAppendingString:@"2"] v2:(NSMutableString*)@"212" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"105",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	NSMutableString *xs = [[NSMutableString stringWithString:@""] stringByAppendingString:[Std string:x2]];
+	int h = [xs indexOf:[NSMutableString stringWithString:@"hello"] startIndex:nil];
+	[self t:h != -1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"90",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
+	[self t:[xs indexOf:[NSMutableString stringWithString:@"world"] startIndex:h] != -1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"91",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
+	h = [xs indexOf:[NSMutableString stringWithString:@"val"] startIndex:nil];
+	[self t:h != -1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"93",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
+	[self t:[xs indexOf:[NSMutableString stringWithString:@"5"] startIndex:h] != -1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"94",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
+	[self eq:[[Std string:x2] stringByAppendingString:[NSMutableString stringWithString:@""]] v2:xs pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"95",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
+	[self eq:[@"5" stringByAppendingString:[NSMutableString stringWithString:@"5"]] v2:[NSMutableString stringWithString:@"55"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"98",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
+	[self eq:[[NSMutableString stringWithString:@"5"] stringByAppendingString:@"5"] v2:[NSMutableString stringWithString:@"55"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"99",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
+	[self eq:[[NSMutableString stringWithString:@"5"] stringByAppendingString:@"5.1"] v2:[NSMutableString stringWithString:@"55.1"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"100",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
+	[self eq:[@"4" stringByAppendingString:[NSMutableString stringWithString:@"1"]] v2:[NSMutableString stringWithString:@"41"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"103",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
+	[self eq:[[[[[NSMutableString stringWithString:@"1"] stringByAppendingString:@"1"] stringByAppendingString:@"1"] stringByAppendingString:@"1"] stringByAppendingString:@"1"] v2:[NSMutableString stringWithString:@"11111"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"104",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
+	[self eq:[[@"2" stringByAppendingString:[NSMutableString stringWithString:@"1"]] stringByAppendingString:@"2"] v2:[NSMutableString stringWithString:@"212"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"105",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
 	
-	NSMutableArray *x3 = [[NSMutableArray alloc] initWithObjects:[[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:1], nil], [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:2], [NSNumber numberWithInt:3], nil], nil];
-	[self eq:[(NSMutableString*)@"" stringByAppendingString:[Std string:x3]] v2:(NSMutableString*)@"[[1],[2,3]]" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"109",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	NSMutableArray *x3 = [[NSMutableArray alloc] initWithObjects:[[NSMutableArray alloc] initWithObject:[NSNumber numberWithInt:1]], [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:2], [NSNumber numberWithInt:3], nil], nil];
+	[self eq:[[NSMutableString stringWithString:@""] stringByAppendingString:[Std string:x3]] v2:[NSMutableString stringWithString:@"[[1],[2,3]]"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"109",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
 	
-	NSMutableArray *x4 = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:1], (NSMutableString*)@"hello", nil];
-	[self eq:[(NSMutableString*)@"" stringByAppendingString:[Std string:x4]] v2:(NSMutableString*)@"[1,hello]" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"113",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[[Std string:x4] stringByAppendingString:(NSMutableString*)@""] v2:[(NSMutableString*)@"" stringByAppendingString:[Std string:x4]] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"114",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	NSMutableArray *x4 = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:1], [NSMutableString stringWithString:@"hello"], nil];
+	[self eq:[[NSMutableString stringWithString:@""] stringByAppendingString:[Std string:x4]] v2:[NSMutableString stringWithString:@"[1,hello]"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"113",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
+	[self eq:[[Std string:x4] stringByAppendingString:[NSMutableString stringWithString:@""]] v2:[[NSMutableString stringWithString:@""] stringByAppendingString:[Std string:x4]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"114",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
 	id x5 = x4;
-	[self eq:[(NSMutableString*)@"" stringByAppendingString:[Std string:x5]] v2:(NSMutableString*)@"[1,hello]" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"118",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[[Std string:x5] stringByAppendingString:(NSMutableString*)@""] v2:[(NSMutableString*)@"" stringByAppendingString:[Std string:x5]] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"119",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[[NSMutableString stringWithString:@""] stringByAppendingString:[Std string:x5]] v2:[NSMutableString stringWithString:@"[1,hello]"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"118",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
+	[self eq:[[Std string:x5] stringByAppendingString:[NSMutableString stringWithString:@""]] v2:[[NSMutableString stringWithString:@""] stringByAppendingString:[Std string:x5]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"119",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
 	@try {
-		[(NSMutableString*)@"" stringByAppendingString:[Std string:[x5 iterator]]];
+		[[NSMutableString stringWithString:@""] stringByAppendingString:[Std string:[x5 iterator]]];
 	}
 	@catch (NSException *e) {
-		[Test report:(NSMutableString*)@"Could not convert Iterator to String" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"125",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+		[Test report:[NSMutableString stringWithString:@"Could not convert Iterator to String"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"125",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
 	}
 	
-	NSMutableString *str1 = (NSMutableString*)@"he\nlo\"'";
-	[self eq:[Std string:str1] v2:str1 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"129",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[Std string:[[NSMutableArray alloc] initWithObjects:str1, nil]] v2:[[(NSMutableString*)@"[" stringByAppendingString:str1] stringByAppendingString:(NSMutableString*)@"]"] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"130",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	NSMutableString *str1 = [NSMutableString stringWithString:@"he\nlo\"'"];
+	[self eq:[Std string:str1] v2:str1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"129",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
+	[self eq:[Std string:[[NSMutableArray alloc] initWithObject:str1]] v2:[[[NSMutableString stringWithString:@"["] stringByAppendingString:str1] stringByAppendingString:[NSMutableString stringWithString:@"]"]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"130",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
 	
-	MyEnum *e = FEnum[ C:0 b:(NSMutableString*)@"h"];
-	[self eq:[Std string:e] v2:(NSMutableString*)@"C(0,h)" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"133",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[Std string:[[NSMutableArray alloc] initWithObjects:e, nil]] v2:(NSMutableString*)@"[C(0,h)]" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"135",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	MyEnum *e = [ C:0 b:[NSMutableString stringWithString:@"h"]];
+	[self eq:[Std string:e] v2:[NSMutableString stringWithString:@"C(0,h)"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"133",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
+	[self eq:[Std string:[[NSMutableArray alloc] initWithObject:e]] v2:[NSMutableString stringWithString:@"[C(0,h)]"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"135",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
 	
-	NSMutableString *tester = (NSMutableString*)@"show me the (show me!) index of show me";
-	[self eq:[tester lastIndexOf:(NSMutableString*)@"show me" startIndex:nil] v2:32 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"138",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[tester lastIndexOf:(NSMutableString*)@"show me" startIndex:1] v2:0 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"139",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[tester lastIndexOf:(NSMutableString*)@"show me" startIndex:28] v2:13 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"140",@"unit.TestBasetypes",@"testString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	NSMutableString *tester = [NSMutableString stringWithString:@"show me the (show me!) index of show me"];
+	[self eq:[tester lastIndexOf:[NSMutableString stringWithString:@"show me"] startIndex:nil] v2:32 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"138",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
+	[self eq:[tester lastIndexOf:[NSMutableString stringWithString:@"show me"] startIndex:1] v2:0 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"139",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
+	[self eq:[tester lastIndexOf:[NSMutableString stringWithString:@"show me"] startIndex:28] v2:13 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"140",@"lineNumber", @"unit.TestBasetypes",@"className", @"testString",@"methodName", nil]];
 }
 - (void) testMath{
-	[self eq:floorf(-1.7) v2:-2 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"144",@"unit.TestBasetypes",@"testMath",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:floorf(-1.5) v2:-2 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"145",@"unit.TestBasetypes",@"testMath",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:floorf(-1.2) v2:-2 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"146",@"unit.TestBasetypes",@"testMath",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:floorf(1.7) v2:1 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"147",@"unit.TestBasetypes",@"testMath",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:floorf(1.5) v2:1 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"148",@"unit.TestBasetypes",@"testMath",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:floorf(1.2) v2:1 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"149",@"unit.TestBasetypes",@"testMath",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:ceilf(-1.7) v2:-1 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"150",@"unit.TestBasetypes",@"testMath",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:ceilf(-1.5) v2:-1 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"151",@"unit.TestBasetypes",@"testMath",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:ceilf(-1.2) v2:-1 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"152",@"unit.TestBasetypes",@"testMath",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:ceilf(1.7) v2:2 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"153",@"unit.TestBasetypes",@"testMath",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:ceilf(1.5) v2:2 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"154",@"unit.TestBasetypes",@"testMath",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:ceilf(1.2) v2:2 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"155",@"unit.TestBasetypes",@"testMath",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:roundf(-1.7) v2:-2 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"156",@"unit.TestBasetypes",@"testMath",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:roundf(-1.5) v2:-1 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"157",@"unit.TestBasetypes",@"testMath",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:roundf(-1.2) v2:-1 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"158",@"unit.TestBasetypes",@"testMath",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:roundf(1.7) v2:2 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"159",@"unit.TestBasetypes",@"testMath",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:roundf(1.5) v2:2 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"160",@"unit.TestBasetypes",@"testMath",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:roundf(1.2) v2:1 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"161",@"unit.TestBasetypes",@"testMath",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[Std _int:-10000000000.7] v2:-1410065408 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"164",@"unit.TestBasetypes",@"testMath",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:floorf(-10000000000.7) v2:-1410065409 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"175",@"unit.TestBasetypes",@"testMath",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:ceilf(-10000000000.7) v2:-1410065408 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"176",@"unit.TestBasetypes",@"testMath",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:roundf(-10000000000.7) v2:-1410065409 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"177",@"unit.TestBasetypes",@"testMath",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(float)floorf(-10000000000.7) v2:-10000000001. pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"181",@"unit.TestBasetypes",@"testMath",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(float)ceilf(-10000000000.7) v2:-10000000000. pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"182",@"unit.TestBasetypes",@"testMath",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(float)roundf(-10000000000.7) v2:-10000000001. pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"183",@"unit.TestBasetypes",@"testMath",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:floorf(-1.7) v2:-2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"144",@"lineNumber", @"unit.TestBasetypes",@"className", @"testMath",@"methodName", nil]];
+	[self eq:floorf(-1.5) v2:-2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"145",@"lineNumber", @"unit.TestBasetypes",@"className", @"testMath",@"methodName", nil]];
+	[self eq:floorf(-1.2) v2:-2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"146",@"lineNumber", @"unit.TestBasetypes",@"className", @"testMath",@"methodName", nil]];
+	[self eq:floorf(1.7) v2:1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"147",@"lineNumber", @"unit.TestBasetypes",@"className", @"testMath",@"methodName", nil]];
+	[self eq:floorf(1.5) v2:1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"148",@"lineNumber", @"unit.TestBasetypes",@"className", @"testMath",@"methodName", nil]];
+	[self eq:floorf(1.2) v2:1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"149",@"lineNumber", @"unit.TestBasetypes",@"className", @"testMath",@"methodName", nil]];
+	[self eq:ceilf(-1.7) v2:-1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"150",@"lineNumber", @"unit.TestBasetypes",@"className", @"testMath",@"methodName", nil]];
+	[self eq:ceilf(-1.5) v2:-1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"151",@"lineNumber", @"unit.TestBasetypes",@"className", @"testMath",@"methodName", nil]];
+	[self eq:ceilf(-1.2) v2:-1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"152",@"lineNumber", @"unit.TestBasetypes",@"className", @"testMath",@"methodName", nil]];
+	[self eq:ceilf(1.7) v2:2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"153",@"lineNumber", @"unit.TestBasetypes",@"className", @"testMath",@"methodName", nil]];
+	[self eq:ceilf(1.5) v2:2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"154",@"lineNumber", @"unit.TestBasetypes",@"className", @"testMath",@"methodName", nil]];
+	[self eq:ceilf(1.2) v2:2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"155",@"lineNumber", @"unit.TestBasetypes",@"className", @"testMath",@"methodName", nil]];
+	[self eq:roundf(-1.7) v2:-2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"156",@"lineNumber", @"unit.TestBasetypes",@"className", @"testMath",@"methodName", nil]];
+	[self eq:roundf(-1.5) v2:-1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"157",@"lineNumber", @"unit.TestBasetypes",@"className", @"testMath",@"methodName", nil]];
+	[self eq:roundf(-1.2) v2:-1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"158",@"lineNumber", @"unit.TestBasetypes",@"className", @"testMath",@"methodName", nil]];
+	[self eq:roundf(1.7) v2:2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"159",@"lineNumber", @"unit.TestBasetypes",@"className", @"testMath",@"methodName", nil]];
+	[self eq:roundf(1.5) v2:2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"160",@"lineNumber", @"unit.TestBasetypes",@"className", @"testMath",@"methodName", nil]];
+	[self eq:roundf(1.2) v2:1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"161",@"lineNumber", @"unit.TestBasetypes",@"className", @"testMath",@"methodName", nil]];
+	[self eq:(float)floorf(-10000000000.7) v2:-10000000001. pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"201",@"lineNumber", @"unit.TestBasetypes",@"className", @"testMath",@"methodName", nil]];
+	[self eq:(float)ceilf(-10000000000.7) v2:-10000000000. pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"202",@"lineNumber", @"unit.TestBasetypes",@"className", @"testMath",@"methodName", nil]];
+	[self eq:(float)roundf(-10000000000.7) v2:-10000000001. pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"203",@"lineNumber", @"unit.TestBasetypes",@"className", @"testMath",@"methodName", nil]];
 }
 - (void) testStringMap{
 	
 	StringMap *h = [[StringMap alloc] init];
-	[h set:(NSMutableString*)@"x" value:-1];
-	[h set:(NSMutableString*)@"abcd" value:8546];
-	[self eq:[h get:(NSMutableString*)@"x"] v2:-1 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"190",@"unit.TestBasetypes",@"testStringMap",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[h get:(NSMutableString*)@"abcd"] v2:8546 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"191",@"unit.TestBasetypes",@"testStringMap",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[h get:(NSMutableString*)@"e"] v2:nil pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"192",@"unit.TestBasetypes",@"testStringMap",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[h set:[NSMutableString stringWithString:@"x"] value:-1];
+	[h set:[NSMutableString stringWithString:@"abcd"] value:8546];
+	[self eq:[h get:[NSMutableString stringWithString:@"x"]] v2:-1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"210",@"lineNumber", @"unit.TestBasetypes",@"className", @"testStringMap",@"methodName", nil]];
+	[self eq:[h get:[NSMutableString stringWithString:@"abcd"]] v2:8546 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"211",@"lineNumber", @"unit.TestBasetypes",@"className", @"testStringMap",@"methodName", nil]];
+	[self eq:[h get:[NSMutableString stringWithString:@"e"]] v2:nil pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"212",@"lineNumber", @"unit.TestBasetypes",@"className", @"testStringMap",@"methodName", nil]];
 	
-	NSMutableArray *k = (NSMutableArray*)[Lambda array:h];
+	NSMutableArray *k = [Lambda array:h];
 	[k sort:Reflect compare];
-	[self eq:[k join:(NSMutableString*)@"#"] v2:(NSMutableString*)@"-1#8546" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"196",@"unit.TestBasetypes",@"testStringMap",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[k join:[NSMutableString stringWithString:@"#"]] v2:[NSMutableString stringWithString:@"-1#8546"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"216",@"lineNumber", @"unit.TestBasetypes",@"className", @"testStringMap",@"methodName", nil]];
 	
-	NSMutableArray *k1 = (NSMutableArray*)[Lambda array:struct {
-	iterator:h keys
-	} structName];
+	NSMutableArray *k1 = [Lambda array:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[h keys copy], @"iterator",
+	nil]];
 	[k1 sort:Reflect compare];
-	[self eq:[k1 join:(NSMutableString*)@"#"] v2:(NSMutableString*)@"abcd#x" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"200",@"unit.TestBasetypes",@"testStringMap",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self t:[h exists:(NSMutableString*)@"x"] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"202",@"unit.TestBasetypes",@"testStringMap",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self t:[h exists:(NSMutableString*)@"abcd"] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"203",@"unit.TestBasetypes",@"testStringMap",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self f:[h exists:(NSMutableString*)@"e"] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"204",@"unit.TestBasetypes",@"testStringMap",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[h remove:(NSMutableString*)@"abcd"];
-	[self t:[h exists:(NSMutableString*)@"x"] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"206",@"unit.TestBasetypes",@"testStringMap",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self f:[h exists:(NSMutableString*)@"abcd"] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"207",@"unit.TestBasetypes",@"testStringMap",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self f:[h exists:(NSMutableString*)@"e"] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"208",@"unit.TestBasetypes",@"testStringMap",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[h get:(NSMutableString*)@"abcd"] v2:nil pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"209",@"unit.TestBasetypes",@"testStringMap",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[h set:(NSMutableString*)@"x" value:nil];
-	[self t:[h exists:(NSMutableString*)@"x"] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"212",@"unit.TestBasetypes",@"testStringMap",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self t:[h remove:(NSMutableString*)@"x"] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"213",@"unit.TestBasetypes",@"testStringMap",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self f:[h remove:(NSMutableString*)@"x"] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"214",@"unit.TestBasetypes",@"testStringMap",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[k1 join:[NSMutableString stringWithString:@"#"]] v2:[NSMutableString stringWithString:@"abcd#x"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"220",@"lineNumber", @"unit.TestBasetypes",@"className", @"testStringMap",@"methodName", nil]];
+	[self t:[h exists:[NSMutableString stringWithString:@"x"]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"222",@"lineNumber", @"unit.TestBasetypes",@"className", @"testStringMap",@"methodName", nil]];
+	[self t:[h exists:[NSMutableString stringWithString:@"abcd"]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"223",@"lineNumber", @"unit.TestBasetypes",@"className", @"testStringMap",@"methodName", nil]];
+	[self f:[h exists:[NSMutableString stringWithString:@"e"]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"224",@"lineNumber", @"unit.TestBasetypes",@"className", @"testStringMap",@"methodName", nil]];
+	[h remove:[NSMutableString stringWithString:@"abcd"]];
+	[self t:[h exists:[NSMutableString stringWithString:@"x"]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"226",@"lineNumber", @"unit.TestBasetypes",@"className", @"testStringMap",@"methodName", nil]];
+	[self f:[h exists:[NSMutableString stringWithString:@"abcd"]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"227",@"lineNumber", @"unit.TestBasetypes",@"className", @"testStringMap",@"methodName", nil]];
+	[self f:[h exists:[NSMutableString stringWithString:@"e"]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"228",@"lineNumber", @"unit.TestBasetypes",@"className", @"testStringMap",@"methodName", nil]];
+	[self eq:[h get:[NSMutableString stringWithString:@"abcd"]] v2:nil pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"229",@"lineNumber", @"unit.TestBasetypes",@"className", @"testStringMap",@"methodName", nil]];
+	[h set:[NSMutableString stringWithString:@"x"] value:nil];
+	[self t:[h exists:[NSMutableString stringWithString:@"x"]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"232",@"lineNumber", @"unit.TestBasetypes",@"className", @"testStringMap",@"methodName", nil]];
+	[self t:[h remove:[NSMutableString stringWithString:@"x"]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"233",@"lineNumber", @"unit.TestBasetypes",@"className", @"testStringMap",@"methodName", nil]];
+	[self f:[h remove:[NSMutableString stringWithString:@"x"]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"234",@"lineNumber", @"unit.TestBasetypes",@"className", @"testStringMap",@"methodName", nil]];
 }
 - (void) testIntMap{
 	
 	IntMap *h = [[IntMap alloc] init];
 	[h set:0 value:-1];
 	[h set:-4815 value:8546];
-	[self eq:[h get:0] v2:-1 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"221",@"unit.TestBasetypes",@"testIntMap",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[h get:-4815] v2:8546 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"222",@"unit.TestBasetypes",@"testIntMap",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[h get:456] v2:nil pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"223",@"unit.TestBasetypes",@"testIntMap",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[h get:0] v2:-1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"241",@"lineNumber", @"unit.TestBasetypes",@"className", @"testIntMap",@"methodName", nil]];
+	[self eq:[h get:-4815] v2:8546 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"242",@"lineNumber", @"unit.TestBasetypes",@"className", @"testIntMap",@"methodName", nil]];
+	[self eq:[h get:456] v2:nil pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"243",@"lineNumber", @"unit.TestBasetypes",@"className", @"testIntMap",@"methodName", nil]];
 	
-	NSMutableArray *k = (NSMutableArray*)[Lambda array:h];
+	NSMutableArray *k = [Lambda array:h];
 	[k sort:Reflect compare];
-	[self eq:[k join:(NSMutableString*)@"#"] v2:(NSMutableString*)@"-1#8546" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"227",@"unit.TestBasetypes",@"testIntMap",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[k join:[NSMutableString stringWithString:@"#"]] v2:[NSMutableString stringWithString:@"-1#8546"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"247",@"lineNumber", @"unit.TestBasetypes",@"className", @"testIntMap",@"methodName", nil]];
 	
-	NSMutableArray *k1 = (NSMutableArray*)[Lambda array:struct {
-	iterator:h keys
-	} structName];
+	NSMutableArray *k1 = [Lambda array:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[h keys copy], @"iterator",
+	nil]];
 	[k1 sort:Reflect compare];
-	[self eq:[k1 join:(NSMutableString*)@"#"] v2:(NSMutableString*)@"-4815#0" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"231",@"unit.TestBasetypes",@"testIntMap",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self t:[h exists:0] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"233",@"unit.TestBasetypes",@"testIntMap",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self t:[h exists:-4815] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"234",@"unit.TestBasetypes",@"testIntMap",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self f:[h exists:456] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"235",@"unit.TestBasetypes",@"testIntMap",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[k1 join:[NSMutableString stringWithString:@"#"]] v2:[NSMutableString stringWithString:@"-4815#0"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"251",@"lineNumber", @"unit.TestBasetypes",@"className", @"testIntMap",@"methodName", nil]];
+	[self t:[h exists:0] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"253",@"lineNumber", @"unit.TestBasetypes",@"className", @"testIntMap",@"methodName", nil]];
+	[self t:[h exists:-4815] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"254",@"lineNumber", @"unit.TestBasetypes",@"className", @"testIntMap",@"methodName", nil]];
+	[self f:[h exists:456] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"255",@"lineNumber", @"unit.TestBasetypes",@"className", @"testIntMap",@"methodName", nil]];
 	[h remove:-4815];
-	[self t:[h exists:0] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"237",@"unit.TestBasetypes",@"testIntMap",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self f:[h exists:-4815] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"238",@"unit.TestBasetypes",@"testIntMap",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self f:[h exists:456] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"239",@"unit.TestBasetypes",@"testIntMap",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[h get:-4815] v2:nil pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"240",@"unit.TestBasetypes",@"testIntMap",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self t:[h exists:0] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"257",@"lineNumber", @"unit.TestBasetypes",@"className", @"testIntMap",@"methodName", nil]];
+	[self f:[h exists:-4815] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"258",@"lineNumber", @"unit.TestBasetypes",@"className", @"testIntMap",@"methodName", nil]];
+	[self f:[h exists:456] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"259",@"lineNumber", @"unit.TestBasetypes",@"className", @"testIntMap",@"methodName", nil]];
+	[self eq:[h get:-4815] v2:nil pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"260",@"lineNumber", @"unit.TestBasetypes",@"className", @"testIntMap",@"methodName", nil]];
 	[h set:65 value:nil];
-	[self t:[h exists:65] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"243",@"unit.TestBasetypes",@"testIntMap",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self t:[h remove:65] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"244",@"unit.TestBasetypes",@"testIntMap",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self f:[h remove:65] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"245",@"unit.TestBasetypes",@"testIntMap",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self t:[h exists:65] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"263",@"lineNumber", @"unit.TestBasetypes",@"className", @"testIntMap",@"methodName", nil]];
+	[self t:[h remove:65] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"264",@"lineNumber", @"unit.TestBasetypes",@"className", @"testIntMap",@"methodName", nil]];
+	[self f:[h remove:65] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"265",@"lineNumber", @"unit.TestBasetypes",@"className", @"testIntMap",@"methodName", nil]];
 	
 	IntMap *h1 = [[IntMap alloc] init];
-	[h1 set:1 value:[[NSMutableArray alloc] initWithObjects:(NSMutableString*)@"a", (NSMutableString*)@"b", nil]];
-	[self t:[h1 exists:1] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"249",@"unit.TestBasetypes",@"testIntMap",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self t:[h1 remove:1] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"250",@"unit.TestBasetypes",@"testIntMap",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self f:[h1 remove:1] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"251",@"unit.TestBasetypes",@"testIntMap",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[h1 set:1 value:[[NSMutableArray alloc] initWithObjects:[NSMutableString stringWithString:@"a"], [NSMutableString stringWithString:@"b"], nil]];
+	[self t:[h1 exists:1] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"269",@"lineNumber", @"unit.TestBasetypes",@"className", @"testIntMap",@"methodName", nil]];
+	[self t:[h1 remove:1] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"270",@"lineNumber", @"unit.TestBasetypes",@"className", @"testIntMap",@"methodName", nil]];
+	[self f:[h1 remove:1] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"271",@"lineNumber", @"unit.TestBasetypes",@"className", @"testIntMap",@"methodName", nil]];
 }
 - (void) testObjectKeyword{
-	id l = struct {
-	new:(NSMutableString*)@"test"
-	} structName;
+	id l = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"test"] copy], @"new",
+	nil];
 	
-	NSMutableString *prefix = (NSMutableString*)@"";
-	[self eq:[Reflect field:l field:[prefix stringByAppendingString:(NSMutableString*)@"new"]] v2:(NSMutableString*)@"test" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"258",@"unit.TestBasetypes",@"testObjectKeyword",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	id o = struct {
-	const:6
-	} structName;
-	[self eq:o _const v2:6 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"262",@"unit.TestBasetypes",@"testObjectKeyword",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[Reflect field:o field:[prefix stringByAppendingString:(NSMutableString*)@"const"]] v2:6 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"263",@"unit.TestBasetypes",@"testObjectKeyword",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	NSMutableString *prefix = [NSMutableString stringWithString:@""];
+	[self eq:[Reflect field:l field:[prefix stringByAppendingString:[NSMutableString stringWithString:@"new"]]] v2:[NSMutableString stringWithString:@"test"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"278",@"lineNumber", @"unit.TestBasetypes",@"className", @"testObjectKeyword",@"methodName", nil]];
+	id o = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[6 copy], @"const",
+	nil];
+	[self eq:o const v2:6 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"282",@"lineNumber", @"unit.TestBasetypes",@"className", @"testObjectKeyword",@"methodName", nil]];
+	[self eq:[Reflect field:o field:[prefix stringByAppendingString:[NSMutableString stringWithString:@"const"]]] v2:6 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"283",@"lineNumber", @"unit.TestBasetypes",@"className", @"testObjectKeyword",@"methodName", nil]];
 }
 - (void) testFormat{
-	[self eq:(NSMutableString*)@"" v2:(NSMutableString*)@"" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"267",@"unit.TestBasetypes",@"testFormat",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"$" v2:(NSMutableString*)@"$" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"268",@"unit.TestBasetypes",@"testFormat",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"$" v2:(NSMutableString*)@"$" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"269",@"unit.TestBasetypes",@"testFormat",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"x$*" v2:(NSMutableString*)@"x$*" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"270",@"unit.TestBasetypes",@"testFormat",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[NSMutableString stringWithString:@""] v2:[NSMutableString stringWithString:@""] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"287",@"lineNumber", @"unit.TestBasetypes",@"className", @"testFormat",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"$"] v2:[NSMutableString stringWithString:@"$"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"288",@"lineNumber", @"unit.TestBasetypes",@"className", @"testFormat",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"$"] v2:[NSMutableString stringWithString:@"$"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"289",@"lineNumber", @"unit.TestBasetypes",@"className", @"testFormat",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"x$*"] v2:[NSMutableString stringWithString:@"x$*"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"290",@"lineNumber", @"unit.TestBasetypes",@"className", @"testFormat",@"methodName", nil]];
 	int x = 5; 
 	NSMutableArray *y = [[NSMutableArray alloc] initWithObjects:, nil];
-	[self eq:[(NSMutableString*)@"" stringByAppendingString:x] v2:(NSMutableString*)@"5" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"273",@"unit.TestBasetypes",@"testFormat",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[[(NSMutableString*)@"a" stringByAppendingString:x] stringByAppendingString:(NSMutableString*)@"$"] v2:(NSMutableString*)@"a5$" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"274",@"unit.TestBasetypes",@"testFormat",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[(NSMutableString*)@"" stringByAppendingString:@"5"] v2:(NSMutableString*)@"5" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"276",@"unit.TestBasetypes",@"testFormat",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[[(NSMutableString*)@"" stringByAppendingString:@"5"] stringByAppendingString:@"2"] v2:(NSMutableString*)@"52" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"277",@"unit.TestBasetypes",@"testFormat",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[[(NSMutableString*)@"a" stringByAppendingString:x] stringByAppendingString:(NSMutableString*)@"b"] v2:(NSMutableString*)@"a5b" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"278",@"unit.TestBasetypes",@"testFormat",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[[(NSMutableString*)@"" stringByAppendingString:x] stringByAppendingString:[Std string:y]] v2:(NSMutableString*)@"5[]" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"279",@"unit.TestBasetypes",@"testFormat",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[[NSMutableString stringWithString:@""] stringByAppendingString:x] v2:[NSMutableString stringWithString:@"5"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"293",@"lineNumber", @"unit.TestBasetypes",@"className", @"testFormat",@"methodName", nil]];
+	[self eq:[[[NSMutableString stringWithString:@"a"] stringByAppendingString:x] stringByAppendingString:[NSMutableString stringWithString:@"$"]] v2:[NSMutableString stringWithString:@"a5$"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"294",@"lineNumber", @"unit.TestBasetypes",@"className", @"testFormat",@"methodName", nil]];
+	[self eq:[[NSMutableString stringWithString:@""] stringByAppendingString:@"5"] v2:[NSMutableString stringWithString:@"5"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"296",@"lineNumber", @"unit.TestBasetypes",@"className", @"testFormat",@"methodName", nil]];
+	[self eq:[[[NSMutableString stringWithString:@""] stringByAppendingString:@"5"] stringByAppendingString:@"2"] v2:[NSMutableString stringWithString:@"52"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"297",@"lineNumber", @"unit.TestBasetypes",@"className", @"testFormat",@"methodName", nil]];
+	[self eq:[[[NSMutableString stringWithString:@"a"] stringByAppendingString:x] stringByAppendingString:[NSMutableString stringWithString:@"b"]] v2:[NSMutableString stringWithString:@"a5b"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"298",@"lineNumber", @"unit.TestBasetypes",@"className", @"testFormat",@"methodName", nil]];
+	[self eq:[[[NSMutableString stringWithString:@""] stringByAppendingString:x] stringByAppendingString:[Std string:y]] v2:[NSMutableString stringWithString:@"5[]"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"299",@"lineNumber", @"unit.TestBasetypes",@"className", @"testFormat",@"methodName", nil]];
 }
 - (void) testAbstract{
 	
 	MyAbstract *a = (MyAbstract*)33;
-	[self t:[Std is:a t:TAbstractDecl] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"284",@"unit.TestBasetypes",@"testAbstract",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(int)a v2:33 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"285",@"unit.TestBasetypes",@"testAbstract",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self t:[Std is:a t: TAbstractDecl ] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"304",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstract",@"methodName", nil]];
+	[self eq:(int)a v2:33 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"305",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstract",@"methodName", nil]];
 	
 	MyAbstract *b = a;
 	++a;
-	[self eq:(int)a v2:34 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"288",@"unit.TestBasetypes",@"testAbstract",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(int)b v2:33 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"289",@"unit.TestBasetypes",@"testAbstract",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:(int)a v2:34 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"308",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstract",@"methodName", nil]];
+	[self eq:(int)b v2:33 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"309",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstract",@"methodName", nil]];
 }
 - (void) testAbstractCast{
 	
-	NSMutableArray *_g = [[NSMutableArray alloc] initWithObjects:self, nil];
+	NSMutableArray *_g = [[NSMutableArray alloc] initWithObject:self];
 	
-	NSMutableString *s = (NSMutableString*)@"Abstract casting ::t::";
+	NSMutableString *s = [NSMutableString stringWithString:@"Abstract casting ::t::"];
 	
 	TemplateWrap *tpl = [[Template alloc] init:s];
-	[self t:[Std is:tpl t:Template] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"298",@"unit.TestBasetypes",@"testAbstractCast",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self t:[Std is:(Template*)tpl t:Template] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"299",@"unit.TestBasetypes",@"testAbstractCast",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[(Template*)tpl execute:struct {
-	t:(NSMutableString*)@"works!"
-	} structName macros:nil] v2:(NSMutableString*)@"Abstract casting works!" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"300",@"unit.TestBasetypes",@"testAbstractCast",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self t:[Std is:tpl t:Template] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"318",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstractCast",@"methodName", nil]];
+	[self t:[Std is:(Template*)tpl t:Template] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"319",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstractCast",@"methodName", nil]];
+	[self eq:[(Template*)tpl execute:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"works!"] copy], @"t",
+	nil] macros:nil] v2:[NSMutableString stringWithString:@"Abstract casting works!"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"320",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstractCast",@"methodName", nil]];
 	
-	NSMutableString *str = [tpl execute:struct {
-	t:(NSMutableString*)@"really works!"
-	} structName macros:nil];
-	[self t:[Std is:str t:NSMutableString] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"304",@"unit.TestBasetypes",@"testAbstractCast",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:str v2:(NSMutableString*)@"Abstract casting really works!" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"305",@"unit.TestBasetypes",@"testAbstractCast",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	NSMutableString *str = [tpl execute:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"really works!"] copy], @"t",
+	nil] macros:nil];
+	[self t:[Std is:str t:NSMutableString] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"324",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstractCast",@"methodName", nil]];
+	[self eq:str v2:[NSMutableString stringWithString:@"Abstract casting really works!"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"325",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstractCast",@"methodName", nil]];
 	
 	TemplateWrap *tpl1;
 	tpl1 = [[Template alloc] init:s];
-	[self t:[Std is:tpl1 t:Template] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"310",@"unit.TestBasetypes",@"testAbstractCast",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self t:[Std is:(Template*)tpl1 t:Template] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"311",@"unit.TestBasetypes",@"testAbstractCast",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[(Template*)tpl1 execute:struct {
-	t:(NSMutableString*)@"works!"
-	} structName macros:nil] v2:(NSMutableString*)@"Abstract casting works!" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"312",@"unit.TestBasetypes",@"testAbstractCast",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self t:[Std is:tpl1 t:Template] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"330",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstractCast",@"methodName", nil]];
+	[self t:[Std is:(Template*)tpl1 t:Template] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"331",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstractCast",@"methodName", nil]];
+	[self eq:[(Template*)tpl1 execute:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"works!"] copy], @"t",
+	nil] macros:nil] v2:[NSMutableString stringWithString:@"Abstract casting works!"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"332",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstractCast",@"methodName", nil]];
 	
 	NSMutableString *str1;
-	str1 = [tpl1 execute:struct {
-	t:(NSMutableString*)@"really works!"
-	} structName macros:nil];
-	[self t:[Std is:str1 t:NSMutableString] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"317",@"unit.TestBasetypes",@"testAbstractCast",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:str1 v2:(NSMutableString*)@"Abstract casting really works!" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"318",@"unit.TestBasetypes",@"testAbstractCast",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	str1 = [tpl1 execute:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"really works!"] copy], @"t",
+	nil] macros:nil];
+	[self t:[Std is:str1 t:NSMutableString] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"337",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstractCast",@"methodName", nil]];
+	[self eq:str1 v2:[NSMutableString stringWithString:@"Abstract casting really works!"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"338",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstractCast",@"methodName", nil]];
 	SEL from = ^- (void) :(TemplateWrap*)tpl2{
-		[[_g objectAtIndex:0] eq:[(Template*)tpl2 execute:struct {
-		t:(NSMutableString*)@"works!"
-		} structName macros:nil] v2:(NSMutableString*)@"Abstract casting works!" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"322",@"unit.TestBasetypes",@"testAbstractCast",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+		[[_g hx_objectAtIndex:0] eq:[(Template*)tpl2 execute:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+		[[NSMutableString stringWithString:@"works!"] copy], @"t",
+		nil] macros:nil] v2:[NSMutableString stringWithString:@"Abstract casting works!"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"342",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstractCast",@"methodName", nil]];
 	}
 	[from:[[Template alloc] init:s]];
 	SEL from1 = ^- (void) :(NSMutableString*)s1{
-		[[_g objectAtIndex:0] eq:s1 v2:(NSMutableString*)@"Abstract casting really works!" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"328",@"unit.TestBasetypes",@"testAbstractCast",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+		[[_g hx_objectAtIndex:0] eq:s1 v2:[NSMutableString stringWithString:@"Abstract casting really works!"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"348",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstractCast",@"methodName", nil]];
 	}
-	[from1:[tpl1 execute:struct {
-	t:(NSMutableString*)@"really works!"
-	} structName macros:nil]];
-	id obj = struct {
-	tpl:[[Template alloc] init:s]
-	} structName;
-	[self eq:[(Template*)obj tpl.execute:struct {
-	t:(NSMutableString*)@"works!"
-	} structName macros:nil] v2:(NSMutableString*)@"Abstract casting works!" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"334",@"unit.TestBasetypes",@"testAbstractCast",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[from1:[tpl1 execute:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"really works!"] copy], @"t",
+	nil] macros:nil]];
+	id obj = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[[Template alloc] init:s] copy], @"tpl",
+	nil];
+	[self eq:[(Template*)obj tpl execute:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"works!"] copy], @"t",
+	nil] macros:nil] v2:[NSMutableString stringWithString:@"Abstract casting works!"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"354",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstractCast",@"methodName", nil]];
 	id obj1;
-	obj1 = struct {
-	tpl:[[Template alloc] init:s]
-	} structName;
-	[self eq:[(Template*)obj1 tpl.execute:struct {
-	t:(NSMutableString*)@"works!"
-	} structName macros:nil] v2:(NSMutableString*)@"Abstract casting works!" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"339",@"unit.TestBasetypes",@"testAbstractCast",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	id obj2 = struct {
-	s:[tpl1 execute:struct {
-	t:(NSMutableString*)@"really works!"
-	} structName macros:nil]
-	} structName;
-	[self eq:obj2 s v2:(NSMutableString*)@"Abstract casting really works!" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"343",@"unit.TestBasetypes",@"testAbstractCast",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	obj1 = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[[Template alloc] init:s] copy], @"tpl",
+	nil];
+	[self eq:[(Template*)obj1 tpl execute:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"works!"] copy], @"t",
+	nil] macros:nil] v2:[NSMutableString stringWithString:@"Abstract casting works!"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"359",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstractCast",@"methodName", nil]];
+	id obj2 = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[tpl1 execute:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"really works!"] copy], @"t",
+	nil] macros:nil] copy], @"s",
+	nil];
+	[self eq:obj2 s v2:[NSMutableString stringWithString:@"Abstract casting really works!"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"363",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstractCast",@"methodName", nil]];
 	id obj3;
-	obj3 = struct {
-	s:[tpl1 execute:struct {
-	t:(NSMutableString*)@"really works!"
-	} structName macros:nil]
-	} structName;
-	[self eq:obj3 s v2:(NSMutableString*)@"Abstract casting really works!" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"348",@"unit.TestBasetypes",@"testAbstractCast",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	obj3 = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[tpl1 execute:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"really works!"] copy], @"t",
+	nil] macros:nil] copy], @"s",
+	nil];
+	[self eq:obj3 s v2:[NSMutableString stringWithString:@"Abstract casting really works!"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"368",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstractCast",@"methodName", nil]];
 	
-	NSMutableArray *arr = [[NSMutableArray alloc] initWithObjects:[[Template alloc] init:s], [[Template alloc] init:(NSMutableString*)@"foo"], nil];
-	[self eq:[(Template*)[arr objectAtIndex:0] execute:struct {
-	t:(NSMutableString*)@"works!"
-	} structName macros:nil] v2:(NSMutableString*)@"Abstract casting works!" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"352",@"unit.TestBasetypes",@"testAbstractCast",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[(Template*)[arr objectAtIndex:1] execute:struct {
+	NSMutableArray *arr = [[NSMutableArray alloc] initWithObjects:[[Template alloc] init:s], [[Template alloc] init:[NSMutableString stringWithString:@"foo"]], nil];
+	[self eq:[(Template*)[arr hx_objectAtIndex:0] execute:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"works!"] copy], @"t",
+	nil] macros:nil] v2:[NSMutableString stringWithString:@"Abstract casting works!"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"372",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstractCast",@"methodName", nil]];
+	[self eq:[(Template*)[arr hx_objectAtIndex:1] execute:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	nil] macros:nil] v2:[NSMutableString stringWithString:@"foo"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"373",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstractCast",@"methodName", nil]];
 	
-	} structName macros:nil] v2:(NSMutableString*)@"foo" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"353",@"unit.TestBasetypes",@"testAbstractCast",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	
-	NSMutableArray *arr1 = [[NSMutableArray alloc] initWithObjects:[tpl1 execute:struct {
-	t:(NSMutableString*)@"really works!"
-	} structName macros:[NSNull null]], nil];
-	[self eq:[arr1 objectAtIndex:0] v2:(NSMutableString*)@"Abstract casting really works!" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"357",@"unit.TestBasetypes",@"testAbstractCast",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	NSMutableArray *arr1 = [[NSMutableArray alloc] initWithObject:[tpl1 execute:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"really works!"] copy], @"t",
+	nil] macros:[NSNull null]]];
+	[self eq:[arr1 hx_objectAtIndex:0] v2:[NSMutableString stringWithString:@"Abstract casting really works!"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"377",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstractCast",@"methodName", nil]];
+	SEL returnAbstractCast = ^- (NSMutableString*) {
+		return [(Meter*)@"12.2" stringByAppendingString:[NSMutableString stringWithString:@"m"]];
+	}
+	[self eq:[returnAbstractCast] v2:[NSMutableString stringWithString:@"12.2m"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"385",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstractCast",@"methodName", nil]];
+	SEL switchMe = ^- (NSMutableString*) :(BOOL)b{
+		return ^(NSMutableString*)switch (b){
+			case YES:{
+				__r__ = [(Meter*)@"12.2" stringByAppendingString:[NSMutableString stringWithString:@"m"]]}break;
+			default:{
+				__r__ = [(Meter*)@"2.4" stringByAppendingString:[NSMutableString stringWithString:@"m"]]}break;
+		}
+		return __r__{
+			
+			NSMutableString* __r__}
+		}();
+	}
+	[self eq:[switchMe:YES] v2:[NSMutableString stringWithString:@"12.2m"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"395",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstractCast",@"methodName", nil]];
+	[self eq:[switchMe:NO] v2:[NSMutableString stringWithString:@"2.4m"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"396",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstractCast",@"methodName", nil]];
 }
 - (void) testAbstractToAbstractCast{
 	
 	Meter *m = 122.2;
 	
 	Kilometer *km = (float)m / 1000.;
-	[self feq:km v2:0.1222 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"364",@"unit.TestBasetypes",@"testAbstractToAbstractCast",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self feq:km v2:0.1222 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"402",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstractToAbstractCast",@"methodName", nil]];
 }
 - (void) testAbstractTypeParameters{
 	
-	MyHash *hash1 = [MyHashImpl fromStringArray:[[NSMutableArray alloc] initWithObjects:(NSMutableString*)@"k1", (NSMutableString*)@"v1", (NSMutableString*)@"k2", (NSMutableString*)@"v2", nil]];
-	[self eq:(NSMutableString*)@"v1" v2:[hash1 get:(NSMutableString*)@"k1"] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"369",@"unit.TestBasetypes",@"testAbstractTypeParameters",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"v2" v2:[hash1 get:(NSMutableString*)@"k2"] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"370",@"unit.TestBasetypes",@"testAbstractTypeParameters",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	MyHash *hash1 = [MyHashImpl fromStringArray:[[NSMutableArray alloc] initWithObjects:[NSMutableString stringWithString:@"k1"], [NSMutableString stringWithString:@"v1"], [NSMutableString stringWithString:@"k2"], [NSMutableString stringWithString:@"v2"], nil]];
+	[self eq:[NSMutableString stringWithString:@"v1"] v2:[hash1 get:[NSMutableString stringWithString:@"k1"]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"407",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstractTypeParameters",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"v2"] v2:[hash1 get:[NSMutableString stringWithString:@"k2"]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"408",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstractTypeParameters",@"methodName", nil]];
 	
 	MyHash *hash11 = [MyHashImpl fromArray:[[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:1], [NSNumber numberWithInt:2], [NSNumber numberWithInt:3], [NSNumber numberWithInt:4], nil]];
-	[self eq:2 v2:[hash11 get:(NSMutableString*)@"_s1"] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"372",@"unit.TestBasetypes",@"testAbstractTypeParameters",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:4 v2:[hash11 get:(NSMutableString*)@"_s3"] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"373",@"unit.TestBasetypes",@"testAbstractTypeParameters",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:2 v2:[hash11 get:[NSMutableString stringWithString:@"_s1"]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"410",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstractTypeParameters",@"methodName", nil]];
+	[self eq:4 v2:[hash11 get:[NSMutableString stringWithString:@"_s3"]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"411",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstractTypeParameters",@"methodName", nil]];
 }
 - (void) testAbstractToString{
 	
 	Kilometer *km = 12.5;
 	
 	Meter *m = 12.5;
-	[self eq:(NSMutableString*)@"12.5km" v2:[km stringByAppendingString:(NSMutableString*)@"km"] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"379",@"unit.TestBasetypes",@"testAbstractToString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"12.5m" v2:[m stringByAppendingString:(NSMutableString*)@"m"] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"380",@"unit.TestBasetypes",@"testAbstractToString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"Distance: 12.5km" v2:[(NSMutableString*)@"Distance: " stringByAppendingString: ([km stringByAppendingString:(NSMutableString*)@"km"])] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"381",@"unit.TestBasetypes",@"testAbstractToString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"Distance: 12.5m" v2:[(NSMutableString*)@"Distance: " stringByAppendingString: ([m stringByAppendingString:(NSMutableString*)@"m"])] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"382",@"unit.TestBasetypes",@"testAbstractToString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[NSMutableString stringWithString:@"12.5km"] v2:[km stringByAppendingString:[NSMutableString stringWithString:@"km"]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"417",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstractToString",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"12.5m"] v2:[m stringByAppendingString:[NSMutableString stringWithString:@"m"]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"418",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstractToString",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"Distance: 12.5km"] v2:[[NSMutableString stringWithString:@"Distance: "] stringByAppendingString: ([km stringByAppendingString:[NSMutableString stringWithString:@"km"]])] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"419",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstractToString",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"Distance: 12.5m"] v2:[[NSMutableString stringWithString:@"Distance: "] stringByAppendingString: ([m stringByAppendingString:[NSMutableString stringWithString:@"m"]])] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"420",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstractToString",@"methodName", nil]];
 }
 - (void) testAbstractOperatorOverload{
 	
 	MyVector *v1 = [[MyPoint3 alloc] init:1 y:1 z:1];
 	
 	MyVector *v2 = [[MyPoint3 alloc] init:1 y:2 z:3];
-	[self eq:(NSMutableString*)@"(2,3,4)" v2:((NSMutableString)($this:(snd ctx.path)) 
+	[self eq:[NSMutableString stringWithString:@"(2,3,4)"] v2:((NSMutableString)($this:(snd ctx.path)) 
 	MyPoint3 *this1 = (MyVector*)[[MyPoint3 alloc] init:v1 x + v2 x y:v1 y + v2 y z:v1 z + v2 z]
-	__r__ = [[[[[[(NSMutableString*)@"(" stringByAppendingString:this1.x] stringByAppendingString:(NSMutableString*)@","] stringByAppendingString:this1 y] stringByAppendingString:(NSMutableString*)@","] stringByAppendingString:this1 z] stringByAppendingString:(NSMutableString*)@")"]
+	__r__ = [[[[[[[NSMutableString stringWithString:@"("] stringByAppendingString:this1.x] stringByAppendingString:[NSMutableString stringWithString:@","]] stringByAppendingString:this1.y] stringByAppendingString:[NSMutableString stringWithString:@","]] stringByAppendingString:this1.z] stringByAppendingString:[NSMutableString stringWithString:@")"]]
 	return __r__{
 		
 		NSMutableString* __r__}
-	}(self)) pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"388",@"unit.TestBasetypes",@"testAbstractOperatorOverload",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"(2,4,6)" v2:((NSMutableString)($this:(snd ctx.path)) 
+	}(self)) pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"426",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstractOperatorOverload",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"(2,4,6)"] v2:((NSMutableString)($this:(snd ctx.path)) 
 	MyPoint3 *this1 = (MyVector*)[[MyPoint3 alloc] init:v2 x * 2. y:v2 y * 2. z:v2 z * 2.]
-	__r__2 = [[[[[[(NSMutableString*)@"(" stringByAppendingString:this1.x] stringByAppendingString:(NSMutableString*)@","] stringByAppendingString:this1 y] stringByAppendingString:(NSMutableString*)@","] stringByAppendingString:this1 z] stringByAppendingString:(NSMutableString*)@")"]
+	__r__2 = [[[[[[[NSMutableString stringWithString:@"("] stringByAppendingString:this1.x] stringByAppendingString:[NSMutableString stringWithString:@","]] stringByAppendingString:this1.y] stringByAppendingString:[NSMutableString stringWithString:@","]] stringByAppendingString:this1.z] stringByAppendingString:[NSMutableString stringWithString:@")"]]
 	return __r__2{
 		
 		NSMutableString* __r__2}
-	}(self)) pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"389",@"unit.TestBasetypes",@"testAbstractOperatorOverload",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	}(self)) pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"427",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstractOperatorOverload",@"methodName", nil]];
 	
 	MyVector *v1Old = v1;
 	{
-		v1 x *= 2.;
-		v1 y *= 2.;
-		v1 z *= 2.;
+		v1.x *= 2.;
+		v1.y *= 2.;
+		v1.z *= 2.;
 		v1;
 	}
-	[self eq:(NSMutableString*)@"(2,2,2)" v2:[[[[[[(NSMutableString*)@"(" stringByAppendingString:v1 x] stringByAppendingString:(NSMutableString*)@","] stringByAppendingString:v1 y] stringByAppendingString:(NSMutableString*)@","] stringByAppendingString:v1 z] stringByAppendingString:(NSMutableString*)@")"] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"392",@"unit.TestBasetypes",@"testAbstractOperatorOverload",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:v1Old v2:v1 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"393",@"unit.TestBasetypes",@"testAbstractOperatorOverload",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[NSMutableString stringWithString:@"(2,2,2)"] v2:[[[[[[[NSMutableString stringWithString:@"("] stringByAppendingString:v1.x] stringByAppendingString:[NSMutableString stringWithString:@","]] stringByAppendingString:v1.y] stringByAppendingString:[NSMutableString stringWithString:@","]] stringByAppendingString:v1.z] stringByAppendingString:[NSMutableString stringWithString:@")"]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"430",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstractOperatorOverload",@"methodName", nil]];
+	[self eq:v1Old v2:v1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"431",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstractOperatorOverload",@"methodName", nil]];
 	
 	MyVector *v3 = (MyVector*)[[MyPoint3 alloc] init:v1 x * 2. y:v1 y * 2. z:v1 z * 2.];
-	[self eq:(NSMutableString*)@"(4,4,4)" v2:[[[[[[(NSMutableString*)@"(" stringByAppendingString:v3 x] stringByAppendingString:(NSMutableString*)@","] stringByAppendingString:v3 y] stringByAppendingString:(NSMutableString*)@","] stringByAppendingString:v3 z] stringByAppendingString:(NSMutableString*)@")"] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"395",@"unit.TestBasetypes",@"testAbstractOperatorOverload",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self f:v1 == v3 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"396",@"unit.TestBasetypes",@"testAbstractOperatorOverload",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[NSMutableString stringWithString:@"(4,4,4)"] v2:[[[[[[[NSMutableString stringWithString:@"("] stringByAppendingString:v3.x] stringByAppendingString:[NSMutableString stringWithString:@","]] stringByAppendingString:v3.y] stringByAppendingString:[NSMutableString stringWithString:@","]] stringByAppendingString:v3.z] stringByAppendingString:[NSMutableString stringWithString:@")"]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"433",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstractOperatorOverload",@"methodName", nil]];
+	[self f:v1 == v3 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"434",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstractOperatorOverload",@"methodName", nil]];
 	
 	MyInt *i = 1;
-	[self eq:2 v2:i + i pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"399",@"unit.TestBasetypes",@"testAbstractOperatorOverload",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:2 v2:i + i pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"437",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstractOperatorOverload",@"methodName", nil]];
 	i = i + i;
-	[self eq:2 v2:i pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"401",@"unit.TestBasetypes",@"testAbstractOperatorOverload",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:2 v2:i pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"439",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstractOperatorOverload",@"methodName", nil]];
 	
 	MyInt *r = 5;
-	[self eq:(NSMutableString*)@"aaaaa" v2:[MyIntImpl repeat:r rhs:(NSMutableString*)@"a"] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"403",@"unit.TestBasetypes",@"testAbstractOperatorOverload",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:(NSMutableString*)@"aaaaa" v2:[MyIntImpl repeat:r rhs:(NSMutableString*)@"a"] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestBasetypes.hx",@"404",@"unit.TestBasetypes",@"testAbstractOperatorOverload",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[NSMutableString stringWithString:@"aaaaa"] v2:[MyIntImpl repeat:r rhs:[NSMutableString stringWithString:@"a"]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"441",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstractOperatorOverload",@"methodName", nil]];
+	[self eq:[NSMutableString stringWithString:@"aaaaa"] v2:[MyIntImpl repeat:r rhs:[NSMutableString stringWithString:@"a"]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"442",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstractOperatorOverload",@"methodName", nil]];
+}
+- (void) testAbstractSetter{
+	
+	MyAbstractSetter *as = (MyAbstractSetter*)[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	nil];
+	{
+		[as value] = [NSMutableString stringWithString:@"foo"];
+		[NSMutableString stringWithString:@"foo"];
+	}
+	[self eq:[as value] v2:[NSMutableString stringWithString:@"foo"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"448",@"lineNumber", @"unit.TestBasetypes",@"className", @"testAbstractSetter",@"methodName", nil]];
 }
 - (id) init{
 	self = [super init];
-	[super];
 	return self;
 }
 

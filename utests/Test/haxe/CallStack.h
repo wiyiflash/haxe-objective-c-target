@@ -20,7 +20,7 @@ typedef enum{
 #import "../haxe/CallStack.h"
 #import "../Std.h"
 
-@interface CallStack : HXObject
+@interface CallStack : NSObject
 
 + (NSMutableArray*) exceptionStack;
 + (NSMutableString*) toString:(NSMutableArray*)stack;

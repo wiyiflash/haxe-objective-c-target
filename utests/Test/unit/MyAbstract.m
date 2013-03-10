@@ -33,9 +33,9 @@
 	return (TemplateWrap*)[[Template alloc] init:s];
 }
 + (NSMutableString*) toString:(Template*)this1{
-	return [this1 execute:struct {
-	t:(NSMutableString*)@"really works!"
-	} structName macros:nil];
+	return [this1.execute:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableString stringWithString:@"really works!"] copy], @"t",
+	nil] macros:nil];
 }
 
 @end
@@ -49,7 +49,7 @@
 	return this1;
 }
 + (NSMutableString*) toString:(float)this1{
-	return [this1 stringByAppendingString:(NSMutableString*)@"m"];
+	return [this1 stringByAppendingString:[NSMutableString stringWithString:@"m"]];
 }
 
 @end
@@ -60,7 +60,7 @@
 	return f;
 }
 + (NSMutableString*) toString:(float)this1{
-	return [this1 stringByAppendingString:(NSMutableString*)@"km"];
+	return [this1 stringByAppendingString:[NSMutableString stringWithString:@"km"]];
 }
 + (Kilometer*) fromMeter:(Meter*)m{
 	return (Kilometer*)(float)m / 1000.;
@@ -74,13 +74,13 @@
 	return [[StringMap alloc] init];
 }
 + (void) set:(StringMap*)this1 k:(NSMutableString*)k v:(id)v{
-	[this1 set:k value:v];
+	[this1.set:k value:v];
 }
 + (id) get:(StringMap*)this1 k:(NSMutableString*)k{
-	return [this1 get:k];
+	return [this1.get:k];
 }
 + (NSMutableString*) toString:(StringMap*)this1{
-	return [this1 toString];
+	return [this1.toString];
 }
 + (MyHash*) fromStringArray:(NSMutableArray*)arr{
 	
@@ -88,10 +88,10 @@
 	int i = 0;
 	while (i < arr.length) {
 		
-		NSMutableString *k = [arr objectAtIndex:i++];
+		NSMutableString *k = [arr hx_objectAtIndex:i++];
 		
-		NSMutableString *v = [arr objectAtIndex:i++];
-		[hash set:k value:v];
+		NSMutableString *v = [arr hx_objectAtIndex:i++];
+		[hash.set:k value:v];
 	}
 	return hash;
 }
@@ -100,9 +100,9 @@
 	MyHash *hash = (MyHash*)[[StringMap alloc] init];
 	int i = 0;
 	while (i < arr.length) {
-		id k = [arr objectAtIndex:i++];
-		id v = [arr objectAtIndex:i++];
-		[hash set:[Std string:[(NSMutableString*)@"_s" stringByAppendingString:[Std string:k]]] value:v];
+		id k = [arr hx_objectAtIndex:i++];
+		id v = [arr hx_objectAtIndex:i++];
+		[hash.set:[Std string:[[NSMutableString stringWithString:@"_s"] stringByAppendingString:[Std string:k]]] value:v];
 	}
 	return hash;
 }
@@ -167,7 +167,7 @@
 	return this1;
 }
 + (NSMutableString*) toString:(MyPoint3*)this1{
-	return [[[[[[(NSMutableString*)@"(" stringByAppendingString:this1.x] stringByAppendingString:(NSMutableString*)@","] stringByAppendingString:this1.y] stringByAppendingString:(NSMutableString*)@","] stringByAppendingString:this1.z] stringByAppendingString:(NSMutableString*)@")"];
+	return [[[[[[[NSMutableString stringWithString:@"("] stringByAppendingString:this1.x] stringByAppendingString:[NSMutableString stringWithString:@","]] stringByAppendingString:this1.y] stringByAppendingString:[NSMutableString stringWithString:@","]] stringByAppendingString:this1.z] stringByAppendingString:[NSMutableString stringWithString:@")"]];
 }
 
 @end
@@ -260,14 +260,31 @@
 }
 + (SEL) test:(NSMutableString*)this1{
 	
-	NSMutableArray *this2 = [[NSMutableArray alloc] initWithObjects:this1, nil];
+	NSMutableArray *this2 = [[NSMutableArray alloc] initWithObject:this1];
 	SEL fn = ^+ (NSMutableString*) {
-		return [this2 objectAtIndex:0];
+		return [this2 hx_objectAtIndex:0];
 	}
 	return fn;
 }
 + (void) setVal:(NSMutableString*)this1 v:(NSMutableString*)v{
 	this1 = v;
+}
+
+@end
+
+@implementation MyAbstractSetterImpl
+
+
++ (id) _new{
+	return [NSMutableDictionary dictionaryWithObjectsAndKeys:
+	nil];
+}
++ (NSMutableString*) get_value:(id)this1{
+	return [this1 value];
+}
++ (NSMutableString*) set_value:(id)this1 s:(NSMutableString*)s{
+	[this1 value] = s;
+	return s;
 }
 
 @end

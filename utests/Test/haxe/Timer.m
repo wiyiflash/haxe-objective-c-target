@@ -12,20 +12,26 @@
 @synthesize nstimer;
 @synthesize _id;
 - (void) stop{
-	if (self._id == nil) return;
+	if (self.id == nil) return;
 	[self.nstimer invalidate];
 	self.nstimer = nil;
-	self._id = nil;
+	self.id = nil;
 }
 // Defining a dynamic method
 - (void) run{
-	[Log trace:(NSMutableString*)@"run" infos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Timer.hx",@"109",@"haxe.Timer",@"run",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[Log trace:[NSMutableString stringWithString:@"run"] infos:[NSDictionary dictionaryWithObjectsAndKeys:@"Timer.hx",@"fileName", @"112",@"lineNumber", @"haxe.Timer",@"className", @"run",@"methodName", nil]];
 }
 @synthesize property_run;
 
+- (void) nsrun:(NSTimer*)aTimer{
+	[self run];
+}
 - (id) init:(int)time_ms{
 	self = [super init];
-	self.nstimer = [NSTimer timerWithTimeInterval:time_ms target:self selector:-FClosure--MethDynamic- userInfo:nil repeats:YES];
+	self.nstimer = [NSTimer timerWithTimeInterval:time_ms * 1000 target:self selector:self nsrun userInfo:nil repeats:YES];
+	
+	NSRunLoop *runner = [NSRunLoop currentRunLoop];
+	[runner addTimer:self.nstimer forMode: NSDefaultRunLoopMode];
 	return self;
 }
 

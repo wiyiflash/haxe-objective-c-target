@@ -9,23 +9,25 @@
 
 @implementation Output
 
-+ (float) LN2:(float)val {
-	static float _val;
-	if (val == nil) { if (_val == nil) _val = logf(2); }
-	else { if (_val != nil) _val = val; }
-	return _val;
+static float LN2;
++ (float) LN2 {
+	if (LN2 == nil) LN2 = logf(2);
+	return LN2;
+}
++ (void) setLN2:(float)val {
+	LN2 = val;
 }
 
 - (void) writeByte:(int)c{
-	@throw (NSMutableString*)@"Not implemented";;
+	@throw [NSMutableString stringWithString:@"Not implemented"];;
 }
 - (int) writeBytes:(Bytes*)s pos:(int)pos len:(int)len{
 	int k = len;
 	
-	NSMutableArray *b = (NSMutableArray*)s.b;
+	NSMutableArray *b = s.b;
 	if (pos < 0 || len < 0 || pos + len > s.length) @throw  OutsideBounds;;
 	while (k > 0) {
-		[self writeByte:[b objectAtIndex:pos]];
+		[self writeByte:[b hx_objectAtIndex:pos]];
 		pos++;
 		k--;
 	}
@@ -60,8 +62,8 @@
 		[self writeByte:0];
 		return;
 	}
-	int exp = floorf(logf(fabsf(x))] / Output.LN2)];
-	int sig = floorf(fabsf(x) / powf(2, exp) * 8388608)] & 8388607;
+	int exp = floorf(logf(fabsf(x)) / -TMono-);
+	int sig = floorf(fabsf(x) / powf(2, exp) * 8388608) & 8388607;
 	int b1 = exp + 127 >> 1 |  (( (exp > 0) ? ( (x < 0) ? 128 : 64) : ( (x < 0) ? 128 : 0))); int b2 = (exp + 127 << 7 & 255) | (sig >> 16 & 127); int b3 = sig >> 8 & 255; int b4 = sig & 255;
 	if (self.bigEndian) {
 		[self writeByte:b4];
@@ -88,10 +90,10 @@
 		[self writeByte:0];
 		return;
 	}
-	int exp = floorf(logf(fabsf(x))] / Output.LN2)];
-	int sig = floorf(fabsf(x) / powf(2, exp) * powf(2, 52))];
+	int exp = floorf(logf(fabsf(x)) / -TMono-);
+	int sig = floorf(fabsf(x) / powf(2, exp) * powf(2, 52));
 	int sig_h = sig & (int)34359738367;
-	int sig_l = floorf(sig / powf(2, 32))];
+	int sig_l = floorf(sig / powf(2, 32));
 	int b1 = exp + 1023 >> 4 |  (( (exp > 0) ? ( (x < 0) ? 128 : 64) : ( (x < 0) ? 128 : 0))); int b2 = (exp + 1023 << 4 & 255) | (sig_l >> 16 & 15); int b3 = sig_l >> 8 & 255; int b4 = sig_l & 255; int b5 = sig_h >> 24 & 255; int b6 = sig_h >> 16 & 255; int b7 = sig_h >> 8 & 255; int b8 = sig_h & 255;
 	if (self.bigEndian) {
 		[self writeByte:b8];
@@ -169,7 +171,7 @@
 - (void) writeString:(NSMutableString*)s{
 	
 	Bytes *b = [Bytes ofString:s];
-	[self writeFullBytes:b pos:0 len:b length];
+	[self writeFullBytes:b pos:0 len:b.length];
 }
 
 @end

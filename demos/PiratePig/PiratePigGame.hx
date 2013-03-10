@@ -1,16 +1,9 @@
-import ios.ui.UIResponder;
 import ios.ui.UIImageView;
 import ios.ui.UIImage;
 import ios.ui.UILabel;
-import ios.ui.UIWindow;
-import ios.ui.UIScreen;
-import ios.ui.UIView;
-import ios.ui.UIButton;
-import ios.ui.UIControl;
-import ios.ui.UIViewController;
-import ios.ui.UIApplication;
-import ios.ui.UIColor;
 import ios.ui.UIFont;
+import ios.ui.UIView;
+import ios.ui.UIColor;
 import ios.ui.NSText;
 import ios.ui.UIEvent;
 import objc.foundation.NSDictionary;
@@ -19,6 +12,7 @@ import objc.foundation.NSValue;
 import objc.foundation.NSTimer;
 import objc.foundation.NSRunLoop;
 import objc.graphics.CGGeometry;
+import objc.graphics.CGAffineTransform;
 
 class PiratePigGame extends UIView {
 	
@@ -435,7 +429,7 @@ class PiratePigGame extends UIView {
 						untyped __objc__("NSLog(@\"%ix%i %.2f,%.2f %.2fx%.2f\", i, j, tile.frame.origin.x, tile.frame.origin.y, tile.frame.size.width, tile.frame.size.height)");
 						selectedTile = tile;
 						//selectedTile.alpha = 0.5;
-						untyped __objc__("self.selectedTile.transform = CGAffineTransformScale(self.selectedTile.transform, 1.4, 1.4)");
+						selectedTile.transform = CGAffineTransform.CGAffineTransformScale(selectedTile.transform, 1.4, 1.4);
 						//trace(selectedTile);
 						return;
 					} else {
@@ -458,17 +452,17 @@ class PiratePigGame extends UIView {
 		if (selectedTile != null) trace("-- selectedTile != null");
 		if (!selectedTile.moving) trace("-- !selectedTile.moving");*/
 		//selectedTile.alpha = 1;
-		untyped __objc__("self.selectedTile.transform = CGAffineTransformScale(self.selectedTile.transform, 0.7, 0.7)");
+		selectedTile.transform = CGAffineTransform.CGAffineTransformScale(selectedTile.transform, 0.7, 0.7);
 		
 		if (!CGGeometry.CGPointEqualToPoint(cacheMouse, new CGPoint(0,0)) && selectedTile != null && !selectedTile.moving) {
-			trace("ok");
+			
 			var aTouch = touches.anyObject();
 			var pos :CGPoint = aTouch.locationInView(this);
 			var differenceX = pos.x - cacheMouse.x - 10;
 			var differenceY = pos.y - cacheMouse.y - 73 - 20;
 			
 			if (Math.abs (differenceX) > 10 || Math.abs (differenceY) > 10) {
-				trace("ok");
+				
 				var swapToRow = selectedTile.row;
 				var swapToColumn = selectedTile.column;
 				

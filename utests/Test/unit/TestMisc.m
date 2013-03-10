@@ -9,15 +9,17 @@
 
 @implementation MyDynamicClass
 
-+ (int) Z:(int)val {
-	static int _val;
-	if (val == nil) { if (_val == nil) _val = 10; }
-	else { if (_val != nil) _val = val; }
-	return _val;
+static int Z;
++ (int) Z {
+	if (Z == nil) Z = 10;
+	return Z;
+}
++ (void) setZ:(int)val {
+	Z = val;
 }
 // Defining a dynamic method
 + (int) staticDynamic:(int)x y:(int)y{
-	return MyDynamicClass.Z + x + y;
+	return -TMono- + x + y;
 }
 @synthesize property_staticDynamic;
 
@@ -60,7 +62,6 @@
 
 - (id) init:(int)v{
 	self = [super init];
-	[super-TInst];
 	return self;
 }
 
@@ -76,7 +77,6 @@
 
 - (id) init:(int)v{
 	self = [super init];
-	[super-TInst];
 	return self;
 }
 
@@ -91,7 +91,6 @@
 		return x + y + 10;
 		return self;
 	}
-	[super-TInst];
 }
 
 @end
@@ -99,8 +98,8 @@
 @implementation BaseDefArgs
 
 - (int) get:(int)x{
-	// Simulated optional arguments
-	if (x == nil) x = 3;
+	// Optional arguments
+	if (!x) x = 3;
 	
 	return x;
 }
@@ -110,8 +109,8 @@
 @implementation ExtDefArgs
 
 - (int) get:(int)x{
-	// Simulated optional arguments
-	if (x == nil) x = 7;
+	// Optional arguments
+	if (!x) x = 7;
 	
 	return x;
 }
@@ -129,10 +128,10 @@
 @synthesize b;
 - (id) init:(NSMutableString*)s i:(int)i b:(BOOL)b{
 	self = [super init];
-	// Simulated optional arguments
-	if (i == nil) i = -5;
-	if (s == nil) s = (NSMutableString*)@"test";
-	if (b == nil) b = YES;
+	// Optional arguments
+	if (!i) i = -5;
+	if (!s) s = [NSMutableString stringWithString:@"test"];
+	if (!b) b = YES;
 	
 	self.s = s;
 	self.i = i;
@@ -146,7 +145,6 @@
 
 - (id) init{
 	self = [super init];
-	[super-TInst];
 	return self;
 }
 
@@ -156,12 +154,11 @@
 
 - (id) init:(NSMutableString*)s i:(int)i b:(BOOL)b{
 	self = [super init];
-	// Simulated optional arguments
-	if (i == nil) i = nil;
-	if (s == nil) s = nil;
-	if (b == nil) b = nil;
+	// Optional arguments
+	if (!i) i = nil;
+	if (!s) s = nil;
+	if (!b) b = nil;
 	
-	[super-TInst];
 	return self;
 }
 
@@ -171,11 +168,10 @@
 
 - (id) init:(NSMutableString*)s i:(int)i{
 	self = [super init];
-	// Simulated optional arguments
-	if (i == nil) i = -6;
-	if (s == nil) s = (NSMutableString*)@"test2";
+	// Optional arguments
+	if (!i) i = -6;
+	if (!s) s = [NSMutableString stringWithString:@"test2"];
 	
-	[super-TInst];
 	return self;
 }
 
@@ -183,560 +179,569 @@
 
 @implementation TestMisc
 
-+ (NSMutableString*) unit:(NSMutableString*)val {
-	static NSMutableString *_val;
-	if (val == nil) { if (_val == nil) _val = (NSMutableString*)@"testing package conflict"; }
-	else { if (_val != nil) _val = val; }
-	return _val;
+static NSMutableString* unit;
++ (NSMutableString*) unit {
+	if (unit == nil) unit = [NSMutableString stringWithString:@"testing package conflict"];
+	return unit;
+}
++ (void) setUnit:(NSMutableString*)val {
+	unit = val;
 }
 + (int) foo:(int)x{
 	return x + 5;
 }
 
 - (void) testPackageConflict{
-	[self eq:TestMisc unit v2:(NSMutableString*)@"testing package conflict" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"111",@"unit.TestMisc",@"testPackageConflict",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:-TMono- v2:[NSMutableString stringWithString:@"testing package conflict"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"112",@"lineNumber", @"unit.TestMisc",@"className", @"testPackageConflict",@"methodName", nil]];
 	
-	NSMutableString *unit1 = TestMisc.unit;
-	[self eq:unit1 v2:TestMisc unit pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"113",@"unit.TestMisc",@"testPackageConflict",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	NSMutableString *unit1 = -TMono-;
+	[self eq:unit1 v2:-TMono- pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"114",@"lineNumber", @"unit.TestMisc",@"className", @"testPackageConflict",@"methodName", nil]];
 }
 - (void) testDate{
 	
 	NSDate *d = [[NSDate alloc] init:2012 month:7 day:17 hour:1 min:2 sec:3];
-	[self eq:[d getDay] v2:5 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"118",@"unit.TestMisc",@"testDate",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[d getDate] v2:17 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"120",@"unit.TestMisc",@"testDate",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[d getMonth] v2:7 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"121",@"unit.TestMisc",@"testDate",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[d getFullYear] v2:2012 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"122",@"unit.TestMisc",@"testDate",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[d getHours] v2:1 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"124",@"unit.TestMisc",@"testDate",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[d getMinutes] v2:2 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"125",@"unit.TestMisc",@"testDate",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[d getSeconds] v2:3 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"126",@"unit.TestMisc",@"testDate",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[d toString] v2:(NSMutableString*)@"2012-08-17 01:02:03" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"130",@"unit.TestMisc",@"testDate",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[d getDay] v2:5 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"119",@"lineNumber", @"unit.TestMisc",@"className", @"testDate",@"methodName", nil]];
+	[self eq:[d getDate] v2:17 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"121",@"lineNumber", @"unit.TestMisc",@"className", @"testDate",@"methodName", nil]];
+	[self eq:[d getMonth] v2:7 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"122",@"lineNumber", @"unit.TestMisc",@"className", @"testDate",@"methodName", nil]];
+	[self eq:[d getFullYear] v2:2012 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"123",@"lineNumber", @"unit.TestMisc",@"className", @"testDate",@"methodName", nil]];
+	[self eq:[d getHours] v2:1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"125",@"lineNumber", @"unit.TestMisc",@"className", @"testDate",@"methodName", nil]];
+	[self eq:[d getMinutes] v2:2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"126",@"lineNumber", @"unit.TestMisc",@"className", @"testDate",@"methodName", nil]];
+	[self eq:[d getSeconds] v2:3 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"127",@"lineNumber", @"unit.TestMisc",@"className", @"testDate",@"methodName", nil]];
+	[self eq:[d toString] v2:[NSMutableString stringWithString:@"2012-08-17 01:02:03"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"131",@"lineNumber", @"unit.TestMisc",@"className", @"testDate",@"methodName", nil]];
 }
 - (void) testClosure{
 	
 	MyClass *c = [[MyClass alloc] init:100];
-	SEL add = c.add;
-	[self eq:[c add:1 y:2] v2:103 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"136",@"unit.TestMisc",@"testClosure",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	SEL add = c add;
+	[self eq:[c add:1 y:2] v2:103 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"137",@"lineNumber", @"unit.TestMisc",@"className", @"testClosure",@"methodName", nil]];
 	[self eq:[ (((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObjects:c add, nil]
+	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:c add]
 	__r__ = ^- (int) :(int)y{
-		return [[f objectAtIndex:0]:1 y:y];
+		return [[f hx_objectAtIndex:0]:1 y:y];
 	}
 	return __r__{
 		
 		SEL* __r__}
-	}(self))):2] v2:103 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"137",@"unit.TestMisc",@"testClosure",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[add:1 y:2] v2:103 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"138",@"unit.TestMisc",@"testClosure",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	}(self))):2] v2:103 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"138",@"lineNumber", @"unit.TestMisc",@"className", @"testClosure",@"methodName", nil]];
+	[self eq:[add:1 y:2] v2:103 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"139",@"lineNumber", @"unit.TestMisc",@"className", @"testClosure",@"methodName", nil]];
 	
-	NSMutableArray *x = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:4], nil];
+	NSMutableArray *x = [[NSMutableArray alloc] initWithObject:[NSNumber numberWithInt:4]];
 	SEL f = ^- (int) {
-		return [x objectAtIndex:0];
+		return [x hx_objectAtIndex:0];
 	}
-	[self eq:[f] v2:4 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"142",@"unit.TestMisc",@"testClosure",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[x objectAtIndex:0]++;
-	[self eq:[f] v2:5 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"144",@"unit.TestMisc",@"testClosure",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	id o = struct {
-	f:f
-	} structName;
-	[self eq:[o f] v2:5 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"147",@"unit.TestMisc",@"testClosure",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:o f v2:o f pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"148",@"unit.TestMisc",@"testClosure",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	id o1 = struct {
-	add:c.add
-	} structName;
-	[self eq:[o1 add:1 y:2] v2:103 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"151",@"unit.TestMisc",@"testClosure",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:o1 add v2:o1 add pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"152",@"unit.TestMisc",@"testClosure",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	id o2 = struct {
-	cos:Mathcosf
-	} structName;
-	[self eq:[o2 cos:0] v2:1. pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"155",@"unit.TestMisc",@"testClosure",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[f] v2:4 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"143",@"lineNumber", @"unit.TestMisc",@"className", @"testClosure",@"methodName", nil]];
+	[x hx_objectAtIndex:0]++;
+	[self eq:[f] v2:5 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"145",@"lineNumber", @"unit.TestMisc",@"className", @"testClosure",@"methodName", nil]];
+	id o = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[f copy], @"f",
+	nil];
+	[self eq:[o f] v2:5 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"148",@"lineNumber", @"unit.TestMisc",@"className", @"testClosure",@"methodName", nil]];
+	[self eq:o f v2:o f pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"149",@"lineNumber", @"unit.TestMisc",@"className", @"testClosure",@"methodName", nil]];
+	id o1 = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[c add copy], @"add",
+	nil];
+	[self eq:[o1 add:1 y:2] v2:103 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"152",@"lineNumber", @"unit.TestMisc",@"className", @"testClosure",@"methodName", nil]];
+	[self eq:o1 add v2:o1 add pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"153",@"lineNumber", @"unit.TestMisc",@"className", @"testClosure",@"methodName", nil]];
+	id o2 = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[Mathcosf copy], @"cos",
+	nil];
+	[self eq:[o2 cos:0] v2:1. pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"156",@"lineNumber", @"unit.TestMisc",@"className", @"testClosure",@"methodName", nil]];
 	SEL c1 =  C;
-	[self t:[Type enumEq:FEnum[ C:1 b:(NSMutableString*)@"hello"] b:[c1:1 b:(NSMutableString*)@"hello"]] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"159",@"unit.TestMisc",@"testClosure",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self t:[Type enumEq:[ C:1 b:[NSMutableString stringWithString:@"hello"]] b:[c1:1 b:[NSMutableString stringWithString:@"hello"]]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"160",@"lineNumber", @"unit.TestMisc",@"className", @"testClosure",@"methodName", nil]];
 }
 - (void) testCaptureUnique{
 	SEL foo = nil; SEL bar = nil;
 	BOOL flag = YES;
 	if (flag) {
 		
-		NSMutableArray *x = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:1], nil];
+		NSMutableArray *x = [[NSMutableArray alloc] initWithObject:[NSNumber numberWithInt:1]];
 		foo = ^- (int) {
-			return [x objectAtIndex:0];
+			return [x hx_objectAtIndex:0];
 		}
 	}
 	if (flag) {
 		
-		NSMutableArray *x = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:2], nil];
+		NSMutableArray *x = [[NSMutableArray alloc] initWithObject:[NSNumber numberWithInt:2]];
 		bar = ^- (int) {
-			return [x objectAtIndex:0];
+			return [x hx_objectAtIndex:0];
 		}
 	}
-	[self eq:[foo] v2:1 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"174",@"unit.TestMisc",@"testCaptureUnique",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[bar] v2:2 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"175",@"unit.TestMisc",@"testCaptureUnique",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[foo] v2:1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"175",@"lineNumber", @"unit.TestMisc",@"className", @"testCaptureUnique",@"methodName", nil]];
+	[self eq:[bar] v2:2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"176",@"lineNumber", @"unit.TestMisc",@"className", @"testCaptureUnique",@"methodName", nil]];
 }
 - (void) testCaptureUnique2{
 	SEL foo = ((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObjects:self._id, nil]
+	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:self id]
 	__r__ = ^- (int) {
-		return [[f objectAtIndex:0]-TLazy];
+		return [[f hx_objectAtIndex:0]-TLazy];
 	}
 	return __r__{
 		
 		SEL* __r__}
 	}(self));
 	SEL bar = ((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObjects:self.sq, nil]
+	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:self sq]
 	__r__2 = ^- (int) {
-		return [[f objectAtIndex:0]-TLazy];
+		return [[f hx_objectAtIndex:0]-TLazy];
 	}
 	return __r__2{
 		
 		SEL* __r__2}
 	}(self));
-	[self eq:[foo] v2:3 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"182",@"unit.TestMisc",@"testCaptureUnique2",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[bar] v2:25 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"183",@"unit.TestMisc",@"testCaptureUnique2",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[foo] v2:3 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"183",@"lineNumber", @"unit.TestMisc",@"className", @"testCaptureUnique2",@"methodName", nil]];
+	[self eq:[bar] v2:25 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"184",@"lineNumber", @"unit.TestMisc",@"className", @"testCaptureUnique2",@"methodName", nil]];
 }
 - (void) testSelfRef{
 	
-	NSMutableArray *bla = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:55], nil];
+	NSMutableArray *bla = [[NSMutableArray alloc] initWithObject:[NSNumber numberWithInt:55]];
 	SEL bla1 = ^- (int) {
-		return [bla objectAtIndex:0];
+		return [bla hx_objectAtIndex:0];
 	}
-	[self eq:[bla1] v2:55 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"190",@"unit.TestMisc",@"testSelfRef",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[bla1] v2:55 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"191",@"lineNumber", @"unit.TestMisc",@"className", @"testSelfRef",@"methodName", nil]];
 }
 - (void) testHiddenType{
 	int haxe1 = 20;
-	[self eq:[Md5 encode:(NSMutableString*)@""] v2:(NSMutableString*)@"d41d8cd98f00b204e9800998ecf8427e" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"195",@"unit.TestMisc",@"testHiddenType",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:haxe1 v2:20 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"196",@"unit.TestMisc",@"testHiddenType",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[Md5 encode:[NSMutableString stringWithString:@""]] v2:[NSMutableString stringWithString:@"d41d8cd98f00b204e9800998ecf8427e"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"196",@"lineNumber", @"unit.TestMisc",@"className", @"testHiddenType",@"methodName", nil]];
+	[self eq:haxe1 v2:20 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"197",@"lineNumber", @"unit.TestMisc",@"className", @"testHiddenType",@"methodName", nil]];
 	int Std = 50;
-	[self eq:45 v2:45 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"198",@"unit.TestMisc",@"testHiddenType",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:Std v2:50 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"199",@"unit.TestMisc",@"testHiddenType",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:45 v2:45 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"199",@"lineNumber", @"unit.TestMisc",@"className", @"testHiddenType",@"methodName", nil]];
+	[self eq:Std v2:50 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"200",@"lineNumber", @"unit.TestMisc",@"className", @"testHiddenType",@"methodName", nil]];
 }
 - (void) testHiddenTypeScope{
 	BOOL flag = YES;
 	if (flag) {
 		int haxe = 20;
 		int Std = 50;
-		[self eq:haxe v2:20 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"207",@"unit.TestMisc",@"testHiddenTypeScope",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-		[self eq:Std v2:50 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"208",@"unit.TestMisc",@"testHiddenTypeScope",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+		[self eq:haxe v2:20 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"208",@"lineNumber", @"unit.TestMisc",@"className", @"testHiddenTypeScope",@"methodName", nil]];
+		[self eq:Std v2:50 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"209",@"lineNumber", @"unit.TestMisc",@"className", @"testHiddenTypeScope",@"methodName", nil]];
 	}
-	[self eq:[Md5 encode:(NSMutableString*)@""] v2:(NSMutableString*)@"d41d8cd98f00b204e9800998ecf8427e" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"210",@"unit.TestMisc",@"testHiddenTypeScope",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:45 v2:45 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"211",@"unit.TestMisc",@"testHiddenTypeScope",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[Md5 encode:[NSMutableString stringWithString:@""]] v2:[NSMutableString stringWithString:@"d41d8cd98f00b204e9800998ecf8427e"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"211",@"lineNumber", @"unit.TestMisc",@"className", @"testHiddenTypeScope",@"methodName", nil]];
+	[self eq:45 v2:45 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"212",@"lineNumber", @"unit.TestMisc",@"className", @"testHiddenTypeScope",@"methodName", nil]];
 }
 - (void) testHiddenTypeCapture{
 	BOOL flag = YES;
 	SEL foo = nil; SEL bar = nil;
 	if (flag) {
 		
-		NSMutableArray *haxe = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:20], nil];
+		NSMutableArray *haxe = [[NSMutableArray alloc] initWithObject:[NSNumber numberWithInt:20]];
 		
-		NSMutableArray *Std = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:50], nil];
+		NSMutableArray *Std = [[NSMutableArray alloc] initWithObject:[NSNumber numberWithInt:50]];
 		foo = ^- (int) {
-			return [haxe objectAtIndex:0];
+			return [haxe hx_objectAtIndex:0];
 		}
 		bar = ^- (int) {
-			return [Std objectAtIndex:0];
+			return [Std hx_objectAtIndex:0];
 		}
 	}
-	[self eq:[Md5 encode:(NSMutableString*)@""] v2:(NSMutableString*)@"d41d8cd98f00b204e9800998ecf8427e" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"223",@"unit.TestMisc",@"testHiddenTypeCapture",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:45 v2:45 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"224",@"unit.TestMisc",@"testHiddenTypeCapture",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[foo] v2:20 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"225",@"unit.TestMisc",@"testHiddenTypeCapture",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[bar] v2:50 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"226",@"unit.TestMisc",@"testHiddenTypeCapture",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[Md5 encode:[NSMutableString stringWithString:@""]] v2:[NSMutableString stringWithString:@"d41d8cd98f00b204e9800998ecf8427e"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"224",@"lineNumber", @"unit.TestMisc",@"className", @"testHiddenTypeCapture",@"methodName", nil]];
+	[self eq:45 v2:45 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"225",@"lineNumber", @"unit.TestMisc",@"className", @"testHiddenTypeCapture",@"methodName", nil]];
+	[self eq:[foo] v2:20 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"226",@"lineNumber", @"unit.TestMisc",@"className", @"testHiddenTypeCapture",@"methodName", nil]];
+	[self eq:[bar] v2:50 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"227",@"lineNumber", @"unit.TestMisc",@"className", @"testHiddenTypeCapture",@"methodName", nil]];
 }
-- (int) id:(int)x{
+- (int) _id:(int)x{
 	return x;
 }
 - (int) sq:(int)x{
 	return x * x;
 }
 - (void) testPropertyInit{
-	[self eq:[MyDynamicClass get_W] v2:57 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"238",@"unit.TestMisc",@"testPropertyInit",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[MyDynamicClass get_W] v2:57 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"239",@"lineNumber", @"unit.TestMisc",@"className", @"testPropertyInit",@"methodName", nil]];
 }
 - (void) testInlineClosure{
 	
 	MyDynamicClass *inst = [[MyDynamicClass alloc] init:100];
-	SEL add = inst.iadd;
-	[self eq:inst v + 1 + 2 v2:103 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"244",@"unit.TestMisc",@"testInlineClosure",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[add:1 y:2] v2:103 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"245",@"unit.TestMisc",@"testInlineClosure",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	SEL add = inst iadd;
+	[self eq:inst.v + 1 + 2 v2:103 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"245",@"lineNumber", @"unit.TestMisc",@"className", @"testInlineClosure",@"methodName", nil]];
+	[self eq:[add:1 y:2] v2:103 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"246",@"lineNumber", @"unit.TestMisc",@"className", @"testInlineClosure",@"methodName", nil]];
 }
 - (void) testDynamicClosure{
 	
 	MyDynamicClass *inst = [[MyDynamicClass alloc] init:100];
-	SEL add = inst.add;
-	[self eq:[inst add:1 y:2] v2:103 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"251",@"unit.TestMisc",@"testDynamicClosure",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	SEL add = inst add;
+	[self eq:[inst add:1 y:2] v2:103 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"252",@"lineNumber", @"unit.TestMisc",@"className", @"testDynamicClosure",@"methodName", nil]];
 	[self eq:[ (((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObjects:inst add, nil]
+	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:inst add]
 	__r__ = ^- (int) :(int)y{
-		return [[f objectAtIndex:0]:1 y:y];
+		return [[f hx_objectAtIndex:0]:1 y:y];
 	}
 	return __r__{
 		
 		SEL* __r__}
-	}(self))):2] v2:103 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"252",@"unit.TestMisc",@"testDynamicClosure",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[add:1 y:2] v2:103 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"253",@"unit.TestMisc",@"testDynamicClosure",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	}(self))):2] v2:103 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"253",@"lineNumber", @"unit.TestMisc",@"className", @"testDynamicClosure",@"methodName", nil]];
+	[self eq:[add:1 y:2] v2:103 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"254",@"lineNumber", @"unit.TestMisc",@"className", @"testDynamicClosure",@"methodName", nil]];
 	
 	MyDynamicSubClass *inst1 = [[MyDynamicSubClass alloc] init "-dynamic_param-" ];
-	SEL add1 = inst1.add;
-	[self eq:[inst1 add:1 y:2] v2:206 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"258",@"unit.TestMisc",@"testDynamicClosure",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	SEL add1 = inst1 add;
+	[self eq:[inst1 add:1 y:2] v2:206 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"259",@"lineNumber", @"unit.TestMisc",@"className", @"testDynamicClosure",@"methodName", nil]];
 	[self eq:[ (((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObjects:inst1 add, nil]
+	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:inst1 add]
 	__r__2 = ^- (int) :(int)y{
-		return [[f objectAtIndex:0]:1 y:y];
+		return [[f hx_objectAtIndex:0]:1 y:y];
 	}
 	return __r__2{
 		
 		SEL* __r__2}
-	}(self))):2] v2:206 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"259",@"unit.TestMisc",@"testDynamicClosure",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[add1:1 y:2] v2:206 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"260",@"unit.TestMisc",@"testDynamicClosure",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	}(self))):2] v2:206 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"260",@"lineNumber", @"unit.TestMisc",@"className", @"testDynamicClosure",@"methodName", nil]];
+	[self eq:[add1:1 y:2] v2:206 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"261",@"lineNumber", @"unit.TestMisc",@"className", @"testDynamicClosure",@"methodName", nil]];
 	
-	NSMutableArray *inst2 = [[NSMutableArray alloc] initWithObjects:[[MyDynamicSubClass2 alloc] init "-dynamic_param-" ], nil];
-	SEL add2 = [inst2 objectAtIndex:0].add;
-	[self eq:[[inst2 objectAtIndex:0] add:1 y:2] v2:206 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"265",@"unit.TestMisc",@"testDynamicClosure",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	NSMutableArray *inst2 = [[NSMutableArray alloc] initWithObject:[[MyDynamicSubClass2 alloc] init "-dynamic_param-" ]];
+	SEL add2 = [inst2 hx_objectAtIndex:0] add;
+	[self eq:[[inst2 hx_objectAtIndex:0] add:1 y:2] v2:206 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"266",@"lineNumber", @"unit.TestMisc",@"className", @"testDynamicClosure",@"methodName", nil]];
 	[self eq:[ (((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObjects:[inst2 objectAtIndex:[NSNumber numberWithInt:0]] add, nil]
+	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:[inst2 hx_objectAtIndex:[NSNumber numberWithInt:0]] add]
 	__r__3 = ^- (int) :(int)y{
-		return [[f objectAtIndex:0]:1 y:y];
+		return [[f hx_objectAtIndex:0]:1 y:y];
 	}
 	return __r__3{
 		
 		SEL* __r__3}
-	}(self))):2] v2:206 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"266",@"unit.TestMisc",@"testDynamicClosure",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[add2:1 y:2] v2:206 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"267",@"unit.TestMisc",@"testDynamicClosure",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[inst2 objectAtIndex:0].add = ^- (int) :(int)x y:(int)y{
-		return [[inst2 objectAtIndex:0] get] * 2 + x + y;
+	}(self))):2] v2:206 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"267",@"lineNumber", @"unit.TestMisc",@"className", @"testDynamicClosure",@"methodName", nil]];
+	[self eq:[add2:1 y:2] v2:206 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"268",@"lineNumber", @"unit.TestMisc",@"className", @"testDynamicClosure",@"methodName", nil]];
+	[inst2 hx_objectAtIndex:0].add = ^- (int) :(int)x y:(int)y{
+		return [[inst2 hx_objectAtIndex:0] get] * 2 + x + y;
 	}
-	SEL add3 = [inst2 objectAtIndex:0].add;
-	[self eq:[[inst2 objectAtIndex:0] add:1 y:2] v2:203 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"272",@"unit.TestMisc",@"testDynamicClosure",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	SEL add3 = [inst2 hx_objectAtIndex:0] add;
+	[self eq:[[inst2 hx_objectAtIndex:0] add:1 y:2] v2:203 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"273",@"lineNumber", @"unit.TestMisc",@"className", @"testDynamicClosure",@"methodName", nil]];
 	[self eq:[ (((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObjects:[inst2 objectAtIndex:[NSNumber numberWithInt:0]] add, nil]
+	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:[inst2 hx_objectAtIndex:[NSNumber numberWithInt:0]] add]
 	__r__4 = ^- (int) :(int)y{
-		return [[f objectAtIndex:0]:1 y:y];
+		return [[f hx_objectAtIndex:0]:1 y:y];
 	}
 	return __r__4{
 		
 		SEL* __r__4}
-	}(self))):2] v2:203 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"273",@"unit.TestMisc",@"testDynamicClosure",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[add3:1 y:2] v2:203 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"274",@"unit.TestMisc",@"testDynamicClosure",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	}(self))):2] v2:203 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"274",@"lineNumber", @"unit.TestMisc",@"className", @"testDynamicClosure",@"methodName", nil]];
+	[self eq:[add3:1 y:2] v2:203 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"275",@"lineNumber", @"unit.TestMisc",@"className", @"testDynamicClosure",@"methodName", nil]];
 	
 	MyOtherDynamicClass *inst3 = [[MyOtherDynamicClass alloc] init:0];
-	SEL add4 = inst3.add;
-	[self eq:[inst3 add:1 y:2] v2:13 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"279",@"unit.TestMisc",@"testDynamicClosure",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	SEL add4 = inst3 add;
+	[self eq:[inst3 add:1 y:2] v2:13 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"280",@"lineNumber", @"unit.TestMisc",@"className", @"testDynamicClosure",@"methodName", nil]];
 	[self eq:[ (((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObjects:inst3 add, nil]
+	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:inst3 add]
 	__r__5 = ^- (int) :(int)y{
-		return [[f objectAtIndex:0]:1 y:y];
+		return [[f hx_objectAtIndex:0]:1 y:y];
 	}
 	return __r__5{
 		
 		SEL* __r__5}
-	}(self))):2] v2:13 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"280",@"unit.TestMisc",@"testDynamicClosure",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[add4:1 y:2] v2:13 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"281",@"unit.TestMisc",@"testDynamicClosure",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[MyDynamicClass staticDynamic:1 y:2] v2:13 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"284",@"unit.TestMisc",@"testDynamicClosure",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	MyDynamicClass.staticDynamic = ^- (int) :(int)x y:(int)y{
+	}(self))):2] v2:13 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"281",@"lineNumber", @"unit.TestMisc",@"className", @"testDynamicClosure",@"methodName", nil]];
+	[self eq:[add4:1 y:2] v2:13 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"282",@"lineNumber", @"unit.TestMisc",@"className", @"testDynamicClosure",@"methodName", nil]];
+	[self eq:[MyDynamicClass staticDynamic:1 y:2] v2:13 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"285",@"lineNumber", @"unit.TestMisc",@"className", @"testDynamicClosure",@"methodName", nil]];
+	MyDynamicClass staticDynamic = ^- (int) :(int)x y:(int)y{
 		return x + y + 100;
 	}
-	[self eq:[MyDynamicClass staticDynamic:1 y:2] v2:103 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"286",@"unit.TestMisc",@"testDynamicClosure",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[MyDynamicClass staticDynamic:1 y:2] v2:103 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"287",@"lineNumber", @"unit.TestMisc",@"className", @"testDynamicClosure",@"methodName", nil]];
 }
 - (void) testMD5{
-	[self eq:[Md5 encode:(NSMutableString*)@""] v2:(NSMutableString*)@"d41d8cd98f00b204e9800998ecf8427e" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"290",@"unit.TestMisc",@"testMD5",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[Md5 encode:(NSMutableString*)@"hello"] v2:(NSMutableString*)@"5d41402abc4b2a76b9719d911017c592" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"291",@"unit.TestMisc",@"testMD5",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self allow:[Md5 encode:(NSMutableString*)@"héllo"] values:[[NSMutableArray alloc] initWithObjects:(NSMutableString*)@"1a722f7e6c801d9e470a10cb91ba406d", (NSMutableString*)@"be50e8478cf24ff3595bc7307fb91b50", nil] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"293",@"unit.TestMisc",@"testMD5",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[[Bytes ofString:(NSMutableString*)@"héllo"] toHex] v2:(NSMutableString*)@"68c3a96c6c6f" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"295",@"unit.TestMisc",@"testMD5",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[[Md5 make:[Bytes ofString:(NSMutableString*)@"héllo"]] toHex] v2:(NSMutableString*)@"be50e8478cf24ff3595bc7307fb91b50" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"296",@"unit.TestMisc",@"testMD5",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[Md5 encode:[NSMutableString stringWithString:@""]] v2:[NSMutableString stringWithString:@"d41d8cd98f00b204e9800998ecf8427e"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"291",@"lineNumber", @"unit.TestMisc",@"className", @"testMD5",@"methodName", nil]];
+	[self eq:[Md5 encode:[NSMutableString stringWithString:@"hello"]] v2:[NSMutableString stringWithString:@"5d41402abc4b2a76b9719d911017c592"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"292",@"lineNumber", @"unit.TestMisc",@"className", @"testMD5",@"methodName", nil]];
+	[self allow:[Md5 encode:[NSMutableString stringWithString:@"héllo"]] values:[[NSMutableArray alloc] initWithObjects:[NSMutableString stringWithString:@"1a722f7e6c801d9e470a10cb91ba406d"], [NSMutableString stringWithString:@"be50e8478cf24ff3595bc7307fb91b50"], nil] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"294",@"lineNumber", @"unit.TestMisc",@"className", @"testMD5",@"methodName", nil]];
+	[self eq:[[Bytes ofString:[NSMutableString stringWithString:@"héllo"]] toHex] v2:[NSMutableString stringWithString:@"68c3a96c6c6f"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"296",@"lineNumber", @"unit.TestMisc",@"className", @"testMD5",@"methodName", nil]];
+	[self eq:[[Md5 make:[Bytes ofString:[NSMutableString stringWithString:@"héllo"]]] toHex] v2:[NSMutableString stringWithString:@"be50e8478cf24ff3595bc7307fb91b50"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"297",@"lineNumber", @"unit.TestMisc",@"className", @"testMD5",@"methodName", nil]];
 }
 - (void) testSHA1{
-	[self eq:[Sha1 encode:(NSMutableString*)@""] v2:(NSMutableString*)@"da39a3ee5e6b4b0d3255bfef95601890afd80709" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"300",@"unit.TestMisc",@"testSHA1",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[Sha1 encode:(NSMutableString*)@"hello"] v2:(NSMutableString*)@"aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"301",@"unit.TestMisc",@"testSHA1",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self allow:[Sha1 encode:(NSMutableString*)@"héllo"] values:[[NSMutableArray alloc] initWithObjects:(NSMutableString*)@"028db752c14604d624e8b1c121d600c427b8a3ba", (NSMutableString*)@"35b5ea45c5e41f78b46a937cc74d41dfea920890", nil] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"303",@"unit.TestMisc",@"testSHA1",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[[Sha1 make:[Bytes ofString:(NSMutableString*)@"héllo"]] toHex] v2:(NSMutableString*)@"35b5ea45c5e41f78b46a937cc74d41dfea920890" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"305",@"unit.TestMisc",@"testSHA1",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[Sha1 encode:[NSMutableString stringWithString:@""]] v2:[NSMutableString stringWithString:@"da39a3ee5e6b4b0d3255bfef95601890afd80709"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"301",@"lineNumber", @"unit.TestMisc",@"className", @"testSHA1",@"methodName", nil]];
+	[self eq:[Sha1 encode:[NSMutableString stringWithString:@"hello"]] v2:[NSMutableString stringWithString:@"aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"302",@"lineNumber", @"unit.TestMisc",@"className", @"testSHA1",@"methodName", nil]];
+	[self allow:[Sha1 encode:[NSMutableString stringWithString:@"héllo"]] values:[[NSMutableArray alloc] initWithObjects:[NSMutableString stringWithString:@"028db752c14604d624e8b1c121d600c427b8a3ba"], [NSMutableString stringWithString:@"35b5ea45c5e41f78b46a937cc74d41dfea920890"], nil] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"304",@"lineNumber", @"unit.TestMisc",@"className", @"testSHA1",@"methodName", nil]];
+	[self eq:[[Sha1 make:[Bytes ofString:[NSMutableString stringWithString:@"héllo"]]] toHex] v2:[NSMutableString stringWithString:@"35b5ea45c5e41f78b46a937cc74d41dfea920890"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"306",@"lineNumber", @"unit.TestMisc",@"className", @"testSHA1",@"methodName", nil]];
 }
 - (void) testBaseCode{
 	
-	BaseCode *b = [[BaseCode alloc] init:[Bytes ofString:(NSMutableString*)@"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-"]];
-	[self eq:[b encodeString:(NSMutableString*)@"Héllow"] v2:(NSMutableString*)@"iceFr6NLtM" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"310",@"unit.TestMisc",@"testBaseCode",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[b decodeString:(NSMutableString*)@"iceFr6NLtM"] v2:(NSMutableString*)@"Héllow" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"311",@"unit.TestMisc",@"testBaseCode",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	BaseCode *b = [[BaseCode alloc] init:[Bytes ofString:[NSMutableString stringWithString:@"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-"]]];
+	[self eq:[b encodeString:[NSMutableString stringWithString:@"Héllow"]] v2:[NSMutableString stringWithString:@"iceFr6NLtM"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"311",@"lineNumber", @"unit.TestMisc",@"className", @"testBaseCode",@"methodName", nil]];
+	[self eq:[b decodeString:[NSMutableString stringWithString:@"iceFr6NLtM"]] v2:[NSMutableString stringWithString:@"Héllow"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"312",@"lineNumber", @"unit.TestMisc",@"className", @"testBaseCode",@"methodName", nil]];
 }
 - (void) testUrlEncode{
-	[self eq:[StringTools urlEncode:(NSMutableString*)@"é"] v2:(NSMutableString*)@"%C3%A9" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"315",@"unit.TestMisc",@"testUrlEncode",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[StringTools urlDecode:(NSMutableString*)@"%C3%A9"] v2:(NSMutableString*)@"é" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"316",@"unit.TestMisc",@"testUrlEncode",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[StringTools urlEncode:[NSMutableString stringWithString:@"é"]] v2:[NSMutableString stringWithString:@"%C3%A9"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"316",@"lineNumber", @"unit.TestMisc",@"className", @"testUrlEncode",@"methodName", nil]];
+	[self eq:[StringTools urlDecode:[NSMutableString stringWithString:@"%C3%A9"]] v2:[NSMutableString stringWithString:@"é"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"317",@"lineNumber", @"unit.TestMisc",@"className", @"testUrlEncode",@"methodName", nil]];
 }
 - (id) opt1:(int)x y:(NSMutableString*)y{
-	// Simulated optional arguments
-	if (x == nil) x = nil;
-	if (y == nil) y = nil;
+	// Optional arguments
+	if (!x) x = nil;
+	if (!y) y = nil;
 	
-	return struct {
-	x:x; y:y
-	} structName;
+	return [NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[x copy], @"x",
+	[y copy], @"y",
+	nil];
 }
 - (id) opt2:(int)x y:(NSMutableString*)y{
-	// Simulated optional arguments
-	if (x == nil) x = 5;
-	if (y == nil) y = (NSMutableString*)@"hello";
+	// Optional arguments
+	if (!x) x = 5;
+	if (!y) y = [NSMutableString stringWithString:@"hello"];
 	
-	return struct {
-	x:x; y:y
-	} structName;
+	return [NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[x copy], @"x",
+	[y copy], @"y",
+	nil];
 }
 - (id) opt3:(int)x y:(float)y{
-	// Simulated optional arguments
-	if (x == nil) x = 5;
-	if (y == nil) y = 6;
+	// Optional arguments
+	if (!x) x = 5;
+	if (!y) y = 6;
 	
-	return struct {
-	x:x; y:y
-	} structName;
+	return [NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[x copy], @"x",
+	[y copy], @"y",
+	nil];
 }
 - (int) opt4:(int)x{
-	// Simulated optional arguments
-	if (x == nil) x = 10;
+	// Optional arguments
+	if (!x) x = 10;
 	
 	return x + 1;
 }
 - (void) testOptionalParams{
-	[self eq:[self.opt1:nil y:nil] x v2:nil pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"336",@"unit.TestMisc",@"testOptionalParams",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[self.opt1:nil y:nil] y v2:nil pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"337",@"unit.TestMisc",@"testOptionalParams",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[self.opt1:55 y:nil] x v2:55 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"338",@"unit.TestMisc",@"testOptionalParams",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[self.opt1:55 y:nil] y v2:nil pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"339",@"unit.TestMisc",@"testOptionalParams",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[self.opt1:nil y:(NSMutableString*)@"str"] x v2:nil pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"340",@"unit.TestMisc",@"testOptionalParams",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[self.opt1:nil y:(NSMutableString*)@"str"] y v2:(NSMutableString*)@"str" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"341",@"unit.TestMisc",@"testOptionalParams",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[self.opt1:66 y:(NSMutableString*)@"hello"] x v2:66 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"342",@"unit.TestMisc",@"testOptionalParams",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[self.opt1:66 y:(NSMutableString*)@"hello"] y v2:(NSMutableString*)@"hello" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"343",@"unit.TestMisc",@"testOptionalParams",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[self.opt2:nil y:nil] x v2:5 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"345",@"unit.TestMisc",@"testOptionalParams",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[self.opt2:nil y:nil] y v2:(NSMutableString*)@"hello" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"346",@"unit.TestMisc",@"testOptionalParams",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[self.opt2:nil y:nil] x v2:5 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"349",@"unit.TestMisc",@"testOptionalParams",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[self.opt2:0 y:nil] y v2:(NSMutableString*)@"hello" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"351",@"unit.TestMisc",@"testOptionalParams",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[self.opt3:nil y:nil] x v2:5 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"353",@"unit.TestMisc",@"testOptionalParams",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[self.opt3:nil y:nil] y v2:6 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"354",@"unit.TestMisc",@"testOptionalParams",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[self.opt3:9 y:nil] x v2:9 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"355",@"unit.TestMisc",@"testOptionalParams",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[self.opt3:9 y:nil] y v2:6 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"356",@"unit.TestMisc",@"testOptionalParams",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[self.opt3:9 y:10] x v2:9 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"357",@"unit.TestMisc",@"testOptionalParams",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[self.opt3:9 y:10] y v2:10 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"358",@"unit.TestMisc",@"testOptionalParams",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[self.opt3:nil y:nil] x v2:5 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"359",@"unit.TestMisc",@"testOptionalParams",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[self.opt3:nil y:nil] y v2:6 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"360",@"unit.TestMisc",@"testOptionalParams",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[self.opt3:nil y:nil] x v2:5 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"361",@"unit.TestMisc",@"testOptionalParams",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[self.opt3:nil y:nil] y v2:6 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"362",@"unit.TestMisc",@"testOptionalParams",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[self.opt3:nil y:7] x v2:5 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"363",@"unit.TestMisc",@"testOptionalParams",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[self.opt3:nil y:7] y v2:7 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"364",@"unit.TestMisc",@"testOptionalParams",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[self.opt3:nil y:7.4] x v2:5 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"367",@"unit.TestMisc",@"testOptionalParams",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[self.opt3:nil y:7.4] y v2:7.4 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"368",@"unit.TestMisc",@"testOptionalParams",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[self.opt4:nil] v2:11 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"370",@"unit.TestMisc",@"testOptionalParams",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[self.opt4:nil] v2:11 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"372",@"unit.TestMisc",@"testOptionalParams",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	SEL opt4b = self.opt4;
-	[self eq:[opt4b:nil] v2:11 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"376",@"unit.TestMisc",@"testOptionalParams",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[opt4b:3] v2:4 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"377",@"unit.TestMisc",@"testOptionalParams",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[opt4b:nil] v2:11 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"379",@"unit.TestMisc",@"testOptionalParams",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[self opt1:nil y:nil] x v2:nil pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"337",@"lineNumber", @"unit.TestMisc",@"className", @"testOptionalParams",@"methodName", nil]];
+	[self eq:[self opt1:nil y:nil] y v2:nil pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"338",@"lineNumber", @"unit.TestMisc",@"className", @"testOptionalParams",@"methodName", nil]];
+	[self eq:[self opt1:55 y:nil] x v2:55 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"339",@"lineNumber", @"unit.TestMisc",@"className", @"testOptionalParams",@"methodName", nil]];
+	[self eq:[self opt1:55 y:nil] y v2:nil pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"340",@"lineNumber", @"unit.TestMisc",@"className", @"testOptionalParams",@"methodName", nil]];
+	[self eq:[self opt1:nil y:[NSMutableString stringWithString:@"str"]] x v2:nil pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"341",@"lineNumber", @"unit.TestMisc",@"className", @"testOptionalParams",@"methodName", nil]];
+	[self eq:[self opt1:nil y:[NSMutableString stringWithString:@"str"]] y v2:[NSMutableString stringWithString:@"str"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"342",@"lineNumber", @"unit.TestMisc",@"className", @"testOptionalParams",@"methodName", nil]];
+	[self eq:[self opt1:66 y:[NSMutableString stringWithString:@"hello"]] x v2:66 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"343",@"lineNumber", @"unit.TestMisc",@"className", @"testOptionalParams",@"methodName", nil]];
+	[self eq:[self opt1:66 y:[NSMutableString stringWithString:@"hello"]] y v2:[NSMutableString stringWithString:@"hello"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"344",@"lineNumber", @"unit.TestMisc",@"className", @"testOptionalParams",@"methodName", nil]];
+	[self eq:[self opt2:nil y:nil] x v2:5 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"346",@"lineNumber", @"unit.TestMisc",@"className", @"testOptionalParams",@"methodName", nil]];
+	[self eq:[self opt2:nil y:nil] y v2:[NSMutableString stringWithString:@"hello"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"347",@"lineNumber", @"unit.TestMisc",@"className", @"testOptionalParams",@"methodName", nil]];
+	[self eq:[self opt2:nil y:nil] x v2:5 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"350",@"lineNumber", @"unit.TestMisc",@"className", @"testOptionalParams",@"methodName", nil]];
+	[self eq:[self opt2:0 y:nil] y v2:[NSMutableString stringWithString:@"hello"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"352",@"lineNumber", @"unit.TestMisc",@"className", @"testOptionalParams",@"methodName", nil]];
+	[self eq:[self opt3:nil y:nil] x v2:5 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"354",@"lineNumber", @"unit.TestMisc",@"className", @"testOptionalParams",@"methodName", nil]];
+	[self eq:[self opt3:nil y:nil] y v2:6 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"355",@"lineNumber", @"unit.TestMisc",@"className", @"testOptionalParams",@"methodName", nil]];
+	[self eq:[self opt3:9 y:nil] x v2:9 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"356",@"lineNumber", @"unit.TestMisc",@"className", @"testOptionalParams",@"methodName", nil]];
+	[self eq:[self opt3:9 y:nil] y v2:6 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"357",@"lineNumber", @"unit.TestMisc",@"className", @"testOptionalParams",@"methodName", nil]];
+	[self eq:[self opt3:9 y:10] x v2:9 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"358",@"lineNumber", @"unit.TestMisc",@"className", @"testOptionalParams",@"methodName", nil]];
+	[self eq:[self opt3:9 y:10] y v2:10 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"359",@"lineNumber", @"unit.TestMisc",@"className", @"testOptionalParams",@"methodName", nil]];
+	[self eq:[self opt3:nil y:nil] x v2:5 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"360",@"lineNumber", @"unit.TestMisc",@"className", @"testOptionalParams",@"methodName", nil]];
+	[self eq:[self opt3:nil y:nil] y v2:6 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"361",@"lineNumber", @"unit.TestMisc",@"className", @"testOptionalParams",@"methodName", nil]];
+	[self eq:[self opt3:nil y:nil] x v2:5 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"362",@"lineNumber", @"unit.TestMisc",@"className", @"testOptionalParams",@"methodName", nil]];
+	[self eq:[self opt3:nil y:nil] y v2:6 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"363",@"lineNumber", @"unit.TestMisc",@"className", @"testOptionalParams",@"methodName", nil]];
+	[self eq:[self opt3:nil y:7] x v2:5 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"364",@"lineNumber", @"unit.TestMisc",@"className", @"testOptionalParams",@"methodName", nil]];
+	[self eq:[self opt3:nil y:7] y v2:7 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"365",@"lineNumber", @"unit.TestMisc",@"className", @"testOptionalParams",@"methodName", nil]];
+	[self eq:[self opt3:nil y:7.4] x v2:5 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"368",@"lineNumber", @"unit.TestMisc",@"className", @"testOptionalParams",@"methodName", nil]];
+	[self eq:[self opt3:nil y:7.4] y v2:7.4 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"369",@"lineNumber", @"unit.TestMisc",@"className", @"testOptionalParams",@"methodName", nil]];
+	[self eq:[self opt4:nil] v2:11 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"371",@"lineNumber", @"unit.TestMisc",@"className", @"testOptionalParams",@"methodName", nil]];
+	[self eq:[self opt4:nil] v2:11 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"373",@"lineNumber", @"unit.TestMisc",@"className", @"testOptionalParams",@"methodName", nil]];
+	SEL opt4b = self opt4;
+	[self eq:[opt4b:nil] v2:11 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"377",@"lineNumber", @"unit.TestMisc",@"className", @"testOptionalParams",@"methodName", nil]];
+	[self eq:[opt4b:3] v2:4 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"378",@"lineNumber", @"unit.TestMisc",@"className", @"testOptionalParams",@"methodName", nil]];
+	[self eq:[opt4b:nil] v2:11 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"380",@"lineNumber", @"unit.TestMisc",@"className", @"testOptionalParams",@"methodName", nil]];
 	SEL opt5 = ^- (int) :(int)a b:(int)b{
-		// Simulated optional arguments
-		if (b == nil) b = 2;
+		// Optional arguments
+		if (!b) b = 2;
 		
 		return a + b;
 	}
-	[self eq:3 v2:[opt5:1 b:nil] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"387",@"unit.TestMisc",@"testOptionalParams",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:3 v2:[opt5:1 b:2] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"388",@"unit.TestMisc",@"testOptionalParams",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:3 v2:[opt5:1 b:nil] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"389",@"unit.TestMisc",@"testOptionalParams",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:3 v2:[opt5:1 b:nil] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"388",@"lineNumber", @"unit.TestMisc",@"className", @"testOptionalParams",@"methodName", nil]];
+	[self eq:3 v2:[opt5:1 b:2] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"389",@"lineNumber", @"unit.TestMisc",@"className", @"testOptionalParams",@"methodName", nil]];
+	[self eq:3 v2:[opt5:1 b:nil] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"390",@"lineNumber", @"unit.TestMisc",@"className", @"testOptionalParams",@"methodName", nil]];
 }
 - (void) testIncr{
 	int z = 0;
-	[self eq:z++ v2:0 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"394",@"unit.TestMisc",@"testIncr",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:z v2:1 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"395",@"unit.TestMisc",@"testIncr",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:++z v2:2 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"396",@"unit.TestMisc",@"testIncr",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:z v2:2 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"397",@"unit.TestMisc",@"testIncr",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:z++ v2:0 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"395",@"lineNumber", @"unit.TestMisc",@"className", @"testIncr",@"methodName", nil]];
+	[self eq:z v2:1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"396",@"lineNumber", @"unit.TestMisc",@"className", @"testIncr",@"methodName", nil]];
+	[self eq:++z v2:2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"397",@"lineNumber", @"unit.TestMisc",@"className", @"testIncr",@"methodName", nil]];
+	[self eq:z v2:2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"398",@"lineNumber", @"unit.TestMisc",@"className", @"testIncr",@"methodName", nil]];
 	z++;
-	[self eq:z v2:3 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"399",@"unit.TestMisc",@"testIncr",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:z v2:3 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"400",@"lineNumber", @"unit.TestMisc",@"className", @"testIncr",@"methodName", nil]];
 	++z;
-	[self eq:z v2:4 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"401",@"unit.TestMisc",@"testIncr",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:z += 3 v2:7 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"403",@"unit.TestMisc",@"testIncr",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:z v2:4 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"402",@"lineNumber", @"unit.TestMisc",@"className", @"testIncr",@"methodName", nil]];
+	[self eq:z += 3 v2:7 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"404",@"lineNumber", @"unit.TestMisc",@"className", @"testIncr",@"methodName", nil]];
 	int x = 0;
 	
-	NSMutableArray *arr = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:3], nil];
-	[self eq:[arr objectAtIndex:x++]++ v2:3 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"407",@"unit.TestMisc",@"testIncr",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:x v2:1 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"408",@"unit.TestMisc",@"testIncr",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[arr objectAtIndex:0] v2:4 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"409",@"unit.TestMisc",@"testIncr",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	NSMutableArray *arr = [[NSMutableArray alloc] initWithObject:[NSNumber numberWithInt:3]];
+	[self eq:[arr hx_objectAtIndex:x++]++ v2:3 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"408",@"lineNumber", @"unit.TestMisc",@"className", @"testIncr",@"methodName", nil]];
+	[self eq:x v2:1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"409",@"lineNumber", @"unit.TestMisc",@"className", @"testIncr",@"methodName", nil]];
+	[self eq:[arr hx_objectAtIndex:0] v2:4 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"410",@"lineNumber", @"unit.TestMisc",@"className", @"testIncr",@"methodName", nil]];
 	x = 0;
-	[self eq:[arr objectAtIndex:x++] += 3 v2:7 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"411",@"unit.TestMisc",@"testIncr",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[arr objectAtIndex:0] v2:7 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"412",@"unit.TestMisc",@"testIncr",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[arr hx_objectAtIndex:x++] += 3 v2:7 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"412",@"lineNumber", @"unit.TestMisc",@"className", @"testIncr",@"methodName", nil]];
+	[self eq:[arr hx_objectAtIndex:0] v2:7 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"413",@"lineNumber", @"unit.TestMisc",@"className", @"testIncr",@"methodName", nil]];
 	int x1 = 0;
 	
-	NSMutableArray *arr1 = [[NSMutableArray alloc] initWithObjects:struct {
-	v:[NSNumber numberWithInt:3]
-	} structName, nil];
-	[self eq:[arr1 objectAtIndex:x1++] v++ v2:3 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"416",@"unit.TestMisc",@"testIncr",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:x1 v2:1 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"417",@"unit.TestMisc",@"testIncr",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[arr1 objectAtIndex:0] v v2:4 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"418",@"unit.TestMisc",@"testIncr",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	NSMutableArray *arr1 = [[NSMutableArray alloc] initWithObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSNumber numberWithInt:3] copy], @"v",
+	nil]];
+	[self eq:[arr1 hx_objectAtIndex:x1++] v++ v2:3 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"417",@"lineNumber", @"unit.TestMisc",@"className", @"testIncr",@"methodName", nil]];
+	[self eq:x1 v2:1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"418",@"lineNumber", @"unit.TestMisc",@"className", @"testIncr",@"methodName", nil]];
+	[self eq:[arr1 hx_objectAtIndex:0] v v2:4 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"419",@"lineNumber", @"unit.TestMisc",@"className", @"testIncr",@"methodName", nil]];
 	x1 = 0;
-	[self eq:[arr1 objectAtIndex:x1++] v += 3 v2:7 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"422",@"unit.TestMisc",@"testIncr",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[arr1 objectAtIndex:0] v v2:7 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"423",@"unit.TestMisc",@"testIncr",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[arr1 hx_objectAtIndex:x1++] v += 3 v2:7 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"423",@"lineNumber", @"unit.TestMisc",@"className", @"testIncr",@"methodName", nil]];
+	[self eq:[arr1 hx_objectAtIndex:0] v v2:7 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"424",@"lineNumber", @"unit.TestMisc",@"className", @"testIncr",@"methodName", nil]];
 	x1 = 0;
-	id arr2 = [[NSMutableArray alloc] initWithObjects:struct {
-	v:[NSNumber numberWithInt:3]
-	} structName, nil];
-	[self eq:[arr2 objectAtIndex:x1++] v++ v2:3 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"428",@"unit.TestMisc",@"testIncr",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:x1 v2:1 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"429",@"unit.TestMisc",@"testIncr",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[arr2 objectAtIndex:0] v v2:4 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"430",@"unit.TestMisc",@"testIncr",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	id arr2 = [[NSMutableArray alloc] initWithObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSNumber numberWithInt:3] copy], @"v",
+	nil]];
+	[self eq:[arr2 hx_objectAtIndex:x1++] v++ v2:3 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"429",@"lineNumber", @"unit.TestMisc",@"className", @"testIncr",@"methodName", nil]];
+	[self eq:x1 v2:1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"430",@"lineNumber", @"unit.TestMisc",@"className", @"testIncr",@"methodName", nil]];
+	[self eq:[arr2 hx_objectAtIndex:0] v v2:4 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"431",@"lineNumber", @"unit.TestMisc",@"className", @"testIncr",@"methodName", nil]];
 	x1 = 0;
-	[self eq:[arr2 objectAtIndex:x1++] v += 3 v2:7 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"434",@"unit.TestMisc",@"testIncr",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[arr2 objectAtIndex:0] v v2:7 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"435",@"unit.TestMisc",@"testIncr",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[arr2 hx_objectAtIndex:x1++] v += 3 v2:7 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"435",@"lineNumber", @"unit.TestMisc",@"className", @"testIncr",@"methodName", nil]];
+	[self eq:[arr2 hx_objectAtIndex:0] v v2:7 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"436",@"lineNumber", @"unit.TestMisc",@"className", @"testIncr",@"methodName", nil]];
 }
 - (void) testInitOrder{
 	int i = 0;
-	id o = struct {
-	y:i++; x:i++; z:i++; blabla:i++
-	} structName;
-	[self eq:o y v2:0 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"447",@"unit.TestMisc",@"testInitOrder",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:o x v2:1 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"448",@"unit.TestMisc",@"testInitOrder",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:o z v2:2 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"449",@"unit.TestMisc",@"testInitOrder",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:o blabla v2:3 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"450",@"unit.TestMisc",@"testInitOrder",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	id o = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[i++ copy], @"y",
+	[i++ copy], @"x",
+	[i++ copy], @"z",
+	[i++ copy], @"blabla",
+	nil];
+	[self eq:o y v2:0 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"448",@"lineNumber", @"unit.TestMisc",@"className", @"testInitOrder",@"methodName", nil]];
+	[self eq:o x v2:1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"449",@"lineNumber", @"unit.TestMisc",@"className", @"testInitOrder",@"methodName", nil]];
+	[self eq:o z v2:2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"450",@"lineNumber", @"unit.TestMisc",@"className", @"testInitOrder",@"methodName", nil]];
+	[self eq:o blabla v2:3 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"451",@"lineNumber", @"unit.TestMisc",@"className", @"testInitOrder",@"methodName", nil]];
 }
 - (void) testInline{
 	int x = 3;
-	[self eq:2 *  (x + 5) v2:16 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"458",@"unit.TestMisc",@"testInline",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:- (x + 5) v2:-8 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"459",@"unit.TestMisc",@"testInline",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:2 *  (x + 5) v2:16 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"459",@"lineNumber", @"unit.TestMisc",@"className", @"testInline",@"methodName", nil]];
+	[self eq:- (x + 5) v2:-8 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"460",@"lineNumber", @"unit.TestMisc",@"className", @"testInline",@"methodName", nil]];
 }
 - (void) testEvalAccessOrder{
 	
 	NSMutableArray *a = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:0], [NSNumber numberWithInt:0], nil];
 	int x = 0;
-	[a objectAtIndex:x++]++;
-	[self eq:[a objectAtIndex:0] v2:1 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"466",@"unit.TestMisc",@"testEvalAccessOrder",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[a objectAtIndex:1] v2:0 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"467",@"unit.TestMisc",@"testEvalAccessOrder",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[a hx_objectAtIndex:x++]++;
+	[self eq:[a hx_objectAtIndex:0] v2:1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"467",@"lineNumber", @"unit.TestMisc",@"className", @"testEvalAccessOrder",@"methodName", nil]];
+	[self eq:[a hx_objectAtIndex:1] v2:0 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"468",@"lineNumber", @"unit.TestMisc",@"className", @"testEvalAccessOrder",@"methodName", nil]];
 	int x1 = 0;
 	
-	NSMutableArray *a1 = (NSMutableArray*)[[NSMutableArray alloc] init];
-	[a1 objectAtIndex:x1++] = x1++;
-	[self eq:[a1 objectAtIndex:0] v2:1 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"472",@"unit.TestMisc",@"testEvalAccessOrder",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	NSMutableArray *a1 = [[NSMutableArray alloc] init];
+	[a1 hx_replaceObjectAtIndex:x1++ withObject:x1++];
+	[self eq:[a1 hx_objectAtIndex:0] v2:1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"473",@"lineNumber", @"unit.TestMisc",@"className", @"testEvalAccessOrder",@"methodName", nil]];
 	
-	NSMutableArray *x2 = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:0], nil];
+	NSMutableArray *x2 = [[NSMutableArray alloc] initWithObject:[NSNumber numberWithInt:0]];
 	SEL foo = ^- (int) {
-		return [x2 objectAtIndex:0]++;
+		return [x2 hx_objectAtIndex:0]++;
 	}
-	[a1 objectAtIndex:[foo]] = [foo];
-	[self eq:[a1 objectAtIndex:0] v2:1 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"477",@"unit.TestMisc",@"testEvalAccessOrder",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[a1 hx_replaceObjectAtIndex:[foo] withObject:[foo]];
+	[self eq:[a1 hx_objectAtIndex:0] v2:1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"478",@"lineNumber", @"unit.TestMisc",@"className", @"testEvalAccessOrder",@"methodName", nil]];
 }
 - (void) testStaticVarFun{
-	[self eq:[TestMisc add:2 y:3] v2:5 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"483",@"unit.TestMisc",@"testStaticVarFun",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[-TMono-:2 y:3] v2:5 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"484",@"lineNumber", @"unit.TestMisc",@"className", @"testStaticVarFun",@"methodName", nil]];
 }
 - (void) testDefArgs{
 	
 	ExtDefArgs *e = [[ExtDefArgs alloc] init];
-	[self eq:[e get:nil] v2:7 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"488",@"unit.TestMisc",@"testDefArgs",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[e get:nil] v2:7 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"489",@"lineNumber", @"unit.TestMisc",@"className", @"testDefArgs",@"methodName", nil]];
 	
 	BaseDefArgs *b = e;
-	[self eq:[b get:nil] v2:7 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"490",@"unit.TestMisc",@"testDefArgs",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[b get:nil] v2:7 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"491",@"lineNumber", @"unit.TestMisc",@"className", @"testDefArgs",@"methodName", nil]];
 	
 	IDefArgs *i = e;
-	[self eq:[i get:nil] v2:7 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"492",@"unit.TestMisc",@"testDefArgs",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[i get:nil] v2:7 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"493",@"lineNumber", @"unit.TestMisc",@"className", @"testDefArgs",@"methodName", nil]];
 }
 - (void) testStringBuf{
 	
 	StringBuf *b = [[StringBuf alloc] init];
-	[b.b appendString:(NSMutableString*)@"-45"];
+	[b.b appendString:[NSMutableString stringWithString:@"-45"]];
 	b.b += [Std string:1.456];
 	b.b += [Std string:nil];
-	[b.b appendString:(NSMutableString*)@"true"];
-	[b.b appendString:(NSMutableString*)@"false"];
-	[b.b appendString:(NSMutableString*)@"Hello!"];
-	[b.b appendString:[(NSMutableString*)@"Bla" substr:@"1" len:@"2"]];
-	[b.b appendString:(NSMutableString*)@"R"];
-	[self eq:b b v2:(NSMutableString*)@"-451.456nulltruefalseHello!laR" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"505",@"unit.TestMisc",@"testStringBuf",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[b.b appendString:[NSMutableString stringWithString:@"true"]];
+	[b.b appendString:[NSMutableString stringWithString:@"false"]];
+	[b.b appendString:[NSMutableString stringWithString:@"Hello!"]];
+	[b.b appendString:[[NSMutableString stringWithString:@"Bla"] substr:@"1" len:@"2"]];
+	[b.b appendString:[NSMutableString stringWithString:@"R"]];
+	[self eq:b.b v2:[NSMutableString stringWithString:@"-451.456nulltruefalseHello!laR"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"506",@"lineNumber", @"unit.TestMisc",@"className", @"testStringBuf",@"methodName", nil]];
 }
 - (void) testToString{
-	id x = struct {
-	toString:^- (NSMutableString*) {
-		return (NSMutableString*)@"foo";
-	}
-	} structName;
-	[self eq:[Std string:x] v2:(NSMutableString*)@"foo" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"511",@"unit.TestMisc",@"testToString",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	id x = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[^NSMutableString*(){
+		return [NSMutableString stringWithString:@"foo"];
+	} copy], @"toString",
+	nil];
+	[self eq:[Std string:x] v2:[NSMutableString stringWithString:@"foo"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"512",@"lineNumber", @"unit.TestMisc",@"className", @"testToString",@"methodName", nil]];
 }
 - (void) testFormat{
 	int x = 5;
 	int y = 6;
-	[self eq:[[(NSMutableString*)@"" stringByAppendingString:x] stringByAppendingString: (x + y)] v2:(NSMutableString*)@"511" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"519",@"unit.TestMisc",@"testFormat",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[[[NSMutableString stringWithString:@""] stringByAppendingString:x] stringByAppendingString: (x + y)] v2:[NSMutableString stringWithString:@"511"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"528",@"lineNumber", @"unit.TestMisc",@"className", @"testFormat",@"methodName", nil]];
 }
 - (void) testJSon{
 	
-	NSMutableArray *_g = [[NSMutableArray alloc] initWithObjects:self, nil];
+	NSMutableArray *_g = [[NSMutableArray alloc] initWithObject:self];
 	
-	NSMutableString *str = [Json stringify:struct {
-	x:-4500; y:1.456; a:[[NSMutableArray alloc] initWithObjects:(NSMutableString*)@"hello", (NSMutableString*)@"wor'\"\n\t\rd", nil]
-	} structName replacer:nil];
+	NSMutableString *str = [Json stringify:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[-4500 copy], @"x",
+	[1.456 copy], @"y",
+	[[[NSMutableArray alloc] initWithObjects:[NSMutableString stringWithString:@"hello"], [NSMutableString stringWithString:@"wor'\"\n\t\rd"], nil] copy], @"a",
+	nil] replacer:nil];
 	str = [str substr:1 len:str.length - 2];
 	
-	NSMutableArray *parts = (NSMutableArray*)[str componentsSeparatedByString:(NSMutableString*)@","];
-	[self t:[parts remove:(NSMutableString*)@"\"x\":-4500"] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"527",@"unit.TestMisc",@"testJSon",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self t:[parts remove:(NSMutableString*)@"\"y\":1.456"] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"528",@"unit.TestMisc",@"testJSon",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self t:[parts remove:(NSMutableString*)@"\"a\":[\"hello\""] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"529",@"unit.TestMisc",@"testJSon",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self t:[parts remove:(NSMutableString*)@"\"wor'\\\"\\n\\t\\rd\"]"] pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"530",@"unit.TestMisc",@"testJSon",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[parts join:(NSMutableString*)@"#"] v2:(NSMutableString*)@"" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"531",@"unit.TestMisc",@"testJSon",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	NSMutableArray *parts = [str split:[NSMutableString stringWithString:@","]];
+	[self t:[parts remove:[NSMutableString stringWithString:@"\"x\":-4500"]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"536",@"lineNumber", @"unit.TestMisc",@"className", @"testJSon",@"methodName", nil]];
+	[self t:[parts remove:[NSMutableString stringWithString:@"\"y\":1.456"]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"537",@"lineNumber", @"unit.TestMisc",@"className", @"testJSon",@"methodName", nil]];
+	[self t:[parts remove:[NSMutableString stringWithString:@"\"a\":[\"hello\""]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"538",@"lineNumber", @"unit.TestMisc",@"className", @"testJSon",@"methodName", nil]];
+	[self t:[parts remove:[NSMutableString stringWithString:@"\"wor'\\\"\\n\\t\\rd\"]"]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"539",@"lineNumber", @"unit.TestMisc",@"className", @"testJSon",@"methodName", nil]];
+	[self eq:[parts join:[NSMutableString stringWithString:@"#"]] v2:[NSMutableString stringWithString:@""] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"540",@"lineNumber", @"unit.TestMisc",@"className", @"testJSon",@"methodName", nil]];
 	SEL _id = ^- (void) :(id)v pos:(id)pos{
-		// Simulated optional arguments
-		if (pos == nil) pos = nil;
+		// Optional arguments
+		if (!pos) pos = nil;
 		
-		[[_g objectAtIndex:0] eq:[Json parse:[Json stringify:v replacer:nil]] v2:v pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"538",@"unit.TestMisc",@"testJSon",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+		[[_g hx_objectAtIndex:0] eq:[Json parse:[Json stringify:v replacer:nil]] v2:v pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"547",@"lineNumber", @"unit.TestMisc",@"className", @"testJSon",@"methodName", nil]];
 	}
 	SEL deepId = ^- (void) :(id)v{
 		
 		NSMutableString *str1 = [Json stringify:v replacer:nil];
-		[[_g objectAtIndex:0] eq:[Json stringify:[Json parse:str1] replacer:nil] v2:str1 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"541",@"unit.TestMisc",@"testJSon",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+		[[_g hx_objectAtIndex:0] eq:[Json stringify:[Json parse:str1] replacer:nil] v2:str1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"550",@"lineNumber", @"unit.TestMisc",@"className", @"testJSon",@"methodName", nil]];
 	}
-	[_id:YES pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"544",@"unit.TestMisc",@"testJSon",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[_id:NO pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"545",@"unit.TestMisc",@"testJSon",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[_id:nil pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"546",@"unit.TestMisc",@"testJSon",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[_id:0 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"547",@"unit.TestMisc",@"testJSon",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[_id:145 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"548",@"unit.TestMisc",@"testJSon",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[_id:-145 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"549",@"unit.TestMisc",@"testJSon",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[_id:0.15461 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"550",@"unit.TestMisc",@"testJSon",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[_id:-485.15461 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"551",@"unit.TestMisc",@"testJSon",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[_id:1e10 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"552",@"unit.TestMisc",@"testJSon",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[_id:-1e-10 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"553",@"unit.TestMisc",@"testJSon",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[_id:(NSMutableString*)@"" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"554",@"unit.TestMisc",@"testJSon",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[_id:(NSMutableString*)@"hello" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"555",@"unit.TestMisc",@"testJSon",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[_id:(NSMutableString*)@"he\n\r\t\\\\llo" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"556",@"unit.TestMisc",@"testJSon",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[deepId:struct {
-	field:4
-	} structName];
-	[deepId:struct {
-	test:struct {
-	nested:nil
-	} structName
-	} structName];
+	[_id:YES pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"553",@"lineNumber", @"unit.TestMisc",@"className", @"testJSon",@"methodName", nil]];
+	[_id:NO pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"554",@"lineNumber", @"unit.TestMisc",@"className", @"testJSon",@"methodName", nil]];
+	[_id:nil pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"555",@"lineNumber", @"unit.TestMisc",@"className", @"testJSon",@"methodName", nil]];
+	[_id:0 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"556",@"lineNumber", @"unit.TestMisc",@"className", @"testJSon",@"methodName", nil]];
+	[_id:145 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"557",@"lineNumber", @"unit.TestMisc",@"className", @"testJSon",@"methodName", nil]];
+	[_id:-145 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"558",@"lineNumber", @"unit.TestMisc",@"className", @"testJSon",@"methodName", nil]];
+	[_id:0.15461 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"559",@"lineNumber", @"unit.TestMisc",@"className", @"testJSon",@"methodName", nil]];
+	[_id:-485.15461 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"560",@"lineNumber", @"unit.TestMisc",@"className", @"testJSon",@"methodName", nil]];
+	[_id:1e10 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"561",@"lineNumber", @"unit.TestMisc",@"className", @"testJSon",@"methodName", nil]];
+	[_id:-1e-10 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"562",@"lineNumber", @"unit.TestMisc",@"className", @"testJSon",@"methodName", nil]];
+	[_id:[NSMutableString stringWithString:@""] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"563",@"lineNumber", @"unit.TestMisc",@"className", @"testJSon",@"methodName", nil]];
+	[_id:[NSMutableString stringWithString:@"hello"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"564",@"lineNumber", @"unit.TestMisc",@"className", @"testJSon",@"methodName", nil]];
+	[_id:[NSMutableString stringWithString:@"he\n\r\t\\\\llo"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"565",@"lineNumber", @"unit.TestMisc",@"className", @"testJSon",@"methodName", nil]];
+	[deepId:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[4 copy], @"field",
+	nil]];
+	[deepId:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[nil copy], @"nested",
+	nil] copy], @"test",
+	nil]];
 	
-	NSMutableArray *mix = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:1], [NSNumber numberWithInt:2], [NSNumber numberWithInt:3], (NSMutableString*)@"str", nil];
-	[deepId:struct {
-	array:mix
-	} structName];
-	[self eq:[Json parse:(NSMutableString*)@"\"\\u00E9\""] v2:(NSMutableString*)@"é" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"563",@"unit.TestMisc",@"testJSon",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[Json stringify:MathDBL_MAX replacer:nil] v2:(NSMutableString*)@"null" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"565",@"unit.TestMisc",@"testJSon",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[Json stringify:Math-DBL_MAX replacer:nil] v2:(NSMutableString*)@"null" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"566",@"unit.TestMisc",@"testJSon",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[Json stringify:MathNAN replacer:nil] v2:(NSMutableString*)@"null" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"567",@"unit.TestMisc",@"testJSon",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	NSMutableArray *mix = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:1], [NSNumber numberWithInt:2], [NSNumber numberWithInt:3], [NSMutableString stringWithString:@"str"], nil];
+	[deepId:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[mix copy], @"array",
+	nil]];
+	[self eq:[Json parse:[NSMutableString stringWithString:@"\"\\u00E9\""]] v2:[NSMutableString stringWithString:@"é"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"572",@"lineNumber", @"unit.TestMisc",@"className", @"testJSon",@"methodName", nil]];
+	[self eq:[Json stringify:-fa3-POSITIVE_INFINITY replacer:nil] v2:[NSMutableString stringWithString:@"null"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"574",@"lineNumber", @"unit.TestMisc",@"className", @"testJSon",@"methodName", nil]];
+	[self eq:[Json stringify:-fa3-NEGATIVE_INFINITY replacer:nil] v2:[NSMutableString stringWithString:@"null"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"575",@"lineNumber", @"unit.TestMisc",@"className", @"testJSon",@"methodName", nil]];
+	[self eq:[Json stringify:-fa3-NaN replacer:nil] v2:[NSMutableString stringWithString:@"null"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"576",@"lineNumber", @"unit.TestMisc",@"className", @"testJSon",@"methodName", nil]];
 }
 - (void) testConstructorsOpts{
 	
 	BaseConstrOpt *b = [[BaseConstrOpt alloc] init:nil i:nil b:nil];
-	[self eq:b s v2:(NSMutableString*)@"test" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"572",@"unit.TestMisc",@"testConstructorsOpts",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:b i v2:-5 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"573",@"unit.TestMisc",@"testConstructorsOpts",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:b b v2:YES pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"574",@"unit.TestMisc",@"testConstructorsOpts",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:b.s v2:[NSMutableString stringWithString:@"test"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"581",@"lineNumber", @"unit.TestMisc",@"className", @"testConstructorsOpts",@"methodName", nil]];
+	[self eq:b.i v2:-5 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"582",@"lineNumber", @"unit.TestMisc",@"className", @"testConstructorsOpts",@"methodName", nil]];
+	[self eq:b.b v2:YES pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"583",@"lineNumber", @"unit.TestMisc",@"className", @"testConstructorsOpts",@"methodName", nil]];
 	
 	BaseConstrOpt *b1 = [[BaseConstrOpt alloc] init:nil i:99 b:nil];
-	[self eq:b1 s v2:(NSMutableString*)@"test" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"577",@"unit.TestMisc",@"testConstructorsOpts",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:b1 i v2:99 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"578",@"unit.TestMisc",@"testConstructorsOpts",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:b1 b v2:YES pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"579",@"unit.TestMisc",@"testConstructorsOpts",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:b1.s v2:[NSMutableString stringWithString:@"test"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"586",@"lineNumber", @"unit.TestMisc",@"className", @"testConstructorsOpts",@"methodName", nil]];
+	[self eq:b1.i v2:99 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"587",@"lineNumber", @"unit.TestMisc",@"className", @"testConstructorsOpts",@"methodName", nil]];
+	[self eq:b1.b v2:YES pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"588",@"lineNumber", @"unit.TestMisc",@"className", @"testConstructorsOpts",@"methodName", nil]];
 	
 	SubConstrOpt *b2 = [[SubConstrOpt alloc] init];
-	[self eq:b2 s v2:(NSMutableString*)@"test" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"582",@"unit.TestMisc",@"testConstructorsOpts",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:b2 i v2:-5 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"583",@"unit.TestMisc",@"testConstructorsOpts",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:b2 b v2:YES pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"584",@"unit.TestMisc",@"testConstructorsOpts",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:b2.s v2:[NSMutableString stringWithString:@"test"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"591",@"lineNumber", @"unit.TestMisc",@"className", @"testConstructorsOpts",@"methodName", nil]];
+	[self eq:b2.i v2:-5 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"592",@"lineNumber", @"unit.TestMisc",@"className", @"testConstructorsOpts",@"methodName", nil]];
+	[self eq:b2.b v2:YES pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"593",@"lineNumber", @"unit.TestMisc",@"className", @"testConstructorsOpts",@"methodName", nil]];
 	
 	SubConstrOpt2 *b3 = [[SubConstrOpt2 alloc] init "-dynamic_param-" ];
-	[self eq:b3 s v2:(NSMutableString*)@"test" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"587",@"unit.TestMisc",@"testConstructorsOpts",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:b3 i v2:-5 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"588",@"unit.TestMisc",@"testConstructorsOpts",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:b3 b v2:YES pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"589",@"unit.TestMisc",@"testConstructorsOpts",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:b3.s v2:[NSMutableString stringWithString:@"test"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"596",@"lineNumber", @"unit.TestMisc",@"className", @"testConstructorsOpts",@"methodName", nil]];
+	[self eq:b3.i v2:-5 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"597",@"lineNumber", @"unit.TestMisc",@"className", @"testConstructorsOpts",@"methodName", nil]];
+	[self eq:b3.b v2:YES pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"598",@"lineNumber", @"unit.TestMisc",@"className", @"testConstructorsOpts",@"methodName", nil]];
 	
 	SubConstrOpt3 *b4 = [[SubConstrOpt3 alloc] init:nil i:nil];
-	[self eq:b4 s v2:(NSMutableString*)@"test2" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"592",@"unit.TestMisc",@"testConstructorsOpts",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:b4 i v2:-6 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"593",@"unit.TestMisc",@"testConstructorsOpts",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:b4 b v2:YES pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestMisc.hx",@"594",@"unit.TestMisc",@"testConstructorsOpts",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:b4.s v2:[NSMutableString stringWithString:@"test2"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"601",@"lineNumber", @"unit.TestMisc",@"className", @"testConstructorsOpts",@"methodName", nil]];
+	[self eq:b4.i v2:-6 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"602",@"lineNumber", @"unit.TestMisc",@"className", @"testConstructorsOpts",@"methodName", nil]];
+	[self eq:b4.b v2:YES pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"603",@"lineNumber", @"unit.TestMisc",@"className", @"testConstructorsOpts",@"methodName", nil]];
 }
 - (id) init{
 	self = [super init];
-	[super];
 	return self;
 }
 

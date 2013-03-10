@@ -8,7 +8,7 @@
 
 
 
-@interface MyRestMacro : HXObject
+@interface MyRestMacro : NSObject
 
 
 @end

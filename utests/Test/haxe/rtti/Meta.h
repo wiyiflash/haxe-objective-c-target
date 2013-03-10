@@ -8,7 +8,7 @@
 
 
 
-@interface Meta : HXObject
+@interface Meta : NSObject
 
 + (id) getType:(id)t;
 + (id) getStatics:(id)t;

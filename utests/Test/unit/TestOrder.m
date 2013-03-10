@@ -10,18 +10,17 @@
 @implementation TestOrder
 
 - (void) testUsing{
-	[self eq:[Using3 usingTest:(NSMutableString*)@"foo"] v2:(NSMutableString*)@"3" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestOrder.hx",@"17",@"unit.TestOrder",@"testUsing",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[Using3 usingTest:[NSMutableString stringWithString:@"foo"]] v2:[NSMutableString stringWithString:@"3"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestOrder.hx",@"fileName", @"17",@"lineNumber", @"unit.TestOrder",@"className", @"testUsing",@"methodName", nil]];
 	
 	TestOrder *c =  C1;
 	{
-		Test.count++;
-		[self eq:(NSMutableString*)@"TEnum(unit.E2,[])" v2:(NSMutableString*)@"TEnum(unit.E2,[])" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestOrder.hx",@"21",@"unit.TestOrder",@"testUsing",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+		-TMono-++;
+		[self eq:[NSMutableString stringWithString:@"TEnum(unit.E2,[])"] v2:[NSMutableString stringWithString:@"TEnum(unit.E2,[])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestOrder.hx",@"fileName", @"21",@"lineNumber", @"unit.TestOrder",@"className", @"testUsing",@"methodName", nil]];
 	}
-	[self eq:c v2: C1 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestOrder.hx",@"22",@"unit.TestOrder",@"testUsing",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:c v2: C1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestOrder.hx",@"fileName", @"22",@"lineNumber", @"unit.TestOrder",@"className", @"testUsing",@"methodName", nil]];
 }
 - (id) init{
 	self = [super init];
-	[super];
 	return self;
 }
 

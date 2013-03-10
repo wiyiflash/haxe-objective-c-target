@@ -14,9 +14,9 @@
 @synthesize length;
 - (void) add:(id)item{
 	
-	NSMutableArray *x = [[NSMutableArray alloc] initWithObjects:item, nil];
+	NSMutableArray *x = [[NSMutableArray alloc] initWithObject:item];
 	if (self.h == nil) self.h = x;
-	else [self.q objectAtIndex:1] = x;
+	else [self.q hx_replaceObjectAtIndex:1 withObject:x];
 	self.q = x;
 	self.length++;
 }
@@ -28,12 +28,12 @@
 	self.length++;
 }
 - (id) first{
-	return ( (self.h == nil) ? nil : [self.h objectAtIndex:0]);
+	return ( (self.h == nil) ? nil : [self.h hx_objectAtIndex:0]);
 }
 - (id) pop{
 	if (self.h == nil) return nil;
-	id x = [self.h objectAtIndex:0];
-	self.h = [self.h objectAtIndex:1];
+	id x = [self.h hx_objectAtIndex:0];
+	self.h = [self.h hx_objectAtIndex:1];
 	if (self.h == nil) self.q = nil;
 	self.length--;
 	return x;
@@ -42,16 +42,18 @@
 	return self.h == nil;
 }
 - (id) iterator{
-	return (id)struct {
-	h:self.h; hasNext:^- (id) {
+	return (id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	[self.h copy], @"h",
+	[^id(){
 		return self.h != nil;
-	}; next:^- (id) {
+	} copy], @"hasNext",
+	[^id(){
 		if (self.h == nil) return nil;
-		id x = [self.h objectAtIndex:0];
-		self.h = [self.h objectAtIndex:1];
+		id x = [self.h hx_objectAtIndex:0];
+		self.h = [self.h hx_objectAtIndex:1];
 		return x;
-	}
-	} structName;
+	} copy], @"next",
+	nil];
 }
 - (id) init{
 	self = [super init];

@@ -10,13 +10,12 @@
 #import "../../Math.h"
 #import "../../haxe/io/Bytes.h"
 #import "../../Array.h"
-#import "../../haxe/io/Error.h"
-#import "../../haxe/io/Output.h"
 #import "../../String.h"
 
-@interface Output : HXObject
+@interface Output : NSObject
 
-+ (float) LN2:(float)val;
++ (float) LN2;
++ (void) setLN2:(float)val;
 @property (nonatomic, setter=set_bigEndian) BOOL bigEndian;
 - (void) writeByte:(int)c;
 - (int) writeBytes:(Bytes*)s pos:(int)pos len:(int)len;

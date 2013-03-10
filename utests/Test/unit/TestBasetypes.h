@@ -6,6 +6,7 @@
 //
 
 
+#import <Foundation/Foundation.h>
 
 #import "../Array.h"
 #import "../String.h"
@@ -13,14 +14,11 @@
 #import "../unit/Test.h"
 #import "../unit/MyEnum.h"
 #import "../Math.h"
-#import "../haxe/ds/StringMap.h"
 #import "../Lambda.h"
 #import "../Reflect.h"
 #import "../haxe/ds/IntMap.h"
 #import "../unit/MyAbstract.h"
 #import "../haxe/Template.h"
-#import "../unit/_MyAbstract/MyHashImpl.h"
-#import "../unit/_MyAbstract/MyIntImpl.h"
 
 @interface TestBasetypes : Test 
 
@@ -37,6 +35,7 @@
 - (void) testAbstractTypeParameters;
 - (void) testAbstractToString;
 - (void) testAbstractOperatorOverload;
+- (void) testAbstractSetter;
 - (id) init;
 
 @end

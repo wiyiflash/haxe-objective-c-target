@@ -10,10 +10,9 @@
 #import "../../haxe/io/Bytes.h"
 #import "../../Array.h"
 #import "../../String.h"
-#import "../../haxe/io/Error.h"
 #import "../../StringBuf.h"
 
-@interface Bytes : HXObject
+@interface Bytes : NSObject
 
 + (Bytes*) alloc:(int)length;
 + (Bytes*) ofString:(NSMutableString*)s;

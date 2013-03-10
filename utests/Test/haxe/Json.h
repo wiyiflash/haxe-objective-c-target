@@ -6,6 +6,7 @@
 //
 
 
+#import <Foundation/Foundation.h>
 
 #import "../String.h"
 #import "../haxe/Json.h"
@@ -16,10 +17,9 @@
 #import "../Std.h"
 #import "../Math.h"
 #import "../Class.h"
-#import "../haxe/ds/StringMap.h"
 #import "../EnumValue.h"
 
-@interface Json : HXObject
+@interface Json : NSObject
 
 + (id) parse:(NSMutableString*)text;
 + (NSMutableString*) stringify:(id)value replacer:(SEL)replacer;

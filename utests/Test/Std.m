@@ -15,7 +15,7 @@
 + (NSMutableString*) string:(id)s{
 	return [s description];
 }
-+ (int) int:(float)x{
++ (int) _int:(float)x{
 	return (int)x;
 }
 + (int) parseInt:(NSMutableString*)x{

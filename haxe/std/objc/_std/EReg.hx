@@ -156,19 +156,6 @@
 			return b.toString();
 	}
 
-	public function customReplace( s : String, f : EReg -> String ) : String {
-		var buf = new StringBuf();
-		while( true ) {
-			if( !match(s) )
-				break;
-			buf.add(matchedLeft());
-			buf.add(f(this));
-			s = matchedRight();
-		}
-		buf.add(s);
-		return buf.toString();
-	}
-
 	/**
 		For each occurence of the pattern in the string [s], the function [f] is called and
 		can return the string that needs to be replaced. All occurences are matched anyway,

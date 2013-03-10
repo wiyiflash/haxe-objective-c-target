@@ -11,12 +11,12 @@
 
 + (NSMutableArray*) array:(id)it{
 	
-	NSMutableArray *a = (NSMutableArray*)[[NSMutableArray alloc] init];
+	NSMutableArray *a = [[NSMutableArray alloc] init];
 	{
 		id _it = [it iterator];
 		while ( [_it hasNext] ) do {
 			id i = [_it next];
-			[a push:i];
+			[a.push:i];
 		}
 	}
 	return a;
@@ -28,38 +28,24 @@
 		id _it = [it iterator];
 		while ( [_it hasNext] ) do {
 			id i = [_it next];
-			[l add:i];
+			[l.add:i];
 		}
 	}
 	return l;
 }
-+ (BOOL) has:(id)it elt:(id)elt cmp:(SEL)cmp{
-	// Simulated optional arguments
-	if (cmp == nil) cmp = nil;
-	
-	if (cmp == nil) {
-		{
-			id _it = [it iterator];
-			while ( [_it hasNext] ) do {
-				id x = [_it next];
-				if (x == elt) return YES;
-			}
-		}
-	}
-	else {
-		{
-			id _it2 = [it iterator];
-			while ( [_it2 hasNext] ) do {
-				id x = [_it2 next];
-				if ([cmp:x :elt]) return YES;
-			}
++ (BOOL) has:(id)it elt:(id)elt{
+	{
+		id _it = [it iterator];
+		while ( [_it hasNext] ) do {
+			id x = [_it next];
+			if (x == elt) return YES;
 		}
 	}
 	return NO;
 }
 + (int) count:(id)it pred:(SEL)pred{
-	// Simulated optional arguments
-	if (pred == nil) pred = nil;
+	// Optional arguments
+	if (!pred) pred = nil;
 	
 	int n = 0;
 	if (pred == nil) {

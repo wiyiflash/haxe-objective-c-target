@@ -16,6 +16,7 @@ import ios.ui.UIFont;
 import ios.ui.NSText;
 import objc.foundation.NSDictionary;
 import objc.graphics.CGGeometry;
+import objc.graphics.CGAffineTransform;
 
 
 class PiratePig extends UIResponder implements UIApplicationDelegate {
@@ -70,8 +71,8 @@ class PiratePig extends UIResponder implements UIApplicationDelegate {
 		//game.resize (320, 480);
 		view.addSubview (game);
 		
-		untyped __objc__("self.view.transform = CGAffineTransformScale(self.view.transform, 0.5, 0.5)");
-		untyped __objc__("self.view.transform = CGAffineTransformTranslate(self.view.transform, -self.window.frame.size.width,-self.window.frame.size.height)");
+		view.transform = CGAffineTransform.CGAffineTransformScale (view.transform, 0.5, 0.5);
+		view.transform = CGAffineTransform.CGAffineTransformTranslate(view.transform, -window.frame.size.width,-window.frame.size.height);
 		
 		return true;
 	}

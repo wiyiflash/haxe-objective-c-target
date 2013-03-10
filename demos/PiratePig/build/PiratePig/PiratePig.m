@@ -17,7 +17,7 @@
 @synthesize footer;
 @synthesize game;
 - (BOOL) application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)didFinishLaunchingWithOptions{
-	[Log trace:[NSMutableString stringWithString:@"Start"] infos:[NSDictionary dictionaryWithObjectsAndKeys:@"PiratePig.hx",@"fileName", @"34",@"lineNumber", @"PiratePig",@"className", @"application",@"methodName", nil]];
+	[Log trace:[NSMutableString stringWithString:@"Start"] infos:[NSDictionary dictionaryWithObjectsAndKeys:@"PiratePig.hx",@"fileName", @"35",@"lineNumber", @"PiratePig",@"className", @"application",@"methodName", nil]];
 	self.window = [[UIWindow alloc] init];
 	
 	UIScreen *screen = [UIScreen mainScreen];
@@ -47,8 +47,8 @@
 	self.game = [[PiratePigGame alloc] init];
 	self.game.frame = self.view.frame;
 	[self.view addSubview:self.game];
-	self.view.transform = CGAffineTransformScale(self.view.transform, 0.5, 0.5);
-	self.view.transform = CGAffineTransformTranslate(self.view.transform, -self.window.frame.size.width,-self.window.frame.size.height);
+	self.view.transform =  CGAffineTransformScale(self.view.transform, 0.5, 0.5);
+	self.view.transform =  CGAffineTransformTranslate(self.view.transform, -self.window.frame.size.width, -self.window.frame.size.height);
 	return YES;
 }
 - (void) initialize{

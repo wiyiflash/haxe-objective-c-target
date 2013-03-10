@@ -10,29 +10,28 @@
 @implementation TestInt64
 
 - (void) test{
-	[self eq:[Int64 toInt:[[Int64 alloc] init:0 low:1]] v2:1 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestInt64.hx",@"7",@"unit.TestInt64",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[Int64 toInt:[[Int64 alloc] init:-1 low:-1]] v2:-1 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestInt64.hx",@"8",@"unit.TestInt64",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[Std string:[[Int64 alloc] init:0 low:156]] v2:(NSMutableString*)@"156" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestInt64.hx",@"9",@"unit.TestInt64",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[Int64 toInt:[[Int64 alloc] init:0 low:1]] v2:1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestInt64.hx",@"fileName", @"7",@"lineNumber", @"unit.TestInt64",@"className", @"test",@"methodName", nil]];
+	[self eq:[Int64 toInt:[[Int64 alloc] init:-1 low:-1]] v2:-1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestInt64.hx",@"fileName", @"8",@"lineNumber", @"unit.TestInt64",@"className", @"test",@"methodName", nil]];
+	[self eq:[Std string:[[Int64 alloc] init:0 low:156]] v2:[NSMutableString stringWithString:@"156"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestInt64.hx",@"fileName", @"9",@"lineNumber", @"unit.TestInt64",@"className", @"test",@"methodName", nil]];
 	
 	Int64 *v = [[Int64 alloc] init:0 low:1048576];
-	[self eq:[Std string:v] v2:(NSMutableString*)@"1048576" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestInt64.hx",@"12",@"unit.TestInt64",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[Std string:v] v2:[NSMutableString stringWithString:@"1048576"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestInt64.hx",@"fileName", @"12",@"lineNumber", @"unit.TestInt64",@"className", @"test",@"methodName", nil]];
 	
 	Int64 *p40 = [[Int64 alloc] init:v high << 20 | v low >>> 12 low:v low << 20];
-	[self eq:[Int64 getLow:p40] v2:0 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestInt64.hx",@"15",@"unit.TestInt64",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[Int64 getHigh:p40] v2:256 pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestInt64.hx",@"16",@"unit.TestInt64",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[Std string:p40] v2:(NSMutableString*)@"1099511627776" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestInt64.hx",@"17",@"unit.TestInt64",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	[self eq:[Int64 getLow:p40] v2:0 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestInt64.hx",@"fileName", @"15",@"lineNumber", @"unit.TestInt64",@"className", @"test",@"methodName", nil]];
+	[self eq:[Int64 getHigh:p40] v2:256 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestInt64.hx",@"fileName", @"16",@"lineNumber", @"unit.TestInt64",@"className", @"test",@"methodName", nil]];
+	[self eq:[Std string:p40] v2:[NSMutableString stringWithString:@"1099511627776"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestInt64.hx",@"fileName", @"17",@"lineNumber", @"unit.TestInt64",@"className", @"test",@"methodName", nil]];
 	[self eq:[ (((Int64)($this:(snd ctx.path)) 
 	Int64 *a = [[Int64 alloc] init:0 low:1]
 	__r__ = a
 	return __r__{
 		
 		Int64* __r__}
-	}(self))) toString] v2:(NSMutableString*)@"1" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestInt64.hx",@"19",@"unit.TestInt64",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
-	[self eq:[[[Int64 alloc] init:0 low:0] toString] v2:(NSMutableString*)@"0" pos:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"TestInt64.hx",@"21",@"unit.TestInt64",@"test",nil] forKeys:[NSArray arrayWithObjects:@"fileName",@"lineNumber",@"className",@"methodName",nil]]];
+	}(self))) toString] v2:[NSMutableString stringWithString:@"1"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestInt64.hx",@"fileName", @"19",@"lineNumber", @"unit.TestInt64",@"className", @"test",@"methodName", nil]];
+	[self eq:[[[Int64 alloc] init:0 low:0] toString] v2:[NSMutableString stringWithString:@"0"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestInt64.hx",@"fileName", @"21",@"lineNumber", @"unit.TestInt64",@"className", @"test",@"methodName", nil]];
 }
 - (id) init{
 	self = [super init];
-	[super];
 	return self;
 }
 

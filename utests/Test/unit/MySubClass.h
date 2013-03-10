@@ -11,7 +11,8 @@
 
 @interface MySubClass : MyClass 
 
-+ (int) XXX:(int)val;
++ (int) XXX;
++ (void) setXXX:(int)val;
 - (int) get;
 - (id) init:(int)v;
 

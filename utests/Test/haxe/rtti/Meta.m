@@ -11,21 +11,18 @@
 
 + (id) getType:(id)t{
 	id meta = [t __meta__];
-	return ( (meta == nil || meta obj == nil) ? struct {
-	
-	} structName : [meta obj]);
+	return ( (meta == nil || [meta obj] == nil) ? [NSMutableDictionary dictionaryWithObjectsAndKeys:
+	nil] : [meta obj]);
 }
 + (id) getStatics:(id)t{
 	id meta = [t __meta__];
-	return ( (meta == nil || meta statics == nil) ? struct {
-	
-	} structName : [meta statics]);
+	return ( (meta == nil || [meta statics] == nil) ? [NSMutableDictionary dictionaryWithObjectsAndKeys:
+	nil] : [meta statics]);
 }
 + (id) getFields:(id)t{
 	id meta = [t __meta__];
-	return ( (meta == nil || meta fields == nil) ? struct {
-	
-	} structName : [meta fields]);
+	return ( (meta == nil || [meta fields] == nil) ? [NSMutableDictionary dictionaryWithObjectsAndKeys:
+	nil] : [meta fields]);
 }
 
 @end

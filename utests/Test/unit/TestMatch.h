@@ -29,11 +29,6 @@ typedef enum{
 #import "../unit/MyClass.h"
 #import "../Type.h"
 #import "../unit/TestMatch.h"
-#import "../haxe/macro/ExprDef.h"
-#import "../haxe/macro/Constant.h"
-#import "../unit/A.h"
-#import "../unit/InitBase.h"
-#import "../unit/X.h"
 #import "../unit/Test.h"
 
 @interface TestMatch : Test 

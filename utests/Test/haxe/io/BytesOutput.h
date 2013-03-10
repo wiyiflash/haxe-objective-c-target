@@ -9,7 +9,6 @@
 
 #import "../../haxe/io/BytesBuffer.h"
 #import "../../haxe/io/Bytes.h"
-#import "../../haxe/io/Error.h"
 #import "../../haxe/io/Output.h"
 
 @interface BytesOutput : Output 

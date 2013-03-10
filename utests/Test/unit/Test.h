@@ -10,8 +10,8 @@
 #import "../String.h"
 #import "../Array.h"
 #import "../haxe/Timer.h"
-#import "../unit/Test.h"
 #import "../haxe/Log.h"
+#import "../unit/Test.h"
 #import "../haxe/CallStack.h"
 #import "../Std.h"
 #import "../Math.h"
@@ -19,16 +19,24 @@
 #import "../Lambda.h"
 #import "../Type.h"
 
-@interface Test : HXObject
+@interface Test : NSObject
 
-+ (int) count:(int)val;
-+ (NSMutableString*) reportInfos:(NSMutableString*)val;
-+ (int) reportCount:(int)val;
-+ (int) checkCount:(int)val;
-+ (NSMutableArray*) asyncWaits:(NSMutableArray*)val;
-+ (NSMutableArray*) asyncCache:(NSMutableArray*)val;
-+ (int) AMAX:(int)val;
-+ (Timer*) timer:(Timer*)val;
++ (int) count;
++ (void) setCount:(int)val;
++ (NSMutableString*) reportInfos;
++ (void) setReportInfos:(NSMutableString*)val;
++ (int) reportCount;
++ (void) setReportCount:(int)val;
++ (int) checkCount;
++ (void) setCheckCount:(int)val;
++ (NSMutableArray*) asyncWaits;
++ (void) setAsyncWaits:(NSMutableArray*)val;
++ (NSMutableArray*) asyncCache;
++ (void) setAsyncCache:(NSMutableArray*)val;
++ (int) AMAX;
++ (void) setAMAX:(int)val;
++ (Timer*) timer;
++ (void) setTimer:(Timer*)val;
 // Defining a dynamic method
 + (void) report:(NSMutableString*)msg pos:(id)pos;
 @property (nonatomic,copy) void(^property_report)(NSMutableString*, id);
@@ -41,7 +49,7 @@
 - (void) feq:(float)v v2:(float)v2 pos:(id)pos;
 - (void) t:(BOOL)v pos:(id)pos;
 - (void) f:(BOOL)v pos:(id)pos;
-- (void) assert:(id)pos;
+- (void) _assert:(id)pos;
 - (void) exc:(SEL)f pos:(id)pos;
 - (void) unspec:(SEL)f pos:(id)pos;
 - (void) allow:(id)v values:(NSMutableArray*)values pos:(id)pos;

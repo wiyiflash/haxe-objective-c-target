@@ -13,9 +13,10 @@
 #import "../String.h"
 #import "../haxe/io/Bytes.h"
 
-@interface Resource : HXObject
+@interface Resource : NSObject
 
-+ (NSMutableDictionary*) __plist__:(NSMutableDictionary*)val;
++ (NSMutableDictionary*) __plist__;
++ (void) set__plist__:(NSMutableDictionary*)val;
 + (NSMutableArray*) listNames;
 + (NSMutableString*) getString:(NSMutableString*)name;
 + (Bytes*) getBytes:(NSMutableString*)name;

@@ -13,9 +13,8 @@ typedef enum{
 } E2;
 
 
-#import "../unit/Using3.h"
+#import "../unit/MyUsing2.h"
 #import "../unit/TestOrder.h"
-#import "../unit/E2.h"
 #import "../unit/Test.h"
 
 @interface TestOrder : Test 

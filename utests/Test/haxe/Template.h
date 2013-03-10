@@ -23,17 +23,22 @@ typedef enum{
 #import "../String.h"
 #import "../Reflect.h"
 #import "../Array.h"
-#import "../haxe/_Template/TemplateExpr.h"
 #import "../Std.h"
 
-@interface Template : HXObject
+@interface Template : NSObject
 
-+ (EReg*) splitter:(EReg*)val;
-+ (EReg*) expr_splitter:(EReg*)val;
-+ (EReg*) expr_trim:(EReg*)val;
-+ (EReg*) expr_int:(EReg*)val;
-+ (EReg*) expr_float:(EReg*)val;
-+ (id) globals:(id)val;
++ (EReg*) splitter;
++ (void) setSplitter:(EReg*)val;
++ (EReg*) expr_splitter;
++ (void) setExpr_splitter:(EReg*)val;
++ (EReg*) expr_trim;
++ (void) setExpr_trim:(EReg*)val;
++ (EReg*) expr_int;
++ (void) setExpr_int:(EReg*)val;
++ (EReg*) expr_float;
++ (void) setExpr_float:(EReg*)val;
++ (id) globals;
++ (void) setGlobals:(id)val;
 @property (nonatomic, strong) Template *expr;
 @property (nonatomic) id context;
 @property (nonatomic) id macros;

@@ -13,7 +13,7 @@
 - (void) writeByte:(int)c{
 	
 	BytesBuffer *_this = self.b;
-	[_this.b appendBytes:_this.b mutableBytes length:c];
+	[_this.b appendBytes:_this.b.mutableBytes length:c];
 }
 - (int) writeBytes:(Bytes*)buf pos:(int)pos len:(int)len{
 	if (pos < 0 || len < 0 || pos + len > buf.length) @throw  OutsideBounds;;

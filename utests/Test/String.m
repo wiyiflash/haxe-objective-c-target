@@ -10,28 +10,25 @@
 @implementation NSMutableString ( String )
 
 + (NSMutableString*) fromCharCode:(int)code{
-	return [NSString stringWithFormat: @"%C", code];
-}UIView
-// Getters/setters for property length
-static int length__;
-- (int) length { return length__; }
-- (void) setLength:(int)val { length__ = val; }
+	return [NSString stringWithFormat:@"%C", code];
+}
+// Please provide a getterBody for the property: length
 
 - (NSMutableString*) toUpperCase{
-	return nil;
+	return [self uppercaseString];
 }
 - (NSMutableString*) toLowerCase{
-	return nil;
+	return [self lowercaseString];
 }
 - (NSMutableString*) charAt:(int)index{
 	return nil;
 }
 - (int) charCodeAt:(int)index{
-	return nil;
+	return [self characterAtIndex:index];
 }
 - (int) indexOf:(NSMutableString*)str startIndex:(int)startIndex{
-	// Simulated optional arguments
-	if (startIndex == nil) startIndex = nil;
+	// Optional arguments
+	if (!startIndex) startIndex = nil;
 	
 	startIndex = ( (startIndex == nil) ? 0 : startIndex);
 	NSRange range = [self rangeOfString:str options:NSLiteralSearch range:NSMakeRange(startIndex,self.length-startIndex)];
@@ -41,8 +38,8 @@ static int length__;
 	return -1;
 }
 - (int) lastIndexOf:(NSMutableString*)str startIndex:(int)startIndex{
-	// Simulated optional arguments
-	if (startIndex == nil) startIndex = nil;
+	// Optional arguments
+	if (!startIndex) startIndex = nil;
 	
 	startIndex = ( (startIndex == nil) ? 0 : startIndex);
 	NSRange range = [self rangeOfString:str options:NSBackwardsSearch range:NSMakeRange(startIndex,self.length-startIndex)];
@@ -52,30 +49,30 @@ static int length__;
 	return -1;
 }
 - (NSMutableArray*) split:(NSMutableString*)delimiter{
-	return nil;
+	return [self componentsSeparatedByString:delimiter];
 }
 - (NSMutableString*) substr:(int)pos len:(int)len{
-	// Simulated optional arguments
-	if (len == nil) len = nil;
+	// Optional arguments
+	if (!len) len = nil;
 	
-	if (len == 0) return (NSMutableString*)@"";
+	if (len == 0) return [NSMutableString stringWithString:@""];
 	int sl = self.length;
 	if (len == nil) len = sl;
 	if (pos == nil) pos = 0;
-	if (pos != 0 && len < 0) return (NSMutableString*)@"";
+	if (pos != 0 && len < 0) return [NSMutableString stringWithString:@""];
 	if (pos < 0) {
 		pos = sl + pos;
 		if (pos < 0) pos = 0;
 	}
 	else if (len < 0) len = sl + len - pos;
 	if (pos + len > sl) len = sl - pos;
-	if (pos < 0 || len <= 0) return (NSMutableString*)@"";
+	if (pos < 0 || len <= 0) return [NSMutableString stringWithString:@""];
 	return [self substringFromIndex:pos];
 	return [self substringWithRange:NSMakeRange(pos,len)];
 }
 - (NSMutableString*) substring:(int)startIndex endIndex:(int)endIndex{
-	// Simulated optional arguments
-	if (endIndex == nil) endIndex = nil;
+	// Optional arguments
+	if (!endIndex) endIndex = nil;
 	
 	if (endIndex == nil) endIndex = self.length;
 	else if (endIndex < 0) endIndex = 0;
@@ -90,7 +87,7 @@ static int length__;
 	return [self substr:startIndex len:endIndex - startIndex];
 }
 - (NSMutableString*) toString{
-	return nil;
+	return [self description];
 }
 - (id) init:(NSMutableString*)string{
 	self = [super init];

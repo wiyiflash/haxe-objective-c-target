@@ -9,18 +9,19 @@
 
 @implementation MySubClass
 
-+ (int) XXX:(int)val {
-	static int _val;
-	if (val == nil) { if (_val == nil) _val = 3; }
-	else { if (_val != nil) _val = val; }
-	return _val;
+static int XXX;
++ (int) XXX {
+	if (XXX == nil) XXX = 3;
+	return XXX;
+}
++ (void) setXXX:(int)val {
+	XXX = val;
 }
 - (int) get{
 	return self.val * 2;
 }
 - (id) init:(int)v{
 	self = [super init];
-	[super-TInst];
 	return self;
 }
 

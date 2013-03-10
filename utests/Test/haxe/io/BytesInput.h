@@ -10,7 +10,6 @@
 #import "../../Array.h"
 #import "../../haxe/io/Eof.h"
 #import "../../haxe/io/Bytes.h"
-#import "../../haxe/io/Error.h"
 #import "../../haxe/io/Input.h"
 
 @interface BytesInput : Input 

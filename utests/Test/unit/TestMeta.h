@@ -15,15 +15,16 @@ typedef enum{
 #import "../Array.h"
 #import "../Reflect.h"
 #import "../haxe/rtti/Meta.h"
-#import "../unit/_TestMeta/E.h"
 #import "../unit/TestMeta.h"
 #import "../Std.h"
 #import "../unit/Test.h"
 
 @interface TestMeta : Test 
 
-+ (id) __meta__:(id)val;
-+ (int) foo:(int)val;
++ (id) __meta__;
++ (void) set__meta__:(id)val;
++ (int) foo;
++ (void) setFoo:(int)val;
 - (NSMutableString*) fields:(id)o;
 - (void) testMeta;
 - (void) testExprMeta;

@@ -15,21 +15,21 @@
 - (int) readByte{
 	if (self.len == 0) @throw [[Eof alloc] init];;
 	self.len--;
-	return [self.b objectAtIndex:self.pos++];
+	return [self.b hx_objectAtIndex:self.pos++];
 }
 - (int) readBytes:(Bytes*)buf pos:(int)pos len:(int)len{
 	if (pos < 0 || len < 0 || pos + len > buf.length) @throw  OutsideBounds;;
 	if (self.len == 0 && len > 0) @throw [[Eof alloc] init];;
 	if (self.len < len) len = self.len;
 	
-	NSMutableArray *b1 = (NSMutableArray*)self.b;
+	NSMutableArray *b1 = self.b;
 	
-	NSMutableArray *b2 = (NSMutableArray*)buf.b;
+	NSMutableArray *b2 = buf.b;
 	{
 		int _g = 0;
 		while (_g < (int)len) {
 			int i = _g++;
-			[b2 objectAtIndex:pos + i] = [b1 objectAtIndex:self.pos + i];
+			[b2 hx_replaceObjectAtIndex:pos + i withObject:b1 hx_replaceObjectAtIndex:self.pos + i];
 		}
 	}
 	self.pos += len;
@@ -38,9 +38,9 @@
 }
 - (id) init:(Bytes*)b pos:(int)pos len:(int)len{
 	self = [super init];
-	// Simulated optional arguments
-	if (len == nil) len = nil;
-	if (pos == nil) pos = nil;
+	// Optional arguments
+	if (!len) len = nil;
+	if (!pos) pos = nil;
 	
 	if (pos == nil) pos = 0;
 	if (len == nil) len = b.length - pos;

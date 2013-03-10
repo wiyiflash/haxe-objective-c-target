@@ -28,6 +28,6 @@ echo " "
 echo " "
 echo "Build utests..."
 echo " "
-# cd haxe/tests
-# ./haxe/haxe -main unit.Test -cp haxe/tests -objc utests -objc-version 6 -objc-bundle-version 1.0 -objc-identifier org.haxe.objcutests --times
+cd ../..
+# ./haxe/haxe -main unit.Test -cp haxe/tests -objc utests -objc-version 6 -objc-bundle-version 1.0 -objc-identifier org.haxe.objcutests -lib cocoa --times
 # ./../haxe -main unit.Test -objc ../../utests

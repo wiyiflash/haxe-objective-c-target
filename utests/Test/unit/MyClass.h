@@ -10,7 +10,7 @@
 #import "../unit/MyClass.h"
 #import "../String.h"
 
-@interface MyClass : HXObject
+@interface MyClass : NSObject
 
 @property (nonatomic) int val;
 @property (nonatomic, strong) MyClass *ref;
@@ -26,7 +26,7 @@
 
 
 
-@interface MyParent : HXObject
+@interface MyParent : NSObject
 
 - (int) a;
 - (int) b;
@@ -36,7 +36,29 @@
 
 
 
-#import "../unit/MyParent.h"
+#import "../String.h"
+#import "../unit/MyClass.h"
+
+@interface MyDynamicChildWithToString : MyParent 
+
+- (NSMutableString*) toString;
+- (id) init;
+
+@end
+
+
+
+#import "../unit/MyClass.h"
+
+@interface MyDynamicChildWithoutToString : MyParent 
+
+- (id) init;
+
+@end
+
+
+
+#import "../unit/MyClass.h"
 
 @interface MyChild1 : MyParent 
 
@@ -50,7 +72,6 @@
 
 
 #import "../unit/MyClass.h"
-#import "../unit/MyParent.h"
 
 @interface MyChild2 : MyParent 
 
@@ -62,7 +83,7 @@
 
 
 
-@interface I1 : HXObject
+@interface I1 : NSObject
 
 
 @end
@@ -71,7 +92,7 @@
 
 #import "../String.h"
 
-@interface Base : HXObject
+@interface Base : NSObject
 
 @property (nonatomic, strong) NSMutableString *s;
 - (id) init;
@@ -80,7 +101,7 @@
 
 
 
-#import "../unit/Base.h"
+#import "../unit/MyClass.h"
 
 @interface Child1 : Base 
 
@@ -90,7 +111,7 @@
 
 
 
-#import "../unit/Base.h"
+#import "../unit/MyClass.h"
 
 @interface Child2 : Base <I1>
 
@@ -100,7 +121,7 @@
 
 
 
-#import "../unit/Child2.h"
+#import "../unit/MyClass.h"
 
 @interface Child2_1 : Child2 
 
@@ -112,7 +133,7 @@
 
 #import "../String.h"
 
-@interface Unrelated : HXObject<I1>
+@interface Unrelated : NSObject<I1>
 
 @property (nonatomic, strong) NSMutableString *s;
 @property (nonatomic) int t;
@@ -123,7 +144,7 @@
 
 
 
-@interface I2 : HXObject<I1>
+@interface I2 : NSObject<I1>
 
 
 @end
@@ -131,7 +152,7 @@
 
 
 
-@interface ClassI2 : HXObject<I2>
+@interface ClassI2 : NSObject<I2>
 
 - (id) init;
 
@@ -139,7 +160,7 @@
 
 
 
-#import "../unit/Base.h"
+#import "../unit/MyClass.h"
 
 @interface CI1 : Base <I1>
 
@@ -149,7 +170,7 @@
 
 
 
-#import "../unit/Base.h"
+#import "../unit/MyClass.h"
 
 @interface CI2 : Base <I1>
 
@@ -159,7 +180,7 @@
 
 
 
-#import "../unit/CI1.h"
+#import "../unit/MyClass.h"
 
 @interface CII1 : CI1 
 
@@ -169,7 +190,7 @@
 
 
 
-#import "../unit/CI2.h"
+#import "../unit/MyClass.h"
 
 @interface CII2 : CI2 
 
@@ -180,7 +201,7 @@
 
 
 
-@interface PClassBase : HXObject
+@interface PClassBase : NSObject
 
 - (id) init;
 
@@ -188,7 +209,7 @@
 
 
 
-#import "../unit/PClassBase.h"
+#import "../unit/MyClass.h"
 
 @interface PClass1 : PClassBase 
 
@@ -198,7 +219,7 @@
 
 
 
-#import "../unit/PClassBase.h"
+#import "../unit/MyClass.h"
 
 @interface PClass2 : PClassBase 
 
@@ -209,7 +230,7 @@
 
 
 
-@interface CovI : HXObject
+@interface CovI : NSObject
 
 
 
@@ -218,7 +239,7 @@
 
 
 
-@interface CovI2 : HXObject<CovI>
+@interface CovI2 : NSObject<CovI>
 
 
 @end
@@ -227,7 +248,7 @@
 
 #import "../unit/MyClass.h"
 
-@interface Cov1 : HXObject
+@interface Cov1 : NSObject
 
 - (Base*) covariant;
 - (id) init;
@@ -237,7 +258,6 @@
 
 
 #import "../unit/MyClass.h"
-#import "../unit/Cov1.h"
 
 @interface Cov2 : Cov1 <CovI>
 
@@ -250,7 +270,7 @@
 
 #import "../unit/MyClass.h"
 
-@interface Cov3 : HXObject<CovI2>
+@interface Cov3 : NSObject<CovI2>
 
 - (Base*) covariant;
 - (id) init;
@@ -261,7 +281,7 @@
 
 #import "../unit/MyClass.h"
 
-@interface Ctrv1 : HXObject
+@interface Ctrv1 : NSObject
 
 - (void) contravariant:(Child1*)arg;
 - (id) init;
@@ -271,7 +291,6 @@
 
 
 #import "../unit/MyClass.h"
-#import "../unit/Ctrv1.h"
 
 @interface Ctrv2 : Ctrv1 
 
@@ -284,13 +303,18 @@
 
 #import "../String.h"
 
-@interface InitBase : HXObject
+@interface InitBase : NSObject
 
-+ (int) si:(int)val;
-+ (int) sop:(int)val;
-+ (id) st:(id)val;
-+ (int) sp:(int)val;
-+ (float) sinline:(float)val;
++ (int) si;
++ (void) setSi:(int)val;
++ (int) sop;
++ (void) setSop:(int)val;
++ (id) st;
++ (void) setSt:(id)val;
++ (int) sp;
++ (void) setSp:(int)val;
++ (float) sinline;
++ (void) setSinline:(float)val;
 @property (nonatomic) int i;
 @property (nonatomic, strong) NSMutableString *s;
 @property (nonatomic) BOOL b;
@@ -301,7 +325,7 @@
 
 
 
-#import "../unit/InitBase.h"
+#import "../unit/MyClass.h"
 
 @interface InitChild : InitBase 
 
@@ -311,7 +335,7 @@
 
 
 
-#import "../unit/InitBase.h"
+#import "../unit/MyClass.h"
 
 @interface InitChildWithCtor : InitBase 
 
@@ -322,7 +346,7 @@
 
 
 
-@interface InitWithoutCtor : HXObject
+@interface InitWithoutCtor : NSObject
 
 @property (nonatomic) int i;
 - (id) init;
@@ -332,7 +356,7 @@
 
 
 
-@interface InitProperties : HXObject
+@interface InitProperties : NSObject
 
 @property (nonatomic) int accNull;
 @property (nonatomic) int accDefault;
@@ -349,7 +373,7 @@
 
 #import "../String.h"
 
-@interface ParamConstraintsClass : HXObject
+@interface ParamConstraintsClass : NSObject
 
 + (id) staticSingle:(id)a;
 - (id) memberSingle:(id)a;
@@ -365,7 +389,7 @@
 
 
 
-@interface ParamConstraintsClass2 : HXObject
+@interface ParamConstraintsClass2 : NSObject
 
 - (void) bind:(id)t;
 - (void) check:(id)a;
@@ -377,7 +401,7 @@
 
 #import "../String.h"
 
-@interface UsingBase : HXObject
+@interface UsingBase : NSObject
 
 + (NSMutableString*) privFunc:(NSMutableString*)s;
 + (NSMutableString*) pupFunc:(NSMutableString*)s;
@@ -387,8 +411,7 @@
 
 
 #import "../String.h"
-#import "../unit/UsingBase.h"
-#import "../unit/UsingChild2.h"
+#import "../unit/MyClass.h"
 
 @interface UsingChild1 : UsingBase 
 
@@ -400,8 +423,7 @@
 
 
 #import "../String.h"
-#import "../unit/UsingChild2.h"
-#import "../unit/UsingBase.h"
+#import "../unit/MyClass.h"
 
 @interface UsingChild2 : UsingBase 
 
@@ -413,10 +435,9 @@
 
 
 #import "../String.h"
-#import "../unit/UsingBase.h"
-#import "../unit/UsingChild2.h"
+#import "../unit/MyClass.h"
 
-@interface UsingUnrelated : HXObject
+@interface UsingUnrelated : NSObject
 
 + (NSMutableString*) test;
 
@@ -424,12 +445,14 @@
 
 
 
-#import "../unit/VarProps.h"
+#import "../unit/MyClass.h"
 
-@interface VarProps : HXObject
+@interface VarProps : NSObject
 
-+ (int) SX:(int)val;
-+ (int) SY:(int)val;
++ (int) SX;
++ (void) setSX:(int)val;
++ (int) SY;
++ (void) setSY:(int)val;
 + (int) get_SX;
 + (int) set_SX:(int)v;
 + (int) get_SY;
@@ -450,7 +473,7 @@
 
 #import "../String.h"
 
-@interface BaseSuperProp : HXObject
+@interface BaseSuperProp : NSObject
 
 @property (nonatomic, getter=get_prop, setter=set_prop) int prop;
 
@@ -465,7 +488,7 @@
 
 #import "../Array.h"
 #import "../String.h"
-#import "../unit/BaseSuperProp.h"
+#import "../unit/MyClass.h"
 
 @interface ChildSuperProp : BaseSuperProp 
 
@@ -481,9 +504,9 @@
 
 #import "../unit/MyClass.h"
 
-@interface InlineCastA : HXObject
+@interface InlineCastA : NSObject
 
-- (InlineCastA*) self;
+- (InlineCastA*) _self;
 
 @end
 
@@ -491,7 +514,6 @@
 
 #import "../unit/MyClass.h"
 #import "../String.h"
-#import "../unit/InlineCastA.h"
 
 @interface InlineCastB : InlineCastA 
 
