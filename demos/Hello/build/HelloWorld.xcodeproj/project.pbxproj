@@ -10,17 +10,17 @@
 		FMKD01E5E83E1871245C68EA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FMKREFE5E83E1871245C68EA; };
 		FMK9F3923EF3B3A5B445DDA7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FMKREF923EF3B3A5B445DDA7; };
 		FMKD9712762E3B3441968E2C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FMKREF12762E3B3441968E2C; };
-		HAXEMB4D8BD2A07F893120CF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = HAXEREFM8BD2A07F893120CF; };
-		HAXEMC34D9E6C1A68100CA0C /* Array.m in Sources */ = {isa = PBXBuildFile; fileRef = HAXEREFMD9E6C1A68100CA0C; };
-		HAXEMA18696C9756056A5C1F /* CustomMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = HAXEREFM696C9756056A5C1F; };
-		HAXEM9F0F40CA72A15E05CC2 /* HelloWorld.m in Sources */ = {isa = PBXBuildFile; fileRef = HAXEREFMF40CA72A15E05CC2; };
-		HAXEM326006D3829667A400A /* String.m in Sources */ = {isa = PBXBuildFile; fileRef = HAXEREFM006D3829667A400A; };
-		HAXEM81CA620EEFCE8490172 /* Log.m in Sources */ = {isa = PBXBuildFile; fileRef = HAXEREFMA620EEFCE8490172; };
-		HAXEM1C7A87CB8F63C40E9B2 /* CGColor.m in Sources */ = {isa = PBXBuildFile; fileRef = HAXEREFMA87CB8F63C40E9B2; };
-		HAXEMAFAB4C364F2395A5286 /* CGColorSpace.m in Sources */ = {isa = PBXBuildFile; fileRef = HAXEREFMB4C364F2395A5286; };
-		HAXEMC36F2F73291138756C2 /* CGPattern.m in Sources */ = {isa = PBXBuildFile; fileRef = HAXEREFMF2F73291138756C2; };
-		E7VF2Z0L45DELYXP9TX1ESYG /* haxe in Resources */ = {isa = PBXBuildFile; fileRef = 39QVRA6RR7AV5Y18K59IFKSH; };
-		YS3T3TLD7B5RRL1HNC755D3T /* objc in Resources */ = {isa = PBXBuildFile; fileRef = BKIIQ1EFDFCZGDCQF19G0KTD; };
+		APPM2B4D8BD2A07F893120CF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = APPMREFD8BD2A07F893120CF; };
+		APPMEC34D9E6C1A68100CA0C /* Array.m in Sources */ = {isa = PBXBuildFile; fileRef = APPMREF4D9E6C1A68100CA0C; };
+		APPM9A18696C9756056A5C1F /* CustomMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = APPMREF8696C9756056A5C1F; };
+		APPM09F0F40CA72A15E05CC2 /* HelloWorld.m in Sources */ = {isa = PBXBuildFile; fileRef = APPMREF0F40CA72A15E05CC2; };
+		APPM8326006D3829667A400A /* String.m in Sources */ = {isa = PBXBuildFile; fileRef = APPMREF6006D3829667A400A; };
+		APPM181CA620EEFCE8490172 /* Log.m in Sources */ = {isa = PBXBuildFile; fileRef = APPMREFCA620EEFCE8490172; };
+		APPMB1C7A87CB8F63C40E9B2 /* CGColor.m in Sources */ = {isa = PBXBuildFile; fileRef = APPMREF7A87CB8F63C40E9B2; };
+		APPM9AFAB4C364F2395A5286 /* CGColorSpace.m in Sources */ = {isa = PBXBuildFile; fileRef = APPMREFAB4C364F2395A5286; };
+		APPM7C36F2F73291138756C2 /* CGPattern.m in Sources */ = {isa = PBXBuildFile; fileRef = APPMREF6F2F73291138756C2; };
+		RESD80AF52B2DE85ABA96D37 /* haxe in Resources */ = {isa = PBXBuildFile; fileRef = RESREFAF52B2DE85ABA96D37; };
+		RESF6D719A7D7F6F5C11C90A /* objc in Resources */ = {isa = PBXBuildFile; fileRef = RESREF719A7D7F6F5C11C90A; };
 		HELLOWORLD12485253914667 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = HELLOWORLDFF3D47309BAF6C /* InfoPlist.strings */; };
 		HELLOWORLD0CEDFD52164E4F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = HELLOWORLDAD34034122B42F /* InfoPlist.strings */; };
 		HELLOWORLD489B1422E28349 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = HELLOWORLD086269C989D672 /* main.m */; };
@@ -42,24 +42,24 @@
 		FMKREFE5E83E1871245C68EA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		FMKREF923EF3B3A5B445DDA7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		FMKREF12762E3B3441968E2C /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-		HAXEREFM8BD2A07F893120CF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		HAXEREFH8BD2A07F893120CF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		HAXEREFMD9E6C1A68100CA0C /* Array.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Array.m; sourceTree = "<group>"; };
-		HAXEREFHD9E6C1A68100CA0C /* Array.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Array.h; sourceTree = "<group>"; };
-		HAXEREFM696C9756056A5C1F /* CustomMapView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomMapView.m; sourceTree = "<group>"; };
-		HAXEREFH696C9756056A5C1F /* CustomMapView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomMapView.h; sourceTree = "<group>"; };
-		HAXEREFMF40CA72A15E05CC2 /* HelloWorld.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HelloWorld.m; sourceTree = "<group>"; };
-		HAXEREFHF40CA72A15E05CC2 /* HelloWorld.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HelloWorld.h; sourceTree = "<group>"; };
-		HAXEREFM006D3829667A400A /* String.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = String.m; sourceTree = "<group>"; };
-		HAXEREFH006D3829667A400A /* String.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = String.h; sourceTree = "<group>"; };
-		HAXEREFMA620EEFCE8490172 /* haxe/Log.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Log.m; path = HelloWorld/haxe/Log.m; sourceTree = SOURCE_ROOT; };
-		HAXEREFHA620EEFCE8490172 /* haxe/Log.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Log.h; path = HelloWorld/haxe/Log.h; sourceTree = SOURCE_ROOT; };
-		HAXEREFMA87CB8F63C40E9B2 /* objc/graphics/CGColor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CGColor.m; path = HelloWorld/objc/graphics/CGColor.m; sourceTree = SOURCE_ROOT; };
-		HAXEREFHA87CB8F63C40E9B2 /* objc/graphics/CGColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CGColor.h; path = HelloWorld/objc/graphics/CGColor.h; sourceTree = SOURCE_ROOT; };
-		HAXEREFMB4C364F2395A5286 /* objc/graphics/CGColorSpace.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CGColorSpace.m; path = HelloWorld/objc/graphics/CGColorSpace.m; sourceTree = SOURCE_ROOT; };
-		HAXEREFMF2F73291138756C2 /* objc/graphics/CGPattern.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CGPattern.m; path = HelloWorld/objc/graphics/CGPattern.m; sourceTree = SOURCE_ROOT; };
-		39QVRA6RR7AV5Y18K59IFKSH /* haxe/ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = haxe; sourceTree = "<group>"; };
-		BKIIQ1EFDFCZGDCQF19G0KTD /* objc/graphics/ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = objc; sourceTree = "<group>"; };
+		APPMREFD8BD2A07F893120CF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		APPHREFD8BD2A07F893120CF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		APPMREF4D9E6C1A68100CA0C /* Array.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Array.m; sourceTree = "<group>"; };
+		APPHREF4D9E6C1A68100CA0C /* Array.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Array.h; sourceTree = "<group>"; };
+		APPMREF8696C9756056A5C1F /* CustomMapView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomMapView.m; sourceTree = "<group>"; };
+		APPHREF8696C9756056A5C1F /* CustomMapView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomMapView.h; sourceTree = "<group>"; };
+		APPMREF0F40CA72A15E05CC2 /* HelloWorld.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HelloWorld.m; sourceTree = "<group>"; };
+		APPHREF0F40CA72A15E05CC2 /* HelloWorld.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HelloWorld.h; sourceTree = "<group>"; };
+		APPMREF6006D3829667A400A /* String.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = String.m; sourceTree = "<group>"; };
+		APPHREF6006D3829667A400A /* String.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = String.h; sourceTree = "<group>"; };
+		APPMREFCA620EEFCE8490172 /* haxe/Log.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Log.m; path = HelloWorld/haxe/Log.m; sourceTree = SOURCE_ROOT; };
+		APPHREFCA620EEFCE8490172 /* haxe/Log.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Log.h; path = HelloWorld/haxe/Log.h; sourceTree = SOURCE_ROOT; };
+		APPMREF7A87CB8F63C40E9B2 /* objc/graphics/CGColor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CGColor.m; path = HelloWorld/objc/graphics/CGColor.m; sourceTree = SOURCE_ROOT; };
+		APPHREF7A87CB8F63C40E9B2 /* objc/graphics/CGColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CGColor.h; path = HelloWorld/objc/graphics/CGColor.h; sourceTree = SOURCE_ROOT; };
+		APPMREFAB4C364F2395A5286 /* objc/graphics/CGColorSpace.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CGColorSpace.m; path = HelloWorld/objc/graphics/CGColorSpace.m; sourceTree = SOURCE_ROOT; };
+		APPMREF6F2F73291138756C2 /* objc/graphics/CGPattern.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CGPattern.m; path = HelloWorld/objc/graphics/CGPattern.m; sourceTree = SOURCE_ROOT; };
+		RESREFAF52B2DE85ABA96D37 /* haxe/ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = haxe; sourceTree = "<group>"; };
+		RESREF719A7D7F6F5C11C90A /* objc/graphics/ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = objc; sourceTree = "<group>"; };
 		HELLOWORLDC398B4972FE836 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		HELLOWORLDD17FEB0DE87B92 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		HELLOWORLD96BF51AA985FFE /* HelloWorld-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "HelloWorld-Info.plist"; sourceTree = "<group>"; };
@@ -129,18 +129,18 @@
 		HELLOWORLD51645502E5E357 /* HelloWorld */ = {
 			isa = PBXGroup;
 			children = (
-				HAXEREFM8BD2A07F893120CF /* AppDelegate.m */,
-				HAXEREFH8BD2A07F893120CF /* AppDelegate.h */,
-				HAXEREFMD9E6C1A68100CA0C /* Array.m */,
-				HAXEREFHD9E6C1A68100CA0C /* Array.h */,
-				HAXEREFM696C9756056A5C1F /* CustomMapView.m */,
-				HAXEREFH696C9756056A5C1F /* CustomMapView.h */,
-				HAXEREFMF40CA72A15E05CC2 /* HelloWorld.m */,
-				HAXEREFHF40CA72A15E05CC2 /* HelloWorld.h */,
-				HAXEREFM006D3829667A400A /* String.m */,
-				HAXEREFH006D3829667A400A /* String.h */,
-				39QVRA6RR7AV5Y18K59IFKSH /* haxe/ */,
-				BKIIQ1EFDFCZGDCQF19G0KTD /* objc/graphics/ */,
+				APPMREFD8BD2A07F893120CF /* AppDelegate.m */,
+				APPHREFD8BD2A07F893120CF /* AppDelegate.h */,
+				APPMREF4D9E6C1A68100CA0C /* Array.m */,
+				APPHREF4D9E6C1A68100CA0C /* Array.h */,
+				APPMREF8696C9756056A5C1F /* CustomMapView.m */,
+				APPHREF8696C9756056A5C1F /* CustomMapView.h */,
+				APPMREF0F40CA72A15E05CC2 /* HelloWorld.m */,
+				APPHREF0F40CA72A15E05CC2 /* HelloWorld.h */,
+				APPMREF6006D3829667A400A /* String.m */,
+				APPHREF6006D3829667A400A /* String.h */,
+				RESREFAF52B2DE85ABA96D37 /* haxe/ */,
+				RESREF719A7D7F6F5C11C90A /* objc/graphics/ */,
 				HELLOWORLD45E84E321C8F8F /* Supporting Files */,
 			);
 			path = HelloWorld;
@@ -248,8 +248,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				HELLOWORLD12485253914667 /* InfoPlist.strings in Resources */,
-		E7VF2Z0L45DELYXP9TX1ESYG /* haxe/ in Resoures */,
-		YS3T3TLD7B5RRL1HNC755D3T /* objc/graphics/ in Resoures */,
+		RESD80AF52B2DE85ABA96D37 /* haxe/ in Resoures */,
+		RESF6D719A7D7F6F5C11C90A /* objc/graphics/ in Resoures */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -287,15 +287,15 @@
 			buildActionMask = 2147483647;
 			files = (
 HELLOWORLD489B1422E28349 /* main.m in Sources */,
-				HAXEMB4D8BD2A07F893120CF /* AppDelegate.m in Sources */,
-				HAXEMC34D9E6C1A68100CA0C /* Array.m in Sources */,
-				HAXEMA18696C9756056A5C1F /* CustomMapView.m in Sources */,
-				HAXEM9F0F40CA72A15E05CC2 /* HelloWorld.m in Sources */,
-				HAXEM326006D3829667A400A /* String.m in Sources */,
-				HAXEM81CA620EEFCE8490172 /* haxe/Log.m in Sources */,
-				HAXEM1C7A87CB8F63C40E9B2 /* objc/graphics/CGColor.m in Sources */,
-				HAXEMAFAB4C364F2395A5286 /* objc/graphics/CGColorSpace.m in Sources */,
-				HAXEMC36F2F73291138756C2 /* objc/graphics/CGPattern.m in Sources */,
+				APPM2B4D8BD2A07F893120CF /* AppDelegate.m in Sources */,
+				APPMEC34D9E6C1A68100CA0C /* Array.m in Sources */,
+				APPM9A18696C9756056A5C1F /* CustomMapView.m in Sources */,
+				APPM09F0F40CA72A15E05CC2 /* HelloWorld.m in Sources */,
+				APPM8326006D3829667A400A /* String.m in Sources */,
+				APPM181CA620EEFCE8490172 /* haxe/Log.m in Sources */,
+				APPMB1C7A87CB8F63C40E9B2 /* objc/graphics/CGColor.m in Sources */,
+				APPM9AFAB4C364F2395A5286 /* objc/graphics/CGColorSpace.m in Sources */,
+				APPM7C36F2F73291138756C2 /* objc/graphics/CGPattern.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

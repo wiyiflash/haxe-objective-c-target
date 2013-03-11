@@ -9,14 +9,14 @@
 		FMKED124ECBE655AF2584273 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FMKREF24ECBE655AF2584273; };
 		FMKD01E5E83E1871245C68EA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FMKREFE5E83E1871245C68EA; };
 		FMK9F3923EF3B3A5B445DDA7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FMKREF923EF3B3A5B445DDA7; };
-		HAXEMC34D9E6C1A68100CA0C /* Array.m in Sources */ = {isa = PBXBuildFile; fileRef = HAXEREFMD9E6C1A68100CA0C; };
-		HAXEMC0088B110BCB80A1CD8 /* PiratePig.m in Sources */ = {isa = PBXBuildFile; fileRef = HAXEREFM88B110BCB80A1CD8; };
-		HAXEM4D1D8D4B97706924F9E /* PiratePigGame.m in Sources */ = {isa = PBXBuildFile; fileRef = HAXEREFMD8D4B97706924F9E; };
-		HAXEM7CF0A9348C7DDEC66F1 /* Std.m in Sources */ = {isa = PBXBuildFile; fileRef = HAXEREFM0A9348C7DDEC66F1; };
-		HAXEM326006D3829667A400A /* String.m in Sources */ = {isa = PBXBuildFile; fileRef = HAXEREFM006D3829667A400A; };
-		HAXEMC5F3CFB4DA8638CE719 /* Tile.m in Sources */ = {isa = PBXBuildFile; fileRef = HAXEREFM3CFB4DA8638CE719; };
-		HAXEM81CA620EEFCE8490172 /* Log.m in Sources */ = {isa = PBXBuildFile; fileRef = HAXEREFMA620EEFCE8490172; };
-		4ZBXZZ769TDXVAZIHPZYJYJ8 /* haxe in Resources */ = {isa = PBXBuildFile; fileRef = 0GSI39SBNFEY02IW151A8QNP; };
+		APPMEC34D9E6C1A68100CA0C /* Array.m in Sources */ = {isa = PBXBuildFile; fileRef = APPMREF4D9E6C1A68100CA0C; };
+		APPM2C0088B110BCB80A1CD8 /* PiratePig.m in Sources */ = {isa = PBXBuildFile; fileRef = APPMREF088B110BCB80A1CD8; };
+		APPM14D1D8D4B97706924F9E /* PiratePigGame.m in Sources */ = {isa = PBXBuildFile; fileRef = APPMREF1D8D4B97706924F9E; };
+		APPM97CF0A9348C7DDEC66F1 /* Std.m in Sources */ = {isa = PBXBuildFile; fileRef = APPMREFF0A9348C7DDEC66F1; };
+		APPM8326006D3829667A400A /* String.m in Sources */ = {isa = PBXBuildFile; fileRef = APPMREF6006D3829667A400A; };
+		APPM7C5F3CFB4DA8638CE719 /* Tile.m in Sources */ = {isa = PBXBuildFile; fileRef = APPMREFF3CFB4DA8638CE719; };
+		APPM181CA620EEFCE8490172 /* Log.m in Sources */ = {isa = PBXBuildFile; fileRef = APPMREFCA620EEFCE8490172; };
+		RESD80AF52B2DE85ABA96D37 /* haxe in Resources */ = {isa = PBXBuildFile; fileRef = RESREFAF52B2DE85ABA96D37; };
 		PIRATEPIG512485253914667 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = PIRATEPIGBFF3D47309BAF6C /* InfoPlist.strings */; };
 		PIRATEPIG20CEDFD52164E4F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = PIRATEPIG6AD34034122B42F /* InfoPlist.strings */; };
 		PIRATEPIGE489B1422E28349 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = PIRATEPIGE086269C989D672 /* main.m */; };
@@ -37,21 +37,21 @@
 		FMKREF24ECBE655AF2584273 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		FMKREFE5E83E1871245C68EA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		FMKREF923EF3B3A5B445DDA7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		HAXEREFMD9E6C1A68100CA0C /* Array.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Array.m; sourceTree = "<group>"; };
-		HAXEREFHD9E6C1A68100CA0C /* Array.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Array.h; sourceTree = "<group>"; };
-		HAXEREFM88B110BCB80A1CD8 /* PiratePig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PiratePig.m; sourceTree = "<group>"; };
-		HAXEREFH88B110BCB80A1CD8 /* PiratePig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PiratePig.h; sourceTree = "<group>"; };
-		HAXEREFMD8D4B97706924F9E /* PiratePigGame.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PiratePigGame.m; sourceTree = "<group>"; };
-		HAXEREFHD8D4B97706924F9E /* PiratePigGame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PiratePigGame.h; sourceTree = "<group>"; };
-		HAXEREFM0A9348C7DDEC66F1 /* Std.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Std.m; sourceTree = "<group>"; };
-		HAXEREFH0A9348C7DDEC66F1 /* Std.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Std.h; sourceTree = "<group>"; };
-		HAXEREFM006D3829667A400A /* String.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = String.m; sourceTree = "<group>"; };
-		HAXEREFH006D3829667A400A /* String.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = String.h; sourceTree = "<group>"; };
-		HAXEREFM3CFB4DA8638CE719 /* Tile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tile.m; sourceTree = "<group>"; };
-		HAXEREFH3CFB4DA8638CE719 /* Tile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tile.h; sourceTree = "<group>"; };
-		HAXEREFMA620EEFCE8490172 /* haxe/Log.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Log.m; path = PiratePig/haxe/Log.m; sourceTree = SOURCE_ROOT; };
-		HAXEREFHA620EEFCE8490172 /* haxe/Log.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Log.h; path = PiratePig/haxe/Log.h; sourceTree = SOURCE_ROOT; };
-		0GSI39SBNFEY02IW151A8QNP /* haxe/ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = haxe; sourceTree = "<group>"; };
+		APPMREF4D9E6C1A68100CA0C /* Array.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Array.m; sourceTree = "<group>"; };
+		APPHREF4D9E6C1A68100CA0C /* Array.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Array.h; sourceTree = "<group>"; };
+		APPMREF088B110BCB80A1CD8 /* PiratePig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PiratePig.m; sourceTree = "<group>"; };
+		APPHREF088B110BCB80A1CD8 /* PiratePig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PiratePig.h; sourceTree = "<group>"; };
+		APPMREF1D8D4B97706924F9E /* PiratePigGame.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PiratePigGame.m; sourceTree = "<group>"; };
+		APPHREF1D8D4B97706924F9E /* PiratePigGame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PiratePigGame.h; sourceTree = "<group>"; };
+		APPMREFF0A9348C7DDEC66F1 /* Std.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Std.m; sourceTree = "<group>"; };
+		APPHREFF0A9348C7DDEC66F1 /* Std.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Std.h; sourceTree = "<group>"; };
+		APPMREF6006D3829667A400A /* String.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = String.m; sourceTree = "<group>"; };
+		APPHREF6006D3829667A400A /* String.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = String.h; sourceTree = "<group>"; };
+		APPMREFF3CFB4DA8638CE719 /* Tile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tile.m; sourceTree = "<group>"; };
+		APPHREFF3CFB4DA8638CE719 /* Tile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tile.h; sourceTree = "<group>"; };
+		APPMREFCA620EEFCE8490172 /* haxe/Log.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Log.m; path = PiratePig/haxe/Log.m; sourceTree = SOURCE_ROOT; };
+		APPHREFCA620EEFCE8490172 /* haxe/Log.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Log.h; path = PiratePig/haxe/Log.h; sourceTree = SOURCE_ROOT; };
+		RESREFAF52B2DE85ABA96D37 /* haxe/ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = haxe; sourceTree = "<group>"; };
 		PIRATEPIG4C398B4972FE836 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		PIRATEPIGAD17FEB0DE87B92 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		PIRATEPIGA96BF51AA985FFE /* PiratePig-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PiratePig-Info.plist"; sourceTree = "<group>"; };
@@ -118,19 +118,19 @@
 		PIRATEPIGF51645502E5E357 /* PiratePig */ = {
 			isa = PBXGroup;
 			children = (
-				HAXEREFMD9E6C1A68100CA0C /* Array.m */,
-				HAXEREFHD9E6C1A68100CA0C /* Array.h */,
-				HAXEREFM88B110BCB80A1CD8 /* PiratePig.m */,
-				HAXEREFH88B110BCB80A1CD8 /* PiratePig.h */,
-				HAXEREFMD8D4B97706924F9E /* PiratePigGame.m */,
-				HAXEREFHD8D4B97706924F9E /* PiratePigGame.h */,
-				HAXEREFM0A9348C7DDEC66F1 /* Std.m */,
-				HAXEREFH0A9348C7DDEC66F1 /* Std.h */,
-				HAXEREFM006D3829667A400A /* String.m */,
-				HAXEREFH006D3829667A400A /* String.h */,
-				HAXEREFM3CFB4DA8638CE719 /* Tile.m */,
-				HAXEREFH3CFB4DA8638CE719 /* Tile.h */,
-				0GSI39SBNFEY02IW151A8QNP /* haxe/ */,
+				APPMREF4D9E6C1A68100CA0C /* Array.m */,
+				APPHREF4D9E6C1A68100CA0C /* Array.h */,
+				APPMREF088B110BCB80A1CD8 /* PiratePig.m */,
+				APPHREF088B110BCB80A1CD8 /* PiratePig.h */,
+				APPMREF1D8D4B97706924F9E /* PiratePigGame.m */,
+				APPHREF1D8D4B97706924F9E /* PiratePigGame.h */,
+				APPMREFF0A9348C7DDEC66F1 /* Std.m */,
+				APPHREFF0A9348C7DDEC66F1 /* Std.h */,
+				APPMREF6006D3829667A400A /* String.m */,
+				APPHREF6006D3829667A400A /* String.h */,
+				APPMREFF3CFB4DA8638CE719 /* Tile.m */,
+				APPHREFF3CFB4DA8638CE719 /* Tile.h */,
+				RESREFAF52B2DE85ABA96D37 /* haxe/ */,
 				PIRATEPIGC45E84E321C8F8F /* Supporting Files */,
 			);
 			path = PiratePig;
@@ -238,7 +238,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				PIRATEPIG512485253914667 /* InfoPlist.strings in Resources */,
-		4ZBXZZ769TDXVAZIHPZYJYJ8 /* haxe/ in Resoures */,
+		RESD80AF52B2DE85ABA96D37 /* haxe/ in Resoures */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -276,13 +276,13 @@
 			buildActionMask = 2147483647;
 			files = (
 PIRATEPIGE489B1422E28349 /* main.m in Sources */,
-				HAXEMC34D9E6C1A68100CA0C /* Array.m in Sources */,
-				HAXEMC0088B110BCB80A1CD8 /* PiratePig.m in Sources */,
-				HAXEM4D1D8D4B97706924F9E /* PiratePigGame.m in Sources */,
-				HAXEM7CF0A9348C7DDEC66F1 /* Std.m in Sources */,
-				HAXEM326006D3829667A400A /* String.m in Sources */,
-				HAXEMC5F3CFB4DA8638CE719 /* Tile.m in Sources */,
-				HAXEM81CA620EEFCE8490172 /* haxe/Log.m in Sources */,
+				APPMEC34D9E6C1A68100CA0C /* Array.m in Sources */,
+				APPM2C0088B110BCB80A1CD8 /* PiratePig.m in Sources */,
+				APPM14D1D8D4B97706924F9E /* PiratePigGame.m in Sources */,
+				APPM97CF0A9348C7DDEC66F1 /* Std.m in Sources */,
+				APPM8326006D3829667A400A /* String.m in Sources */,
+				APPM7C5F3CFB4DA8638CE719 /* Tile.m in Sources */,
+				APPM181CA620EEFCE8490172 /* haxe/Log.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
