@@ -20,6 +20,9 @@
 open Ast
 open Type
 open Common
+(* #load "unix.cma"
+#load "str.cma" *)
+open Unix
 
 let joinClassPath path separator =
 	match fst path, snd path with
@@ -2862,10 +2865,32 @@ let generate common_ctx =
 	) common_ctx.types;
 	
 	List.iter (fun p -> print_endline p ) common_ctx.objc_libs;
-	List.iter (fun p -> print_endline p ) common_ctx.class_path;
+	
+	(* Search the SupportingFiles folder *)
+	let supporting_files = ref "" in
 	(match common_ctx.objc_supporting_files with
-	| None -> print_endline "no supporting files";
-	| Some p -> print_endline p);
+	| None ->
+		print_endline "No SupportingFiles defined. search in the class paths the first one";
+		List.iter (fun dir ->
+			if Sys.file_exists dir then begin
+				let contents = Array.to_list (Sys.readdir dir) in
+				List.iter (fun f ->
+					if (f = "SupportingFiles" && !supporting_files = "") then
+						supporting_files := (dir^f^"/");
+				) contents;
+			end
+		) common_ctx.class_path;
+	| Some p ->
+		print_endline p;
+		supporting_files := p;
+	);
+	print_endline ("SupportingFile defined at path: "^(!supporting_files));
+	if (!supporting_files != "") then begin
+		let contents = Array.to_list (Sys.readdir !supporting_files) in
+		List.iter (fun f ->
+			print_endline f;
+		) contents
+	end;
 	
 	(* Register some default files that were not added by the compiler *)
 	(* files_manager#register_source_file class_def.cl_path ".m"; *)

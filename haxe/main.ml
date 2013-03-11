@@ -1055,31 +1055,31 @@ try
 		(* ObjectiveC related parameters. *)
 		("-objc-platform",Arg.String (fun v ->
 			com.objc_platform <- v;
-		),"<platform> : change the platform. e.g. iphone, ipad, ios, osx, generic");
+		),"<platform> : set the platform. e.g. iphone, ipad, ios, osx, generic");
 		("-objc-version",Arg.Float (fun v ->
 			com.objc_version <- v;
-		),"<version> : change the cocoa sdk version. e.g. 4-6.1 for iOS, 10.7-10.8 for OSX");
+		),"<version> : set the cocoa sdk version. e.g. 4-6.1 for iOS, 10.7-10.8 for OSX");
 		("-objc-bundle-version",Arg.Float (fun v ->
 			com.objc_bundle_version <- v;
-		),"<version> : The version of the app");
+		),"<version> : set the version of the app. e.g. 1.0");
 		("-objc-identifier",Arg.String (fun v ->
 			com.objc_identifier <- Some v;
-		),"<identifier> : The identifier for the app. e.g. com.domain.appname");
+		),"<identifier> : set the identifier for the app. e.g. com.domain.appname");
 		("-objc-owner",Arg.String (fun v ->
 			com.objc_owner <- Some v;
-		),"<owner> : The owner name of the app");
+		),"<owner> : set the owner name of the app");
 		("-objc-bundle-name",Arg.String (fun v ->
 			com.objc_bundle_name <- Some v;
-		),"<name> : change the name of the executable");
+		),"<name> : set the name of the executable");
 		("-objc-supporting-files",Arg.String (fun path ->
 			com.objc_supporting_files <- Some (normalize_path path);
-		),"<path> : The path to a custom SupportingFiles folder. Contains resources and custom files.");
+		),"<path> : set a custom SupportingFiles folder that contains resources and custom project files.");
 		("-objc-lib",Arg.String (fun path ->
 			com.objc_libs <- path :: com.objc_libs
-		),"<path> : add a directory to find source files");
+		),"<path> : add a lib. Can be an external .xcodeproj or a custom .framework");
 		("-ios-orientation",Arg.String (fun v ->
 			com.ios_orientation <- Some v;
-		),"<orientation> : add iOS orientations (UIInterfaceOrientationPortrait,UIInterfaceOrientationLandscapeLeft)");
+		),"<orientation> : add iOS orientations. e.g. UIInterfaceOrientationPortrait");
 	] in
 	let args_callback cl = classes := make_path cl :: !classes in
 	let process args =

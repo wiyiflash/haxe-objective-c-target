@@ -26,6 +26,7 @@ package sys;
 
 import foundation.NSFileManager;
 import foundation.NSFileHandle;
+import foundation.NSDirectoryEnumerator;
 
 
 private enum FileKind {
@@ -89,6 +90,11 @@ class FileSystem {
 	}
 
 	public static function readDirectory( path : String ) : Array<String> {
-		return sys_read_dir(path);
+		//var dir = NSHomeDirectory();
+		var de :NSDirectoryEnumerator = NSFileManager.defaultManager().enumeratorAtPath ( path );
+		var files :Array<String> = [];
+		var file :String = null;
+		while (file = de.nextObject()) files.push ( file );
+		return files;
 	}
 }

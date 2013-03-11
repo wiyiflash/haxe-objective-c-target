@@ -6,7 +6,7 @@ echo "Build CocoaTouch demos..."
 echo " "
 
 cd ../demos/Hello
-./../../haxe/haxe compile.hxml
+# ./../../haxe/haxe compile.hxml
 
 cd ../PiratePig
 ./../../haxe/haxe compile.hxml
