@@ -92,7 +92,7 @@ class filesManager imports_manager =
 		for i = 0 to 23 do
 			id.[i] <- if String.length app_name > i then app_name.[i] else md5.[i];
 		done;
-		String.capitalize id
+		String.uppercase id
 	method register_source_file file_path ext =
 		source_files <- List.append source_files [this#generate_uuid_for_file ("HAXE"^(String.sub ext 1 1)) file_path, this#generate_uuid_for_file ("HAXEREF"^ext) file_path, file_path, ext];
 	method register_resource_file file_path ext =
