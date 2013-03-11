@@ -19,8 +19,8 @@
 		HAXEM1C7A87CB8F63C40E9B2 /* CGColor.m in Sources */ = {isa = PBXBuildFile; fileRef = HAXEREF.M87CB8F63C40E9B2; };
 		HAXEMAFAB4C364F2395A5286 /* CGColorSpace.m in Sources */ = {isa = PBXBuildFile; fileRef = HAXEREF.M4C364F2395A5286; };
 		HAXEMC36F2F73291138756C2 /* CGPattern.m in Sources */ = {isa = PBXBuildFile; fileRef = HAXEREF.M2F73291138756C2; };
-		EZDIL0LUNCNGWLA8UPA75ZTZ /* haxe in Resources */ = {isa = PBXBuildFile; fileRef = OWZMHQE4FUBQ4EBELGM38C4M; };
-		PYB9K326JDXZSFRAIRSM27O1 /* objc in Resources */ = {isa = PBXBuildFile; fileRef = S21M5G8XSZZ2TTBX8B9L4KZ6; };
+		IQN13D7XS8DZA47E0588AS8I /* haxe in Resources */ = {isa = PBXBuildFile; fileRef = KTRXSCR60WV1HAQZBM0DQKIA; };
+		1K7UOQVLZVJOLHEF8VJKBQ6X /* objc in Resources */ = {isa = PBXBuildFile; fileRef = 8DAJ16WU4ZFZIHK52JWQ48AF; };
 		HELLOWORLD12485253914667 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = HELLOWORLDFF3D47309BAF6C /* InfoPlist.strings */; };
 		HELLOWORLD0CEDFD52164E4F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = HELLOWORLDAD34034122B42F /* InfoPlist.strings */; };
 		HELLOWORLD489B1422E28349 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = HELLOWORLD086269C989D672 /* main.m */; };
@@ -58,8 +58,8 @@
 		HAXEREF.H87CB8F63C40E9B2 /* objc/graphics/CGColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CGColor.h; path = HelloWorld/objc/graphics/CGColor.h; sourceTree = SOURCE_ROOT; };
 		HAXEREF.M4C364F2395A5286 /* objc/graphics/CGColorSpace.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CGColorSpace.m; path = HelloWorld/objc/graphics/CGColorSpace.m; sourceTree = SOURCE_ROOT; };
 		HAXEREF.M2F73291138756C2 /* objc/graphics/CGPattern.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CGPattern.m; path = HelloWorld/objc/graphics/CGPattern.m; sourceTree = SOURCE_ROOT; };
-		OWZMHQE4FUBQ4EBELGM38C4M /* haxe/ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = haxe; sourceTree = "<group>"; };
-		S21M5G8XSZZ2TTBX8B9L4KZ6 /* objc/graphics/ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = objc; sourceTree = "<group>"; };
+		KTRXSCR60WV1HAQZBM0DQKIA /* haxe/ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = haxe; sourceTree = "<group>"; };
+		8DAJ16WU4ZFZIHK52JWQ48AF /* objc/graphics/ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = objc; sourceTree = "<group>"; };
 		HELLOWORLDC398B4972FE836 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		HELLOWORLDD17FEB0DE87B92 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		HELLOWORLD96BF51AA985FFE /* HelloWorld-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "HelloWorld-Info.plist"; sourceTree = "<group>"; };
@@ -139,8 +139,8 @@
 				HAXEREF.H40CA72A15E05CC2 /* HelloWorld.h */,
 				HAXEREF.M06D3829667A400A /* String.m */,
 				HAXEREF.H06D3829667A400A /* String.h */,
-				OWZMHQE4FUBQ4EBELGM38C4M /* haxe/ */,
-				S21M5G8XSZZ2TTBX8B9L4KZ6 /* objc/graphics/ */,
+				KTRXSCR60WV1HAQZBM0DQKIA /* haxe/ */,
+				8DAJ16WU4ZFZIHK52JWQ48AF /* objc/graphics/ */,
 				HELLOWORLD45E84E321C8F8F /* Supporting Files */,
 			);
 			path = HelloWorld;
@@ -248,8 +248,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				HELLOWORLD12485253914667 /* InfoPlist.strings in Resources */,
-		EZDIL0LUNCNGWLA8UPA75ZTZ /* haxe/ in Resoures */,
-		PYB9K326JDXZSFRAIRSM27O1 /* objc/graphics/ in Resoures */,
+		IQN13D7XS8DZA47E0588AS8I /* haxe/ in Resoures */,
+		1K7UOQVLZVJOLHEF8VJKBQ6X /* objc/graphics/ in Resoures */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
