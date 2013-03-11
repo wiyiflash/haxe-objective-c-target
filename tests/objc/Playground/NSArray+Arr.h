@@ -7,9 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <CoreFoundation/CoreFoundation.h>
 
-@interface CFArrayRef (Arr)
+@interface NSArray (Arr)
 
 - (id) iterator;
 - (id) iterator2;

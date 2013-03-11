@@ -17,7 +17,7 @@
 @synthesize footer;
 @synthesize game;
 - (BOOL) application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)didFinishLaunchingWithOptions{
-	[Log trace:[NSMutableString stringWithString:@"Start"] infos:[NSDictionary dictionaryWithObjectsAndKeys:@"PiratePig.hx",@"fileName", @"35",@"lineNumber", @"PiratePig",@"className", @"application",@"methodName", nil]];
+	[Log trace:[NSMutableString stringWithString:@"Start"] infos:[NSDictionary dictionaryWithObjectsAndKeys:@"PiratePig.hx",@"fileName", @"31",@"lineNumber", @"PiratePig",@"className", @"application",@"methodName", nil]];
 	self.window = [[UIWindow alloc] init];
 	
 	UIScreen *screen = [UIScreen mainScreen];

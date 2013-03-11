@@ -239,6 +239,7 @@ type context = {
 	mutable generating_array_insert : bool;
 	mutable generating_method_argument : bool;
 	mutable generating_selector : bool;
+	mutable generating_custom_selector : bool;
 	mutable generating_c_call : bool;
 	mutable generating_calls : int;(* How many calls are generated in a row *)
 	mutable generating_fields : int;(* How many fields are generated in a row *)
@@ -269,6 +270,7 @@ let newContext common_ctx writer imports_manager file_info = {
 	generating_array_insert = false;
 	generating_method_argument = false;
 	generating_selector = false;
+	generating_custom_selector = false;
 	generating_c_call = false;
 	generating_calls = 0;
 	generating_fields = 0;
@@ -340,10 +342,7 @@ let rec isString e =
 			
 		(* | TConst c -> true *)
 		| _ -> false)
-	| TConst v ->
-		(match v with
-		| TString s -> true
-		| _ -> false)
+	| TConst (TString s) -> true
 	| TField (e,fa) -> isString e
 	| TCall (e,el) -> isString e
 	| _ -> false)
@@ -399,6 +398,8 @@ let remapKeyword name =
  	| "reinterpret_cast" | "static_cast" | "typeid" | "typename" | "virtual"
 	| "signed" | "unsigned" | "struct" -> "_" ^ name
 	| "asm" -> "_asm_"
+	| "__null" -> "null"
+	| "__class" -> "class"
 	| x -> x
 
 let appName ctx =
@@ -685,7 +686,7 @@ let generateFunctionHeader ctx name f params p is_static =
 ;;
 
 (* arg_list is of type Type.texpr list *)
-let rec generateCall ctx func arg_list =
+let rec generateCall ctx (func:texpr) arg_list =
 	debug ctx ("\"-CALL-"^(Type.s_expr_kind func)^">\"");
 	
 	(* Generate a C call. Used in some low level operations from cocoa frameworks: CoreGraphics *)
@@ -716,26 +717,39 @@ let rec generateCall ctx func arg_list =
 	end else begin
 		
 		(* A call should cancel the TField *)
-		(* When we have a self followed bby 2 TFields in a row we use dot notation for the first field *)
+		(* When we have a self followed by 2 TFields in a row we use dot notation for the first field *)
 		if ctx.generating_fields > 0 then ctx.generating_fields <- ctx.generating_fields - 1;
 		ctx.generating_calls <- ctx.generating_calls + 1;
 		ctx.writer#write "[";
 		
+		(* Check if the called function has a selector defined *)
+		let sel = (match func.eexpr with
+			(* TODO: TStatic *)
+			| TField (e, FInstance (c, cf)) ->
+				if Meta.has Meta.Selector cf.cf_meta then (getMetaValue Meta.Selector cf.cf_meta)
+				else ""
+			| _ -> "";
+		) in
+		ctx.generating_custom_selector <- (String.length sel > 0);
 		generateValue ctx func;
-		(* ctx.writer#write "-END_GEN_FUNC_CALL-"; *)
 		ctx.generating_calls <- ctx.generating_calls - 1;
+		ctx.generating_custom_selector <- false;
 		
 		if List.length arg_list > 0 then begin
-			
+
+			let sel_list = if (String.length sel > 0) then Str.split_delim (Str.regexp ":") sel else [] in
+			let sel_arr = Array.of_list sel_list in
 			let args_array_e = Array.of_list arg_list in
 			let index = ref 0 in
 			let rec gen et =
 			(match et with
 				| TFun (args, ret) ->
-					List.iter (
-					fun (name, b, t) ->
+					List.iter ( fun (name, b, t) ->
 						(* ctx.generating_method_argument <- true; *)
-						ctx.writer#write (if !index = 0 then ":" else (" "^(remapKeyword name)^":"));
+						if Array.length sel_arr > 0 then
+							ctx.writer#write (" "^sel_arr.(!index)^":")
+						else
+							ctx.writer#write (if !index = 0 then ":" else (" "^(remapKeyword name)^":"));
 						generateValue ctx args_array_e.(!index);
 						index := !index + 1;
 					) args;
@@ -750,7 +764,8 @@ let rec generateCall ctx func arg_list =
 				| TAbstract (a,tl) -> ctx.writer#write "-TAbstract"
 				| TAnon a -> ctx.writer#write "-TAnon-"
 				| TDynamic t2 -> ctx.writer#write "-TDynamic-"
-				| TLazy f -> ctx.writer#write "-TLazy call-") in
+				| TLazy f -> ctx.writer#write "-TLazy call-"
+			) in
 			gen func.etype;
 		end;
 		ctx.writer#write "]";
@@ -1047,7 +1062,7 @@ and generateExpression ctx e =
 				(* ctx.writer#write (Printf.sprintf "%d" ctx.generating_calls); *)
 				let fan = if (ctx.generating_self_access && ctx.generating_calls>0 && ctx.generating_fields>=2) then "." 
 				else if (ctx.generating_self_access && ctx.generating_calls>0) then " " else "." in
-				ctx.writer#write (fan^(field_name fa));
+				ctx.writer#write (fan^(if ctx.generating_custom_selector then "" else (field_name fa)));
 				ctx.generating_property_access <- false;
 				
 			| FStatic (cls, cls_f) -> (* ctx.writer#write "-FStatic-"; *)
@@ -1090,7 +1105,7 @@ and generateExpression ctx e =
 				ctx.writer#write (" "^name);
 				if ctx.generating_calls = 0 then ctx.writer#write "]";
 			| FClosure (_,fa2) ->
-				(* Generating a selector @:sel *)
+				(* Generating a selector from new SEL *)
 				if Meta.has Meta.Selector fa2.cf_meta then 
 					ctx.writer#write (getMetaValue Meta.Selector fa2.cf_meta)
 				else begin
@@ -1102,13 +1117,7 @@ and generateExpression ctx e =
 						fun (name, b, t) ->
 							ctx.writer#write (if !first_arg then ":" else (name^":"));
 							first_arg := false;
-							(* ctx.generating_method_argument <- true; *)
-							(* ctx.writer#write (if !index = 0 then ":" else (" "^(remapKeyword name)^":")); *)
-							(* generateValue ctx args_array_e.(!index);
-							index := !index + 1; *)
 						) args;
-						(* ctx.generating_method_argument <- false; *)
-					(* Generated in Array *)
 					| TMono r -> (match !r with 
 						| None -> ctx.writer#write "-TMonoNone"
 						| Some v -> ())
@@ -1349,6 +1358,7 @@ and generateExpression ctx e =
 						| TAbstract _ -> ctx.writer#write "TAbstract";
 					); *)
 					ctx.generating_selector <- true;
+					(* This will be generated in *)
 					generateValue ctx e;
 					ctx.generating_selector <- false;
 				) el;

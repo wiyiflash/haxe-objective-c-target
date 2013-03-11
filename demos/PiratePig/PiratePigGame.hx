@@ -155,8 +155,7 @@ class PiratePigGame extends UIView {
 		
 /*		IntroSound.play ();*/
 		
-		var timer :NSTimer = null;
-		untyped __objc__("timer = [NSTimer timerWithTimeInterval:0.2 target:self selector:@selector(loop:) userInfo:nil repeats:YES]");
+		var timer :NSTimer = NSTimer.timerWithTimeInterval (0.2, this, new SEL(loop), null, true);
 		var runner = NSRunLoop.currentRunLoop();
 		runner.addTimer (timer, NSDefaultRunLoopMode);
 	}

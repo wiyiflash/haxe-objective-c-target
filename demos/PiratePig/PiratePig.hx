@@ -3,16 +3,13 @@ import ios.ui.UIApplicationDelegate;
 import ios.ui.UIResponder;
 import ios.ui.UIImageView;
 import ios.ui.UIImage;
-import ios.ui.UILabel;
 import ios.ui.UIWindow;
 import ios.ui.UIScreen;
 import ios.ui.UIView;
-import ios.ui.UIButton;
 import ios.ui.UIControl;
 import ios.ui.UIViewController;
 import ios.ui.UIApplication;
 import ios.ui.UIColor;
-import ios.ui.UIFont;
 import ios.ui.NSText;
 import objc.foundation.NSDictionary;
 import objc.graphics.CGGeometry;
@@ -29,10 +26,12 @@ class PiratePig extends UIResponder implements UIApplicationDelegate {
 	var footer :UIImageView;
 	var game :PiratePigGame;
 	
-	
 	public function application (application:UIApplication, didFinishLaunchingWithOptions:NSDictionary) :Bool {
 		
 		trace("Start");
+		
+		//var n = objc.foundation.NSNull.__null();
+		//var c = objc.foundation.NSNull.__class();
 		
 		window = new UIWindow();
 		var screen = UIScreen.mainScreen();
