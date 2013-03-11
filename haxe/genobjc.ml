@@ -238,6 +238,7 @@ type context = {
 	mutable generating_right_side_of_operator : bool;
 	mutable generating_array_insert : bool;
 	mutable generating_method_argument : bool;
+	mutable generating_selector : bool;
 	mutable generating_c_call : bool;
 	mutable generating_calls : int;(* How many calls are generated in a row *)
 	mutable generating_fields : int;(* How many fields are generated in a row *)
@@ -267,6 +268,7 @@ let newContext common_ctx writer imports_manager file_info = {
 	generating_right_side_of_operator = false;
 	generating_array_insert = false;
 	generating_method_argument = false;
+	generating_selector = false;
 	generating_c_call = false;
 	generating_calls = 0;
 	generating_fields = 0;
@@ -748,7 +750,7 @@ let rec generateCall ctx func arg_list =
 				| TAbstract (a,tl) -> ctx.writer#write "-TAbstract"
 				| TAnon a -> ctx.writer#write "-TAnon-"
 				| TDynamic t2 -> ctx.writer#write "-TDynamic-"
-				| TLazy f -> ctx.writer#write "-TLazy") in
+				| TLazy f -> ctx.writer#write "-TLazy call-") in
 			gen func.etype;
 		end;
 		ctx.writer#write "]";
@@ -990,7 +992,7 @@ and generateExpression ctx e =
 			(* | FAnon _ -> ctx.writer#write "-FAnon-"; *)
 			(* | FDynamic _ -> ctx.writer#write "-FDynamic-"; *)
 			| FClosure (_,fa2) ->
-				ctx.writer#write "-FClosure-";
+				(* ctx.writer#write "-FClosure-"; *)
 				(match fa2.cf_expr, fa2.cf_kind with
 				| Some { eexpr = TFunction fd }, Method (MethNormal | MethInline) ->
 					
@@ -1077,8 +1079,8 @@ and generateExpression ctx e =
 				
 				| TAnon _ -> ctx.writer#write "-TAnon-";
 				| TDynamic _ -> ctx.writer#write "-TDynamic-";
-				| TLazy _ -> ctx.writer#write "-TLazy-");
-			
+				| TLazy _ -> ctx.writer#write "-TLazy-"
+				);
 				
 			(* | FAnon _ -> ctx.writer#write "-FAnon-"; *)
 			| FDynamic name -> (* ctx.writer#write "-FDynamic-"; *)
@@ -1087,7 +1089,39 @@ and generateExpression ctx e =
 				(* generateFieldAccess ctx e.etype name; *)
 				ctx.writer#write (" "^name);
 				if ctx.generating_calls = 0 then ctx.writer#write "]";
-			(* | FClosure (_,fa2) -> ctx.writer#write "-FClosure-"; *)
+			| FClosure (_,fa2) ->
+				(* Generating a selector @:sel *)
+				if Meta.has Meta.Selector fa2.cf_meta then 
+					ctx.writer#write (getMetaValue Meta.Selector fa2.cf_meta)
+				else begin
+				ctx.writer#write fa2.cf_name;
+				(match fa2.cf_type with
+					| TFun (args, ret) ->
+						let first_arg = ref true in
+						List.iter (
+						fun (name, b, t) ->
+							ctx.writer#write (if !first_arg then ":" else (name^":"));
+							first_arg := false;
+							(* ctx.generating_method_argument <- true; *)
+							(* ctx.writer#write (if !index = 0 then ":" else (" "^(remapKeyword name)^":")); *)
+							(* generateValue ctx args_array_e.(!index);
+							index := !index + 1; *)
+						) args;
+						(* ctx.generating_method_argument <- false; *)
+					(* Generated in Array *)
+					| TMono r -> (match !r with 
+						| None -> ctx.writer#write "-TMonoNone"
+						| Some v -> ())
+					| TEnum (e,tl) -> ctx.writer#write "-TEnum"
+					| TInst (c,tl) -> ctx.writer#write "-TInst"
+					| TType (t,tl) -> ctx.writer#write "-TType"
+					| TAbstract (a,tl) -> ctx.writer#write "-TAbstract"
+					| TAnon a -> ctx.writer#write "-TAnon-"
+					| TDynamic t2 -> ctx.writer#write "-TDynamic-"
+					| TLazy f -> ctx.writer#write "-TLazy call-"
+				);
+				end
+					
 			| _ ->
 				generateValue ctx e;
 				(* generateFieldAccess ctx e.etype (field_name fa)); *)
@@ -1284,8 +1318,10 @@ and generateExpression ctx e =
 				generateValue ctx e
 		) vl;
 	| TNew (c,params,el) ->
+		(* | TNew of tclass * tparams * texpr list *)
 		(* ctx.writer#write ("GEN_NEW>"^(snd c.cl_path)^(string_of_int (List.length params))); *)
 		(*remapHaxeTypeToObjc ctx true c.cl_path e.epos) *)
+		(* SPECIAL INSTANCES. Treat them differently *)
 		(match c.cl_path with
 			| (["objc";"graphics"],"CGRect")
 			| (["objc";"graphics"],"CGPoint")
@@ -1297,6 +1333,26 @@ and generateExpression ctx e =
 				ctx.writer#write ("NSMakeRange (");
 				concat ctx "," (generateValue ctx) el;
 				ctx.writer#write ")"
+			| ([],"SEL") ->
+				ctx.writer#write "@selector(";
+				List.iter ( fun e ->
+					(* generateCall ctx func arg_list; *)
+					(* (match e.etype with
+						| TFun _ -> ctx.writer#write "TFun";
+						| TMono _ -> ctx.writer#write "TMono";
+						| TEnum _ -> ctx.writer#write "TEnum";
+						| TInst _ -> ctx.writer#write "TInst";
+						| TType _ -> ctx.writer#write "TType";
+						| TAnon _ -> ctx.writer#write "TAnon";
+						| TDynamic _ -> ctx.writer#write "TDynamic";
+						| TLazy _ -> ctx.writer#write "TLazy";
+						| TAbstract _ -> ctx.writer#write "TAbstract";
+					); *)
+					ctx.generating_selector <- true;
+					generateValue ctx e;
+					ctx.generating_selector <- false;
+				) el;
+				ctx.writer#write ")";
 			| _ ->
 				(* ctx.imports_manager#add_class_path c.cl_module.m_path; *)
 				ctx.imports_manager#add_class c;

@@ -49,7 +49,7 @@ class Tile extends UIView {
 		UIView.beginAnimations ("move_to", null);
 		UIView.setAnimationDelegate(this);
 		UIView.setAnimationDuration ( duration );
-		untyped __objc__("[UIView setAnimationDidStopSelector: @selector(animationDidStop:finished:context:)]");
+		UIView.setAnimationDidStopSelector ( new SEL(animationDidStop) );
 		
 		this.alpha = 1;
 		var rect :CGRect = this.frame;
@@ -73,17 +73,14 @@ class Tile extends UIView {
 		UIView.beginAnimations ("fade_out", null);
 		UIView.setAnimationDelegate(this);
 		UIView.setAnimationDuration ( 0.3 );
-		untyped __objc__("[UIView setAnimationDidStopSelector: @selector(animationDidStop:finished:context:)]");
+		UIView.setAnimationDidStopSelector ( new SEL(animationDidStop) );
 		
 		this.alpha = 0;
 		var rect :CGRect = this.frame;
-		//rect.origin.x = rect.origin.x - rect.size.width / 2;
 		rect.origin.y = rect.origin.y - rect.size.height / 2;
 		this.frame = rect;
 		
 		UIView.commitAnimations();
-		//Actuate.tween (this, 0.6, { alpha: 0, scaleX: 2, scaleY: 2, x: x - width / 2, y: y - height / 2 } ).onComplete (this_onRemoveComplete);
-				
 		
 		removed = true;
 	}
@@ -92,7 +89,7 @@ class Tile extends UIView {
 	
 	
 	// Event Handlers
-	
+	//@:sel("animationDidStop:1:2:3:")
 	function animationDidStop (animationID:String, finished:Float, context:Dynamic) {
 		if (untyped animationID.isEqualToString("fade_out")) {
 			this.removeFromSuperview();

@@ -24,7 +24,7 @@
 	[UIView beginAnimations:[NSMutableString stringWithString:@"move_to"] context:nil];
 	[UIView setAnimationDelegate:self];
 	[UIView setAnimationDuration:duration];
-	[UIView setAnimationDidStopSelector: @selector(animationDidStop:finished:context:)];
+	[UIView setAnimationDidStopSelector:@selector(animationDidStop:finished:context:)];
 	self.alpha = 1;
 	CGRect rect = self.frame;
 	rect.origin.x = targetX;
@@ -41,7 +41,7 @@
 	[UIView beginAnimations:[NSMutableString stringWithString:@"fade_out"] context:nil];
 	[UIView setAnimationDelegate:self];
 	[UIView setAnimationDuration:0.3];
-	[UIView setAnimationDidStopSelector: @selector(animationDidStop:finished:context:)];
+	[UIView setAnimationDidStopSelector:@selector(animationDidStop:finished:context:)];
 	self.alpha = 0;
 	CGRect rect = self.frame;
 	rect.origin.y = rect.origin.y - rect.size.height / 2;
