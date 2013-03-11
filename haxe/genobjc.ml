@@ -92,9 +92,9 @@ class filesManager imports_manager =
 		for i = 0 to 23 do
 			id.[i] <- if String.length app_name > i then app_name.[i] else md5.[i];
 		done;
-		id
+		String.capitalize id
 	method register_source_file file_path ext =
-		source_files <- List.append source_files [this#generate_uuid_for_file ("HAXE"^ext) file_path, this#generate_uuid_for_file ("HAXEREF"^ext) file_path, file_path, ext];
+		source_files <- List.append source_files [this#generate_uuid_for_file ("HAXE"^(String.sub ext 1 1)) file_path, this#generate_uuid_for_file ("HAXEREF"^ext) file_path, file_path, ext];
 	method register_resource_file file_path ext =
 		resource_files <- List.append resource_files [this#generate_uuid, this#generate_uuid, file_path, ext];
 	(* method get_uuid c_path =
@@ -115,7 +115,7 @@ class filesManager imports_manager =
 	method get_frameworks =
 		if List.length all_frameworks = 0 then
 			List.iter (
-				fun name -> all_frameworks <- List.append all_frameworks [this#generate_uuid, this#generate_uuid, name]
+				fun name -> all_frameworks <- List.append all_frameworks [this#generate_uuid_for_file "FMK" ([],name), this#generate_uuid_for_file "FMKREF" ([],name), name]
 			) imports#get_all_frameworks;
 		all_frameworks
 	end
