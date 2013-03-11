@@ -2580,7 +2580,7 @@ let generatePlist common_ctx file_info  =
 		| Some name -> name 
 		| None -> "${EXECUTABLE_NAME}" in
 	let version = Printf.sprintf "%.1f" common_ctx.objc_bundle_version in
-	let orientation = match common_ctx.objc_orientation with 
+	let orientation = match common_ctx.ios_orientation with 
 		| Some o -> o
 		| None -> "UIInterfaceOrientationPortrait" in
 	(* let identifier = getMetaValue class_def.cl_meta ":identifier" in
@@ -2860,6 +2860,12 @@ let generate common_ctx =
 		| TAbstractDecl _ ->
 			()
 	) common_ctx.types;
+	
+	List.iter (fun p -> print_endline p ) common_ctx.objc_libs;
+	List.iter (fun p -> print_endline p ) common_ctx.class_path;
+	(match common_ctx.objc_supporting_files with
+	| None -> print_endline "no supporting files";
+	| Some p -> print_endline p);
 	
 	(* Register some default files that were not added by the compiler *)
 	(* files_manager#register_source_file class_def.cl_path ".m"; *)

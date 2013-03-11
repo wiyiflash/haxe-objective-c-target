@@ -8,14 +8,17 @@
 # -objc-bundle-name HaxeDemo
 # -objc-orientation UIInterfaceOrientationPortrait
 # -objc-orientation UIInterfaceOrientationLandscape
-# -objc-plist PredefinedPlist.plist
 
 	
 -main PiratePig
 -cp .
 -objc build
+-objc-platform ios
 -objc-version 6
 -objc-bundle-version 1.0
 -objc-identifier com.ralcr.piratepig
+-objc-supporting-files SupportingFiles
+-objc-lib Facebook.xcodeproj
+-objc-lib Ralcr.xcodeproj
 -lib cocoa
 --times

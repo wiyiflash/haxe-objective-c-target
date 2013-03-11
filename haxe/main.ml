@@ -1052,28 +1052,34 @@ try
 			loop 0;
 			did_something := true
 		),": print help for all compiler specific defines");
-		(* ObjectiveC related parameters. Configure the xcode plist *)
+		(* ObjectiveC related parameters. *)
 		("-objc-platform",Arg.String (fun v ->
 			com.objc_platform <- v;
-		),"<platform> : change the platform (iphone, ipad, ios, osx, commandline)");
+		),"<platform> : change the platform. e.g. iphone, ipad, ios, osx, generic");
 		("-objc-version",Arg.Float (fun v ->
 			com.objc_version <- v;
-		),"<version> : change the iOS version (4 to 6.1)");
+		),"<version> : change the cocoa sdk version. e.g. 4-6.1 for iOS, 10.7-10.8 for OSX");
 		("-objc-bundle-version",Arg.Float (fun v ->
 			com.objc_bundle_version <- v;
-		),"<version> : change the iOS version (4 to 6.1)");
+		),"<version> : The version of the app");
 		("-objc-identifier",Arg.String (fun v ->
 			com.objc_identifier <- Some v;
-		),"<identifier> : The identifier of your app");
+		),"<identifier> : The identifier for the app. e.g. com.domain.appname");
 		("-objc-owner",Arg.String (fun v ->
 			com.objc_owner <- Some v;
-		),"<owner> : change the iOS version (4 to 6.1)");
+		),"<owner> : The owner name of the app");
 		("-objc-bundle-name",Arg.String (fun v ->
 			com.objc_bundle_name <- Some v;
 		),"<name> : change the name of the executable");
+		("-objc-supporting-files",Arg.String (fun path ->
+			com.objc_supporting_files <- Some (normalize_path path);
+		),"<path> : The path to a custom SupportingFiles folder. Contains resources and custom files.");
+		("-objc-lib",Arg.String (fun path ->
+			com.objc_libs <- path :: com.objc_libs
+		),"<path> : add a directory to find source files");
 		("-ios-orientation",Arg.String (fun v ->
-			com.objc_orientation <- Some v;
-		),"<orientation> : change the iOS orientation (UIInterfaceOrientationPortrait,UIInterfaceOrientationLandscapeLeft)");
+			com.ios_orientation <- Some v;
+		),"<orientation> : add iOS orientations (UIInterfaceOrientationPortrait,UIInterfaceOrientationLandscapeLeft)");
 	] in
 	let args_callback cl = classes := make_path cl :: !classes in
 	let process args =
