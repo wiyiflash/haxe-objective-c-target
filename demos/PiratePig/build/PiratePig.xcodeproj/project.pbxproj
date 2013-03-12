@@ -6,162 +6,196 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FMKED124ECBE655AF2584273 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FMKREF24ECBE655AF2584273; };
-		FMKD01E5E83E1871245C68EA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FMKREFE5E83E1871245C68EA; };
-		FMK9F3923EF3B3A5B445DDA7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FMKREF923EF3B3A5B445DDA7; };
-		APPMEC34D9E6C1A68100CA0C /* Array.m in Sources */ = {isa = PBXBuildFile; fileRef = APPMREF4D9E6C1A68100CA0C; };
-		APPM2C0088B110BCB80A1CD8 /* PiratePig.m in Sources */ = {isa = PBXBuildFile; fileRef = APPMREF088B110BCB80A1CD8; };
-		APPM14D1D8D4B97706924F9E /* PiratePigGame.m in Sources */ = {isa = PBXBuildFile; fileRef = APPMREF1D8D4B97706924F9E; };
-		APPM97CF0A9348C7DDEC66F1 /* Std.m in Sources */ = {isa = PBXBuildFile; fileRef = APPMREFF0A9348C7DDEC66F1; };
-		APPM8326006D3829667A400A /* String.m in Sources */ = {isa = PBXBuildFile; fileRef = APPMREF6006D3829667A400A; };
-		APPM7C5F3CFB4DA8638CE719 /* Tile.m in Sources */ = {isa = PBXBuildFile; fileRef = APPMREFF3CFB4DA8638CE719; };
-		APPM181CA620EEFCE8490172 /* Log.m in Sources */ = {isa = PBXBuildFile; fileRef = APPMREFCA620EEFCE8490172; };
-		RESD80AF52B2DE85ABA96D37 /* haxe in Resources */ = {isa = PBXBuildFile; fileRef = RESREFAF52B2DE85ABA96D37; };
-		PIRATEPIG512485253914667 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = PIRATEPIGBFF3D47309BAF6C /* InfoPlist.strings */; };
-		PIRATEPIG20CEDFD52164E4F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = PIRATEPIG6AD34034122B42F /* InfoPlist.strings */; };
-		PIRATEPIGE489B1422E28349 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = PIRATEPIGE086269C989D672 /* main.m */; };
+		PIRATEPIGSRCREFH13068626 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = PIRATEPIGSRCREFHA8759688; };
+		PIRATEPIGSRCREFH0FFC0AF9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = PIRATEPIGSRCREFHB92BD138; };
+		PIRATEPIGSRCREFHAEA0EB43 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = PIRATEPIGSRCREFH2FAA49E8; };
+		PIRATEPIGSRCM1A68100CA0C /* Array.m in Sources */ = {isa = PBXBuildFile; fileRef = PIRATEPIGSRCREFM8100CA0C; };
+		PIRATEPIGSRCM0BCB80A1CD8 /* PiratePig.m in Sources */ = {isa = PBXBuildFile; fileRef = PIRATEPIGSRCREFMB80A1CD8; };
+		PIRATEPIGSRCM97706924F9E /* PiratePigGame.m in Sources */ = {isa = PBXBuildFile; fileRef = PIRATEPIGSRCREFM06924F9E; };
+		PIRATEPIGSRCM8C7DDEC66F1 /* Std.m in Sources */ = {isa = PBXBuildFile; fileRef = PIRATEPIGSRCREFMDDEC66F1; };
+		PIRATEPIGSRCM829667A400A /* String.m in Sources */ = {isa = PBXBuildFile; fileRef = PIRATEPIGSRCREFM667A400A; };
+		PIRATEPIGSRCMDA8638CE719 /* Tile.m in Sources */ = {isa = PBXBuildFile; fileRef = PIRATEPIGSRCREFM638CE719; };
+		PIRATEPIGSRCMEFCE8490172 /* Log.m in Sources */ = {isa = PBXBuildFile; fileRef = PIRATEPIGSRCREFME8490172; };
+		PIRATEPIGRES13A9510B2946 /* background_tile.png in Resources */ = {isa = PBXBuildFile; fileRef = PIRATEPIGRESREF9510B2946; };
+		PIRATEPIGRESEBC97ECECF74 /* center_bottom.png in Resources */ = {isa = PBXBuildFile; fileRef = PIRATEPIGRESREF97ECECF74; };
+		PIRATEPIGRES963413CD60D4 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = PIRATEPIGRESREF413CD60D4; };
+		PIRATEPIGRES6E7B686AAA68 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = PIRATEPIGRESREFB686AAA68; };
+		PIRATEPIGRESBB17EB997C60 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = PIRATEPIGRESREF7EB997C60; };
+		PIRATEPIGRES5A3FC7F44495 /* game_bear.png in Resources */ = {isa = PBXBuildFile; fileRef = PIRATEPIGRESREFFC7F44495; };
+		PIRATEPIGRESA00BDE236714 /* game_bunny_02.png in Resources */ = {isa = PBXBuildFile; fileRef = PIRATEPIGRESREFBDE236714; };
+		PIRATEPIGRES634042AE1592 /* game_carrot.png in Resources */ = {isa = PBXBuildFile; fileRef = PIRATEPIGRESREF042AE1592; };
+		PIRATEPIGRES804C8DE0F861 /* game_lemon.png in Resources */ = {isa = PBXBuildFile; fileRef = PIRATEPIGRESREFC8DE0F861; };
+		PIRATEPIGRES9A8D03D39777 /* game_panda.png in Resources */ = {isa = PBXBuildFile; fileRef = PIRATEPIGRESREFD03D39777; };
+		PIRATEPIGRES797C1E8A4850 /* game_piratePig.png in Resources */ = {isa = PBXBuildFile; fileRef = PIRATEPIGRESREFC1E8A4850; };
+		PIRATEPIGRES3FF4ED3F396D /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = PIRATEPIGRESREF4ED3F396D; };
+		PIRATEPIGRES061747389F57 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = PIRATEPIGRESREF747389F57; };
+		PIRATEPIGRESED824047C2FF /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = PIRATEPIGRESREF24047C2FF; };
+		PIRATEPIGRES566C326C4BE6 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = PIRATEPIGRESREFC326C4BE6; };
+		PIRATEPIGRESE27B500A4BFC /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = PIRATEPIGRESREFB500A4BFC; };
+		PIRATEPIGRESDD34C49C3F90 /* sounds in Resources */ = {isa = PBXBuildFile; fileRef = PIRATEPIGRESREF4C49C3F90; };
+		PIRATEPIGRESREF253914667 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = PIRATEPIGRESREF7309BAF6C /* InfoPlist.strings */; };
+		PIRATEPIGRESREFD52164E4F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = PIRATEPIGRESREF34122B42F /* InfoPlist.strings */; };
+		PIRATEPIGRESREF422E28349 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = PIRATEPIGRESREF9C989D672 /* main.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		PIRATEPIG7ADC0559F5D21DE /* PBXContainerItemProxy */ = {
+		PIRATEPIGRESREF59F5D21DE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = PIRATEPIG44CB7AE6C4E1B38 /* Project object */;
+			containerPortal = PIRATEPIGRESREFE6C4E1B38 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = PIRATEPIG97CDA0D4237F7D7;
+			remoteGlobalIDString = PIRATEPIGRESREFD4237F7D7;
 			remoteInfo = PiratePig;
 		};
 /* End PBXContainerItemProxy section */
 
 
 /* Begin PBXFileReference section */
-		FMKREF24ECBE655AF2584273 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		FMKREFE5E83E1871245C68EA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		FMKREF923EF3B3A5B445DDA7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		APPMREF4D9E6C1A68100CA0C /* Array.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Array.m; sourceTree = "<group>"; };
-		APPHREF4D9E6C1A68100CA0C /* Array.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Array.h; sourceTree = "<group>"; };
-		APPMREF088B110BCB80A1CD8 /* PiratePig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PiratePig.m; sourceTree = "<group>"; };
-		APPHREF088B110BCB80A1CD8 /* PiratePig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PiratePig.h; sourceTree = "<group>"; };
-		APPMREF1D8D4B97706924F9E /* PiratePigGame.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PiratePigGame.m; sourceTree = "<group>"; };
-		APPHREF1D8D4B97706924F9E /* PiratePigGame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PiratePigGame.h; sourceTree = "<group>"; };
-		APPMREFF0A9348C7DDEC66F1 /* Std.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Std.m; sourceTree = "<group>"; };
-		APPHREFF0A9348C7DDEC66F1 /* Std.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Std.h; sourceTree = "<group>"; };
-		APPMREF6006D3829667A400A /* String.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = String.m; sourceTree = "<group>"; };
-		APPHREF6006D3829667A400A /* String.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = String.h; sourceTree = "<group>"; };
-		APPMREFF3CFB4DA8638CE719 /* Tile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tile.m; sourceTree = "<group>"; };
-		APPHREFF3CFB4DA8638CE719 /* Tile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tile.h; sourceTree = "<group>"; };
-		APPMREFCA620EEFCE8490172 /* haxe/Log.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Log.m; path = PiratePig/haxe/Log.m; sourceTree = SOURCE_ROOT; };
-		APPHREFCA620EEFCE8490172 /* haxe/Log.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Log.h; path = PiratePig/haxe/Log.h; sourceTree = SOURCE_ROOT; };
-		RESREFAF52B2DE85ABA96D37 /* haxe/ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = haxe; sourceTree = "<group>"; };
-		PIRATEPIG4C398B4972FE836 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		PIRATEPIGAD17FEB0DE87B92 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		PIRATEPIGA96BF51AA985FFE /* PiratePig-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PiratePig-Info.plist"; sourceTree = "<group>"; };
-		PIRATEPIG070FD764480D760 /* PiratePig-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PiratePig-Prefix.pch"; sourceTree = "<group>"; };
-		PIRATEPIGE086269C989D672 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		PIRATEPIG997518912F40D44 /* PiratePig.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PiratePig.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		PIRATEPIGFF6370BCBEE5424 /* PiratePigTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PiratePigTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		PIRATEPIGSRCREFHA8759688 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		PIRATEPIGSRCREFHB92BD138 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		PIRATEPIGSRCREFH2FAA49E8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		PIRATEPIGSRCREFM8100CA0C /* Array.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Array.m; sourceTree = "<group>"; };
+		PIRATEPIGSRCREFH8100CA0C /* Array.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Array.h; sourceTree = "<group>"; };
+		PIRATEPIGSRCREFMB80A1CD8 /* PiratePig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PiratePig.m; sourceTree = "<group>"; };
+		PIRATEPIGSRCREFHB80A1CD8 /* PiratePig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PiratePig.h; sourceTree = "<group>"; };
+		PIRATEPIGSRCREFM06924F9E /* PiratePigGame.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PiratePigGame.m; sourceTree = "<group>"; };
+		PIRATEPIGSRCREFH06924F9E /* PiratePigGame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PiratePigGame.h; sourceTree = "<group>"; };
+		PIRATEPIGSRCREFMDDEC66F1 /* Std.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Std.m; sourceTree = "<group>"; };
+		PIRATEPIGSRCREFHDDEC66F1 /* Std.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Std.h; sourceTree = "<group>"; };
+		PIRATEPIGSRCREFM667A400A /* String.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = String.m; sourceTree = "<group>"; };
+		PIRATEPIGSRCREFH667A400A /* String.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = String.h; sourceTree = "<group>"; };
+		PIRATEPIGSRCREFM638CE719 /* Tile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tile.m; sourceTree = "<group>"; };
+		PIRATEPIGSRCREFH638CE719 /* Tile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tile.h; sourceTree = "<group>"; };
+		PIRATEPIGSRCREFME8490172 /* haxe/Log.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Log.m; path = PiratePig/haxe/Log.m; sourceTree = SOURCE_ROOT; };
+		PIRATEPIGSRCREFHE8490172 /* haxe/Log.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Log.h; path = PiratePig/haxe/Log.h; sourceTree = SOURCE_ROOT; };
+		PIRATEPIGSRCDIRREFA96D37 /* haxe/ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = haxe; sourceTree = "<group>"; };
+		PIRATEPIGRESREF4972FE836 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		PIRATEPIGRESREFB0DE87B92 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		PIRATEPIGRESREF1AA985FFE /* PiratePig-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PiratePig-Info.plist"; sourceTree = "<group>"; };
+		PIRATEPIGRESREF64480D760 /* PiratePig-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PiratePig-Prefix.pch"; sourceTree = "<group>"; };
+		PIRATEPIGRESREF9C989D672 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		PIRATEPIGRESREF912F40D44 /* PiratePig.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PiratePig.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		PIRATEPIGRESREFBCBEE5424 /* PiratePigTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PiratePigTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 
 /* Begin PBXFrameworksBuildPhase section */
-		PIRATEPIG4C4AA4EB91AB9EE /* Frameworks */ = {
+		PIRATEPIGRESREFEB91AB9EE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FMKED124ECBE655AF2584273 /* UIKit.framework in Frameworks */,
-				FMKD01E5E83E1871245C68EA /* Foundation.framework in Frameworks */,
-				FMK9F3923EF3B3A5B445DDA7 /* CoreGraphics.framework in Frameworks */,
+				PIRATEPIGSRCREFH13068626 /* UIKit.framework in Frameworks */,
+				PIRATEPIGSRCREFH0FFC0AF9 /* Foundation.framework in Frameworks */,
+				PIRATEPIGSRCREFHAEA0EB43 /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		PIRATEPIG779A6D07A1E73D8 /* Frameworks */ = {
+		PIRATEPIGRESREF07A1E73D8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FMKED124ECBE655AF2584273 /* UIKit.framework in Frameworks */,
-				FMKD01E5E83E1871245C68EA /* Foundation.framework in Frameworks */,
-				FMK9F3923EF3B3A5B445DDA7 /* CoreGraphics.framework in Frameworks */,
+				PIRATEPIGSRCREFH13068626 /* UIKit.framework in Frameworks */,
+				PIRATEPIGSRCREFH0FFC0AF9 /* Foundation.framework in Frameworks */,
+				PIRATEPIGSRCREFHAEA0EB43 /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		PIRATEPIG7B8089ED2177128 = {
+		PIRATEPIGRESREFED2177128 = {
 			isa = PBXGroup;
 			children = (
-				PIRATEPIGF51645502E5E357 /* PiratePig */,
-				PIRATEPIG4D77920CECFA66F /* PiratePigTests */,
-				PIRATEPIG1BEBF3B8BB1F58C /* Frameworks */,
-				PIRATEPIG335E63AA7BBB443 /* Products */,
+				PIRATEPIGRESREF502E5E357 /* PiratePig */,
+				PIRATEPIGRESREF0CECFA66F /* PiratePigTests */,
+				PIRATEPIGRESREFB8BB1F58C /* Frameworks */,
+				PIRATEPIGRESREFAA7BBB443 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		PIRATEPIG335E63AA7BBB443 /* Products */ = {
+		PIRATEPIGRESREFAA7BBB443 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				PIRATEPIG997518912F40D44 /* PiratePig.app */,
-				PIRATEPIGFF6370BCBEE5424 /* PiratePigTests.octest */,
+				PIRATEPIGRESREF912F40D44 /* PiratePig.app */,
+				PIRATEPIGRESREFBCBEE5424 /* PiratePigTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		PIRATEPIG1BEBF3B8BB1F58C /* Frameworks */ = {
+		PIRATEPIGRESREFB8BB1F58C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				FMKREF24ECBE655AF2584273 /* UIKit.framework in Frameworks */,
-				FMKREFE5E83E1871245C68EA /* Foundation.framework in Frameworks */,
-				FMKREF923EF3B3A5B445DDA7 /* CoreGraphics.framework in Frameworks */,
+				PIRATEPIGSRCREFHA8759688 /* UIKit.framework in Frameworks */,
+				PIRATEPIGSRCREFHB92BD138 /* Foundation.framework in Frameworks */,
+				PIRATEPIGSRCREFH2FAA49E8 /* CoreGraphics.framework in Frameworks */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		PIRATEPIGF51645502E5E357 /* PiratePig */ = {
+		PIRATEPIGRESREF502E5E357 /* PiratePig */ = {
 			isa = PBXGroup;
 			children = (
-				APPMREF4D9E6C1A68100CA0C /* Array.m */,
-				APPHREF4D9E6C1A68100CA0C /* Array.h */,
-				APPMREF088B110BCB80A1CD8 /* PiratePig.m */,
-				APPHREF088B110BCB80A1CD8 /* PiratePig.h */,
-				APPMREF1D8D4B97706924F9E /* PiratePigGame.m */,
-				APPHREF1D8D4B97706924F9E /* PiratePigGame.h */,
-				APPMREFF0A9348C7DDEC66F1 /* Std.m */,
-				APPHREFF0A9348C7DDEC66F1 /* Std.h */,
-				APPMREF6006D3829667A400A /* String.m */,
-				APPHREF6006D3829667A400A /* String.h */,
-				APPMREFF3CFB4DA8638CE719 /* Tile.m */,
-				APPHREFF3CFB4DA8638CE719 /* Tile.h */,
-				RESREFAF52B2DE85ABA96D37 /* haxe/ */,
-				PIRATEPIGC45E84E321C8F8F /* Supporting Files */,
+				PIRATEPIGSRCREFM8100CA0C /* Array.m */,
+				PIRATEPIGSRCREFH8100CA0C /* Array.h */,
+				PIRATEPIGSRCREFMB80A1CD8 /* PiratePig.m */,
+				PIRATEPIGSRCREFHB80A1CD8 /* PiratePig.h */,
+				PIRATEPIGSRCREFM06924F9E /* PiratePigGame.m */,
+				PIRATEPIGSRCREFH06924F9E /* PiratePigGame.h */,
+				PIRATEPIGSRCREFMDDEC66F1 /* Std.m */,
+				PIRATEPIGSRCREFHDDEC66F1 /* Std.h */,
+				PIRATEPIGSRCREFM667A400A /* String.m */,
+				PIRATEPIGSRCREFH667A400A /* String.h */,
+				PIRATEPIGSRCREFM638CE719 /* Tile.m */,
+				PIRATEPIGSRCREFH638CE719 /* Tile.h */,
+				PIRATEPIGSRCDIRREFA96D37 /* haxe/ */,
+				PIRATEPIGRESREFE321C8F8F /* Supporting Files */,
 			);
 			path = PiratePig;
 			sourceTree = "<group>";
 		};
-		PIRATEPIGC45E84E321C8F8F /* Supporting Files */ = {
+		PIRATEPIGRESREFE321C8F8F /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				PIRATEPIGA96BF51AA985FFE /* PiratePig-Info.plist */,
-				PIRATEPIGBFF3D47309BAF6C /* InfoPlist.strings */,
-				PIRATEPIGE086269C989D672 /* main.m */,
-				PIRATEPIG070FD764480D760 /* PiratePig-Prefix.pch */,
+				PIRATEPIGRESREF1AA985FFE /* PiratePig-Info.plist */,
+				PIRATEPIGRESREF7309BAF6C /* InfoPlist.strings */,
+				PIRATEPIGRESREF9C989D672 /* main.m */,
+				PIRATEPIGRESREF64480D760 /* PiratePig-Prefix.pch */,
+				PIRATEPIGRESREF9510B2946 /* background_tile.png in Resoures */,
+				PIRATEPIGRESREF97ECECF74 /* center_bottom.png in Resoures */,
+				PIRATEPIGRESREF413CD60D4 /* Default-568h@2x.png in Resoures */,
+				PIRATEPIGRESREFB686AAA68 /* Default.png in Resoures */,
+				PIRATEPIGRESREF7EB997C60 /* Default@2x.png in Resoures */,
+				PIRATEPIGRESREFFC7F44495 /* game_bear.png in Resoures */,
+				PIRATEPIGRESREFBDE236714 /* game_bunny_02.png in Resoures */,
+				PIRATEPIGRESREF042AE1592 /* game_carrot.png in Resoures */,
+				PIRATEPIGRESREFC8DE0F861 /* game_lemon.png in Resoures */,
+				PIRATEPIGRESREFD03D39777 /* game_panda.png in Resoures */,
+				PIRATEPIGRESREFC1E8A4850 /* game_piratePig.png in Resoures */,
+				PIRATEPIGRESREF4ED3F396D /* Icon-72.png in Resoures */,
+				PIRATEPIGRESREF747389F57 /* Icon-72@2x.png in Resoures */,
+				PIRATEPIGRESREF24047C2FF /* Icon.png in Resoures */,
+				PIRATEPIGRESREFC326C4BE6 /* Icon@2x.png in Resoures */,
+				PIRATEPIGRESREFB500A4BFC /* logo.png in Resoures */,
+				PIRATEPIGRESREF4C49C3F90 /* sounds in Resoures */,
+
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		PIRATEPIG4D77920CECFA66F /* PiratePigTests */ = {
+		PIRATEPIGRESREF0CECFA66F /* PiratePigTests */ = {
 			isa = PBXGroup;
 			children = (
 				/* 28BFDA091628A95900882B34 PiratePigTests.h ,*/
 				/* 28BFDA0A1628A95900882B34 PiratePigTests.m ,*/
-				PIRATEPIGB6ECB2552D5A79E /* Supporting Files */,
+				PIRATEPIGRESREF552D5A79E /* Supporting Files */,
 			);
 			path = PiratePigTests;
 			sourceTree = "<group>";
 		};
-		PIRATEPIGB6ECB2552D5A79E /* Supporting Files */ = {
+		PIRATEPIGRESREF552D5A79E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
 				/* 28BFDA051628A95900882B34 PiratePigTests-Info.plist ,*/
-				PIRATEPIG6AD34034122B42F /* InfoPlist.strings */,
+				PIRATEPIGRESREF34122B42F /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -169,13 +203,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		PIRATEPIG97CDA0D4237F7D7 /* PiratePig */ = {
+		PIRATEPIGRESREFD4237F7D7 /* PiratePig */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = PIRATEPIGAFAC6BC8E07BD4D /* Build configuration list for PBXNativeTarget "PiratePig" */;
+			buildConfigurationList = PIRATEPIGRESREFC8E07BD4D /* Build configuration list for PBXNativeTarget "PiratePig" */;
 			buildPhases = (
-				PIRATEPIGA646AEDCC9FCDA4 /* Sources */,
-				PIRATEPIG4C4AA4EB91AB9EE /* Frameworks */,
-				PIRATEPIGEBD262E1012FA31 /* Resources */,
+				PIRATEPIGRESREFDCC9FCDA4 /* Sources */,
+				PIRATEPIGRESREFEB91AB9EE /* Frameworks */,
+				PIRATEPIGRESREFE1012FA31 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -183,77 +217,94 @@
 			);
 			name = PiratePig;
 			productName = PiratePig;
-			productReference = PIRATEPIG997518912F40D44 /* PiratePig.app */;
+			productReference = PIRATEPIGRESREF912F40D44 /* PiratePig.app */;
 			productType = "com.apple.product-type.application";
 		};
-		PIRATEPIG0145BEF20B58677 /* PiratePigTests */ = {
+		PIRATEPIGRESREFF20B58677 /* PiratePigTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = PIRATEPIG824714CAF18580F /* Build configuration list for PBXNativeTarget "PiratePigTests" */;
+			buildConfigurationList = PIRATEPIGRESREFCAF18580F /* Build configuration list for PBXNativeTarget "PiratePigTests" */;
 			buildPhases = (
-				PIRATEPIG4F73204458BEF58 /* Sources */,
-				PIRATEPIG779A6D07A1E73D8 /* Frameworks */,
-				PIRATEPIG9CDE344DF717D13 /* Resources */,
-				PIRATEPIG79BA3353217DEA0 /* ShellScript */,
+				PIRATEPIGRESREF4458BEF58 /* Sources */,
+				PIRATEPIGRESREF07A1E73D8 /* Frameworks */,
+				PIRATEPIGRESREF4DF717D13 /* Resources */,
+				PIRATEPIGRESREF53217DEA0 /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				PIRATEPIG86B1A944A594DA2 /* PBXTargetDependency */,
+				PIRATEPIGRESREF44A594DA2 /* PBXTargetDependency */,
 			);
 			name = PiratePigTests;
 			productName = PiratePigTests;
-			productReference = PIRATEPIGFF6370BCBEE5424 /* PiratePigTests.octest */;
+			productReference = PIRATEPIGRESREFBCBEE5424 /* PiratePigTests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		PIRATEPIG44CB7AE6C4E1B38 /* Project object */ = {
+		PIRATEPIGRESREFE6C4E1B38 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = "You";
 			};
-			buildConfigurationList = PIRATEPIG4AD9C163C11ABE4 /* Build configuration list for PBXProject "PiratePig" */;
+			buildConfigurationList = PIRATEPIGRESREF63C11ABE4 /* Build configuration list for PBXProject "PiratePig" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
-			mainGroup = PIRATEPIG7B8089ED2177128;
-			productRefGroup = PIRATEPIG335E63AA7BBB443 /* Products */;
+			mainGroup = PIRATEPIGRESREFED2177128;
+			productRefGroup = PIRATEPIGRESREFAA7BBB443 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				PIRATEPIG97CDA0D4237F7D7 /* PiratePig */,
-				PIRATEPIG0145BEF20B58677 /* PiratePigTests */,
+				PIRATEPIGRESREFD4237F7D7 /* PiratePig */,
+				PIRATEPIGRESREFF20B58677 /* PiratePigTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		PIRATEPIGEBD262E1012FA31 /* Resources */ = {
+		PIRATEPIGRESREFE1012FA31 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				PIRATEPIG512485253914667 /* InfoPlist.strings in Resources */,
-		RESD80AF52B2DE85ABA96D37 /* haxe/ in Resoures */,
+				PIRATEPIGRESREF253914667 /* InfoPlist.strings in Resources */,
+				PIRATEPIGSRCDIR5ABA96D37 /* haxe/ in Resoures */,
+				PIRATEPIGRES13A9510B2946 /* background_tile.png in Resoures */,
+				PIRATEPIGRESEBC97ECECF74 /* center_bottom.png in Resoures */,
+				PIRATEPIGRES963413CD60D4 /* Default-568h@2x.png in Resoures */,
+				PIRATEPIGRES6E7B686AAA68 /* Default.png in Resoures */,
+				PIRATEPIGRESBB17EB997C60 /* Default@2x.png in Resoures */,
+				PIRATEPIGRES5A3FC7F44495 /* game_bear.png in Resoures */,
+				PIRATEPIGRESA00BDE236714 /* game_bunny_02.png in Resoures */,
+				PIRATEPIGRES634042AE1592 /* game_carrot.png in Resoures */,
+				PIRATEPIGRES804C8DE0F861 /* game_lemon.png in Resoures */,
+				PIRATEPIGRES9A8D03D39777 /* game_panda.png in Resoures */,
+				PIRATEPIGRES797C1E8A4850 /* game_piratePig.png in Resoures */,
+				PIRATEPIGRES3FF4ED3F396D /* Icon-72.png in Resoures */,
+				PIRATEPIGRES061747389F57 /* Icon-72@2x.png in Resoures */,
+				PIRATEPIGRESED824047C2FF /* Icon.png in Resoures */,
+				PIRATEPIGRES566C326C4BE6 /* Icon@2x.png in Resoures */,
+				PIRATEPIGRESE27B500A4BFC /* logo.png in Resoures */,
+				PIRATEPIGRESDD34C49C3F90 /* sounds in Resoures */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		PIRATEPIG9CDE344DF717D13 /* Resources */ = {
+		PIRATEPIGRESREF4DF717D13 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				PIRATEPIG20CEDFD52164E4F /* InfoPlist.strings in Resources */,
+				PIRATEPIGRESREFD52164E4F /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		PIRATEPIG79BA3353217DEA0 /* ShellScript */ = {
+		PIRATEPIGRESREF53217DEA0 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -271,22 +322,22 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		PIRATEPIGA646AEDCC9FCDA4 /* Sources */ = {
+		PIRATEPIGRESREFDCC9FCDA4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-PIRATEPIGE489B1422E28349 /* main.m in Sources */,
-				APPMEC34D9E6C1A68100CA0C /* Array.m in Sources */,
-				APPM2C0088B110BCB80A1CD8 /* PiratePig.m in Sources */,
-				APPM14D1D8D4B97706924F9E /* PiratePigGame.m in Sources */,
-				APPM97CF0A9348C7DDEC66F1 /* Std.m in Sources */,
-				APPM8326006D3829667A400A /* String.m in Sources */,
-				APPM7C5F3CFB4DA8638CE719 /* Tile.m in Sources */,
-				APPM181CA620EEFCE8490172 /* haxe/Log.m in Sources */,
+PIRATEPIGRESREF422E28349 /* main.m in Sources */,
+				PIRATEPIGSRCM1A68100CA0C /* Array.m in Sources */,
+				PIRATEPIGSRCM0BCB80A1CD8 /* PiratePig.m in Sources */,
+				PIRATEPIGSRCM97706924F9E /* PiratePigGame.m in Sources */,
+				PIRATEPIGSRCM8C7DDEC66F1 /* Std.m in Sources */,
+				PIRATEPIGSRCM829667A400A /* String.m in Sources */,
+				PIRATEPIGSRCMDA8638CE719 /* Tile.m in Sources */,
+				PIRATEPIGSRCMEFCE8490172 /* haxe/Log.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		PIRATEPIG4F73204458BEF58 /* Sources */ = {
+		PIRATEPIGRESREF4458BEF58 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -297,26 +348,26 @@ PIRATEPIGE489B1422E28349 /* main.m in Sources */,
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		PIRATEPIG86B1A944A594DA2 /* PBXTargetDependency */ = {
+		PIRATEPIGRESREF44A594DA2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = PIRATEPIG97CDA0D4237F7D7 /* PiratePig */;
-			targetProxy = PIRATEPIG7ADC0559F5D21DE /* PBXContainerItemProxy */;
+			target = PIRATEPIGRESREFD4237F7D7 /* PiratePig */;
+			targetProxy = PIRATEPIGRESREF59F5D21DE /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		PIRATEPIGBFF3D47309BAF6C /* InfoPlist.strings */ = {
+		PIRATEPIGRESREF7309BAF6C /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				PIRATEPIG4C398B4972FE836 /* en */,
+				PIRATEPIGRESREF4972FE836 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		PIRATEPIG6AD34034122B42F /* InfoPlist.strings */ = {
+		PIRATEPIGRESREF34122B42F /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				PIRATEPIGAD17FEB0DE87B92 /* en */,
+				PIRATEPIGRESREFB0DE87B92 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -324,7 +375,7 @@ PIRATEPIGE489B1422E28349 /* main.m in Sources */,
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		PIRATEPIGEBC55AB8DFC62E4 /* Debug */ = {
+		PIRATEPIGRESREFB8DFC62E4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -352,7 +403,7 @@ PIRATEPIGE489B1422E28349 /* main.m in Sources */,
 			};
 			name = Debug;
 		};
-		PIRATEPIGB3C03A5ED9E3F57 /* Release */ = {
+		PIRATEPIGRESREF5ED9E3F57 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -374,7 +425,7 @@ PIRATEPIGE489B1422E28349 /* main.m in Sources */,
 			};
 			name = Release;
 		};
-		PIRATEPIG17DB04D4A4C7FC7 /* Debug */ = {
+		PIRATEPIGRESREFD4A4C7FC7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -387,7 +438,7 @@ PIRATEPIGE489B1422E28349 /* main.m in Sources */,
 			};
 			name = Debug;
 		};
-		PIRATEPIGED955E80AD029C9 /* Release */ = {
+		PIRATEPIGRESREF80AD029C9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -398,7 +449,7 @@ PIRATEPIGE489B1422E28349 /* main.m in Sources */,
 			};
 			name = Release;
 		};
-		PIRATEPIGE3BABCD28AFEE46 /* Debug */ = {
+		PIRATEPIGRESREFD28AFEE46 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/PiratePig.app/PiratePig";
@@ -415,7 +466,7 @@ PIRATEPIGE489B1422E28349 /* main.m in Sources */,
 			};
 			name = Debug;
 		};
-		PIRATEPIGD931DBCF2DFDFCB /* Release */ = {
+		PIRATEPIGRESREFCF2DFDFCB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/PiratePig.app/PiratePig";
@@ -435,34 +486,34 @@ PIRATEPIGE489B1422E28349 /* main.m in Sources */,
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		PIRATEPIG4AD9C163C11ABE4 /* Build configuration list for PBXProject "PiratePig" */ = {
+		PIRATEPIGRESREF63C11ABE4 /* Build configuration list for PBXProject "PiratePig" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				PIRATEPIGEBC55AB8DFC62E4 /* Debug */,
-				PIRATEPIGB3C03A5ED9E3F57 /* Release */,
+				PIRATEPIGRESREFB8DFC62E4 /* Debug */,
+				PIRATEPIGRESREF5ED9E3F57 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		PIRATEPIGAFAC6BC8E07BD4D /* Build configuration list for PBXNativeTarget "PiratePig" */ = {
+		PIRATEPIGRESREFC8E07BD4D /* Build configuration list for PBXNativeTarget "PiratePig" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				PIRATEPIG17DB04D4A4C7FC7 /* Debug */,
-				PIRATEPIGED955E80AD029C9 /* Release */,
+				PIRATEPIGRESREFD4A4C7FC7 /* Debug */,
+				PIRATEPIGRESREF80AD029C9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		PIRATEPIG824714CAF18580F /* Build configuration list for PBXNativeTarget "PiratePigTests" */ = {
+		PIRATEPIGRESREFCAF18580F /* Build configuration list for PBXNativeTarget "PiratePigTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				PIRATEPIGE3BABCD28AFEE46 /* Debug */,
-				PIRATEPIGD931DBCF2DFDFCB /* Release */,
+				PIRATEPIGRESREFD28AFEE46 /* Debug */,
+				PIRATEPIGRESREFCF2DFDFCB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = PIRATEPIG44CB7AE6C4E1B38 /* Project object */;
+	rootObject = PIRATEPIGRESREFE6C4E1B38 /* Project object */;
 }

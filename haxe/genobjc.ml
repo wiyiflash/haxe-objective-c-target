@@ -20,8 +20,6 @@
 open Ast
 open Type
 open Common
-(* #load "unix.cma"
-#load "str.cma" *)
 open Unix
 
 let joinClassPath path separator =
@@ -78,18 +76,22 @@ class importsManager =
 	method reset = class_frameworks <- []; class_imports <- []; class_imports_custom <- []
 end;;
 
-class filesManager imports_manager =
+class filesManager imports_manager app_name =
 	object(this)
+	val app_name = app_name
+	val mutable prefix = ""
 	val mutable imports = imports_manager
 	val mutable all_frameworks : (string * string * string) list = [](* UUID * fileRef * f_name *)
 	val mutable source_files : (string * string * path * string) list = [](* UUID * fileRef * filepath * ext *)
+	val mutable source_folders : (string * string * path) list = [](* UUID * fileRef * filepath *)
 	val mutable resource_files : (string * string * path * string) list = [](* UUID * fileRef * filepath * ext *)
 	method generate_uuid =
 		let id = String.make 24 'A' in
 		let chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ" in
 		for i = 0 to 23 do id.[i] <- chars.[Random.int 36] done;
 		id
-	method generate_uuid_for_file app_name file_path =
+	method generate_uuid_for_file file_path =
+		let app_name = app_name^prefix in
 		let id = String.make 24 'A' in
 		let md5 = Digest.to_hex (Digest.string (joinClassPath file_path "/")) in
 		for i = 0 to 23 do
@@ -97,30 +99,32 @@ class filesManager imports_manager =
 		done;
 		String.uppercase id
 	method register_source_file file_path ext =
-		let prefix = "APP" ^ (if String.length ext > 1 then (String.sub ext 1 1) else "") in
-		source_files <- List.append source_files [this#generate_uuid_for_file prefix file_path, this#generate_uuid_for_file (prefix^"REF") file_path, file_path, ext];
+		prefix <- "SRC" ^ (if String.length ext > 1 then (String.sub ext 1 1) else "");
+		let uuid = this#generate_uuid_for_file file_path in
+		prefix <- "SRCREF" ^ (if String.length ext > 1 then (String.sub ext 1 1) else "");
+		let uuid_ref = this#generate_uuid_for_file file_path in
+		source_files <- List.append source_files [uuid, uuid_ref, file_path, ext];
+	method register_source_folder file_path =
+		prefix <- "SRCDIR";
+		let uuid = this#generate_uuid_for_file file_path in
+		prefix <- "SRCDIRREF";
+		let uuid_ref = this#generate_uuid_for_file file_path in
+		source_folders <- List.append source_folders [uuid, uuid_ref, file_path];
 	method register_resource_file file_path ext =
-		let prefix = "RES" ^ (if String.length ext > 1 then (String.sub ext 1 1) else "") in
-		resource_files <- List.append resource_files [this#generate_uuid_for_file prefix file_path, this#generate_uuid_for_file (prefix^"REF") file_path, file_path, ext];
-	(* method get_uuid c_path =
-		let id = ref "" in
-		List.iter (
-			fun (uuid, file_ref, path, ext) -> if path = c_path then id := uuid
-		) files;
-		!id
-	method get_class_path uuid =
-		let cl_path = ref ([],"") in
-		List.iter (
-			fun (id, path) -> if id = uuid then cl_path := path
-		) files;
-		!cl_path *)
+		prefix <- "RES";
+		let uuid = this#generate_uuid_for_file file_path in
+		prefix <- "RESREF";
+		let uuid_ref = this#generate_uuid_for_file file_path in
+		resource_files <- List.append resource_files [uuid, uuid_ref, file_path, ext];
 	method get_source_files = source_files
+	method get_source_folders = source_folders
 	method get_resource_files = resource_files
-	method get_folders = resource_files
 	method get_frameworks =
 		if List.length all_frameworks = 0 then
-			List.iter (
-				fun name -> all_frameworks <- List.append all_frameworks [this#generate_uuid_for_file "FMK" ([],name), this#generate_uuid_for_file "FMKREF" ([],name), name]
+			List.iter ( fun name ->
+				let file_path_fmk = (["FMK"], name) in
+				let file_path_ref = (["FMK";"REF"], name) in
+				all_frameworks <- List.append all_frameworks [this#generate_uuid_for_file file_path_fmk, this#generate_uuid_for_file file_path_ref, name]
 			) imports#get_all_frameworks;
 		all_frameworks
 	end
@@ -2028,28 +2032,59 @@ let pbxproj common_ctx files_manager =
 		if ext=".m" then file#write ("		"^uuid^" /* "^(snd path)^ext^" in Sources */ = {isa = PBXBuildFile; fileRef = "^fileRef^"; };\n");
 	) files_manager#get_source_files;
 	
-	List.iter ( fun (path) -> files_manager#register_resource_file ((fst path), "") "") !packages;
+	(* Register packages root folder as source_folders *)
+	List.iter ( fun (path) ->
+		files_manager#register_source_folder (fst path, "")
+	) !packages;
+	
+	(* Search the SupportingFiles folder *)
+	let supporting_files = ref "" in
+	(match common_ctx.objc_supporting_files with
+	| None ->
+		print_endline "No SupportingFiles defined. Search in the class paths the first encounter";
+		List.iter (fun dir ->
+			if Sys.file_exists dir then begin
+				let contents = Array.to_list (Sys.readdir dir) in
+				List.iter (fun f ->
+					if (f = "SupportingFiles" && !supporting_files = "") then
+						supporting_files := (dir^f^"/");
+				) contents;
+			end
+		) common_ctx.class_path;
+	| Some p ->
+		print_endline p;
+		supporting_files := p;
+	);
+	print_endline ("SupportingFiles found at path: "^(!supporting_files));
+	if (!supporting_files != "") then begin
+		let contents = Array.to_list (Sys.readdir !supporting_files) in
+		List.iter (fun f ->
+			if f <> ".DS_Store" then files_manager#register_resource_file ([],f) "";
+		) contents
+	end;
 	
 	List.iter ( fun (uuid, fileRef, path, ext) -> 
 		let n = if List.length (fst path) > 0 then List.hd (fst path) else (snd path) in
 		file#write ("		"^uuid^" /* "^n^ext^" in Resources */ = {isa = PBXBuildFile; fileRef = "^fileRef^"; };\n"); 
 	) files_manager#get_resource_files;
 	(* Add some hardcoded files *)
-	let build_file_main = files_manager#generate_uuid_for_file app_name ([],"build_file_main") in
-	let build_file_main_fileref = files_manager#generate_uuid_for_file app_name ([],"build_file_main_fileref") in
-	let build_file_infoplist_strings = files_manager#generate_uuid_for_file app_name ([],"build_file_infoplist_strings") in
-	let build_file_infoplist_strings_tests = files_manager#generate_uuid_for_file app_name ([],"build_file_infoplist_strings_tests") in
-	let build_file_infoplist_strings_fileref = files_manager#generate_uuid_for_file app_name ([],"build_file_infoplist_strings_fileref") in
-	let build_file_infoplist_strings_tests_fileref = files_manager#generate_uuid_for_file app_name ([],"build_file_infoplist_strings_tests_fileref") in
+	let build_file_main = files_manager#generate_uuid_for_file ([],"build_file_main") in
+	let build_file_main_fileref = files_manager#generate_uuid_for_file ([],"build_file_main_fileref") in
+	let build_file_infoplist_strings = files_manager#generate_uuid_for_file ([],"build_file_infoplist_strings") in
+	let build_file_infoplist_strings_tests = files_manager#generate_uuid_for_file ([],"build_file_infoplist_strings_tests") in
+	let build_file_infoplist_strings_fileref = files_manager#generate_uuid_for_file ([],"build_file_infoplist_strings_fileref") in
+	let build_file_infoplist_strings_tests_fileref = files_manager#generate_uuid_for_file ([],"build_file_infoplist_strings_tests_fileref") in
+	
 	file#write ("		"^build_file_infoplist_strings^" /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = "^build_file_infoplist_strings_fileref^" /* InfoPlist.strings */; };\n");
 	file#write ("		"^build_file_infoplist_strings_tests^" /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = "^build_file_infoplist_strings_tests_fileref^" /* InfoPlist.strings */; };\n");
 	file#write ("		"^build_file_main^" /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = "^build_file_main_fileref^" /* main.m */; };\n");
 	file#write ("/* End PBXBuildFile section */\n");
 	
 	(* Begin PBXContainerItemProxy section *)
-	let container_item_proxy = files_manager#generate_uuid_for_file app_name ([],"container_item_proxy") in
-	let remote_global_id_string = files_manager#generate_uuid_for_file app_name ([],"remote_global_id_string") in
-	let root_object = files_manager#generate_uuid_for_file app_name ([],"root_object") in
+	let container_item_proxy = files_manager#generate_uuid_for_file ([],"container_item_proxy") in
+	let remote_global_id_string = files_manager#generate_uuid_for_file ([],"remote_global_id_string") in
+	let root_object = files_manager#generate_uuid_for_file ([],"root_object") in
+	
 	file#write ("\n/* Begin PBXContainerItemProxy section */
 		"^container_item_proxy^" /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -2063,15 +2098,17 @@ let pbxproj common_ctx files_manager =
 	(* Begin PBXFileReference section *)
 	(* {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Log.m; path = Playground/haxe/Log.m; sourceTree = SOURCE_ROOT; }; *)
 	file#write ("\n\n/* Begin PBXFileReference section */\n");
-	let fileref_en = files_manager#generate_uuid_for_file app_name ([],"fileref_en") in
-	let fileref_en_tests = files_manager#generate_uuid_for_file app_name ([],"fileref_en_tests") in
-	let fileref_plist = files_manager#generate_uuid_for_file app_name ([],"fileref_plist") in
-	let fileref_pch = files_manager#generate_uuid_for_file app_name ([],"fileref_pch") in
-	let fileref_app = files_manager#generate_uuid_for_file app_name ([],"fileref_app") in
-	let fileref_octest = files_manager#generate_uuid_for_file app_name ([],"fileref_octest") in
+	let fileref_en = files_manager#generate_uuid_for_file ([],"fileref_en") in
+	let fileref_en_tests = files_manager#generate_uuid_for_file ([],"fileref_en_tests") in
+	let fileref_plist = files_manager#generate_uuid_for_file ([],"fileref_plist") in
+	let fileref_pch = files_manager#generate_uuid_for_file ([],"fileref_pch") in
+	let fileref_app = files_manager#generate_uuid_for_file ([],"fileref_app") in
+	let fileref_octest = files_manager#generate_uuid_for_file ([],"fileref_octest") in
+	
 	List.iter ( fun (uuid, fileRef, name) -> 
 		file#write ("		"^fileRef^" /* "^name^".framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "^name^".framework; path = System/Library/Frameworks/"^name^".framework; sourceTree = SDKROOT; };\n");
 	) files_manager#get_frameworks;
+	
 	List.iter ( fun (uuid, fileRef, path, ext) -> 
 		let full_path = (joinClassPath path "/") in
 		let file_type = (if ext = ".h" then "h" else "objc") in
@@ -2080,10 +2117,12 @@ let pbxproj common_ctx files_manager =
 		else
 			file#write ("		"^fileRef^" /* "^full_path^ext^" */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c."^file_type^"; name = "^(snd path)^ext^"; path = "^app_name^"/"^full_path^ext^"; sourceTree = SOURCE_ROOT; };\n");
 	) files_manager#get_source_files;
-	List.iter ( fun (uuid, fileRef, path, ext) -> 
+	
+	List.iter ( fun (uuid, fileRef, path) -> 
 		let n = if List.length (fst path) > 0 then List.hd (fst path) else (snd path) in
 		file#write ("		"^fileRef^" /* "^(joinClassPath path "/")^" */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "^n^"; sourceTree = \"<group>\"; };\n"); 
-	) files_manager#get_folders;
+	) files_manager#get_source_folders;
+	
 	(* Add some hardcoded files *)
 	file#write ("		"^fileref_en^" /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = \"<group>\"; };\n");
 	file#write ("		"^fileref_en_tests^" /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = \"<group>\"; };\n");
@@ -2095,14 +2134,16 @@ let pbxproj common_ctx files_manager =
 	file#write ("/* End PBXFileReference section */\n");
 	
 	(* Begin PBXFrameworksBuildPhase section *)
-	let frameworks_build_phase_app = files_manager#generate_uuid_for_file app_name ([],"frameworks_build_phase_app") in
-	let frameworks_build_phase_tests = files_manager#generate_uuid_for_file app_name ([],"frameworks_build_phase_tests") in
+	let frameworks_build_phase_app = files_manager#generate_uuid_for_file ([],"frameworks_build_phase_app") in
+	let frameworks_build_phase_tests = files_manager#generate_uuid_for_file ([],"frameworks_build_phase_tests") in
 	file#write ("\n\n/* Begin PBXFrameworksBuildPhase section */
 		"^frameworks_build_phase_app^" /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (\n");
+			
 	List.iter ( fun (uuid, fileRef, name) -> file#write ("				"^uuid^" /* "^name^".framework in Frameworks */,\n"); ) files_manager#get_frameworks;
+	
 	file#write ("			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2110,23 +2151,26 @@ let pbxproj common_ctx files_manager =
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (\n");
+	
 	List.iter ( fun (uuid, fileRef, name) -> file#write ("				"^uuid^" /* "^name^".framework in Frameworks */,\n"); ) files_manager#get_frameworks;
 	(* 28BFD9FE1628A95900882B34 /* SenTestingKit.framework in Frameworks */,
 	28BFD9FF1628A95900882B34 /* UIKit.framework in Frameworks */,
 	28BFDA001628A95900882B34 /* Foundation.framework in Frameworks */, *)
+	
 	file#write ("			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */");
 
 	(* Begin PBXGroup section *)
-	let main_group = files_manager#generate_uuid_for_file app_name ([],"main_group") in
-	let product_ref_group = files_manager#generate_uuid_for_file app_name ([],"product_ref_group") in
-	let frameworks_group = files_manager#generate_uuid_for_file app_name ([],"frameworks_group") in
-	let children_app = files_manager#generate_uuid_for_file app_name ([],"children_app") in
-	let children_tests = files_manager#generate_uuid_for_file app_name ([],"children_tests") in
-	let children_supporting_files = files_manager#generate_uuid_for_file app_name ([],"children_supporting_files") in
-	let children_supporting_files_tests = files_manager#generate_uuid_for_file app_name ([],"children_supporting_files_tests") in
+	let main_group = files_manager#generate_uuid_for_file ([],"main_group") in
+	let product_ref_group = files_manager#generate_uuid_for_file ([],"product_ref_group") in
+	let frameworks_group = files_manager#generate_uuid_for_file ([],"frameworks_group") in
+	let children_app = files_manager#generate_uuid_for_file ([],"children_app") in
+	let children_tests = files_manager#generate_uuid_for_file ([],"children_tests") in
+	let children_supporting_files = files_manager#generate_uuid_for_file ([],"children_supporting_files") in
+	let children_supporting_files_tests = files_manager#generate_uuid_for_file ([],"children_supporting_files_tests") in
+	
 	file#write ("\n\n/* Begin PBXGroup section */
 		"^main_group^" = {
 			isa = PBXGroup;
@@ -2150,9 +2194,11 @@ let pbxproj common_ctx files_manager =
 		"^frameworks_group^" /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (\n");
+	
 	List.iter ( fun (uuid, fileRef, name) ->
 		file#write ("				"^fileRef^" /* "^name^".framework in Frameworks */,\n");
 	) files_manager#get_frameworks;
+	
 	file#write ("			);
 			name = Frameworks;
 			sourceTree = \"<group>\";
@@ -2160,14 +2206,16 @@ let pbxproj common_ctx files_manager =
 		"^children_app^" /* "^app_name^" */ = {
 			isa = PBXGroup;
 			children = (\n");
+	
 	List.iter ( fun (uuid, fileRef, path, ext) -> 
 		let full_path = (joinClassPath path "/") in
 			if (fst path = []) then
 				file#write ("				"^fileRef^" /* "^full_path^ext^" */,\n")
 	) files_manager#get_source_files;
-	List.iter ( fun (uuid, fileRef, path, ext) ->
+	
+	List.iter ( fun (uuid, fileRef, path) ->
 		file#write ("				"^fileRef^" /* "^(joinClassPath path "/")^" */,\n"); 
-	) files_manager#get_folders;
+	) files_manager#get_source_folders;
 	
 	file#write ("				"^children_supporting_files^" /* Supporting Files */,
 			);
@@ -2180,7 +2228,13 @@ let pbxproj common_ctx files_manager =
 				"^fileref_plist^" /* "^app_name^"-Info.plist */,
 				"^build_file_infoplist_strings_fileref^" /* InfoPlist.strings */,
 				"^build_file_main_fileref^" /* main.m */,
-				"^fileref_pch^" /* "^app_name^"-Prefix.pch */,
+				"^fileref_pch^" /* "^app_name^"-Prefix.pch */,\n");
+	
+	List.iter ( fun (uuid, fileRef, path, ext) ->
+		file#write ("				"^fileRef^" /* "^(joinClassPath path "/")^" in Resoures */,\n"); 
+	) files_manager#get_resource_files;
+	
+	file#write ("
 			);
 			name = \"Supporting Files\";
 			sourceTree = \"<group>\";
@@ -2205,17 +2259,19 @@ let pbxproj common_ctx files_manager =
 			sourceTree = \"<group>\";
 		};
 /* End PBXGroup section */");
+
 	(* Begin PBXNativeTarget section *)
-	let sources_build_phase_app = files_manager#generate_uuid_for_file app_name ([],"sources_build_phase_app") in
-	let sources_build_phase_tests = files_manager#generate_uuid_for_file app_name ([],"sources_build_phase_tests") in
-	let resources_build_phase_app = files_manager#generate_uuid_for_file app_name ([],"resources_build_phase_app") in
-	let resources_build_phase_tests = files_manager#generate_uuid_for_file app_name ([],"resources_build_phase_tests") in
-	let remote_global_id_string_tests = files_manager#generate_uuid_for_file app_name ([],"remote_global_id_string_tests") in
-	let shell_build_phase_tests = files_manager#generate_uuid_for_file app_name ([],"shell_build_phase_tests") in
-	let target_dependency = files_manager#generate_uuid_for_file app_name ([],"target_dependency") in
-	let build_config_list_app = files_manager#generate_uuid_for_file app_name ([],"build_config_list_app") in
-	let build_config_list_tests = files_manager#generate_uuid_for_file app_name ([],"build_config_list_tests") in
-	let build_config_list_proj = files_manager#generate_uuid_for_file app_name ([],"build_config_list_proj") in
+	let sources_build_phase_app = files_manager#generate_uuid_for_file ([],"sources_build_phase_app") in
+	let sources_build_phase_tests = files_manager#generate_uuid_for_file ([],"sources_build_phase_tests") in
+	let resources_build_phase_app = files_manager#generate_uuid_for_file ([],"resources_build_phase_app") in
+	let resources_build_phase_tests = files_manager#generate_uuid_for_file ([],"resources_build_phase_tests") in
+	let remote_global_id_string_tests = files_manager#generate_uuid_for_file ([],"remote_global_id_string_tests") in
+	let shell_build_phase_tests = files_manager#generate_uuid_for_file ([],"shell_build_phase_tests") in
+	let target_dependency = files_manager#generate_uuid_for_file ([],"target_dependency") in
+	let build_config_list_app = files_manager#generate_uuid_for_file ([],"build_config_list_app") in
+	let build_config_list_tests = files_manager#generate_uuid_for_file ([],"build_config_list_tests") in
+	let build_config_list_proj = files_manager#generate_uuid_for_file ([],"build_config_list_proj") in
+	
 	file#write ("\n\n/* Begin PBXNativeTarget section */
 		"^remote_global_id_string^" /* "^app_name^" */ = {
 			isa = PBXNativeTarget;
@@ -2254,6 +2310,7 @@ let pbxproj common_ctx files_manager =
 			productType = \"com.apple.product-type.bundle\";
 		};
 /* End PBXNativeTarget section */");
+
 	(* Begin PBXProject section *)
 	file#write ("\n\n/* Begin PBXProject section */
 		"^root_object^" /* Project object */ = {
@@ -2279,6 +2336,7 @@ let pbxproj common_ctx files_manager =
 			);
 		};
 /* End PBXProject section */");
+
 	(* Begin PBXResourcesBuildPhase section *)
 	file#write ("\n\n/* Begin PBXResourcesBuildPhase section */
 		"^resources_build_phase_app^" /* Resources */ = {
@@ -2286,10 +2344,14 @@ let pbxproj common_ctx files_manager =
 			buildActionMask = 2147483647;
 			files = (
 				"^build_file_infoplist_strings^" /* InfoPlist.strings in Resources */,\n");
+	
+	List.iter ( fun (uuid, fileRef, path) ->
+		file#write ("				"^uuid^" /* "^(joinClassPath path "/")^" in Resoures */,\n"); 
+	) files_manager#get_source_folders;
 	List.iter ( fun (uuid, fileRef, path, ext) ->
-		file#write ("		"^uuid^" /* "^(joinClassPath path "/")^" in Resoures */,\n"); 
-	) files_manager#get_folders;
-	(* TODO: add png resources *)
+		file#write ("				"^uuid^" /* "^(joinClassPath path "/")^" in Resoures */,\n"); 
+	) files_manager#get_resource_files;
+	
 	file#write ("			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2302,6 +2364,7 @@ let pbxproj common_ctx files_manager =
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */");
+	
 	(* Begin PBXShellScriptBuildPhase section *)
 	file#write ("\n\n/* Begin PBXShellScriptBuildPhase section */
 		"^shell_build_phase_tests^" /* ShellScript */ = {
@@ -2324,9 +2387,11 @@ let pbxproj common_ctx files_manager =
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (\n"^build_file_main^" /* main.m in Sources */,\n");
+	
 	List.iter ( fun (uuid, fileRef, path, ext) -> 
 		if ext=".m" then file#write ("				"^uuid^" /* "^(joinClassPath path "/")^ext^" in Sources */,\n");
 	) files_manager#get_source_files;
+	
 	file#write ("			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2339,6 +2404,7 @@ let pbxproj common_ctx files_manager =
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */");
+
 	(* Begin PBXTargetDependency section *)
 	file#write ("\n\n/* Begin PBXTargetDependency section */
 		"^target_dependency^" /* PBXTargetDependency */ = {
@@ -2347,6 +2413,7 @@ let pbxproj common_ctx files_manager =
 			targetProxy = "^container_item_proxy^" /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */");
+
 	(* Begin PBXVariantGroup section *)
 	file#write ("\n\n/* Begin PBXVariantGroup section */
 		"^build_file_infoplist_strings_fileref^" /* InfoPlist.strings */ = {
@@ -2366,13 +2433,15 @@ let pbxproj common_ctx files_manager =
 			sourceTree = \"<group>\";
 		};
 /* End PBXVariantGroup section */");
+
 	(* Begin XCBuildConfiguration section *)
-	let build_config_list_proj_debug = files_manager#generate_uuid_for_file app_name ([],"build_config_list_proj_debug") in
-	let build_config_list_proj_release = files_manager#generate_uuid_for_file app_name ([],"build_config_list_proj_release") in
-	let build_config_list_app_debug = files_manager#generate_uuid_for_file app_name ([],"build_config_list_app_debug") in
-	let build_config_list_app_release = files_manager#generate_uuid_for_file app_name ([],"build_config_list_app_release") in
-	let build_config_list_tests_debug = files_manager#generate_uuid_for_file app_name ([],"build_config_list_tests_debug") in
-	let build_config_list_tests_release = files_manager#generate_uuid_for_file app_name ([],"build_config_list_tests_release") in
+	let build_config_list_proj_debug = files_manager#generate_uuid_for_file ([],"build_config_list_proj_debug") in
+	let build_config_list_proj_release = files_manager#generate_uuid_for_file ([],"build_config_list_proj_release") in
+	let build_config_list_app_debug = files_manager#generate_uuid_for_file ([],"build_config_list_app_debug") in
+	let build_config_list_app_release = files_manager#generate_uuid_for_file ([],"build_config_list_app_release") in
+	let build_config_list_tests_debug = files_manager#generate_uuid_for_file ([],"build_config_list_tests_debug") in
+	let build_config_list_tests_release = files_manager#generate_uuid_for_file ([],"build_config_list_tests_release") in
+	
 	file#write ("\n\n/* Begin XCBuildConfiguration section */
 		"^build_config_list_proj_debug^" /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -2769,7 +2838,7 @@ let generate common_ctx =
 	
 	let src_dir = srcDir common_ctx in
 	let imports_manager = new importsManager in
-	let files_manager = new filesManager imports_manager in
+	let files_manager = new filesManager imports_manager (appName common_ctx) in
 	let file_info = ref PMap.empty in(* Not sure for what is used *)
 	(* Generate the HXObject category *)
 	let temp_file_path = ([],"HXObject") in
@@ -2865,32 +2934,6 @@ let generate common_ctx =
 	) common_ctx.types;
 	
 	List.iter (fun p -> print_endline p ) common_ctx.objc_libs;
-	
-	(* Search the SupportingFiles folder *)
-	let supporting_files = ref "" in
-	(match common_ctx.objc_supporting_files with
-	| None ->
-		print_endline "No SupportingFiles defined. search in the class paths the first one";
-		List.iter (fun dir ->
-			if Sys.file_exists dir then begin
-				let contents = Array.to_list (Sys.readdir dir) in
-				List.iter (fun f ->
-					if (f = "SupportingFiles" && !supporting_files = "") then
-						supporting_files := (dir^f^"/");
-				) contents;
-			end
-		) common_ctx.class_path;
-	| Some p ->
-		print_endline p;
-		supporting_files := p;
-	);
-	print_endline ("SupportingFile defined at path: "^(!supporting_files));
-	if (!supporting_files != "") then begin
-		let contents = Array.to_list (Sys.readdir !supporting_files) in
-		List.iter (fun f ->
-			print_endline f;
-		) contents
-	end;
 	
 	(* Register some default files that were not added by the compiler *)
 	(* files_manager#register_source_file class_def.cl_path ".m"; *)

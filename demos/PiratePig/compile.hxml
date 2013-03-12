@@ -18,7 +18,7 @@
 -objc-bundle-version 1.0
 -objc-identifier com.ralcr.piratepig
 -objc-supporting-files SupportingFiles
--objc-lib Facebook.xcodeproj
+-objc-lib Facebook.framework
 -objc-lib Ralcr.xcodeproj
 -lib cocoa
 --times
