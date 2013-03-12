@@ -5,11 +5,11 @@ echo " "
 echo "Build CocoaTouch demos..."
 echo " "
 
-cd ../demos/Hello
-# ./../../haxe/haxe compile.hxml
+cd ../hxcocoa/demos/Hello
+./../../../haxe/haxe compile.hxml
 
 cd ../PiratePig
-./../../haxe/haxe compile.hxml
+./../../../haxe/haxe compile.hxml
 
 echo " "
 echo "Build ObjC tests..."
@@ -28,6 +28,7 @@ echo " "
 echo " "
 echo "Build utests..."
 echo " "
-cd ../..
-# ./haxe/haxe -main unit.Test -cp haxe/tests -objc utests -objc-version 6 -objc-bundle-version 1.0 -objc-identifier org.haxe.objcutests -lib cocoa --times
+
+cd ../../..
+# ./haxe/haxe -main unit.Test -cp haxe/tests -objc utests --times
 # ./../haxe -main unit.Test -objc ../../utests
