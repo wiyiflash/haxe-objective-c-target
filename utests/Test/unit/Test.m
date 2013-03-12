@@ -251,7 +251,7 @@ static Timer* timer;
 	NSMutableArray *v1 = [[NSMutableArray alloc] initWithObject:v];
 	if (-TMono-.length >= -TMono-) {
 		[-TMono- push:((SEL)($this:(snd ctx.path)) 
-		NSMutableArray *f1 = [[NSMutableArray alloc] initWithObject:self async]; 
+		NSMutableArray *f1 = [[NSMutableArray alloc] initWithObject:async:args:v:pos:]; 
 		NSMutableArray *f2 = [[NSMutableArray alloc] initWithObject:f]; 
 		NSMutableArray *a1 = [[NSMutableArray alloc] initWithObject:args]; 
 		NSMutableArray *v2 = [[NSMutableArray alloc] initWithObject:[v1 hx_objectAtIndex:[NSNumber numberWithInt:0]]]; 
@@ -288,7 +288,7 @@ static Timer* timer;
 		NSMutableArray *pos1 = [[NSMutableArray alloc] initWithObject:pos];
 		if (-TMono-.length >= -TMono-) {
 			[-TMono- push:((SEL)($this:(snd ctx.path)) 
-			NSMutableArray *f1 = [[NSMutableArray alloc] initWithObject:self asyncExc]; 
+			NSMutableArray *f1 = [[NSMutableArray alloc] initWithObject:asyncExc:f:args:pos:]; 
 			NSMutableArray *a1 = [[NSMutableArray alloc] initWithObject:seterror]; 
 			NSMutableArray *f2 = [[NSMutableArray alloc] initWithObject:f]; 
 			NSMutableArray *a2 = [[NSMutableArray alloc] initWithObject:args]; 

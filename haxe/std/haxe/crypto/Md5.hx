@@ -24,6 +24,10 @@ package haxe.crypto;
 /**
 	Creates a MD5 of a String.
 **/
+#if objc
+@:include("CommonCrypto/CommonDigest.h")
+@:include("CommonCrypto/CommonCryptor.h")
+#end
 class Md5 {
 
 	public static function encode( s : String ) : String {

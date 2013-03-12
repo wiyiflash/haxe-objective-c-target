@@ -67,7 +67,7 @@ class Timer {
 			var me = this;
 			id = untyped setInterval(function() me.run(),time_ms);
 		#elseif objc
-			nstimer = NSTimer.timerWithTimeInterval (time_ms*1000, this, nsrun, null, true);
+			nstimer = NSTimer.timerWithTimeInterval (time_ms*1000, this, new SEL(nsrun), null, true);
 			var runner = NSRunLoop.currentRunLoop();
 			runner.addTimer (nstimer, NSDefaultRunLoopMode);
 		#end

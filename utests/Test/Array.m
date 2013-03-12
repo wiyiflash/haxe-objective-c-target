@@ -71,8 +71,7 @@
 - (void) sort:(SEL)f{
 }
 - (NSMutableArray*) splice:(int)pos len:(int)len{
-	
-	NSMutableArray *newArray = [self subarrayWithRange:NSMakeRange (pos,len)];
+	NSArray *newArray = [self subarrayWithRange:NSMakeRange(pos, len)];
 	[self removeObjectsInArray:newArray];
 	return [NSMutableArray arrayWithArray:newArray];
 }

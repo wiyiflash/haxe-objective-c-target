@@ -6,10 +6,10 @@ echo "Build CocoaTouch demos..."
 echo " "
 
 cd ../hxcocoa/demos/Hello
-./../../../haxe/haxe compile.hxml
+# ./../../../haxe/haxe compile.hxml
 
 cd ../PiratePig
-./../../../haxe/haxe compile.hxml
+# ./../../../haxe/haxe compile.hxml
 
 echo " "
 echo "Build ObjC tests..."
@@ -30,5 +30,4 @@ echo "Build utests..."
 echo " "
 
 cd ../../..
-# ./haxe/haxe -main unit.Test -cp haxe/tests -objc utests --times
-# ./../haxe -main unit.Test -objc ../../utests
+./haxe/haxe -cp haxe/tests -objc utests -main unit.Test -lib hxcocoa --times

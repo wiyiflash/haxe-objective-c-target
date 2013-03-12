@@ -21,6 +21,10 @@
  */
 package haxe.crypto;
 
+#if objc
+@:include("CommonCrypto/CommonDigest.h")
+@:include("CommonCrypto/CommonCryptor.h")
+#end
 class Sha1 {
 
 	public static function encode( s:String ) : String {

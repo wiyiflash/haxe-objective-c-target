@@ -168,7 +168,7 @@
 	[self eq:[k join:[NSMutableString stringWithString:@"#"]] v2:[NSMutableString stringWithString:@"-1#8546"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"216",@"lineNumber", @"unit.TestBasetypes",@"className", @"testStringMap",@"methodName", nil]];
 	
 	NSMutableArray *k1 = [Lambda array:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[h keys copy], @"iterator",
+	[keys copy], @"iterator",
 	nil]];
 	[k1 sort:Reflect compare];
 	[self eq:[k1 join:[NSMutableString stringWithString:@"#"]] v2:[NSMutableString stringWithString:@"abcd#x"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"220",@"lineNumber", @"unit.TestBasetypes",@"className", @"testStringMap",@"methodName", nil]];
@@ -199,7 +199,7 @@
 	[self eq:[k join:[NSMutableString stringWithString:@"#"]] v2:[NSMutableString stringWithString:@"-1#8546"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"247",@"lineNumber", @"unit.TestBasetypes",@"className", @"testIntMap",@"methodName", nil]];
 	
 	NSMutableArray *k1 = [Lambda array:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[h keys copy], @"iterator",
+	[keys copy], @"iterator",
 	nil]];
 	[k1 sort:Reflect compare];
 	[self eq:[k1 join:[NSMutableString stringWithString:@"#"]] v2:[NSMutableString stringWithString:@"-4815#0"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestBasetypes.hx",@"fileName", @"251",@"lineNumber", @"unit.TestBasetypes",@"className", @"testIntMap",@"methodName", nil]];

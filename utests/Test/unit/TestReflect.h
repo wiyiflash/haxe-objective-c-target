@@ -14,3 +14,73 @@
 
 @end
 
+
+
+#import "../unit/TestReflect.h"
+
+@interface ClassWithProp : NSObject<InterfWithProp>
+
++ (int) STAT_X;
++ (void) setSTAT_X:(int)val;
++ (int) set_STAT_X:(int)v;
+@property (nonatomic, getter=get_x, setter=set_x) int x;
+@property (nonatomic) int _x;
+- (int) get_x;
+- (int) set_x:(int)v;
+- (id) init;
+
+@end
+
+
+
+#import "../unit/TestReflect.h"
+
+@interface SubClassWithProp : ClassWithProp 
+
+@property (nonatomic, setter=set_y) int y;
+- (int) get_x;
+- (int) get_y;
+- (int) set_y:(int)v;
+- (id) init;
+
+@end
+
+
+#import <Foundation/Foundation.h>
+
+#import "../Array.h"
+#import "../String.h"
+#import "../List.h"
+#import "../Xml.h"
+#import "../Math.h"
+#import "../unit/MyClass.h"
+#import "../unit/MySubClass.h"
+#import "../unit/MyInterface.h"
+#import "../unit/TestReflect.h"
+#import "../Type.h"
+#import "../Std.h"
+#import "../unit/MyEnum.h"
+#import "../Reflect.h"
+#import "../unit/Test.h"
+
+@interface TestReflect : Test 
+
++ (NSMutableArray*) TYPES;
++ (void) setTYPES:(NSMutableArray*)val;
++ (NSMutableString*) u:(NSMutableString*)s;
++ (NSMutableString*) u2:(NSMutableString*)s s2:(NSMutableString*)s2;
++ (NSMutableArray*) TNAMES;
++ (void) setTNAMES:(NSMutableArray*)val;
+- (void) testTypes;
+- (void) testIs;
+- (void) is:(id)v t1:(id)t1 t2:(id)t2 pos:(id)pos;
+- (void) testTypeof;
+- (void) _typeof:(id)v rt:(Type*)rt pos:(id)pos;
+- (void) testConv;
+- (void) testCreate;
+- (void) testCompare;
+- (void) testGetProp;
+- (id) init;
+
+@end
+

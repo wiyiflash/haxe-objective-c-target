@@ -13,7 +13,7 @@
 	
 	NSCalendar *calendar = [NSCalendar currentCalendar];
 	
-	NSDateComponents *components = [calendar.components:7 fromDate:[NSDate date]];
+	NSDateComponents *components = [calendar.components:(((( NSYearCalendarUnit |  NSMonthCalendarUnit) |  NSDayCalendarUnit) |  NSHourCalendarUnit) |  NSMinuteCalendarUnit) |  NSSecondCalendarUnit fromDate:[NSDate date]];
 	return [[NSDate alloc] init:[components.year] month:[components.month] day:[components.day] hour:[components.hour] min:[components.minute] sec:[components.second]];
 }
 + (NSDate*) fromString:(NSMutableString*)s{
@@ -78,7 +78,7 @@
 - (id) init:(int)year month:(int)month day:(int)day hour:(int)hour min:(int)min sec:(int)sec{
 	self = [super init];
 	self._calendar = [NSCalendar currentCalendar];
-	self._components = [self._calendar components:7 fromDate:[NSDate date]];
+	self._components = [self._calendar components:(((( NSYearCalendarUnit |  NSMonthCalendarUnit) |  NSDayCalendarUnit) |  NSHourCalendarUnit) |  NSMinuteCalendarUnit) |  NSSecondCalendarUnit fromDate:[NSDate date]];
 	[self._components setYear-TDynamic-];
 	[self._components setMonth-TDynamic-];
 	[self._components setDay-TDynamic-];

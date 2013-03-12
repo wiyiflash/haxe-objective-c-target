@@ -1,0 +1,699 @@
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		TESTSRCREFHF79750FFC0AF9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = TESTSRCREFHD76DDB92BD138; };
+		TESTSRCMD9E6C1A68100CA0C /* Array.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM6C1A68100CA0C; };
+		TESTSRCMDBEC183E983DCD78 /* Date.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFMC183E983DCD78; };
+		TESTSRCM3BEE6FE6145CFAE4 /* EReg.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFME6FE6145CFAE4; };
+		TESTSRCM5B04CAD85DA1EEBB /* Lambda.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM4CAD85DA1EEBB; };
+		TESTSRCM2C7D126654BD0E52 /* List.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFMD126654BD0E52; };
+		TESTSRCME4491E956E8DC18D /* Reflect.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM91E956E8DC18D; };
+		TESTSRCM0A9348C7DDEC66F1 /* Std.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM348C7DDEC66F1; };
+		TESTSRCM006D3829667A400A /* String.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFMD3829667A400A; };
+		TESTSRCME41A6FE0B349A561 /* StringBuf.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFMA6FE0B349A561; };
+		TESTSRCM92EAB3EE64B6B194 /* StringTools.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFMAB3EE64B6B194; };
+		TESTSRCM9242B4902F7AE3BD /* Type.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM2B4902F7AE3BD; };
+		TESTSRCMD58F7179F3DB42F0 /* CallStack.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFMF7179F3DB42F0; };
+		TESTSRCM40F6D0E926C84B12 /* Int64.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM6D0E926C84B12; };
+		TESTSRCM958EC66401912A34 /* Json.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFMEC66401912A34; };
+		TESTSRCMA620EEFCE8490172 /* Log.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM0EEFCE8490172; };
+		TESTSRCM6EE69173E6955E40 /* Resource.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM69173E6955E40; };
+		TESTSRCME508F41742E10A5E /* Serializer.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM8F41742E10A5E; };
+		TESTSRCMCC5050D0A5A99160 /* Template.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM050D0A5A99160; };
+		TESTSRCMBDC2110D0D29ED82 /* Timer.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM2110D0D29ED82; };
+		TESTSRCM06353FF30B8AD2A3 /* Unserializer.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM53FF30B8AD2A3; };
+		TESTSRCM54C5F29B0DD37C14 /* BaseCode.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM5F29B0DD37C14; };
+		TESTSRCM3B2684E523748E86 /* Md5.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM684E523748E86; };
+		TESTSRCMA05E4383D7313EB8 /* Sha1.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFME4383D7313EB8; };
+		TESTSRCMC14DF8D0D0583986 /* GenericStack.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFMDF8D0D0583986; };
+		TESTSRCM55D108B56D4448D7 /* HashMap.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM108B56D4448D7; };
+		TESTSRCM2DB5356064FE22DA /* IntMap.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM5356064FE22DA; };
+		TESTSRCMDAB1477FCB682C78 /* ObjectMap.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM1477FCB682C78; };
+		TESTSRCM32E96777F7216256 /* StringMap.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM96777F7216256; };
+		TESTSRCMEA8A279883CA2B15 /* Bytes.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFMA279883CA2B15; };
+		TESTSRCM6C36CBD688F0CA2B /* BytesBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM6CBD688F0CA2B; };
+		TESTSRCM7A261AF00EE89FD6 /* Input.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM61AF00EE89FD6; };
+		TESTSRCM8DF616DF56C8F680 /* BytesInput.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM616DF56C8F680; };
+		TESTSRCM3204328988BB5B14 /* Output.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM4328988BB5B14; };
+		TESTSRCMF17900ADA39EADB5 /* BytesOutput.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM900ADA39EADB5; };
+		TESTSRCM22F5D86EBF499A02 /* Eof.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM5D86EBF499A02; };
+		TESTSRCM37B5A0E642DF5D28 /* Meta.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM5A0E642DF5D28; };
+		TESTSRCM1CE34029147B283F /* Parser.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM34029147B283F; };
+		TESTSRCME7D1171999916242 /* MyAbstract.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM1171999916242; };
+		TESTSRCMC373700A375334E7 /* MyClass.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM3700A375334E7; };
+		TESTSRCM7A9513C7E470E4D1 /* MyMacro.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM513C7E470E4D1; };
+		TESTSRCMC8F9DC6189F1765A /* MySubClass.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM9DC6189F1765A; };
+		TESTSRCM235962BFC2919D5A /* MyUsing1.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM962BFC2919D5A; };
+		TESTSRCM08B9D149C5E2F54C /* MyUsing2.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM9D149C5E2F54C; };
+		TESTSRCMEF9A5C48B231C971 /* Test.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFMA5C48B231C971; };
+		TESTSRCM0B1850D273F6459E /* TestBasetypes.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM850D273F6459E; };
+		TESTSRCM4049AE9175DC748C /* TestBytes.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM9AE9175DC748C; };
+		TESTSRCM87D822FD10427950 /* TestEReg.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM822FD10427950; };
+		TESTSRCM939503448EE92C57 /* TestIO.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM503448EE92C57; };
+		TESTSRCM64173649DB4FCC82 /* TestInt64.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM73649DB4FCC82; };
+		TESTSRCM3A7F4A6BB9443DAE /* TestLocals.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFMF4A6BB9443DAE; };
+		TESTSRCM91E962E7393068FE /* TestMatch.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM962E7393068FE; };
+		TESTSRCMEC729050B4FB528B /* TestMeta.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM29050B4FB528B; };
+		TESTSRCMCBAACB07C0F41532 /* TestMisc.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFMACB07C0F41532; };
+		TESTSRCM69D4088A2F057E6F /* TestOps.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM4088A2F057E6F; };
+		TESTSRCM96741F671D44FFD6 /* TestOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM41F671D44FFD6; };
+		TESTSRCMEFA6AB34A78324C7 /* TestResource.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM6AB34A78324C7; };
+		TESTSRCM65A0BFEFFC90B68C /* TestSerialize.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM0BFEFFC90B68C; };
+		TESTSRCMF8731C21F9F7003B /* TestSpecification.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM31C21F9F7003B; };
+		TESTSRCMB881C9484FC6710C /* TestType.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM1C9484FC6710C; };
+		TESTSRCM56466D2B01621D69 /* TestXML.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM66D2B01621D69; };
+		TESTRESCED0C963413CD60D4 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = TESTRESREF0C963413CD60D4; };
+		TESTRES9583E6E7B686AAA68 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = TESTRESREF3E6E7B686AAA68; };
+		TESTRES75B33BB17EB997C60 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = TESTRESREF33BB17EB997C60; };
+		TESTRES542493FF4ED3F396D /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = TESTRESREF493FF4ED3F396D; };
+		TESTRESACA4F061747389F57 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = TESTRESREF4F061747389F57; };
+		TESTRES49491ED824047C2FF /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = TESTRESREF91ED824047C2FF; };
+		TESTRESE4096566C326C4BE6 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = TESTRESREF96566C326C4BE6; };
+		TESTRESREF12485253914667 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = TESTRESREFFF3D47309BAF6C /* InfoPlist.strings */; };
+		TESTRESREF0CEDFD52164E4F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = TESTRESREFAD34034122B42F /* InfoPlist.strings */; };
+		TESTRESREF489B1422E28349 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTRESREF086269C989D672 /* main.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		TESTRESREFADC0559F5D21DE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = TESTRESREF4CB7AE6C4E1B38 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = TESTRESREF7CDA0D4237F7D7;
+			remoteInfo = Test;
+		};
+/* End PBXContainerItemProxy section */
+
+
+/* Begin PBXFileReference section */
+		TESTSRCREFHD76DDB92BD138 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		TESTSRCREFM6C1A68100CA0C /* Array.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Array.m; sourceTree = "<group>"; };
+		TESTSRCREFH6C1A68100CA0C /* Array.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Array.h; sourceTree = "<group>"; };
+		TESTSRCREFMC183E983DCD78 /* Date.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Date.m; sourceTree = "<group>"; };
+		TESTSRCREFHC183E983DCD78 /* Date.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Date.h; sourceTree = "<group>"; };
+		TESTSRCREFME6FE6145CFAE4 /* EReg.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EReg.m; sourceTree = "<group>"; };
+		TESTSRCREFHE6FE6145CFAE4 /* EReg.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EReg.h; sourceTree = "<group>"; };
+		TESTSRCREFM4CAD85DA1EEBB /* Lambda.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Lambda.m; sourceTree = "<group>"; };
+		TESTSRCREFH4CAD85DA1EEBB /* Lambda.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Lambda.h; sourceTree = "<group>"; };
+		TESTSRCREFMD126654BD0E52 /* List.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = List.m; sourceTree = "<group>"; };
+		TESTSRCREFHD126654BD0E52 /* List.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = List.h; sourceTree = "<group>"; };
+		TESTSRCREFM91E956E8DC18D /* Reflect.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Reflect.m; sourceTree = "<group>"; };
+		TESTSRCREFH91E956E8DC18D /* Reflect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Reflect.h; sourceTree = "<group>"; };
+		TESTSRCREFM348C7DDEC66F1 /* Std.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Std.m; sourceTree = "<group>"; };
+		TESTSRCREFH348C7DDEC66F1 /* Std.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Std.h; sourceTree = "<group>"; };
+		TESTSRCREFMD3829667A400A /* String.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = String.m; sourceTree = "<group>"; };
+		TESTSRCREFHD3829667A400A /* String.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = String.h; sourceTree = "<group>"; };
+		TESTSRCREFMA6FE0B349A561 /* StringBuf.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StringBuf.m; sourceTree = "<group>"; };
+		TESTSRCREFHA6FE0B349A561 /* StringBuf.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StringBuf.h; sourceTree = "<group>"; };
+		TESTSRCREFMAB3EE64B6B194 /* StringTools.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StringTools.m; sourceTree = "<group>"; };
+		TESTSRCREFHAB3EE64B6B194 /* StringTools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StringTools.h; sourceTree = "<group>"; };
+		TESTSRCREFM2B4902F7AE3BD /* Type.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Type.m; sourceTree = "<group>"; };
+		TESTSRCREFMF7179F3DB42F0 /* haxe/CallStack.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CallStack.m; path = Test/haxe/CallStack.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM6D0E926C84B12 /* haxe/Int64.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Int64.m; path = Test/haxe/Int64.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFH6D0E926C84B12 /* haxe/Int64.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Int64.h; path = Test/haxe/Int64.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFMEC66401912A34 /* haxe/Json.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Json.m; path = Test/haxe/Json.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFHEC66401912A34 /* haxe/Json.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Json.h; path = Test/haxe/Json.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM0EEFCE8490172 /* haxe/Log.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Log.m; path = Test/haxe/Log.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFH0EEFCE8490172 /* haxe/Log.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Log.h; path = Test/haxe/Log.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM69173E6955E40 /* haxe/Resource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Resource.m; path = Test/haxe/Resource.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFH69173E6955E40 /* haxe/Resource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Resource.h; path = Test/haxe/Resource.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM8F41742E10A5E /* haxe/Serializer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Serializer.m; path = Test/haxe/Serializer.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFH8F41742E10A5E /* haxe/Serializer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Serializer.h; path = Test/haxe/Serializer.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM050D0A5A99160 /* haxe/Template.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Template.m; path = Test/haxe/Template.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM2110D0D29ED82 /* haxe/Timer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Timer.m; path = Test/haxe/Timer.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFH2110D0D29ED82 /* haxe/Timer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Timer.h; path = Test/haxe/Timer.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM53FF30B8AD2A3 /* haxe/Unserializer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Unserializer.m; path = Test/haxe/Unserializer.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFH53FF30B8AD2A3 /* haxe/Unserializer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Unserializer.h; path = Test/haxe/Unserializer.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM5F29B0DD37C14 /* haxe/crypto/BaseCode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = BaseCode.m; path = Test/haxe/crypto/BaseCode.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFH5F29B0DD37C14 /* haxe/crypto/BaseCode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BaseCode.h; path = Test/haxe/crypto/BaseCode.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM684E523748E86 /* haxe/crypto/Md5.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Md5.m; path = Test/haxe/crypto/Md5.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFH684E523748E86 /* haxe/crypto/Md5.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Md5.h; path = Test/haxe/crypto/Md5.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFME4383D7313EB8 /* haxe/crypto/Sha1.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Sha1.m; path = Test/haxe/crypto/Sha1.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFHE4383D7313EB8 /* haxe/crypto/Sha1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Sha1.h; path = Test/haxe/crypto/Sha1.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFMDF8D0D0583986 /* haxe/ds/GenericStack.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = GenericStack.m; path = Test/haxe/ds/GenericStack.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFHDF8D0D0583986 /* haxe/ds/GenericStack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GenericStack.h; path = Test/haxe/ds/GenericStack.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM108B56D4448D7 /* haxe/ds/HashMap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = HashMap.m; path = Test/haxe/ds/HashMap.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFH108B56D4448D7 /* haxe/ds/HashMap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HashMap.h; path = Test/haxe/ds/HashMap.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM5356064FE22DA /* haxe/ds/IntMap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = IntMap.m; path = Test/haxe/ds/IntMap.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFH5356064FE22DA /* haxe/ds/IntMap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IntMap.h; path = Test/haxe/ds/IntMap.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM1477FCB682C78 /* haxe/ds/ObjectMap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ObjectMap.m; path = Test/haxe/ds/ObjectMap.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFH1477FCB682C78 /* haxe/ds/ObjectMap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ObjectMap.h; path = Test/haxe/ds/ObjectMap.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM96777F7216256 /* haxe/ds/StringMap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = StringMap.m; path = Test/haxe/ds/StringMap.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFH96777F7216256 /* haxe/ds/StringMap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = StringMap.h; path = Test/haxe/ds/StringMap.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFMA279883CA2B15 /* haxe/io/Bytes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Bytes.m; path = Test/haxe/io/Bytes.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFHA279883CA2B15 /* haxe/io/Bytes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Bytes.h; path = Test/haxe/io/Bytes.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM6CBD688F0CA2B /* haxe/io/BytesBuffer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = BytesBuffer.m; path = Test/haxe/io/BytesBuffer.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFH6CBD688F0CA2B /* haxe/io/BytesBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BytesBuffer.h; path = Test/haxe/io/BytesBuffer.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM61AF00EE89FD6 /* haxe/io/Input.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Input.m; path = Test/haxe/io/Input.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFH61AF00EE89FD6 /* haxe/io/Input.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Input.h; path = Test/haxe/io/Input.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM616DF56C8F680 /* haxe/io/BytesInput.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = BytesInput.m; path = Test/haxe/io/BytesInput.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFH616DF56C8F680 /* haxe/io/BytesInput.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BytesInput.h; path = Test/haxe/io/BytesInput.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM4328988BB5B14 /* haxe/io/Output.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Output.m; path = Test/haxe/io/Output.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFH4328988BB5B14 /* haxe/io/Output.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Output.h; path = Test/haxe/io/Output.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM900ADA39EADB5 /* haxe/io/BytesOutput.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = BytesOutput.m; path = Test/haxe/io/BytesOutput.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFH900ADA39EADB5 /* haxe/io/BytesOutput.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BytesOutput.h; path = Test/haxe/io/BytesOutput.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM5D86EBF499A02 /* haxe/io/Eof.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Eof.m; path = Test/haxe/io/Eof.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFH5D86EBF499A02 /* haxe/io/Eof.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Eof.h; path = Test/haxe/io/Eof.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM5A0E642DF5D28 /* haxe/rtti/Meta.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Meta.m; path = Test/haxe/rtti/Meta.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFH5A0E642DF5D28 /* haxe/rtti/Meta.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Meta.h; path = Test/haxe/rtti/Meta.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM34029147B283F /* haxe/xml/Parser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Parser.m; path = Test/haxe/xml/Parser.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFH34029147B283F /* haxe/xml/Parser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Parser.h; path = Test/haxe/xml/Parser.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM1171999916242 /* unit/MyAbstract.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MyAbstract.m; path = Test/unit/MyAbstract.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFH1171999916242 /* unit/MyAbstract.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MyAbstract.h; path = Test/unit/MyAbstract.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM3700A375334E7 /* unit/MyClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MyClass.m; path = Test/unit/MyClass.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFH3700A375334E7 /* unit/MyClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MyClass.h; path = Test/unit/MyClass.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFH181CE2AF6B2E0 /* unit/MyInterface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MyInterface.h; path = Test/unit/MyInterface.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM513C7E470E4D1 /* unit/MyMacro.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MyMacro.m; path = Test/unit/MyMacro.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFH513C7E470E4D1 /* unit/MyMacro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MyMacro.h; path = Test/unit/MyMacro.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM9DC6189F1765A /* unit/MySubClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MySubClass.m; path = Test/unit/MySubClass.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFH9DC6189F1765A /* unit/MySubClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MySubClass.h; path = Test/unit/MySubClass.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM962BFC2919D5A /* unit/MyUsing1.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MyUsing1.m; path = Test/unit/MyUsing1.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFH962BFC2919D5A /* unit/MyUsing1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MyUsing1.h; path = Test/unit/MyUsing1.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM9D149C5E2F54C /* unit/MyUsing2.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MyUsing2.m; path = Test/unit/MyUsing2.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFH9D149C5E2F54C /* unit/MyUsing2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MyUsing2.h; path = Test/unit/MyUsing2.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFMA5C48B231C971 /* unit/Test.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Test.m; path = Test/unit/Test.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFHA5C48B231C971 /* unit/Test.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Test.h; path = Test/unit/Test.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM850D273F6459E /* unit/TestBasetypes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TestBasetypes.m; path = Test/unit/TestBasetypes.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFH850D273F6459E /* unit/TestBasetypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TestBasetypes.h; path = Test/unit/TestBasetypes.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM9AE9175DC748C /* unit/TestBytes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TestBytes.m; path = Test/unit/TestBytes.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFH9AE9175DC748C /* unit/TestBytes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TestBytes.h; path = Test/unit/TestBytes.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM822FD10427950 /* unit/TestEReg.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TestEReg.m; path = Test/unit/TestEReg.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFH822FD10427950 /* unit/TestEReg.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TestEReg.h; path = Test/unit/TestEReg.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM503448EE92C57 /* unit/TestIO.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TestIO.m; path = Test/unit/TestIO.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFH503448EE92C57 /* unit/TestIO.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TestIO.h; path = Test/unit/TestIO.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM73649DB4FCC82 /* unit/TestInt64.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TestInt64.m; path = Test/unit/TestInt64.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFH73649DB4FCC82 /* unit/TestInt64.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TestInt64.h; path = Test/unit/TestInt64.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFMF4A6BB9443DAE /* unit/TestLocals.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TestLocals.m; path = Test/unit/TestLocals.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFHF4A6BB9443DAE /* unit/TestLocals.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TestLocals.h; path = Test/unit/TestLocals.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM962E7393068FE /* unit/TestMatch.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TestMatch.m; path = Test/unit/TestMatch.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM29050B4FB528B /* unit/TestMeta.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TestMeta.m; path = Test/unit/TestMeta.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFMACB07C0F41532 /* unit/TestMisc.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TestMisc.m; path = Test/unit/TestMisc.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFHACB07C0F41532 /* unit/TestMisc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TestMisc.h; path = Test/unit/TestMisc.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM4088A2F057E6F /* unit/TestOps.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TestOps.m; path = Test/unit/TestOps.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFH4088A2F057E6F /* unit/TestOps.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TestOps.h; path = Test/unit/TestOps.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM41F671D44FFD6 /* unit/TestOrder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TestOrder.m; path = Test/unit/TestOrder.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFH527BE7ADEAF0E /* unit/TestReflect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TestReflect.h; path = Test/unit/TestReflect.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM6AB34A78324C7 /* unit/TestResource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TestResource.m; path = Test/unit/TestResource.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFH6AB34A78324C7 /* unit/TestResource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TestResource.h; path = Test/unit/TestResource.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM0BFEFFC90B68C /* unit/TestSerialize.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TestSerialize.m; path = Test/unit/TestSerialize.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFH0BFEFFC90B68C /* unit/TestSerialize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TestSerialize.h; path = Test/unit/TestSerialize.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM31C21F9F7003B /* unit/TestSpecification.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TestSpecification.m; path = Test/unit/TestSpecification.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFH31C21F9F7003B /* unit/TestSpecification.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TestSpecification.h; path = Test/unit/TestSpecification.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM1C9484FC6710C /* unit/TestType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TestType.m; path = Test/unit/TestType.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFH1C9484FC6710C /* unit/TestType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TestType.h; path = Test/unit/TestType.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM66D2B01621D69 /* unit/TestXML.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TestXML.m; path = Test/unit/TestXML.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFH66D2B01621D69 /* unit/TestXML.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TestXML.h; path = Test/unit/TestXML.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCDIRREFE85ABA96D37 /* haxe/ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = haxe; sourceTree = "<group>"; };
+		TESTSRCDIRREF1A4C0EF0748 /* unit/ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = unit; sourceTree = "<group>"; };
+		TESTRESREFC398B4972FE836 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		TESTRESREFD17FEB0DE87B92 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		TESTRESREF96BF51AA985FFE /* Test-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Test-Info.plist"; sourceTree = "<group>"; };
+		TESTRESREF70FD764480D760 /* Test-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Test-Prefix.pch"; sourceTree = "<group>"; };
+		TESTRESREF086269C989D672 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		TESTRESREF97518912F40D44 /* Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Test.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		TESTRESREFF6370BCBEE5424 /* TestTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+
+/* Begin PBXFrameworksBuildPhase section */
+		TESTRESREFC4AA4EB91AB9EE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				TESTSRCREFHF79750FFC0AF9 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		TESTRESREF79A6D07A1E73D8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				TESTSRCREFHF79750FFC0AF9 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		TESTRESREFB8089ED2177128 = {
+			isa = PBXGroup;
+			children = (
+				TESTRESREF51645502E5E357 /* Test */,
+				TESTRESREFD77920CECFA66F /* TestTests */,
+				TESTRESREFBEBF3B8BB1F58C /* Frameworks */,
+				TESTRESREF35E63AA7BBB443 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		TESTRESREF35E63AA7BBB443 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				TESTRESREF97518912F40D44 /* Test.app */,
+				TESTRESREFF6370BCBEE5424 /* TestTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		TESTRESREFBEBF3B8BB1F58C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				TESTSRCREFHD76DDB92BD138 /* Foundation.framework in Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		TESTRESREF51645502E5E357 /* Test */ = {
+			isa = PBXGroup;
+			children = (
+				TESTSRCREFM6C1A68100CA0C /* Array.m */,
+				TESTSRCREFH6C1A68100CA0C /* Array.h */,
+				TESTSRCREFMC183E983DCD78 /* Date.m */,
+				TESTSRCREFHC183E983DCD78 /* Date.h */,
+				TESTSRCREFME6FE6145CFAE4 /* EReg.m */,
+				TESTSRCREFHE6FE6145CFAE4 /* EReg.h */,
+				TESTSRCREFM4CAD85DA1EEBB /* Lambda.m */,
+				TESTSRCREFH4CAD85DA1EEBB /* Lambda.h */,
+				TESTSRCREFMD126654BD0E52 /* List.m */,
+				TESTSRCREFHD126654BD0E52 /* List.h */,
+				TESTSRCREFM91E956E8DC18D /* Reflect.m */,
+				TESTSRCREFH91E956E8DC18D /* Reflect.h */,
+				TESTSRCREFM348C7DDEC66F1 /* Std.m */,
+				TESTSRCREFH348C7DDEC66F1 /* Std.h */,
+				TESTSRCREFMD3829667A400A /* String.m */,
+				TESTSRCREFHD3829667A400A /* String.h */,
+				TESTSRCREFMA6FE0B349A561 /* StringBuf.m */,
+				TESTSRCREFHA6FE0B349A561 /* StringBuf.h */,
+				TESTSRCREFMAB3EE64B6B194 /* StringTools.m */,
+				TESTSRCREFHAB3EE64B6B194 /* StringTools.h */,
+				TESTSRCREFM2B4902F7AE3BD /* Type.m */,
+				TESTSRCDIRREFE85ABA96D37 /* haxe/ */,
+				TESTSRCDIRREF1A4C0EF0748 /* unit/ */,
+				TESTRESREF45E84E321C8F8F /* Supporting Files */,
+			);
+			path = Test;
+			sourceTree = "<group>";
+		};
+		TESTRESREF45E84E321C8F8F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				TESTRESREF96BF51AA985FFE /* Test-Info.plist */,
+				TESTRESREFFF3D47309BAF6C /* InfoPlist.strings */,
+				TESTRESREF086269C989D672 /* main.m */,
+				TESTRESREF70FD764480D760 /* Test-Prefix.pch */,
+				TESTRESREF0C963413CD60D4 /* Default-568h@2x.png in Resoures */,
+				TESTRESREF3E6E7B686AAA68 /* Default.png in Resoures */,
+				TESTRESREF33BB17EB997C60 /* Default@2x.png in Resoures */,
+				TESTRESREF493FF4ED3F396D /* Icon-72.png in Resoures */,
+				TESTRESREF4F061747389F57 /* Icon-72@2x.png in Resoures */,
+				TESTRESREF91ED824047C2FF /* Icon.png in Resoures */,
+				TESTRESREF96566C326C4BE6 /* Icon@2x.png in Resoures */,
+
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		TESTRESREFD77920CECFA66F /* TestTests */ = {
+			isa = PBXGroup;
+			children = (
+				/* 28BFDA091628A95900882B34 TestTests.h ,*/
+				/* 28BFDA0A1628A95900882B34 TestTests.m ,*/
+				TESTRESREF6ECB2552D5A79E /* Supporting Files */,
+			);
+			path = TestTests;
+			sourceTree = "<group>";
+		};
+		TESTRESREF6ECB2552D5A79E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				/* 28BFDA051628A95900882B34 TestTests-Info.plist ,*/
+				TESTRESREFAD34034122B42F /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		TESTRESREF7CDA0D4237F7D7 /* Test */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = TESTRESREFFAC6BC8E07BD4D /* Build configuration list for PBXNativeTarget "Test" */;
+			buildPhases = (
+				TESTRESREF646AEDCC9FCDA4 /* Sources */,
+				TESTRESREFC4AA4EB91AB9EE /* Frameworks */,
+				TESTRESREFBD262E1012FA31 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Test;
+			productName = Test;
+			productReference = TESTRESREF97518912F40D44 /* Test.app */;
+			productType = "com.apple.product-type.application";
+		};
+		TESTRESREF145BEF20B58677 /* TestTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = TESTRESREF24714CAF18580F /* Build configuration list for PBXNativeTarget "TestTests" */;
+			buildPhases = (
+				TESTRESREFF73204458BEF58 /* Sources */,
+				TESTRESREF79A6D07A1E73D8 /* Frameworks */,
+				TESTRESREFCDE344DF717D13 /* Resources */,
+				TESTRESREF9BA3353217DEA0 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				TESTRESREF6B1A944A594DA2 /* PBXTargetDependency */,
+			);
+			name = TestTests;
+			productName = TestTests;
+			productReference = TESTRESREFF6370BCBEE5424 /* TestTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		TESTRESREF4CB7AE6C4E1B38 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = "You";
+			};
+			buildConfigurationList = TESTRESREFAD9C163C11ABE4 /* Build configuration list for PBXProject "Test" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = TESTRESREFB8089ED2177128;
+			productRefGroup = TESTRESREF35E63AA7BBB443 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				TESTRESREF7CDA0D4237F7D7 /* Test */,
+				TESTRESREF145BEF20B58677 /* TestTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		TESTRESREFBD262E1012FA31 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				TESTRESREF12485253914667 /* InfoPlist.strings in Resources */,
+				TESTSRCDIRB2DE85ABA96D37 /* haxe/ in Resoures */,
+				TESTSRCDIR7A81A4C0EF0748 /* unit/ in Resoures */,
+				TESTRESCED0C963413CD60D4 /* Default-568h@2x.png in Resoures */,
+				TESTRES9583E6E7B686AAA68 /* Default.png in Resoures */,
+				TESTRES75B33BB17EB997C60 /* Default@2x.png in Resoures */,
+				TESTRES542493FF4ED3F396D /* Icon-72.png in Resoures */,
+				TESTRESACA4F061747389F57 /* Icon-72@2x.png in Resoures */,
+				TESTRES49491ED824047C2FF /* Icon.png in Resoures */,
+				TESTRESE4096566C326C4BE6 /* Icon@2x.png in Resoures */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		TESTRESREFCDE344DF717D13 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				TESTRESREF0CEDFD52164E4F /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		TESTRESREF9BA3353217DEA0 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\
+\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\
+";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		TESTRESREF646AEDCC9FCDA4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+TESTRESREF489B1422E28349 /* main.m in Sources */,
+				TESTSRCMD9E6C1A68100CA0C /* Array.m in Sources */,
+				TESTSRCMDBEC183E983DCD78 /* Date.m in Sources */,
+				TESTSRCM3BEE6FE6145CFAE4 /* EReg.m in Sources */,
+				TESTSRCM5B04CAD85DA1EEBB /* Lambda.m in Sources */,
+				TESTSRCM2C7D126654BD0E52 /* List.m in Sources */,
+				TESTSRCME4491E956E8DC18D /* Reflect.m in Sources */,
+				TESTSRCM0A9348C7DDEC66F1 /* Std.m in Sources */,
+				TESTSRCM006D3829667A400A /* String.m in Sources */,
+				TESTSRCME41A6FE0B349A561 /* StringBuf.m in Sources */,
+				TESTSRCM92EAB3EE64B6B194 /* StringTools.m in Sources */,
+				TESTSRCM9242B4902F7AE3BD /* Type.m in Sources */,
+				TESTSRCMD58F7179F3DB42F0 /* haxe/CallStack.m in Sources */,
+				TESTSRCM40F6D0E926C84B12 /* haxe/Int64.m in Sources */,
+				TESTSRCM958EC66401912A34 /* haxe/Json.m in Sources */,
+				TESTSRCMA620EEFCE8490172 /* haxe/Log.m in Sources */,
+				TESTSRCM6EE69173E6955E40 /* haxe/Resource.m in Sources */,
+				TESTSRCME508F41742E10A5E /* haxe/Serializer.m in Sources */,
+				TESTSRCMCC5050D0A5A99160 /* haxe/Template.m in Sources */,
+				TESTSRCMBDC2110D0D29ED82 /* haxe/Timer.m in Sources */,
+				TESTSRCM06353FF30B8AD2A3 /* haxe/Unserializer.m in Sources */,
+				TESTSRCM54C5F29B0DD37C14 /* haxe/crypto/BaseCode.m in Sources */,
+				TESTSRCM3B2684E523748E86 /* haxe/crypto/Md5.m in Sources */,
+				TESTSRCMA05E4383D7313EB8 /* haxe/crypto/Sha1.m in Sources */,
+				TESTSRCMC14DF8D0D0583986 /* haxe/ds/GenericStack.m in Sources */,
+				TESTSRCM55D108B56D4448D7 /* haxe/ds/HashMap.m in Sources */,
+				TESTSRCM2DB5356064FE22DA /* haxe/ds/IntMap.m in Sources */,
+				TESTSRCMDAB1477FCB682C78 /* haxe/ds/ObjectMap.m in Sources */,
+				TESTSRCM32E96777F7216256 /* haxe/ds/StringMap.m in Sources */,
+				TESTSRCMEA8A279883CA2B15 /* haxe/io/Bytes.m in Sources */,
+				TESTSRCM6C36CBD688F0CA2B /* haxe/io/BytesBuffer.m in Sources */,
+				TESTSRCM7A261AF00EE89FD6 /* haxe/io/Input.m in Sources */,
+				TESTSRCM8DF616DF56C8F680 /* haxe/io/BytesInput.m in Sources */,
+				TESTSRCM3204328988BB5B14 /* haxe/io/Output.m in Sources */,
+				TESTSRCMF17900ADA39EADB5 /* haxe/io/BytesOutput.m in Sources */,
+				TESTSRCM22F5D86EBF499A02 /* haxe/io/Eof.m in Sources */,
+				TESTSRCM37B5A0E642DF5D28 /* haxe/rtti/Meta.m in Sources */,
+				TESTSRCM1CE34029147B283F /* haxe/xml/Parser.m in Sources */,
+				TESTSRCME7D1171999916242 /* unit/MyAbstract.m in Sources */,
+				TESTSRCMC373700A375334E7 /* unit/MyClass.m in Sources */,
+				TESTSRCM7A9513C7E470E4D1 /* unit/MyMacro.m in Sources */,
+				TESTSRCMC8F9DC6189F1765A /* unit/MySubClass.m in Sources */,
+				TESTSRCM235962BFC2919D5A /* unit/MyUsing1.m in Sources */,
+				TESTSRCM08B9D149C5E2F54C /* unit/MyUsing2.m in Sources */,
+				TESTSRCMEF9A5C48B231C971 /* unit/Test.m in Sources */,
+				TESTSRCM0B1850D273F6459E /* unit/TestBasetypes.m in Sources */,
+				TESTSRCM4049AE9175DC748C /* unit/TestBytes.m in Sources */,
+				TESTSRCM87D822FD10427950 /* unit/TestEReg.m in Sources */,
+				TESTSRCM939503448EE92C57 /* unit/TestIO.m in Sources */,
+				TESTSRCM64173649DB4FCC82 /* unit/TestInt64.m in Sources */,
+				TESTSRCM3A7F4A6BB9443DAE /* unit/TestLocals.m in Sources */,
+				TESTSRCM91E962E7393068FE /* unit/TestMatch.m in Sources */,
+				TESTSRCMEC729050B4FB528B /* unit/TestMeta.m in Sources */,
+				TESTSRCMCBAACB07C0F41532 /* unit/TestMisc.m in Sources */,
+				TESTSRCM69D4088A2F057E6F /* unit/TestOps.m in Sources */,
+				TESTSRCM96741F671D44FFD6 /* unit/TestOrder.m in Sources */,
+				TESTSRCMEFA6AB34A78324C7 /* unit/TestResource.m in Sources */,
+				TESTSRCM65A0BFEFFC90B68C /* unit/TestSerialize.m in Sources */,
+				TESTSRCMF8731C21F9F7003B /* unit/TestSpecification.m in Sources */,
+				TESTSRCMB881C9484FC6710C /* unit/TestType.m in Sources */,
+				TESTSRCM56466D2B01621D69 /* unit/TestXML.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		TESTRESREFF73204458BEF58 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				/* 28BFDA0B1628A95900882B34  TestTests.m in Sources ,*/
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		TESTRESREF6B1A944A594DA2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = TESTRESREF7CDA0D4237F7D7 /* Test */;
+			targetProxy = TESTRESREFADC0559F5D21DE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		TESTRESREFFF3D47309BAF6C /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				TESTRESREFC398B4972FE836 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		TESTRESREFAD34034122B42F /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				TESTRESREFD17FEB0DE87B92 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		TESTRESREFBC55AB8DFC62E4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		TESTRESREF3C03A5ED9E3F57 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		TESTRESREF7DB04D4A4C7FC7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Test/Test-Prefix.pch";
+				INFOPLIST_FILE = "Test/Test-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		TESTRESREFD955E80AD029C9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Test/Test-Prefix.pch";
+				INFOPLIST_FILE = "Test/Test-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		TESTRESREF3BABCD28AFEE46 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Test.app/Test";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Test/Test-Prefix.pch";
+				INFOPLIST_FILE = "TestTests/TestTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		TESTRESREF931DBCF2DFDFCB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Test.app/Test";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Test/Test-Prefix.pch";
+				INFOPLIST_FILE = "TestTests/TestTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		TESTRESREFAD9C163C11ABE4 /* Build configuration list for PBXProject "Test" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				TESTRESREFBC55AB8DFC62E4 /* Debug */,
+				TESTRESREF3C03A5ED9E3F57 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		TESTRESREFFAC6BC8E07BD4D /* Build configuration list for PBXNativeTarget "Test" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				TESTRESREF7DB04D4A4C7FC7 /* Debug */,
+				TESTRESREFD955E80AD029C9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		TESTRESREF24714CAF18580F /* Build configuration list for PBXNativeTarget "TestTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				TESTRESREF3BABCD28AFEE46 /* Debug */,
+				TESTRESREF931DBCF2DFDFCB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = TESTRESREF4CB7AE6C4E1B38 /* Project object */;
+}

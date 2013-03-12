@@ -472,7 +472,7 @@ nil];
 				NSMutableArray *pl = [[NSMutableArray alloc] init];
 				
 				StringBuf *old = self.buf;
-				[pl push:self resolve];
+				[pl push:resolve:];
 				{
 					id _it4 = [e_eOpMacro_1 iterator];
 					while ( [_it4 hasNext] ) do {

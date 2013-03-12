@@ -28,7 +28,7 @@
 }
 - (id) init:(int)time_ms{
 	self = [super init];
-	self.nstimer = [NSTimer timerWithTimeInterval:time_ms * 1000 target:self selector:self nsrun userInfo:nil repeats:YES];
+	self.nstimer = [NSTimer timerWithTimeInterval:time_ms * 1000 target:self selector:@selector(nsrun:) userInfo:nil repeats:YES];
 	
 	NSRunLoop *runner = [NSRunLoop currentRunLoop];
 	[runner addTimer:self.nstimer forMode: NSDefaultRunLoopMode];

@@ -212,10 +212,10 @@ static NSMutableString* unit;
 - (void) testClosure{
 	
 	MyClass *c = [[MyClass alloc] init:100];
-	SEL add = c add;
+	SEL add = add:y:;
 	[self eq:[c add:1 y:2] v2:103 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"137",@"lineNumber", @"unit.TestMisc",@"className", @"testClosure",@"methodName", nil]];
 	[self eq:[ (((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:c add]
+	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:add:y:]
 	__r__ = ^- (int) :(int)y{
 		return [[f hx_objectAtIndex:0]:1 y:y];
 	}
@@ -238,7 +238,7 @@ static NSMutableString* unit;
 	[self eq:[o f] v2:5 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"148",@"lineNumber", @"unit.TestMisc",@"className", @"testClosure",@"methodName", nil]];
 	[self eq:o f v2:o f pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"149",@"lineNumber", @"unit.TestMisc",@"className", @"testClosure",@"methodName", nil]];
 	id o1 = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[c add copy], @"add",
+	[add:y: copy], @"add",
 	nil];
 	[self eq:[o1 add:1 y:2] v2:103 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"152",@"lineNumber", @"unit.TestMisc",@"className", @"testClosure",@"methodName", nil]];
 	[self eq:o1 add v2:o1 add pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"153",@"lineNumber", @"unit.TestMisc",@"className", @"testClosure",@"methodName", nil]];
@@ -271,18 +271,18 @@ static NSMutableString* unit;
 }
 - (void) testCaptureUnique2{
 	SEL foo = ((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:self id]
+	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:id:]
 	__r__ = ^- (int) {
-		return [[f hx_objectAtIndex:0]-TLazy];
+		return [[f hx_objectAtIndex:0]-TLazy call-];
 	}
 	return __r__{
 		
 		SEL* __r__}
 	}(self));
 	SEL bar = ((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:self sq]
+	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:sq:]
 	__r__2 = ^- (int) {
-		return [[f hx_objectAtIndex:0]-TLazy];
+		return [[f hx_objectAtIndex:0]-TLazy call-];
 	}
 	return __r__2{
 		
@@ -350,17 +350,17 @@ static NSMutableString* unit;
 - (void) testInlineClosure{
 	
 	MyDynamicClass *inst = [[MyDynamicClass alloc] init:100];
-	SEL add = inst iadd;
+	SEL add = iadd:y:;
 	[self eq:inst.v + 1 + 2 v2:103 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"245",@"lineNumber", @"unit.TestMisc",@"className", @"testInlineClosure",@"methodName", nil]];
 	[self eq:[add:1 y:2] v2:103 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"246",@"lineNumber", @"unit.TestMisc",@"className", @"testInlineClosure",@"methodName", nil]];
 }
 - (void) testDynamicClosure{
 	
 	MyDynamicClass *inst = [[MyDynamicClass alloc] init:100];
-	SEL add = inst add;
+	SEL add = add:y:;
 	[self eq:[inst add:1 y:2] v2:103 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"252",@"lineNumber", @"unit.TestMisc",@"className", @"testDynamicClosure",@"methodName", nil]];
 	[self eq:[ (((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:inst add]
+	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:add:y:]
 	__r__ = ^- (int) :(int)y{
 		return [[f hx_objectAtIndex:0]:1 y:y];
 	}
@@ -371,10 +371,10 @@ static NSMutableString* unit;
 	[self eq:[add:1 y:2] v2:103 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"254",@"lineNumber", @"unit.TestMisc",@"className", @"testDynamicClosure",@"methodName", nil]];
 	
 	MyDynamicSubClass *inst1 = [[MyDynamicSubClass alloc] init "-dynamic_param-" ];
-	SEL add1 = inst1 add;
+	SEL add1 = add:y:;
 	[self eq:[inst1 add:1 y:2] v2:206 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"259",@"lineNumber", @"unit.TestMisc",@"className", @"testDynamicClosure",@"methodName", nil]];
 	[self eq:[ (((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:inst1 add]
+	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:add:y:]
 	__r__2 = ^- (int) :(int)y{
 		return [[f hx_objectAtIndex:0]:1 y:y];
 	}
@@ -385,10 +385,10 @@ static NSMutableString* unit;
 	[self eq:[add1:1 y:2] v2:206 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"261",@"lineNumber", @"unit.TestMisc",@"className", @"testDynamicClosure",@"methodName", nil]];
 	
 	NSMutableArray *inst2 = [[NSMutableArray alloc] initWithObject:[[MyDynamicSubClass2 alloc] init "-dynamic_param-" ]];
-	SEL add2 = [inst2 hx_objectAtIndex:0] add;
+	SEL add2 = add:y:;
 	[self eq:[[inst2 hx_objectAtIndex:0] add:1 y:2] v2:206 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"266",@"lineNumber", @"unit.TestMisc",@"className", @"testDynamicClosure",@"methodName", nil]];
 	[self eq:[ (((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:[inst2 hx_objectAtIndex:[NSNumber numberWithInt:0]] add]
+	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:add:y:]
 	__r__3 = ^- (int) :(int)y{
 		return [[f hx_objectAtIndex:0]:1 y:y];
 	}
@@ -400,10 +400,10 @@ static NSMutableString* unit;
 	[inst2 hx_objectAtIndex:0].add = ^- (int) :(int)x y:(int)y{
 		return [[inst2 hx_objectAtIndex:0] get] * 2 + x + y;
 	}
-	SEL add3 = [inst2 hx_objectAtIndex:0] add;
+	SEL add3 = add:y:;
 	[self eq:[[inst2 hx_objectAtIndex:0] add:1 y:2] v2:203 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"273",@"lineNumber", @"unit.TestMisc",@"className", @"testDynamicClosure",@"methodName", nil]];
 	[self eq:[ (((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:[inst2 hx_objectAtIndex:[NSNumber numberWithInt:0]] add]
+	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:add:y:]
 	__r__4 = ^- (int) :(int)y{
 		return [[f hx_objectAtIndex:0]:1 y:y];
 	}
@@ -414,10 +414,10 @@ static NSMutableString* unit;
 	[self eq:[add3:1 y:2] v2:203 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"275",@"lineNumber", @"unit.TestMisc",@"className", @"testDynamicClosure",@"methodName", nil]];
 	
 	MyOtherDynamicClass *inst3 = [[MyOtherDynamicClass alloc] init:0];
-	SEL add4 = inst3 add;
+	SEL add4 = add:y:;
 	[self eq:[inst3 add:1 y:2] v2:13 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"280",@"lineNumber", @"unit.TestMisc",@"className", @"testDynamicClosure",@"methodName", nil]];
 	[self eq:[ (((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:inst3 add]
+	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:add:y:]
 	__r__5 = ^- (int) :(int)y{
 		return [[f hx_objectAtIndex:0]:1 y:y];
 	}
@@ -520,7 +520,7 @@ static NSMutableString* unit;
 	[self eq:[self opt3:nil y:7.4] y v2:7.4 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"369",@"lineNumber", @"unit.TestMisc",@"className", @"testOptionalParams",@"methodName", nil]];
 	[self eq:[self opt4:nil] v2:11 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"371",@"lineNumber", @"unit.TestMisc",@"className", @"testOptionalParams",@"methodName", nil]];
 	[self eq:[self opt4:nil] v2:11 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"373",@"lineNumber", @"unit.TestMisc",@"className", @"testOptionalParams",@"methodName", nil]];
-	SEL opt4b = self opt4;
+	SEL opt4b = opt4:;
 	[self eq:[opt4b:nil] v2:11 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"377",@"lineNumber", @"unit.TestMisc",@"className", @"testOptionalParams",@"methodName", nil]];
 	[self eq:[opt4b:3] v2:4 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"378",@"lineNumber", @"unit.TestMisc",@"className", @"testOptionalParams",@"methodName", nil]];
 	[self eq:[opt4b:nil] v2:11 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMisc.hx",@"fileName", @"380",@"lineNumber", @"unit.TestMisc",@"className", @"testOptionalParams",@"methodName", nil]];

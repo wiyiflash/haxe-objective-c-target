@@ -23,8 +23,8 @@
  * DAMAGE.
  */
 
-typedef NSDate = objc.foundation.NSDate;
-typedef NSCalendar = objc.foundation.NSCalendar;
+import objc.foundation.NSDate;
+import objc.foundation.NSCalendar;
 typedef NSDateComponents = Dynamic;
 
 @:framework("Foundation") @:category("NSDate") @:coreApi class Date {
@@ -36,13 +36,13 @@ typedef NSDateComponents = Dynamic;
 	public function new (year : Int, month : Int, day : Int, hour : Int, min : Int, sec : Int ) :Void {
 		
 		_calendar = NSCalendar.currentCalendar();
-		
-		_components = _calendar.components (NSCalendar.NSYearCalendarUnit | 
-											NSCalendar.NSMonthCalendarUnit | 
-											NSCalendar.NSDayCalendarUnit | 
-											NSCalendar.NSHourCalendarUnit | 
-											NSCalendar.NSMinuteCalendarUnit | 
-											NSCalendar.NSSecondCalendarUnit, NSDate.date());
+		// This is an Int enum in objc
+		_components = _calendar.components (untyped NSYearCalendarUnit | 
+											NSMonthCalendarUnit | 
+											NSDayCalendarUnit | 
+											NSHourCalendarUnit | 
+											NSMinuteCalendarUnit | 
+											NSSecondCalendarUnit, NSDate.date());
 		_components.setYear ( year );
 		_components.setMonth ( month );
 		_components.setDay ( day );
@@ -75,12 +75,12 @@ typedef NSDateComponents = Dynamic;
 
 	public static function now() : Date {
 		var calendar = NSCalendar.currentCalendar();
-		var components = calendar.components (	NSCalendar.NSYearCalendarUnit | 
-												NSCalendar.NSMonthCalendarUnit | 
-												NSCalendar.NSDayCalendarUnit | 
-												NSCalendar.NSHourCalendarUnit | 
-												NSCalendar.NSMinuteCalendarUnit | 
-												NSCalendar.NSSecondCalendarUnit, NSDate.date());
+		var components = calendar.components (untyped NSYearCalendarUnit | 
+												NSMonthCalendarUnit | 
+												NSDayCalendarUnit | 
+												NSHourCalendarUnit | 
+												NSMinuteCalendarUnit | 
+												NSSecondCalendarUnit, NSDate.date());
 												
 		return new Date (components.year(),components.month(),components.day(),components.hour(),components.minute(),components.second());
 	}
