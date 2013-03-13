@@ -180,7 +180,6 @@ module Define = struct
 		| Interp
 		| JavaVer
 		| JsClassic
-		| JsModern
 		| Macro
 		| MacroTimes
 		| NekoSource
@@ -241,7 +240,6 @@ module Define = struct
 		| Interp -> ("interp","The code is compiled to be run with --interp")
 		| JavaVer -> ("java_ver", "<version:5-7> Sets the Java version to be targeted")
 		| JsClassic -> ("js_classic","Don't use a function wrapper and strict mode in JS output")
-		| JsModern -> ("js_modern","Use function wrapper and strict mode in JS output")
 		| Macro -> ("macro","Defined when we compile code in the macro context")
 		| MacroTimes -> ("macro_times","Display per-macro timing when used with --times")
 		| NekoSource -> ("neko_source","Output neko source instead of bytecode")
@@ -286,6 +284,7 @@ module MetaInfo = struct
 		| TAbstractField
 		| TEnum
 		| TTypedef
+		| TAnyField
 
 	type meta_parameter =
 		| HasParam of string
@@ -359,6 +358,7 @@ module MetaInfo = struct
 		| NoCompletion -> ":noCompletion",("Prevents the compiler from suggesting completion on this field",[UsedOn TClassField])
 		| NoDebug -> ":noDebug",("Does not generate debug information into the Swf even if -debug is set",[UsedOnEither [TClass;TClassField];Platform Flash])
 		| NoDoc -> ":noDoc",("Prevents a type from being included in documentation generation",[])
+		| NoImportGlobal -> ":noImportGlobal",("Prevents a static field from being imported with import Class.*",[UsedOn TAnyField])
 		| NoPackageRestrict -> ":noPackageRestrict",("?",[])
 		| NoStack -> ":noStack",("",[Platform Cpp])
 		| NotNull -> ":notNull",("Declares an abstract type as not accepting null values",[UsedOn TAbstract])

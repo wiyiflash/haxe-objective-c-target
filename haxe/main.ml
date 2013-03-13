@@ -813,7 +813,8 @@ try
 	with
 		Not_found ->
 			if Sys.os_type = "Unix" then
-				com.class_path <- ["/Users/Cristi/Documents/haxecompiler/haxe/std/";"/usr/lib/haxe/std/";"/usr/local/lib/haxe/std/";"/usr/lib/haxe/std/libs/";"/usr/local/lib/haxe/std/libs/";"";"/"]
+				com.class_path <- ["/Users/Cristi/Documents/haxecompiler/haxe/std/";"";"/"]
+				(* com.class_path <- ["/usr/lib/haxe/std/";"/usr/local/lib/haxe/std/";"/usr/lib/haxe/std/libs/";"/usr/local/lib/haxe/std/libs/";"";"/"] *)
 			else
 				let base_path = normalize_path (Extc.get_real_path (try executable_path() with _ -> "./")) in
 				com.class_path <- [base_path ^ "std/";base_path ^ "std/libs/";""]);
@@ -996,9 +997,6 @@ try
 			com.foptimize <- false;
 			Common.define com Define.NoOpt;
 		), ": disable code optimizations");
-		("--js-modern", Arg.Unit (fun() ->
-			Common.define com Define.JsModern;
-		), ": wrap JS output in a closure, strict mode, and other upcoming features");
 		("--php-front",Arg.String (fun f ->
 			if com.php_front <> None then raise (Arg.Bad "Multiple --php-front");
 			com.php_front <- Some f;
@@ -1045,11 +1043,13 @@ try
 				let d = Obj.magic i in
 				if d <> Define.Last then begin
 					let t, doc = Define.infos d in
-					message ctx (String.concat "-" (ExtString.String.nsplit t "_") ^ " : " ^ doc) Ast.null_pos;
-					loop (i + 1)
-				end
+					let str = String.concat "-" (ExtString.String.nsplit t "_") ^ " : " ^ doc in
+					str :: loop (i + 1)
+				end else
+					[]
 			in
-			loop 0;
+			let all = List.sort String.compare (loop 0) in
+			List.iter (fun msg -> ctx.com.print (msg ^ "\n")) all;
 			did_something := true
 		),": print help for all compiler specific defines");
 		(* ObjectiveC related parameters. *)
@@ -1080,6 +1080,37 @@ try
 		("-ios-orientation",Arg.String (fun v ->
 			com.ios_orientation <- Some v;
 		),"<orientation> : add iOS orientations. e.g. UIInterfaceOrientationPortrait");
+		("--help-metas", Arg.Unit (fun() ->
+			let rec loop i =
+				let d = Obj.magic i in
+				if d <> Meta.Last then begin
+					let t, (doc,flags) = MetaInfo.to_string d in
+					let params = ref [] and used = ref [] and pfs = ref [] in
+					List.iter (function
+						| MetaInfo.HasParam s -> params := s :: !params
+						| MetaInfo.Platform f -> pfs := f :: !pfs
+						| MetaInfo.Platforms fl -> pfs := fl @ !pfs
+						| MetaInfo.UsedOn u -> used := u :: !used
+						| MetaInfo.UsedOnEither ul -> used := ul @ !used
+					) flags;
+					let params = (match List.rev !params with
+						| [] -> ""
+						| l -> "(" ^ String.concat "," l ^ ")"
+					) in
+					let pfs = (match List.rev !pfs with
+						| [] -> ""
+						| [p] -> " (" ^ platform_name p ^ " only)"
+						| pl -> " (for " ^ String.concat "," (List.map platform_name pl) ^ ")"
+					) in
+					let str = "@" ^ t ^ params ^ " : " ^ doc ^ pfs in
+					str :: loop (i + 1)
+				end else
+					[]
+			in
+			let all = List.sort String.compare (loop 0) in
+			List.iter (fun msg -> ctx.com.print (msg ^ "\n")) all;
+			did_something := true
+		),": print help for all compiler metadatas");
 	] in
 	let args_callback cl = classes := make_path cl :: !classes in
 	let process args =
