@@ -11,6 +11,9 @@ cd ../hxcocoa/demos/Hello
 cd ../PiratePig
 # ./../../../haxe/haxe compile.hxml
 
+cd ../WWX
+./../../../haxe/haxe compile.hxml
+
 echo " "
 echo "Build ObjC tests..."
 echo " "
@@ -30,4 +33,4 @@ echo "Build utests..."
 echo " "
 
 cd ../../..
-./haxe/haxe -cp haxe/tests -objc utests -main unit.Test -lib hxcocoa --times
+# ./haxe/haxe -cp haxe/tests -objc utests -main unit.Test -lib hxcocoa --times

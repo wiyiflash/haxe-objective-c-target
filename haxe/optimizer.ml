@@ -149,7 +149,7 @@ let rec type_inline ctx cf f ethis params tret config p force =
 			}
 	in
 	(* use default values for null/unset arguments *)
-	let rec loop pl al =
+	let rec loop pl al first =
 		match pl, al with
 		| _, [] -> []
 		| e :: pl, (v, opt) :: al ->
@@ -165,16 +165,19 @@ let rec type_inline ctx cf f ethis params tret config p force =
 			if v.v_type != t_dynamic && follow e.etype == t_dynamic then (local v).i_write <- true;
 			(match e.eexpr, opt with
 			| TConst TNull , Some c -> mk (TConst c) v.v_type e.epos
-			| _ -> e) :: loop pl al
+			(* we have to check for abstract casts here because we can't do that later. However, we have to skip the check for the
+			   first argument of abstract implementation functions. *)
+			| _ when not (first && Meta.has Meta.Impl cf.cf_meta) -> (!check_abstract_cast_ref) ctx (map_type v.v_type) e e.epos
+			| _ -> e) :: loop pl al false
 		| [], (v,opt) :: al ->
-			mk (TConst (match opt with None -> TNull | Some c -> c)) v.v_type p :: loop [] al
+			mk (TConst (match opt with None -> TNull | Some c -> c)) v.v_type p :: loop [] al false
 	in
 	(*
 		Build the expr/var subst list
 	*)
 	let ethis = (match ethis.eexpr with TConst TSuper -> { ethis with eexpr = TConst TThis } | _ -> ethis) in
 	let vthis = alloc_var "_this" ethis.etype in
-	let inlined_vars = List.map2 (fun e (v,_) -> local v, e) (ethis :: loop params f.tf_args) ((vthis,None) :: f.tf_args) in
+	let inlined_vars = List.map2 (fun e (v,_) -> local v, e) (ethis :: loop params f.tf_args true) ((vthis,None) :: f.tf_args) in
 	(*
 		here, we try to eliminate final returns from the expression tree.
 		However, this is not entirely correct since we don't yet correctly propagate
@@ -438,7 +441,7 @@ let rec type_inline ctx cf f ethis params tret config p force =
 (* ---------------------------------------------------------------------- *)
 (* LOOPS *)
 
-let optimize_for_loop ctx i e1 e2 p =
+let rec optimize_for_loop ctx i e1 e2 p =
 	let t_void = ctx.t.tvoid in
 	let t_int = ctx.t.tint in
 	let lblock el = Some (mk (TBlock el) t_void p) in
@@ -463,10 +466,18 @@ let optimize_for_loop ctx i e1 e2 p =
 			| _ -> mk (TBlock [aget;incr;e2]) t_void p
 		in
 		let ivar = index, Some (mk (TConst (TInt 0l)) t_int p) in
+		let elength = match follow e1.etype with
+			| TAbstract({a_impl = Some c},_) ->
+				let ta = TAnon { a_fields = c.cl_statics; a_status = ref (Statics c) } in
+				let ethis = mk (TTypeExpr (TClassDecl c)) ta e1.epos in
+				let efield = mk (mk_field ethis "get_length") (tfun [arr.etype] t_int) p in
+				make_call ctx efield [arr] t_int e1.epos
+			| _ -> mk (mk_field arr "length") t_int p
+		in
 		lblock [
 			mk (TVars (ivar :: avars)) t_void p;
 			mk (TWhile (
-				mk (TBinop (OpLt, iexpr, mk (mk_field arr "length") t_int p)) ctx.t.tbool p,
+				mk (TBinop (OpLt, iexpr, elength)) ctx.t.tbool p,
 				block,
 				NormalWhile
 			)) t_void p;
@@ -531,6 +542,8 @@ let optimize_for_loop ctx i e1 e2 p =
 		gen_int_iter pt
 	| _ , TInst({ cl_array_access = Some pt } as c,pl) when (try match follow (PMap.find "length" c.cl_fields).cf_type with TAbstract ({ a_path = [],"Int" },[]) -> true | _ -> false with Not_found -> false) && not (PMap.mem "iterator" c.cl_fields) ->
 		gen_int_iter (apply_params c.cl_types pl pt)
+	| (TLocal _ | TField _), TAbstract({a_impl = Some c} as a,[pt]) when Meta.has Meta.ArrayAccess a.a_meta && (try match follow (PMap.find "length" c.cl_statics).cf_type with TAbstract ({ a_path = [],"Int" },[]) -> true | _ -> false with Not_found -> false) && not (PMap.mem "iterator" c.cl_statics) ->
+		gen_int_iter pt
 	| _ , TInst ({ cl_kind = KGenericInstance ({ cl_path = ["haxe";"ds"],"GenericStack" },[t]) } as c,[]) ->
 		let tcell = (try (PMap.find "head" c.cl_fields).cf_type with Not_found -> assert false) in
 		let i = add_local ctx i t in
@@ -959,6 +972,104 @@ let rec make_constant_expression ctx e =
 	| _ -> None
 
 (* ---------------------------------------------------------------------- *)
+(* INLINE CONSTRUCTORS *)
+
+(*
+	First pass :
+	We will look at local variables in the form   var v = new ....
+	we only capture the ones which have constructors marked as inlined
+	then we make sure that these locals are no more referenced except for fields accesses
+
+	Second pass :
+	We replace the variables by their fields lists, and the corresponding fields accesses as well
+*)
+
+let inline_constructors ctx e =
+	let vars = ref PMap.empty in
+	let rec find_locals e =
+		match e.eexpr with
+		| TVars vl ->
+			Type.iter find_locals e;
+			List.iter (fun (v,e) ->
+				match e with
+				| Some ({ eexpr = TNew ({ cl_constructor = Some ({ cf_kind = Method MethInline; cf_expr = Some { eexpr = TFunction f } } as cst) },_,pl) } as n) ->
+					(* inline the constructor *)
+					(match (try type_inline ctx cst f (mk (TLocal v) v.v_type n.epos) pl v.v_type None n.epos true with Error (Custom _,_) -> None) with
+					| None -> ()
+					| Some ecst ->
+						let assigns = ref [] in
+						(* make sure we only have v.field = expr calls *)
+						let rec get_assigns e =
+							match e.eexpr with
+							| TBlock el ->
+								List.iter get_assigns el
+							| TBinop (OpAssign, { eexpr = TField ({ eexpr = TLocal vv },FInstance(_,cf)) }, e) when v == vv ->
+								assigns := (cf.cf_name,e) :: !assigns
+							| _ ->
+								raise Exit
+						in
+						try
+							get_assigns ecst;
+							(* mark variable as candidate for inlining *)
+							vars := PMap.add v.v_id (v,List.rev !assigns) !vars;
+							v.v_id <- -v.v_id; (* mark *)
+							(* recurse with the constructor code which will be inlined here *)
+							find_locals ecst
+						with Exit ->
+							())
+				| _ -> ()
+			) vl
+		| TField ({ eexpr = TLocal _ },_) ->
+			()
+		| TLocal v when v.v_id < 0 ->
+			v.v_id <- -v.v_id;
+			vars := PMap.remove v.v_id !vars;
+		| _ ->
+			Type.iter find_locals e
+	in
+	find_locals e;
+	let vars = !vars in
+	if PMap.is_empty vars then
+		e
+	else begin
+		let vfields = PMap.map (fun (v,assigns) ->
+			List.fold_left (fun (acc,map) (name,e) ->
+				let vf = alloc_var (v.v_name ^ "_" ^ name) e.etype in
+				((vf,e) :: acc, PMap.add name vf map)
+			) ([],PMap.empty) assigns
+		) vars in
+		let rec subst e =
+			match e.eexpr with
+			| TVars vl ->
+				let rec loop acc vl =
+					match vl with
+					| [] -> List.rev acc
+					| (v,None) :: vl -> loop ((v,None) :: acc) vl
+					| (v,Some e) :: vl when v.v_id < 0 ->
+						let vars, _ = PMap.find (-v.v_id) vfields in
+						loop (List.map (fun (v,e) -> v, Some (subst e)) vars @ acc) vl
+					| (v,Some e) :: vl ->
+						loop ((v,Some (subst e)) :: acc) vl
+				in
+				let vl = loop [] vl in
+				mk (TVars vl) e.etype e.epos
+			| TField ({ eexpr = TLocal v },FInstance (_,cf)) when v.v_id < 0 ->
+				let _, vars = PMap.find (-v.v_id) vfields in
+				(try
+					let v = PMap.find cf.cf_name vars in
+					mk (TLocal v) v.v_type e.epos
+				with Not_found ->
+					(* the variable was not set in the constructor, assume null *)
+					mk (TConst TNull) e.etype e.epos)
+			| _ ->
+				Type.map_expr subst e
+		in
+		let e = (try subst e with Not_found -> assert false) in
+		PMap.iter (fun _ (v,_) -> v.v_id <- -v.v_id) vars;
+		e
+	end
+
+(* ---------------------------------------------------------------------- *)
 (* COMPLETION *)
 
 exception Return of Ast.expr
@@ -1127,19 +1238,5 @@ let optimize_completion_expr e =
 		Ast.map_expr loop e
 	in
 	(try loop e with Return e -> e)
-
-let optimize_completion c fields =
-	let cp = !Parser.resume_display in
-	List.map (fun f ->
-		if cp.pmin = 0 || (f.cff_pos.pmin <= cp.pmin && f.cff_pos.pmax >= cp.pmax) then
-			let k = try (match f.cff_kind with
-				| FVar (t,Some e) -> FVar (t,Some (optimize_completion_expr e))
-				| FFun fn -> (match optimize_completion_expr (EFunction (None,fn),f.cff_pos) with (EFunction (None,fn),_) -> FFun fn | e -> FFun({ fn with f_expr = Some e; f_args = []; }))
-				| k -> k
-			) with Exit -> f.cff_kind in
-			{ f with cff_kind = k }
-		else
-			f
-	) fields
 
 (* ---------------------------------------------------------------------- *)

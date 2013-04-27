@@ -274,7 +274,9 @@ extern class JQuery implements ArrayAccess<Element> {
 	function focus( ?callb : JqEvent -> Void ) : JQuery;
 	function focusin( ?callb : JqEvent -> Void ) : JQuery;
 	function focusout( ?callb : JqEvent -> Void ) : JQuery;
-	function hover( onOver : JqEvent -> Void, ?onOut : Void -> Void ) : JQuery;
+
+	@:overload(function(onInOut:JqEvent->Void):JQuery{})
+	function hover( onIn : JqEvent -> Void, ?onOut : JqEvent -> Void ) : JQuery;
 
 	@:overload(function( callb : JQuery.JqEvent -> Bool ) : JQuery {})
 	function keydown( ?callb : JqEvent -> Void ) : JQuery;
@@ -315,6 +317,10 @@ extern class JQuery implements ArrayAccess<Element> {
 	function unbind( ?events : String, ?callb : JqEvent -> Void ) : JQuery;
 	function undelegate( ?selector : String, ?events : String, ?callb : JqEvent -> Void ) : JQuery;
 
+	// JQuery 1.7+
+	@:overload(function(events:Dynamic<JqEvent->Void>):JQuery{})
+	function on( events : String, callb : JqEvent -> Void ) : JQuery;
+
 	// queue
 	function clearQueue( ?queueName : String ) : JQuery;
 	function dequeue( ?queueName : String ) : JQuery;
@@ -333,7 +339,9 @@ extern class JQuery implements ArrayAccess<Element> {
 	@:overload(function(j:JQuery):Bool{})
 	function is( selector : String ) : Bool;
 
-	function data<T>( key : String, ?value : T ) : T;
+	@:overload(function() : Dynamic {})
+	@:overload(function( key : String ) : Dynamic {})
+	function data( key : String, value : Dynamic ) : JQuery;
 	function removeData( ?key : String ) : JQuery;
 	function serialize() : String;
 	function serializeArray() : Array<{ name : String, value : String }>;

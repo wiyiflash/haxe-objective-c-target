@@ -708,7 +708,7 @@ let generate_libs_init = function
 			var @s = $loader.loadprim("std@sys_string",0)();
 			var @env = $loader.loadprim("std@get_env",1);
 			var @b = if( @s == "Windows" )
-				@env("HAXEPATH") + "lib\\"
+				@env("HAXEPATH") + "\\lib\\"
 				else try $loader.loadprim("std@file_contents",1)(@env("HOME")+"/.haxelib") + "/"
 				catch e if( @s == "Linux" ) "/usr/lib/haxe/lib/" else "/usr/local/lib/haxe/lib/";
 			if( $loader.loadprim("std@sys_is64",0)() ) @s = @s + 64;
@@ -727,7 +727,7 @@ let generate_libs_init = function
 				"@s",Some (call p (loadp "sys_string" 0) []);
 				"@env",Some (loadp "get_env" 1);
 				"@b", Some (EIf (op "==" es (str p "Windows"),
-					op "+" (call p (ident p "@env") [str p "HAXEPATH"]) (str p "lib\\"),
+					op "+" (call p (ident p "@env") [str p "HAXEPATH"]) (str p "\\lib\\"),
 					Some (ETry (
 						op "+" (call p (loadp "file_contents" 1) [op "+" (call p (ident p "@env") [str p "HOME"]) (str p "./haxelib")]) (str p "/"),
 						"e",
@@ -826,9 +826,19 @@ let generate com =
 	let source = Common.defined com Define.NekoSource in
 	let use_nekoc = Common.defined com Define.UseNekoc in
 	if not use_nekoc then begin
-		let ch = IO.output_channel (open_out_bin com.file) in
-		Nbytecode.write ch (Ncompile.compile ctx.version e);
-		IO.close_out ch;
+		try
+			let ch = IO.output_channel (open_out_bin com.file) in
+			Nbytecode.write ch (Ncompile.compile ctx.version e);
+			IO.close_out ch;
+		with Ncompile.Error (msg,pos) ->
+			let rec loop p =
+				let pp = { pfile = pos.psource; pmin = p; pmax = p; } in
+				if Lexer.get_error_line pp >= pos.pline then
+					pp
+				else
+					loop (p + 1)
+			in
+			error msg (loop 0)
 	end;
 	let command cmd = try com.run_command cmd with _ -> -1 in
 	let neko_file = (try Filename.chop_extension com.file with _ -> com.file) ^ ".neko" in

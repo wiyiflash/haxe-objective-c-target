@@ -181,7 +181,7 @@ let mk_subs st con =
 	match con.c_def with
 	| CFields (_,fl) -> List.map (fun (s,cf) -> mk_st (SField(st,s)) (map cf.cf_type) st.st_pos) fl
 	| CEnum (en,({ef_type = TFun _} as ef)) ->
-		let pl = match follow con.c_type with TEnum(_,pl) | TAbstract({a_this = TEnum(_)},pl)-> pl | _ -> assert false in
+		let pl = match follow con.c_type with TEnum(_,pl) | TAbstract({a_this = TEnum(_)},pl)-> pl | TAbstract({a_path = [],"EnumValue"},[]) -> [] | _ -> assert false in
 		begin match apply_params en.e_types pl (monomorphs ef.ef_params ef.ef_type) with
 			| TFun(args,r) ->
 				ExtList.List.mapi (fun i (_,_,t) ->
@@ -855,7 +855,7 @@ let rec st_to_texpr mctx st = match st.st_def with
 	| SVar v -> mk (TLocal v) v.v_type st.st_pos
 	| SField (sts,f) ->
 		let e = st_to_texpr mctx sts in
-		let fa = try quick_field e.etype f with Not_found -> raise (Error ((Unify [has_no_field e.etype f]), sts.st_pos)) in
+		let fa = try quick_field e.etype f with Not_found -> FDynamic f in
 		mk (TField(e,fa)) st.st_type st.st_pos
 	| SArray (sts,i) -> mk (TArray(st_to_texpr mctx sts,mk_const mctx.ctx st.st_pos (TInt (Int32.of_int i)))) st.st_type st.st_pos
 	| STuple (st,_,_) -> st_to_texpr mctx st
@@ -1144,18 +1144,23 @@ let match_expr ctx e cases def with_type p =
 		List.iter (fun e -> match fst e with EBinop(OpOr,_,_) -> mctx.toplevel_or <- true; | _ -> ()) el;
 		let ep = collapse_case el in
 		let save = save_locals ctx in
-		let pl,with_type = try (match tl with
+		let pl,restore,with_type = try (match tl with
 				| [t] ->
 					let monos = List.map (fun _ -> mk_mono()) ctx.type_params in
 					let t = apply_params ctx.type_params monos t in
 					let pl = [add_pattern_locals (to_pattern ctx ep t)] in
-					pl,(match with_type with
+					let restore = PMap.fold (fun v acc ->
+						let t = v.v_type in
+						v.v_type <- apply_params ctx.type_params monos v.v_type;
+						(fun () -> v.v_type <- t) :: acc
+					) ctx.locals [] in
+					pl,restore,(match with_type with
 						| WithType t -> WithType (apply_params ctx.type_params monos t)
 						| WithTypeResume t -> WithTypeResume (apply_params ctx.type_params monos t)
 						| _ -> with_type);
 				| tl ->
 					let t = monomorphs ctx.type_params (tfun tl fake_tuple_type) in
-					[add_pattern_locals (to_pattern ctx ep t)],with_type)
+					[add_pattern_locals (to_pattern ctx ep t)],[],with_type)
 			with Unrecognized_pattern (e,p) ->
 				error "Unrecognized_pattern" p
 		in
@@ -1179,6 +1184,7 @@ let match_expr ctx e cases def with_type p =
 				unify ctx eg.etype ctx.com.basic.tbool eg.epos;
 				Some eg
 		in
+		List.iter (fun f -> f()) restore;
 		save();
 		let out = mk_out mctx i e eg pl (pos ep) in
 		Array.of_list pl,out

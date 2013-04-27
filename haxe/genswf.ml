@@ -132,6 +132,7 @@ let build_class com c file =
 	let flags = if c.hlc_interface then HInterface :: flags else flags in
 	let flags = (match c.hlc_super with
 		| None | Some (HMPath ([],"Object")) -> flags
+		| Some (HMPath ([],"Function")) -> flags (* found in AIR SDK *)
 		| Some s -> HExtends (make_tpath s) :: flags
 	) in
 	let flags = List.map (fun i ->
@@ -287,6 +288,7 @@ let build_class com c file =
 			| None, Some t -> false, true, t
 			| Some t1, Some t2 -> true, true, (if t1 <> t2 then None else t1)
 		) in
+		let t = if name = "endian" then Some (HMPath (["flash";"utils"],"Endian")) else t in
 		let flags = [APublic] in
 		let flags = if stat then AStatic :: flags else flags in
 		{
@@ -530,6 +532,9 @@ let swf_ver = function
 	| 11.3 -> 16
 	| 11.4 -> 17
 	| 11.5 -> 18
+	| 11.6 -> 19
+	| 11.7 -> 20
+	| 11.8 -> 21
 	| v -> failwith ("Invalid SWF version " ^ string_of_float v)
 
 let convert_header com (w,h,fps,bg) =
@@ -779,7 +784,7 @@ let detect_format data p =
 	| '\x89', 'P', 'N' -> BPNG
 	| 'R', 'I', 'F' -> SWAV
 	| 'I', 'D', '3' -> SMP3
-	| '\xFF', '\xFB', _ -> SMP3
+	| '\xFF', i, _ when (int_of_char i) land 0xE2 = 0xE2 -> SMP3
 	| 'G', 'I', 'F' -> BGIF
 	| _ ->
 		error "Unknown file format" p
@@ -830,17 +835,18 @@ let build_swf9 com file swc =
 			let rec loop = function
 				| [] -> acc
 				| (Meta.Font,(EConst (String file),p) :: args,_) :: l ->
+					let file = try Common.find_file com file with Not_found -> file in
 					let ch = try open_in_bin file with _ -> error "File not found" p in
-					let ttf = Ttf.parse ch in
+					let ttf = TTFParser.parse ch in
 					close_in ch;
 					let range_str = match args with
 						| [EConst (String str),_] -> str
 						| _ -> ""
 					in
-					let ttf_swf = Ttf.write_swf ttf range_str in
+					let ttf_swf = TTFSwfWriter.to_swf ttf range_str in
 					let ch = IO.output_string () in
 					let b = IO.output_bits ch in
-					Ttf.write_font2 ch b ttf_swf;
+					TTFSwfWriter.write_font2 ch b ttf_swf;
 					let data = IO.close_out ch in
 					incr cid;
 					classes := { f9_cid = Some !cid; f9_classname = s_type_path c.cl_path } :: !classes;

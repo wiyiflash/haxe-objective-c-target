@@ -263,7 +263,13 @@ let generic_substitute_expr gctx e =
 			Hashtbl.add vars v.v_id v2;
 			v2
 	in
-	let rec build_expr e = map_expr_type build_expr (generic_substitute_type gctx) build_var e in
+	let rec build_expr e =
+		match e.eexpr with
+		| TField({eexpr = TConst TThis} as e1, FInstance({cl_kind = KGeneric},cf)) ->
+			let cg = match follow (generic_substitute_type gctx (e1.etype)) with TInst(c,_) -> c | _ -> assert false in
+			build_expr {e with eexpr = TField(e1,FInstance(cg,cf))}
+		| _ -> map_expr_type build_expr (generic_substitute_type gctx) build_var e
+	in
 	build_expr e
 
 let is_generic_parameter ctx c =
@@ -1396,6 +1402,12 @@ module Abstract = struct
 		with Not_found ->
 			eright
 
+	and call_args ctx el tl = match el,tl with
+		| [],_ -> []
+		| e :: el, [] -> (loop ctx e) :: call_args ctx el []
+		| e :: el, (_,_,t) :: tl ->
+			(check_cast ctx t (loop ctx e) e.epos) :: call_args ctx el tl
+
 	and loop ctx e = match e.eexpr with
 		| TBinop(OpAssign,e1,e2) ->
 			let e2 = check_cast ctx e1.etype (loop ctx e2) e.epos in
@@ -1431,6 +1443,19 @@ module Abstract = struct
 				let e = make_static_call ctx c cf a pl ((mk (TConst TNull) at e.epos) :: el) m e.epos in
 				{e with etype = m}
 			end
+		| TNew(c,pl,el) ->
+			begin try
+				let t,_ = (!get_constructor_ref) ctx c pl e.epos in
+				begin match follow t with
+					| TFun(args,_) ->
+						{ e with eexpr = TNew(c,pl,call_args ctx el args)}
+					| _ ->
+						Type.map_expr (loop ctx) e
+				end
+			with Error _ ->
+				(* TODO: when does this happen? *)
+				Type.map_expr (loop ctx) e
+			end
 		| TCall(e1, el) ->
 			let e1 = loop ctx e1 in
 			begin try
@@ -1463,14 +1488,7 @@ module Abstract = struct
 			with Not_found ->
 				begin match follow e1.etype with
 					| TFun(args,_) ->
-						let rec loop2 el tl = match el,tl with
-							| [],_ -> []
-							| e :: el, [] -> (loop ctx e) :: loop2 el []
-							| e :: el, (_,_,t) :: tl ->
-								(check_cast ctx t (loop ctx e) e.epos) :: loop2 el tl
-						in
-						let el = loop2 el args in
-						{ e with eexpr = TCall(loop ctx e1,el)}
+						{ e with eexpr = TCall(loop ctx e1,call_args ctx el args)}
 					| _ ->
 						Type.map_expr (loop ctx) e
 				end
@@ -1682,6 +1700,8 @@ let rec find_field c f =
 		(match c.cl_super with
 		| None ->
 			raise Not_found
+		| Some ( {cl_path = (["cpp"],"FastIterator")}, _ ) ->
+			raise Not_found (* This is a strongly typed 'extern' and the usual rules don't apply *)
 		| Some (c,_) ->
 			find_field c f)
 	with Not_found -> try
@@ -1860,13 +1880,14 @@ let dump_types com =
 		let print fmt = Printf.kprintf (fun s -> Buffer.add_string buf s) fmt in
 		(match mt with
 		| Type.TClassDecl c ->
-			let print_field stat f =
+			let rec print_field stat f =
 				print "\t%s%s%s%s" (if stat then "static " else "") (if f.cf_public then "public " else "") f.cf_name (params f.cf_params);
 				print "(%s) : %s" (s_kind f.cf_kind) (s_type f.cf_type);
 				(match f.cf_expr with
 				| None -> ()
 				| Some e -> print "\n\n\t = %s" (s_expr s_type e));
 				print ";\n\n";
+				List.iter (fun f -> print_field stat f) f.cf_overloads
 			in
 			print "%s%s%s %s%s" (if c.cl_private then "private " else "") (if c.cl_extern then "extern " else "") (if c.cl_interface then "interface" else "class") (s_type_path path) (params c.cl_types);
 			(match c.cl_super with None -> () | Some (c,pl) -> print " extends %s" (s_type (TInst (c,pl))));

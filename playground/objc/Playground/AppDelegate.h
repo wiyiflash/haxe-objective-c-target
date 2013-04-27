@@ -10,7 +10,7 @@
 #import <CoreFoundation/CoreFoundation.h>
 #import "haxe/Log.h"
 //#import "NSArray+Arr.h"
-#import "Array.h"
+//#import "Array.h"
 #import "RCHTTPRequest.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate, UIWebViewDelegate>{

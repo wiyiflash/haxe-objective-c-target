@@ -85,7 +85,7 @@
 				t==__global__.vtArray;
 	}
 
-	public static function deleteField( o : Dynamic, f : String ) : Bool untyped {
+	public static function deleteField(o:Dynamic, field:String) :Bool untyped {
 		if (o==null) return false;
 		return untyped __global__.__hxcpp_anon_remove(o,f);
 	}

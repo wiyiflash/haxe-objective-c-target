@@ -35,6 +35,11 @@ let getMetaValue key meta =
 		in
 	loop meta
 ;;
+let isSubstringOf s1 s2 =
+	let re = Str.regexp_string s2 in
+	try ignore (Str.search_forward re s1 0); true
+	with Not_found -> false
+;;
 
 class importsManager =
 	object(this)
@@ -52,20 +57,21 @@ class importsManager =
 		| _ -> if not (List.mem class_path class_imports) then class_imports <- List.append class_imports [class_path];
 	method add_class (class_def:tclass) = 
 		if (Meta.has Meta.Framework class_def.cl_meta) then begin
-			let f_name = getMetaValue Meta.Framework class_def.cl_meta in
-			if not (List.mem f_name all_frameworks) then all_frameworks <- List.append all_frameworks [f_name];
-			if not (List.mem f_name class_frameworks) then class_frameworks <- List.append class_frameworks [f_name];
+			let name = getMetaValue Meta.Framework class_def.cl_meta in
+			this#add_framework name;
 		end else begin
 			this#add_class_path class_def.cl_module.m_path;
 		end
 	method add_abstract (a_def:tabstract) = 
 		if (Meta.has Meta.Framework a_def.a_meta) then begin
-			let f_name = getMetaValue Meta.Framework a_def.a_meta in
-			if not (List.mem f_name all_frameworks) then all_frameworks <- List.append all_frameworks [f_name];
-			if not (List.mem f_name class_frameworks) then class_frameworks <- List.append class_frameworks [f_name];
+			let name = getMetaValue Meta.Framework a_def.a_meta in
+			this#add_framework name;
 		end else begin
 			this#add_class_path a_def.a_module.m_path;
 		end
+	method add_framework (name:string) =
+		if not (List.mem name all_frameworks) then all_frameworks <- List.append all_frameworks [name];
+		if not (List.mem name class_frameworks) then class_frameworks <- List.append class_frameworks [name];
 	method add_class_import_custom (class_path:string) = class_imports_custom <- List.append class_imports_custom ["\""^class_path^"\""];
 	method add_class_include_custom (class_path:string) = class_imports_custom <- List.append class_imports_custom ["<"^class_path^">"];
 	method remove_class_path (class_path:path) = ()(* List.remove class_imports [class_path] *)(* TODO: *)
@@ -365,7 +371,7 @@ let rec isArray e =
 (* 'id' is a pointer but does not need to specify it *)
 let isPointer t =
 	match t with
-	| "void" | "id" | "BOOL" | "int" | "uint" | "float" | "CGRect" | "CGPoint" | "CGSize" | "SEL" -> false
+	| "void" | "id" | "BOOL" | "int" | "uint" | "float" | "CGRect" | "CGPoint" | "CGSize" | "SEL" | "CGImageRef" -> false
 	| _ -> true
 	(* TODO: enum is not pointer *)
 ;;
@@ -2059,11 +2065,20 @@ let pbxproj common_ctx files_manager =
 	if (!supporting_files != "") then begin
 		let contents = Array.to_list (Sys.readdir !supporting_files) in
 		List.iter (fun f ->
-			if f <> ".DS_Store" then files_manager#register_resource_file ([],f) "";
+			if f <> ".DS_Store" then begin
+				let lst = Str.split (Str.regexp "/") f in
+				let file = List.hd (List.rev lst) in
+				let path = List.rev (List.tl (List.rev lst)) in
+				let comps = Str.split (Str.regexp "\.") file in
+				let ext = List.hd (List.rev comps) in
+				print_endline (f^" >> "^ext);
+				files_manager#register_resource_file (path,file) ext;
+			end
 		) contents
 	end;
 	
 	List.iter ( fun (uuid, fileRef, path, ext) -> 
+		print_endline ("add resource "^(snd path)^" >> "^ext);
 		let n = if List.length (fst path) > 0 then List.hd (fst path) else (snd path) in
 		file#write ("		"^uuid^" /* "^n^ext^" in Resources */ = {isa = PBXBuildFile; fileRef = "^fileRef^"; };\n"); 
 	) files_manager#get_resource_files;
@@ -2105,8 +2120,22 @@ let pbxproj common_ctx files_manager =
 	let fileref_app = files_manager#generate_uuid_for_file ([],"fileref_app") in
 	let fileref_octest = files_manager#generate_uuid_for_file ([],"fileref_octest") in
 	
-	List.iter ( fun (uuid, fileRef, name) -> 
-		file#write ("		"^fileRef^" /* "^name^".framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "^name^".framework; path = System/Library/Frameworks/"^name^".framework; sourceTree = SDKROOT; };\n");
+	List.iter ( fun (uuid, fileRef, name) ->
+		(* If the framework name matches any lib, add the path to the lib instead to the system frameworks *)
+		let used = ref false in
+		List.iter ( fun path ->
+			if (isSubstringOf path name) then begin
+				let prefix = ref "" in
+				let comps = Str.split (Str.regexp "/") common_ctx.file in
+				List.iter (fun p -> prefix := (!prefix) ^ "../") comps;
+				file#write ("		"^fileRef^" /* "^name^".framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "^name^".framework; path = "^(!prefix)^path^"; sourceTree = \"<group>\"; };\n");
+				used := true;
+			end
+		) common_ctx.objc_libs;
+		if not !used then begin
+			let path = "System/Library/Frameworks/"^name^".framework" in
+			file#write ("		"^fileRef^" /* "^name^".framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "^name^".framework; path = "^path^"; sourceTree = SDKROOT; };\n");
+		end
 	) files_manager#get_frameworks;
 	
 	List.iter ( fun (uuid, fileRef, path, ext) -> 
@@ -2122,6 +2151,16 @@ let pbxproj common_ctx files_manager =
 		let n = if List.length (fst path) > 0 then List.hd (fst path) else (snd path) in
 		file#write ("		"^fileRef^" /* "^(joinClassPath path "/")^" */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "^n^"; sourceTree = \"<group>\"; };\n"); 
 	) files_manager#get_source_folders;
+	
+	List.iter ( fun (uuid, fileRef, path, ext) -> 
+		print_endline ("add resource "^(snd path)^" >> "^ext);
+		let prefix = ref "" in
+		let comps = Str.split (Str.regexp "/") common_ctx.file in
+		List.iter (fun p -> prefix := (!prefix) ^ "../") comps;
+		let n = (joinClassPath path "/") in
+		(* if List.length (fst path) > 0 then List.hd (fst path) else (snd path) in *)
+		file#write ("		"^fileRef^" /* "^(snd path)^" in Resources */ = {isa = PBXFileReference; lastKnownFileType = image."^ext^"; name = \""^(snd path)^"\"; path = \""^(!prefix)^(!supporting_files)^n^"\"; sourceTree = SOURCE_ROOT; };\n");
+	) files_manager#get_resource_files;
 	
 	(* Add some hardcoded files *)
 	file#write ("		"^fileref_en^" /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = \"<group>\"; };\n");
@@ -2441,6 +2480,13 @@ let pbxproj common_ctx files_manager =
 	let build_config_list_app_release = files_manager#generate_uuid_for_file ([],"build_config_list_app_release") in
 	let build_config_list_tests_debug = files_manager#generate_uuid_for_file ([],"build_config_list_tests_debug") in
 	let build_config_list_tests_release = files_manager#generate_uuid_for_file ([],"build_config_list_tests_release") in
+	let objc_deployment_target = Printf.sprintf "%.1f" common_ctx.objc_version in
+	let objc_targeted_device_family =
+		if (common_ctx.objc_platform = "ios" || common_ctx.objc_platform = "universal") then "1,2" 
+		else if common_ctx.objc_platform = "iphone" then "1"
+		else if common_ctx.objc_platform = "ipad" then "2" 
+		else "0" in
+		(* TODO: what to do if the target is wrong *)
 	
 	file#write ("\n\n/* Begin XCBuildConfiguration section */
 		"^build_config_list_proj_debug^" /* Debug */ = {
@@ -2465,7 +2511,7 @@ let pbxproj common_ctx files_manager =
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = " ^ objc_deployment_target ^ ";
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -2480,13 +2526,13 @@ let pbxproj common_ctx files_manager =
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				\"CODE_SIGN_IDENTITY[sdk=iphoneos*]\" = \"iPhone Developer\";
+				\"CODE_SIGN_IDENTITY[sdk=iphoneos*]\" = \"iPhone Distribution\";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = " ^ objc_deployment_target ^ ";
 				OTHER_CFLAGS = \"-DNS_BLOCK_ASSERTIONS=1\";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -2497,11 +2543,27 @@ let pbxproj common_ctx files_manager =
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = \"iPhone Developer\";
+				FRAMEWORK_SEARCH_PATHS = (
+					\"$(inherited)\",");
+	List.iter (fun path -> 
+		let comps = Str.split (Str.regexp "/") path in
+		let path2 = String.concat "/" (List.rev (List.tl (List.rev comps))) in
+		file#write ("					\"\\\"$(SRCROOT)/"^path2^"\\\"\",\n");
+	) common_ctx.objc_libs;
+	file#write ("				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = \""^app_name^"/"^app_name^"-Prefix.pch\";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = \""^app_name^"/"^app_name^"-Info.plist\";
+				IPHONEOS_DEPLOYMENT_TARGET = " ^ objc_deployment_target ^ ";
+				OTHER_LDFLAGS = (");
+	List.iter (fun v ->
+		file#write ("					\"-"^v^"\",\n");
+	) common_ctx.objc_linker_flags;
+	file#write ("				);
 				PRODUCT_NAME = \"$(TARGET_NAME)\";
 				PROVISIONING_PROFILE = \"\";
+				TARGETED_DEVICE_FAMILY = \"" ^ objc_targeted_device_family ^ "\";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -2509,10 +2571,27 @@ let pbxproj common_ctx files_manager =
 		"^build_config_list_app_release^" /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = \"iPhone Distribution\";
+				FRAMEWORK_SEARCH_PATHS = (
+					\"$(inherited)\",");
+	List.iter (fun path -> 
+		let comps = Str.split (Str.regexp "/") path in
+		let path2 = String.concat "/" (List.rev (List.tl (List.rev comps))) in
+		file#write ("					\"\\\"$(SRCROOT)/"^path2^"\\\"\",\n");
+	) common_ctx.objc_libs;
+	file#write ("				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = \""^app_name^"/"^app_name^"-Prefix.pch\";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = \""^app_name^"/"^app_name^"-Info.plist\";
+				IPHONEOS_DEPLOYMENT_TARGET = " ^ objc_deployment_target ^ ";
+				OTHER_LDFLAGS = (");
+	List.iter (fun v ->
+		file#write ("					\"-"^v^"\",\n");
+	) common_ctx.objc_linker_flags;
+	file#write ("				);
 				PRODUCT_NAME = \"$(TARGET_NAME)\";
+				TARGETED_DEVICE_FAMILY = \"" ^ objc_targeted_device_family ^ "\";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -2651,12 +2730,7 @@ let generatePlist common_ctx file_info  =
 	let executable_name = match common_ctx.objc_bundle_name with 
 		| Some name -> name 
 		| None -> "${EXECUTABLE_NAME}" in
-	let version = Printf.sprintf "%.1f" common_ctx.objc_bundle_version in
-	let orientation = match common_ctx.ios_orientation with 
-		| Some o -> o
-		| None -> "UIInterfaceOrientationPortrait" in
-	(* let identifier = getMetaValue class_def.cl_meta ":identifier" in
-	let version = getMetaValue class_def.cl_meta ":version" in *)
+	let bundle_version = Printf.sprintf "%.1f" common_ctx.objc_bundle_version in
 	let file = newSourceFile src_dir ([],app_name^"-Info") ".plist" in
 	file#write ("<?xml version=\"1.0\" encoding=\"UTF-8\"?>
 <!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
@@ -2677,11 +2751,11 @@ let generatePlist common_ctx file_info  =
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>" ^ version ^ "</string>
+	<string>" ^ bundle_version ^ "</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>" ^ version ^ "</string>
+	<string>" ^ bundle_version ^ "</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -2689,9 +2763,9 @@ let generatePlist common_ctx file_info  =
 		<string>armv7</string>
 	</array>
 	<key>UISupportedInterfaceOrientations</key>
-	<array>
-		<string>" ^ orientation ^ "</string>
-	</array>
+	<array>");
+	List.iter (fun v -> file#write ("		<string>" ^ v ^ "</string>");) common_ctx.ios_orientations;
+	file#write ("	</array>
 </dict>
 </plist>");
 	file#close
@@ -2933,7 +3007,10 @@ let generate common_ctx =
 			()
 	) common_ctx.types;
 	
-	List.iter (fun p -> print_endline p ) common_ctx.objc_libs;
+	(* List.iter (fun p -> print_endline p ) common_ctx.objc_libs; *)
+	List.iter (fun name ->
+		imports_manager#add_framework name;
+	) common_ctx.objc_frameworks;
 	
 	(* Register some default files that were not added by the compiler *)
 	(* files_manager#register_source_file class_def.cl_path ".m"; *)

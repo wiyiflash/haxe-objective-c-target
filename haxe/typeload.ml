@@ -166,7 +166,7 @@ let make_module ctx mpath file tdecls loadp =
 					| _ ->
 						f
 				) fields in
-				let acc = make_decl acc (EClass { d_name = d.d_name ^ "Impl"; d_flags = [HPrivate]; d_data = fields; d_doc = None; d_params = []; d_meta = [] },p) in
+				let acc = make_decl acc (EClass { d_name = d.d_name ^ "_Impl_"; d_flags = [HPrivate]; d_data = fields; d_doc = None; d_params = []; d_meta = [] },p) in
 				(match !decls with
 				| (TClassDecl c,_) :: _ ->
 					(try c.cl_meta <- (Meta.get Meta.Build a.a_meta) :: c.cl_meta with Not_found -> ());
@@ -880,7 +880,7 @@ let set_heritance ctx c herits p =
 			| TInst ({ cl_path = [],"Array" },_)
 			| TInst ({ cl_path = [],"String" },_)
 			| TInst ({ cl_path = [],"Date" },_)
-			| TInst ({ cl_path = [],"Xml" },_) when ((not (platform ctx.com Cpp)) && (match c.cl_path with "mt" :: _ , _ -> false | _ -> true)) ->
+			| TInst ({ cl_path = [],"Xml" },_) when ((not (platform ctx.com Cpp)) && (match c.cl_path with ("mt" | "flash") :: _ , _ -> false | _ -> true)) ->
 				error "Cannot extend basic class" p;
 			| TInst (csup,params) ->
 				csup.cl_build();
@@ -968,7 +968,7 @@ let type_function_params ctx fd fname p =
 	) fd.f_params;
 	!params
 
-let type_function ctx args ret fmode f p =
+let type_function ctx args ret fmode f do_display p =
 	let locals = save_locals ctx in
 	let fargs = List.map (fun (n,c,t) ->
 		let c = (match c with
@@ -989,7 +989,12 @@ let type_function ctx args ret fmode f p =
 	ctx.curfun <- fmode;
 	ctx.ret <- ret;
 	ctx.opened <- [];
-	let e = type_expr ctx (match f.f_expr with None -> error "Function body required" p | Some e -> e) NoValue in
+	let e = match f.f_expr with None -> error "Function body required" p | Some e -> e in
+	let e = if not do_display then type_expr ctx e NoValue else try
+		type_expr ctx (Optimizer.optimize_completion_expr e) NoValue
+	with DisplayTypes [TMono _] | Parser.TypePath (_,None) ->
+		type_expr ctx e NoValue
+	in
 	let rec loop e =
 		match e.eexpr with
 		| TReturn (Some _) -> raise Exit
@@ -1264,7 +1269,7 @@ let init_class ctx c p context_init herits fields =
 
 	let display_file = if ctx.com.display then Common.unique_full_path p.pfile = (!Parser.resume_display).pfile else false in
 
-	let fields = if not display_file || Common.defined ctx.com Define.NoCOpt then fields else Optimizer.optimize_completion c fields in
+	let cp = !Parser.resume_display in
 
 	let delayed_expr = ref [] in
 
@@ -1496,7 +1501,10 @@ let init_class ctx c p context_init herits fields =
 					else (try match Meta.get Meta.Op cf.cf_meta with
 						| _,[EBinop(op,_,_),_],_ ->
 							let targ = if Meta.has Meta.Impl f.cff_meta then tthis else ta in
-							(try type_eq EqStrict t (tfun [targ;m] (mk_mono())) with Unify_error l -> raise (Error ((Unify l),f.cff_pos)));
+							let left_eq = type_iseq t (tfun [targ;m] (mk_mono())) in
+							let right_eq = type_iseq t (tfun [mk_mono();targ] (mk_mono())) in
+							if not (left_eq || right_eq) then error ("The left or right argument type must be " ^ (s_type (print_context()) targ)) f.cff_pos;
+							if right_eq && Meta.has Meta.Commutative f.cff_meta then error ("@:commutative is only allowed if the right argument is not " ^ (s_type (print_context()) targ)) f.cff_pos;
 							a.a_ops <- (op,cf) :: a.a_ops;
 							if fd.f_expr = None then do_bind := false;
 						| _,[EUnop(op,flag,_),_],_ ->
@@ -1525,7 +1533,8 @@ let init_class ctx c p context_init herits fields =
 						| _ ->
 							if constr then FunConstructor else if stat then FunStatic else FunMember
 					) in
-					let e , fargs = type_function ctx args ret fmode fd p in
+					let display_field = f.cff_pos.pmin <= cp.pmin && f.cff_pos.pmax >= cp.pmax in
+					let e , fargs = type_function ctx args ret fmode fd display_field p in
 					let f = {
 						tf_args = fargs;
 						tf_type = ret;
@@ -1543,6 +1552,10 @@ let init_class ctx c p context_init herits fields =
 			if !do_bind then bind_type ctx cf r (match fd.f_expr with Some e -> snd e | None -> f.cff_pos) is_macro;
 			f, constr, cf
 		| FProp (get,set,t,eo) ->
+			(match c.cl_kind with
+			| KAbstractImpl a when Meta.has Meta.Impl f.cff_meta ->
+				ctx.type_params <- a.a_types;
+			| _ -> ());
 			let ret = (match t, eo with
 				| None, None -> error "Property must either define a type or a default value" p;
 				| None, _ -> mk_mono()

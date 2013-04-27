@@ -136,13 +136,15 @@ type context = {
 	mutable java_libs : (string * (unit -> unit) * (unit -> ((string list * string) list)) * ((string list * string) -> ((JData.jclass * string * string) option))) list;
 	mutable js_gen : (unit -> unit) option;
 	mutable objc_platform : string;
-	mutable objc_libs : string list;(* A list of Xcode projects that you wish to link with your project *)
+	mutable objc_libs : string list;(* A list of Xcode projects or custom frameworks that you wish to link with your project *)
 	mutable objc_version : float;
 	mutable objc_bundle_version : float;
 	mutable objc_bundle_name : string option;
 	mutable objc_identifier : string option;
 	mutable objc_owner : string option;
-	mutable ios_orientation : string option;
+	mutable objc_linker_flags : string list;
+	mutable objc_frameworks : string list;
+	mutable ios_orientations : string list;
 	mutable objc_supporting_files : string option;
 	(* typing *)
 	mutable basic : basic_types;
@@ -402,7 +404,7 @@ module MetaInfo = struct
 		| GetterBody -> ":getterBody",("Set the code inside a getter method",[UsedOn TClassField;Platform ObjC])
 		| Import -> ":import",("Generates an #import statement for a native class",[Platform ObjC])
 		| Framework -> ":framework",("Generates an #import statement for the framework of a class",[Platform ObjC])
-		| Selector -> ":sel",("It uses this as a signature instead the method arguments",[Platform ObjC])
+		| Selector -> ":sel",("Use this as a signature instead the method arguments",[Platform ObjC])
 		| Last -> assert false
 		(* do not put any custom metadata after Last *)
 		| Dollar s -> "$" ^ s,("",[])
@@ -633,8 +635,10 @@ let create v args =
 		objc_identifier = None;
 		objc_owner = None;
 		objc_bundle_name = None;
-		ios_orientation = None;
+		ios_orientations = [];
 		objc_supporting_files = None;
+		objc_linker_flags = [];
+		objc_frameworks = [];
 		load_extern_type = [];
 		defines_signature = None;
 		get_macros = (fun() -> None);
@@ -708,7 +712,7 @@ let flash_versions = List.map (fun v ->
 	let maj = int_of_float v in
 	let min = int_of_float (mod_float (v *. 10.) 10.) in
 	v, string_of_int maj ^ (if min = 0 then "" else "_" ^ string_of_int min)
-) [9.;10.;10.1;10.2;10.3;11.;11.1;11.2;11.3;11.4;11.5]
+) [9.;10.;10.1;10.2;10.3;11.;11.1;11.2;11.3;11.4;11.5;11.6;11.7;11.8]
 
 let objc_ios_versions = List.map (fun v ->
 	let maj = int_of_float v in
@@ -789,6 +793,12 @@ let rec has_feature com f =
 			let r = r || not (has_dce com) in
 			Hashtbl.add com.features f r;
 			r
+
+let allow_package ctx s =
+	try
+		if (PMap.find s ctx.package_rules) = Forbidden then ctx.package_rules <- PMap.remove s ctx.package_rules
+	with Not_found ->
+		()
 
 let error msg p = raise (Abort (msg,p))
 

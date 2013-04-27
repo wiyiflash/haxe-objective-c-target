@@ -104,6 +104,7 @@ type extern_api = {
 	parse_string : string -> Ast.pos -> bool -> Ast.expr;
 	typeof : Ast.expr -> Type.t;
 	get_display : string -> string;
+	allow_package : string -> unit;
 	type_patch : string -> string -> bool -> string option -> unit;
 	meta_patch : string -> string -> string option -> bool -> unit;
 	set_js_generator : (value -> unit) -> unit;
@@ -149,6 +150,8 @@ type context = {
 	mutable venv : value array;
 	(* context *)
 	mutable curapi : extern_api;
+	mutable on_reused : (unit -> bool) list;
+	mutable is_reused : bool;
 	(* eval *)
 	mutable locals_map : (string, int) PMap.t;
 	mutable locals_count : int;
@@ -2117,6 +2120,7 @@ let macro_lib =
 			| VAbstract (APos p) ->
 				let h_enum = hash "__enum__" and h_et = hash "__et__" and h_ct = hash "__ct__" in
 				let h_tag = hash "tag" and h_args = hash "args" in
+				let h_length = hash "length" in
 				let ctx = get_ctx() in
 				let error v = failwith ("Unsupported value " ^ ctx.do_string v) in
 				let make_path t =
@@ -2152,12 +2156,12 @@ let macro_lib =
 								let fields = List.fold_left (fun acc (fid,v) -> (field_name ctx fid, loop v) :: acc) [] (Array.to_list o.ofields) in
 								(Ast.EObjectDecl fields, p))
 						| Some proto ->
-							match get_field_opt proto h_enum, get_field_opt o h_a, get_field_opt o h_s with
-							| _, Some (VArray a), _ ->
-								(Ast.EArrayDecl (List.map loop (Array.to_list a)),p)
-							| _, _, Some (VString s) ->
+							match get_field_opt proto h_enum, get_field_opt o h_a, get_field_opt o h_s, get_field_opt o h_length with
+							| _, Some (VArray a), _, Some (VInt len) ->
+								(Ast.EArrayDecl (List.map loop (Array.to_list (Array.sub a 0 len))),p)
+							| _, _, Some (VString s), _ ->
 								(Ast.EConst (Ast.String s),p)
-							| Some (VObject en), _, _ ->
+							| Some (VObject en), _, _, _ ->
 								(match get_field en h_et, get_field o h_tag with
 								| VAbstract (ATDecl t), VString tag ->
 									let e = (Ast.EField (make_path t,tag),p) in
@@ -2273,6 +2277,12 @@ let macro_lib =
 			| _ ->
 				error()
 		);
+		"allow_package", Fun1 (fun v ->
+			match v with
+			| VString s ->
+				(get_ctx()).curapi.allow_package s;
+				VNull
+			| _ -> error());
 		"type_patch", Fun4 (fun t f s v ->
 			let p = (get_ctx()).curapi.type_patch in
 			(match t, f, s, v with
@@ -2419,6 +2429,14 @@ let macro_lib =
 			let h = Hashtbl.create 0 in
 			PMap.iter (fun n v -> Hashtbl.replace h (VString n) (encode_type v.v_type)) loc;
 			enc_hash h
+		);
+		"macro_context_reused", Fun1 (fun c ->
+			match c with
+			| VFunction (Fun0 _) ->
+				let ctx = get_ctx() in
+				ctx.on_reused <- (fun() -> catch_errors ctx (fun() -> ctx.do_call VNull c [] null_pos) = Some (VBool true)) :: ctx.on_reused;
+				VNull
+			| _ -> error()
 		);
 	]
 
@@ -3300,6 +3318,8 @@ let create com api =
 		(* context *)
 		curapi = api;
 		loader = VObject loader;
+		on_reused = [];
+		is_reused = true;
 		exports = VObject { ofields = [||]; oproto = None };
 	} in
 	ctx.do_call <- call ctx;
@@ -3310,12 +3330,29 @@ let create com api =
 	List.iter (fun e -> ignore((eval ctx e)())) (Genneko.header());
 	ctx
 
-let has_old_version ctx t =
-	let inf = Type.t_infos t in
-	try
-		Hashtbl.find ctx.types inf.mt_path <> inf.mt_module.m_id
-	with Not_found ->
+
+
+let do_reuse ctx =
+	ctx.is_reused <- false
+
+let can_reuse ctx types =
+	let has_old_version t =
+		let inf = Type.t_infos t in
+		try
+			Hashtbl.find ctx.types inf.mt_path <> inf.mt_module.m_id
+		with Not_found ->
+			false
+	in
+	if List.exists has_old_version types then
 		false
+	else if ctx.is_reused then
+		true
+	else if not (List.for_all (fun f -> f()) ctx.on_reused) then
+		false
+	else begin
+		ctx.is_reused <- true;
+		true;
+	end
 
 let add_types ctx types ready =
 	let types = List.filter (fun t ->
@@ -4321,13 +4358,20 @@ let rec make_const e =
 
 open Ast
 
-let tpath p pl =
-	CTPath {
-		tpackage = fst p;
-		tname = snd p;
-		tparams = List.map (fun t -> TPType t) pl;
-		tsub = None;
-	}
+let tpath p mp pl =
+	if snd mp = snd p then
+		CTPath {
+			tpackage = fst p;
+			tname = snd p;
+			tparams = List.map (fun t -> TPType t) pl;
+			tsub = None;
+		}
+	else CTPath {
+			tpackage = fst mp;
+			tname = snd mp;
+			tparams = List.map (fun t -> TPType t) pl;
+			tsub = Some (snd p);
+		}
 
 let rec make_type = function
 	| TMono r ->
@@ -4335,13 +4379,13 @@ let rec make_type = function
 		| None -> raise Exit
 		| Some t -> make_type t)
 	| TEnum (e,pl) ->
-		tpath e.e_path (List.map make_type pl)
+		tpath e.e_path e.e_module.m_path (List.map make_type pl)
 	| TInst (c,pl) ->
-		tpath c.cl_path (List.map make_type pl)
+		tpath c.cl_path c.cl_module.m_path (List.map make_type pl)
 	| TType (t,pl) ->
-		tpath t.t_path (List.map make_type pl)
+		tpath t.t_path t.t_module.m_path (List.map make_type pl)
 	| TAbstract (a,pl) ->
-		tpath a.a_path (List.map make_type pl)
+		tpath a.a_path a.a_module.m_path (List.map make_type pl)
 	| TFun (args,ret) ->
 		CTFunction (List.map (fun (_,_,t) -> make_type t) args, make_type ret)
 	| TAnon a ->
@@ -4356,7 +4400,7 @@ let rec make_type = function
 			} :: acc
 		) a.a_fields [])
 	| (TDynamic t2) as t ->
-		tpath ([],"Dynamic") (if t == t_dynamic then [] else [make_type t2])
+		tpath ([],"Dynamic") ([],"Dynamic") (if t == t_dynamic then [] else [make_type t2])
 	| TLazy f ->
 		make_type ((!f)())
 

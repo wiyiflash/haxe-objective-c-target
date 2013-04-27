@@ -173,11 +173,15 @@ let unsupported p = error "This expression cannot be generated to AS3" p
 let newline ctx =
 	let rec loop p =
 		match Buffer.nth ctx.buf p with
-		| '}' | '{' | ':' -> print ctx "\n%s" ctx.tabs
+		| '}' | '{' | ':' | ';' -> print ctx "\n%s" ctx.tabs
 		| '\n' | '\t' -> loop (p - 1)
 		| _ -> print ctx ";\n%s" ctx.tabs
 	in
 	loop (Buffer.length ctx.buf - 1)
+
+let block_newline ctx = match Buffer.nth ctx.buf (Buffer.length ctx.buf - 1) with
+	| '}' -> print ctx ";\n%s" ctx.tabs
+	| _ -> newline ctx
 
 let rec concat ctx s f = function
 	| [] -> ()
@@ -623,7 +627,7 @@ and gen_expr ctx e =
             (fun() -> print ctx "}")
 		end) in
 		(match ctx.block_inits with None -> () | Some i -> i());
-		List.iter (fun e -> newline ctx; gen_expr ctx e) el;
+		List.iter (fun e -> block_newline ctx; gen_expr ctx e) el;
 		bend();
 		newline ctx;
 		cb();
@@ -862,8 +866,17 @@ and gen_value ctx e =
 	| TUnop _
 	| TFunction _ ->
 		gen_expr ctx e
-	| TCast (e1,t) ->
-		gen_value ctx (match t with None -> e1 | Some t -> Codegen.default_cast ctx.inf.com e1 t e.etype e.epos)
+	| TCast (e1,None) ->
+		let s = type_str ctx e.etype e1.epos in
+		if s = "*" then
+			gen_value ctx e1
+		else begin
+			print ctx "%s(" s;
+			gen_value ctx e1;
+			spr ctx ")";
+		end
+	| TCast (e1,Some t) ->
+		gen_value ctx (Codegen.default_cast ctx.inf.com e1 t e.etype e.epos)
 	| TReturn _
 	| TBreak
 	| TContinue ->

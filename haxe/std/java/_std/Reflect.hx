@@ -220,9 +220,9 @@ import java.Boot;
 		Delete an object field.
 	**/
 	@:functionCode('
-		return (o instanceof haxe.lang.DynamicObject && ((haxe.lang.DynamicObject) o).__hx_deleteField(f));
+		return (o instanceof haxe.lang.DynamicObject && ((haxe.lang.DynamicObject) o).__hx_deleteField(field));
 	')
-	public static function deleteField( o : Dynamic, f : String ) : Bool
+	public static function deleteField( o : Dynamic, field : String ) : Bool
 	{
 		return false;
 	}

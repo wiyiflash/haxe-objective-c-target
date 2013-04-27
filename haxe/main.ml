@@ -53,7 +53,7 @@ let global_cache = ref None
 
 let executable_path() =
 	Extc.executable_path()
-	
+
 let is_debug_run() =
 	try Sys.getenv "HAXEDEBUG" = "1" with _ -> false
 
@@ -892,7 +892,7 @@ try
 		("-debug", Arg.Unit (fun() ->
 			Common.define com Define.Debug;
 			com.debug <- true;
-		), ": add debug informations to the compiled code");
+		), ": add debug information to the compiled code");
 	] in
 	let adv_args_spec = [
 		("-dce", Arg.String (fun mode ->
@@ -1076,9 +1076,15 @@ try
 		),"<path> : set a custom SupportingFiles folder that contains resources and custom project files.");
 		("-objc-lib",Arg.String (fun path ->
 			com.objc_libs <- path :: com.objc_libs
+		),"<name> : add a linker flag to the app. e.g. ObjC");
+		("-objc-framework",Arg.String (fun name ->
+			com.objc_frameworks <- name :: com.objc_frameworks
+		),"<name> : add a linker flag to the app. e.g. ObjC");
+		("-objc-linker-flag",Arg.String (fun name ->
+			com.objc_linker_flags <- name :: com.objc_linker_flags
 		),"<path> : add a lib. Can be an external .xcodeproj or a custom .framework");
 		("-ios-orientation",Arg.String (fun v ->
-			com.ios_orientation <- Some v;
+			com.ios_orientations <- v :: com.ios_orientations
 		),"<orientation> : add iOS orientations. e.g. UIInterfaceOrientationPortrait");
 		("--help-metas", Arg.Unit (fun() ->
 			let rec loop i =
@@ -1230,7 +1236,7 @@ try
 			Codegen.detect_usage com;
 		let filters = [
 			Codegen.Abstract.handle_abstract_casts tctx;
-			if com.foptimize then Optimizer.reduce_expression tctx else Optimizer.sanitize tctx;
+			if com.foptimize then (fun e -> Optimizer.reduce_expression tctx (Optimizer.inline_constructors tctx e)) else Optimizer.sanitize tctx;
 			Codegen.check_local_vars_init;
 			Codegen.captured_vars com;
 			Codegen.rename_local_vars com;
@@ -1262,7 +1268,7 @@ try
 		| Some file ->
 			Common.log com ("Generating xml : " ^ file);
 			Genxml.generate com file);
-		if com.platform = Flash || com.platform = Cpp || com.platform = Cs || com.platform = ObjC then List.iter (Codegen.fix_overrides com) com.types;
+		if com.platform = Flash || com.platform = Cpp || com.platform = ObjC then List.iter (Codegen.fix_overrides com) com.types;
 		if Common.defined com Define.Dump then Codegen.dump_types com;
 		if Common.defined com Define.DumpDependencies then Codegen.dump_dependencies com;
 		t();
@@ -1302,7 +1308,7 @@ try
 			Common.log com ("Generating Java in : " ^ com.file);
 			Genjava.generate com;
 		| ObjC ->
-			if com.verbose then print_endline ("Generating Xcode project in : " ^ com.file);
+			Common.log com ("Generating Objective-C in : " ^ com.file);
 			Genobjc.generate com;
 		);
 	end;
@@ -1357,7 +1363,7 @@ with
 			fields
 		in
 		complete_fields fields
-	| Typer.DisplayTypes tl ->
+	| Typecore.DisplayTypes tl ->
 		let ctx = print_context() in
 		let b = Buffer.create 0 in
 		List.iter (fun t ->

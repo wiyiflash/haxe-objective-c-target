@@ -91,23 +91,23 @@ int main(int argc, char *argv[])
 	
 	self.window.backgroundColor = [UIColor grayColor];
 	
-	NSMutableArray* arr = [[NSMutableArray alloc] initWithObjects:@"a", @"b", @"c", nil];
-	NSMutableArray* arr2 = [[NSMutableArray alloc] initWithObjects:@"d", @"e", @"f", nil];
-	NSMutableArray* arr3 = [arr concat:arr2];
-	id it = [arr iterator];
-	BOOL(^hasNext)() = [it objectForKey:@"hasNext"];
-	id(^next)() = [it objectForKey:@"next"];
-	while ( hasNext() ) {
-		id obj = next();
-		NSLog(@"print element of array here %@", obj);
-	}
-	
-	NSLog(@"arr %@", arr);
-	NSLog(@"arr2 %@", arr2);
-	NSLog(@"arr3 %@", arr3);
-	[arr pop];
-	NSLog(@"arr after pop %@", arr);
-	NSLog(@"arr3 after pop %@", arr3);
+//	NSMutableArray* arr = [[NSMutableArray alloc] initWithObjects:@"a", @"b", @"c", nil];
+//	NSMutableArray* arr2 = [[NSMutableArray alloc] initWithObjects:@"d", @"e", @"f", nil];
+//	NSMutableArray* arr3 = [arr concat:arr2];
+//	id it = [arr iterator];
+//	BOOL(^hasNext)() = [it objectForKey:@"hasNext"];
+//	id(^next)() = [it objectForKey:@"next"];
+//	while ( hasNext() ) {
+//		id obj = next();
+//		NSLog(@"print element of array here %@", obj);
+//	}
+//	
+//	NSLog(@"arr %@", arr);
+//	NSLog(@"arr2 %@", arr2);
+//	NSLog(@"arr3 %@", arr3);
+//	[arr pop];
+//	NSLog(@"arr after pop %@", arr);
+//	NSLog(@"arr3 after pop %@", arr3);
 	
 //	NSLog(@"%@", [arr safeObjectAtIndex:2]);
 //	NSLog(@"%i %i", arr.length, [arr count]);
@@ -121,11 +121,56 @@ int main(int argc, char *argv[])
 //	[arr push:@"asdsafdsf"];
 //	NSLog(@"arr after pop %@", arr);
 	
-	RCHttpRequest *req = [[RCHttpRequest alloc] init];
-	[req put];
+//	RCHttpRequest *req = [[RCHttpRequest alloc] init];
+//	[req put];
+	
+	
+	int i = 0;
+	BOOL isRunning = YES;
+//	while (isRunning) {
+//		while(CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, TRUE) == kCFRunLoopRunHandledSource);
+//		
+//		//usleep(250000); // Sleep for a quarter of a second (250,000 microseconds) so that the framerate is 4 fps.
+//		usleep(16666);
+//		NSLog(@"looping %i", i);
+//		i++;
+//		
+//		while(CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, TRUE) == kCFRunLoopRunHandledSource);
+//	}
+	
+	NSString *res = @"[]";
+	[res cStringUsingEncoding:NSUTF8StringEncoding];
+	
+//	while(isRunning /*&& !sgTerminated*/)
+//	{
+//		double delta = 0.03-0.0166666;
+//		if (delta<0) delta = 0;
+//		if (CFRunLoopRunInMode(kCFRunLoopDefaultMode,delta,TRUE) != kCFRunLoopRunHandledSource)
+//		{
+//			NSLog(@"looping %i", i);
+//			i++;
+//		}
+//	}
+	
+	
+//	CFRunLoopTimerRef timer_ = CFRunLoopTimerCreate (
+//								kCFAllocatorDefault,
+//								CFAbsoluteTimeGetCurrent(),
+//								0.0166666,
+//								0,
+//								0,
+//								tick,
+//								NULL);
+//	CFRunLoopAddTimer (CFRunLoopGetCurrent(), timer_, kCFRunLoopCommonModes);
+//	CFRunLoopRun();
 	
 	
     return YES;
+}
+int i = 0;
+void tick(CFRunLoopTimerRef timer) {
+	i++;
+    NSLog(@"looping %i", i);
 }
 //- (void)loop:(NSTimer*)theTimer {
 //	NSLog(@"fff");

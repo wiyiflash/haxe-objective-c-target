@@ -20,10 +20,11 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
- import haxe.ds.StringMap;
- import haxe.ds.IntMap;
- import haxe.ds.HashMap;
- import haxe.ds.ObjectMap;
+import haxe.ds.StringMap;
+import haxe.ds.IntMap;
+import haxe.ds.HashMap;
+import haxe.ds.ObjectMap;
+import haxe.ds.WeakMap;
 
  /**
 	Map allows key to value mapping for arbitrary value types, and many key
@@ -79,7 +80,7 @@ abstract Map< K, V > (IMap< K, V > ) {
 		
 		If [key] is null, the result is unspecified.
 	**/
-	public inline function get(key:K) return this.get(key);
+	@:arrayAccess public inline function get(key:K) return this.get(key);
 	
 	/**
 		Returns true if [key] has a mapping, false otherwise.
@@ -123,6 +124,11 @@ abstract Map< K, V > (IMap< K, V > ) {
 		return this.toString();
 	}
 	
+	@:arrayAccess @:noCompletion public inline function arrayWrite(k:K, v:V):V {
+		this.set(k, v);
+		return v;
+	}
+	
 	@:to static inline function toStringMap(t:IMap < String, V > ):StringMap<V> {
 		return new StringMap<V>();
 	}
@@ -131,10 +137,6 @@ abstract Map< K, V > (IMap< K, V > ) {
 		return new IntMap<V>();
 	}
 
-	@:to static inline function toHashMap<K:Hashable>(t:IMap < K, V >):HashMap<K,V> {
-		return new HashMap<K, V>();
-	}
-	
 	@:to static inline function toObjectMap<K:{ }>(t:IMap < K, V >):ObjectMap<K,V> {
 		return new ObjectMap<K, V>();
 	}
@@ -146,17 +148,13 @@ abstract Map< K, V > (IMap< K, V > ) {
 	@:from static inline function fromIntMap<V>(map:IntMap<V>):Map< Int, V > {
 		return map;
 	}
-	
-	@:from static inline function fromHashMap < K:Hashable, V > (map:HashMap< K, V > ):Map< K, V > {
-		return map;
-	}
-	
+
 	@:from static inline function fromObjectMap < K: { }, V > (map:ObjectMap< K, V > ):Map< K, V > {
 		return map;
-	}
+	}	
 }
 
-typedef IMap < K, V > = {
+interface IMap < K, V > {
 	public function get(k:K):Null<V>;
 	public function set(k:K, v:V):Void;
 	public function exists(k:K):Bool;
