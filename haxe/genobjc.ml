@@ -2486,7 +2486,11 @@ let pbxproj common_ctx files_manager =
 		else if common_ctx.objc_platform = "iphone" then "1"
 		else if common_ctx.objc_platform = "ipad" then "2" 
 		else "0" in
-		(* TODO: what to do if the target is wrong *)
+	let prefix = ref "" in
+	let comps = Str.split (Str.regexp "/") common_ctx.file in
+	List.iter (fun p -> prefix := (!prefix) ^ "../") comps;
+	
+	(* TODO: what to do if the target is wrong *)
 	
 	file#write ("\n\n/* Begin XCBuildConfiguration section */
 		"^build_config_list_proj_debug^" /* Debug */ = {
@@ -2548,7 +2552,7 @@ let pbxproj common_ctx files_manager =
 	List.iter (fun path -> 
 		let comps = Str.split (Str.regexp "/") path in
 		let path2 = String.concat "/" (List.rev (List.tl (List.rev comps))) in
-		file#write ("					\"\\\"$(SRCROOT)/"^path2^"\\\"\",\n");
+		file#write ("					\"\\\"$(SRCROOT)/"^(!prefix)^path2^"\\\"\",\n");
 	) common_ctx.objc_libs;
 	file#write ("				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2577,7 +2581,7 @@ let pbxproj common_ctx files_manager =
 	List.iter (fun path -> 
 		let comps = Str.split (Str.regexp "/") path in
 		let path2 = String.concat "/" (List.rev (List.tl (List.rev comps))) in
-		file#write ("					\"\\\"$(SRCROOT)/"^path2^"\\\"\",\n");
+		file#write ("					\"\\\"$(SRCROOT)/"^(!prefix)^path2^"\\\"\",\n");
 	) common_ctx.objc_libs;
 	file#write ("				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
