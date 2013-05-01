@@ -6,10 +6,9 @@
 //
 
 
-#import <Foundation/Foundation.h>
 
 #import "../../haxe/io/Bytes.h"
-#import "../../haxe/io/Error.h"
+#import "../../Array.h"
 #import "../../String.h"
 #import "../../StringBuf.h"
 

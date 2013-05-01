@@ -12,22 +12,19 @@
 + (NSMutableString*) fromCharCode:(int)code{
 	return [NSString stringWithFormat:@"%C", code];
 }
-// Getters/setters for property: length
-static int length__;
-- (int) length { return length__; }
-- (void) setLength:(int)val { length__ = val; }
+// Please provide a getterBody for the property: length
 
 - (NSMutableString*) toUpperCase{
-	return [self uppercaseString];
+	return [-FDynamic-self uppercaseString];
 }
 - (NSMutableString*) toLowerCase{
-	return [self lowercaseString];
+	return [-FDynamic-self lowercaseString];
 }
 - (NSMutableString*) charAt:(int)index{
-	return [self characterAtIndex:index];
+	return nil;
 }
 - (int) charCodeAt:(int)index{
-	return [self characterAtIndex:index];
+	return [-FDynamic-self characterAtIndex:index];
 }
 - (int) indexOf:(NSMutableString*)str startIndex:(int)startIndex{
 	// Optional arguments
@@ -52,24 +49,24 @@ static int length__;
 	return -1;
 }
 - (NSMutableArray*) split:(NSMutableString*)delimiter{
-	return [self componentsSeparatedByString:delimiter];
+	return [-FDynamic-self componentsSeparatedByString:delimiter];
 }
 - (NSMutableString*) substr:(int)pos len:(int)len{
 	// Optional arguments
 	if (!len) len = nil;
 	
-	if (len == 0) return [NSMutableString stringWithString:@""];
+	if (len == 0) return [@"" mutableCopy];
 	int sl = self.length;
 	if (len == nil) len = sl;
 	if (pos == nil) pos = 0;
-	if (pos != 0 && len < 0) return [NSMutableString stringWithString:@""];
+	if (pos != 0 && len < 0) return [@"" mutableCopy];
 	if (pos < 0) {
 		pos = sl + pos;
 		if (pos < 0) pos = 0;
 	}
 	else if (len < 0) len = sl + len - pos;
 	if (pos + len > sl) len = sl - pos;
-	if (pos < 0 || len <= 0) return [NSMutableString stringWithString:@""];
+	if (pos < 0 || len <= 0) return [@"" mutableCopy];
 	return [self substringFromIndex:pos];
 	return [self substringWithRange:NSMakeRange(pos,len)];
 }
@@ -90,7 +87,7 @@ static int length__;
 	return [self substr:startIndex len:endIndex - startIndex];
 }
 - (NSMutableString*) toString{
-	return [self description];
+	return [-FDynamic-self description];
 }
 - (id) init:(NSMutableString*)string{
 	self = [super init];

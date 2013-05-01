@@ -332,7 +332,7 @@ let isSpecialCompare e1 e2 =
 ;;
 
 let rec isString e =
-	(* TODO: left part of the binop is never discovered as being string *)
+	(* TODO: left side of the binop is never discovered as being string *)
 	(match e.eexpr with
 	| TBinop (op,e1,e2) -> isString e1 or isString e2
 	| TLocal v ->
@@ -360,7 +360,21 @@ let rec isString e =
 	| TConst (TString s) -> true
 	| TField (e,fa) -> isString e
 	| TCall (e,el) -> isString e
-	| _ -> false)
+	| TConst c -> 
+		(match c with
+			| TString s -> print_endline "TString"
+			| TInt i -> print_endline "TInt"
+			| TFloat f -> print_endline "TFloat"
+			| TString s -> print_endline "TString"
+			| TBool b -> print_endline "TBool"
+			| TNull -> print_endline "TNull"
+			| TThis -> print_endline "TThis"
+			| TSuper -> print_endline "TSuper"
+			(* | _ -> false *)
+		);
+		true
+	| _ -> 
+		print_endline ("OTHER TYPE FALSE"); false)
 ;;
 let rec isArray e =
 	(match e.eexpr with
@@ -480,7 +494,22 @@ let rec typeToString ctx t p =
 			ctx.imports_manager#add_class c;
 			remapHaxeTypeToObjc ctx false c.cl_path p
 		| KTypeParameter _ | KExtension _ | KExpr _ | KMacroType | KAbstractImpl _ -> "id")
-	| TFun _ -> "SEL"
+	| TFun (args, ret) ->
+		let r = ref "" in
+		let index = ref 0 in
+		List.iter ( fun (name, b, t) ->
+			(* print_endline name; *)
+			(* ctx.generating_method_argument <- true; *)
+			(* if Array.length sel_arr > 0 then
+				r := !r ^ (" "^sel_arr.(!index)^":")
+			else *)
+				r := !r ^ name;(* (if !index = 0 then ":" else (" "^(remapKeyword name)^":")); *)
+			(* generateValue ctx args_array_e.(!index); *)
+			index := !index + 1;
+		) args;
+		(* Write the type of a function, the block definition *)
+		(* !r *)
+		"id"
 	| TMono r -> (match !r with None -> "id" | Some t -> typeToString ctx t p)
 	| TAnon anon -> "id"
 	| TDynamic _ -> "id"
@@ -534,7 +563,8 @@ let handleBreak ctx e =
 			)
 ;;
 
-let this ctx = if ctx.in_value <> None then "__self" else "self"
+let this ctx = "self"(* if ctx.in_value <> None then "__self" else "self" *)
+;;
 
 (* TODO: Generate resources that Objective-C can understand *)
 (* Put strings in a .plist file
@@ -584,17 +614,17 @@ let generateConstant ctx p = function
 		if ctx.generating_string_append > 0 then
 			ctx.writer#write (Printf.sprintf "@\"%ld\"" i)
 		else if ctx.require_pointer then
-			ctx.writer#write (Printf.sprintf "[NSNumber numberWithInt:%ld]" i) (* %ld = int32 = (Int32.to_string i) *)
+			ctx.writer#write (Printf.sprintf "@%ld" i) (* %ld = int32 = (Int32.to_string i) *)
 		else
 			ctx.writer#write (Printf.sprintf "%ld" i)
 	| TFloat f ->
 		if ctx.generating_string_append > 0 then
 			ctx.writer#write (Printf.sprintf "@\"%s\"" f)
 		else if ctx.require_pointer then
-			ctx.writer#write (Printf.sprintf "[NSNumber numberWithFloat:%s]" f)
+			ctx.writer#write (Printf.sprintf "@%s" f)
 		else
 			ctx.writer#write f
-	| TString s -> ctx.writer#write (Printf.sprintf "[NSMutableString stringWithString:@\"%s\"]" (Ast.s_escape s))
+	| TString s -> ctx.writer#write (Printf.sprintf "[@\"%s\" mutableCopy]" (Ast.s_escape s))
 	| TBool b -> ctx.writer#write (if b then "YES" else "NO")
 	| TNull -> ctx.writer#write (if ctx.require_pointer then "[NSNull null]" else "nil")
 	| TThis -> ctx.writer#write "self"; ctx.generating_self_access <- true
@@ -706,7 +736,7 @@ let rec generateCall ctx (func:texpr) arg_list =
 	
 	(* Generate a C call. Used in some low level operations from cocoa frameworks: CoreGraphics *)
 	if ctx.generating_c_call then begin
-	
+		debug ctx "-C-";
 		match func.eexpr, arg_list with
 		| TCall (x,_) , el ->
 			ctx.writer#write "(";
@@ -730,14 +760,14 @@ let rec generateCall ctx (func:texpr) arg_list =
 	
 	(* Generate an Objective-C call with [] *)
 	end else begin
-		
+		debug ctx "-OBJC-";
 		(* A call should cancel the TField *)
 		(* When we have a self followed by 2 TFields in a row we use dot notation for the first field *)
 		if ctx.generating_fields > 0 then ctx.generating_fields <- ctx.generating_fields - 1;
 		ctx.generating_calls <- ctx.generating_calls + 1;
 		ctx.writer#write "[";
 		
-		(* Check if the called function has a selector defined *)
+		(* Check if the called function has a custom selector defined *)
 		let sel = (match func.eexpr with
 			(* TODO: TStatic *)
 			| TField (e, FInstance (c, cf)) ->
@@ -751,7 +781,7 @@ let rec generateCall ctx (func:texpr) arg_list =
 		ctx.generating_custom_selector <- false;
 		
 		if List.length arg_list > 0 then begin
-
+			(* TODO: Add meaningful error if the lengths *)
 			let sel_list = if (String.length sel > 0) then Str.split_delim (Str.regexp ":") sel else [] in
 			let sel_arr = Array.of_list sel_list in
 			let args_array_e = Array.of_list arg_list in
@@ -759,13 +789,19 @@ let rec generateCall ctx (func:texpr) arg_list =
 			let rec gen et =
 			(match et with
 				| TFun (args, ret) ->
+					(* let args_array_e = Array.of_list args in *)
+					if !index < (List.length args) then
 					List.iter ( fun (name, b, t) ->
+						(* print_endline (Printf.sprintf "%d %d %d" (!index) (List.length args) (List.length arg_list)); *)
 						(* ctx.generating_method_argument <- true; *)
 						if Array.length sel_arr > 0 then
 							ctx.writer#write (" "^sel_arr.(!index)^":")
 						else
 							ctx.writer#write (if !index = 0 then ":" else (" "^(remapKeyword name)^":"));
-						generateValue ctx args_array_e.(!index);
+						if !index >= (List.length arg_list) then
+							ctx.writer#write "nil"
+						else
+							generateValue ctx args_array_e.(!index);
 						index := !index + 1;
 					) args;
 					(* ctx.generating_method_argument <- false; *)
@@ -874,9 +910,7 @@ and generateExpression ctx e =
 	| TConst c ->
 		generateConstant ctx e.epos c;
 	| TLocal v ->
-		ctx.writer#write (remapKeyword v.v_name);
-		(* if ctx.generating_calls > 0 then ctx.generating_fields <- ctx.generating_fields - 1; *)
-		
+		(* ctx.writer#write "-b-"; *)
 		(* (match v.v_type with
 		| TMono _ -> ctx.writer#write ">TMono<";
 		| TEnum _ -> ctx.writer#write ">TEnum<";
@@ -891,6 +925,14 @@ and generateExpression ctx e =
 			
 		| TLazy _ -> ctx.writer#write ">TLazy<";
 		| TAbstract _ -> ctx.writer#write ">TAbstract<"); *)
+		
+		ctx.writer#write (remapKeyword v.v_name);
+		
+		(* ctx.writer#write "-e-"; *)
+		
+		(* ctx.generating_fields <- ctx.generating_fields - 1; *)
+		
+		
 		
 	(* | TEnumField (en,s) ->
 		ctx.writer#write (Printf.sprintf "%s.%s" (remapHaxeTypeToObjc ctx true en.e_path e.epos) (s)) *)
@@ -927,7 +969,9 @@ and generateExpression ctx e =
 	| TBinop (op,e1,e2) ->
 		(* An assign to a property or mathematical/string operations *)
 		let s_op = Ast.s_binop op in
+		(* ctx.writer#write ("binop"^s_op); *)
 		if (s_op="+" or s_op="+=") && (isString e1 or isString e2) then begin
+			(* ctx.writer#write ("first"); *)
 			ctx.generating_string_append <- ctx.generating_string_append + 1;
 			ctx.writer#write "[";
 			generateValueOp ctx e1;
@@ -972,7 +1016,7 @@ and generateExpression ctx e =
 	| TField (e,fa) ->
 		ctx.generating_fields <- ctx.generating_fields + 1;
 		if (ctx.generating_right_side_of_operator && false) then begin
-			(match fa with
+			(* (match fa with
 			| FInstance (cls, cls_f) -> (* ctx.writer#write "-FInstance-"; *)
 				(match cls_f.cf_type with
 				| TMono _ -> ctx.writer#write "-TMono-";
@@ -1061,7 +1105,7 @@ and generateExpression ctx e =
 				generateValue ctx e;
 				(* generateFieldAccess_ ctx e.etype (field_name fa)); *)
 				ctx.writer#write ("-fa4-"^(field_name fa))
-		);
+		); *)
 			
 			(* ctx.writer#write ("block_"^(field_name s)); *)
 		end else begin
@@ -1076,13 +1120,25 @@ and generateExpression ctx e =
 				(* generateFieldAccess ctx e.etype (field_name fa); *)
 				(* ctx.writer#write (Printf.sprintf "%d" ctx.generating_calls); *)
 				let fan = if (ctx.generating_self_access && ctx.generating_calls>0 && ctx.generating_fields>=2) then "." 
+				else if (not ctx.generating_self_access && ctx.generating_calls>0) then " "
 				else if (ctx.generating_self_access && ctx.generating_calls>0) then " " else "." in
 				ctx.writer#write (fan^(if ctx.generating_custom_selector then "" else (field_name fa)));
 				ctx.generating_property_access <- false;
 				
 			| FStatic (cls, cls_f) -> (* ctx.writer#write "-FStatic-"; *)
 				(match cls_f.cf_type with
-				| TMono _ -> ctx.writer#write "-TMono-";
+				| TMono t -> 
+					ctx.writer#write cls_f.cf_name;
+					(* (match !t with
+						| Some tt -> ctx.writer#write "-TMonoSome-";
+							ctx.writer#write (typeToString ctx tt e.epos);
+							(* (match tt with
+								| TMono t -> ctx.writer#write "-TMono-";
+								| TInst (tclass,tparams) -> ctx.writer#write "-TInst-";
+								| _ -> ctx.writer#write "-rest-";
+							) *)
+						| None -> ctx.writer#write "-TMonoNone-";
+					) *)
 				| TEnum _ -> ctx.writer#write "-TEnum-";
 				| TInst _ 
 				| TAbstract _ ->
@@ -1112,14 +1168,17 @@ and generateExpression ctx e =
 				| TLazy _ -> ctx.writer#write "-TLazy-"
 				);
 				
-			(* | FAnon _ -> ctx.writer#write "-FAnon-"; *)
-			| FDynamic name -> (* ctx.writer#write "-FDynamic-"; *)
+			| FAnon tclass_field -> (* ctx.writer#write "-FAnon-"; *)
+				(* Accesing the field of an anonimous object with the modern notation obj[key] *)
+				generateValue ctx e;
+				ctx.writer#write ("[@\"" ^ (field_name fa) ^ "\"]")
+			| FDynamic name -> ctx.writer#write "-FDynamic-";
 				if ctx.generating_calls = 0 then ctx.writer#write "[";
 				generateValue ctx e;
 				(* generateFieldAccess ctx e.etype name; *)
 				ctx.writer#write (" "^name);
 				if ctx.generating_calls = 0 then ctx.writer#write "]";
-			| FClosure (_,fa2) ->
+			| FClosure (_,fa2) -> ctx.writer#write "-FClosure-";
 				(* Generating a selector from new SEL *)
 				if Meta.has Meta.Selector fa2.cf_meta then 
 					ctx.writer#write (getMetaValue Meta.Selector fa2.cf_meta)
@@ -1145,8 +1204,11 @@ and generateExpression ctx e =
 					| TLazy f -> ctx.writer#write "-TLazy call-"
 				);
 				end
-					
-			| _ ->
+				
+			| FEnum (tenum,tenum_field) -> ctx.writer#write "-FEnum-";
+				generateValue ctx e;
+				ctx.writer#write (" "^(field_name fa))
+			| _ -> ctx.writer#write "-FOther-";
 				generateValue ctx e;
 				(* generateFieldAccess ctx e.etype (field_name fa)); *)
 				ctx.writer#write (" "^(field_name fa))
@@ -1246,14 +1308,18 @@ and generateExpression ctx e =
 	| TFunction f ->
 		if ctx.generating_object_declaration then begin
 			ctx.writer#write "^";
+			ctx.generating_objc_block <- true;
 			let h = generateFunctionHeader ctx None f [] e.epos ctx.in_static in
+			ctx.generating_objc_block <- false;
 			generateExpression ctx f.tf_expr;
 			h();
 		end else begin
 			ctx.writer#write "^";
+			ctx.generating_objc_block <- true;
 			let h = generateFunctionHeader ctx None f [] e.epos ctx.in_static in
 			let old = ctx.in_static in
 			ctx.in_static <- true;
+			ctx.generating_objc_block <- false;
 			generateExpression ctx f.tf_expr;
 			ctx.in_static <- old;
 			h();
@@ -1283,16 +1349,19 @@ and generateExpression ctx e =
 			ctx.writer#write ("@{@\"fileName\":@\""^file^"\", @\"lineNumber\":@\""^(Printf.sprintf "%ld" line)^"\", @\"className\":@\""^class_name^"\", @\"methodName\":@\""^meth^"\"}");
 	| TObjectDecl fields ->
 		ctx.generating_object_declaration <- true;
-		ctx.writer#write "[NSMutableDictionary dictionaryWithObjectsAndKeys:";
+		ctx.require_pointer <- true;
+		ctx.writer#write "[@{";
 		ctx.writer#new_line;
 		List.iter ( fun (key, expr) ->
+			ctx.writer#write ("	@\""^key^"\":");
 			ctx.writer#write ("[");
 			generateValue ctx expr;(* Generate a block here *)
-			ctx.writer#write (" copy], @\""^key^"\",");
+			ctx.writer#write (" copy],");
 			ctx.writer#new_line;
 		) fields;
-		ctx.writer#write "nil]";
+		ctx.writer#write "} mutableCopy]";
 		ctx.generating_object_declaration <- false;
+		ctx.require_pointer <- false;
 			
 			(* return [NSMutableDictionary dictionaryWithObjectsAndKeys:
 						[^BOOL() { return p < [a count]; } copy], @"hasNext",
@@ -1301,11 +1370,11 @@ and generateExpression ctx e =
 						
 	| TArrayDecl el ->
 		let one_object = (List.length el) = 1 in
-		ctx.writer#write ("[[NSMutableArray alloc] "^(if one_object then "initWithObject:" else "initWithObjects:"));
 		ctx.require_pointer <- true;
+		ctx.writer#write "[@[";
 		concat ctx ", " (generateValue ctx) el;
+		ctx.writer#write "] mutableCopy]";
 		ctx.require_pointer <- false;
-		ctx.writer#write (if one_object then "]" else ", nil]");
 	| TThrow e ->
 		ctx.writer#write "@throw ";
 		generateValue ctx e;
@@ -1313,7 +1382,7 @@ and generateExpression ctx e =
 	| TVars [] ->
 		()
 	| TVars vl ->
-		(* Vars inside a method, not class vars *)
+		(* Local vars declaration *)
 		concat ctx "; " (fun (v,eo) ->
 			let t = (typeToString ctx v.v_type e.epos) in
 			if isPointer t then ctx.writer#new_line;
@@ -2048,7 +2117,7 @@ let pbxproj common_ctx files_manager =
 	let supporting_files = ref "" in
 	(match common_ctx.objc_supporting_files with
 	| None ->
-		print_endline "No SupportingFiles defined. Search in the class paths the first encounter";
+		print_endline "No SupportingFiles defined. Search in hxcocoa lib";
 		List.iter (fun dir ->
 			if Sys.file_exists dir then begin
 				let contents = Array.to_list (Sys.readdir dir) in
@@ -2072,14 +2141,14 @@ let pbxproj common_ctx files_manager =
 				let path = List.rev (List.tl (List.rev lst)) in
 				let comps = Str.split (Str.regexp "\.") file in
 				let ext = List.hd (List.rev comps) in
-				print_endline (f^" >> "^ext);
+				(* print_endline (f^" >> "^ext); *)
 				files_manager#register_resource_file (path,file) ext;
 			end
 		) contents
 	end;
 	
 	List.iter ( fun (uuid, fileRef, path, ext) -> 
-		print_endline ("add resource "^(snd path)^" >> "^ext);
+		(* print_endline ("add resource "^(snd path)^" >> "^ext); *)
 		let n = if List.length (fst path) > 0 then List.hd (fst path) else (snd path) in
 		file#write ("		"^uuid^" /* "^n^ext^" in Resources */ = {isa = PBXBuildFile; fileRef = "^fileRef^"; };\n"); 
 	) files_manager#get_resource_files;
@@ -2154,7 +2223,7 @@ let pbxproj common_ctx files_manager =
 	) files_manager#get_source_folders;
 	
 	List.iter ( fun (uuid, fileRef, path, ext) -> 
-		print_endline ("add resource "^(snd path)^" >> "^ext);
+		(* print_endline ("add resource "^(snd path)^" >> "^ext); *)
 		let prefix = ref "" in
 		let comps = Str.split (Str.regexp "/") common_ctx.file in
 		List.iter (fun p -> prefix := (!prefix) ^ "../") comps;

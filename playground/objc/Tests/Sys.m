@@ -14,7 +14,7 @@
 }
 + (void) println:(id)v{
 	[Sys print:v];
-	[Sys print:[NSMutableString stringWithString:@"\n"]];
+	[Sys print:[@"\n" mutableCopy]];
 }
 + (Input*) _stdin{
 	return [[FileInput alloc] init:[file_stdin]];
@@ -58,17 +58,17 @@
 		int _g1 = 0; int _g = arg.length;
 		while (_g1 < _g) {
 			int i = _g1++;
-			int _g2 = [arg.charCodeAt:i];
+			int _g2 = [arg charCodeAt:i];
 			switch (_g2){
 				case 32:case 34:{
 					ok = NO}break;
 				case 0:case 13:case 10:{
-					arg = [arg.substr:0 len:i]}break;
+					arg = [arg substr:0 len:i]}break;
 			}
 		}
 	}
 	if (ok) return arg;
-	return [[[NSMutableString stringWithString:@"\""] stringByAppendingString:[[arg.split:[NSMutableString stringWithString:@"\""]].join:[NSMutableString stringWithString:@"\\\""]]] stringByAppendingString:[NSMutableString stringWithString:@"\""]];
+	return [[[@"\"" mutableCopy] stringByAppendingString:[[arg split:[@"\"" mutableCopy]] join:[@"\\\"" mutableCopy]]] stringByAppendingString:[@"\"" mutableCopy]];
 }
 + (int) command:(NSMutableString*)cmd args:(NSMutableArray*)args{
 	// Optional arguments
@@ -80,9 +80,9 @@
 			int _g = 0;
 			while (_g < args.length) {
 				
-				NSMutableString *a = [args objectAtIndex:_g];
+				NSMutableString *a = [args hx_objectAtIndex:_g];
 				++_g;
-				[cmd appendString:[[NSMutableString stringWithString:@" "] stringByAppendingString:[Sys escapeArgument:a]]];
+				[cmd appendString:[[@" " mutableCopy] stringByAppendingString:[Sys escapeArgument:a]]];
 			}
 		}
 	}
@@ -100,15 +100,15 @@
 + (NSMutableString*) executablePath{
 	return nil;
 }
-+ (Hash*) environment{
++ (StringMap*) environment{
 	
 	NSMutableArray *vars = nil;
 	
-	Hash *result = [[Hash alloc] init];
+	StringMap *result = [[StringMap alloc] init];
 	int i = 0;
 	while (i < vars.length) {
-		[result.set:[vars objectAtIndex:i] value:[vars objectAtIndex:i + 1]];
-		i += 2;
+		[result set:[vars hx_objectAtIndex:i] value:[vars hx_objectAtIndex:[i stringByAppendingString:@"1"]]];
+		[i appendString:@"2"];
 	}
 	return result;
 }

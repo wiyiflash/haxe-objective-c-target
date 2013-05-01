@@ -11,14 +11,14 @@
 
 + (Class*) getClass:(id)o{
 	if (o == nil || ![Reflect isObject:o]) return nil;
-	id c = [o __GetClass];
+	id c = [-FDynamic-o __GetClass];
 	{
 		
-		NSMutableString *_g = [c toString];
+		NSMutableString *_g = [c[@"toString"]];
 		switch (_g){
-			case [NSMutableString stringWithString:@"__Anon"]:{
+			case [@"__Anon" mutableCopy]:{
 				return nil}break;
-			case [NSMutableString stringWithString:@"Class"]:{
+			case [@"Class" mutableCopy]:{
 				return nil}break;
 		}
 	}
@@ -26,18 +26,18 @@
 }
 + (Enum*) getEnum:(EnumValue*)o{
 	if (o == nil) return nil;
-	return [o __GetClass];
+	return [-FDynamic-o __GetClass];
 }
 + (Class*) getSuperClass:(Class*)c{
 	if (c == nil) return nil;
-	return [c superclass];
+	return [-FDynamic-c superclass];
 }
 + (NSMutableString*) getClassName:(Class*)c{
 	if (c == nil) return nil;
 	return NSStringFromClass([c class]);
 }
 + (NSMutableString*) getEnumName:(Enum*)e{
-	return [e __ToString];
+	return [-FDynamic-e __ToString];
 }
 + (Class*) resolveClass:(NSMutableString*)name{
 	
@@ -46,8 +46,8 @@
 }
 + (Enum*) resolveEnum:(NSMutableString*)name{
 	
-	Class *result = [ TAbstractDecl  Resolve:name];
-	if (result != nil && ![result __IsEnum]) return nil;
+	Class *result = [-FDynamic- TAbstractDecl  Resolve:name];
+	if (result != nil && ![-FDynamic-result __IsEnum]) return nil;
 	return result;
 }
 + (id) createInstance:(Class*)cl args:(NSMutableArray*)args{
@@ -61,7 +61,7 @@
 	// Optional arguments
 	if (!params) params = nil;
 	
-	if ([e mConstructEnum] != nil) return [e mConstructEnum:constr :params];
+	if (-FDynamic-[e mConstructEnum] != nil) return [-FDynamic-e mConstructEnum:constr :params];
 	return nil;
 }
 + (id) createEnumIndex:(Enum*)e index:(int)index params:(NSMutableArray*)params{
@@ -69,51 +69,51 @@
 	if (!params) params = nil;
 	
 	
-	NSMutableString *c = [[Type getEnumConstructs:e] objectAtIndex:index];
-	if (c == nil) @throw [index stringByAppendingString:[NSMutableString stringWithString:@" is not a valid enum constructor index"]];;
+	NSMutableString *c = [[Type getEnumConstructs:e] hx_objectAtIndex:index];
+	if (c == nil) @throw [index stringByAppendingString:[@" is not a valid enum constructor index" mutableCopy]];;
 	return [Type createEnum:e constr:c params:params];
 }
 + (NSMutableArray*) getInstanceFields:(Class*)c{
-	return [c GetInstanceFields];
+	return [-FDynamic-c GetInstanceFields];
 }
 + (NSMutableArray*) getClassFields:(Class*)c{
-	return [c GetClassFields];
+	return [-FDynamic-c GetClassFields];
 }
 + (NSMutableArray*) getEnumConstructs:(Enum*)e{
-	return [e GetClassFields];
+	return [-FDynamic-e GetClassFields];
 }
 + (Type*) _typeof:(id)v{
-	if (v == nil) return  TNull;
-	return  TNull;
+	if (v == nil) return -FEnum- TNull;
+	return -FEnum- TNull;
 }
 + (BOOL) enumEq:(id)a b:(id)b{
 	return a == b;
 }
 + (NSMutableString*) enumConstructor:(EnumValue*)e{
-	return [e __Tag];
+	return [-FDynamic-e __Tag];
 }
 + (NSMutableArray*) enumParameters:(EnumValue*)e{
 	
-	NSMutableArray *result = [e __EnumParams];
-	return ( (result == nil) ? [[NSMutableArray alloc] initWithObjects:, nil] : result);
+	NSMutableArray *result = [-FDynamic-e __EnumParams];
+	return ( (result == nil) ? [@[] mutableCopy] : result);
 }
 + (int) enumIndex:(EnumValue*)e{
-	return [e __Index];
+	return [-FDynamic-e __Index];
 }
 + (NSMutableArray*) allEnums:(Enum*)e{
 	
-	NSMutableArray *names = [e GetClassFields];
+	NSMutableArray *names = [-FDynamic-e GetClassFields];
 	
 	NSMutableArray *enums = [[NSMutableArray alloc] init];
 	{
 		int _g = 0;
 		while (_g < names.length) {
 			
-			NSMutableString *name = [names objectAtIndex:_g];
+			NSMutableString *name = [names hx_objectAtIndex:_g];
 			++_g;
 			@try {
-				id result = [e mConstructEnum:name :nil];
-				[enums.push:result];
+				id result = [-FDynamic-e mConstructEnum:name :nil];
+				[enums push:result];
 			}
 			@catch (NSException *invalidArgCount) {
 			}

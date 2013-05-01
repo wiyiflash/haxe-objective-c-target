@@ -6,8 +6,9 @@
 //
 
 
-#import <Foundation/Foundation.h>
 
+#import "Array.h"
+#import "String.h"
 #import "StringBuf.h"
 #import "Std.h"
 #import "List.h"
@@ -28,8 +29,8 @@
 - (id) iterator;
 - (NSMutableString*) toString;
 - (NSMutableString*) join:(NSMutableString*)sep;
-- (List*) filter:(SEL)f;
-- (List*) map:(SEL)f;
+- (List*) filter:(id)f;
+- (List*) map:(id)f;
 - (id) init;
 
 @end

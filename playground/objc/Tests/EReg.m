@@ -9,20 +9,11 @@
 
 @implementation NSRegularExpression ( EReg )
 
-// Getters/setters for property: r
-static id r__;
-- (id) r { return r__; }
-- (void) setR:(id)val { r__ = val; }
+// Please provide a getterBody for the property: r
 
-// Getters/setters for property: last
-static NSMutableString* last__;
-- (NSMutableString*) last { return last__; }
-- (void) setLast:(NSMutableString*)val { last__ = val; }
+// Please provide a getterBody for the property: last
 
-// Getters/setters for property: global
-static BOOL global__;
-- (BOOL) global { return global__; }
-- (void) setGlobal:(BOOL)val { global__ = val; }
+// Please provide a getterBody for the property: global
 
 - (BOOL) match:(NSMutableString*)s{
 	BOOL p = YES;
@@ -37,11 +28,11 @@ static BOOL global__;
 }
 - (NSMutableString*) matchedLeft{
 	id p = nil;
-	return [self.last substr:0 len:p pos];
+	return [self.last substr:0 len:p[@"pos"]];
 }
 - (NSMutableString*) matchedRight{
 	id p = nil;
-	int sz = p pos + p len;
+	int sz = p[@"pos"] + p[@"len"];
 	return [self.last substr:sz len:self.last.length - sz];
 }
 - (id) matchedPos{
@@ -61,12 +52,12 @@ static BOOL global__;
 	BOOL first = YES;
 	do {
 		id p = nil;
-		if (p len == 0 && !first) {
-			if (p pos == s.length) break;
-			p pos += 1;
+		if (p[@"len"] == 0 && !first) {
+			if (p[@"pos"] == s.length) break;
+			[p[@"pos"] appendString:@"1"];
 		}
-		[a push:[s substr:pos len:p pos - pos]];
-		int tot = p pos + p len - pos;
+		[a push:[s substr:pos len:p[@"pos"] - pos]];
+		int tot = p[@"pos"] + p[@"len"] - pos;
 		pos += tot;
 		len -= tot;
 		first = NO;
@@ -80,33 +71,33 @@ static BOOL global__;
 	int pos = 0;
 	int len = s.length;
 	
-	NSMutableArray *a = [by split:[NSMutableString stringWithString:@"$"]];
+	NSMutableArray *a = [by split:[@"$" mutableCopy]];
 	BOOL first = YES;
 	do {
 		id p = nil;
-		if (p len == 0 && !first) {
-			if (p pos == s.length) break;
-			p pos += 1;
+		if (p[@"len"] == 0 && !first) {
+			if (p[@"pos"] == s.length) break;
+			[p[@"pos"] appendString:@"1"];
 		}
 		{
-			int len1 = p pos - pos;
+			int len1 = p[@"pos"] - pos;
 			b.b += ( (len1 == nil) ? [s substr:pos len:nil] : [s substr:pos len:len1]);
 		}
-		if (a.length > 0) b.b += [Std string:[a objectAtIndex:0]];
+		if (a.length > 0) b.b += [Std string:[a hx_objectAtIndex:0]];
 		int i = 1;
 		while (i < a.length) {
 			
-			NSMutableString *k = [a objectAtIndex:i];
+			NSMutableString *k = [a hx_objectAtIndex:i];
 			int c = [k charCodeAt:0];
 			if (c >= 49 && c <= 57) {
 				id p1 = nil;
 				if (p1 == nil) {
-					[b.b appendString:[NSMutableString stringWithString:@"$"]];
+					[b.b appendString:[@"$" mutableCopy]];
 					b.b += [Std string:k];
 				}
 				else {
 					{
-						int pos1 = p1 pos; int len1 = p1 len;
+						int pos1 = p1[@"pos"]; int len1 = p1[@"len"];
 						b.b += ( (len1 == nil) ? [s substr:pos1 len:nil] : [s substr:pos1 len:len1]);
 					}
 					{
@@ -116,16 +107,16 @@ static BOOL global__;
 				}
 			}
 			else if (c == nil) {
-				[b.b appendString:[NSMutableString stringWithString:@"$"]];
+				[b.b appendString:[@"$" mutableCopy]];
 				i++;
 				
-				NSMutableString *k2 = [a objectAtIndex:i];
+				NSMutableString *k2 = [a hx_objectAtIndex:i];
 				if (k2 != nil && k2.length > 0) b.b += [Std string:k2];
 			}
-			else b.b += [Std string:[[NSMutableString stringWithString:@"$"] stringByAppendingString:k]];
+			else b.b += [Std string:[[@"$" mutableCopy] stringByAppendingString:k]];
 			i++;
 		}
-		int tot = p pos + p len - pos;
+		int tot = p[@"pos"] + p[@"len"] - pos;
 		pos += tot;
 		len -= tot;
 		first = NO;
@@ -133,19 +124,7 @@ static BOOL global__;
 	b.b += ( (len == nil) ? [s substr:pos len:nil] : [s substr:pos len:len]);
 	return b.b;
 }
-- (NSMutableString*) customReplace:(NSMutableString*)s f:(SEL)f{
-	
-	StringBuf *buf = [[StringBuf alloc] init];
-	while (YES) {
-		if (![self match:s]) break;
-		buf.b += [Std string:[self matchedLeft]];
-		buf.b += [Std string:[f:self]];
-		s = [self matchedRight];
-	}
-	buf.b += [Std string:s];
-	return buf.b;
-}
-- (NSMutableString*) map:(NSMutableString*)s f:(SEL)f{
+- (NSMutableString*) map:(NSMutableString*)s f:(id)f{
 	
 	StringBuf *buf = [[StringBuf alloc] init];
 	while (YES) {
@@ -160,9 +139,9 @@ static BOOL global__;
 - (id) init:(NSMutableString*)r opt:(NSMutableString*)opt{
 	self = [super init];
 	
-	NSMutableArray *a = [opt split:[NSMutableString stringWithString:@"g"]];
+	NSMutableArray *a = [opt split:[@"g" mutableCopy]];
 	self.global = a.length > 1;
-	if (self.global) opt = [a join:[NSMutableString stringWithString:@""]];
+	if (self.global) opt = [a join:[@"" mutableCopy]];
 	self.r = nil;
 	return self;
 }

@@ -8,11 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-#import "Date.h"
+#import "String.h"
 #import "StringTools.h"
 #import "Std.h"
 #import "DateTools.h"
 #import "StringBuf.h"
+#import "Array.h"
 
 @interface DateTools : NSObject
 
@@ -20,7 +21,8 @@
 + (NSMutableString*) __format:(NSDate*)d f:(NSMutableString*)f;
 + (NSMutableString*) format:(NSDate*)d f:(NSMutableString*)f;
 + (NSDate*) delta:(NSDate*)d t:(float)t;
-+ (NSMutableArray*) DAYS_OF_MONTH:(NSMutableArray*)val;
++ (NSMutableArray*) DAYS_OF_MONTH;
++ (void) setDAYS_OF_MONTH:(NSMutableArray*)val;
 + (int) getMonthDays:(NSDate*)d;
 + (float) seconds:(float)n;
 + (float) minutes:(float)n;

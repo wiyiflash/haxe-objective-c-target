@@ -11,23 +11,23 @@
 
 @synthesize b;
 - (void) add:(id)x{
-	self.b += [Std string:x];
+	[self.b appendString:[Std string:x]];
 }
 - (void) addChar:(int)c{
-	self.b += [NSMutableString:c];
+	[self.b appendString:[NSMutableString:c]];
 }
 - (void) addSub:(NSMutableString*)s pos:(int)pos len:(int)len{
 	// Optional arguments
 	if (!len) len = nil;
 	
-	self.b += ( (len == nil) ? [s substr:pos len:nil] : [s substr:pos len:len]);
+	[self.b appendString:( (len == nil) ? [s substr:pos len:nil] : [s substr:pos len:len])];
 }
 - (NSMutableString*) toString{
 	return self.b;
 }
 - (id) init{
 	self = [super init];
-	self.b = [NSMutableString stringWithString:@""];
+	self.b = [@"" mutableCopy];
 	return self;
 }
 

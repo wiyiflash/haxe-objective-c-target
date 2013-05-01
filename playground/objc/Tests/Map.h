@@ -8,30 +8,42 @@
 
 #import <Foundation/Foundation.h>
 
-#import "haxe/ds/IntMap.h"
-#import "haxe/ds/HashMap.h"
-#import "haxe/ds/_HashMap/HashMapImpl.h"
-#import "haxe/ds/ObjectMap.h"
 #import "Map.h"
+#import "String.h"
+#import "haxe/ds/ObjectMap.h"
 
-@interface MapImpl : NSObject
+@interface Map_Impl_ : NSObject
 
 
-+ (void) set:(id)this1 key:(id)key value:(id)value;
-+ (id) get:(id)this1 key:(id)key;
-+ (BOOL) exists:(id)this1 key:(id)key;
-+ (BOOL) remove:(id)this1 key:(id)key;
-+ (id) keys:(id)this1;
-+ (id) iterator:(id)this1;
-+ (NSMutableString*) toString:(id)this1;
-+ (StringMap*) toStringMap:(id)t;
-+ (IntMap*) toIntMap:(id)t;
-+ (HashMap*) toHashMap:(id)t;
-+ (ObjectMap*) toObjectMap:(id)t;
++ (void) set:(IMap*)this1 key:(id)key value:(id)value;
++ (id) get:(IMap*)this1 key:(id)key;
++ (BOOL) exists:(IMap*)this1 key:(id)key;
++ (BOOL) remove:(IMap*)this1 key:(id)key;
++ (id) keys:(IMap*)this1;
++ (id) iterator:(IMap*)this1;
++ (NSMutableString*) toString:(IMap*)this1;
++ (id) arrayWrite:(IMap*)this1 k:(id)k v:(id)v;
++ (StringMap*) toStringMap:(IMap*)t;
++ (IntMap*) toIntMap:(IMap*)t;
++ (ObjectMap*) toObjectMap:(IMap*)t;
 + (Map*) fromStringMap:(StringMap*)map;
 + (Map*) fromIntMap:(IntMap*)map;
-+ (Map*) fromHashMap:(HashMap*)map;
 + (Map*) fromObjectMap:(ObjectMap*)map;
+
+@end
+
+
+
+
+@interface IMap : NSObject
+
+
+
+
+
+
+
+
 
 @end
 

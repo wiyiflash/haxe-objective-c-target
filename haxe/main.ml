@@ -1082,7 +1082,7 @@ try
 		),"<name> : add a linker flag to the app. e.g. ObjC");
 		("-objc-linker-flag",Arg.String (fun name ->
 			com.objc_linker_flags <- name :: com.objc_linker_flags
-		),"<path> : add a lib. Can be an external .xcodeproj or a custom .framework");
+		),"<path> : add a custom framework");
 		("-ios-orientation",Arg.String (fun v ->
 			com.ios_orientations <- v :: com.ios_orientations
 		),"<orientation> : add iOS orientations. e.g. UIInterfaceOrientationPortrait");
@@ -1253,7 +1253,7 @@ try
 			Codegen.apply_native_paths;
 			Codegen.add_rtti;
 			Codegen.remove_extern_fields;
-			Codegen.add_field_inits;
+			(match ctx.com.platform with | Java | Cs -> (fun _ _ -> ()) | _ -> Codegen.add_field_inits);
 			Codegen.add_meta_field;
 			Codegen.check_remove_metadata;
 			Codegen.check_void_field;

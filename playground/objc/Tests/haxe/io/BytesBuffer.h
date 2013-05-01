@@ -9,7 +9,6 @@
 
 #import "../../objc/foundation/NSData.h"
 #import "../../haxe/io/Bytes.h"
-#import "../../haxe/io/Error.h"
 
 @interface BytesBuffer : NSObject
 

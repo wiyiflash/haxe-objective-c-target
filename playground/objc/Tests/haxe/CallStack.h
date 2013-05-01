@@ -13,13 +13,13 @@ typedef enum{
 	Lambda
 } StackItem;
 
-#import <Foundation/Foundation.h>
 
+#import "../Array.h"
 #import "../objc/foundation/NSThread.h"
 #import "../haxe/CallStack.h"
+#import "../String.h"
 #import "../StringBuf.h"
 #import "../Std.h"
-#import "../haxe/StackItem.h"
 
 @interface CallStack : NSObject
 

@@ -17,7 +17,7 @@
 	return 0;
 }
 - (void) close{
-	[super.close];
+	[super close];
 }
 - (void) seek:(int)p pos:(FileSeek*)pos{
 }

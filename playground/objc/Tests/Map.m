@@ -7,49 +7,47 @@
 
 #import "Map.h"
 
-@implementation MapImpl
+@implementation Map_Impl_
 
 
-+ (void) set:(id)this1 key:(id)key value:(id)value{
++ (void) set:(IMap*)this1 key:(id)key value:(id)value{
 	[this1 set:key v:value];
 }
-+ (id) get:(id)this1 key:(id)key{
++ (id) get:(IMap*)this1 key:(id)key{
 	return [this1 get:key];
 }
-+ (BOOL) exists:(id)this1 key:(id)key{
++ (BOOL) exists:(IMap*)this1 key:(id)key{
 	return [this1 exists:key];
 }
-+ (BOOL) remove:(id)this1 key:(id)key{
++ (BOOL) remove:(IMap*)this1 key:(id)key{
 	return [this1 remove:key];
 }
-+ (id) keys:(id)this1{
++ (id) keys:(IMap*)this1{
 	return [this1 keys];
 }
-+ (id) iterator:(id)this1{
++ (id) iterator:(IMap*)this1{
 	return [this1 iterator];
 }
-+ (NSMutableString*) toString:(id)this1{
++ (NSMutableString*) toString:(IMap*)this1{
 	return [this1 toString];
 }
-+ (StringMap*) toStringMap:(id)t{
++ (id) arrayWrite:(IMap*)this1 k:(id)k v:(id)v{
+	[this1 set:k v:v];
+	return v;
+}
++ (StringMap*) toStringMap:(IMap*)t{
 	return [[StringMap alloc] init];
 }
-+ (IntMap*) toIntMap:(id)t{
++ (IntMap*) toIntMap:(IMap*)t{
 	return [[IntMap alloc] init];
 }
-+ (HashMap*) toHashMap:(id)t{
-	return [HashMapImpl _new];
-}
-+ (ObjectMap*) toObjectMap:(id)t{
++ (ObjectMap*) toObjectMap:(IMap*)t{
 	return [[ObjectMap alloc] init];
 }
 + (Map*) fromStringMap:(StringMap*)map{
 	return map;
 }
 + (Map*) fromIntMap:(IntMap*)map{
-	return map;
-}
-+ (Map*) fromHashMap:(HashMap*)map{
 	return map;
 }
 + (Map*) fromObjectMap:(ObjectMap*)map{

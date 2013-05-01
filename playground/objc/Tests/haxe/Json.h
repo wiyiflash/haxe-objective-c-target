@@ -8,27 +8,26 @@
 
 #import <Foundation/Foundation.h>
 
+#import "../String.h"
 #import "../haxe/Json.h"
 #import "../StringBuf.h"
+#import "../Array.h"
 #import "../Reflect.h"
 #import "../Type.h"
 #import "../Std.h"
 #import "../Math.h"
 #import "../Class.h"
-#import "../String.h"
-#import "../Array.h"
-#import "../haxe/ds/StringMap.h"
 #import "../EnumValue.h"
 
 @interface Json : NSObject
 
 + (id) parse:(NSMutableString*)text;
-+ (NSMutableString*) stringify:(id)value replacer:(SEL)replacer;
++ (NSMutableString*) stringify:(id)value replacer:(id)replacer;
 @property (nonatomic, strong) StringBuf *buf;
 @property (nonatomic, strong) NSMutableString *str;
 @property (nonatomic) int pos;
 
-- (NSMutableString*) toString:(id)v replacer:(SEL)replacer;
+- (NSMutableString*) toString:(id)v replacer:(id)replacer;
 - (void) fieldsString:(id)v fields:(NSMutableArray*)fields;
 - (void) objString:(id)v;
 - (void) toStringRec:(id)k v:(id)v;

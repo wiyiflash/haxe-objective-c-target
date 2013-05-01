@@ -9,23 +9,25 @@
 
 @implementation Output
 
-+ (float) LN2:(float)val {
-	static float _val;
-	if (val == nil) { if (_val == nil) _val = logf(2); }
-	else { if (_val != nil) _val = val; }
-	return _val;
+static float LN2;
++ (float) LN2 {
+	if (LN2 == nil) LN2 = logf(2);
+	return LN2;
+}
++ (void) setLN2:(float)val {
+	LN2 = val;
 }
 
 - (void) writeByte:(int)c{
-	@throw [NSMutableString stringWithString:@"Not implemented"];;
+	@throw [@"Not implemented" mutableCopy];;
 }
 - (int) writeBytes:(Bytes*)s pos:(int)pos len:(int)len{
 	int k = len;
 	
 	NSMutableArray *b = s.b;
-	if (pos < 0 || len < 0 || pos + len > s.length) @throw  OutsideBounds;;
+	if (pos < 0 || len < 0 || pos + len > s.length) @throw -FEnum- OutsideBounds;;
 	while (k > 0) {
-		[self writeByte:[b objectAtIndex:pos]];
+		[self writeByte:[b hx_objectAtIndex:pos]];
 		pos++;
 		k--;
 	}
@@ -44,7 +46,7 @@
 	int p = 0;
 	while (l > 0) {
 		int k = [self writeBytes:s pos:p len:l];
-		if (k == 0) @throw  Blocked;;
+		if (k == 0) @throw -FEnum- Blocked;;
 		p += k;
 		l -= k;
 	}
@@ -64,9 +66,9 @@
 		[self writeByte:0];
 		return;
 	}
-	int exp = floorf(logf(fabsf(x)) / -TMono-);
+	int exp = floorf(logf(fabsf(x)) / LN2);
 	int sig = floorf(fabsf(x) / powf(2, exp) * 8388608) & 8388607;
-	int b1 = exp + 127 >> 1 |  (( (exp > 0) ? ( (x < 0) ? 128 : 64) : ( (x < 0) ? 128 : 0))); int b2 = (exp + 127 << 7 & 255) | (sig >> 16 & 127); int b3 = sig >> 8 & 255; int b4 = sig & 255;
+	int b1 = [exp stringByAppendingString:@"127"] >> 1 |  (( (exp > 0) ? ( (x < 0) ? 128 : 64) : ( (x < 0) ? 128 : 0))); int b2 = ([exp stringByAppendingString:@"127"] << 7 & 255) | (sig >> 16 & 127); int b3 = sig >> 8 & 255; int b4 = sig & 255;
 	if (self.bigEndian) {
 		[self writeByte:b4];
 		[self writeByte:b3];
@@ -92,11 +94,11 @@
 		[self writeByte:0];
 		return;
 	}
-	int exp = floorf(logf(fabsf(x)) / -TMono-);
+	int exp = floorf(logf(fabsf(x)) / LN2);
 	int sig = floorf(fabsf(x) / powf(2, exp) * powf(2, 52));
 	int sig_h = sig & (int)34359738367;
 	int sig_l = floorf(sig / powf(2, 32));
-	int b1 = exp + 1023 >> 4 |  (( (exp > 0) ? ( (x < 0) ? 128 : 64) : ( (x < 0) ? 128 : 0))); int b2 = (exp + 1023 << 4 & 255) | (sig_l >> 16 & 15); int b3 = sig_l >> 8 & 255; int b4 = sig_l & 255; int b5 = sig_h >> 24 & 255; int b6 = sig_h >> 16 & 255; int b7 = sig_h >> 8 & 255; int b8 = sig_h & 255;
+	int b1 = [exp stringByAppendingString:@"1023"] >> 4 |  (( (exp > 0) ? ( (x < 0) ? 128 : 64) : ( (x < 0) ? 128 : 0))); int b2 = ([exp stringByAppendingString:@"1023"] << 4 & 255) | (sig_l >> 16 & 15); int b3 = sig_l >> 8 & 255; int b4 = sig_l & 255; int b5 = sig_h >> 24 & 255; int b6 = sig_h >> 16 & 255; int b7 = sig_h >> 8 & 255; int b8 = sig_h & 255;
 	if (self.bigEndian) {
 		[self writeByte:b8];
 		[self writeByte:b7];
@@ -119,15 +121,15 @@
 	}
 }
 - (void) writeInt8:(int)x{
-	if (x < -128 || x >= 128) @throw  Overflow;;
+	if (x < -128 || x >= 128) @throw -FEnum- Overflow;;
 	[self writeByte:x & 255];
 }
 - (void) writeInt16:(int)x{
-	if (x < -32768 || x >= 32768) @throw  Overflow;;
+	if (x < -32768 || x >= 32768) @throw -FEnum- Overflow;;
 	[self writeUInt16:x & 65535];
 }
 - (void) writeUInt16:(int)x{
-	if (x < 0 || x >= 65536) @throw  Overflow;;
+	if (x < 0 || x >= 65536) @throw -FEnum- Overflow;;
 	if (self.bigEndian) {
 		[self writeByte:x >> 8];
 		[self writeByte:x & 255];
@@ -138,11 +140,11 @@
 	}
 }
 - (void) writeInt24:(int)x{
-	if (x < -8388608 || x >= 8388608) @throw  Overflow;;
+	if (x < -8388608 || x >= 8388608) @throw -FEnum- Overflow;;
 	[self writeUInt24:x & 16777215];
 }
 - (void) writeUInt24:(int)x{
-	if (x < 0 || x >= 16777216) @throw  Overflow;;
+	if (x < 0 || x >= 16777216) @throw -FEnum- Overflow;;
 	if (self.bigEndian) {
 		[self writeByte:x >> 16];
 		[self writeByte:x >> 8 & 255];
@@ -180,11 +182,11 @@
 	@try {
 		while (YES) {
 			int len = [i readBytes:buf pos:0 len:bufsize];
-			if (len == 0) @throw  Blocked;;
+			if (len == 0) @throw -FEnum- Blocked;;
 			int p = 0;
 			while (len > 0) {
 				int k = [self writeBytes:buf pos:p len:len];
-				if (k == 0) @throw  Blocked;;
+				if (k == 0) @throw -FEnum- Blocked;;
 				p += k;
 				len -= k;
 			}

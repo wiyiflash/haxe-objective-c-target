@@ -136,7 +136,7 @@ type context = {
 	mutable java_libs : (string * (unit -> unit) * (unit -> ((string list * string) list)) * ((string list * string) -> ((JData.jclass * string * string) option))) list;
 	mutable js_gen : (unit -> unit) option;
 	mutable objc_platform : string;
-	mutable objc_libs : string list;(* A list of Xcode projects or custom frameworks that you wish to link with your project *)
+	mutable objc_libs : string list;(* A list of custom frameworks that you wish to link with your project *)
 	mutable objc_version : float;
 	mutable objc_bundle_version : float;
 	mutable objc_bundle_name : string option;
@@ -584,12 +584,12 @@ let get_config com =
 		{
 			pf_static = false;
 			pf_sys = true;
-			pf_locals_scope = true;
+			pf_locals_scope = false;
 			pf_captured_scope = true;
 			pf_unique_locals = false;
 			pf_can_init_member = (fun _ -> false);
-			pf_capture_policy = CPWrapRef;
-			pf_pad_nulls = true;
+			pf_capture_policy = CPNone;
+			pf_pad_nulls = false;
 			pf_add_final_return = true;
 			pf_overload = true;
 		}
@@ -628,7 +628,7 @@ let create v args =
 		neko_libs = [];
 		php_prefix = None;
 		js_gen = None;
-		objc_platform = "ios";
+		objc_platform = "universal";
 		objc_libs = [];
 		objc_version = 6.0;
 		objc_bundle_version = 1.0;

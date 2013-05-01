@@ -11,12 +11,11 @@
 #import "../haxe/Timer.h"
 #import "../haxe/Log.h"
 #import "../Sys.h"
-#import "../objc/foundation/NSTimer.h"
 
 @interface Timer : NSObject
 
-+ (Timer*) delay:(SEL)f time_ms:(int)time_ms;
-+ (id) measure:(SEL)f pos:(id)pos;
++ (Timer*) delay:(id)f time_ms:(int)time_ms;
++ (id) measure:(id)f pos:(id)pos;
 + (float) stamp;
 @property (nonatomic, strong) NSTimer *nstimer;
 @property (nonatomic) int _id;
@@ -24,6 +23,7 @@
 // Defining a dynamic method
 - (void) run;
 @property (nonatomic,copy) void(^property_run)();
+- (void) nsrun:(NSTimer*)aTimer;
 - (id) init:(int)time_ms;
 
 @end

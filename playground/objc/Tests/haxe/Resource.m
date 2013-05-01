@@ -9,21 +9,23 @@
 
 @implementation Resource
 
-+ (NSMutableDictionary*) __plist__:(NSMutableDictionary*)val {
-	static NSMutableDictionary *_val;
-	if (val == nil) { if (_val == nil) _val = [[NSMutableDictionary alloc] init]; }
-	else { if (_val != nil) _val = val; }
-	return _val;
+static NSMutableDictionary* __plist__;
++ (NSMutableDictionary*) __plist__ {
+	if (__plist__ == nil) __plist__ = [[NSMutableDictionary alloc] init];
+	return __plist__;
+}
++ (void) set__plist__:(NSMutableDictionary*)val {
+	__plist__ = val;
 }
 + (NSMutableArray*) listNames{
-	return [[Resource __plist__:nil].allKeys];
+	return [Resource.__plist__ allKeys];
 }
 + (NSMutableString*) getString:(NSMutableString*)name{
-	return [[Resource __plist__:nil].objectForKey:name];
+	return [Resource.__plist__ objectForKey:name];
 }
 + (Bytes*) getBytes:(NSMutableString*)name{
 	
-	NSMutableArray *array = [[Resource __plist__:nil] __hxcpp_resource_bytes-TDynamic-];
+	NSMutableArray *array = [-FDynamic-Resource.__plist__ __hxcpp_resource_bytes-TDynamic-];
 	if (array == nil) return nil;
 	return [Bytes ofData:array];
 }

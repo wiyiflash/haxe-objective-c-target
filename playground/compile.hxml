@@ -1,0 +1,10 @@
+-main Tests
+-dce no
+-cp .
+-objc objc
+-objc-version 6
+-objc-bundle-version 1.0
+-objc-identifier com.ralcr.tests
+-resource hello_message.txt@welcome
+-lib hxcocoa
+--times

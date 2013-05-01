@@ -167,7 +167,7 @@ class Tests/* implements Interface1 implements Interface2*/ {
 		d2 = Date.now();
 		
 		var x = DateTools.getMonthDays ( d2 );
-		float = DateTools.days ( 5 );
+/*		float = DateTools.days ( 5 );
 		var d3 = DateTools.delta (d, 1000.0);
 		str = DateTools.format (d, "HH:mm");
 		int = DateTools.getMonthDays (d);
@@ -175,7 +175,7 @@ class Tests/* implements Interface1 implements Interface2*/ {
 		float = DateTools.make ( { seconds:0, ms:110, minutes:6, hours:8, days:5 } );
 		float = DateTools.minutes(56);
 		var obj = DateTools.parse(45546);
-		float = DateTools.seconds(1000);
+		float = DateTools.seconds(1000);*/
 	}
 	
 	
@@ -214,7 +214,7 @@ class Tests/* implements Interface1 implements Interface2*/ {
 	// Test EReg
 	
 	function testEReg(){
-		var ereg = new EReg("ytrytrevev76", "099");
+/*		var ereg = new EReg("ytrytrevev76", "099");
 		var s = ereg.map("s", function(e:EReg):String{return "ss";});
 		var b = ereg.match("s");
 		s = ereg.matched(5);
@@ -222,7 +222,7 @@ class Tests/* implements Interface1 implements Interface2*/ {
 		var o = ereg.matchedPos();
 		s = ereg.matchedRight();
 		s = ereg.replace("s", "by");
-		var arr = ereg.split(",");
+		var arr = ereg.split(",");*/
 	}
 	
 	
@@ -264,27 +264,26 @@ class Tests/* implements Interface1 implements Interface2*/ {
 	
 	// Test List
 	
-	function testList(){
-		var l = new List<Int>();
+	function testGenericStack(){
+		var l = new haxe.ds.GenericStack<Int>();
 		l.add(2);
-		l.push(18);
-		var l2 = l.filter( function(i:Int):Bool{ return i>5; } );
+		//var l2 = l.filter( function(i:Int):Bool{ return i>5; } );
 		var item = l.first();
 		var empty = l.isEmpty();
 		var iter = l.iterator();
-		var s = l.join(", ");
-		s = l.toString();
-		item = l.last();
+/*		var s = l.join(", ");
+		s = l.toString();*/
+		item = l.first();
 		item = l.pop();
 		var r = l.remove ( 5 );
-		trace(l.length);
+/*		trace(l.length);
 		l.clear();
-		trace(l.length);
+		trace(l.length);*/
 		
-		var newList = l.map ( function(i:Int):String { return Std.string(i); } );
+		//var newList = l.map ( function(i:Int):String { return Std.string(i); } );
 		
-		var fl = new haxe.FastList<Int>();
-		fl.add(8);
+/*		var fl = new haxe.FastList<Int>();
+		fl.add(8);*/
 	}
 	
 	

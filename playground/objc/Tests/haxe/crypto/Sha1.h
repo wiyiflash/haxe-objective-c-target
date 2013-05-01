@@ -6,10 +6,12 @@
 //
 
 
-#import <Foundation/Foundation.h>
 
+#import "../../String.h"
 #import "../../haxe/io/Bytes.h"
+#import "../../Array.h"
 #import "../../haxe/crypto/Sha1.h"
+#import <CommonCrypto/CommonDigest.h>
 
 @interface Sha1 : NSObject
 

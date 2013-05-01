@@ -9,24 +9,22 @@
 
 @implementation Timer
 
-+ (Timer*) delay:(SEL)f time_ms:(int)time_ms{
++ (Timer*) delay:(id)f time_ms:(int)time_ms{
 	
-	NSMutableArray *f1 = [[NSMutableArray alloc] initWithObject:f];
-	
-	NSMutableArray *t = [[NSMutableArray alloc] initWithObject:[[Timer alloc] init:time_ms]];
-	[t objectAtIndex:0].run = ^+ (void) {
-		[[t objectAtIndex:0].stop];
-		[[f1 objectAtIndex:0]];
+	Timer *t = [[Timer alloc] init:time_ms];
+	t.run = ^void(^property_)(){
+		[t stop];
+		[f];
 	}
-	return [t objectAtIndex:0];
+	return t;
 }
-+ (id) measure:(SEL)f pos:(id)pos{
++ (id) measure:(id)f pos:(id)pos{
 	// Optional arguments
 	if (!pos) pos = nil;
 	
 	float t0 = [Timer stamp];
 	id r = [f];
-	[Log trace:[[Timer stamp] - t0 stringByAppendingString:[NSMutableString stringWithString:@"s"]] infos:pos];
+	[Log trace:[[Timer stamp] - t0 stringByAppendingString:[@"s" mutableCopy]] infos:pos];
 	return r;
 }
 + (float) stamp{
@@ -42,13 +40,19 @@
 }
 // Defining a dynamic method
 - (void) run{
-	[Log trace:[NSMutableString stringWithString:@"run"] infos:[NSDictionary dictionaryWithObjectsAndKeys:@"Timer.hx",@"fileName", @"109",@"lineNumber", @"haxe.Timer",@"className", @"run",@"methodName", nil]];
+	[Log trace:[@"run" mutableCopy] infos:@{@"fileName":@"Timer.hx", @"lineNumber":@"112", @"className":@"haxe.Timer", @"methodName":@"run"}];
 }
 @synthesize property_run;
 
+- (void) nsrun:(NSTimer*)aTimer{
+	[self run];
+}
 - (id) init:(int)time_ms{
 	self = [super init];
-	self.nstimer = [NSTimer timerWithTimeInterval:time_ms target:self selector:self run userInfo:nil repeats:YES];
+	self.nstimer = [NSTimer timerWithTimeInterval:time_ms * 1000 target:self selector:@selector(-FClosure-nsrun:) userInfo:nil repeats:YES];
+	
+	NSRunLoop *runner = [NSRunLoop currentRunLoop];
+	[runner addTimer:self.nstimer forMode:-FEnum- NSDefaultRunLoopMode];
 	return self;
 }
 

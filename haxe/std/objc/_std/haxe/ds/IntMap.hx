@@ -21,7 +21,10 @@
  */
 package haxe.ds;
 
- @:category("NSMutableDictionary") @:coreApi class IntMap<T> {
+@:framework("Foundation")
+@:category("NSMutableDictionary")
+@:coreApi
+class IntMap<T> implements Map.IMap<Int,T> {
 	
  	public function new() : Void {
 		
@@ -66,59 +69,3 @@ package haxe.ds;
  	}
 
 }
- 
-/*@:coreApi class IntMap<T> {
-
-	private var h : flash.utils.Dictionary;
-
-	public function new() : Void {
-		h = new flash.utils.Dictionary();
-	}
-
-	public function set( key : Int, value : T ) : Void {
-		untyped h[key] = value;
-	}
-
-	public function get( key : Int ) : Null<T> {
-		return untyped h[key];
-	}
-
-	public function exists( key : Int ) : Bool {
-		return untyped h.hasOwnProperty(key);
-	}
-
-	public function remove( key : Int ) : Bool {
-		if( untyped !h.hasOwnProperty(key) ) return false;
-		untyped __delete__(h,key);
-		return true;
-	}
-
-	public function keys() : Iterator<Int> {
-		return untyped (__keys__(h)).iterator();
-	}
-
-	public function iterator() : Iterator<T> {
-		return untyped {
-			ref : h,
-			it : keys(),
-			hasNext : function() { return __this__.it.hasNext(); },
-			next : function() { var i = __this__.it.next(); return __this__.ref[i]; }
-		};
-	}
-
-	public function toString() : String {
-		var s = new StringBuf();
-		s.add("{");
-		var it = keys();
-		for( i in it ) {
-			s.add(i);
-			s.add(" => ");
-			s.add(Std.string(get(i)));
-			if( it.hasNext() )
-				s.add(", ");
-		}
-		s.add("}");
-		return s.toString();
-	}
-
-}*/

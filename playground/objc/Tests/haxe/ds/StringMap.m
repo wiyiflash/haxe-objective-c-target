@@ -9,45 +9,52 @@
 
 @implementation NSMutableDictionary ( StringMap )
 
-- (void) set:(NSMutableString*)key value:(id)value{
+- (void) set:(id)_tmp_key _tmp_value:(id)_tmp_value{
+	
+	NSMutableString *key = (NSMutableString*)_tmp_key; id value = (id)_tmp_value;
 	[self setObject:value forKey:key];
 }
-- (id) get:(NSMutableString*)key{
-	return [self objectForKey:key];
+- (id) get:(id)_tmp_key{
+	
+	NSMutableString *key = (NSMutableString*)_tmp_key;
+	return [-FDynamic-self objectForKey:key];
 }
-- (BOOL) exists:(NSMutableString*)key{
-	return [self objectForKey:key] != nil;
+- (BOOL) exists:(id)_tmp_key{
+	
+	NSMutableString *key = (NSMutableString*)_tmp_key;
+	return [-FDynamic-self objectForKey:key] != nil;
 }
-- (BOOL) remove:(NSMutableString*)key{
+- (BOOL) remove:(id)_tmp_key{
+	
+	NSMutableString *key = (NSMutableString*)_tmp_key;
 	if ([self exists:key]) {
-		[self removeObjectForKey:key];
+		[-FDynamic-self removeObjectForKey:key];
 		return YES;
 	}
 	return NO;
 }
 - (id) keys{
 	
-	NSMutableArray *a = [self allKeys];
+	NSMutableArray *a = [-FDynamic-self allKeys];
 	return [a iterator];
 }
 - (id) iterator{
 	
-	NSMutableArray *a = [self allValues];
+	NSMutableArray *a = [-FDynamic-self allValues];
+	id it = [a iterator];
 	
-	NSMutableArray *it = [[NSMutableArray alloc] initWithObject:[a iterator]];
-	
-	NSMutableArray *me = [[NSMutableArray alloc] initWithObject:self];
-	return [NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[^BOOL(){
-		return [[it objectAtIndex:0] hasNext];
-	} copy], @"hasNext",
-	[^id(){
-		return [[me objectAtIndex:0] __Internal __Field:[[it objectAtIndex:0] next] :YES];
-	} copy], @"next",
-	nil];
+	StringMap *me = self;
+	return [@{
+		@"hasNext":[^BOOL(){
+		return [it[@"hasNext"]];
+	} copy],
+		@"next":[^id(){
+		return [-FDynamic-me __Internal[@"__Field"]:[it[@"next"]] :YES];
+	} copy],
+	} mutableCopy];
 }
 - (NSMutableString*) toString{
-	return [self description];
+	return [-FDynamic-self description];
 }
 - (id) init{
 	self = [super init];

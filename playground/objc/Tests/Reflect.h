@@ -6,8 +6,9 @@
 //
 
 
-#import <Foundation/Foundation.h>
 
+#import "String.h"
+#import "Array.h"
 #import "Reflect.h"
 
 @interface Reflect : NSObject
@@ -23,9 +24,9 @@
 + (int) compare:(id)a b:(id)b;
 + (BOOL) compareMethods:(id)f1 f2:(id)f2;
 + (BOOL) isObject:(id)v;
-+ (BOOL) deleteField:(id)o f:(NSMutableString*)f;
++ (BOOL) deleteField:(id)o field:(NSMutableString*)field;
 + (id) copy:(id)o;
-+ (id) makeVarArgs:(SEL)f;
++ (id) makeVarArgs:(id)f;
 
 @end
 

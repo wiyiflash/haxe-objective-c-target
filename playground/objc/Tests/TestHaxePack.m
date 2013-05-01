@@ -11,30 +11,30 @@
 
 - (void) testTimer{
 	
-	NSMutableArray *_g = [[NSMutableArray alloc] initWithObject:self];
+	TestHaxePack *_g = self;
 	
 	Timer *timer = [[Timer alloc] init:50];
-	timer.run = self testTimerLoop;
+	timer.run = -FClosure-testTimerLoop;
 	[timer stop];
-	timer = [Timer delay:self testTimerLoop time_ms:50];
-	timer = [Timer delay:^- (void) {
-		[[_g objectAtIndex:0] testTimerLoop];
+	timer = [Timer delay:-FClosure-testTimerLoop time_ms:50];
+	timer = [Timer delay:^void(^property_)(){
+		[_g testTimerLoop];
 	} time_ms:50];
-	[Timer measure:self testTimerLoop pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestHaxePack.hx",@"fileName", @"22",@"lineNumber", @"TestHaxePack",@"className", @"testTimer",@"methodName", nil]];
+	[Timer measure:-FClosure-testTimerLoop pos:@{@"fileName":@"TestHaxePack.hx", @"lineNumber":@"22", @"className":@"TestHaxePack", @"methodName":@"testTimer"}];
 	float f = [Timer stamp];
 }
 - (void) testTimerLoop{
 }
 - (void) testCrypto{
 	
-	NSMutableString *str1 = [Md5 encode:[NSMutableString stringWithString:@"Hello world"]];
+	NSMutableString *str1 = [Md5 encode:[@"Hello world" mutableCopy]];
 	
-	NSMutableString *str2 = [Sha1 encode:[NSMutableString stringWithString:@"Hello world"]];
+	NSMutableString *str2 = [Sha1 encode:[@"Hello world" mutableCopy]];
 }
 - (void) testResources{
 	
-	NSMutableString *str = [Resource getString:[NSMutableString stringWithString:@"welcome"]];
-	[Log trace:str infos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestHaxePack.hx",@"fileName", @"39",@"lineNumber", @"TestHaxePack",@"className", @"testResources",@"methodName", nil]];
+	NSMutableString *str = [Resource getString:[@"welcome" mutableCopy]];
+	[Log trace:str infos:@{@"fileName":@"TestHaxePack.hx", @"lineNumber":@"39", @"className":@"TestHaxePack", @"methodName":@"testResources"}];
 }
 - (void) testCallstack{
 	
@@ -42,17 +42,17 @@
 }
 - (void) testSerialization{
 	
-	NSMutableString *str = [Serializer run:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"a"] copy], @"a",
-	nil]];
+	NSMutableString *str = [Serializer run:[@{
+		@"a":[[@"a" mutableCopy] copy],
+	} mutableCopy]];
 	id obj = [Unserializer run:str];
 }
 - (id) init{
 	self = [super init];
 	
-	NSMutableString *str = [Json stringify:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"a"] copy], @"a",
-	nil] replacer:nil];
+	NSMutableString *str = [Json stringify:[@{
+		@"a":[[@"a" mutableCopy] copy],
+	} mutableCopy] replacer:nil];
 	id obj = [Json parse:str];
 	
 	Template *t = [[Template alloc] init:str];

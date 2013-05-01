@@ -17,7 +17,8 @@ cd ../WWX
 echo " "
 echo "Build ObjC tests..."
 echo " "
-# ./haxe/haxe -main Tests -dce no -cp tests -objc tests/objc -objc-version 6 -objc-bundle-version 1.0 -objc-identifier org.haxe.ObjcTests -resource tests/hello_message.txt@welcome --times
+cd ../../../playground
+./../haxe/haxe compile.hxml
 # ./haxe/haxe -main Tests -dce no -cp tests -as3 tests/as3
 # ./haxe/haxe -main Tests -cp tests -php tests/php
 # echo "Build Cpp tests..."

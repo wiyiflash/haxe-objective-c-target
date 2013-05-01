@@ -16,7 +16,7 @@
 		int _g = 0;
 		while (_g < length) {
 			int i = _g++;
-			[a.push:0];
+			[a push:0];
 		}
 	}
 	return [[Bytes alloc] init:length b:a];
@@ -28,43 +28,43 @@
 		int _g1 = 0; int _g = s.length;
 		while (_g1 < _g) {
 			int i = _g1++;
-			int c = [s characterAtIndex:i];
-			if (c <= 127) [a.push:c];
+			int c = [-FDynamic-s characterAtIndex:i];
+			if (c <= 127) [a push:c];
 			else if (c <= 2047) {
-				[a.push:192 | c >> 6];
-				[a.push:128 | (c & 63)];
+				[a push:192 | c >> 6];
+				[a push:128 | (c & 63)];
 			}
 			else if (c <= 65535) {
-				[a.push:224 | c >> 12];
-				[a.push:128 | (c >> 6 & 63)];
-				[a.push:128 | (c & 63)];
+				[a push:224 | c >> 12];
+				[a push:128 | (c >> 6 & 63)];
+				[a push:128 | (c & 63)];
 			}
 			else {
-				[a.push:240 | c >> 18];
-				[a.push:128 | (c >> 12 & 63)];
-				[a.push:128 | (c >> 6 & 63)];
-				[a.push:128 | (c & 63)];
+				[a push:240 | c >> 18];
+				[a push:128 | (c >> 12 & 63)];
+				[a push:128 | (c >> 6 & 63)];
+				[a push:128 | (c & 63)];
 			}
 		}
 	}
-	return [[Bytes alloc] init:a.length b:a];
+	return [[Bytes alloc] init:a length b:a];
 }
 + (Bytes*) ofData:(NSMutableArray*)b{
-	return [[Bytes alloc] init:b.length b:b];
+	return [[Bytes alloc] init:b length b:b];
 }
 + (int) fastGet:(NSMutableArray*)b pos:(int)pos{
-	return [b objectAtIndex:pos];
+	return [b hx_objectAtIndex:pos];
 }
 @synthesize length;
 @synthesize b;
 - (int) get:(int)pos{
-	return [self.b objectAtIndex:pos];
+	return [self.b hx_objectAtIndex:pos];
 }
 - (void) set:(int)pos v:(int)v{
-	[self.b replaceObjectAtIndex:pos withObject:(v & [NSNumber numberWithInt:255])];
+	[self.b hx_replaceObjectAtIndex:pos withObject:(v & @255)];
 }
 - (void) blit:(int)pos src:(Bytes*)src srcpos:(int)srcpos len:(int)len{
-	if (pos < 0 || srcpos < 0 || len < 0 || pos + len > self.length || srcpos + len > src.length) @throw  OutsideBounds;;
+	if (pos < 0 || srcpos < 0 || len < 0 || pos + len > self.length || srcpos + len > src.length) @throw -FEnum- OutsideBounds;;
 	
 	NSMutableArray *b1 = self.b;
 	
@@ -73,7 +73,7 @@
 		int i = len;
 		while (i > 0) {
 			i--;
-			[b1 replaceObjectAtIndex:i + pos withObject:b2 replaceObjectAtIndex:i + srcpos];
+			[b1 hx_replaceObjectAtIndex:i + pos withObject:b2 hx_replaceObjectAtIndex:i + srcpos];
 		}
 		return;
 	}
@@ -81,12 +81,12 @@
 		int _g = 0;
 		while (_g < len) {
 			int i = _g++;
-			[b1 replaceObjectAtIndex:i + pos withObject:b2 replaceObjectAtIndex:i + srcpos];
+			[b1 hx_replaceObjectAtIndex:i + pos withObject:b2 hx_replaceObjectAtIndex:i + srcpos];
 		}
 	}
 }
 - (Bytes*) sub:(int)pos len:(int)len{
-	if (pos < 0 || len < 0 || pos + len > self.length) @throw  OutsideBounds;;
+	if (pos < 0 || len < 0 || pos + len > self.length) @throw -FEnum- OutsideBounds;;
 	return [[Bytes alloc] init:len b:[self.b slice:pos end:pos + len]];
 }
 - (int) compare:(Bytes*)other{
@@ -99,35 +99,35 @@
 		int _g = 0;
 		while (_g < (int)len) {
 			int i = _g++;
-			if ([b1 objectAtIndex:i] != [b2 objectAtIndex:i]) return [b1 objectAtIndex:i] - [b2 objectAtIndex:i];
+			if ([b1 hx_objectAtIndex:i] != [b2 hx_objectAtIndex:i]) return [b1 hx_objectAtIndex:i] - [b2 hx_objectAtIndex:i];
 		}
 	}
 	return self.length - other.length;
 }
 - (NSMutableString*) readString:(int)pos len:(int)len{
-	if (pos < 0 || len < 0 || pos + len > self.length) @throw  OutsideBounds;;
+	if (pos < 0 || len < 0 || pos + len > self.length) @throw -FEnum- OutsideBounds;;
 	
-	NSMutableString *s = [NSMutableString stringWithString:@""];
+	NSMutableString *s = [@"" mutableCopy];
 	
 	NSMutableArray *b = self.b;
-	SEL fcc = NSMutableString;
+	id fcc = NSMutableString;
 	int i = pos;
 	int max = pos + len;
 	while (i < max) {
-		int c = [b objectAtIndex:i++];
+		int c = [b hx_objectAtIndex:i++];
 		if (c < 128) {
 			if (c == 0) break;
 			[s appendString:[fcc:c]];
 		}
-		else if (c < 224) [s appendString:[fcc: (c & @"63") << @"6" | ([b objectAtIndex:i++] & @"127")]];
+		else if (c < 224) [s appendString:[fcc: (c & @"63") << @"6" | ([b hx_objectAtIndex:i++] & @"127")]];
 		else if (c < 240) {
-			int c2 = [b objectAtIndex:i++];
-			[s appendString:[fcc:( (c & @"31") << @"12" |  (c2 & @"127") << @"6") | ([b objectAtIndex:i++] & @"127")]];
+			int c2 = [b hx_objectAtIndex:i++];
+			[s appendString:[fcc:( (c & @"31") << @"12" |  (c2 & @"127") << @"6") | ([b hx_objectAtIndex:i++] & @"127")]];
 		}
 		else {
-			int c2 = [b objectAtIndex:i++];
-			int c3 = [b objectAtIndex:i++];
-			[s appendString:[fcc:(( (c & @"15") << @"18" |  (c2 & @"127") << @"12") | (c3 << @"6" & @"127")) | ([b objectAtIndex:i++] & @"127")]];
+			int c2 = [b hx_objectAtIndex:i++];
+			int c3 = [b hx_objectAtIndex:i++];
+			[s appendString:[fcc:(( (c & @"15") << @"18" |  (c2 & @"127") << @"12") | (c3 << @"6" & @"127")) | ([b hx_objectAtIndex:i++] & @"127")]];
 		}
 	}
 	return s;
@@ -139,9 +139,9 @@
 	
 	StringBuf *s = [[StringBuf alloc] init];
 	
-	NSMutableArray *chars = [[NSMutableArray alloc] initWithObjects:, nil];
+	NSMutableArray *chars = [@[] mutableCopy];
 	
-	NSMutableString *str = [NSMutableString stringWithString:@"0123456789abcdef"];
+	NSMutableString *str = [@"0123456789abcdef" mutableCopy];
 	{
 		int _g1 = 0; int _g = str.length;
 		while (_g1 < _g) {
@@ -153,9 +153,9 @@
 		int _g1 = 0; int _g = self.length;
 		while (_g1 < _g) {
 			int i = _g1++;
-			int c = [self.b objectAtIndex:i];
-			s.b += [NSMutableString:[chars objectAtIndex:c >> 4]];
-			s.b += [NSMutableString:[chars objectAtIndex:c & 15]];
+			int c = [self.b hx_objectAtIndex:i];
+			s.b += [NSMutableString:[chars hx_objectAtIndex:c >> 4]];
+			s.b += [NSMutableString:[chars hx_objectAtIndex:c & 15]];
 		}
 	}
 	return s.b;

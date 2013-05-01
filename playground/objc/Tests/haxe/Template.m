@@ -9,42 +9,54 @@
 
 @implementation Template
 
-+ (EReg*) splitter:(EReg*)val {
-	static EReg *_val;
-	if (val == nil) { if (_val == nil) _val = [[EReg alloc] init:[NSMutableString stringWithString:@"(::[A-Za-z0-9_ ()&|!+=/><*.\"-]+::|\\$\\$([A-Za-z0-9_-]+)\\()"] opt:[NSMutableString stringWithString:@""]]; }
-	else { if (_val != nil) _val = val; }
-	return _val;
+static EReg* splitter;
++ (EReg*) splitter {
+	if (splitter == nil) splitter = [[EReg alloc] init:[@"(::[A-Za-z0-9_ ()&|!+=/><*.\"-]+::|\\$\\$([A-Za-z0-9_-]+)\\()" mutableCopy] opt:[@"" mutableCopy]];
+	return splitter;
 }
-+ (EReg*) expr_splitter:(EReg*)val {
-	static EReg *_val;
-	if (val == nil) { if (_val == nil) _val = [[EReg alloc] init:[NSMutableString stringWithString:@"(\\(|\\)|[ \r\n\t]*\"[^\"]*\"[ \r\n\t]*|[!+=/><*.&|-]+)"] opt:[NSMutableString stringWithString:@""]]; }
-	else { if (_val != nil) _val = val; }
-	return _val;
++ (void) setSplitter:(EReg*)val {
+	splitter = val;
 }
-+ (EReg*) expr_trim:(EReg*)val {
-	static EReg *_val;
-	if (val == nil) { if (_val == nil) _val = [[EReg alloc] init:[NSMutableString stringWithString:@"^[ ]*([^ ]+)[ ]*$"] opt:[NSMutableString stringWithString:@""]]; }
-	else { if (_val != nil) _val = val; }
-	return _val;
+static EReg* expr_splitter;
++ (EReg*) expr_splitter {
+	if (expr_splitter == nil) expr_splitter = [[EReg alloc] init:[@"(\\(|\\)|[ \r\n\t]*\"[^\"]*\"[ \r\n\t]*|[!+=/><*.&|-]+)" mutableCopy] opt:[@"" mutableCopy]];
+	return expr_splitter;
 }
-+ (EReg*) expr_int:(EReg*)val {
-	static EReg *_val;
-	if (val == nil) { if (_val == nil) _val = [[EReg alloc] init:[NSMutableString stringWithString:@"^[0-9]+$"] opt:[NSMutableString stringWithString:@""]]; }
-	else { if (_val != nil) _val = val; }
-	return _val;
++ (void) setExpr_splitter:(EReg*)val {
+	expr_splitter = val;
 }
-+ (EReg*) expr_float:(EReg*)val {
-	static EReg *_val;
-	if (val == nil) { if (_val == nil) _val = [[EReg alloc] init:[NSMutableString stringWithString:@"^([+-]?)(?=\\d|,\\d)\\d*(,\\d*)?([Ee]([+-]?\\d+))?$"] opt:[NSMutableString stringWithString:@""]]; }
-	else { if (_val != nil) _val = val; }
-	return _val;
+static EReg* expr_trim;
++ (EReg*) expr_trim {
+	if (expr_trim == nil) expr_trim = [[EReg alloc] init:[@"^[ ]*([^ ]+)[ ]*$" mutableCopy] opt:[@"" mutableCopy]];
+	return expr_trim;
 }
-+ (id) globals:(id)val {
-	static id _val;
-	if (val == nil) { if (_val == nil) _val = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-nil]; }
-	else { if (_val != nil) _val = val; }
-	return _val;
++ (void) setExpr_trim:(EReg*)val {
+	expr_trim = val;
+}
+static EReg* expr_int;
++ (EReg*) expr_int {
+	if (expr_int == nil) expr_int = [[EReg alloc] init:[@"^[0-9]+$" mutableCopy] opt:[@"" mutableCopy]];
+	return expr_int;
+}
++ (void) setExpr_int:(EReg*)val {
+	expr_int = val;
+}
+static EReg* expr_float;
++ (EReg*) expr_float {
+	if (expr_float == nil) expr_float = [[EReg alloc] init:[@"^([+-]?)(?=\\d|,\\d)\\d*(,\\d*)?([Ee]([+-]?\\d+))?$" mutableCopy] opt:[@"" mutableCopy]];
+	return expr_float;
+}
++ (void) setExpr_float:(EReg*)val {
+	expr_float = val;
+}
+static id globals;
++ (id) globals {
+	if (globals == nil) globals = [@{
+} mutableCopy];
+	return globals;
+}
++ (void) setGlobals:(id)val {
+	globals = val;
 }
 @synthesize expr;
 @synthesize context;
@@ -55,8 +67,8 @@ nil]; }
 	// Optional arguments
 	if (!macros) macros = nil;
 	
-	self.macros = ( (macros == nil) ? [NSMutableDictionary dictionaryWithObjectsAndKeys:
-	nil] : macros);
+	self.macros = ( (macros == nil) ? [@{
+	} mutableCopy] : macros);
 	self.context = context;
 	self.stack = [[List alloc] init];
 	self.buf = [[StringBuf alloc] init];
@@ -72,51 +84,51 @@ nil]; }
 			if ([Reflect hasField:ctx field:v]) return [Reflect field:ctx field:v];
 		}
 	}
-	if (v == [NSMutableString stringWithString:@"__current__"]) return self.context;
+	if (v == [@"__current__" mutableCopy]) return self.context;
 	return [Reflect field:-TDynamic- field:v];
 }
 - (List*) parseTokens:(NSMutableString*)data{
 	
 	List *tokens = [[List alloc] init];
-	while ([-TMono- match:data]) {
-		id p = [-TMono- matchedPos];
-		if (p pos > 0) [tokens add:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-		[[data substr:0 len:p pos] copy], @"p",
-		[YES copy], @"s",
-		[nil copy], @"l",
-		nil]];
-		if ([data charCodeAt:p pos] == 58) {
-			[tokens add:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-			[[data substr:p pos + 2 len:p len - 4] copy], @"p",
-			[NO copy], @"s",
-			[nil copy], @"l",
-			nil]];
-			data = [-TMono- matchedRight];
+	while ([splitter match:data]) {
+		id p = [splitter matchedPos];
+		if (p[@"pos"] > 0) [tokens add:[@{
+			@"p":[[data substr:@0 len:p[@"pos"]] copy],
+			@"s":[YES copy],
+			@"l":[[NSNull null] copy],
+		} mutableCopy]];
+		if ([data charCodeAt:p[@"pos"]] == 58) {
+			[tokens add:[@{
+				@"p":[[data substr:[p[@"pos"] stringByAppendingString:@"2"] len:p[@"len"] - @4] copy],
+				@"s":[NO copy],
+				@"l":[[NSNull null] copy],
+			} mutableCopy]];
+			data = [splitter matchedRight];
 			continue;
 		}
-		int parp = p pos + p len;
+		int parp = p[@"pos"] + p[@"len"];
 		int npar = 1;
 		while (npar > 0) {
 			int c = [data charCodeAt:parp];
 			if (c == 40) npar++;
 			else if (c == 41) npar--;
-			else if (c == nil) @throw [NSMutableString stringWithString:@"Unclosed macro parenthesis"];;
+			else if (c == nil) @throw [@"Unclosed macro parenthesis" mutableCopy];;
 			parp++;
 		}
 		
-		NSMutableArray *params = [[data.substr:p pos + p len len:parp -  (p pos + p len) - 1] split:[NSMutableString stringWithString:@","]];
-		[tokens add:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-		[[-TMono- matched:2] copy], @"p",
-		[NO copy], @"s",
-		[params copy], @"l",
-		nil]];
+		NSMutableArray *params = [[data substr:p[@"pos"] + p[@"len"] len:parp -  (p[@"pos"] + p[@"len"]) - 1] split:[@"," mutableCopy]];
+		[tokens add:[@{
+			@"p":[[splitter matched:@2] copy],
+			@"s":[NO copy],
+			@"l":[params copy],
+		} mutableCopy]];
 		data = [data substr:parp len:data.length - parp];
 	}
-	if (data.length > 0) [tokens add:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[data copy], @"p",
-	[YES copy], @"s",
-	[nil copy], @"l",
-	nil]];
+	if (data.length > 0) [tokens add:[@{
+		@"p":[data copy],
+		@"s":[YES copy],
+		@"l":[[NSNull null] copy],
+	} mutableCopy]];
 	return tokens;
 }
 - (Template*) parseBlock:(List*)tokens{
@@ -125,259 +137,248 @@ nil]; }
 	while (YES) {
 		id t = [tokens first];
 		if (t == nil) break;
-		if (!t s &&  (t p == [NSMutableString stringWithString:@"end"] || t p == [NSMutableString stringWithString:@"else"] || [t p substr:0 len:7] == [NSMutableString stringWithString:@"elseif "])) break;
+		if (!t[@"s"] &&  (t[@"p"] == [@"end" mutableCopy] || t[@"p"] == [@"else" mutableCopy] || [t[@"p"] substr:0 len:7] == [@"elseif " mutableCopy])) break;
 		[l add:[self parse:tokens]];
 	}
 	if (l.length == 1) return [l first];
-	return [ OpBlock:l];
+	return [-FEnum- OpBlock:l];
 }
 - (Template*) parse:(List*)tokens{
 	id t = [tokens pop];
 	
-	NSMutableString *p = t p;
-	if (t s) return [ OpStr:p];
-	if (t l != nil) {
+	NSMutableString *p = t[@"p"];
+	if (t[@"s"]) return [-FEnum- OpStr:p];
+	if (t[@"l"] != nil) {
 		
 		List *pe = [[List alloc] init];
 		{
 			int _g = 0; 
-			NSMutableArray *_g1 = t l;
+			NSMutableArray *_g1 = t[@"l"];
 			while (_g < _g1.length) {
 				
-				NSMutableString *p1 = [_g1 objectAtIndex:_g];
+				NSMutableString *p1 = [_g1 hx_objectAtIndex:_g];
 				++_g;
 				[pe add:[self parseBlock:[self parseTokens:p1]]];
 			}
 		}
-		return [ OpMacro:p params:pe];
+		return [-FEnum- OpMacro:p params:pe];
 	}
-	if ([p substr:0 len:3] == [NSMutableString stringWithString:@"if "]) {
+	if ([p substr:0 len:3] == [@"if " mutableCopy]) {
 		p = [p substr:3 len:p.length - 3];
-		SEL e = [self parseExpr:p];
+		id e = [self parseExpr:p];
 		
 		Template *eif = [self parseBlock:tokens];
 		id t1 = [tokens first];
 		
 		Template *eelse;
-		if (t1 == nil) @throw [NSMutableString stringWithString:@"Unclosed 'if'"];;
-		if (t1 p == [NSMutableString stringWithString:@"end"]) {
+		if (t1 == nil) @throw [@"Unclosed 'if'" mutableCopy];;
+		if (t1[@"p"] == [@"end" mutableCopy]) {
 			[tokens pop];
 			eelse = nil;
 		}
-		else if (t1 p == [NSMutableString stringWithString:@"else"]) {
+		else if (t1[@"p"] == [@"else" mutableCopy]) {
 			[tokens pop];
 			eelse = [self parseBlock:tokens];
 			t1 = [tokens pop];
-			if (t1 == nil || t1 p != [NSMutableString stringWithString:@"end"]) @throw [NSMutableString stringWithString:@"Unclosed 'else'"];;
+			if (t1 == nil || t1[@"p"] != [@"end" mutableCopy]) @throw [@"Unclosed 'else'" mutableCopy];;
 		}
 		else {
-			t1 p = [t1 p substr:4 len:t1 p.length - 4];
+			t1[@"p"] = [t1[@"p"] substr:4 len:t1[@"p"].length - 4];
 			eelse = [self parse:tokens];
 		}
-		return [ OpIf:e eif:eif eelse:eelse];
+		return [-FEnum- OpIf:e eif:eif eelse:eelse];
 	}
-	if ([p substr:0 len:8] == [NSMutableString stringWithString:@"foreach "]) {
+	if ([p substr:0 len:8] == [@"foreach " mutableCopy]) {
 		p = [p substr:8 len:p.length - 8];
-		SEL e = [self parseExpr:p];
+		id e = [self parseExpr:p];
 		
 		Template *efor = [self parseBlock:tokens];
 		id t1 = [tokens pop];
-		if (t1 == nil || t1 p != [NSMutableString stringWithString:@"end"]) @throw [NSMutableString stringWithString:@"Unclosed 'foreach'"];;
-		return [ OpForeach:e loop:efor];
+		if (t1 == nil || t1[@"p"] != [@"end" mutableCopy]) @throw [@"Unclosed 'foreach'" mutableCopy];;
+		return [-FEnum- OpForeach:e loop:efor];
 	}
-	if ([-TMono- match:p]) return [ OpExpr:[self parseExpr:p]];
-	return [ OpVar:p];
+	if ([expr_splitter match:p]) return [-FEnum- OpExpr:[self parseExpr:p]];
+	return [-FEnum- OpVar:p];
 }
-- (SEL) parseExpr:(NSMutableString*)data{
+- (id) parseExpr:(NSMutableString*)data{
 	
 	List *l = [[List alloc] init];
 	
-	NSMutableArray *expr = [[NSMutableArray alloc] initWithObject:data];
-	while ([-TMono- match:data]) {
-		id p = [-TMono- matchedPos];
-		int k = p pos + p len;
-		if (p pos != 0) [l add:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-		[[data substr:0 len:p pos] copy], @"p",
-		[YES copy], @"s",
-		nil]];
+	NSMutableString *expr = data;
+	while ([expr_splitter match:data]) {
+		id p = [expr_splitter matchedPos];
+		int k = p[@"pos"] + p[@"len"];
+		if (p[@"pos"] != 0) [l add:[@{
+			@"p":[[data substr:@0 len:p[@"pos"]] copy],
+			@"s":[YES copy],
+		} mutableCopy]];
 		
-		NSMutableString *p1 = [-TMono- matched:0];
-		[l add:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-		[p1 copy], @"p",
-		[[p1 indexOf:[NSMutableString stringWithString:@"\""] startIndex:nil] >= 0 copy], @"s",
-		nil]];
-		data = [-TMono- matchedRight];
+		NSMutableString *p1 = [expr_splitter matched:0];
+		[l add:[@{
+			@"p":[p1 copy],
+			@"s":[[p1 indexOf:[@"\"" mutableCopy] startIndex:nil] >= @0 copy],
+		} mutableCopy]];
+		data = [expr_splitter matchedRight];
 	}
-	if (data.length != 0) [l add:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[data copy], @"p",
-	[YES copy], @"s",
-	nil]];
-	
-	NSMutableArray *e = [[NSMutableArray alloc] initWithObjects:, nil];
+	if (data.length != 0) [l add:[@{
+		@"p":[data copy],
+		@"s":[YES copy],
+	} mutableCopy]];
+	id e;
 	@try {
-		[e replaceObjectAtIndex:0 withObject:[self makeExpr:l]];
-		if (![l isEmpty]) @throw [l.first] p;;
+		e = [self makeExpr:l];
+		if (![l isEmpty]) @throw [l first][@"p"];;
 	}
 	@catch (NSException *s) {
-		@throw [[[[NSMutableString stringWithString:@"Unexpected '"] stringByAppendingString:s] stringByAppendingString:[NSMutableString stringWithString:@"' in "]] stringByAppendingString:[expr objectAtIndex:@"0"]];;
+		@throw [[[[@"Unexpected '" mutableCopy] stringByAppendingString:s] stringByAppendingString:[@"' in " mutableCopy]] stringByAppendingString:expr];;
 	}
-	return ^- (int) {
+	return ^int(^property_)(){
 		@try {
-			return [[e objectAtIndex:0]];
+			return [e];
 		}
 		@catch (NSException *exc) {
-			@throw [[[[NSMutableString stringWithString:@"Error : "] stringByAppendingString:[Std string:exc]] stringByAppendingString:[NSMutableString stringWithString:@" in "]] stringByAppendingString:[expr objectAtIndex:@"0"]];;
+			@throw [[[[@"Error : " mutableCopy] stringByAppendingString:[Std string:exc]] stringByAppendingString:[@" in " mutableCopy]] stringByAppendingString:expr];;
 		}
 		return 0;
 	}
 }
-- (SEL) makeConst:(NSMutableString*)v{
-	
-	NSMutableArray *v1 = [[NSMutableArray alloc] initWithObject:v];
-	[-TMono- match:[v1 objectAtIndex:0]];
-	[v1 replaceObjectAtIndex:0 withObject:[-TMono- matched:[NSNumber numberWithInt:1]]];
-	if ([[v1 objectAtIndex:0] charCodeAt:0] == 34) {
+- (id) makeConst:(NSMutableString*)v{
+	[expr_trim match:v];
+	v = [expr_trim matched:1];
+	if ([v charCodeAt:0] == 34) {
 		
-		NSMutableArray *str = [[NSMutableArray alloc] initWithObject:[[v1 objectAtIndex:[NSNumber numberWithInt:0]] substr:[NSNumber numberWithInt:1] len:[v1 objectAtIndex:[NSNumber numberWithInt:0]].length - [NSNumber numberWithInt:2]]];
-		return ^- (NSMutableString*) {
-			return [str objectAtIndex:0];
+		NSMutableString *str = [v substr:1 len:v.length - 2];
+		return ^NSMutableString*(^property_)(){
+			return str;
 		}
 	}
-	if ([-TMono- match:[v1 objectAtIndex:0]]) {
-		
-		NSMutableArray *i = [[NSMutableArray alloc] initWithObject:[Std parseInt:[v1 objectAtIndex:[NSNumber numberWithInt:0]]]];
-		return ^- (int) {
-			return [i objectAtIndex:0];
+	if ([expr_int match:v]) {
+		int i = [Std parseInt:v];
+		return ^int(^property_)(){
+			return i;
 		}
 	}
-	if ([-TMono- match:[v1 objectAtIndex:0]]) {
-		
-		NSMutableArray *f = [[NSMutableArray alloc] initWithObject:[Std parseFloat:[v1 objectAtIndex:[NSNumber numberWithInt:0]]]];
-		return ^- (float) {
-			return [f objectAtIndex:0];
+	if ([expr_float match:v]) {
+		float f = [Std parseFloat:v];
+		return ^float(^property_)(){
+			return f;
 		}
 	}
 	
-	NSMutableArray *me = [[NSMutableArray alloc] initWithObject:self];
-	return ^- (id) {
-		return [[me objectAtIndex:0] resolve:[v1 objectAtIndex:0]];
+	Template *me = self;
+	return ^id(^property_)(){
+		return [me resolve:v];
 	}
 }
-- (SEL) makePath:(SEL)e l:(List*)l{
-	
-	NSMutableArray *e1 = [[NSMutableArray alloc] initWithObject:e];
+- (id) makePath:(id)e l:(List*)l{
 	id p = [l first];
-	if (p == nil || p p != [NSMutableString stringWithString:@"."]) return [e1 objectAtIndex:0];
+	if (p == nil || p[@"p"] != [@"." mutableCopy]) return e;
 	[l pop];
 	id field = [l pop];
-	if (field == nil || !field s) @throw field p;;
+	if (field == nil || !field[@"s"]) @throw field[@"p"];;
 	
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:field p];
-	[-TMono- match:[f objectAtIndex:0]];
-	[f replaceObjectAtIndex:0 withObject:[-TMono- matched:[NSNumber numberWithInt:1]]];
-	return [self makePath:^- (id) {
-		return [Reflect field:[[e1 objectAtIndex:0]] field:[f objectAtIndex:0]];
+	NSMutableString *f = field[@"p"];
+	[expr_trim match:f];
+	f = [expr_trim matched:1];
+	return [self makePath:^id(^property_)(){
+		return [Reflect field:[e] field:f];
 	} l:l];
 }
-- (SEL) makeExpr:(List*)l{
+- (id) makeExpr:(List*)l{
 	return [self makePath:[self makeExpr2:l] l:l];
 }
-- (SEL) makeExpr2:(List*)l{
+- (id) makeExpr2:(List*)l{
 	id p = [l pop];
-	if (p == nil) @throw [NSMutableString stringWithString:@"<eof>"];;
-	if (p s) return [self makeConst:p p];
-	switch (p p){
-		case [NSMutableString stringWithString:@"("]:{
+	if (p == nil) @throw [@"<eof>" mutableCopy];;
+	if (p[@"s"]) return [self makeConst:p[@"p"]];
+	switch (p[@"p"]){
+		case [@"(" mutableCopy]:{
 			{
-				
-				NSMutableArray *e1 = [[NSMutableArray alloc] initWithObject:[self makeExpr:l]];
+				id e1 = [self makeExpr:l];
 				id p1 = [l pop];
-				if (p1 == nil || p1 s) @throw p1 p;;
-				if (p1 p == [NSMutableString stringWithString:@")"]) return [e1 objectAtIndex:0];
-				
-				NSMutableArray *e2 = [[NSMutableArray alloc] initWithObject:[self makeExpr:l]];
+				if (p1 == nil || p1[@"s"]) @throw p1[@"p"];;
+				if (p1[@"p"] == [@")" mutableCopy]) return e1;
+				id e2 = [self makeExpr:l];
 				id p2 = [l pop];
-				if (p2 == nil || p2 p != [NSMutableString stringWithString:@")"]) @throw p2 p;;
-				return ((SEL)($this:(snd ctx.path)) switch (p1 p){
-					case [NSMutableString stringWithString:@"+"]:{
-						__r__ = ^- (id) {
-							return (id)[[e1 objectAtIndex:0]] + [[e2 objectAtIndex:0]];
+				if (p2 == nil || p2[@"p"] != [@")" mutableCopy]) @throw p2[@"p"];;
+				return ((id)($this:(snd ctx.path)) switch (p1[@"p"]){
+					case [@"+" mutableCopy]:{
+						__r__ = ^id(^property_)(){
+							return (id)[e1] + [e2];
 						}}break;
-					case [NSMutableString stringWithString:@"-"]:{
-						__r__ = ^- (id) {
-							return (id)[[e1 objectAtIndex:0]] - [[e2 objectAtIndex:0]];
+					case [@"-" mutableCopy]:{
+						__r__ = ^id(^property_)(){
+							return (id)[e1] - [e2];
 						}}break;
-					case [NSMutableString stringWithString:@"*"]:{
-						__r__ = ^- (id) {
-							return (id)[[e1 objectAtIndex:0]] * [[e2 objectAtIndex:0]];
+					case [@"*" mutableCopy]:{
+						__r__ = ^id(^property_)(){
+							return (id)[e1] * [e2];
 						}}break;
-					case [NSMutableString stringWithString:@"/"]:{
-						__r__ = ^- (id) {
-							return (id)[[e1 objectAtIndex:0]] / [[e2 objectAtIndex:0]];
+					case [@"/" mutableCopy]:{
+						__r__ = ^id(^property_)(){
+							return (id)[e1] / [e2];
 						}}break;
-					case [NSMutableString stringWithString:@">"]:{
-						__r__ = ^- (id) {
-							return (id)[[e1 objectAtIndex:0]] > [[e2 objectAtIndex:0]];
+					case [@">" mutableCopy]:{
+						__r__ = ^id(^property_)(){
+							return (id)[e1] > [e2];
 						}}break;
-					case [NSMutableString stringWithString:@"<"]:{
-						__r__ = ^- (id) {
-							return (id)[[e1 objectAtIndex:0]] < [[e2 objectAtIndex:0]];
+					case [@"<" mutableCopy]:{
+						__r__ = ^id(^property_)(){
+							return (id)[e1] < [e2];
 						}}break;
-					case [NSMutableString stringWithString:@">="]:{
-						__r__ = ^- (id) {
-							return (id)[[e1 objectAtIndex:0]] >= [[e2 objectAtIndex:0]];
+					case [@">=" mutableCopy]:{
+						__r__ = ^id(^property_)(){
+							return (id)[e1] >= [e2];
 						}}break;
-					case [NSMutableString stringWithString:@"<="]:{
-						__r__ = ^- (id) {
-							return (id)[[e1 objectAtIndex:0]] <= [[e2 objectAtIndex:0]];
+					case [@"<=" mutableCopy]:{
+						__r__ = ^id(^property_)(){
+							return (id)[e1] <= [e2];
 						}}break;
-					case [NSMutableString stringWithString:@"=="]:{
-						__r__ = ^- (id) {
-							return (id)[[e1 objectAtIndex:0]] == [[e2 objectAtIndex:0]];
+					case [@"==" mutableCopy]:{
+						__r__ = ^id(^property_)(){
+							return (id)[e1] == [e2];
 						}}break;
-					case [NSMutableString stringWithString:@"!="]:{
-						__r__ = ^- (id) {
-							return (id)[[e1 objectAtIndex:0]] != [[e2 objectAtIndex:0]];
+					case [@"!=" mutableCopy]:{
+						__r__ = ^id(^property_)(){
+							return (id)[e1] != [e2];
 						}}break;
-					case [NSMutableString stringWithString:@"&&"]:{
-						__r__ = ^- (id) {
-							return (id)[[e1 objectAtIndex:0]] && [[e2 objectAtIndex:0]];
+					case [@"&&" mutableCopy]:{
+						__r__ = ^id(^property_)(){
+							return (id)[e1] && [e2];
 						}}break;
-					case [NSMutableString stringWithString:@"||"]:{
-						__r__ = ^- (id) {
-							return (id)[[e1 objectAtIndex:0]] || [[e2 objectAtIndex:0]];
+					case [@"||" mutableCopy]:{
+						__r__ = ^id(^property_)(){
+							return (id)[e1] || [e2];
 						}}break;
 					default:{
-						__r__ = ((SEL)($this:(snd ctx.path)) @throw [[NSMutableString stringWithString:@"Unknown operation "] stringByAppendingString:p1 p];
+						__r__ = ((id)($this:(snd ctx.path)) @throw [[@"Unknown operation " mutableCopy] stringByAppendingString:p1[@"p"]];
 						return __r__2{
 							
-							SEL* __r__2}
-						}($this))}break;
+							id* __r__2}
+						}(self))}break;
 				}
 				return __r__{
 					
-					SEL* __r__}
+					id* __r__}
 				}(self));
 			}}break;
-		case [NSMutableString stringWithString:@"!"]:{
+		case [@"!" mutableCopy]:{
 			{
-				
-				NSMutableArray *e = [[NSMutableArray alloc] initWithObject:[self makeExpr:l]];
-				return ^- (BOOL) {
-					id v = [[e objectAtIndex:0]];
+				id e = [self makeExpr:l];
+				return ^BOOL(^property_)(){
+					id v = [e];
 					return v == nil || v == NO;
 				}
 			}}break;
-		case [NSMutableString stringWithString:@"-"]:{
+		case [@"-" mutableCopy]:{
 			{
-				
-				NSMutableArray *e = [[NSMutableArray alloc] initWithObject:[self makeExpr:l]];
-				return ^- (int) {
-					return -[[e objectAtIndex:0]];
+				id e = [self makeExpr:l];
+				return ^int(^property_)(){
+					return -[e];
 				}
 			}}break;
 	}
-	@throw p p;;
+	@throw p[@"p"];;
 	return nil;
 }
 - (void) run:(Template*)e{
@@ -388,14 +389,14 @@ nil]; }
 		case 0:
 		
 		var MATCH e_eOpVar_0 : NSMutableString = $e.params[0]{
-			self.buf.b += [Std string:[Std string:[self resolve:e_eOpVar_0]]]}break
+			[self.buf.b appendString:[Std string:[Std string:[self resolve:e_eOpVar_0]]]]}break
 		case 1:
 		
-		var MATCH e_eOpExpr_0 : SEL = $e.params[0]{
-			self.buf.b += [Std string:[Std string:[e_eOpExpr_0]]]}break
+		var MATCH e_eOpExpr_0 : id = $e.params[0]{
+			[self.buf.b appendString:[Std string:[Std string:[e_eOpExpr_0]]]]}break
 		case 2:
 		
-		var MATCH e_eOpIf_2 : Template = $e.params[2], MATCH e_eOpIf_1 : Template = $e.params[1], MATCH e_eOpIf_0 : SEL = $e.params[0]{
+		var MATCH e_eOpIf_2 : Template = $e.params[2], MATCH e_eOpIf_1 : Template = $e.params[1], MATCH e_eOpIf_0 : id = $e.params[0]{
 			{
 				id v = [e_eOpIf_0];
 				if (v == nil || v == NO) {
@@ -406,7 +407,7 @@ nil]; }
 		case 3:
 		
 		var MATCH e_eOpStr_0 : NSMutableString = $e.params[0]{
-			self.buf.b += [Std string:e_eOpStr_0]}break
+			[self.buf.b appendString:[Std string:e_eOpStr_0]]}break
 		case 4:
 		
 		var MATCH e_eOpBlock_0 : List = $e.params[0]{
@@ -421,20 +422,20 @@ nil]; }
 			}}break
 		case 5:
 		
-		var MATCH e_eOpForeach_1 : Template = $e.params[1], MATCH e_eOpForeach_0 : SEL = $e.params[0]{
+		var MATCH e_eOpForeach_1 : Template = $e.params[1], MATCH e_eOpForeach_0 : id = $e.params[0]{
 			{
 				id v = [e_eOpForeach_0];
 				@try {
-					id x = [v iterator];
-					if ([x hasNext] == nil) @throw nil;;
+					id x = [-FDynamic-v iterator];
+					if (-FDynamic-[x hasNext] == nil) @throw nil;;
 					v = x;
 				}
 				@catch (NSException *e1) {
 					@try {
-						if ([v hasNext] == nil) @throw nil;;
+						if (-FDynamic-[v hasNext] == nil) @throw nil;;
 					}
 					@catch (NSException *e2) {
-						@throw [[NSMutableString stringWithString:@"Cannot iter on "] stringByAppendingString:[Std string:v]];;
+						@throw [[@"Cannot iter on " mutableCopy] stringByAppendingString:[Std string:v]];;
 					}
 				}
 				[self.stack push:self.context];
@@ -460,7 +461,7 @@ nil]; }
 				NSMutableArray *pl = [[NSMutableArray alloc] init];
 				
 				StringBuf *old = self.buf;
-				[pl push:self resolve];
+				[pl push:-FClosure-resolve:];
 				{
 					id _it4 = [e_eOpMacro_1 iterator];
 					while ( [_it4 hasNext] ) do {
@@ -486,22 +487,22 @@ nil]; }
 				}
 				self.buf = old;
 				@try {
-					self.buf.b += [Std string:[Std string:[Reflect callMethod:self.macros func:v args:pl]]];
+					[self.buf.b appendString:[Std string:[Std string:[Reflect callMethod:self.macros func:v args:pl]]]];
 				}
 				@catch (NSException *e1) {
 					
 					NSMutableString *plstr = ((NSMutableString)($this:(snd ctx.path)) @try {
-						__r__6 = [pl join:[NSMutableString stringWithString:@","]];
+						__r__6 = [pl join:[@"," mutableCopy]];
 					}
 					@catch (NSException *e2) {
-						__r__6 = [NSMutableString stringWithString:@"???"];
+						__r__6 = [@"???" mutableCopy];
 					}
 					return __r__6{
 						
 						NSMutableString* __r__6}
 					}(self));
 					
-					NSMutableString *msg = [[[[[[[NSMutableString stringWithString:@"Macro call "] stringByAppendingString:e_eOpMacro_0] stringByAppendingString:[NSMutableString stringWithString:@"("]] stringByAppendingString:plstr] stringByAppendingString:[NSMutableString stringWithString:@") failed ("]] stringByAppendingString:[Std string:e1]] stringByAppendingString:[NSMutableString stringWithString:@")"]];
+					NSMutableString *msg = [[[[[[[@"Macro call " mutableCopy] stringByAppendingString:e_eOpMacro_0] stringByAppendingString:[@"(" mutableCopy]] stringByAppendingString:plstr] stringByAppendingString:[@") failed (" mutableCopy]] stringByAppendingString:[Std string:e1]] stringByAppendingString:[@")" mutableCopy]];
 					@throw msg;;
 				}
 			}}break
@@ -512,7 +513,7 @@ nil]; }
 	
 	List *tokens = [self parseTokens:str];
 	self.expr = [self parseBlock:tokens];
-	if (![tokens isEmpty]) @throw [[[NSMutableString stringWithString:@"Unexpected '"] stringByAppendingString:[Std string:[tokens.first] s]] stringByAppendingString:[NSMutableString stringWithString:@"'"]];;
+	if (![tokens isEmpty]) @throw [[[@"Unexpected '" mutableCopy] stringByAppendingString:[Std string:[tokens first][@"s"]]] stringByAppendingString:[@"'" mutableCopy]];;
 	return self;
 }
 

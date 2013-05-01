@@ -9,23 +9,25 @@
 #import <Foundation/Foundation.h>
 
 #import "../Type.h"
+#import "../String.h"
+#import "../Array.h"
 #import "../haxe/Unserializer.h"
 #import "../Class.h"
 #import "../Enum.h"
 #import "../Std.h"
-#import "../String.h"
 #import "../StringTools.h"
 #import "../List.h"
-#import "../haxe/ds/IntMap.h"
 #import "../haxe/ds/ObjectMap.h"
-#import "../Date.h"
 #import "../haxe/io/Bytes.h"
 
 @interface Unserializer : NSObject
 
-+ (id) DEFAULT_RESOLVER:(id)val;
-+ (NSMutableString*) BASE64:(NSMutableString*)val;
-+ (NSMutableArray*) CODES:(NSMutableArray*)val;
++ (id) DEFAULT_RESOLVER;
++ (void) setDEFAULT_RESOLVER:(id)val;
++ (NSMutableString*) BASE64;
++ (void) setBASE64:(NSMutableString*)val;
++ (NSMutableArray*) CODES;
++ (void) setCODES:(NSMutableArray*)val;
 + (NSMutableArray*) initCodes;
 + (id) run:(NSMutableString*)v;
 @property (nonatomic, strong) NSMutableString *buf;

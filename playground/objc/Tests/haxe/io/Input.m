@@ -11,7 +11,7 @@
 
 
 - (int) readByte{
-	return ((int)($this:(snd ctx.path)) @throw [NSMutableString stringWithString:@"Not implemented"];
+	return ((int)($this:(snd ctx.path)) @throw [@"Not implemented" mutableCopy];
 	return __r__{
 		
 		int* __r__}
@@ -21,9 +21,9 @@
 	int k = len;
 	
 	NSMutableArray *b = s.b;
-	if (pos < 0 || len < 0 || pos + len > s.length) @throw  OutsideBounds;;
+	if (pos < 0 || len < 0 || pos + len > s.length) @throw -FEnum- OutsideBounds;;
 	while (k > 0) {
-		[b replaceObjectAtIndex:pos withObject:(int)[self readByte]];
+		[b hx_replaceObjectAtIndex:pos withObject:(int)[self readByte]];
 		pos++;
 		k--;
 	}
@@ -47,8 +47,8 @@
 	@try {
 		while (YES) {
 			int len = [self readBytes:buf pos:0 len:bufsize];
-			if (len == 0) @throw  Blocked;;
-			if (len < 0 || len > buf.length) @throw  OutsideBounds;;
+			if (len == 0) @throw -FEnum- Blocked;;
+			if (len < 0 || len > buf.length) @throw -FEnum- OutsideBounds;;
 		}
 	}
 	@catch (NSException *e) {
@@ -68,7 +68,7 @@
 	int p = 0;
 	while (nbytes > 0) {
 		int k = [self readBytes:s pos:p len:nbytes];
-		if (k == 0) @throw  Blocked;;
+		if (k == 0) @throw -FEnum- Blocked;;
 		p += k;
 		nbytes -= k;
 	}
@@ -100,20 +100,20 @@
 }
 - (float) readFloat{
 	
-	NSMutableArray *bytes = [[NSMutableArray alloc] initWithObjects:, nil];
+	NSMutableArray *bytes = [@[] mutableCopy];
 	[bytes push:(int)[self readByte]];
 	[bytes push:(int)[self readByte]];
 	[bytes push:(int)[self readByte]];
 	[bytes push:(int)[self readByte]];
 	if (self.bigEndian) [bytes reverse];
-	int sign = 1 -  ([bytes objectAtIndex:0] >> 7 << 1);
-	int exp =  (([bytes objectAtIndex:0] << 1 & 255) | [bytes objectAtIndex:1] >> 7) - 127;
-	int sig = ( ([bytes objectAtIndex:1] & 127) << 16 | [bytes objectAtIndex:2] << 8) | [bytes objectAtIndex:3];
+	int sign = 1 -  ([bytes hx_objectAtIndex:0] >> 7 << 1);
+	int exp =  (([bytes hx_objectAtIndex:0] << 1 & 255) | [bytes hx_objectAtIndex:1] >> 7) - 127;
+	int sig = ( ([bytes hx_objectAtIndex:1] & 127) << 16 | [bytes hx_objectAtIndex:2] << 8) | [bytes hx_objectAtIndex:3];
 	if (sig == 0 && exp == -127) return 0.0;
-	return sign *  (1 + powf(2, -23) * sig) * powf(2, exp);
+	return sign *  ([@"1" stringByAppendingString:powf(@"2", @"-23") * sig]) * powf(2, exp);
 }
 - (float) readDouble{
-	return ((float)($this:(snd ctx.path)) @throw [NSMutableString stringWithString:@"not implemented"];
+	return ((float)($this:(snd ctx.path)) @throw [@"not implemented" mutableCopy];
 	return __r__{
 		
 		float* __r__}

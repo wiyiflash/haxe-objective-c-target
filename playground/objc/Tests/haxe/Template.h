@@ -15,24 +15,30 @@ typedef enum{
 	OpMacro
 } TemplateExpr;
 
-#import <Foundation/Foundation.h>
 
 #import "../EReg.h"
 #import "../haxe/Template.h"
 #import "../List.h"
 #import "../StringBuf.h"
+#import "../String.h"
 #import "../Reflect.h"
-#import "../haxe/_Template/TemplateExpr.h"
+#import "../Array.h"
 #import "../Std.h"
 
 @interface Template : NSObject
 
-+ (EReg*) splitter:(EReg*)val;
-+ (EReg*) expr_splitter:(EReg*)val;
-+ (EReg*) expr_trim:(EReg*)val;
-+ (EReg*) expr_int:(EReg*)val;
-+ (EReg*) expr_float:(EReg*)val;
-+ (id) globals:(id)val;
++ (EReg*) splitter;
++ (void) setSplitter:(EReg*)val;
++ (EReg*) expr_splitter;
++ (void) setExpr_splitter:(EReg*)val;
++ (EReg*) expr_trim;
++ (void) setExpr_trim:(EReg*)val;
++ (EReg*) expr_int;
++ (void) setExpr_int:(EReg*)val;
++ (EReg*) expr_float;
++ (void) setExpr_float:(EReg*)val;
++ (id) globals;
++ (void) setGlobals:(id)val;
 @property (nonatomic, strong) Template *expr;
 @property (nonatomic) id context;
 @property (nonatomic) id macros;
@@ -43,11 +49,11 @@ typedef enum{
 - (List*) parseTokens:(NSMutableString*)data;
 - (Template*) parseBlock:(List*)tokens;
 - (Template*) parse:(List*)tokens;
-- (SEL) parseExpr:(NSMutableString*)data;
-- (SEL) makeConst:(NSMutableString*)v;
-- (SEL) makePath:(SEL)e l:(List*)l;
-- (SEL) makeExpr:(List*)l;
-- (SEL) makeExpr2:(List*)l;
+- (id) parseExpr:(NSMutableString*)data;
+- (id) makeConst:(NSMutableString*)v;
+- (id) makePath:(id)e l:(List*)l;
+- (id) makeExpr:(List*)l;
+- (id) makeExpr2:(List*)l;
 - (void) run:(Template*)e;
 - (id) init:(NSMutableString*)str;
 

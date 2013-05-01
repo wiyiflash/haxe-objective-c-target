@@ -19,29 +19,29 @@
 	// Optional arguments
 	if (!quotes) quotes = nil;
 	
-	s = [[[[[[s.split:[NSMutableString stringWithString:@"&"]].join:[NSMutableString stringWithString:@"&amp;"]].split:[NSMutableString stringWithString:@"<"]].join:[NSMutableString stringWithString:@"&lt;"]].split:[NSMutableString stringWithString:@">"]].join:[NSMutableString stringWithString:@"&gt;"]];
-	return ( (quotes) ? [[[[s.split:[NSMutableString stringWithString:@"\""]].join:[NSMutableString stringWithString:@"&quot;"]].split:[NSMutableString stringWithString:@"'"]].join:[NSMutableString stringWithString:@"&#039;"]] : s);
+	s = [[[[[[s split:[@"&" mutableCopy]] join:[@"&amp;" mutableCopy]] split:[@"<" mutableCopy]] join:[@"&lt;" mutableCopy]] split:[@">" mutableCopy]] join:[@"&gt;" mutableCopy]];
+	return ( (quotes) ? [[[[s split:[@"\"" mutableCopy]] join:[@"&quot;" mutableCopy]] split:[@"'" mutableCopy]] join:[@"&#039;" mutableCopy]] : s);
 }
 + (NSMutableString*) htmlUnescape:(NSMutableString*)s{
-	return [[[[[[[[[[s.split:[NSMutableString stringWithString:@"&gt;"]].join:[NSMutableString stringWithString:@">"]].split:[NSMutableString stringWithString:@"&lt;"]].join:[NSMutableString stringWithString:@"<"]].split:[NSMutableString stringWithString:@"&quot;"]].join:[NSMutableString stringWithString:@"\""]].split:[NSMutableString stringWithString:@"&#039;"]].join:[NSMutableString stringWithString:@"'"]].split:[NSMutableString stringWithString:@"&amp;"]].join:[NSMutableString stringWithString:@"&"]];
+	return [[[[[[[[[[s split:[@"&gt;" mutableCopy]] join:[@">" mutableCopy]] split:[@"&lt;" mutableCopy]] join:[@"<" mutableCopy]] split:[@"&quot;" mutableCopy]] join:[@"\"" mutableCopy]] split:[@"&#039;" mutableCopy]] join:[@"'" mutableCopy]] split:[@"&amp;" mutableCopy]] join:[@"&" mutableCopy]];
 }
 + (BOOL) startsWith:(NSMutableString*)s start:(NSMutableString*)start{
-	return s.length >= start.length && [s.substr:0 len:start.length] == start;
+	return s.length >= start.length && [s substr:0 len:start.length] == start;
 }
 + (BOOL) endsWith:(NSMutableString*)s end:(NSMutableString*)end{
 	int elen = end.length;
 	int slen = s.length;
-	return slen >= elen && [s.substr:slen - elen len:elen] == end;
+	return slen >= elen && [s substr:slen - elen len:elen] == end;
 }
 + (BOOL) isSpace:(NSMutableString*)s pos:(int)pos{
-	int c = [s.charCodeAt:pos];
+	int c = [s charCodeAt:pos];
 	return c > 8 && c < 14 || c == 32;
 }
 + (NSMutableString*) ltrim:(NSMutableString*)s{
 	int l = s.length;
 	int r = 0;
 	while (r < l && [StringTools isSpace:s pos:r]) r++;
-	if (r > 0) return [s.substr:r len:l - r];
+	if (r > 0) return [s substr:r len:l - r];
 	else return s;
 	return nil;
 }
@@ -49,7 +49,7 @@
 	int l = s.length;
 	int r = 0;
 	while (r < l && [StringTools isSpace:s pos:l - r - 1]) r++;
-	if (r > 0) return [s.substr:0 len:l - r];
+	if (r > 0) return [s substr:0 len:l - r];
 	else return s;
 	return nil;
 }
@@ -74,18 +74,18 @@
 	if (!digits) digits = nil;
 	
 	
-	NSMutableString *s = [NSMutableString stringWithString:@""];
+	NSMutableString *s = [@"" mutableCopy];
 	
-	NSMutableString *hexChars = [NSMutableString stringWithString:@"0123456789ABCDEF"];
+	NSMutableString *hexChars = [@"0123456789ABCDEF" mutableCopy];
 	do {
-		s = [[hexChars.charAt:n & @"15"] stringByAppendingString:s];
+		s = [[hexChars charAt:n & @"15"] stringByAppendingString:s];
 		n >>>= 4;
 	}while (n > 0);
-	if (digits != nil) while (s.length < digits) s = [[NSMutableString stringWithString:@"0"] stringByAppendingString:s];
+	if (digits != nil) while (s.length < digits) s = [[@"0" mutableCopy] stringByAppendingString:s];
 	return s;
 }
 + (int) fastCodeAt:(NSMutableString*)s index:(int)index{
-	return [s characterAtIndex:index];
+	return [-FDynamic-s characterAtIndex:index];
 }
 + (BOOL) isEof:(int)c{
 	return c == -1;

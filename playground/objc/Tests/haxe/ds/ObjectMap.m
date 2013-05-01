@@ -9,16 +9,20 @@
 
 @implementation NSMutableDictionary ( ObjectMap )
 
-- (id) get:(id)key{
+- (id) get:(id)_tmp_key{
+	id key = (id)_tmp_key;
 	return [self objectForKey:[NSString stringWithFormat:@"%@",key]];
 }
-- (void) set:(id)key value:(id)value{
+- (void) set:(id)_tmp_key _tmp_value:(id)_tmp_value{
+	id key = (id)_tmp_key; id value = (id)_tmp_value;
 	[self setObject:value forKey:[NSString stringWithFormat:@"%@",key]];
 }
-- (BOOL) exists:(id)key{
+- (BOOL) exists:(id)_tmp_key{
+	id key = (id)_tmp_key;
 	return [self objectForKey:[NSString stringWithFormat:@"%@",key]] != nil;
 }
-- (BOOL) remove:(id)key{
+- (BOOL) remove:(id)_tmp_key{
+	id key = (id)_tmp_key;
 	if ([self exists:key]) {
 		[self removeObjectForKey:[NSString stringWithFormat:@"%@",key]];
 		return YES;
@@ -27,30 +31,30 @@
 }
 - (id) keys{
 	
-	NSMutableArray *a = [self allKeys];
+	NSMutableArray *a = [-FDynamic-self allKeys];
 	return [a iterator];
 }
 - (id) iterator{
 	
-	NSMutableArray *a = [self allValues];
+	NSMutableArray *a = [-FDynamic-self allValues];
 	return [a iterator];
 }
 - (NSMutableString*) toString{
 	
-	NSMutableString *s = [NSMutableString stringWithString:@""];
+	NSMutableString *s = [@"" mutableCopy];
 	id it = [self keys];
 	{
 		id _it = it;
 		while ( [_it hasNext] ) do {
 			id i = [_it next];
 			{
-				[s appendString: (( (s == [NSMutableString stringWithString:@""]) ? [NSMutableString stringWithString:@""] : [NSMutableString stringWithString:@","])) + [Std string:i]];
-				[s appendString:[NSMutableString stringWithString:@" => "]];
+				[s appendString: (( (s == [@"" mutableCopy]) ? [@"" mutableCopy] : [@"," mutableCopy])) + [Std string:i]];
+				[s appendString:[@" => " mutableCopy]];
 				[s appendString:[Std string:[self get:i]]];
 			};
 		}
 	}
-	return [s stringByAppendingString:[NSMutableString stringWithString:@"}"]];
+	return [s stringByAppendingString:[@"}" mutableCopy]];
 }
 - (id) init{
 	self = [super init];

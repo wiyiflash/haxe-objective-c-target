@@ -16,36 +16,35 @@ typedef enum{
 
 #import <Foundation/Foundation.h>
 
+#import "String.h"
+#import "Array.h"
 #import "objc/Lib.h"
 #import "haxe/Log.h"
-#import "Date.h"
 #import "DateTools.h"
 #import "Tests.h"
-#import "TestsEnumExtern.h"
-#import "Color2.h"
-#import "EReg.h"
 #import "Lambda.h"
 #import "List.h"
-#import "Std.h"
-#import "haxe/FastList.h"
+#import "haxe/ds/GenericStack.h"
 #import "Reflect.h"
+#import "Std.h"
 #import "StringBuf.h"
 #import "StringTools.h"
 #import "Sys.h"
-#import "Hash.h"
 #import "haxe/io/Output.h"
 #import "haxe/io/Input.h"
 #import "Class.h"
 #import "Type.h"
-#import "objc/foundation/NSString.h"
 #import "TestC.h"
 #import "TestHaxePack.h"
 
 @interface Tests : NSObject
 
-+ (NSMutableString*) staticVar1:(NSMutableString*)val;
-+ (int) staticVar2:(int)val;
-+ (int) staticVar3:(int)val;
++ (NSMutableString*) staticVar1;
++ (void) setStaticVar1:(NSMutableString*)val;
++ (int) staticVar2;
++ (void) setStaticVar2:(int)val;
++ (int) staticVar3;
++ (void) setStaticVar3:(int)val;
 
 @property (nonatomic) int interfaceVar1;
 @property (nonatomic) float interfaceVar2;
@@ -64,7 +63,7 @@ typedef enum{
 - (void) testEReg;
 - (void) testMap;
 - (void) testLambda;
-- (void) testList;
+- (void) testGenericStack;
 - (void) testReflect;
 - (void) testStd;
 - (void) testString;
@@ -92,9 +91,10 @@ typedef enum{
 @end
 
 
-#import <Foundation/Foundation.h>
 
 #import "haxe/Log.h"
+#import "String.h"
+#import "Array.h"
 
 @interface Tests2 : NSObject
 

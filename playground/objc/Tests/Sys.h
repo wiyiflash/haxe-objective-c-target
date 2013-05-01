@@ -13,7 +13,8 @@
 #import "sys/io/FileInput.h"
 #import "haxe/io/Output.h"
 #import "sys/io/FileOutput.h"
-#import "Hash.h"
+#import "Array.h"
+#import "String.h"
 
 @interface Sys : NSObject
 
@@ -37,7 +38,7 @@
 + (float) time;
 + (float) cpuTime;
 + (NSMutableString*) executablePath;
-+ (Hash*) environment;
++ (StringMap*) environment;
 
 @end
 

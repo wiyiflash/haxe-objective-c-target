@@ -9,16 +9,20 @@
 
 @implementation NSMutableDictionary ( IntMap )
 
-- (void) set:(int)key value:(id)value{
+- (void) set:(id)_tmp_key _tmp_value:(id)_tmp_value{
+	int key = (int)_tmp_key; id value = (id)_tmp_value;
 	[self setObject:value forKey:[NSString stringWithFormat:@"%i",key]];
 }
-- (id) get:(int)key{
+- (id) get:(id)_tmp_key{
+	int key = (int)_tmp_key;
 	return [self objectForKey:[NSString stringWithFormat:@"%i",key]];
 }
-- (BOOL) exists:(int)key{
+- (BOOL) exists:(id)_tmp_key{
+	int key = (int)_tmp_key;
 	return [self objectForKey:[NSString stringWithFormat:@"%i",key]] != nil;
 }
-- (BOOL) remove:(int)key{
+- (BOOL) remove:(id)_tmp_key{
+	int key = (int)_tmp_key;
 	if ([self exists:key]) {
 		[self removeObjectForKey:[NSString stringWithFormat:@"%i",key]];
 		return YES;
@@ -27,16 +31,16 @@
 }
 - (id) keys{
 	
-	NSMutableArray *a = [self allKeys];
+	NSMutableArray *a = [-FDynamic-self allKeys];
 	return [a iterator];
 }
 - (id) iterator{
 	
-	NSMutableArray *a = [self allValues];
+	NSMutableArray *a = [-FDynamic-self allValues];
 	return [a iterator];
 }
 - (NSMutableString*) toString{
-	return [self description];
+	return [-FDynamic-self description];
 }
 - (id) init{
 	self = [super init];

@@ -6,9 +6,9 @@
 //
 
 
-#import <Foundation/Foundation.h>
 
 #import "Array.h"
+#import "String.h"
 
 @interface NSMutableArray ( Array )
 
@@ -25,11 +25,13 @@
 - (void) reverse;
 - (id) shift;
 - (NSMutableArray*) slice:(int)pos end:(int)end;
-- (void) sort:(SEL)f;
+- (void) sort:(id)f;
 - (NSMutableArray*) splice:(int)pos len:(int)len;
 - (id) iterator;
-- (NSMutableArray*) map:(SEL)f;
-- (NSMutableArray*) filter:(SEL)f;
+- (NSMutableArray*) map:(id)f;
+- (NSMutableArray*) filter:(id)f;
+- (void) hx_replaceObjectAtIndex:(int)index withObject:(id)withObject;
+- (id) hx_objectAtIndex:(int)index;
 - (id) init;
 
 @end

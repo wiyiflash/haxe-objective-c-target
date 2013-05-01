@@ -10,7 +10,7 @@
 @implementation Eof
 
 - (NSMutableString*) toString{
-	return [NSMutableString stringWithString:@"Eof"];
+	return [@"Eof" mutableCopy];
 }
 - (id) init{
 	self = [super init];

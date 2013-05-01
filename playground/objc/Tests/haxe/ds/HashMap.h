@@ -6,10 +6,10 @@
 //
 
 
+#import <Foundation/Foundation.h>
 
-#import "../../haxe/ds/IntMap.h"
 
-@interface HashMapImpl : NSObject
+@interface HashMap_Impl_ : NSObject
 
 + (id) _new;
 + (void) set:(id)this1 k:(id)k v:(id)v;
@@ -18,7 +18,6 @@
 + (BOOL) remove:(id)this1 k:(id)k;
 + (id) keys:(id)this1;
 + (id) iterator:(id)this1;
-+ (id) toIMap:(id)this1;
 
 @end
 
