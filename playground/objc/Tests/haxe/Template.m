@@ -14,40 +14,40 @@ static EReg* splitter;
 	if (splitter == nil) splitter = [[EReg alloc] init:[@"(::[A-Za-z0-9_ ()&|!+=/><*.\"-]+::|\\$\\$([A-Za-z0-9_-]+)\\()" mutableCopy] opt:[@"" mutableCopy]];
 	return splitter;
 }
-+ (void) setSplitter:(EReg*)val {
-	splitter = val;
++ (void) setSplitter:(EReg*)hx_val {
+	splitter = hx_val;
 }
 static EReg* expr_splitter;
 + (EReg*) expr_splitter {
 	if (expr_splitter == nil) expr_splitter = [[EReg alloc] init:[@"(\\(|\\)|[ \r\n\t]*\"[^\"]*\"[ \r\n\t]*|[!+=/><*.&|-]+)" mutableCopy] opt:[@"" mutableCopy]];
 	return expr_splitter;
 }
-+ (void) setExpr_splitter:(EReg*)val {
-	expr_splitter = val;
++ (void) setExpr_splitter:(EReg*)hx_val {
+	expr_splitter = hx_val;
 }
 static EReg* expr_trim;
 + (EReg*) expr_trim {
 	if (expr_trim == nil) expr_trim = [[EReg alloc] init:[@"^[ ]*([^ ]+)[ ]*$" mutableCopy] opt:[@"" mutableCopy]];
 	return expr_trim;
 }
-+ (void) setExpr_trim:(EReg*)val {
-	expr_trim = val;
++ (void) setExpr_trim:(EReg*)hx_val {
+	expr_trim = hx_val;
 }
 static EReg* expr_int;
 + (EReg*) expr_int {
 	if (expr_int == nil) expr_int = [[EReg alloc] init:[@"^[0-9]+$" mutableCopy] opt:[@"" mutableCopy]];
 	return expr_int;
 }
-+ (void) setExpr_int:(EReg*)val {
-	expr_int = val;
++ (void) setExpr_int:(EReg*)hx_val {
+	expr_int = hx_val;
 }
 static EReg* expr_float;
 + (EReg*) expr_float {
 	if (expr_float == nil) expr_float = [[EReg alloc] init:[@"^([+-]?)(?=\\d|,\\d)\\d*(,\\d*)?([Ee]([+-]?\\d+))?$" mutableCopy] opt:[@"" mutableCopy]];
 	return expr_float;
 }
-+ (void) setExpr_float:(EReg*)val {
-	expr_float = val;
++ (void) setExpr_float:(EReg*)hx_val {
+	expr_float = hx_val;
 }
 static id globals;
 + (id) globals {
@@ -55,8 +55,8 @@ static id globals;
 } mutableCopy];
 	return globals;
 }
-+ (void) setGlobals:(id)val {
-	globals = val;
++ (void) setGlobals:(id)hx_val {
+	globals = hx_val;
 }
 @synthesize expr;
 @synthesize context;
@@ -141,13 +141,13 @@ static id globals;
 		[l add:[self parse:tokens]];
 	}
 	if (l.length == 1) return [l first];
-	return [-FEnum- OpBlock:l];
+	return [ OpBlock:l];
 }
 - (Template*) parse:(List*)tokens{
 	id t = [tokens pop];
 	
 	NSMutableString *p = t[@"p"];
-	if (t[@"s"]) return [-FEnum- OpStr:p];
+	if (t[@"s"]) return [ OpStr:p];
 	if (t[@"l"] != nil) {
 		
 		List *pe = [[List alloc] init];
@@ -161,7 +161,7 @@ static id globals;
 				[pe add:[self parseBlock:[self parseTokens:p1]]];
 			}
 		}
-		return [-FEnum- OpMacro:p params:pe];
+		return [ OpMacro:p params:pe];
 	}
 	if ([p substr:0 len:3] == [@"if " mutableCopy]) {
 		p = [p substr:3 len:p.length - 3];
@@ -186,7 +186,7 @@ static id globals;
 			t1[@"p"] = [t1[@"p"] substr:4 len:t1[@"p"].length - 4];
 			eelse = [self parse:tokens];
 		}
-		return [-FEnum- OpIf:e eif:eif eelse:eelse];
+		return [ OpIf:e eif:eif eelse:eelse];
 	}
 	if ([p substr:0 len:8] == [@"foreach " mutableCopy]) {
 		p = [p substr:8 len:p.length - 8];
@@ -195,10 +195,10 @@ static id globals;
 		Template *efor = [self parseBlock:tokens];
 		id t1 = [tokens pop];
 		if (t1 == nil || t1[@"p"] != [@"end" mutableCopy]) @throw [@"Unclosed 'foreach'" mutableCopy];;
-		return [-FEnum- OpForeach:e loop:efor];
+		return [ OpForeach:e loop:efor];
 	}
-	if ([expr_splitter match:p]) return [-FEnum- OpExpr:[self parseExpr:p]];
-	return [-FEnum- OpVar:p];
+	if ([expr_splitter match:p]) return [ OpExpr:[self parseExpr:p]];
+	return [ OpVar:p];
 }
 - (id) parseExpr:(NSMutableString*)data{
 	

@@ -21,7 +21,7 @@
 	int k = len;
 	
 	NSMutableArray *b = s.b;
-	if (pos < 0 || len < 0 || pos + len > s.length) @throw -FEnum- OutsideBounds;;
+	if (pos < 0 || len < 0 || pos + len > s.length) @throw  OutsideBounds;;
 	while (k > 0) {
 		[b hx_replaceObjectAtIndex:pos withObject:(int)[self readByte]];
 		pos++;
@@ -47,8 +47,8 @@
 	@try {
 		while (YES) {
 			int len = [self readBytes:buf pos:0 len:bufsize];
-			if (len == 0) @throw -FEnum- Blocked;;
-			if (len < 0 || len > buf.length) @throw -FEnum- OutsideBounds;;
+			if (len == 0) @throw  Blocked;;
+			if (len < 0 || len > buf.length) @throw  OutsideBounds;;
 		}
 	}
 	@catch (NSException *e) {
@@ -68,7 +68,7 @@
 	int p = 0;
 	while (nbytes > 0) {
 		int k = [self readBytes:s pos:p len:nbytes];
-		if (k == 0) @throw -FEnum- Blocked;;
+		if (k == 0) @throw  Blocked;;
 		p += k;
 		nbytes -= k;
 	}

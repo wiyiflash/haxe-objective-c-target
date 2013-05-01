@@ -106,8 +106,8 @@ static NSMutableArray* DAYS_OF_MONTH;
 	if (DAYS_OF_MONTH == nil) DAYS_OF_MONTH = [@[@31, @28, @31, @30, @31, @30, @31, @31, @30, @31, @30, @31] mutableCopy];
 	return DAYS_OF_MONTH;
 }
-+ (void) setDAYS_OF_MONTH:(NSMutableArray*)val {
-	DAYS_OF_MONTH = val;
++ (void) setDAYS_OF_MONTH:(NSMutableArray*)hx_val {
+	DAYS_OF_MONTH = hx_val;
 }
 + (int) getMonthDays:(NSDate*)d{
 	int month = [d getMonth];

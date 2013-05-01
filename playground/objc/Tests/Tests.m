@@ -14,24 +14,24 @@ static NSMutableString* staticVar1;
 	if (staticVar1 == nil) staticVar1 = [@"abcd" mutableCopy];
 	return staticVar1;
 }
-+ (void) setStaticVar1:(NSMutableString*)val {
-	staticVar1 = val;
++ (void) setStaticVar1:(NSMutableString*)hx_val {
+	staticVar1 = hx_val;
 }
 static int staticVar2;
 + (int) staticVar2 {
 	if (staticVar2 == nil) staticVar2 = 5;
 	return staticVar2;
 }
-+ (void) setStaticVar2:(int)val {
-	staticVar2 = val;
++ (void) setStaticVar2:(int)hx_val {
+	staticVar2 = hx_val;
 }
 static int staticVar3;
 + (int) staticVar3 {
 	if (staticVar3 == nil) staticVar3 = 5;
 	return staticVar3;
 }
-+ (void) setStaticVar3:(int)val {
-	staticVar3 = val;
++ (void) setStaticVar3:(int)hx_val {
+	staticVar3 = hx_val;
 }
 
 @synthesize interfaceVar1;
@@ -222,7 +222,7 @@ static int staticVar3;
 	int x = [DateTools getMonthDays:d2];
 }
 - (int) enumToInt:(Tests*)c{
-	[self testEnum:-FEnum- ExternEnumValue1];
+	[self testEnum: ExternEnumValue1];
 	return ((int)($this:(snd ctx.path)) 
 	var $e2 : enum =  (c)
 	switch ( $e2.index ) {
@@ -274,7 +274,7 @@ static int staticVar3;
 		int* __r__}
 	}(self));
 	
-	Tests *red = -FEnum- Red2;
+	Tests *red =  Red2;
 	int j = ((int)($this:(snd ctx.path)) 
 	var $e4 : enum =  (red)
 	switch ( $e4.index ) {

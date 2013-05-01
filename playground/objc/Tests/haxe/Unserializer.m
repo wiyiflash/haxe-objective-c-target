@@ -14,24 +14,24 @@ static id DEFAULT_RESOLVER;
 	if (DEFAULT_RESOLVER == nil) DEFAULT_RESOLVER = Type;
 	return DEFAULT_RESOLVER;
 }
-+ (void) setDEFAULT_RESOLVER:(id)val {
-	DEFAULT_RESOLVER = val;
++ (void) setDEFAULT_RESOLVER:(id)hx_val {
+	DEFAULT_RESOLVER = hx_val;
 }
 static NSMutableString* BASE64;
 + (NSMutableString*) BASE64 {
 	if (BASE64 == nil) BASE64 = [@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789%:" mutableCopy];
 	return BASE64;
 }
-+ (void) setBASE64:(NSMutableString*)val {
-	BASE64 = val;
++ (void) setBASE64:(NSMutableString*)hx_val {
+	BASE64 = hx_val;
 }
 static NSMutableArray* CODES;
 + (NSMutableArray*) CODES {
 	if (CODES == nil) CODES = nil;
 	return CODES;
 }
-+ (void) setCODES:(NSMutableArray*)val {
-	CODES = val;
++ (void) setCODES:(NSMutableArray*)hx_val {
+	CODES = hx_val;
 }
 + (NSMutableArray*) initCodes{
 	

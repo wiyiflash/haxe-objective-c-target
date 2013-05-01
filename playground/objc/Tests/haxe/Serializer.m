@@ -14,24 +14,24 @@ static BOOL USE_CACHE;
 	if (USE_CACHE == nil) USE_CACHE = NO;
 	return USE_CACHE;
 }
-+ (void) setUSE_CACHE:(BOOL)val {
-	USE_CACHE = val;
++ (void) setUSE_CACHE:(BOOL)hx_val {
+	USE_CACHE = hx_val;
 }
 static BOOL USE_ENUM_INDEX;
 + (BOOL) USE_ENUM_INDEX {
 	if (USE_ENUM_INDEX == nil) USE_ENUM_INDEX = NO;
 	return USE_ENUM_INDEX;
 }
-+ (void) setUSE_ENUM_INDEX:(BOOL)val {
-	USE_ENUM_INDEX = val;
++ (void) setUSE_ENUM_INDEX:(BOOL)hx_val {
+	USE_ENUM_INDEX = hx_val;
 }
 static NSMutableString* BASE64;
 + (NSMutableString*) BASE64 {
 	if (BASE64 == nil) BASE64 = [@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789%:" mutableCopy];
 	return BASE64;
 }
-+ (void) setBASE64:(NSMutableString*)val {
-	BASE64 = val;
++ (void) setBASE64:(NSMutableString*)hx_val {
+	BASE64 = hx_val;
 }
 + (NSMutableString*) run:(id)v{
 	

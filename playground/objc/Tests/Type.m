@@ -83,8 +83,8 @@
 	return [-FDynamic-e GetClassFields];
 }
 + (Type*) _typeof:(id)v{
-	if (v == nil) return -FEnum- TNull;
-	return -FEnum- TNull;
+	if (v == nil) return  TNull;
+	return  TNull;
 }
 + (BOOL) enumEq:(id)a b:(id)b{
 	return a == b;

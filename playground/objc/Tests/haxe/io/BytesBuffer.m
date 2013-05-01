@@ -16,7 +16,7 @@
 - (void) add:(Bytes*)src{
 }
 - (void) addBytes:(Bytes*)src pos:(int)pos len:(int)len{
-	if (pos < 0 || len < 0 || pos + len > src.length) @throw -FEnum- OutsideBounds;;
+	if (pos < 0 || len < 0 || pos + len > src.length) @throw  OutsideBounds;;
 }
 - (Bytes*) getBytes{
 	self.b = nil;

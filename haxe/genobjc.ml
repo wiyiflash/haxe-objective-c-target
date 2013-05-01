@@ -257,7 +257,9 @@ type context = {
 	mutable is_category : bool;(* In categories @synthesize should be replaced with the getter and setter *)
 	mutable handle_break : bool;
 	mutable generating_header : bool;
+	mutable generating_var : bool;
 	mutable generating_objc_block : bool;
+	mutable generating_objc_block_asign : bool;
 	mutable generating_object_declaration : bool;
 	mutable generating_constructor : bool;
 	mutable generating_self_access : bool;
@@ -288,7 +290,9 @@ let newContext common_ctx writer imports_manager file_info = {
 	is_category = false;
 	handle_break = false;
 	generating_header = false;
+	generating_var = false;
 	generating_objc_block = false;
+	generating_objc_block_asign = false;
 	generating_object_declaration = false;
 	generating_constructor = false;
 	generating_self_access = false;
@@ -652,6 +656,7 @@ let defaultValue s =
 (* A function header in objc is a message *)
 (* We need to follow some strict rules *)
 let generateFunctionHeader ctx name f params p is_static =
+	(* ctx.writer#write ("gen-func-"); *)
 	let old = ctx.in_value in
 	let locals = saveLocals ctx in
 	let old_t = ctx.local_types in
@@ -692,6 +697,9 @@ let generateFunctionHeader ctx name f params p is_static =
 		) f.tf_args;
 		ctx.writer#write "]; };\n"
 	end; *)
+	if ctx.generating_objc_block_asign then 
+		()
+	else
 	if ctx.generating_object_declaration then
 		(* [^BOOL() { return p < [a count]; } copy] *)
 		ctx.writer#write (Printf.sprintf "%s%s" return_type (addPointerIfNeeded return_type))
@@ -702,24 +710,42 @@ let generateFunctionHeader ctx name f params p is_static =
 	else
 		ctx.writer#write (Printf.sprintf "%s (%s%s)" (if is_static then "+" else "-") return_type (addPointerIfNeeded return_type));(* Print the return type of the function *)
 	
-	
-	if ctx.generating_object_declaration then
+	(* Return type *)
+	if ctx.generating_objc_block_asign then 
+		()
+	else if ctx.generating_object_declaration then
 		()
 	else if ctx.generating_objc_block then
 		ctx.writer#write (Printf.sprintf "(^property_%s)" func_name)
 	else
 		ctx.writer#write (Printf.sprintf " %s" (remapKeyword func_name));
 	
+	(* Function arguments and types *)
 	Hashtbl.clear ctx.function_arguments;
 	(* Generate the arguments of the function. Ignore the message name of the first arg *)
 	(* TODO: add (void) if no argument is present. Not mandatory *)
-	if (ctx.generating_objc_block || ctx.generating_object_declaration) then begin
+	if ctx.generating_objc_block_asign then begin
+		ctx.writer#write "(";
+		concat ctx ", " (fun (v,c) ->
+			let type_name = typeToString ctx v.v_type p in
+			let arg_name = (remapKeyword v.v_name) in
+			ctx.writer#write (Printf.sprintf "%s %s%s" type_name (* (addPointerIfNeeded type_name) *)"*" arg_name);
+			(* if not ctx.generating_header then begin
+				match c with
+				| None -> ();(* Hashtbl.add ctx.function_arguments arg_name (defaultValue arg_name) *)
+				| Some c -> Hashtbl.add ctx.function_arguments arg_name c
+			end *)
+		) f.tf_args;
+		ctx.writer#write ")";
+		
+	end else if (ctx.generating_objc_block || ctx.generating_object_declaration) then begin
 		ctx.writer#write "(";
 		concat ctx ", " (fun (v,c) ->
 			let type_name = typeToString ctx v.v_type p in
 			ctx.writer#write (Printf.sprintf "%s%s" type_name (addPointerIfNeeded type_name));
 		) f.tf_args;
 		ctx.writer#write ")";
+		
 	end else begin
 		let first_arg = ref true in
 		concat ctx " " (fun (v,c) ->
@@ -1217,7 +1243,7 @@ and generateExpression ctx e =
 				);
 				end
 				
-			| FEnum (tenum,tenum_field) -> ctx.writer#write "-FEnum-";
+			| FEnum (tenum,tenum_field) -> (* ctx.writer#write "-FEnum-"; *)
 				generateValue ctx e;
 				ctx.writer#write (" "^(field_name fa))
 			| _ -> ctx.writer#write "-FOther-";
@@ -1318,6 +1344,8 @@ and generateExpression ctx e =
 		end;
 		ctx.writer#end_block;
 	| TFunction f ->
+		if ctx.generating_var then
+			ctx.generating_objc_block_asign <- true;
 		if ctx.generating_object_declaration then begin
 			ctx.writer#write "^";
 			ctx.generating_objc_block <- true;
@@ -1335,7 +1363,8 @@ and generateExpression ctx e =
 			generateExpression ctx f.tf_expr;
 			ctx.in_static <- old;
 			h();
-		end
+		end;
+		ctx.generating_objc_block_asign <- false;
 	| TCall (func, arg_list) when
 		(match func.eexpr with
 		| TLocal { v_name = "__objc__" } -> true
@@ -1395,6 +1424,7 @@ and generateExpression ctx e =
 		()
 	| TVars vl ->
 		(* Local vars declaration *)
+		ctx.generating_var <- true;
 		concat ctx "; " (fun (v,eo) ->
 			let t = (typeToString ctx v.v_type e.epos) in
 			if isPointer t then ctx.writer#new_line;
@@ -1423,6 +1453,7 @@ and generateExpression ctx e =
 				); *)
 				generateValue ctx e
 		) vl;
+		ctx.generating_var <- false;
 	| TNew (c,params,el) ->
 		(* | TNew of tclass * tparams * texpr list *)
 		(* ctx.writer#write ("GEN_NEW>"^(snd c.cl_path)^(string_of_int (List.length params))); *)
@@ -1793,8 +1824,8 @@ let generateProperty ctx field pos is_static =
 			ctx.writer#write (";
 	return "^id^";
 }
-+ (void) set"^(String.capitalize id)^":("^t^(addPointerIfNeeded t)^")val {
-	"^id^" = val;
++ (void) set"^(String.capitalize id)^":("^t^(addPointerIfNeeded t)^")hx_val {
+	"^id^" = hx_val;
 }")
 		end
 		else begin

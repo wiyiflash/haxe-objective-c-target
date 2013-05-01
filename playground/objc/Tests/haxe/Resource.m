@@ -14,8 +14,8 @@ static NSMutableDictionary* __plist__;
 	if (__plist__ == nil) __plist__ = [[NSMutableDictionary alloc] init];
 	return __plist__;
 }
-+ (void) set__plist__:(NSMutableDictionary*)val {
-	__plist__ = val;
++ (void) set__plist__:(NSMutableDictionary*)hx_val {
+	__plist__ = hx_val;
 }
 + (NSMutableArray*) listNames{
 	return [Resource.__plist__ allKeys];

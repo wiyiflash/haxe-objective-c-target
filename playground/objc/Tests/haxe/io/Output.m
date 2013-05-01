@@ -14,8 +14,8 @@ static float LN2;
 	if (LN2 == nil) LN2 = logf(2);
 	return LN2;
 }
-+ (void) setLN2:(float)val {
-	LN2 = val;
++ (void) setLN2:(float)hx_val {
+	LN2 = hx_val;
 }
 
 - (void) writeByte:(int)c{
@@ -25,7 +25,7 @@ static float LN2;
 	int k = len;
 	
 	NSMutableArray *b = s.b;
-	if (pos < 0 || len < 0 || pos + len > s.length) @throw -FEnum- OutsideBounds;;
+	if (pos < 0 || len < 0 || pos + len > s.length) @throw  OutsideBounds;;
 	while (k > 0) {
 		[self writeByte:[b hx_objectAtIndex:pos]];
 		pos++;
@@ -46,7 +46,7 @@ static float LN2;
 	int p = 0;
 	while (l > 0) {
 		int k = [self writeBytes:s pos:p len:l];
-		if (k == 0) @throw -FEnum- Blocked;;
+		if (k == 0) @throw  Blocked;;
 		p += k;
 		l -= k;
 	}
@@ -121,15 +121,15 @@ static float LN2;
 	}
 }
 - (void) writeInt8:(int)x{
-	if (x < -128 || x >= 128) @throw -FEnum- Overflow;;
+	if (x < -128 || x >= 128) @throw  Overflow;;
 	[self writeByte:x & 255];
 }
 - (void) writeInt16:(int)x{
-	if (x < -32768 || x >= 32768) @throw -FEnum- Overflow;;
+	if (x < -32768 || x >= 32768) @throw  Overflow;;
 	[self writeUInt16:x & 65535];
 }
 - (void) writeUInt16:(int)x{
-	if (x < 0 || x >= 65536) @throw -FEnum- Overflow;;
+	if (x < 0 || x >= 65536) @throw  Overflow;;
 	if (self.bigEndian) {
 		[self writeByte:x >> 8];
 		[self writeByte:x & 255];
@@ -140,11 +140,11 @@ static float LN2;
 	}
 }
 - (void) writeInt24:(int)x{
-	if (x < -8388608 || x >= 8388608) @throw -FEnum- Overflow;;
+	if (x < -8388608 || x >= 8388608) @throw  Overflow;;
 	[self writeUInt24:x & 16777215];
 }
 - (void) writeUInt24:(int)x{
-	if (x < 0 || x >= 16777216) @throw -FEnum- Overflow;;
+	if (x < 0 || x >= 16777216) @throw  Overflow;;
 	if (self.bigEndian) {
 		[self writeByte:x >> 16];
 		[self writeByte:x >> 8 & 255];
@@ -182,11 +182,11 @@ static float LN2;
 	@try {
 		while (YES) {
 			int len = [i readBytes:buf pos:0 len:bufsize];
-			if (len == 0) @throw -FEnum- Blocked;;
+			if (len == 0) @throw  Blocked;;
 			int p = 0;
 			while (len > 0) {
 				int k = [self writeBytes:buf pos:p len:len];
-				if (k == 0) @throw -FEnum- Blocked;;
+				if (k == 0) @throw  Blocked;;
 				p += k;
 				len -= k;
 			}
