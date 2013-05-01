@@ -9,6 +9,7 @@
 #import <CoreGraphics/CoreGraphics.h>
 
 #import "Math.h"
+#import "NSObjCRuntime2.h"
 #import "NSObjCRuntime.h"
 #import <objc/runtime.h>
 

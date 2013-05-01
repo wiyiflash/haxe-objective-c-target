@@ -27,13 +27,25 @@ let joinClassPath path separator =
 	| [], s -> s
 	| el, s -> String.concat separator el ^ separator ^ s
 ;;
-let getMetaValue key meta =
+let getFirstMetaValue key meta =
 	let rec loop = function
 		| [] -> ""
-		| (k,[Ast.EConst (Ast.String name),_],_) :: _ when k = key -> name
+		| (k,[Ast.EConst (Ast.String name),_],_) :: l when k = key -> name
 		| _ :: l -> loop l
 		in
-	loop meta
+	loop meta;
+;;
+let getAllMetaValues key meta =
+	let values = ref [] in
+	let rec loop = function
+		| [] -> ()
+		| (k,[Ast.EConst (Ast.String name),_],_) :: l when k = key ->
+			values := name :: !values;
+			loop l;
+		| _ :: l -> loop l
+		in
+	loop meta;
+	!values;
 ;;
 let isSubstringOf s1 s2 =
 	let re = Str.regexp_string s2 in
@@ -57,14 +69,14 @@ class importsManager =
 		| _ -> if not (List.mem class_path class_imports) then class_imports <- List.append class_imports [class_path];
 	method add_class (class_def:tclass) = 
 		if (Meta.has Meta.Framework class_def.cl_meta) then begin
-			let name = getMetaValue Meta.Framework class_def.cl_meta in
+			let name = getFirstMetaValue Meta.Framework class_def.cl_meta in
 			this#add_framework name;
 		end else begin
 			this#add_class_path class_def.cl_module.m_path;
 		end
 	method add_abstract (a_def:tabstract) = 
 		if (Meta.has Meta.Framework a_def.a_meta) then begin
-			let name = getMetaValue Meta.Framework a_def.a_meta in
+			let name = getFirstMetaValue Meta.Framework a_def.a_meta in
 			this#add_framework name;
 		end else begin
 			this#add_class_path a_def.a_module.m_path;
@@ -771,7 +783,7 @@ let rec generateCall ctx (func:texpr) arg_list =
 		let sel = (match func.eexpr with
 			(* TODO: TStatic *)
 			| TField (e, FInstance (c, cf)) ->
-				if Meta.has Meta.Selector cf.cf_meta then (getMetaValue Meta.Selector cf.cf_meta)
+				if Meta.has Meta.Selector cf.cf_meta then (getFirstMetaValue Meta.Selector cf.cf_meta)
 				else ""
 			| _ -> "";
 		) in
@@ -1181,7 +1193,7 @@ and generateExpression ctx e =
 			| FClosure (_,fa2) -> ctx.writer#write "-FClosure-";
 				(* Generating a selector from new SEL *)
 				if Meta.has Meta.Selector fa2.cf_meta then 
-					ctx.writer#write (getMetaValue Meta.Selector fa2.cf_meta)
+					ctx.writer#write (getFirstMetaValue Meta.Selector fa2.cf_meta)
 				else begin
 				ctx.writer#write fa2.cf_name;
 				(match fa2.cf_type with
@@ -1796,7 +1808,7 @@ let generateProperty ctx field pos is_static =
 				if (Meta.has Meta.GetterBody field.cf_meta) then begin
 					
 					ctx.writer#write ("// Getters/setters for property: "^id^"\n");
-					ctx.writer#write ("- ("^t^(addPointerIfNeeded t)^") "^id^" { "^(getMetaValue Meta.GetterBody field.cf_meta)^" }\n");
+					ctx.writer#write ("- ("^t^(addPointerIfNeeded t)^") "^id^" { "^(getFirstMetaValue Meta.GetterBody field.cf_meta)^" }\n");
 					ctx.writer#write ("- (void) set"^(String.capitalize id)^":("^t^(addPointerIfNeeded t)^")val { nil; }\n");
 				end else
 					ctx.writer#write ("// Please provide a getterBody for the property: "^id^"\n");
@@ -2869,7 +2881,7 @@ let generateImplementation ctx files_manager imports_manager =
 	
 	let class_path = ctx.class_def.cl_path in
 	if ctx.is_category then begin
-		let category_class = getMetaValue Meta.Category ctx.class_def.cl_meta in
+		let category_class = getFirstMetaValue Meta.Category ctx.class_def.cl_meta in
 		ctx.writer#write ("@implementation " ^ category_class ^ " ( " ^ (snd class_path) ^ " )");
 	end else
 		ctx.writer#write ("@implementation " ^ (snd ctx.class_def.cl_path));
@@ -2908,16 +2920,18 @@ let generateHeader ctx files_manager imports_manager =
 		| Some (csup,_) -> ctx.imports_manager#add_class csup
 	);
 	
-	(* Import extra classes *)
-	let has_custom_import = (Meta.has Meta.Import ctx.class_def.cl_meta) in
-	let has_custom_include = (Meta.has Meta.Include ctx.class_def.cl_meta) in
-	if has_custom_import then begin
-	let import_statement = getMetaValue Meta.Import ctx.class_def.cl_meta in
-		 imports_manager#add_class_import_custom import_statement;
+	(* Import custom classes *)
+	if (Meta.has Meta.Import ctx.class_def.cl_meta) then begin
+		let import_statements = getAllMetaValues Meta.Import ctx.class_def.cl_meta in
+		List.iter ( fun name ->
+			imports_manager#add_class_import_custom name;
+		) import_statements;
 	end;
-	if has_custom_include then begin
-	let include_statement = getMetaValue Meta.Include ctx.class_def.cl_meta in
-		 imports_manager#add_class_include_custom include_statement;
+	if (Meta.has Meta.Include ctx.class_def.cl_meta) then begin
+		let include_statements = getAllMetaValues Meta.Include ctx.class_def.cl_meta in
+		List.iter ( fun name ->
+			imports_manager#add_class_include_custom name;
+		) include_statements;
 	end;
 	
 	(* Import frameworks *)
@@ -2932,7 +2946,7 @@ let generateHeader ctx files_manager imports_manager =
 	
 	let class_path = ctx.class_def.cl_path in
 	if ctx.is_category then begin
-		let category_class = getMetaValue Meta.Category ctx.class_def.cl_meta in
+		let category_class = getFirstMetaValue Meta.Category ctx.class_def.cl_meta in
 		ctx.writer#write ("@interface " ^ category_class ^ " ( " ^ (snd class_path) ^ " )");
 	end
 	else begin
