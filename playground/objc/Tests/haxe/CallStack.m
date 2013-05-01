@@ -90,9 +90,9 @@
 			++_g;
 			
 			NSMutableArray *words = [func split:[@"::" mutableCopy]];
-			if (words.length == 0) [m unshift: CFunction];
-			else if (words.length == 2) [m unshift:[ Method:[words hx_objectAtIndex:0] method:[words hx_objectAtIndex:1]]];
-			else if (words.length == 4) [m unshift:[ FilePos:[ Method:[words hx_objectAtIndex:0] method:[words hx_objectAtIndex:1]] file:[words hx_objectAtIndex:2] line:[Std parseInt:[words hx_objectAtIndex:3]]]];
+			if (words.length == 0) [m unshift:CFunction];
+			else if (words.length == 2) [m unshift:[Method:[words hx_objectAtIndex:0] method:[words hx_objectAtIndex:1]]];
+			else if (words.length == 4) [m unshift:[FilePos:[Method:[words hx_objectAtIndex:0] method:[words hx_objectAtIndex:1]] file:[words hx_objectAtIndex:2] line:[Std parseInt:[words hx_objectAtIndex:3]]]];
 		}
 	}
 	return m;

@@ -141,13 +141,13 @@ static id globals;
 		[l add:[self parse:tokens]];
 	}
 	if (l.length == 1) return [l first];
-	return [ OpBlock:l];
+	return [OpBlock:l];
 }
 - (Template*) parse:(List*)tokens{
 	id t = [tokens pop];
 	
 	NSMutableString *p = t[@"p"];
-	if (t[@"s"]) return [ OpStr:p];
+	if (t[@"s"]) return [OpStr:p];
 	if (t[@"l"] != nil) {
 		
 		List *pe = [[List alloc] init];
@@ -161,7 +161,7 @@ static id globals;
 				[pe add:[self parseBlock:[self parseTokens:p1]]];
 			}
 		}
-		return [ OpMacro:p params:pe];
+		return [OpMacro:p params:pe];
 	}
 	if ([p substr:0 len:3] == [@"if " mutableCopy]) {
 		p = [p substr:3 len:p.length - 3];
@@ -186,7 +186,7 @@ static id globals;
 			t1[@"p"] = [t1[@"p"] substr:4 len:t1[@"p"].length - 4];
 			eelse = [self parse:tokens];
 		}
-		return [ OpIf:e eif:eif eelse:eelse];
+		return [OpIf:e eif:eif eelse:eelse];
 	}
 	if ([p substr:0 len:8] == [@"foreach " mutableCopy]) {
 		p = [p substr:8 len:p.length - 8];
@@ -195,10 +195,10 @@ static id globals;
 		Template *efor = [self parseBlock:tokens];
 		id t1 = [tokens pop];
 		if (t1 == nil || t1[@"p"] != [@"end" mutableCopy]) @throw [@"Unclosed 'foreach'" mutableCopy];;
-		return [ OpForeach:e loop:efor];
+		return [OpForeach:e loop:efor];
 	}
-	if ([expr_splitter match:p]) return [ OpExpr:[self parseExpr:p]];
-	return [ OpVar:p];
+	if ([expr_splitter match:p]) return [OpExpr:[self parseExpr:p]];
+	return [OpVar:p];
 }
 - (id) parseExpr:(NSMutableString*)data{
 	

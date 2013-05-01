@@ -819,7 +819,6 @@ let rec generateCall ctx (func:texpr) arg_list =
 		ctx.generating_custom_selector <- false;
 		
 		if List.length arg_list > 0 then begin
-			(* TODO: Add meaningful error if the lengths *)
 			let sel_list = if (String.length sel > 0) then Str.split_delim (Str.regexp ":") sel else [] in
 			let sel_arr = Array.of_list sel_list in
 			let args_array_e = Array.of_list arg_list in
@@ -836,6 +835,7 @@ let rec generateCall ctx (func:texpr) arg_list =
 							ctx.writer#write (" "^sel_arr.(!index)^":")
 						else
 							ctx.writer#write (if !index = 0 then ":" else (" "^(remapKeyword name)^":"));
+						(* TODO: inspect the bug, why is there a different number of arguments. In StringBuf *)
 						if !index >= (List.length arg_list) then
 							ctx.writer#write "nil"
 						else
@@ -1245,7 +1245,7 @@ and generateExpression ctx e =
 				
 			| FEnum (tenum,tenum_field) -> (* ctx.writer#write "-FEnum-"; *)
 				generateValue ctx e;
-				ctx.writer#write (" "^(field_name fa))
+				ctx.writer#write (field_name fa)
 			| _ -> ctx.writer#write "-FOther-";
 				generateValue ctx e;
 				(* generateFieldAccess ctx e.etype (field_name fa)); *)
@@ -1807,7 +1807,7 @@ let generateProperty ctx field pos is_static =
 			| AccCall s -> Printf.sprintf ", setter=%s" s;
 			| _ -> "")
 		| _ -> "" in
-		let strong = if (isPointer t) then ", strong" else "" in
+		let strong = if Meta.has Meta.Weak field.cf_meta then ", weak" else if (isPointer t) then ", strong" else "" in
 		let readonly = if false then ", readonly" else "" in
 		ctx.writer#write (Printf.sprintf "@property (nonatomic%s%s%s%s) %s %s%s;" strong readonly getter setter t (addPointerIfNeeded t) (remapKeyword id))
 	end

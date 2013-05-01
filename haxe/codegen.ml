@@ -95,10 +95,10 @@ let rec has_properties c =
 let get_properties fields =
 	List.fold_left (fun acc f ->
 		let acc = (match f.cf_kind with
-		| Var { v_read = AccCall getter } -> ("get_" ^ f.cf_name , getter) :: acc
+		| Var { v_read = AccCall } -> ("get_" ^ f.cf_name , "get_" ^ f.cf_name) :: acc
 		| _ -> acc) in
 		match f.cf_kind with
-		| Var { v_write = AccCall setter } -> ("set_" ^ f.cf_name , setter) :: acc
+		| Var { v_write = AccCall } -> ("set_" ^ f.cf_name , "set_" ^ f.cf_name) :: acc
 		| _ -> acc
 	) [] fields
 
@@ -1386,15 +1386,15 @@ module Abstract = struct
 			| TDynamic _,_ | _,TDynamic _ ->
 				eright
 			| TAbstract({a_impl = Some c} as a,pl),t2 when not (Meta.has Meta.MultiType a.a_meta) ->
-				begin match snd (find_to a pl t2) with
-					| None -> eright
-					| Some cf ->
+				begin match find_to a pl t2 with
+					| tcf,None -> if tcf == tleft then eright else check_cast ctx (apply_params a.a_types pl tcf) eright p
+					| _,Some cf ->
 						recurse cf (fun () -> make_static_call ctx c cf a pl [eright] tleft p)
 				end
 			| t1,(TAbstract({a_impl = Some c} as a,pl) as t2) when not (Meta.has Meta.MultiType a.a_meta) ->
-				begin match snd (find_from a pl t1 t2) with
-					| None -> eright
-					| Some cf ->
+				begin match find_from a pl t1 t2 with
+					| tcf,None -> if tcf == tleft then eright else check_cast ctx (apply_params a.a_types pl tcf) eright p
+					| _,Some cf ->
 						recurse cf (fun () -> make_static_call ctx c cf a pl [eright] tleft p)
 				end
 			| _ ->

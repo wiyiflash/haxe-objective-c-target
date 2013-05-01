@@ -5041,6 +5041,7 @@ struct
 
     let in_value = ref false in
 
+	(*
     let rec get_ctor_p cl p =
       match cl.cl_constructor with
         | Some c -> follow (apply_params cl.cl_types p c.cf_type), cl, p
@@ -5049,6 +5050,7 @@ struct
             get_ctor_p cls (List.map (apply_params cls.cl_types p) tl)
           | None -> TFun([],gen.gcon.basic.tvoid), cl, p
     in
+	*)
 
     let rec run ?(just_type = false) e =
       let handle = if not just_type then handle else fun e t1 t2 -> { e with etype = gen.greal_type t2 } in
@@ -6993,10 +6995,10 @@ struct
             epos = pos;
           } in
           match cf.cf_kind with
-            | Var { v_write = AccCall fn } ->
+            | Var { v_write = AccCall } ->
               let bl =
               [
-                mk_this_call_raw fn (TFun(["value",false,cf.cf_type], cf.cf_type)) [ value_local ];
+                mk_this_call_raw ("set_" ^ cf.cf_name) (TFun(["value",false,cf.cf_type], cf.cf_type)) [ value_local ];
                 mk_return value_local
               ] in
               if Type.is_extern_field cf then
@@ -7047,13 +7049,13 @@ struct
 
          let get_field cf cf_type ethis cl name =
           match cf.cf_kind with
-            | Var { v_read = AccCall fn } when Type.is_extern_field cf ->
-              mk_return (mk_this_call_raw fn (TFun(["value",false,cf.cf_type], cf.cf_type)) [  ])
-            | Var { v_read = AccCall fn } ->
+            | Var { v_read = AccCall } when Type.is_extern_field cf ->
+              mk_return (mk_this_call_raw ("get_" ^ cf.cf_name) (TFun(["value",false,cf.cf_type], cf.cf_type)) [  ])
+            | Var { v_read = AccCall } ->
               {
                 eexpr = TIf(
                   handle_prop_local,
-                  mk_return (mk_this_call_raw fn (TFun(["value",false,cf.cf_type], cf.cf_type)) [  ]),
+                  mk_return (mk_this_call_raw ("get_" ^ cf.cf_name) (TFun(["value",false,cf.cf_type], cf.cf_type)) [  ]),
                   Some { eexpr = TField (ethis, FInstance(cl, cf)); etype = cf_type; epos = pos }
                 );
                 etype = cf_type;
@@ -9571,14 +9573,14 @@ struct
           match cf.cf_kind with
             | Var vkind ->
               (match vkind.v_read with
-                | AccCall str ->
-                  let newcf = mk_class_field str (TFun([],cf.cf_type)) true cf.cf_pos (Method MethNormal) [] in
+                | AccCall ->
+                  let newcf = mk_class_field ("get_" ^ cf.cf_name) (TFun([],cf.cf_type)) true cf.cf_pos (Method MethNormal) [] in
                   to_add := newcf :: !to_add;
                 | _ -> ()
               );
               (match vkind.v_write with
-                | AccCall str ->
-                  let newcf = mk_class_field str (TFun(["val",false,cf.cf_type],cf.cf_type)) true cf.cf_pos (Method MethNormal) [] in
+                | AccCall ->
+                  let newcf = mk_class_field ("set_" ^ cf.cf_name) (TFun(["val",false,cf.cf_type],cf.cf_type)) true cf.cf_pos (Method MethNormal) [] in
                   to_add := newcf :: !to_add;
                 | _ -> ()
               );

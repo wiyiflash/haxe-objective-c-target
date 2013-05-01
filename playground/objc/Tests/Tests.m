@@ -222,7 +222,7 @@ static int staticVar3;
 	int x = [DateTools getMonthDays:d2];
 }
 - (int) enumToInt:(Tests*)c{
-	[self testEnum: ExternEnumValue1];
+	[self testEnum:ExternEnumValue1];
 	return ((int)($this:(snd ctx.path)) 
 	var $e2 : enum =  (c)
 	switch ( $e2.index ) {
@@ -274,7 +274,7 @@ static int staticVar3;
 		int* __r__}
 	}(self));
 	
-	Tests *red =  Red2;
+	Tests *red = Red2;
 	int j = ((int)($this:(snd ctx.path)) 
 	var $e4 : enum =  (red)
 	switch ( $e4.index ) {

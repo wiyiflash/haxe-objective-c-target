@@ -376,7 +376,7 @@ let gen_close_namespace output class_path =
 
 (* The basic types can have default values and are passesby value *)
 let cant_be_null = function
-	| "Int" | "Bool" | "Float" |  "::haxe::io::Unsigned_char__" -> true
+	| "Int" | "Bool" | "Float" |  "::haxe::io::Unsigned_char__" | "unsigned char" -> true
 	| "int" | "bool" | "double" | "float" -> true
 	| _ -> false
 
@@ -388,7 +388,7 @@ let rec class_string klass suffix params =
 	(* Array class *)
 	|  ([],"Array") when is_dynamic_array_param (List.hd params) -> "Dynamic"
 	|  ([],"Array") -> (snd klass.cl_path) ^ suffix ^ "< " ^ (String.concat ","
-					 (List.map type_string  params) ) ^ " >"
+					 (List.map array_element_type params) ) ^ " >"
 	(* FastIterator class *)
 	|  (["cpp"],"FastIterator") -> "::cpp::FastIterator" ^ suffix ^ "< " ^ (String.concat ","
 					 (List.map type_string  params) ) ^ " >"
@@ -469,6 +469,11 @@ and type_string_suff suffix haxe_type =
 	)
 and type_string haxe_type =
 	type_string_suff "" haxe_type
+and array_element_type haxe_type =
+   match type_string haxe_type with
+   | x when cant_be_null x -> x
+   | "::String" -> "::String"
+   | _ -> "::Dynamic"
 
 and is_dynamic_array_param haxe_type =
    if (type_string (follow haxe_type)) = "Dynamic" then true
@@ -1429,6 +1434,16 @@ and gen_expression ctx retval expression =
 		| _ ->  gen_bin_op_string expr1 (Ast.s_binop op) expr2
 		in
 
+	let gen_array_cast array_type cast_name call =
+	   match follow array_type with
+	   | TInst (klass,[element]) ->
+         ( match type_string element with
+           | x when cant_be_null x -> ()
+           | "::String" | "Dynamic" -> ()
+           | real_type -> output (cast_name ^ "< " ^ real_type ^ " >" ^ call)
+         )
+      | _ -> ()
+   in
 	let rec gen_tfield field_object field =
       let member = (field_name field) in
 		let remap_name = keyword_remap member in
@@ -1467,9 +1482,12 @@ and gen_expression ctx retval expression =
             else begin
                cast_if_required ctx field_object (type_string field_object.etype);
                output ( "->" ^ remap_name );
-               already_dynamic := match field with
+               if (calling && (is_array field_object.etype) && remap_name="iterator" ) then
+                  gen_array_cast field_object.etype "Fast" "";
+
+               already_dynamic := (match field with
                   | FInstance(_,var) when is_var_field var -> true
-                  | _ -> false
+                  | _ -> false);
             end;
          end;
       );
@@ -1564,6 +1582,19 @@ and gen_expression ctx retval expression =
       if (cast_result) then output (")");
       if ( (is_variable func) && (expr_type<>"Dynamic") && (not is_super) && (not is_block_call)) then
          ctx.ctx_output (".Cast< " ^ expr_type ^ " >()" );
+
+      let rec cast_array_output func =
+         match func.eexpr with
+            | TField(obj,field) when is_array obj.etype ->
+               (match field_name field with
+                  | "pop" | "shift" -> gen_array_cast obj.etype ".StaticCast" "()"
+                  | _ -> ()
+               )
+            | TParenthesis p -> cast_array_output p
+            | _ -> ()
+      in
+      cast_array_output func;
+
 	| TBlock expr_list ->
 		if (retval) then
          gen_local_block_call()
@@ -1661,6 +1692,7 @@ and gen_expression ctx retval expression =
 			output "->__get(";
 			gen_expression ctx true index;
 			output ")";
+			gen_array_cast array_expr.etype ".StaticCast" "()";
 		end
 	(* Get precidence matching haxe ? *)
 	| TBinop (op,expr1,expr2) -> gen_bin_op op expr1 expr2
@@ -2209,12 +2241,12 @@ let gen_member_def ctx class_def is_static is_interface field =
 			gen_type ctx field.cf_type;
 			output (" &" ^ remap_name ^ "_dyn() { return " ^ remap_name ^ ";}\n" )
 		| _ ->  (match field.cf_kind with
-			| Var { v_read = AccCall name } when (not is_static) && (is_dynamic_accessor name "get" field class_def) ->
+			| Var { v_read = AccCall } when (not is_static) && (is_dynamic_accessor ("get_" ^ field.cf_name) "get" field class_def) ->
 				output ("\t\tDynamic get_" ^ field.cf_name ^ ";\n" )
 			| _ -> ()
 			);
 			(match field.cf_kind with
-			| Var { v_write = AccCall name } when (not is_static) &&  (is_dynamic_accessor name "set" field class_def) ->
+			| Var { v_write = AccCall } when (not is_static) &&  (is_dynamic_accessor ("set_" ^ field.cf_name) "set" field class_def) ->
 				output ("\t\tDynamic set_" ^ field.cf_name ^ ";\n" )
 			| _ -> ()
 			)
@@ -2881,9 +2913,11 @@ let generate_class_files common_ctx member_types super_deps constructor_deps cla
 				let remap_name = keyword_remap field.cf_name in
 				output_cpp ("	" ^ macro ^ "(" ^ remap_name ^ ",\"" ^ field.cf_name^ "\");\n");
 
-					(match field.cf_kind with Var { v_read = AccCall name } when (is_dynamic_accessor name "get" field class_def) ->
+					(match field.cf_kind with Var { v_read = AccCall } when (is_dynamic_accessor ("get_" ^ field.cf_name) "get" field class_def) ->
+						let name = "get_" ^ field.cf_name in
 						output_cpp ("\t" ^ macro ^ "(" ^ name ^ "," ^ "\"" ^ name ^ "\");\n" ) | _ -> ());
-					(match field.cf_kind with Var { v_write = AccCall name } when  (is_dynamic_accessor name "set" field class_def) ->
+					(match field.cf_kind with Var { v_write = AccCall } when  (is_dynamic_accessor ("set_" ^ field.cf_name) "set" field class_def) ->
+						let name = "set_" ^ field.cf_name in
 						output_cpp ("\t" ^ macro ^ "(" ^ name ^ "," ^ "\"" ^ name ^ "\");\n" ) | _ -> ());
 				end
 		in
@@ -2952,8 +2986,8 @@ let generate_class_files common_ctx member_types super_deps constructor_deps cla
 		let get_field_dat = List.map (fun f ->
 			(f.cf_name, String.length f.cf_name, "return " ^
 				(match f.cf_kind with
-				| Var { v_read = AccCall prop } when is_extern_field f -> (keyword_remap prop) ^ "()"
-				| Var { v_read = AccCall prop } -> "inCallProp ? " ^ (keyword_remap prop) ^ "() : " ^
+				| Var { v_read = AccCall } when is_extern_field f -> (keyword_remap ("get_" ^ f.cf_name)) ^ "()"
+				| Var { v_read = AccCall } -> "inCallProp ? " ^ (keyword_remap ("get_" ^ f.cf_name)) ^ "() : " ^
 				        ((keyword_remap f.cf_name) ^ if (variable_field f) then "" else "_dyn()")
 				| _ -> ((keyword_remap f.cf_name) ^ if (variable_field f) then "" else "_dyn()")
 				) ^ ";"
@@ -2982,7 +3016,7 @@ let generate_class_files common_ctx member_types super_deps constructor_deps cla
 				output_cpp ("	if (inFieldID==__id_" ^ remap_name ^ ") return "  ^
 					( if (return_type="Float") then "hx::ToDouble( " else "" ) ^
 					(match f.cf_kind with
-					| Var { v_read = AccCall prop } -> (keyword_remap prop) ^ "()"
+					| Var { v_read = AccCall } -> (keyword_remap ("get_" ^ f.cf_name)) ^ "()"
 					| _ -> ((keyword_remap f.cf_name) ^ if ( variable_field f) then "" else "_dyn()")
 					) ^ ( if (return_type="Float") then " ) " else "" ) ^ ";\n");
 				) in
@@ -3006,8 +3040,8 @@ let generate_class_files common_ctx member_types super_deps constructor_deps cla
                " return inValue;" in
 			(f.cf_name, String.length f.cf_name,
 				(match f.cf_kind with
-				| Var { v_write = AccCall prop } when is_extern_field f -> "return " ^ (keyword_remap prop) ^ "(inValue);"
-				| Var { v_write = AccCall prop } -> "if (inCallProp) return " ^ (keyword_remap prop) ^ "(inValue);"
+				| Var { v_write = AccCall } when is_extern_field f -> "return " ^ (keyword_remap ("set_" ^ f.cf_name)) ^ "(inValue);"
+				| Var { v_write = AccCall } -> "if (inCallProp) return " ^ (keyword_remap ("set_" ^ f.cf_name)) ^ "(inValue);"
 					 ^ default_action
             | _ -> default_action
 				)

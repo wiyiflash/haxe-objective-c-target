@@ -64,7 +64,7 @@
 	[self.b hx_replaceObjectAtIndex:pos withObject:(v & @255)];
 }
 - (void) blit:(int)pos src:(Bytes*)src srcpos:(int)srcpos len:(int)len{
-	if (pos < 0 || srcpos < 0 || len < 0 || pos + len > self.length || srcpos + len > src.length) @throw  OutsideBounds;;
+	if (pos < 0 || srcpos < 0 || len < 0 || pos + len > self.length || srcpos + len > src.length) @throw OutsideBounds;;
 	
 	NSMutableArray *b1 = self.b;
 	
@@ -86,7 +86,7 @@
 	}
 }
 - (Bytes*) sub:(int)pos len:(int)len{
-	if (pos < 0 || len < 0 || pos + len > self.length) @throw  OutsideBounds;;
+	if (pos < 0 || len < 0 || pos + len > self.length) @throw OutsideBounds;;
 	return [[Bytes alloc] init:len b:[self.b slice:pos end:pos + len]];
 }
 - (int) compare:(Bytes*)other{
@@ -105,7 +105,7 @@
 	return self.length - other.length;
 }
 - (NSMutableString*) readString:(int)pos len:(int)len{
-	if (pos < 0 || len < 0 || pos + len > self.length) @throw  OutsideBounds;;
+	if (pos < 0 || len < 0 || pos + len > self.length) @throw OutsideBounds;;
 	
 	NSMutableString *s = [@"" mutableCopy];
 	

@@ -52,7 +52,7 @@
 	self.nstimer = [NSTimer timerWithTimeInterval:time_ms * 1000 target:self selector:@selector(-FClosure-nsrun:) userInfo:nil repeats:YES];
 	
 	NSRunLoop *runner = [NSRunLoop currentRunLoop];
-	[runner addTimer:self.nstimer forMode: NSDefaultRunLoopMode];
+	[runner addTimer:self.nstimer forMode:NSDefaultRunLoopMode];
 	return self;
 }
 

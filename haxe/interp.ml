@@ -4129,7 +4129,7 @@ and encode_var_access a =
 		| AccNo -> 1, []
 		| AccNever -> 2, []
 		| AccResolve -> 3, []
-		| AccCall s -> 4, [enc_string s]
+		| AccCall -> 4, []
 		| AccInline	-> 5, []
 		| AccRequire (s,msg) -> 6, [enc_string s; null enc_string msg]
 	) in
@@ -4380,25 +4380,33 @@ let rec make_type = function
 		| Some t -> make_type t)
 	| TEnum (e,pl) ->
 		tpath e.e_path e.e_module.m_path (List.map make_type pl)
+	| TInst({cl_kind = KTypeParameter _} as c,pl) ->
+		tpath ([],snd c.cl_path) ([],snd c.cl_path) (List.map make_type pl)
 	| TInst (c,pl) ->
 		tpath c.cl_path c.cl_module.m_path (List.map make_type pl)
-	| TType (t,pl) ->
-		tpath t.t_path t.t_module.m_path (List.map make_type pl)
+	| TType (t,pl) as tf ->
+		(* recurse on type-type *)
+		if (snd t.t_path).[0] = '#' then make_type (follow tf) else tpath t.t_path t.t_module.m_path (List.map make_type pl)
 	| TAbstract (a,pl) ->
 		tpath a.a_path a.a_module.m_path (List.map make_type pl)
 	| TFun (args,ret) ->
 		CTFunction (List.map (fun (_,_,t) -> make_type t) args, make_type ret)
 	| TAnon a ->
-		CTAnonymous (PMap.foldi (fun _ f acc ->
-			{
-				cff_name = f.cf_name;
-				cff_kind = FVar (mk_ot f.cf_type,None);
-				cff_pos = f.cf_pos;
-				cff_doc = f.cf_doc;
-				cff_meta = f.cf_meta;
-				cff_access = [];
-			} :: acc
-		) a.a_fields [])
+		begin match !(a.a_status) with
+		| Statics c -> tpath ([],"Class") ([],"Class") [tpath c.cl_path c.cl_path []]
+		| EnumStatics e -> tpath ([],"Enum") ([],"Enum") [tpath e.e_path e.e_path []]
+		| _ ->
+			CTAnonymous (PMap.foldi (fun _ f acc ->
+				{
+					cff_name = f.cf_name;
+					cff_kind = FVar (mk_ot f.cf_type,None);
+					cff_pos = f.cf_pos;
+					cff_doc = f.cf_doc;
+					cff_meta = f.cf_meta;
+					cff_access = [];
+				} :: acc
+			) a.a_fields [])
+		end
 	| (TDynamic t2) as t ->
 		tpath ([],"Dynamic") ([],"Dynamic") (if t == t_dynamic then [] else [make_type t2])
 	| TLazy f ->
@@ -4430,12 +4438,15 @@ let rec make_ast e =
 		| TThis -> Ident "this"
 		| TSuper -> Ident "super"
 	in
-
+	let mk_ident = function
+		| "`trace" -> Ident "trace"
+		| n -> Ident n
+	in
 	let eopt = function None -> None | Some e -> Some (make_ast e) in
 	((match e.eexpr with
 	| TConst c ->
 		EConst (mk_const c)
-	| TLocal v -> EConst (Ident v.v_name)
+	| TLocal v -> EConst (mk_ident v.v_name)
 	| TArray (e1,e2) -> EArray (make_ast e1,make_ast e2)
 	| TBinop (op,e1,e2) -> EBinop (op, make_ast e1, make_ast e2)
 	| TField (e,f) -> EField (make_ast e, Type.field_name f)
