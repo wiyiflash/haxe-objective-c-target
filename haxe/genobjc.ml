@@ -367,17 +367,18 @@ let rec isString e =
 					| ([], "String") -> true
 					| _ -> false)
 					
-				| _ -> false)
-				
+				| _ -> false
+				)
 			)
 			
 		(* | TConst c -> true *)
-		| _ -> false)
+		| _ -> false
+		)
 	| TConst (TString s) -> true
 	| TField (e,fa) -> isString e
 	| TCall (e,el) -> isString e
-	| TConst c -> 
-		(match c with
+	| TConst c -> true
+		(* (match c with
 			| TString s -> print_endline "TString"
 			| TInt i -> print_endline "TInt"
 			| TFloat f -> print_endline "TFloat"
@@ -387,10 +388,9 @@ let rec isString e =
 			| TThis -> print_endline "TThis"
 			| TSuper -> print_endline "TSuper"
 			(* | _ -> false *)
-		);
-		true
-	| _ -> 
-		print_endline ("OTHER TYPE FALSE"); false)
+		); *)
+		
+	| _ -> false)
 ;;
 let rec isArray e =
 	(match e.eexpr with
@@ -1216,8 +1216,8 @@ and generateExpression ctx e =
 				(* generateFieldAccess ctx e.etype name; *)
 				ctx.writer#write (" "^name);
 				if ctx.generating_calls = 0 then ctx.writer#write "]";
-			| FClosure (_,fa2) -> ctx.writer#write "-FClosure-";
-				(* Generating a selector from new SEL *)
+			| FClosure (_,fa2) -> (* ctx.writer#write "-FClosure-"; *)
+				(* Generating a selector from 'new SEL' *)
 				if Meta.has Meta.Selector fa2.cf_meta then 
 					ctx.writer#write (getFirstMetaValue Meta.Selector fa2.cf_meta)
 				else begin
@@ -1797,7 +1797,7 @@ let generateProperty ctx field pos is_static =
 			ctx.writer#write ("+ (void) set"^(String.capitalize id)^":("^t^(addPointerIfNeeded t)^")val;")
 		end
 	else begin
-		let getter = match field.cf_kind with
+		(* let getter = match field.cf_kind with
 		| Var v -> (match v.v_read with
 			| AccCall s -> Printf.sprintf ", getter=%s" s;
 			| _ -> "")
@@ -1806,10 +1806,10 @@ let generateProperty ctx field pos is_static =
 		| Var v -> (match v.v_write with
 			| AccCall s -> Printf.sprintf ", setter=%s" s;
 			| _ -> "")
-		| _ -> "" in
+		| _ -> "" in *)
 		let strong = if Meta.has Meta.Weak field.cf_meta then ", weak" else if (isPointer t) then ", strong" else "" in
 		let readonly = if false then ", readonly" else "" in
-		ctx.writer#write (Printf.sprintf "@property (nonatomic%s%s%s%s) %s %s%s;" strong readonly getter setter t (addPointerIfNeeded t) (remapKeyword id))
+		ctx.writer#write (Printf.sprintf "@property (nonatomic%s%s) %s %s%s;" strong readonly t (addPointerIfNeeded t) (remapKeyword id))
 	end
 	end
 	else begin
@@ -2084,14 +2084,14 @@ let rec defineGetSet ctx is_static c =
 	let def f name =
 		Hashtbl.add ctx.get_sets (name,is_static) f.cf_name
 	in
-	let field f =
+	(* let field f =
 		match f.cf_kind with
 		| Method _ -> ()
 		| Var v ->
 			(match v.v_read with AccCall m -> def f m | _ -> ());
 			(match v.v_write with AccCall m -> def f m | _ -> ())
-	in
-	List.iter field (if is_static then c.cl_ordered_statics else c.cl_ordered_fields);
+	in *)
+	(* List.iter field (if is_static then c.cl_ordered_statics else c.cl_ordered_fields); *)
 	match c.cl_super with
 	| Some (c,_) when not is_static -> defineGetSet ctx is_static c
 	| _ -> ()

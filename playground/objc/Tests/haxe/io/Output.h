@@ -17,7 +17,7 @@
 
 + (float) LN2;
 + (void) setLN2:(float)val;
-@property (nonatomic, setter=set_bigEndian) BOOL bigEndian;
+@property (nonatomic) BOOL bigEndian;
 - (void) writeByte:(int)c;
 - (int) writeBytes:(Bytes*)s pos:(int)pos len:(int)len;
 - (void) flush;

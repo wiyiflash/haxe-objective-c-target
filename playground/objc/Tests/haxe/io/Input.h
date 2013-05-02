@@ -16,7 +16,7 @@
 
 @interface Input : NSObject
 
-@property (nonatomic, setter=set_bigEndian) BOOL bigEndian;
+@property (nonatomic) BOOL bigEndian;
 - (int) readByte;
 - (int) readBytes:(Bytes*)s pos:(int)pos len:(int)len;
 - (void) close;
