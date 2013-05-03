@@ -852,7 +852,9 @@ let rec generateCall ctx (func:texpr) arg_list =
 				| TType (t,tl) -> ctx.writer#write "-TType"
 				| TAbstract (a,tl) -> ctx.writer#write "-TAbstract"
 				| TAnon a -> ctx.writer#write "-TAnon-"
-				| TDynamic t2 -> ctx.writer#write "-TDynamic-"
+				| TDynamic t2 ->
+					ctx.writer#write ":";
+					concat ctx " :" (generateValue ctx) arg_list;
 				| TLazy f -> ctx.writer#write "-TLazy call-"
 			) in
 			gen func.etype;
@@ -1202,15 +1204,15 @@ and generateExpression ctx e =
 					);
 				
 				| TAnon _ -> ctx.writer#write "-TAnon-";
-				| TDynamic _ -> ctx.writer#write "-TDynamic-";
+				| TDynamic _ -> ctx.writer#write "--TDynamic--";
 				| TLazy _ -> ctx.writer#write "-TLazy-"
 				);
 				
 			| FAnon tclass_field -> (* ctx.writer#write "-FAnon-"; *)
-				(* Accesing the field of an anonimous object with the modern notation obj[key] *)
+				(* Accesing the field of an anonimous object with the modern notation obj[@key] *)
 				generateValue ctx e;
 				ctx.writer#write ("[@\"" ^ (field_name fa) ^ "\"]")
-			| FDynamic name -> ctx.writer#write "-FDynamic-";
+			| FDynamic name -> (* ctx.writer#write "-FDynamic-"; *)
 				if ctx.generating_calls = 0 then ctx.writer#write "[";
 				generateValue ctx e;
 				(* generateFieldAccess ctx e.etype name; *)
@@ -1495,10 +1497,15 @@ and generateExpression ctx e =
 				(* ctx.imports_manager#add_class_path c.cl_module.m_path; *)
 				ctx.imports_manager#add_class c;
 				let inited = ref true in
-				(match c.cl_path with
+				if ctx.generating_calls > 0 then begin
+					inited := false;
+					ctx.writer#write (Printf.sprintf "[%s alloc] " (remapHaxeTypeToObjc ctx false c.cl_path c.cl_pos))
+				end else
+					ctx.writer#write (Printf.sprintf "[[%s alloc] init" (remapHaxeTypeToObjc ctx false c.cl_path c.cl_pos));
+				(* (match c.cl_path with
 					| (["ios";"ui"],"UIImageView") -> ctx.writer#write (Printf.sprintf "[%s alloc]" (remapHaxeTypeToObjc ctx false c.cl_path c.cl_pos)); inited := false;
 					| _ -> ctx.writer#write (Printf.sprintf "[[%s alloc] init" (remapHaxeTypeToObjc ctx false c.cl_path c.cl_pos));
-				);
+				); *)
 				if List.length el > 0 then begin
 					ctx.generating_calls <- ctx.generating_calls + 1;
 					(match c.cl_constructor with
@@ -1797,19 +1804,19 @@ let generateProperty ctx field pos is_static =
 			ctx.writer#write ("+ (void) set"^(String.capitalize id)^":("^t^(addPointerIfNeeded t)^")val;")
 		end
 	else begin
-		(* let getter = match field.cf_kind with
+		let getter = match field.cf_kind with
 		| Var v -> (match v.v_read with
-			| AccCall s -> Printf.sprintf ", getter=%s" s;
+			| AccCall -> Printf.sprintf ", getter=get_%s" field.cf_name;
 			| _ -> "")
 		| _ -> "" in
 		let setter = match field.cf_kind with
 		| Var v -> (match v.v_write with
-			| AccCall s -> Printf.sprintf ", setter=%s" s;
+			| AccCall -> Printf.sprintf ", setter=set_%s" field.cf_name;
 			| _ -> "")
-		| _ -> "" in *)
+		| _ -> "" in
 		let strong = if Meta.has Meta.Weak field.cf_meta then ", weak" else if (isPointer t) then ", strong" else "" in
 		let readonly = if false then ", readonly" else "" in
-		ctx.writer#write (Printf.sprintf "@property (nonatomic%s%s) %s %s%s;" strong readonly t (addPointerIfNeeded t) (remapKeyword id))
+		ctx.writer#write (Printf.sprintf "@property (nonatomic%s%s%s%s) %s %s%s;" strong readonly getter setter t (addPointerIfNeeded t) (remapKeyword id))
 	end
 	end
 	else begin

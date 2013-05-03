@@ -1434,14 +1434,19 @@ and gen_expression ctx retval expression =
 		| _ ->  gen_bin_op_string expr1 (Ast.s_binop op) expr2
 		in
 
-	let gen_array_cast array_type cast_name call =
+	let gen_array_cast cast_name real_type call =
+     output (cast_name ^ "< " ^ real_type ^ " >" ^ call)
+   in
+	let rec check_array_cast array_type cast_name call =
 	   match follow array_type with
 	   | TInst (klass,[element]) ->
          ( match type_string element with
            | x when cant_be_null x -> ()
            | "::String" | "Dynamic" -> ()
-           | real_type -> output (cast_name ^ "< " ^ real_type ^ " >" ^ call)
+           | real_type -> gen_array_cast cast_name real_type call
          )
+	   | TAbstract (abs,pl) when abs.a_impl <> None ->
+		   check_array_cast (Codegen.Abstract.get_underlying_type abs pl) cast_name call
       | _ -> ()
    in
 	let rec gen_tfield field_object field =
@@ -1483,7 +1488,7 @@ and gen_expression ctx retval expression =
                cast_if_required ctx field_object (type_string field_object.etype);
                output ( "->" ^ remap_name );
                if (calling && (is_array field_object.etype) && remap_name="iterator" ) then
-                  gen_array_cast field_object.etype "Fast" "";
+                  check_array_cast field_object.etype "Fast" "";
 
                already_dynamic := (match field with
                   | FInstance(_,var) when is_var_field var -> true
@@ -1587,7 +1592,7 @@ and gen_expression ctx retval expression =
          match func.eexpr with
             | TField(obj,field) when is_array obj.etype ->
                (match field_name field with
-                  | "pop" | "shift" -> gen_array_cast obj.etype ".StaticCast" "()"
+                  | "pop" | "shift" -> check_array_cast obj.etype ".StaticCast" "()"
                   | _ -> ()
                )
             | TParenthesis p -> cast_array_output p
@@ -1692,7 +1697,7 @@ and gen_expression ctx retval expression =
 			output "->__get(";
 			gen_expression ctx true index;
 			output ")";
-			gen_array_cast array_expr.etype ".StaticCast" "()";
+			check_array_cast array_expr.etype ".StaticCast" "()";
 		end
 	(* Get precidence matching haxe ? *)
 	| TBinop (op,expr1,expr2) -> gen_bin_op op expr1 expr2
@@ -3530,6 +3535,15 @@ let gen_extern_class common_ctx class_def file_info =
       let override = if (is_override class_def f.cf_name ) then "override " else "" in
 
 		output ("\t" ^ (if stat then "static " else "") ^ (if f.cf_public then "public " else "") );
+      let s_access mode op name = match mode with
+         | AccNormal -> "default"
+         | AccNo -> "null"
+         | AccNever -> "never"
+         | AccResolve -> "resolve"
+         | AccCall -> op ^ "_" ^ name
+         | AccInline	-> "default"
+         | AccRequire (n,_) -> "require " ^ n
+      in
       (match f.cf_kind, f.cf_name with
 	   | Var { v_read = AccInline; v_write = AccNever },_ ->
            (match f.cf_expr with Some expr ->
@@ -3538,7 +3552,7 @@ let gen_extern_class common_ctx class_def file_info =
               gen_expression ctx true expr;
            | _ -> ()  )
 	   | Var { v_read = AccNormal; v_write = AccNormal },_ -> output ("var " ^ f.cf_name ^ ":" ^ (s_type f.cf_type))
-	   | Var v,_ -> output ("var " ^ f.cf_name ^ "(" ^ (s_access v.v_read) ^ "," ^ (s_access v.v_write) ^ "):" ^ (s_type f.cf_type))
+	   | Var v,_ -> output ("var " ^ f.cf_name ^ "(" ^ (s_access v.v_read "get" f.cf_name) ^ "," ^ (s_access v.v_write "set" f.cf_name) ^ "):" ^ (s_type f.cf_type))
 	   | Method _, "new" -> output ("function new(" ^ (args f.cf_type) ^ "):Void")
 	   | Method MethDynamic, _  -> output ("dynamic function " ^ f.cf_name ^ (params f.cf_params) ^ "(" ^ (args f.cf_type) ^ "):" ^ (ret f.cf_type) )
 	   | Method _, _  -> output (override ^ "function " ^ f.cf_name ^ (params f.cf_params) ^ "(" ^ (args f.cf_type) ^ "):" ^ (ret f.cf_type) )
@@ -3552,7 +3566,7 @@ let gen_extern_class common_ctx class_def file_info =
 	output ( "@:include extern " ^ (if c.cl_private then "private " else "") ^ (if c.cl_interface then "interface" else "class")
               ^ " " ^ (snd path) ^ (params c.cl_types) );
 	(match c.cl_super with None -> () | Some (c,pl) -> output (" extends " ^  (s_type (TInst (c,pl)))));
-	List.iter (fun (c,pl) -> output ( " implements " ^ (s_type (TInst (c,pl))))) c.cl_implements;
+	List.iter (fun (c,pl) -> output ( " implements " ^ (s_type (TInst (c,pl))))) (real_interfaces c.cl_implements);
 	(match c.cl_dynamic with None -> () | Some t -> output (" implements Dynamic<" ^ (s_type t) ^ ">"));
 	(match c.cl_array_access with None -> () | Some t -> output (" implements ArrayAccess<" ^ (s_type t) ^ ">"));
 	output "{\n";
