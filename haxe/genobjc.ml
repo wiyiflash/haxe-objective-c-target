@@ -441,6 +441,7 @@ let remapKeyword name =
 	| "BIG_ENDIAN" | "LITTLE_ENDIAN" | "assert" | "NULL" | "nil" | "wchar_t" | "EOF"
 	| "const_cast" | "dynamic_cast" | "explicit" | "export" | "mutable" | "namespace"
  	| "reinterpret_cast" | "static_cast" | "typeid" | "typename" | "virtual"
+	| "initWithFrame" | "initWithStyle"
 	| "signed" | "unsigned" | "struct" -> "_" ^ name
 	| "asm" -> "_asm_"
 	| "__null" -> "null"
@@ -948,7 +949,7 @@ and generateExpression ctx e =
 	(* ctx.writer#write ("-E-"^(Type.s_expr_kind e)^">"); *)
 	match e.eexpr with
 	| TConst c ->
-		generateConstant ctx e.epos c;
+		if not ctx.generating_selector then generateConstant ctx e.epos c;
 	| TLocal v ->
 		(* ctx.writer#write "-b-"; *)
 		(* (match v.v_type with
@@ -1213,11 +1214,16 @@ and generateExpression ctx e =
 				generateValue ctx e;
 				ctx.writer#write ("[@\"" ^ (field_name fa) ^ "\"]")
 			| FDynamic name -> (* ctx.writer#write "-FDynamic-"; *)
-				if ctx.generating_calls = 0 then ctx.writer#write "[";
-				generateValue ctx e;
-				(* generateFieldAccess ctx e.etype name; *)
-				ctx.writer#write (" "^name);
-				if ctx.generating_calls = 0 then ctx.writer#write "]";
+				if ctx.generating_selector then begin
+					(* TODO: generate functions with arguments as selector. currently does not support arguments *)
+					ctx.writer#write name;
+				end else begin
+					if ctx.generating_calls = 0 then ctx.writer#write "[";
+					generateValue ctx e;
+					(* generateFieldAccess ctx e.etype name; *)
+					ctx.writer#write (" "^name);
+					if ctx.generating_calls = 0 then ctx.writer#write "]";
+				end
 			| FClosure (_,fa2) -> (* ctx.writer#write "-FClosure-"; *)
 				(* Generating a selector from 'new SEL' *)
 				if Meta.has Meta.Selector fa2.cf_meta then 
@@ -1348,6 +1354,7 @@ and generateExpression ctx e =
 	| TFunction f ->
 		if ctx.generating_var then
 			ctx.generating_objc_block_asign <- true;
+			
 		if ctx.generating_object_declaration then begin
 			ctx.writer#write "^";
 			ctx.generating_objc_block <- true;
@@ -1365,7 +1372,9 @@ and generateExpression ctx e =
 			generateExpression ctx f.tf_expr;
 			ctx.in_static <- old;
 			h();
+			ctx.writer#write ";";
 		end;
+		(* if ctx.generating_var && ctx.generating_objc_block_asign then ctx.writer#write ";"; *)
 		ctx.generating_objc_block_asign <- false;
 	| TCall (func, arg_list) when
 		(match func.eexpr with
@@ -1455,6 +1464,7 @@ and generateExpression ctx e =
 				); *)
 				generateValue ctx e
 		) vl;
+		(* if List.length vl == 1 then ctx.writer#write ";"; *)
 		ctx.generating_var <- false;
 	| TNew (c,params,el) ->
 		(* | TNew of tclass * tparams * texpr list *)
@@ -1474,6 +1484,7 @@ and generateExpression ctx e =
 				ctx.writer#write ")"
 			| ([],"SEL") ->
 				ctx.writer#write "@selector(";
+				ctx.generating_selector <- true;
 				List.iter ( fun e ->
 					(* generateCall ctx func arg_list; *)
 					(* (match e.etype with
@@ -1487,12 +1498,11 @@ and generateExpression ctx e =
 						| TLazy _ -> ctx.writer#write "TLazy";
 						| TAbstract _ -> ctx.writer#write "TAbstract";
 					); *)
-					ctx.generating_selector <- true;
 					(* This will be generated in *)
 					generateValue ctx e;
-					ctx.generating_selector <- false;
 				) el;
 				ctx.writer#write ")";
+				ctx.generating_selector <- false;
 			| _ ->
 				(* ctx.imports_manager#add_class_path c.cl_module.m_path; *)
 				ctx.imports_manager#add_class c;
@@ -1521,7 +1531,7 @@ and generateExpression ctx e =
 								generateValue ctx args_array_e.(!index);
 								index := !index + 1;
 							) args;
-						| _ -> ctx.writer#write " \"-dynamic_param-\" "));
+						| _ -> ctx.writer#write " \"-dynamic_arguments_constructor-\" "));
 						
 					ctx.generating_calls <- ctx.generating_calls - 1;
 				end;
