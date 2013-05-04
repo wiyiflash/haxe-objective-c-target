@@ -1,4 +1,4 @@
-extern class DispatchAsync {
+extern class Concurrency {
 
 	@:c public static function dispatch_get_global_queue (a:Int, b:Int) :Void;
 	@:c public static function dispatch_get_main_queue () :Void;
