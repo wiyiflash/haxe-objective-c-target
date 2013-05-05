@@ -1235,14 +1235,15 @@ and generateExpression ctx e =
 				generateValue ctx e;
 				ctx.writer#write ("[@\"" ^ (field_name fa) ^ "\"]")
 			| FDynamic name -> (* ctx.writer#write "-FDynamic-"; *)
+				(* This is called by untyped *)
 				if ctx.generating_selector then begin
 					(* TODO: generate functions with arguments as selector. currently does not support arguments *)
-					ctx.writer#write name;
+					ctx.writer#write (remapKeyword name);
 				end else begin
 					if ctx.generating_calls = 0 then ctx.writer#write "[";
 					generateValue ctx e;
 					(* generateFieldAccess ctx e.etype name; *)
-					ctx.writer#write (" "^name);
+					ctx.writer#write (" "^(remapKeyword name));
 					if ctx.generating_calls = 0 then ctx.writer#write "]";
 				end
 			| FClosure (_,fa2) -> (* ctx.writer#write "-FClosure-"; *)
