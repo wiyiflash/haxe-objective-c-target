@@ -14,15 +14,11 @@ static int XXX;
 	if (XXX == nil) XXX = 3;
 	return XXX;
 }
-+ (void) setXXX:(int)val {
-	XXX = val;
++ (void) setXXX:(int)hx_val {
+	XXX = hx_val;
 }
 - (int) get{
 	return self.val * 2;
-}
-- (id) init:(int)v{
-	self = [super init];
-	return self;
 }
 
 @end

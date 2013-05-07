@@ -278,11 +278,11 @@ static NSMutableString* BASE64;
 					default:{
 						{
 							[self.cache pop];
-							if (-FDynamic-[v hxSerialize] != nil) {
+							if ([v hxSerialize] != nil) {
 								[self.buf.b appendString:[@"C" mutableCopy]];
 								[self serializeString:[Type getClassName:_g_eTClass_0]];
 								[self.cache push:v];
-								[-FDynamic-v hxSerialize-TDynamic-];
+								[v hxSerialize:self];
 								[self.buf.b appendString:[@"g" mutableCopy]];
 							}
 							else {

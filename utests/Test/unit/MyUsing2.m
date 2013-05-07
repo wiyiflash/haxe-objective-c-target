@@ -10,7 +10,7 @@
 @implementation Using2
 
 + (NSMutableString*) usingTest:(NSMutableString*)s{
-	return [NSMutableString stringWithString:@"2"];
+	return [@"2" mutableCopy];
 }
 
 @end
@@ -18,7 +18,7 @@
 @implementation Using3
 
 + (NSMutableString*) usingTest:(NSMutableString*)s{
-	return [NSMutableString stringWithString:@"3"];
+	return [@"3" mutableCopy];
 }
 
 @end

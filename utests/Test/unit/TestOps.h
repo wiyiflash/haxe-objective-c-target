@@ -13,7 +13,6 @@
 @interface TestOps : Test 
 
 - (void) testOps;
-- (id) init;
 
 @end
 

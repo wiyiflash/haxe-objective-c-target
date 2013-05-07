@@ -15,7 +15,7 @@
 + (NSMutableArray*) array:(id)it;
 + (List*) list:(id)it;
 + (BOOL) has:(id)it elt:(id)elt;
-+ (int) count:(id)it pred:(SEL)pred;
++ (int) count:(id)it pred:(id)pred;
 
 @end
 

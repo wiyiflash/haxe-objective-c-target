@@ -11,18 +11,18 @@
 
 + (id) getType:(id)t{
 	id meta = [t __meta__];
-	return ( (meta == nil || [meta obj] == nil) ? [NSMutableDictionary dictionaryWithObjectsAndKeys:
-	nil] : [meta obj]);
+	return ( (meta == nil || [meta obj] == nil) ? [@{
+	} mutableCopy] : [meta obj]);
 }
 + (id) getStatics:(id)t{
 	id meta = [t __meta__];
-	return ( (meta == nil || [meta statics] == nil) ? [NSMutableDictionary dictionaryWithObjectsAndKeys:
-	nil] : [meta statics]);
+	return ( (meta == nil || [meta statics] == nil) ? [@{
+	} mutableCopy] : [meta statics]);
 }
 + (id) getFields:(id)t{
 	id meta = [t __meta__];
-	return ( (meta == nil || [meta fields] == nil) ? [NSMutableDictionary dictionaryWithObjectsAndKeys:
-	nil] : [meta fields]);
+	return ( (meta == nil || [meta fields] == nil) ? [@{
+	} mutableCopy] : [meta fields]);
 }
 
 @end

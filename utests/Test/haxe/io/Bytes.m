@@ -16,7 +16,7 @@
 		int _g = 0;
 		while (_g < length) {
 			int i = _g++;
-			[a.push:0];
+			[a push:0];
 		}
 	}
 	return [[Bytes alloc] init:length b:a];
@@ -29,33 +29,33 @@
 		while (_g1 < _g) {
 			int i = _g1++;
 			int c = [s characterAtIndex:i];
-			if (c <= 127) [a.push:c];
+			if (c <= 127) [a push:c];
 			else if (c <= 2047) {
-				[a.push:192 | c >> 6];
-				[a.push:128 | (c & 63)];
+				[a push:192 | c >> 6];
+				[a push:128 | (c & 63)];
 			}
 			else if (c <= 65535) {
-				[a.push:224 | c >> 12];
-				[a.push:128 | (c >> 6 & 63)];
-				[a.push:128 | (c & 63)];
+				[a push:224 | c >> 12];
+				[a push:128 | (c >> 6 & 63)];
+				[a push:128 | (c & 63)];
 			}
 			else {
-				[a.push:240 | c >> 18];
-				[a.push:128 | (c >> 12 & 63)];
-				[a.push:128 | (c >> 6 & 63)];
-				[a.push:128 | (c & 63)];
+				[a push:240 | c >> 18];
+				[a push:128 | (c >> 12 & 63)];
+				[a push:128 | (c >> 6 & 63)];
+				[a push:128 | (c & 63)];
 			}
 		}
 	}
-	return [[Bytes alloc] init:a.length b:a];
+	return [[Bytes alloc] init:a length b:a];
 }
 + (Bytes*) ofData:(NSMutableArray*)b{
-	return [[Bytes alloc] init:b.length b:b];
+	return [[Bytes alloc] init:b length b:b];
 }
 @synthesize length;
 @synthesize b;
 - (void) blit:(int)pos src:(Bytes*)src srcpos:(int)srcpos len:(int)len{
-	if (pos < 0 || srcpos < 0 || len < 0 || pos + len > self.length || srcpos + len > src.length) @throw  OutsideBounds;;
+	if (pos < 0 || srcpos < 0 || len < 0 || pos + len > self.length || srcpos + len > src.length) @throw OutsideBounds;;
 	
 	NSMutableArray *b1 = self.b;
 	
@@ -77,7 +77,7 @@
 	}
 }
 - (Bytes*) sub:(int)pos len:(int)len{
-	if (pos < 0 || len < 0 || pos + len > self.length) @throw  OutsideBounds;;
+	if (pos < 0 || len < 0 || pos + len > self.length) @throw OutsideBounds;;
 	return [[Bytes alloc] init:len b:[self.b slice:pos end:pos + len]];
 }
 - (int) compare:(Bytes*)other{
@@ -96,12 +96,12 @@
 	return self.length - other.length;
 }
 - (NSMutableString*) readString:(int)pos len:(int)len{
-	if (pos < 0 || len < 0 || pos + len > self.length) @throw  OutsideBounds;;
+	if (pos < 0 || len < 0 || pos + len > self.length) @throw OutsideBounds;;
 	
-	NSMutableString *s = [NSMutableString stringWithString:@""];
+	NSMutableString *s = [@"" mutableCopy];
 	
 	NSMutableArray *b = self.b;
-	SEL fcc = NSMutableString;
+	id fcc = NSMutableString;
 	int i = pos;
 	int max = pos + len;
 	while (i < max) {
@@ -130,9 +130,9 @@
 	
 	StringBuf *s = [[StringBuf alloc] init];
 	
-	NSMutableArray *chars = [[NSMutableArray alloc] initWithObjects:, nil];
+	NSMutableArray *chars = [@[] mutableCopy];
 	
-	NSMutableString *str = [NSMutableString stringWithString:@"0123456789abcdef"];
+	NSMutableString *str = [@"0123456789abcdef" mutableCopy];
 	{
 		int _g1 = 0; int _g = str.length;
 		while (_g1 < _g) {

@@ -46,6 +46,53 @@ let is_cs_basic_type t =
     | TInst(cl, _) when Meta.has Meta.Struct cl.cl_meta -> true
     | _ -> false
 
+(* see http://msdn.microsoft.com/en-us/library/2sk3x8a7(v=vs.71).aspx *)
+let cs_binops =
+  [Ast.OpAdd, "op_Addition";
+  Ast.OpSub, "op_Subtraction";
+  Ast.OpMult, "op_Multiply";
+  Ast.OpDiv, "op_Division";
+  Ast.OpMod, "op_Modulus";
+  Ast.OpXor, "op_ExclusiveOr";
+  Ast.OpOr, "op_BitwiseOr";
+  Ast.OpAnd, "op_BitwiseAnd";
+  Ast.OpBoolAnd, "op_LogicalAnd";
+  Ast.OpBoolOr, "op_LogicalOr";
+  Ast.OpAssign, "op_Assign";
+  Ast.OpShl, "op_LeftShift";
+  Ast.OpShr, "op_RightShift";
+  Ast.OpShr, "op_SignedRightShift";
+  Ast.OpUShr, "op_UnsignedRightShift";
+  Ast.OpEq, "op_Equality";
+  Ast.OpGt, "op_GreaterThan";
+  Ast.OpLt, "op_LessThan";
+  Ast.OpNotEq, "op_Inequality";
+  Ast.OpGte, "op_GreaterThanOrEqual";
+  Ast.OpLte, "op_LessThanOrEqual";
+  Ast.OpAssignOp Ast.OpMult, "op_MultiplicationAssignment";
+  Ast.OpAssignOp Ast.OpSub, "op_SubtractionAssignment";
+  Ast.OpAssignOp Ast.OpXor, "op_ExclusiveOrAssignment";
+  Ast.OpAssignOp Ast.OpShl, "op_LeftShiftAssignment";
+  Ast.OpAssignOp Ast.OpMod, "op_ModulusAssignment";
+  Ast.OpAssignOp Ast.OpAdd, "op_AdditionAssignment";
+  Ast.OpAssignOp Ast.OpAnd, "op_BitwiseAndAssignment";
+  Ast.OpAssignOp Ast.OpOr, "op_BitwiseOrAssignment";
+  (* op_Comma *)
+  Ast.OpAssignOp Ast.OpDiv, "op_DivisionAssignment";]
+
+let cs_unops =
+  [Ast.Decrement, "op_Decrement";
+  Ast.Increment, "op_Increment";
+  Ast.Not, "op_UnaryNegation";
+  Ast.Neg, "op_UnaryMinus";
+  Ast.NegBits, "op_OnesComplement"]
+
+let binops_names = List.fold_left (fun acc (op,n) -> PMap.add n op acc) PMap.empty cs_binops
+let unops_names = List.fold_left (fun acc (op,n) -> PMap.add n op acc) PMap.empty cs_unops
+
+let get_item = "get_Item"
+let set_item = "set_Item"
+
 let is_tparam t =
   match follow t with
     | TInst( { cl_kind = KTypeParameter _ }, [] ) -> true
@@ -247,7 +294,7 @@ struct
 
   let name = "csharp_specific"
 
-  let priority = solve_deps name [ DAfter ExpressionUnwrap.priority; DAfter ObjectDeclMap.priority; DAfter ArrayDeclSynf.priority; DBefore IntDivisionSynf.priority; DAfter HardNullableSynf.priority ]
+  let priority = solve_deps name [ DAfter ExpressionUnwrap.priority; DAfter ObjectDeclMap.priority; DAfter ArrayDeclSynf.priority;  DAfter HardNullableSynf.priority ]
 
   let get_cl_from_t t =
     match follow t with
@@ -525,15 +572,15 @@ let configure gen =
 
   let no_root = Common.defined gen.gcon Define.NoRoot in
 
-  let change_ns md = if no_root then
-    function
-      | [] when is_hxgen md -> ["haxe";"root"]
-      | ns -> ns
-  else fun ns -> ns in
-
   let change_clname n = n in
 
   let change_id name = try Hashtbl.find reserved name with | Not_found -> name in
+
+  let change_ns md = if no_root then
+    function
+      | [] when is_hxgen md -> ["haxe";"root"]
+      | ns -> List.map change_id ns
+  else List.map change_id in
 
   let change_field = change_id in
 
@@ -619,12 +666,11 @@ let configure gen =
         has_tdyn params &&
         Hashtbl.mem ifaces cl.cl_path ->
           TInst(Hashtbl.find ifaces cl.cl_path, [])
-      | TEnum(e, params) when
-        has_tdyn params &&
-        Hashtbl.mem ifaces e.e_path ->
-          TInst(Hashtbl.find ifaces e.e_path, [])
+      | TEnum(e, params) ->
+        TEnum(e, List.map (fun _ -> t_dynamic) params)
+      | TInst(cl, params) when Meta.has Meta.Enum cl.cl_meta ->
+        TInst(cl, List.map (fun _ -> t_dynamic) params)
       | TInst(cl, params) -> TInst(cl, change_param_type (TClassDecl cl) params)
-      | TEnum(e, params) -> TEnum(e, change_param_type (TEnumDecl e) params)
       | TType({ t_path = ([], "Null") }, [t]) ->
         (*
           Null<> handling is a little tricky.
@@ -847,7 +893,27 @@ let configure gen =
     | _ ->
         false in
 
+  let last_line = ref (-1) in
+  let line_directive =
+    if Common.defined gen.gcon Define.RealPosition then
+      fun w p -> ()
+    else fun w p ->
+      let cur_line = Lexer.get_error_line p in
+      let is_relative_path = (String.sub p.pfile 0 1) = "." in
+      let file = if is_relative_path then Common.get_full_path p.pfile else p.pfile in
+      if cur_line <> ((!last_line)+1) then begin print w "#line %d \"%s\"" cur_line (Ast.s_escape file); newline w end;
+      last_line := cur_line
+  in
+
+  let rec extract_tparams params el =
+    match el with
+      | ({ eexpr = TLocal({ v_name = "$type_param" }) } as tp) :: tl ->
+        extract_tparams (tp.etype :: params) tl
+      | _ -> (params, el)
+  in
+
   let expr_s w e =
+    last_line := -1;
     in_value := false;
     let rec expr_s w e =
       let was_in_value = !in_value in
@@ -947,6 +1013,12 @@ let configure gen =
           write w " as ";
           write w (md_s md);
           write w " )"
+        | TCall ({ eexpr = TLocal( { v_name = "__as__" } ) }, [ expr ] ) ->
+          write w "( ";
+          expr_s w expr;
+          write w " as ";
+          write w (t_s e.etype);
+          write w " )";
         | TCall ({ eexpr = TLocal( { v_name = "__cs__" } ) }, [ { eexpr = TConst(TString(s)) } ] ) ->
           write w s
         | TCall ({ eexpr = TLocal( { v_name = "__unsafe__" } ) }, [ e ] ) ->
@@ -1001,68 +1073,24 @@ let configure gen =
           print w "label%ld: {}" v
         | TCall ({ eexpr = TLocal( { v_name = "__rethrow__" } ) }, _) ->
           write w "throw"
+        (* operator overloading handling *)
+        | TCall({ eexpr = TField(ef, FInstance(cl,{ cf_name = "__get" })) }, [idx]) when not (is_hxgen (TClassDecl cl)) ->
+          expr_s w { e with eexpr = TArray(ef, idx) }
+        | TCall({ eexpr = TField(ef, FInstance(cl,{ cf_name = "__set" })) }, [idx; v]) when not (is_hxgen (TClassDecl cl)) ->
+          expr_s w { e with eexpr = TBinop(Ast.OpAssign, { e with eexpr = TArray(ef, idx) }, v) }
+        | TCall({ eexpr = TField(ef, FStatic(_,cf)) }, el) when PMap.mem cf.cf_name binops_names ->
+          let _, elr = extract_tparams [] el in
+          (match elr with
+          | [e1;e2] ->
+            expr_s w { e with eexpr = TBinop(PMap.find cf.cf_name binops_names, e1, e2) }
+          | _ -> do_call w e el)
+        | TCall({ eexpr = TField(ef, FStatic(_,cf)) }, el) when PMap.mem cf.cf_name unops_names ->
+          (match extract_tparams [] el with
+          | _, [e1] ->
+            expr_s w { e with eexpr = TUnop(PMap.find cf.cf_name unops_names, Ast.Prefix,e1) }
+          | _ -> do_call w e el)
         | TCall (e, el) ->
-          let rec extract_tparams params el =
-            match el with
-              | ({ eexpr = TLocal({ v_name = "$type_param" }) } as tp) :: tl ->
-                extract_tparams (tp.etype :: params) tl
-              | _ -> (params, el)
-          in
-          let params, el = extract_tparams [] el in
-          let params = List.rev params in
-
-          expr_s w e;
-
-          (match params with
-            | [] -> ()
-            | params ->
-              let md = match e.eexpr with
-                | TField(ef, _) -> t_to_md (run_follow gen ef.etype)
-                | _ -> assert false
-              in
-              write w "<";
-              ignore (List.fold_left (fun acc t ->
-                (if acc <> 0 then write w ", ");
-                write w (t_s t);
-                acc + 1
-              ) 0 (change_param_type md params));
-              write w ">"
-          );
-
-          let rec loop acc elist tlist =
-            match elist, tlist with
-              | e :: etl, (_,_,t) :: ttl ->
-                (if acc <> 0 then write w ", ");
-                (match real_type t with
-                  | TType({ t_path = (["cs"], "Ref") }, _)
-                  | TAbstract ({ a_path = (["cs"], "Ref") },_) ->
-                    let e = ensure_local e "of type cs.Ref" in
-                    write w "ref ";
-                    expr_s w e
-                  | TType({ t_path = (["cs"], "Out") }, _)
-                  | TAbstract ({ a_path = (["cs"], "Out") },_) ->
-                    let e = ensure_local e "of type cs.Out" in
-                    write w "out ";
-                    expr_s w e
-                  | _ ->
-                    expr_s w e
-                );
-                loop (acc + 1) etl ttl
-              | e :: etl, [] ->
-                (if acc <> 0 then write w ", ");
-                expr_s w e;
-                loop (acc + 1) etl []
-              | _ -> ()
-          in
-          write w "(";
-          let ft = match follow e.etype with
-            | TFun(args,_) -> args
-            | _ -> []
-          in
-
-          loop 0 el ft;
-
-          write w ")"
+          do_call w e el
         | TNew (({ cl_path = (["cs"], "NativeArray") } as cl), params, [ size ]) ->
           let rec check_t_s t times =
             match real_type t with
@@ -1113,7 +1141,9 @@ let configure gen =
             print w "%s " (t_s var.v_type);
             write_id w var.v_name;
             (match eopt with
-              | None -> ()
+              | None ->
+                write w " = ";
+                expr_s w (null var.v_type e.epos)
               | Some e ->
                 write w " = ";
                 expr_s w e
@@ -1124,20 +1154,8 @@ let configure gen =
           expr_s w e
         | TBlock el ->
           begin_block w;
-          (*
-            Line directives are turned off right now because:
-              1 - It makes harder to debug when the generated code internals are the problem
-              2 - Lexer.get_error_line is a very expensive operation
-          let last_line = ref (-1) in
-          let line_directive p =
-            let cur_line = Lexer.get_error_line p in
-            let is_relative_path = (String.sub p.pfile 0 1) = "." in
-            let file = if is_relative_path then "../" ^ p.pfile else p.pfile in
-            if cur_line <> ((!last_line)+1) then begin print w "//#line %d \"%s\"" cur_line (Ast.s_escape file); newline w end;
-            last_line := cur_line
-          in *)
           List.iter (fun e ->
-            (*line_directive e.epos;*)
+            line_directive w e.epos;
             in_value := false;
             expr_s w e;
             (if has_semicolon e then write w ";");
@@ -1245,6 +1263,62 @@ let configure gen =
         | TFunction _ -> write w "[ func decl not supported ]"; if !strict_mode then assert false
         | TMatch _ -> write w "[ match not supported ]"; if !strict_mode then assert false
     )
+    and do_call w e el =
+      let params, el = extract_tparams [] el in
+      let params = List.rev params in
+
+      expr_s w e;
+
+      (match params with
+        | [] -> ()
+        | params ->
+          let md = match e.eexpr with
+            | TField(ef, _) -> t_to_md (run_follow gen ef.etype)
+            | _ -> assert false
+          in
+          write w "<";
+          ignore (List.fold_left (fun acc t ->
+            (if acc <> 0 then write w ", ");
+            write w (t_s t);
+            acc + 1
+          ) 0 (change_param_type md params));
+          write w ">"
+      );
+
+      let rec loop acc elist tlist =
+        match elist, tlist with
+          | e :: etl, (_,_,t) :: ttl ->
+            (if acc <> 0 then write w ", ");
+            (match real_type t with
+              | TType({ t_path = (["cs"], "Ref") }, _)
+              | TAbstract ({ a_path = (["cs"], "Ref") },_) ->
+                let e = ensure_local e "of type cs.Ref" in
+                write w "ref ";
+                expr_s w e
+              | TType({ t_path = (["cs"], "Out") }, _)
+              | TAbstract ({ a_path = (["cs"], "Out") },_) ->
+                let e = ensure_local e "of type cs.Out" in
+                write w "out ";
+                expr_s w e
+              | _ ->
+                expr_s w e
+            );
+            loop (acc + 1) etl ttl
+          | e :: etl, [] ->
+            (if acc <> 0 then write w ", ");
+            expr_s w e;
+            loop (acc + 1) etl []
+          | _ -> ()
+      in
+      write w "(";
+      let ft = match follow e.etype with
+        | TFun(args,_) -> args
+        | _ -> []
+      in
+
+      loop 0 el ft;
+
+      write w ")"
     in
     expr_s w e
   in
@@ -1274,7 +1348,14 @@ let configure gen =
       | name when String.contains name '.' ->
         let fn_name, path = parse_explicit_iface name in
         (path_s path) ^ "." ^ fn_name, false, true
-      | name -> name, false, false
+      | name -> try
+        let binop = PMap.find name binops_names in
+        "operator " ^ s_binop binop, false, false
+      with | Not_found -> try
+        let unop = PMap.find name unops_names in
+        "operator " ^ s_unop unop, false, false
+      with | Not_found ->
+        name, false, false
     in
     let rec loop_static cl =
       match is_static, cl.cl_super with
@@ -1392,7 +1473,8 @@ let configure gen =
                       let t = Common.timer "expression to string" in
                       expr_s w { expr with eexpr = TBlock(rest) };
                       t();
-                      end_block w
+                      write w "#line default";
+                      end_block w;
                     | _ -> assert false
                 end else begin
                   begin_block w;
@@ -1400,7 +1482,8 @@ let configure gen =
                   let t = Common.timer "expression to string" in
                   expr_s w expr;
                   t();
-                  end_block w
+                  write w "#line default";
+                  end_block w;
                 end)
               | (Meta.FunctionCode, [Ast.EConst (Ast.String contents),_],_) :: tl ->
                 begin_block w;
@@ -1415,8 +1498,55 @@ let configure gen =
       newline w;
   in
 
-  let check_special_behaviors w cl =
-    (if PMap.mem "__get" cl.cl_fields then begin
+  let check_special_behaviors w cl = match cl.cl_kind with
+  | KAbstractImpl _ -> ()
+  | _ ->
+    (* get/set pairs *)
+    let pairs = ref PMap.empty in
+    (try
+      let get = PMap.find "__get" cl.cl_fields in
+      List.iter (fun cf ->
+        let args,ret = get_fun cf.cf_type in
+        match args with
+        | [_,_,idx] -> pairs := PMap.add (t_s idx) ( t_s ret, Some cf, None ) !pairs
+        | _ -> gen.gcon.warning "The __get function must have exactly one argument (the index)" cf.cf_pos
+      ) (get :: get.cf_overloads)
+    with | Not_found -> ());
+    (try
+      let set = PMap.find "__set" cl.cl_fields in
+      List.iter (fun cf ->
+        let args, ret = get_fun cf.cf_type in
+        match args with
+        | [_,_,idx; _,_,v] -> (try
+          let vt, g, _ = PMap.find (t_s idx) !pairs in
+          let tvt = t_s v in
+          if vt <> tvt then gen.gcon.warning "The __get function of same index has a different type from this __set function" cf.cf_pos;
+          pairs := PMap.add (t_s idx) (vt, g, Some cf) !pairs
+        with | Not_found ->
+          pairs := PMap.add (t_s idx) (t_s v, None, Some cf) !pairs)
+        | _ ->
+          gen.gcon.warning "The __set function must have exactly two arguments (index, value)" cf.cf_pos
+      ) (set :: set.cf_overloads)
+    with | Not_found -> ());
+    PMap.iter (fun idx (v, get, set) ->
+      print w "public %s this[%s index]" v idx;
+        begin_block w;
+        (match get with
+        | None -> ()
+        | Some _ ->
+          write w "get";
+          begin_block w;
+          write w "return this.__get(index);";
+          end_block w);
+        (match set with
+        | None -> ()
+        | Some _ ->
+          write w "set";
+          begin_block w;
+          write w "this.__set(index,value);";
+          end_block w);
+        end_block w) !pairs;
+    (if not (PMap.is_empty !pairs) then try
       let get = PMap.find "__get" cl.cl_fields in
       let idx_t, v_t = match follow get.cf_type with
         | TFun([_,_,arg_t],ret_t) ->
@@ -1443,40 +1573,18 @@ let configure gen =
             newline w;
             newline w
       ) cl.cl_implements
-    end);
-    if is_some cl.cl_array_access then begin
-      if not cl.cl_interface && PMap.mem "__get" cl.cl_fields && PMap.mem "__set" cl.cl_fields && not (List.exists (fun c -> c.cf_name = "__get") cl.cl_overrides) then begin
-        let get = PMap.find "__get" cl.cl_fields in
-        let idx_t, v_t = match follow get.cf_type with
-          | TFun([_,_,arg_t],ret_t) ->
-            t_s (run_follow gen arg_t), t_s (run_follow gen ret_t)
-          | _ -> gen.gcon.error "The __get function must be a function with one argument. " get.cf_pos; assert false
-        in
-        print w "public %s this[%s key]" v_t idx_t;
-        begin_block w;
-          write w "get";
-          begin_block w;
-            write w "return this.__get(key);";
-          end_block w;
-          write w "set";
-          begin_block w;
-            write w "this.__set(key, value);";
-          end_block w;
-        end_block w;
+    with | Not_found -> ());
+    if cl.cl_interface && is_hxgen (TClassDecl cl) && is_some cl.cl_array_access then begin
+      let changed_t = apply_params cl.cl_types (List.map (fun _ -> t_dynamic) cl.cl_types) (get cl.cl_array_access) in
+      print w "%s this[int key]" (t_s (run_follow gen changed_t));
+      begin_block w;
+        write w "get;";
         newline w;
+        write w "set;";
         newline w;
-      end else if cl.cl_interface && is_hxgen (TClassDecl cl) then begin
-        let changed_t = apply_params cl.cl_types (List.map (fun _ -> t_dynamic) cl.cl_types) (get cl.cl_array_access) in
-        print w "%s this[int key]" (t_s (run_follow gen changed_t));
-        begin_block w;
-          write w "get;";
-          newline w;
-          write w "set;";
-          newline w;
-        end_block w;
-        newline w;
-        newline w
-      end
+      end_block w;
+      newline w;
+      newline w
     end;
     (try
       if cl.cl_interface then raise Not_found;
@@ -1497,7 +1605,47 @@ let configure gen =
           )
         | _ -> ()
       )
-    with | Not_found -> ())
+    with | Not_found -> ());
+    (* properties *
+    let handle_prop static f =
+      match f.cf_kind with
+      | Method _ -> ()
+      | Var v when not (Type.is_extern_field f) -> ()
+      | Var v ->
+        let prop acc = match acc with
+          | AccNo | AccNever | AccCall -> true
+          | _ -> false
+        in
+        if prop v.v_read && prop v.v_write && (v.v_read = AccCall || v.v_write = AccCall) then begin
+          let this = if static then
+            mk_classtype_access cl f.cf_pos
+          else
+            { eexpr = TConst TThis; etype = TInst(cl,List.map snd cl.cl_types); epos = f.cf_pos }
+          in
+          print w "public %s%s %s" (if static then "static " else "") (t_s f.cf_type) f.cf_name;
+          begin_block w;
+          (match v.v_read with
+          | AccCall ->
+            write w "get";
+            begin_block w;
+            write w "return ";
+            expr_s w this;
+            print w ".get_%s();" f.cf_name;
+            end_block w
+          | _ -> ());
+          (match v.v_write with
+          | AccCall ->
+            write w "set";
+            begin_block w;
+            expr_s w this;
+            print w ".set_%s(value);" f.cf_name;
+            end_block w
+          | _ -> ());
+          end_block w;
+        end
+    in
+    List.iter (handle_prop true) cl.cl_ordered_statics;
+    List.iter (handle_prop false) cl.cl_ordered_fields *)
   in
 
   let gen_class w cl =
@@ -2028,14 +2176,14 @@ let configure gen =
       (fun t -> not (is_exception (real_type t)))
       (fun throwexpr expr ->
         let wrap_static = mk_static_field_access (hx_exception) "wrap" (TFun([("obj",false,t_dynamic)], base_exception_t)) expr.epos in
-        { throwexpr with eexpr = TThrow { expr with eexpr = TCall(wrap_static, [expr]) }; etype = gen.gcon.basic.tvoid }
+        { throwexpr with eexpr = TThrow { expr with eexpr = TCall(wrap_static, [expr]); etype = hx_exception_t }; etype = gen.gcon.basic.tvoid }
       )
       (fun v_to_unwrap pos ->
         let local = mk_cast hx_exception_t { eexpr = TLocal(v_to_unwrap); etype = v_to_unwrap.v_type; epos = pos } in
         mk_field_access gen local "obj" pos
       )
       (fun rethrow ->
-        { rethrow with eexpr = TCall(mk_local (alloc_var "__rethrow__" t_dynamic) rethrow.epos, [rethrow]) }
+        { rethrow with eexpr = TCall(mk_local (alloc_var "__rethrow__" t_dynamic) rethrow.epos, [rethrow]); etype = gen.gcon.basic.tvoid }
       )
       (base_exception_t)
       (hx_exception_t)
@@ -2050,7 +2198,7 @@ let configure gen =
     get_typeof e
   ));
 
-  CastDetect.configure gen (CastDetect.default_implementation gen (Some (TEnum(empty_e, []))) false ~native_string_cast:false);
+  CastDetect.configure gen (CastDetect.default_implementation gen (Some (TEnum(empty_e, []))) true ~native_string_cast:false ~overloads_cast_to_base:true);
 
   (*FollowAll.configure gen;*)
 

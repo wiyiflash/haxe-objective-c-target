@@ -31,12 +31,12 @@
 }
 - (id) keys{
 	
-	NSMutableArray *a = [-FDynamic-self allKeys];
+	NSMutableArray *a = [self allKeys];
 	return [a iterator];
 }
 - (id) iterator{
 	
-	NSMutableArray *a = [-FDynamic-self allValues];
+	NSMutableArray *a = [self allValues];
 	return [a iterator];
 }
 - (NSMutableString*) toString{

@@ -14,75 +14,75 @@
 }
 - (void) test{
 	
-	NSMutableArray *values = [[NSMutableArray alloc] initWithObjects:[NSNull null], YES, NO, [NSNumber numberWithInt:0], [NSNumber numberWithInt:1], [NSNumber numberWithInt:1506], [NSNumber numberWithInt:-11259375], [NSNumber numberWithFloat:12.3], [NSNumber numberWithFloat:-1e10], [NSMutableString stringWithString:@"hello"], [NSMutableString stringWithString:@"éé"], [NSMutableString stringWithString:@"\r\n"], [NSMutableString stringWithString:@"\n"], [NSMutableString stringWithString:@"   "], [NSMutableString stringWithString:@""], nil];
+	NSMutableArray *values = [@[[NSNull null], YES, NO, @0, @1, @1506, @-11259375, @12.3, @-1e10, [@"hello" mutableCopy], [@"éé" mutableCopy], [@"\r\n" mutableCopy], [@"\n" mutableCopy], [@"   " mutableCopy], [@"" mutableCopy]] mutableCopy];
 	{
 		int _g = 0;
 		while (_g < values.length) {
 			id v = [values hx_objectAtIndex:_g];
 			++_g;
-			[self eq:[self id:v] v2:v pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"13",@"lineNumber", @"unit.TestSerialize",@"className", @"test",@"methodName", nil]];
+			[self eq:[self id:v] v2:v pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"13", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
 		}
 	}
-	[self t:isnan([self id:-fa3-NaN]) pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"15",@"lineNumber", @"unit.TestSerialize",@"className", @"test",@"methodName", nil]];
-	[self t:[self id:-fa3-POSITIVE_INFINITY] > 0 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"16",@"lineNumber", @"unit.TestSerialize",@"className", @"test",@"methodName", nil]];
-	[self f:[self id:-fa3-NEGATIVE_INFINITY] > 0 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"17",@"lineNumber", @"unit.TestSerialize",@"className", @"test",@"methodName", nil]];
-	[self f:isfinite([self id:-fa3-POSITIVE_INFINITY]) pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"18",@"lineNumber", @"unit.TestSerialize",@"className", @"test",@"methodName", nil]];
-	[self f:isfinite([self id:-fa3-NEGATIVE_INFINITY]) pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"19",@"lineNumber", @"unit.TestSerialize",@"className", @"test",@"methodName", nil]];
-	[self doTestCollection:[[NSMutableArray alloc] initWithObjects:, nil]];
-	[self doTestCollection:[[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:1], [NSNumber numberWithInt:2], [NSNumber numberWithInt:4], [NSNumber numberWithInt:5], nil]];
-	[self doTestCollection:[[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:1], [NSNumber numberWithInt:2], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNumber numberWithInt:4], [NSNumber numberWithInt:5], nil]];
+	[self t:isnan([self id:-fa3-NaN]) pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"15", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
+	[self t:[self id:-fa3-POSITIVE_INFINITY] > 0 pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"16", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
+	[self f:[self id:-fa3-NEGATIVE_INFINITY] > 0 pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"17", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
+	[self f:isfinite([self id:-fa3-POSITIVE_INFINITY]) pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"18", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
+	[self f:isfinite([self id:-fa3-NEGATIVE_INFINITY]) pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"19", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
+	[self doTestCollection:[@[] mutableCopy]];
+	[self doTestCollection:[@[@1, @2, @4, @5] mutableCopy]];
+	[self doTestCollection:[@[@1, @2, [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], @4, @5] mutableCopy]];
 	
 	NSDate *d = [NSDatenow];
 	
 	NSDate *d2 = [self id:d];
-	[self t:[Std is:d2 t:NSDate] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"29",@"lineNumber", @"unit.TestSerialize",@"className", @"test",@"methodName", nil]];
-	[self eq:[d2 toString] v2:[d toString] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"30",@"lineNumber", @"unit.TestSerialize",@"className", @"test",@"methodName", nil]];
-	id o = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"a"] copy], @"x",
-	[-1.56 copy], @"y",
-	[[NSMutableString stringWithString:@"hello"] copy], @"z",
-	nil];
+	[self t:[Std is:d2 t:NSDate] pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"29", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
+	[self eq:[d2 toString] v2:[d toString] pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"30", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
+	id o = [@{
+		@"x":[[@"a" mutableCopy] copy],
+		@"y":[@-1.56 copy],
+		@"z":[[@"hello" mutableCopy] copy],
+	} mutableCopy];
 	id o2 = [self id:o];
-	[self eq:o x v2:o2 x pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"35",@"lineNumber", @"unit.TestSerialize",@"className", @"test",@"methodName", nil]];
-	[self eq:o y v2:o2 y pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"36",@"lineNumber", @"unit.TestSerialize",@"className", @"test",@"methodName", nil]];
-	[self eq:o z v2:o2 z pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"37",@"lineNumber", @"unit.TestSerialize",@"className", @"test",@"methodName", nil]];
+	[self eq:o[@"x"] v2:o2[@"x"] pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"35", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
+	[self eq:o[@"y"] v2:o2[@"y"] pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"36", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
+	[self eq:o[@"z"] v2:o2[@"z"] pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"37", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
 	
 	MyClass *c = [[MyClass alloc] init:999];
 	c.intValue = 33;
-	c.stringValue = [NSMutableString stringWithString:@"Hello"];
+	c.stringValue = [@"Hello" mutableCopy];
 	
 	MyClass *c2 = [self id:c];
-	[self t:[Std is:c2 t:MyClass] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"44",@"lineNumber", @"unit.TestSerialize",@"className", @"test",@"methodName", nil]];
-	[self f:c == c2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"45",@"lineNumber", @"unit.TestSerialize",@"className", @"test",@"methodName", nil]];
-	[self eq:c2.intValue v2:c.intValue pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"46",@"lineNumber", @"unit.TestSerialize",@"className", @"test",@"methodName", nil]];
-	[self eq:c2.stringValue v2:c.stringValue pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"47",@"lineNumber", @"unit.TestSerialize",@"className", @"test",@"methodName", nil]];
-	[self eq:[c2 get] v2:999 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"48",@"lineNumber", @"unit.TestSerialize",@"className", @"test",@"methodName", nil]];
-	-TMono- = NO;
+	[self t:[Std is:c2 t:MyClass] pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"44", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
+	[self f:c == c2 pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"45", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
+	[self eq:c2.intValue v2:c.intValue pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"46", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
+	[self eq:c2.stringValue v2:c.stringValue pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"47", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
+	[self eq:[c2 get] v2:999 pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"48", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
+	USE_ENUM_INDEX = NO;
 	[self doTestEnums];
-	-TMono- = YES;
+	USE_ENUM_INDEX = YES;
 	[self doTestEnums];
 	
 	StringMap *h = [[StringMap alloc] init];
-	[h set:[NSMutableString stringWithString:@"keya"] value:2];
-	[h set:[NSMutableString stringWithString:@"kéyb"] value:-465];
+	[h set:[@"keya" mutableCopy] value:2];
+	[h set:[@"kéyb" mutableCopy] value:-465];
 	
 	StringMap *h2 = [self id:h];
-	[self t:[Std is:h2 t:StringMap] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"61",@"lineNumber", @"unit.TestSerialize",@"className", @"test",@"methodName", nil]];
-	[self eq:[h2 get:[NSMutableString stringWithString:@"keya"]] v2:2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"62",@"lineNumber", @"unit.TestSerialize",@"className", @"test",@"methodName", nil]];
-	[self eq:[h2 get:[NSMutableString stringWithString:@"kéyb"]] v2:-465 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"63",@"lineNumber", @"unit.TestSerialize",@"className", @"test",@"methodName", nil]];
-	[self eq:[Lambda count:h2 pred:nil] v2:2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"64",@"lineNumber", @"unit.TestSerialize",@"className", @"test",@"methodName", nil]];
+	[self t:[Std is:h2 t:StringMap] pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"61", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
+	[self eq:[h2 get:[@"keya" mutableCopy]] v2:2 pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"62", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
+	[self eq:[h2 get:[@"kéyb" mutableCopy]] v2:-465 pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"63", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
+	[self eq:[Lambda count:h2 pred:nil] v2:2 pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"64", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
 	
 	IntMap *h1 = [[IntMap alloc] init];
 	[h1 set:55 value:2];
 	[h1 set:-101 value:-465];
 	
 	IntMap *h21 = [self id:h1];
-	[self t:[Std is:h21 t:IntMap] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"71",@"lineNumber", @"unit.TestSerialize",@"className", @"test",@"methodName", nil]];
-	[self eq:[h21 get:55] v2:2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"72",@"lineNumber", @"unit.TestSerialize",@"className", @"test",@"methodName", nil]];
-	[self eq:[h21 get:-101] v2:-465 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"73",@"lineNumber", @"unit.TestSerialize",@"className", @"test",@"methodName", nil]];
-	[self eq:[Lambda count:h21 pred:nil] v2:2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"74",@"lineNumber", @"unit.TestSerialize",@"className", @"test",@"methodName", nil]];
+	[self t:[Std is:h21 t:IntMap] pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"71", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
+	[self eq:[h21 get:55] v2:2 pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"72", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
+	[self eq:[h21 get:-101] v2:-465 pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"73", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
+	[self eq:[Lambda count:h21 pred:nil] v2:2 pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"74", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
 	
-	ObjectMap *h3 = [[ObjectMap alloc] init:nil];
+	ObjectMap *h3 = [[ObjectMap alloc] init];
 	
 	ClassWithoutHashCode *a = [[ClassWithoutHashCode alloc] init:9];
 	
@@ -91,13 +91,13 @@
 	[h3 set:b value:a];
 	
 	ObjectMap *h22 = [self id:h3];
-	[self t:[Std is:h22 t:ObjectMap] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"83",@"lineNumber", @"unit.TestSerialize",@"className", @"test",@"methodName", nil]];
-	[self f:[h22 exists:a] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"85",@"lineNumber", @"unit.TestSerialize",@"className", @"test",@"methodName", nil]];
-	[self f:[h22 exists:b] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"86",@"lineNumber", @"unit.TestSerialize",@"className", @"test",@"methodName", nil]];
-	[self t:[h3 exists:a] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"88",@"lineNumber", @"unit.TestSerialize",@"className", @"test",@"methodName", nil]];
-	[self t:[h3 exists:b] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"89",@"lineNumber", @"unit.TestSerialize",@"className", @"test",@"methodName", nil]];
-	[self eq:[h3 get:a] v2:b pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"90",@"lineNumber", @"unit.TestSerialize",@"className", @"test",@"methodName", nil]];
-	[self eq:[h3 get:b] v2:a pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"91",@"lineNumber", @"unit.TestSerialize",@"className", @"test",@"methodName", nil]];
+	[self t:[Std is:h22 t:ObjectMap] pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"83", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
+	[self f:[h22 exists:a] pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"85", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
+	[self f:[h22 exists:b] pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"86", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
+	[self t:[h3 exists:a] pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"88", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
+	[self t:[h3 exists:b] pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"89", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
+	[self eq:[h3 get:a] v2:b pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"90", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
+	[self eq:[h3 get:b] v2:a pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"91", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
 	BOOL nothing = YES;
 	{
 		id _it = [h22 keys];
@@ -105,52 +105,52 @@
 			ClassWithoutHashCode k = [_it next];
 			{
 				nothing = NO;
-				[self t:k.i == 8 || k.i == 9 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"95",@"lineNumber", @"unit.TestSerialize",@"className", @"test",@"methodName", nil]];
-				[self t:[h22 exists:k] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"96",@"lineNumber", @"unit.TestSerialize",@"className", @"test",@"methodName", nil]];
+				[self t:k.i == 8 || k.i == 9 pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"95", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
+				[self t:[h22 exists:k] pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"96", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
 				
 				ClassWithoutHashCode *v = [h22 get:k];
-				[self t:v.i == 8 || v.i == 9 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"98",@"lineNumber", @"unit.TestSerialize",@"className", @"test",@"methodName", nil]];
+				[self t:v.i == 8 || v.i == 9 pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"98", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
 			};
 		}
 	}
-	[self f:nothing pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"100",@"lineNumber", @"unit.TestSerialize",@"className", @"test",@"methodName", nil]];
+	[self f:nothing pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"100", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
 	[self doTestBytes:[Bytes alloc:0]];
-	[self doTestBytes:[Bytes ofString:[NSMutableString stringWithString:@"A"]]];
-	[self doTestBytes:[Bytes ofString:[NSMutableString stringWithString:@"AB"]]];
-	[self doTestBytes:[Bytes ofString:[NSMutableString stringWithString:@"ABC"]]];
-	[self doTestBytes:[Bytes ofString:[NSMutableString stringWithString:@"ABCD"]]];
-	[self doTestBytes:[Bytes ofString:[NSMutableString stringWithString:@"héllé"]]];
+	[self doTestBytes:[Bytes ofString:[@"A" mutableCopy]]];
+	[self doTestBytes:[Bytes ofString:[@"AB" mutableCopy]]];
+	[self doTestBytes:[Bytes ofString:[@"ABC" mutableCopy]]];
+	[self doTestBytes:[Bytes ofString:[@"ABCD" mutableCopy]]];
+	[self doTestBytes:[Bytes ofString:[@"héllé" mutableCopy]]];
 	
 	Bytes *b1 = [Bytes alloc:100];
 	{
 		int _g1 = 0; int _g = b1.length;
 		while (_g1 < _g) {
 			int i = _g1++;
-			[b1.b hx_replaceObjectAtIndex:i withObject:(i % [NSNumber numberWithInt:10] & [NSNumber numberWithInt:255])];
+			[b1.b hx_replaceObjectAtIndex:i withObject:(i % @10 & @255)];
 		}
 	}
 	[self doTestBytes:b1];
 	c.ref = c;
-	-TMono- = YES;
+	USE_CACHE = YES;
 	
 	MyClass *c21 = [self id:c];
-	-TMono- = NO;
-	[self eq:c21.ref v2:c21 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"119",@"lineNumber", @"unit.TestSerialize",@"className", @"test",@"methodName", nil]];
-	[self exc:^- (void) {
+	USE_CACHE = NO;
+	[self eq:c21.ref v2:c21 pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"119", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
+	[self exc:^(){
 		[Unserializer run:nil];
-	} pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"123",@"lineNumber", @"unit.TestSerialize",@"className", @"test",@"methodName", nil]];
-	[self exc:^- (void) {
-		[Unserializer run:[NSMutableString stringWithString:@""]];
-	} pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"126",@"lineNumber", @"unit.TestSerialize",@"className", @"test",@"methodName", nil]];
+	} pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"123", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
+	[self exc:^(){
+		[Unserializer run:[@"" mutableCopy]];
+	} pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"126", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
 }
 - (void) doTestEnums{
-	[self eq:[self id: A] v2: A pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"131",@"lineNumber", @"unit.TestSerialize",@"className", @"doTestEnums",@"methodName", nil]];
-	[self eq:[self id: B] v2: B pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"132",@"lineNumber", @"unit.TestSerialize",@"className", @"doTestEnums",@"methodName", nil]];
+	[self eq:[self id:A] v2:A pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"131", @"className":@"unit.TestSerialize", @"methodName":@"doTestEnums"}];
+	[self eq:[self id:B] v2:B pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"132", @"className":@"unit.TestSerialize", @"methodName":@"doTestEnums"}];
 	
-	MyEnum *c = [ C:0 b:[NSMutableString stringWithString:@"hello"]];
-	[self t:[Type enumEq:[self id:c] b:c] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"134",@"lineNumber", @"unit.TestSerialize",@"className", @"doTestEnums",@"methodName", nil]];
-	[self t:[Type enumEq:[self id:[ D:[ D:c]]] b:[ D:[ D:c]]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"135",@"lineNumber", @"unit.TestSerialize",@"className", @"doTestEnums",@"methodName", nil]];
-	[self t:[Std is:[self id:c] t:] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"136",@"lineNumber", @"unit.TestSerialize",@"className", @"doTestEnums",@"methodName", nil]];
+	MyEnum *c = [C:0 b:[@"hello" mutableCopy]];
+	[self t:[Type enumEq:[self id:c] b:c] pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"134", @"className":@"unit.TestSerialize", @"methodName":@"doTestEnums"}];
+	[self t:[Type enumEq:[self id:[D:[D:c]]] b:[D:[D:c]]] pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"135", @"className":@"unit.TestSerialize", @"methodName":@"doTestEnums"}];
+	[self t:[Std is:[self id:c] t:] pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"136", @"className":@"unit.TestSerialize", @"methodName":@"doTestEnums"}];
 	[self t:((BOOL)($this:(snd ctx.path)) 
 	MyEnum *_g = [self id:c]
 	__r__ = ((BOOL)($this:(snd ctx.path)) 
@@ -166,56 +166,52 @@
 	return __r__2{
 		
 		BOOL* __r__2}
-	}(__self))
+	}(self))
 	return __r__{
 		
 		BOOL* __r__}
-	}(self)) pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"137",@"lineNumber", @"unit.TestSerialize",@"className", @"doTestEnums",@"methodName", nil]];
+	}(self)) pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"137", @"className":@"unit.TestSerialize", @"methodName":@"doTestEnums"}];
 }
 - (void) doTestCollection:(NSMutableArray*)a{
 	
 	NSMutableArray *a2 = [self id:a];
-	[self eq:a2.length v2:a.length pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"145",@"lineNumber", @"unit.TestSerialize",@"className", @"doTestCollection",@"methodName", nil]];
+	[self eq:a2.length v2:a.length pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"145", @"className":@"unit.TestSerialize", @"methodName":@"doTestCollection"}];
 	{
 		int _g1 = 0; int _g = a.length;
 		while (_g1 < _g) {
 			int i = _g1++;
-			[self eq:[a2 hx_objectAtIndex:i] v2:[a hx_objectAtIndex:i] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"147",@"lineNumber", @"unit.TestSerialize",@"className", @"doTestCollection",@"methodName", nil]];
+			[self eq:[a2 hx_objectAtIndex:i] v2:[a hx_objectAtIndex:i] pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"147", @"className":@"unit.TestSerialize", @"methodName":@"doTestCollection"}];
 		}
 	}
 	
 	List *l = [Lambda list:a];
 	
 	List *l2 = [self id:l];
-	[self t:[Std is:l2 t:List] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"150",@"lineNumber", @"unit.TestSerialize",@"className", @"doTestCollection",@"methodName", nil]];
-	[self eq:l2.length v2:l.length pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"151",@"lineNumber", @"unit.TestSerialize",@"className", @"doTestCollection",@"methodName", nil]];
+	[self t:[Std is:l2 t:List] pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"150", @"className":@"unit.TestSerialize", @"methodName":@"doTestCollection"}];
+	[self eq:l2.length v2:l.length pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"151", @"className":@"unit.TestSerialize", @"methodName":@"doTestCollection"}];
 	id it = [l iterator];
 	{
 		id _it = [l2 iterator];
 		while ( [_it hasNext] ) do {
 			id x = [_it next];
-			[self eq:x v2:[it next] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"154",@"lineNumber", @"unit.TestSerialize",@"className", @"doTestCollection",@"methodName", nil]];
+			[self eq:x v2:[it[@"next"]] pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"154", @"className":@"unit.TestSerialize", @"methodName":@"doTestCollection"}];
 		}
 	}
-	[self f:[it hasNext] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"155",@"lineNumber", @"unit.TestSerialize",@"className", @"doTestCollection",@"methodName", nil]];
+	[self f:[it[@"hasNext"]] pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"155", @"className":@"unit.TestSerialize", @"methodName":@"doTestCollection"}];
 }
 - (void) doTestBytes:(Bytes*)b{
 	
 	Bytes *b2 = [self id:b];
-	[self t:[Std is:b2 t:Bytes] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"160",@"lineNumber", @"unit.TestSerialize",@"className", @"doTestBytes",@"methodName", nil]];
-	[self eq:b2.length v2:b.length pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"161",@"lineNumber", @"unit.TestSerialize",@"className", @"doTestBytes",@"methodName", nil]];
+	[self t:[Std is:b2 t:Bytes] pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"160", @"className":@"unit.TestSerialize", @"methodName":@"doTestBytes"}];
+	[self eq:b2.length v2:b.length pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"161", @"className":@"unit.TestSerialize", @"methodName":@"doTestBytes"}];
 	{
 		int _g1 = 0; int _g = b.length;
 		while (_g1 < _g) {
 			int i = _g1++;
-			[self eq:[b2.b hx_objectAtIndex:i] v2:[b.b hx_objectAtIndex:i] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestSerialize.hx",@"fileName", @"163",@"lineNumber", @"unit.TestSerialize",@"className", @"doTestBytes",@"methodName", nil]];
+			[self eq:[b2.b hx_objectAtIndex:i] v2:[b.b hx_objectAtIndex:i] pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"163", @"className":@"unit.TestSerialize", @"methodName":@"doTestBytes"}];
 		}
 	}
 	[self infos:nil];
-}
-- (id) init{
-	self = [super init];
-	return self;
 }
 
 @end

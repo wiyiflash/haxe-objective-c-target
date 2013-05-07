@@ -39,7 +39,7 @@
 + (void) setTimer:(Timer*)val;
 // Defining a dynamic method
 + (void) report:(NSMutableString*)msg pos:(id)pos;
-@property (nonatomic,copy) void(^property_report)(NSMutableString*, id);
+@property (nonatomic,copy) void(^property_report);
 + (void) checkDone;
 + (void) asyncTimeout;
 + (void) resetTimer;
@@ -50,16 +50,16 @@
 - (void) t:(BOOL)v pos:(id)pos;
 - (void) f:(BOOL)v pos:(id)pos;
 - (void) _assert:(id)pos;
-- (void) exc:(SEL)f pos:(id)pos;
-- (void) unspec:(SEL)f pos:(id)pos;
+- (void) exc:(id)f pos:(id)pos;
+- (void) unspec:(id)f pos:(id)pos;
 - (void) allow:(id)v values:(NSMutableArray*)values pos:(id)pos;
 - (void) hf:(Class*)c n:(NSMutableString*)n pos:(id)pos;
 - (void) nhf:(Class*)c n:(NSMutableString*)n pos:(id)pos;
 - (void) hsf:(Class*)c n:(NSMutableString*)n pos:(id)pos;
 - (void) nhsf:(Class*)c n:(NSMutableString*)n pos:(id)pos;
 - (void) infos:(NSMutableString*)m;
-- (void) async:(SEL)f args:(id)args v:(id)v pos:(id)pos;
-- (void) asyncExc:(SEL)seterror f:(SEL)f args:(id)args pos:(id)pos;
+- (void) async:(id)f args:(id)args v:(id)v pos:(id)pos;
+- (void) asyncExc:(id)seterror f:(id)f args:(id)args pos:(id)pos;
 - (void) log:(id)msg pos:(id)pos;
 - (id) init;
 

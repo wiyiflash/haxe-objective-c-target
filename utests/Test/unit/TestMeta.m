@@ -11,106 +11,106 @@
 
 static id __meta__;
 + (id) __meta__ {
-	if (__meta__ == nil) __meta__ = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-[[[NSMutableArray alloc] initWithObject:[NSMutableString stringWithString:@"x"]] copy], @"classMeta",
-nil] copy], @"obj",
-[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-[nil copy], @"empty",
-[[[NSMutableArray alloc] initWithObject:[NSNumber numberWithInt:-45]] copy], @"_int",
-[[[NSMutableArray alloc] initWithObject:[[NSMutableArray alloc] initWithObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-[[NSNumber numberWithInt:0] copy], @"x",
-[[NSMutableString stringWithString:@"hello"] copy], @"y",
-[[NSNumber numberWithFloat:-1.48] copy], @"z",
-[YES copy], @"b",
-[[NSNull null] copy], @"k",
-nil]]] copy], @"complex",
-nil] copy], @"foo",
-nil] copy], @"statics",
-[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-[nil copy], @"new",
-nil] copy], @"_",
-nil] copy], @"fields",
-nil];
+	if (__meta__ == nil) __meta__ = [@{
+	@"obj":[[@{
+	@"classMeta":[[@[[@"x" mutableCopy]] mutableCopy] copy],
+} mutableCopy] copy],
+	@"statics":[[@{
+	@"foo":[[@{
+	@"empty":[[NSNull null] copy],
+	@"_int":[[@[@-45] mutableCopy] copy],
+	@"complex":[[@[[@[[@{
+	@"x":[@0 copy],
+	@"y":[[@"hello" mutableCopy] copy],
+	@"z":[@-1.48 copy],
+	@"b":[YES copy],
+	@"k":[[NSNull null] copy],
+} mutableCopy]] mutableCopy]] mutableCopy] copy],
+} mutableCopy] copy],
+} mutableCopy] copy],
+	@"fields":[[@{
+	@"_":[[@{
+	@"new":[[NSNull null] copy],
+} mutableCopy] copy],
+} mutableCopy] copy],
+} mutableCopy];
 	return __meta__;
 }
-+ (void) set__meta__:(id)val {
-	__meta__ = val;
++ (void) set__meta__:(id)hx_val {
+	__meta__ = hx_val;
 }
 static int foo;
 + (int) foo {
 	if (foo == nil) foo = ;
 	return foo;
 }
-+ (void) setFoo:(int)val {
-	foo = val;
++ (void) setFoo:(int)hx_val {
+	foo = hx_val;
 }
 - (NSMutableString*) fields:(id)o{
 	if (o == nil) return nil;
 	
 	NSMutableArray *fl = [Reflect fields:o];
-	[fl.sort:Reflect compare];
-	return [fl.join:[NSMutableString stringWithString:@"#"]];
+	[fl sort:Reflect compare];
+	return [fl join:[@"#" mutableCopy]];
 }
 - (void) testMeta{
 	id m = [Meta getType:];
-	[self eq:[self fields:m] v2:[NSMutableString stringWithString:@"enumMeta"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMeta.hx",@"fileName", @"25",@"lineNumber", @"unit.TestMeta",@"className", @"testMeta",@"methodName", nil]];
-	[self eq:[m enumMeta] v2:nil pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMeta.hx",@"fileName", @"26",@"lineNumber", @"unit.TestMeta",@"className", @"testMeta",@"methodName", nil]];
+	[self eq:[self fields:m] v2:[@"enumMeta" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"25", @"className":@"unit.TestMeta", @"methodName":@"testMeta"}];
+	[self eq:[m enumMeta] v2:nil pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"26", @"className":@"unit.TestMeta", @"methodName":@"testMeta"}];
 	id m1 = [Meta getType:TestMeta];
-	[self eq:[self fields:m1] v2:[NSMutableString stringWithString:@"classMeta"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMeta.hx",@"fileName", @"29",@"lineNumber", @"unit.TestMeta",@"className", @"testMeta",@"methodName", nil]];
-	[self eq:[Std string:[m1 classMeta]] v2:[NSMutableString stringWithString:@"[x]"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMeta.hx",@"fileName", @"30",@"lineNumber", @"unit.TestMeta",@"className", @"testMeta",@"methodName", nil]];
+	[self eq:[self fields:m1] v2:[@"classMeta" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"29", @"className":@"unit.TestMeta", @"methodName":@"testMeta"}];
+	[self eq:[Std string:[m1 classMeta]] v2:[@"[x]" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"30", @"className":@"unit.TestMeta", @"methodName":@"testMeta"}];
 	id m2 = [Meta getFields:];
-	[self eq:[self fields:m2] v2:[NSMutableString stringWithString:@"A#B"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMeta.hx",@"fileName", @"33",@"lineNumber", @"unit.TestMeta",@"className", @"testMeta",@"methodName", nil]];
-	[self eq:[self fields:[m2 A]] v2:[NSMutableString stringWithString:@"a"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMeta.hx",@"fileName", @"34",@"lineNumber", @"unit.TestMeta",@"className", @"testMeta",@"methodName", nil]];
-	[self eq:[[m2 A] a] v2:nil pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMeta.hx",@"fileName", @"35",@"lineNumber", @"unit.TestMeta",@"className", @"testMeta",@"methodName", nil]];
-	[self eq:[self fields:[m2 B]] v2:[NSMutableString stringWithString:@"b"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMeta.hx",@"fileName", @"36",@"lineNumber", @"unit.TestMeta",@"className", @"testMeta",@"methodName", nil]];
-	[self eq:[Std string:[[m2 B] b]] v2:[NSMutableString stringWithString:@"[0]"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMeta.hx",@"fileName", @"37",@"lineNumber", @"unit.TestMeta",@"className", @"testMeta",@"methodName", nil]];
+	[self eq:[self fields:m2] v2:[@"A#B" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"33", @"className":@"unit.TestMeta", @"methodName":@"testMeta"}];
+	[self eq:[self fields:[m2 A]] v2:[@"a" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"34", @"className":@"unit.TestMeta", @"methodName":@"testMeta"}];
+	[self eq:[[m2 A] a] v2:nil pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"35", @"className":@"unit.TestMeta", @"methodName":@"testMeta"}];
+	[self eq:[self fields:[m2 B]] v2:[@"b" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"36", @"className":@"unit.TestMeta", @"methodName":@"testMeta"}];
+	[self eq:[Std string:[[m2 B] b]] v2:[@"[0]" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"37", @"className":@"unit.TestMeta", @"methodName":@"testMeta"}];
 	id m3 = [Meta getFields:TestMeta];
-	[self eq:[self fields:m3] v2:[NSMutableString stringWithString:@"_"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMeta.hx",@"fileName", @"40",@"lineNumber", @"unit.TestMeta",@"className", @"testMeta",@"methodName", nil]];
-	[self eq:[self fields:[m3 _]] v2:[NSMutableString stringWithString:@"new"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMeta.hx",@"fileName", @"41",@"lineNumber", @"unit.TestMeta",@"className", @"testMeta",@"methodName", nil]];
+	[self eq:[self fields:m3] v2:[@"_" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"40", @"className":@"unit.TestMeta", @"methodName":@"testMeta"}];
+	[self eq:[self fields:[m3 _]] v2:[@"new" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"41", @"className":@"unit.TestMeta", @"methodName":@"testMeta"}];
 	id m4 = [Meta getStatics:TestMeta];
-	[self eq:[self fields:m4] v2:[NSMutableString stringWithString:@"foo"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMeta.hx",@"fileName", @"44",@"lineNumber", @"unit.TestMeta",@"className", @"testMeta",@"methodName", nil]];
-	[self eq:[self fields:[m4 foo]] v2:[NSMutableString stringWithString:@"_int#complex#empty"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMeta.hx",@"fileName", @"45",@"lineNumber", @"unit.TestMeta",@"className", @"testMeta",@"methodName", nil]];
-	[self eq:[[m4 foo] empty] v2:nil pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMeta.hx",@"fileName", @"46",@"lineNumber", @"unit.TestMeta",@"className", @"testMeta",@"methodName", nil]];
-	[self eq:[Std string:[[m4 foo] _int]] v2:[NSMutableString stringWithString:@"[-45]"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMeta.hx",@"fileName", @"47",@"lineNumber", @"unit.TestMeta",@"className", @"testMeta",@"methodName", nil]];
+	[self eq:[self fields:m4] v2:[@"foo" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"44", @"className":@"unit.TestMeta", @"methodName":@"testMeta"}];
+	[self eq:[self fields:[m4 foo]] v2:[@"_int#complex#empty" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"45", @"className":@"unit.TestMeta", @"methodName":@"testMeta"}];
+	[self eq:[[m4 foo] empty] v2:nil pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"46", @"className":@"unit.TestMeta", @"methodName":@"testMeta"}];
+	[self eq:[Std string:[[m4 foo] _int]] v2:[@"[-45]" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"47", @"className":@"unit.TestMeta", @"methodName":@"testMeta"}];
 	id c = [[[[m4 foo] complex] hx_objectAtIndex:0] hx_objectAtIndex:0];
-	[self eq:[self fields:c] v2:[NSMutableString stringWithString:@"b#k#x#y#z"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMeta.hx",@"fileName", @"49",@"lineNumber", @"unit.TestMeta",@"className", @"testMeta",@"methodName", nil]];
-	[self eq:[c x] v2:0 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMeta.hx",@"fileName", @"50",@"lineNumber", @"unit.TestMeta",@"className", @"testMeta",@"methodName", nil]];
-	[self eq:[c y] v2:[NSMutableString stringWithString:@"hello"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMeta.hx",@"fileName", @"51",@"lineNumber", @"unit.TestMeta",@"className", @"testMeta",@"methodName", nil]];
-	[self eq:[c z] v2:-1.48 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMeta.hx",@"fileName", @"52",@"lineNumber", @"unit.TestMeta",@"className", @"testMeta",@"methodName", nil]];
-	[self eq:[c b] v2:YES pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMeta.hx",@"fileName", @"53",@"lineNumber", @"unit.TestMeta",@"className", @"testMeta",@"methodName", nil]];
-	[self eq:[c k] v2:nil pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMeta.hx",@"fileName", @"54",@"lineNumber", @"unit.TestMeta",@"className", @"testMeta",@"methodName", nil]];
+	[self eq:[self fields:c] v2:[@"b#k#x#y#z" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"49", @"className":@"unit.TestMeta", @"methodName":@"testMeta"}];
+	[self eq:[c x] v2:0 pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"50", @"className":@"unit.TestMeta", @"methodName":@"testMeta"}];
+	[self eq:[c y] v2:[@"hello" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"51", @"className":@"unit.TestMeta", @"methodName":@"testMeta"}];
+	[self eq:[c z] v2:-1.48 pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"52", @"className":@"unit.TestMeta", @"methodName":@"testMeta"}];
+	[self eq:[c b] v2:YES pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"53", @"className":@"unit.TestMeta", @"methodName":@"testMeta"}];
+	[self eq:[c k] v2:nil pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"54", @"className":@"unit.TestMeta", @"methodName":@"testMeta"}];
 }
 - (void) testExprMeta{
-	[self eq:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"foo"] copy], @"name",
-	[[[NSMutableArray alloc] initWithObjects:, nil] copy], @"args",
-	nil] name v2:[NSMutableString stringWithString:@"foo"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMeta.hx",@"fileName", @"58",@"lineNumber", @"unit.TestMeta",@"className", @"testExprMeta",@"methodName", nil]];
-	[self eq:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"foo"] copy], @"name",
-	[[[NSMutableArray alloc] initWithObject:[NSMutableString stringWithString:@"a"]] copy], @"args",
-	nil] name v2:[NSMutableString stringWithString:@"foo"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMeta.hx",@"fileName", @"59",@"lineNumber", @"unit.TestMeta",@"className", @"testExprMeta",@"methodName", nil]];
-	[self eq:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"foo"] copy], @"name",
-	[[[NSMutableArray alloc] initWithObjects:, nil] copy], @"args",
-	nil] name v2:[NSMutableString stringWithString:@"foo"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMeta.hx",@"fileName", @"60",@"lineNumber", @"unit.TestMeta",@"className", @"testExprMeta",@"methodName", nil]];
-	id m = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"bar"] copy], @"name",
-	[[[NSMutableArray alloc] initWithObjects:[NSMutableString stringWithString:@"1"], [NSMutableString stringWithString:@"foo"], nil] copy], @"args",
-	nil];
-	[self eq:m name v2:[NSMutableString stringWithString:@"bar"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMeta.hx",@"fileName", @"63",@"lineNumber", @"unit.TestMeta",@"className", @"testExprMeta",@"methodName", nil]];
-	[self eq:[m args hx_objectAtIndex:0] v2:[NSMutableString stringWithString:@"1"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMeta.hx",@"fileName", @"64",@"lineNumber", @"unit.TestMeta",@"className", @"testExprMeta",@"methodName", nil]];
-	[self eq:[m args hx_objectAtIndex:1] v2:[NSMutableString stringWithString:@"foo"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMeta.hx",@"fileName", @"65",@"lineNumber", @"unit.TestMeta",@"className", @"testExprMeta",@"methodName", nil]];
-	[self eq:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"foo"] copy], @"name",
-	[[[NSMutableArray alloc] initWithObjects:, nil] copy], @"args",
-	nil] args.length v2:0 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMeta.hx",@"fileName", @"67",@"lineNumber", @"unit.TestMeta",@"className", @"testExprMeta",@"methodName", nil]];
-	[self eq:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"foo"] copy], @"name",
-	[[[NSMutableArray alloc] initWithObject:[NSMutableString stringWithString:@"1"]] copy], @"args",
-	nil] args.length v2:1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMeta.hx",@"fileName", @"68",@"lineNumber", @"unit.TestMeta",@"className", @"testExprMeta",@"methodName", nil]];
+	[self eq:[@{
+		@"name":[[@"foo" mutableCopy] copy],
+		@"args":[[@[] mutableCopy] copy],
+	} mutableCopy][@"name"] v2:[@"foo" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"58", @"className":@"unit.TestMeta", @"methodName":@"testExprMeta"}];
+	[self eq:[@{
+		@"name":[[@"foo" mutableCopy] copy],
+		@"args":[[@[[@"a" mutableCopy]] mutableCopy] copy],
+	} mutableCopy][@"name"] v2:[@"foo" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"59", @"className":@"unit.TestMeta", @"methodName":@"testExprMeta"}];
+	[self eq:[@{
+		@"name":[[@"foo" mutableCopy] copy],
+		@"args":[[@[] mutableCopy] copy],
+	} mutableCopy][@"name"] v2:[@"foo" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"60", @"className":@"unit.TestMeta", @"methodName":@"testExprMeta"}];
+	id m = [@{
+		@"name":[[@"bar" mutableCopy] copy],
+		@"args":[[@[[@"1" mutableCopy], [@"foo" mutableCopy]] mutableCopy] copy],
+	} mutableCopy];
+	[self eq:m[@"name"] v2:[@"bar" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"63", @"className":@"unit.TestMeta", @"methodName":@"testExprMeta"}];
+	[self eq:[m[@"args"] hx_objectAtIndex:0] v2:[@"1" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"64", @"className":@"unit.TestMeta", @"methodName":@"testExprMeta"}];
+	[self eq:[m[@"args"] hx_objectAtIndex:1] v2:[@"foo" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"65", @"className":@"unit.TestMeta", @"methodName":@"testExprMeta"}];
+	[self eq:[@{
+		@"name":[[@"foo" mutableCopy] copy],
+		@"args":[[@[] mutableCopy] copy],
+	} mutableCopy][@"args"].length v2:0 pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"67", @"className":@"unit.TestMeta", @"methodName":@"testExprMeta"}];
+	[self eq:[@{
+		@"name":[[@"foo" mutableCopy] copy],
+		@"args":[[@[[@"1" mutableCopy]] mutableCopy] copy],
+	} mutableCopy][@"args"].length v2:1 pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"68", @"className":@"unit.TestMeta", @"methodName":@"testExprMeta"}];
 }
 - (id) init{
 	self = [super init];

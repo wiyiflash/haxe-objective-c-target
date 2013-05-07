@@ -20,7 +20,7 @@
 }
 + (Bytes*) make:(Bytes*)b{
 	
-	NSMutableArray *h = [[[Sha1 alloc] init] doEncode:[Sha1 bytes2blks:b]];
+	NSMutableArray *h = [[Sha1 alloc]  doEncode:[Sha1 bytes2blks:b]];
 	
 	Bytes *_out = [Bytes alloc:20];
 	int p = 0;

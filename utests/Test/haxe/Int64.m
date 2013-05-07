@@ -19,7 +19,7 @@
 			
 			Int64* __r__}
 		}()];
-		@throw [NSMutableString stringWithString:@"Overflow"];;
+		@throw [@"Overflow" mutableCopy];;
 	}
 	return x.low;
 }
@@ -29,10 +29,36 @@
 + (int) getHigh:(Int64*)x{
 	return x.high;
 }
++ (Int64*) add:(Int64*)a b:(Int64*)b{
+	int high = a.high + b.high;
+	int low = a.low + b.low;
+	if ([Int64 uicompare:low b:a.low] < 0) high++;
+	return [[Int64 alloc] init:high low:low];
+}
 + (Int64*) sub:(Int64*)a b:(Int64*)b{
 	int high = a.high - b.high;
 	int low = a.low - b.low;
 	if ([Int64 uicompare:a.low b:b.low] < 0) high--;
+	return [[Int64 alloc] init:high low:low];
+}
++ (Int64*) mul:(Int64*)a b:(Int64*)b{
+	int mask = 65535;
+	int al = a.low & mask; int ah = a.low >>> 16;
+	int bl = b.low & mask; int bh = b.low >>> 16;
+	int p00 = al * bl;
+	int p10 = ah * bl;
+	int p01 = al * bh;
+	int p11 = ah * bh;
+	int low = p00;
+	int high = p11 +  ( (p01 >>> 16) +  (p10 >>> 16));
+	p01 = p01 << 16;
+	low = low + p01;
+	if ([Int64 uicompare:low b:p01] < 0) high = [high stringByAppendingString:@"1"];
+	p10 = p10 << 16;
+	low = low + p10;
+	if ([Int64 uicompare:low b:p10] < 0) high = [high stringByAppendingString:@"1"];
+	high = high + a.low * b.high;
+	high = high + a.high * b.low;
 	return [[Int64 alloc] init:high low:low];
 }
 + (id) divMod:(Int64*)modulus divisor:(Int64*)divisor{
@@ -40,7 +66,7 @@
 	Int64 *quotient = [[Int64 alloc] init:0 low:0];
 	
 	Int64 *mask = [[Int64 alloc] init:0 low:1];
-	divisor = [[Int64 alloc] init:divisor.high low:divisor.low];
+	divisor = [[Int64 alloc] init:divisor high low:divisor low];
 	while (divisor.high >= 0) {
 		int cmp = ^(int)int v = [Int64 uicompare:divisor.high b:modulus.high]
 		__r__ = ( (v != 0) ? v : [Int64 uicompare:divisor.low b:modulus.low])
@@ -70,10 +96,10 @@
 		divisor.low = (divisor.low >>> 1 | divisor.high << 31);
 		divisor.high >>>= 1;
 	}
-	return [NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[quotient copy], @"quotient",
-	[modulus copy], @"modulus",
-	nil];
+	return [@{
+		@"quotient":[quotient copy],
+		@"modulus":[modulus copy],
+	} mutableCopy];
 }
 + (int) uicompare:(int)a b:(int)b{
 	return ( (a < 0) ? ( (b < 0) ? ~b - ~a : 1) : ( (b < 0) ? -1 : a - b));
@@ -81,9 +107,9 @@
 @synthesize high;
 @synthesize low;
 - (NSMutableString*) toString{
-	if ( (self.high | self.low) == 0) return [NSMutableString stringWithString:@"0"];
+	if ( (self.high | self.low) == 0) return [@"0" mutableCopy];
 	
-	NSMutableString *str = [NSMutableString stringWithString:@""];
+	NSMutableString *str = [@"" mutableCopy];
 	BOOL neg = NO;
 	
 	Int64 *i = self;
@@ -102,10 +128,10 @@
 	Int64 *ten = [[Int64 alloc] init:0 low:10];
 	while (! ( (i.high | i.low) == 0)) {
 		id r = [Int64 divMod:i divisor:ten];
-		str = [r modulus.low stringByAppendingString:str];
-		i = r quotient;
+		str = [r[@"modulus"].low stringByAppendingString:str];
+		i = r[@"quotient"];
 	}
-	if (neg) str = [[NSMutableString stringWithString:@"-"] stringByAppendingString:str];
+	if (neg) str = [[@"-" mutableCopy] stringByAppendingString:str];
 	return str;
 }
 - (id) init:(int)high low:(int)low{

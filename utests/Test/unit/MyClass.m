@@ -20,7 +20,7 @@
 	self.val = v;
 }
 - (int) add:(int)x y:(int)y{
-	return self.val + x + y;
+	return [[self.val stringByAppendingString:x] stringByAppendingString:y];
 }
 - (id) init:(int)v{
 	self = [super init];
@@ -49,21 +49,13 @@
 @implementation MyDynamicChildWithToString
 
 - (NSMutableString*) toString{
-	return [NSMutableString stringWithString:@"Custom toString"];
-}
-- (id) init{
-	self = [super init];
-	return self;
+	return [@"Custom toString" mutableCopy];
 }
 
 @end
 
 @implementation MyDynamicChildWithoutToString
 
-- (id) init{
-	self = [super init];
-	return self;
-}
 
 @end
 
@@ -78,10 +70,6 @@
 - (int) c{
 	return 19;
 }
-- (id) init{
-	self = [super init];
-	return self;
-}
 
 @end
 
@@ -89,10 +77,6 @@
 
 - (int) test1:(MyChild1*)mc1{
 	return [mc1 b];
-}
-- (id) init{
-	self = [super init];
-	return self;
 }
 
 @end
@@ -284,40 +268,40 @@ static int si;
 	if (si == nil) si = 2;
 	return si;
 }
-+ (void) setSi:(int)val {
-	si = val;
++ (void) setSi:(int)hx_val {
+	si = hx_val;
 }
 static int sop;
 + (int) sop {
 	if (sop == nil) sop = 27;
 	return sop;
 }
-+ (void) setSop:(int)val {
-	sop = val;
++ (void) setSop:(int)hx_val {
+	sop = hx_val;
 }
 static id st;
 + (id) st {
 	if (st == nil) st = NSMutableString;
 	return st;
 }
-+ (void) setSt:(id)val {
-	st = val;
++ (void) setSt:(id)hx_val {
+	st = hx_val;
 }
 static int sp;
 + (int) sp {
 	if (sp == nil) sp = 6;
 	return sp;
 }
-+ (void) setSp:(int)val {
-	sp = val;
++ (void) setSp:(int)hx_val {
+	sp = hx_val;
 }
 static float sinline;
 + (float) sinline {
 	if (sinline == nil) sinline = 60000.;
 	return sinline;
 }
-+ (void) setSinline:(float)val {
-	sinline = val;
++ (void) setSinline:(float)hx_val {
+	sinline = hx_val;
 }
 @synthesize i;
 @synthesize s;
@@ -327,7 +311,7 @@ static float sinline;
 	self = [super init];
 	self.t = NSMutableString;
 	self.b = YES;
-	self.s = [NSMutableString stringWithString:@"foo"];
+	self.s = [@"foo" mutableCopy];
 	self.i = 2;
 	return self;
 }
@@ -336,10 +320,6 @@ static float sinline;
 
 @implementation InitChild
 
-- (id) init{
-	self = [super init];
-	return self;
-}
 
 @end
 
@@ -371,14 +351,14 @@ static float sinline;
 @synthesize accNever;
 
 - (int) set_accFunc:(int)v{
-	return ((int)($this:(snd ctx.path)) @throw [NSMutableString stringWithString:@"setter was called"];
+	return ((int)($this:(snd ctx.path)) @throw [@"setter was called" mutableCopy];
 	return __r__{
 		
 		int* __r__}
 	}(self));
 }
 - (id) set_accDynamic:(id)v{
-	return ((id)($this:(snd ctx.path)) @throw [NSMutableString stringWithString:@"setter was called"];
+	return ((id)($this:(snd ctx.path)) @throw [@"setter was called" mutableCopy];
 	return __r__{
 		
 		id* __r__}
@@ -414,7 +394,7 @@ static float sinline;
 	return [b hx_objectAtIndex:0];
 }
 - (float) memberAnon:(id)v{
-	return v x + v y;
+	return v[@"x"] + v[@"y"];
 }
 - (void) memberOverload:(NSMutableString*)a b:(NSMutableString*)b{
 }
@@ -452,7 +432,7 @@ static float sinline;
 @implementation UsingChild1
 
 + (NSMutableString*) test{
-	return [UsingBase pupFunc:[NSMutableString stringWithString:@"foo"]] + [UsingBase privFunc:[NSMutableString stringWithString:@"foo"]] + [UsingChild2 siblingFunc:[NSMutableString stringWithString:@"FOO"]];
+	return [UsingBase pupFunc:[@"foo" mutableCopy]] + [UsingBase privFunc:[@"foo" mutableCopy]] + [UsingChild2 siblingFunc:[@"FOO" mutableCopy]];
 }
 + (NSMutableString*) siblingFunc:(NSMutableString*)s{
 	return [s toLowerCase];
@@ -463,7 +443,7 @@ static float sinline;
 @implementation UsingChild2
 
 + (NSMutableString*) test{
-	return [UsingChild2 siblingFunc:[NSMutableString stringWithString:@"foo"]];
+	return [UsingChild2 siblingFunc:[@"foo" mutableCopy]];
 }
 + (NSMutableString*) siblingFunc:(NSMutableString*)s{
 	return [s toUpperCase];
@@ -474,7 +454,7 @@ static float sinline;
 @implementation UsingUnrelated
 
 + (NSMutableString*) test{
-	return [UsingBase pupFunc:[NSMutableString stringWithString:@"foo"]] + [UsingChild2 siblingFunc:[NSMutableString stringWithString:@"foo"]];
+	return [UsingBase pupFunc:[@"foo" mutableCopy]] + [UsingChild2 siblingFunc:[@"foo" mutableCopy]];
 }
 
 @end
@@ -513,7 +493,7 @@ static float sinline;
 	return v;
 }
 - (int) set_z:(int)v{
-	self.z = v + 1;
+	self.z = [v stringByAppendingString:@"1"];
 	return self.z;
 }
 - (id) init{
@@ -536,9 +516,9 @@ static float sinline;
 - (int) set_prop:(int)v{
 	return v;
 }
-- (SEL) get_fProp{
-	return ^- (NSMutableString*) :(int)i{
-		return [[NSMutableString stringWithString:@"test"] stringByAppendingString:i];
+- (id) get_fProp{
+	return ^(int *i){
+		return [[@"test" mutableCopy] stringByAppendingString:i];
 	}
 }
 - (id) init{
@@ -551,24 +531,20 @@ static float sinline;
 @implementation ChildSuperProp
 
 - (int) get_prop{
-	return [super get_prop] + 1;
+	return [[super get_prop] stringByAppendingString:@"1"];
 }
 - (int) set_prop:(int)v{
-	return [super set_prop:v] + 1;
+	return [[super set_prop:v] stringByAppendingString:@"1"];
 }
-- (SEL) get_fProp{
+- (id) get_fProp{
 	
-	NSMutableArray *s = [[NSMutableArray alloc] initWithObject:[[super get_fProp]:[NSNumber numberWithInt:0]]];
-	return ^- (NSMutableString*) :(int)i{
-		return [s hx_objectAtIndex:0] + i;
+	NSMutableString *s = [[super get_fProp]:0];
+	return ^(int *i){
+		return [s stringByAppendingString:i];
 	}
 }
 - (NSMutableString*) test{
 	return [[super get_fProp]:2];
-}
-- (id) init{
-	self = [super init];
-	return self;
 }
 
 @end
@@ -587,7 +563,7 @@ static float sinline;
 	return (InlineCastB*)[self self];
 }
 - (NSMutableString*) quote{
-	return [NSMutableString stringWithString:@"I am the greatest."];
+	return [@"I am the greatest." mutableCopy];
 }
 - (id) init{
 	self = [super init];

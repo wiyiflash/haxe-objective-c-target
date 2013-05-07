@@ -7,7 +7,6 @@
 
 
 
-#import "../Array.h"
 #import "../EReg.h"
 #import "../String.h"
 #import "../unit/Test.h"
@@ -15,7 +14,6 @@
 @interface TestEReg : Test 
 
 - (void) test;
-- (id) init;
 
 @end
 

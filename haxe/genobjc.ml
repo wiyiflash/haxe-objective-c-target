@@ -1437,7 +1437,6 @@ and generateExpression ctx e =
 						nil]; *)
 						
 	| TArrayDecl el ->
-		let one_object = (List.length el) = 1 in
 		ctx.require_pointer <- true;
 		ctx.writer#write "[@[";
 		concat ctx ", " (generateValue ctx) el;
@@ -1541,10 +1540,14 @@ and generateExpression ctx e =
 						let index = ref 0 in
 						(match cf.cf_type with
 						| TFun(args, ret) ->
+							(* Seems that the compiler is not adding nulls in the args and has different length than args_array_e, so we fill nil by default *)
 							List.iter (
 							fun (name, b, t) ->
 								ctx.writer#write (if !index = 0 then ":" else (" "^name^":"));
-								generateValue ctx args_array_e.(!index);
+								if !index >= Array.length args_array_e then
+									ctx.writer#write "nil"
+								else
+									generateValue ctx args_array_e.(!index);
 								index := !index + 1;
 							) args;
 						| _ -> ctx.writer#write " \"-dynamic_arguments_constructor-\" "));
@@ -2116,9 +2119,9 @@ let generateField ctx is_static field =
 ;;
 
 let rec defineGetSet ctx is_static c =
-	let def f name =
+	(* let def f name =
 		Hashtbl.add ctx.get_sets (name,is_static) f.cf_name
-	in
+	in *)
 	(* let field f =
 		match f.cf_kind with
 		| Method _ -> ()
@@ -2217,7 +2220,7 @@ let pbxproj common_ctx files_manager =
 				let lst = Str.split (Str.regexp "/") f in
 				let file = List.hd (List.rev lst) in
 				let path = List.rev (List.tl (List.rev lst)) in
-				let comps = Str.split (Str.regexp "\.") file in
+				let comps = Str.split (Str.regexp "\\.") file in
 				let ext = List.hd (List.rev comps) in
 				(* print_endline (f^" >> "^ext); *)
 				files_manager#register_resource_file (path,file) ext;

@@ -17,44 +17,44 @@
 - (id) get:(id)_tmp_key{
 	
 	NSMutableString *key = (NSMutableString*)_tmp_key;
-	return [-FDynamic-self objectForKey:key];
+	return [self objectForKey:key];
 }
 - (BOOL) exists:(id)_tmp_key{
 	
 	NSMutableString *key = (NSMutableString*)_tmp_key;
-	return [-FDynamic-self objectForKey:key] != nil;
+	return [self objectForKey:key] != nil;
 }
 - (BOOL) remove:(id)_tmp_key{
 	
 	NSMutableString *key = (NSMutableString*)_tmp_key;
 	if ([self exists:key]) {
-		[-FDynamic-self removeObjectForKey:key];
+		[self removeObjectForKey:key];
 		return YES;
 	}
 	return NO;
 }
 - (id) keys{
 	
-	NSMutableArray *a = [-FDynamic-self allKeys];
+	NSMutableArray *a = [self allKeys];
 	return [a iterator];
 }
 - (id) iterator{
 	
-	NSMutableArray *a = [-FDynamic-self allValues];
+	NSMutableArray *a = [self allValues];
 	id it = [a iterator];
 	
 	StringMap *me = self;
 	return [@{
-		@"hasNext":[^BOOL(){
+		@"hasNext":[^(){
 		return [it[@"hasNext"]];
 	} copy],
-		@"next":[^id(){
-		return [-FDynamic-me __Internal[@"__Field"]:[it[@"next"]] :YES];
+		@"next":[^(){
+		return [me __Internal[@"__Field"]:[it[@"next"]] :YES];
 	} copy],
 	} mutableCopy];
 }
 - (NSMutableString*) toString{
-	return [-FDynamic-self description];
+	return [self description];
 }
 - (id) init{
 	self = [super init];

@@ -55,18 +55,18 @@
 	// Optional arguments
 	if (!len) len = nil;
 	
-	if (len == 0) return [NSMutableString stringWithString:@""];
+	if (len == 0) return [@"" mutableCopy];
 	int sl = self.length;
 	if (len == nil) len = sl;
 	if (pos == nil) pos = 0;
-	if (pos != 0 && len < 0) return [NSMutableString stringWithString:@""];
+	if (pos != 0 && len < 0) return [@"" mutableCopy];
 	if (pos < 0) {
 		pos = sl + pos;
 		if (pos < 0) pos = 0;
 	}
 	else if (len < 0) len = sl + len - pos;
 	if (pos + len > sl) len = sl - pos;
-	if (pos < 0 || len <= 0) return [NSMutableString stringWithString:@""];
+	if (pos < 0 || len <= 0) return [@"" mutableCopy];
 	return [self substringFromIndex:pos];
 	return [self substringWithRange:NSMakeRange(pos,len)];
 }

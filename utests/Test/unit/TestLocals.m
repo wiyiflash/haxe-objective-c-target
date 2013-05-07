@@ -11,51 +11,51 @@
 
 - (void) testIncrDecr{
 	int i = 5;
-	[self eq:i++ v2:5 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestLocals.hx",@"fileName", @"7",@"lineNumber", @"unit.TestLocals",@"className", @"testIncrDecr",@"methodName", nil]];
-	[self eq:i v2:6 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestLocals.hx",@"fileName", @"8",@"lineNumber", @"unit.TestLocals",@"className", @"testIncrDecr",@"methodName", nil]];
-	[self eq:i-- v2:6 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestLocals.hx",@"fileName", @"9",@"lineNumber", @"unit.TestLocals",@"className", @"testIncrDecr",@"methodName", nil]];
-	[self eq:i v2:5 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestLocals.hx",@"fileName", @"10",@"lineNumber", @"unit.TestLocals",@"className", @"testIncrDecr",@"methodName", nil]];
-	[self eq:++i v2:6 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestLocals.hx",@"fileName", @"11",@"lineNumber", @"unit.TestLocals",@"className", @"testIncrDecr",@"methodName", nil]];
-	[self eq:i v2:6 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestLocals.hx",@"fileName", @"12",@"lineNumber", @"unit.TestLocals",@"className", @"testIncrDecr",@"methodName", nil]];
-	[self eq:--i v2:5 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestLocals.hx",@"fileName", @"13",@"lineNumber", @"unit.TestLocals",@"className", @"testIncrDecr",@"methodName", nil]];
-	[self eq:i v2:5 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestLocals.hx",@"fileName", @"14",@"lineNumber", @"unit.TestLocals",@"className", @"testIncrDecr",@"methodName", nil]];
+	[self eq:i++ v2:5 pos:@{@"fileName":@"TestLocals.hx", @"lineNumber":@"7", @"className":@"unit.TestLocals", @"methodName":@"testIncrDecr"}];
+	[self eq:i v2:6 pos:@{@"fileName":@"TestLocals.hx", @"lineNumber":@"8", @"className":@"unit.TestLocals", @"methodName":@"testIncrDecr"}];
+	[self eq:i-- v2:6 pos:@{@"fileName":@"TestLocals.hx", @"lineNumber":@"9", @"className":@"unit.TestLocals", @"methodName":@"testIncrDecr"}];
+	[self eq:i v2:5 pos:@{@"fileName":@"TestLocals.hx", @"lineNumber":@"10", @"className":@"unit.TestLocals", @"methodName":@"testIncrDecr"}];
+	[self eq:++i v2:6 pos:@{@"fileName":@"TestLocals.hx", @"lineNumber":@"11", @"className":@"unit.TestLocals", @"methodName":@"testIncrDecr"}];
+	[self eq:i v2:6 pos:@{@"fileName":@"TestLocals.hx", @"lineNumber":@"12", @"className":@"unit.TestLocals", @"methodName":@"testIncrDecr"}];
+	[self eq:--i v2:5 pos:@{@"fileName":@"TestLocals.hx", @"lineNumber":@"13", @"className":@"unit.TestLocals", @"methodName":@"testIncrDecr"}];
+	[self eq:i v2:5 pos:@{@"fileName":@"TestLocals.hx", @"lineNumber":@"14", @"className":@"unit.TestLocals", @"methodName":@"testIncrDecr"}];
 }
 - (void) testScope{
 	int x = 0;
-	[self eq:x v2:0 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestLocals.hx",@"fileName", @"19",@"lineNumber", @"unit.TestLocals",@"className", @"testScope",@"methodName", nil]];
+	[self eq:x v2:0 pos:@{@"fileName":@"TestLocals.hx", @"lineNumber":@"19", @"className":@"unit.TestLocals", @"methodName":@"testScope"}];
 	{
 		
-		NSMutableString *x1 = [NSMutableString stringWithString:@"hello"];
-		[self eq:x1 v2:[NSMutableString stringWithString:@"hello"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestLocals.hx",@"fileName", @"23",@"lineNumber", @"unit.TestLocals",@"className", @"testScope",@"methodName", nil]];
+		NSMutableString *x1 = [@"hello" mutableCopy];
+		[self eq:x1 v2:[@"hello" mutableCopy] pos:@{@"fileName":@"TestLocals.hx", @"lineNumber":@"23", @"className":@"unit.TestLocals", @"methodName":@"testScope"}];
 		{
 			
-			NSMutableString *x2 = [NSMutableString stringWithString:@""];
-			[self eq:x2 v2:[NSMutableString stringWithString:@""] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestLocals.hx",@"fileName", @"26",@"lineNumber", @"unit.TestLocals",@"className", @"testScope",@"methodName", nil]];
+			NSMutableString *x2 = [@"" mutableCopy];
+			[self eq:x2 v2:[@"" mutableCopy] pos:@{@"fileName":@"TestLocals.hx", @"lineNumber":@"26", @"className":@"unit.TestLocals", @"methodName":@"testScope"}];
 		}
-		[self eq:x1 v2:[NSMutableString stringWithString:@"hello"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestLocals.hx",@"fileName", @"28",@"lineNumber", @"unit.TestLocals",@"className", @"testScope",@"methodName", nil]];
+		[self eq:x1 v2:[@"hello" mutableCopy] pos:@{@"fileName":@"TestLocals.hx", @"lineNumber":@"28", @"className":@"unit.TestLocals", @"methodName":@"testScope"}];
 	}
-	[self eq:x v2:0 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestLocals.hx",@"fileName", @"30",@"lineNumber", @"unit.TestLocals",@"className", @"testScope",@"methodName", nil]];
+	[self eq:x v2:0 pos:@{@"fileName":@"TestLocals.hx", @"lineNumber":@"30", @"className":@"unit.TestLocals", @"methodName":@"testScope"}];
 	BOOL flag = YES;
 	if (flag) {
 		
-		NSMutableString *x1 = [NSMutableString stringWithString:@"hello"];
-		[self eq:x1 v2:[NSMutableString stringWithString:@"hello"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestLocals.hx",@"fileName", @"35",@"lineNumber", @"unit.TestLocals",@"className", @"testScope",@"methodName", nil]];
+		NSMutableString *x1 = [@"hello" mutableCopy];
+		[self eq:x1 v2:[@"hello" mutableCopy] pos:@{@"fileName":@"TestLocals.hx", @"lineNumber":@"35", @"className":@"unit.TestLocals", @"methodName":@"testScope"}];
 	}
-	[self eq:x v2:0 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestLocals.hx",@"fileName", @"37",@"lineNumber", @"unit.TestLocals",@"className", @"testScope",@"methodName", nil]];
+	[self eq:x v2:0 pos:@{@"fileName":@"TestLocals.hx", @"lineNumber":@"37", @"className":@"unit.TestLocals", @"methodName":@"testScope"}];
 	{
 		int _g = 0; 
-		NSMutableArray *_g1 = [[NSMutableArray alloc] initWithObject:[NSMutableString stringWithString:@"hello"]];
+		NSMutableArray *_g1 = [@[[@"hello" mutableCopy]] mutableCopy];
 		while (_g < _g1.length) {
 			
 			NSMutableString *x1 = [_g1 hx_objectAtIndex:_g];
 			++_g;
-			[self eq:x1 v2:[NSMutableString stringWithString:@"hello"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestLocals.hx",@"fileName", @"40",@"lineNumber", @"unit.TestLocals",@"className", @"testScope",@"methodName", nil]];
+			[self eq:x1 v2:[@"hello" mutableCopy] pos:@{@"fileName":@"TestLocals.hx", @"lineNumber":@"40", @"className":@"unit.TestLocals", @"methodName":@"testScope"}];
 		}
 	}
-	[self eq:x v2:0 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestLocals.hx",@"fileName", @"41",@"lineNumber", @"unit.TestLocals",@"className", @"testScope",@"methodName", nil]];
+	[self eq:x v2:0 pos:@{@"fileName":@"TestLocals.hx", @"lineNumber":@"41", @"className":@"unit.TestLocals", @"methodName":@"testScope"}];
 	{
 		
-		MyEnum *_g = [ D: A];
+		MyEnum *_g = [D:A];
 		
 		var $e : enum =  (_g)
 		switch ( $e.index ) {
@@ -63,19 +63,19 @@
 			case 3:
 			
 			var MATCH _g_eD_0 : MyEnum = $e.params[0]{
-				[self eq:_g_eD_0 v2: A pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestLocals.hx",@"fileName", @"45",@"lineNumber", @"unit.TestLocals",@"className", @"testScope",@"methodName", nil]]}break
+				[self eq:_g_eD_0 v2:A pos:@{@"fileName":@"TestLocals.hx", @"lineNumber":@"45", @"className":@"unit.TestLocals", @"methodName":@"testScope"}]}break
 			default:{
-				[self assert:[NSDictionary dictionaryWithObjectsAndKeys:@"TestLocals.hx",@"fileName", @"47",@"lineNumber", @"unit.TestLocals",@"className", @"testScope",@"methodName", nil]]}break
+				[self assert:@{@"fileName":@"TestLocals.hx", @"lineNumber":@"47", @"className":@"unit.TestLocals", @"methodName":@"testScope"}]}break
 		}
 	}
-	[self eq:x v2:0 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestLocals.hx",@"fileName", @"49",@"lineNumber", @"unit.TestLocals",@"className", @"testScope",@"methodName", nil]];
+	[self eq:x v2:0 pos:@{@"fileName":@"TestLocals.hx", @"lineNumber":@"49", @"className":@"unit.TestLocals", @"methodName":@"testScope"}];
 	@try {
-		@throw [NSMutableString stringWithString:@"hello"];;
+		@throw [@"hello" mutableCopy];;
 	}
 	@catch (NSException *x1) {
-		[self eq:x1 v2:[NSMutableString stringWithString:@"hello"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestLocals.hx",@"fileName", @"54",@"lineNumber", @"unit.TestLocals",@"className", @"testScope",@"methodName", nil]];
+		[self eq:x1 v2:[@"hello" mutableCopy] pos:@{@"fileName":@"TestLocals.hx", @"lineNumber":@"54", @"className":@"unit.TestLocals", @"methodName":@"testScope"}];
 	}
-	[self eq:x v2:0 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestLocals.hx",@"fileName", @"56",@"lineNumber", @"unit.TestLocals",@"className", @"testScope",@"methodName", nil]];
+	[self eq:x v2:0 pos:@{@"fileName":@"TestLocals.hx", @"lineNumber":@"56", @"className":@"unit.TestLocals", @"methodName":@"testScope"}];
 }
 - (void) testCapture{
 	
@@ -83,10 +83,9 @@
 	{
 		int _g = 0;
 		while (_g < 5) {
-			
-			NSMutableArray *i = [[NSMutableArray alloc] initWithObject:_g++];
-			[funs push:^- (int) {
-				return [i hx_objectAtIndex:0];
+			int i = _g++;
+			[funs push:^(){
+				return i;
 			}];
 		}
 	}
@@ -94,22 +93,20 @@
 		int _g = 0;
 		while (_g < 5) {
 			int k = _g++;
-			[self eq:[[funs hx_objectAtIndex:k]] v2:k pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestLocals.hx",@"fileName", @"65",@"lineNumber", @"unit.TestLocals",@"className", @"testCapture",@"methodName", nil]];
+			[self eq:[[funs hx_objectAtIndex:k]] v2:k pos:@{@"fileName":@"TestLocals.hx", @"lineNumber":@"65", @"className":@"unit.TestLocals", @"methodName":@"testCapture"}];
 		}
 	}
 	funs = [[NSMutableArray alloc] init];
-	
-	NSMutableArray *sum = [[NSMutableArray alloc] initWithObject:[NSNumber numberWithInt:0]];
+	int sum = 0;
 	{
 		int _g = 0;
 		while (_g < 5) {
 			int i = _g++;
-			
-			NSMutableArray *k = [[NSMutableArray alloc] initWithObject:[NSNumber numberWithInt:0]];
-			[funs push:^- (int) {
-				[k hx_objectAtIndex:0]++;
-				[sum hx_objectAtIndex:0]++;
-				return [k hx_objectAtIndex:0];
+			int k = 0;
+			[funs push:^(){
+				k++;
+				sum++;
+				return k;
 			}];
 		}
 	}
@@ -117,32 +114,30 @@
 		int _g = 0;
 		while (_g < 5) {
 			int i = _g++;
-			[self eq:[[funs hx_objectAtIndex:i]] v2:1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestLocals.hx",@"fileName", @"75",@"lineNumber", @"unit.TestLocals",@"className", @"testCapture",@"methodName", nil]];
+			[self eq:[[funs hx_objectAtIndex:i]] v2:1 pos:@{@"fileName":@"TestLocals.hx", @"lineNumber":@"75", @"className":@"unit.TestLocals", @"methodName":@"testCapture"}];
 		}
 	}
-	[self eq:[sum hx_objectAtIndex:0] v2:5 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestLocals.hx",@"fileName", @"76",@"lineNumber", @"unit.TestLocals",@"className", @"testCapture",@"methodName", nil]];
+	[self eq:sum v2:5 pos:@{@"fileName":@"TestLocals.hx", @"lineNumber":@"76", @"className":@"unit.TestLocals", @"methodName":@"testCapture"}];
 	
 	NSMutableArray *accesses = [[NSMutableArray alloc] init];
-	
-	NSMutableArray *sum1 = [[NSMutableArray alloc] initWithObject:[NSNumber numberWithInt:0]];
+	int sum1 = 0;
 	{
 		int _g = 0;
 		while (_g < 5) {
 			int i = _g++;
-			
-			NSMutableArray *j = [[NSMutableArray alloc] initWithObject:i];
-			[accesses push:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-			[^int(){
-				[sum1 hx_objectAtIndex:0] += [j hx_objectAtIndex:0];
-				[j hx_objectAtIndex:0]++;
-				return [j hx_objectAtIndex:0];
-			} copy], @"inc",
-			[^int(){
-				[j hx_objectAtIndex:0]--;
-				[sum1 hx_objectAtIndex:0] -= [j hx_objectAtIndex:0];
-				return [j hx_objectAtIndex:0];
-			} copy], @"dec",
-			nil]];
+			int j = i;
+			[accesses push:[@{
+				@"inc":[^(){
+				sum1 += j;
+				j++;
+				return j;
+			} copy],
+				@"dec":[^(){
+				j--;
+				sum1 -= j;
+				return j;
+			} copy],
+			} mutableCopy]];
 		}
 	}
 	{
@@ -150,10 +145,10 @@
 		while (_g < 5) {
 			int i = _g++;
 			id a = [accesses hx_objectAtIndex:i];
-			[self eq:[a inc] v2:i + 1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestLocals.hx",@"fileName", @"90",@"lineNumber", @"unit.TestLocals",@"className", @"testCapture",@"methodName", nil]];
-			[self eq:[sum1 hx_objectAtIndex:0] v2:i pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestLocals.hx",@"fileName", @"91",@"lineNumber", @"unit.TestLocals",@"className", @"testCapture",@"methodName", nil]];
-			[self eq:[a dec] v2:i pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestLocals.hx",@"fileName", @"92",@"lineNumber", @"unit.TestLocals",@"className", @"testCapture",@"methodName", nil]];
-			[self eq:[sum1 hx_objectAtIndex:0] v2:0 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestLocals.hx",@"fileName", @"93",@"lineNumber", @"unit.TestLocals",@"className", @"testCapture",@"methodName", nil]];
+			[self eq:[a[@"inc"]] v2:[i stringByAppendingString:@"1"] pos:@{@"fileName":@"TestLocals.hx", @"lineNumber":@"90", @"className":@"unit.TestLocals", @"methodName":@"testCapture"}];
+			[self eq:sum1 v2:i pos:@{@"fileName":@"TestLocals.hx", @"lineNumber":@"91", @"className":@"unit.TestLocals", @"methodName":@"testCapture"}];
+			[self eq:[a[@"dec"]] v2:i pos:@{@"fileName":@"TestLocals.hx", @"lineNumber":@"92", @"className":@"unit.TestLocals", @"methodName":@"testCapture"}];
+			[self eq:sum1 v2:0 pos:@{@"fileName":@"TestLocals.hx", @"lineNumber":@"93", @"className":@"unit.TestLocals", @"methodName":@"testCapture"}];
 		}
 	}
 }
@@ -163,18 +158,16 @@
 	{
 		int _g = 0;
 		while (_g < 5) {
-			
-			NSMutableArray *i = [[NSMutableArray alloc] initWithObject:_g++];
-			[funs push:^- (int) {
+			int i = _g++;
+			[funs push:^(){
 				
 				NSMutableArray *tmp = [[NSMutableArray alloc] init];
 				{
 					int _g1 = 0;
 					while (_g1 < 5) {
-						
-						NSMutableArray *j = [[NSMutableArray alloc] initWithObject:_g1++];
-						[tmp push:^+ (int) {
-							return [i hx_objectAtIndex:0] + [j hx_objectAtIndex:0];
+						int j = _g1++;
+						[tmp push:^(){
+							return i + j;
 						}];
 					}
 				}
@@ -194,7 +187,7 @@
 		int _g = 0;
 		while (_g < 5) {
 			int i = _g++;
-			[self eq:[[funs hx_objectAtIndex:i]] v2:i * 5 + 10 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestLocals.hx",@"fileName", @"110",@"lineNumber", @"unit.TestLocals",@"className", @"testSubCapture",@"methodName", nil]];
+			[self eq:[[funs hx_objectAtIndex:i]] v2:[i * @"5" stringByAppendingString:@"10"] pos:@{@"fileName":@"TestLocals.hx", @"lineNumber":@"110", @"className":@"unit.TestLocals", @"methodName":@"testSubCapture"}];
 		}
 	}
 }
@@ -206,13 +199,12 @@
 		while (_g < 5) {
 			int i = _g++;
 			{
-				
-				NSMutableArray *j = [[NSMutableArray alloc] initWithObject:i];
-				[funs push:^- (int) :(int)k{
-					return [j hx_objectAtIndex:0];
+				int j = i;
+				[funs push:^(int *k){
+					return j;
 				}];
 			}
-			[funs push:^- (int) :(int)j{
+			[funs push:^(int *j){
 				return j;
 			}];
 		}
@@ -221,8 +213,8 @@
 		int _g = 0;
 		while (_g < 5) {
 			int k = _g++;
-			[self eq:[[funs hx_objectAtIndex:k * 2]:0] v2:k pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestLocals.hx",@"fileName", @"124",@"lineNumber", @"unit.TestLocals",@"className", @"testParallelCapture",@"methodName", nil]];
-			[self eq:[[funs hx_objectAtIndex:k * 2 + 1]:k] v2:k pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestLocals.hx",@"fileName", @"125",@"lineNumber", @"unit.TestLocals",@"className", @"testParallelCapture",@"methodName", nil]];
+			[self eq:[[funs hx_objectAtIndex:k * 2]:0] v2:k pos:@{@"fileName":@"TestLocals.hx", @"lineNumber":@"124", @"className":@"unit.TestLocals", @"methodName":@"testParallelCapture"}];
+			[self eq:[[funs hx_objectAtIndex:[k * @"2" stringByAppendingString:@"1"]]:k] v2:k pos:@{@"fileName":@"TestLocals.hx", @"lineNumber":@"125", @"className":@"unit.TestLocals", @"methodName":@"testParallelCapture"}];
 		}
 	}
 }
@@ -233,7 +225,7 @@
 		int _g = 0;
 		while (_g < 5) {
 			int i = _g++;
-			[funs push:^- (int) :(int)i1{
+			[funs push:^(int *i1){
 				return i1;
 			}];
 		}
@@ -242,13 +234,9 @@
 		int _g = 0;
 		while (_g < 5) {
 			int k = _g++;
-			[self eq:[[funs hx_objectAtIndex:k]:55] v2:55 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestLocals.hx",@"fileName", @"134",@"lineNumber", @"unit.TestLocals",@"className", @"testPossibleBug",@"methodName", nil]];
+			[self eq:[[funs hx_objectAtIndex:k]:55] v2:55 pos:@{@"fileName":@"TestLocals.hx", @"lineNumber":@"134", @"className":@"unit.TestLocals", @"methodName":@"testPossibleBug"}];
 		}
 	}
-}
-- (id) init{
-	self = [super init];
-	return self;
 }
 
 @end

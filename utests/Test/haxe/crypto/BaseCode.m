@@ -26,14 +26,14 @@
 	int pout = 0;
 	while (pout < size) {
 		while (curbits < nbits) {
-			curbits += 8;
+			[curbits appendString:@"8"];
 			buf <<= 8;
 			buf |= [b.b hx_objectAtIndex:pin++];
 		}
 		curbits -= nbits;
-		[_out.b hx_replaceObjectAtIndex:pout++ withObject:(base.b hx_replaceObjectAtIndex:buf >> curbits & mask & [NSNumber numberWithInt:255])];
+		[_out.b hx_replaceObjectAtIndex:pout++ withObject:(base.b hx_replaceObjectAtIndex:buf >> curbits & mask & @255)];
 	}
-	if (curbits > 0) [_out.b hx_replaceObjectAtIndex:pout++ withObject:(base.b hx_replaceObjectAtIndex:buf << nbits - curbits & mask & [NSNumber numberWithInt:255])];
+	if (curbits > 0) [_out.b hx_replaceObjectAtIndex:pout++ withObject:(base.b hx_replaceObjectAtIndex:buf << nbits - curbits & mask & @255)];
 	return _out;
 }
 - (void) initTable{
@@ -43,7 +43,7 @@
 		int _g = 0;
 		while (_g < 256) {
 			int i = _g++;
-			[tbl hx_replaceObjectAtIndex:i withObject:[NSNumber numberWithInt:-1]];
+			[tbl hx_replaceObjectAtIndex:i withObject:@-1];
 		}
 	}
 	{
@@ -74,11 +74,11 @@
 			curbits += nbits;
 			buf <<= nbits;
 			int i = [tbl hx_objectAtIndex:[b.b hx_objectAtIndex:pin++]];
-			if (i == -1) @throw [NSMutableString stringWithString:@"BaseCode : invalid encoded char"];;
+			if (i == -1) @throw [@"BaseCode : invalid encoded char" mutableCopy];;
 			buf |= i;
 		}
 		curbits -= 8;
-		[_out.b hx_replaceObjectAtIndex:pout++ withObject:((buf >> curbits & [NSNumber numberWithInt:255]) & [NSNumber numberWithInt:255])];
+		[_out.b hx_replaceObjectAtIndex:pout++ withObject:((buf >> curbits & @255) & @255)];
 	}
 	return _out;
 }
@@ -93,7 +93,7 @@
 	int len = base.length;
 	int nbits = 1;
 	while (len > 1 << nbits) nbits++;
-	if (nbits > 8 || len != 1 << nbits) @throw [NSMutableString stringWithString:@"BaseCode : base length must be a power of two."];;
+	if (nbits > 8 || len != 1 << nbits) @throw [@"BaseCode : base length must be a power of two." mutableCopy];;
 	self.base = base;
 	self.nbits = nbits;
 	return self;

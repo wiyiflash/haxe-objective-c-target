@@ -19,7 +19,7 @@
 }
 // Defining a dynamic method
 - (void) run{
-	[Log trace:[NSMutableString stringWithString:@"run"] infos:[NSDictionary dictionaryWithObjectsAndKeys:@"Timer.hx",@"fileName", @"112",@"lineNumber", @"haxe.Timer",@"className", @"run",@"methodName", nil]];
+	[Log trace:[@"run" mutableCopy] infos:@{@"fileName":@"Timer.hx", @"lineNumber":@"112", @"className":@"haxe.Timer", @"methodName":@"run"}];
 }
 @synthesize property_run;
 
@@ -31,7 +31,7 @@
 	self.nstimer = [NSTimer timerWithTimeInterval:time_ms * 1000 target:self selector:@selector(nsrun:) userInfo:nil repeats:YES];
 	
 	NSRunLoop *runner = [NSRunLoop currentRunLoop];
-	[runner addTimer:self.nstimer forMode: NSDefaultRunLoopMode];
+	[runner addTimer:self.nstimer forMode:NSDefaultRunLoopMode];
 	return self;
 }
 

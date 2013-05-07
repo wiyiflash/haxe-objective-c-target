@@ -14,7 +14,7 @@
 @synthesize length;
 - (void) add:(id)item{
 	
-	NSMutableArray *x = [[NSMutableArray alloc] initWithObject:item];
+	NSMutableArray *x = [@[item] mutableCopy];
 	if (self.h == nil) self.h = x;
 	else [self.q hx_replaceObjectAtIndex:1 withObject:x];
 	self.q = x;
@@ -22,7 +22,7 @@
 }
 - (void) push:(id)item{
 	
-	NSMutableArray *x = [[NSMutableArray alloc] initWithObjects:item, self.h, nil];
+	NSMutableArray *x = [@[item, self.h] mutableCopy];
 	self.h = x;
 	if (self.q == nil) self.q = x;
 	self.length++;
@@ -42,18 +42,18 @@
 	return self.h == nil;
 }
 - (id) iterator{
-	return (id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[self.h copy], @"h",
-	[^id(){
-		return self.h != nil;
-	} copy], @"hasNext",
-	[^id(){
-		if (self.h == nil) return nil;
-		id x = [self.h hx_objectAtIndex:0];
-		self.h = [self.h hx_objectAtIndex:1];
+	return (id)[@{
+		@"h":[self.h copy],
+		@"hasNext":[^(){
+		return self.h != [NSNull null];
+	} copy],
+		@"next":[^(){
+		if (self.h == [NSNull null]) return [NSNull null];
+		id x = [self.h hx_objectAtIndex:@0];
+		self.h = [self.h hx_objectAtIndex:@1];
 		return x;
-	} copy], @"next",
-	nil];
+	} copy],
+	} mutableCopy];
 }
 - (id) init{
 	self = [super init];

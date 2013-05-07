@@ -133,7 +133,7 @@ type context = {
 	mutable php_lib : string option;
 	mutable php_prefix : string option;
 	mutable swf_libs : (string * (unit -> Swf.swf) * (unit -> ((string list * string),As3hl.hl_class) Hashtbl.t)) list;
-	mutable java_libs : (string * (unit -> unit) * (unit -> ((string list * string) list)) * ((string list * string) -> ((JData.jclass * string * string) option))) list;
+	mutable java_libs : (string * bool * (unit -> unit) * (unit -> ((string list * string) list)) * ((string list * string) -> ((JData.jclass * string * string) option))) list;
 	mutable js_gen : (unit -> unit) option;
 	mutable objc_platform : string;
 	mutable objc_libs : string list;(* A list of custom frameworks that you wish to link with your project *)
@@ -195,8 +195,8 @@ module Define = struct
 		| NoRoot
 		| NoSwfCompress
 		| NoTraces
-		| NoUnusedVarWarnings
 		| PhpPrefix
+		| RealPosition
 		| ReplaceFiles
 		| Scriptable
 		| Swc
@@ -256,8 +256,8 @@ module Define = struct
 		| NoMacroCache -> ("no_macro_cache","Disable macro context caching")
 		| NoSwfCompress -> ("no_swf_compress","Disable SWF output compression")
 		| NoTraces -> ("no_traces","Disable all trace calls")
-		| NoUnusedVarWarnings -> ("no_unused_var_warnings","Do not warn about unused catch-variables in patterns")
 		| PhpPrefix -> ("php_prefix","Compiled with --php-prefix")
+		| RealPosition -> ("real_position","Disables haxe source mapping when targetting C#")
 		| ReplaceFiles -> ("replace_files","GenCommon internal")
 		| Scriptable -> ("scriptable","GenCPP internal")
 		| Swc -> ("swc","Output a SWC instead of a SWF")
@@ -390,6 +390,7 @@ module MetaInfo = struct
 		| Synchronized -> ":synchronized",("",[Platforms [Java;Cs]])
 		| Throws -> ":throws",("",[Platforms [Java;Cs]])
 		| To -> ":to",("Specifies that the field of the abstract is a cast operation to the type identified in the function",[UsedOn TAbstractField])
+		| ToString -> ":toString",("Internally used",[])
 		| Transient -> ":transient",("",[Platforms [Java;Cs]])
 		| ValueUsed -> ":valueUsed",("Internally used by DCE to mark an abstract value as used",[])
 		| VarArgs -> ":varArgs",("",[Platforms [Java;Cs]])
@@ -533,7 +534,7 @@ let get_config com =
 			pf_unique_locals = false;
 			pf_can_init_member = (fun cf ->
 				match cf.cf_kind, cf.cf_expr with
-				| Var { v_write = AccCall _ },	_ -> false
+				| Var { v_write = AccCall },	_ -> false
 				| _, Some { eexpr = TTypeExpr _ } -> false
 				| _ -> true
 			);

@@ -63,25 +63,25 @@
 	return self._seconds * 1000.0;
 }
 - (int) getHours{
-	return [-FDynamic-self._components hour];
+	return [self._components hour];
 }
 - (int) getMinutes{
-	return [-FDynamic-self._components minute];
+	return [self._components minute];
 }
 - (int) getSeconds{
-	return [-FDynamic-self._components second];
+	return [self._components second];
 }
 - (int) getFullYear{
-	return [-FDynamic-self._components year];
+	return [self._components year];
 }
 - (int) getMonth{
-	return [-FDynamic-self._components month];
+	return [self._components month];
 }
 - (int) getDate{
-	return [-FDynamic-self._components weekday];
+	return [self._components weekday];
 }
 - (int) getDay{
-	return [-FDynamic-self._components day];
+	return [self._components day];
 }
 - (NSMutableString*) toString{
 	return nil;
@@ -90,12 +90,12 @@
 	self = [super init];
 	self._calendar = [NSCalendar currentCalendar];
 	self._components = [self._calendar components:((((NSYearCalendarUnit | NSMonthCalendarUnit) | NSDayCalendarUnit) | NSHourCalendarUnit) | NSMinuteCalendarUnit) | NSSecondCalendarUnit fromDate:[NSDate date]];
-	[-FDynamic-self._components setYear-TDynamic-];
-	[-FDynamic-self._components setMonth-TDynamic-];
-	[-FDynamic-self._components setDay-TDynamic-];
-	[-FDynamic-self._components setHour-TDynamic-];
-	[-FDynamic-self._components setMinute-TDynamic-];
-	[-FDynamic-self._components setSecond-TDynamic-];
+	[self._components setYear:year];
+	[self._components setMonth:month];
+	[self._components setDay:day];
+	[self._components setHour:hour];
+	[self._components setMinute:min];
+	[self._components setSecond:sec];
 	self = [self._calendar dateFromComponents:self._components];
 	return self;
 }

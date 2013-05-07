@@ -14,11 +14,11 @@
 	id c = [o __GetClass];
 	{
 		
-		NSMutableString *_g = [c toString];
+		NSMutableString *_g = [c[@"toString"]];
 		switch (_g){
-			case [NSMutableString stringWithString:@"__Anon"]:{
+			case [@"__Anon" mutableCopy]:{
 				return nil}break;
-			case [NSMutableString stringWithString:@"Class"]:{
+			case [@"Class" mutableCopy]:{
 				return nil}break;
 		}
 	}
@@ -66,8 +66,8 @@
 	return [e GetClassFields];
 }
 + (Type*) _typeof:(id)v{
-	if (v == nil) return  TNull;
-	return  TNull;
+	if (v == nil) return TNull;
+	return TNull;
 }
 + (BOOL) enumEq:(id)a b:(id)b{
 	return a == b;
@@ -85,7 +85,7 @@
 			++_g;
 			@try {
 				id result = [e mConstructEnum:name :nil];
-				[enums.push:result];
+				[enums push:result];
 			}
 			@catch (NSException *invalidArgCount) {
 			}

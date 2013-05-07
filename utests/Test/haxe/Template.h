@@ -49,11 +49,11 @@ typedef enum{
 - (List*) parseTokens:(NSMutableString*)data;
 - (Template*) parseBlock:(List*)tokens;
 - (Template*) parse:(List*)tokens;
-- (SEL) parseExpr:(NSMutableString*)data;
-- (SEL) makeConst:(NSMutableString*)v;
-- (SEL) makePath:(SEL)e l:(List*)l;
-- (SEL) makeExpr:(List*)l;
-- (SEL) makeExpr2:(List*)l;
+- (id) parseExpr:(NSMutableString*)data;
+- (id) makeConst:(NSMutableString*)v;
+- (id) makePath:(id)e l:(List*)l;
+- (id) makeExpr:(List*)l;
+- (id) makeExpr2:(List*)l;
 - (void) run:(Template*)e;
 - (id) init:(NSMutableString*)str;
 

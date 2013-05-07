@@ -40,13 +40,13 @@ static NSMutableArray* CODES;
 		int _g1 = 0; int _g = BASE64.length;
 		while (_g1 < _g) {
 			int i = _g1++;
-			[codes hx_replaceObjectAtIndex:[-FDynamic-BASE64 characterAtIndex:i] withObject:i];
+			[codes hx_replaceObjectAtIndex:[BASE64 characterAtIndex:i] withObject:i];
 		}
 	}
 	return codes;
 }
 + (id) run:(NSMutableString*)v{
-	return [[[Unserializer alloc] init:v] unserialize];
+	return [[Unserializer alloc] :v unserialize];
 }
 @synthesize buf;
 @synthesize pos;
@@ -56,10 +56,10 @@ static NSMutableArray* CODES;
 @synthesize resolver;
 - (void) setResolver:(id)r{
 	if (r == nil) self.resolver = [@{
-		@"resolveClass":[^Class*(NSMutableString*){
+		@"resolveClass":[^(NSMutableString *_){
 		return [NSNull null];
 	} copy],
-		@"resolveEnum":[^Enum*(NSMutableString*){
+		@"resolveEnum":[^(NSMutableString *_){
 		return [NSNull null];
 	} copy],
 	} mutableCopy];
@@ -69,14 +69,14 @@ static NSMutableArray* CODES;
 	return self.resolver;
 }
 - (int) get:(int)p{
-	return [-FDynamic-self.buf characterAtIndex:p];
+	return [self.buf characterAtIndex:p];
 }
 - (int) readDigits{
 	int k = 0;
 	BOOL s = NO;
 	int fpos = self.pos;
 	while (YES) {
-		int c = [-FDynamic-self.buf characterAtIndex:self.pos];
+		int c = [self.buf characterAtIndex:self.pos];
 		if (c == -1) break;
 		if (c == 45) {
 			if (self.pos != fpos) break;
@@ -94,17 +94,17 @@ static NSMutableArray* CODES;
 - (void) unserializeObject:(id)o{
 	while (YES) {
 		if (self.pos >= self.length) @throw [@"Invalid object" mutableCopy];;
-		if ([-FDynamic-self.buf characterAtIndex:self.pos] == 103) break;
+		if ([self.buf characterAtIndex:self.pos] == 103) break;
 		
 		NSMutableString *k = [self unserialize];
 		if (![Std is:k t:NSMutableString]) @throw [@"Invalid object key" mutableCopy];;
 		id v = [self unserialize];
-		if (o != nil) [-FDynamic-o __SetField-TDynamic-];
+		if (o != nil) [o __SetField:k :v :NO];
 	}
 	self.pos++;
 }
 - (id) unserializeEnum:(Enum*)edecl tag:(NSMutableString*)tag{
-	if ([-FDynamic-self.buf characterAtIndex:self.pos++] != 58) @throw [@"Invalid enum format" mutableCopy];;
+	if ([self.buf characterAtIndex:self.pos++] != 58) @throw [@"Invalid enum format" mutableCopy];;
 	int nargs = [self readDigits];
 	if (nargs == 0) return [Type createEnum:edecl constr:tag params:nil];
 	
@@ -114,7 +114,7 @@ static NSMutableArray* CODES;
 }
 - (id) unserialize{
 	{
-		int _g = [-FDynamic-self.buf characterAtIndex:self.pos++];
+		int _g = [self.buf characterAtIndex:self.pos++];
 		switch (_g){
 			case 110:{
 				return nil}break;
@@ -130,7 +130,7 @@ static NSMutableArray* CODES;
 				{
 					int p1 = self.pos;
 					while (YES) {
-						int c = [-FDynamic-self.buf characterAtIndex:self.pos];
+						int c = [self.buf characterAtIndex:self.pos];
 						if (c >= 43 && c < 58 || c == 101 || c == 69) self.pos++;
 						else break;
 					}
@@ -139,7 +139,7 @@ static NSMutableArray* CODES;
 			case 121:{
 				{
 					int len = [self readDigits];
-					if ([-FDynamic-self.buf characterAtIndex:self.pos++] != 58 || self.length - self.pos < len) @throw [@"Invalid string length" mutableCopy];;
+					if ([self.buf characterAtIndex:self.pos++] != 58 || self.length - self.pos < len) @throw [@"Invalid string length" mutableCopy];;
 					
 					NSMutableString *s = [self.buf substr:self.pos len:len];
 					[self.pos appendString:len];
@@ -161,7 +161,7 @@ static NSMutableArray* CODES;
 					NSMutableArray *a = [[NSMutableArray alloc] init];
 					[self.cache push:a];
 					while (YES) {
-						int c = [-FDynamic-self.buf characterAtIndex:self.pos];
+						int c = [self.buf characterAtIndex:self.pos];
 						if (c == 104) {
 							self.pos++;
 							break;
@@ -243,7 +243,7 @@ static NSMutableArray* CODES;
 					[self.cache push:l];
 					
 					NSMutableString *buf = self.buf;
-					while ([-FDynamic-self.buf characterAtIndex:self.pos] != 104) [l add:[self unserialize]];
+					while ([self.buf characterAtIndex:self.pos] != 104) [l add:[self unserialize]];
 					self.pos++;
 					return l;
 				}}break;
@@ -254,7 +254,7 @@ static NSMutableArray* CODES;
 					[self.cache push:h];
 					
 					NSMutableString *buf = self.buf;
-					while ([-FDynamic-self.buf characterAtIndex:self.pos] != 104) {
+					while ([self.buf characterAtIndex:self.pos] != 104) {
 						
 						NSMutableString *s = [self unserialize];
 						[h set:s value:[self unserialize]];
@@ -269,11 +269,11 @@ static NSMutableArray* CODES;
 					[self.cache push:h];
 					
 					NSMutableString *buf = self.buf;
-					int c = [-FDynamic-self.buf characterAtIndex:self.pos++];
+					int c = [self.buf characterAtIndex:self.pos++];
 					while (c == 58) {
 						int i = [self readDigits];
 						[h set:i value:[self unserialize]];
-						c = [-FDynamic-self.buf characterAtIndex:self.pos++];
+						c = [self.buf characterAtIndex:self.pos++];
 					}
 					if (c != 104) @throw [@"Invalid IntMap format" mutableCopy];;
 					return h;
@@ -285,7 +285,7 @@ static NSMutableArray* CODES;
 					[self.cache push:h];
 					
 					NSMutableString *buf = self.buf;
-					while ([-FDynamic-self.buf characterAtIndex:self.pos] != 104) {
+					while ([self.buf characterAtIndex:self.pos] != 104) {
 						id s = [self unserialize];
 						[h set:s value:[self unserialize]];
 					}
@@ -305,7 +305,7 @@ static NSMutableArray* CODES;
 					int len = [self readDigits];
 					
 					NSMutableString *buf = self.buf;
-					if ([-FDynamic-self.buf characterAtIndex:self.pos++] != 58 || self.length - self.pos < len) @throw [@"Invalid bytes length" mutableCopy];;
+					if ([self.buf characterAtIndex:self.pos++] != 58 || self.length - self.pos < len) @throw [@"Invalid bytes length" mutableCopy];;
 					
 					NSMutableArray *codes = CODES;
 					if (codes == nil) {
@@ -320,20 +320,20 @@ static NSMutableArray* CODES;
 					Bytes *bytes = [Bytes alloc:size];
 					int bpos = 0;
 					while (i < max) {
-						int c1 = [codes hx_objectAtIndex:[-FDynamic-buf characterAtIndex:i++]];
-						int c2 = [codes hx_objectAtIndex:[-FDynamic-buf characterAtIndex:i++]];
+						int c1 = [codes hx_objectAtIndex:[buf characterAtIndex:i++]];
+						int c2 = [codes hx_objectAtIndex:[buf characterAtIndex:i++]];
 						[bytes.b hx_replaceObjectAtIndex:bpos++ withObject:( (c1 << @2 | c2 >> @4) & @255)];
-						int c3 = [codes hx_objectAtIndex:[-FDynamic-buf characterAtIndex:i++]];
+						int c3 = [codes hx_objectAtIndex:[buf characterAtIndex:i++]];
 						[bytes.b hx_replaceObjectAtIndex:bpos++ withObject:( (c2 << @4 | c3 >> @2) & @255)];
-						int c4 = [codes hx_objectAtIndex:[-FDynamic-buf characterAtIndex:i++]];
+						int c4 = [codes hx_objectAtIndex:[buf characterAtIndex:i++]];
 						[bytes.b hx_replaceObjectAtIndex:bpos++ withObject:( (c3 << @6 | c4) & @255)];
 					}
 					if (rest >= 2) {
-						int c1 = [codes hx_objectAtIndex:[-FDynamic-buf characterAtIndex:i++]];
-						int c2 = [codes hx_objectAtIndex:[-FDynamic-buf characterAtIndex:i++]];
+						int c1 = [codes hx_objectAtIndex:[buf characterAtIndex:i++]];
+						int c2 = [codes hx_objectAtIndex:[buf characterAtIndex:i++]];
 						[bytes.b hx_replaceObjectAtIndex:bpos++ withObject:( (c1 << @2 | c2 >> @4) & @255)];
 						if (rest == 3) {
-							int c3 = [codes hx_objectAtIndex:[-FDynamic-buf characterAtIndex:i++]];
+							int c3 = [codes hx_objectAtIndex:[buf characterAtIndex:i++]];
 							[bytes.b hx_replaceObjectAtIndex:bpos++ withObject:( (c2 << @4 | c3 >> @2) & @255)];
 						}
 					}
@@ -350,8 +350,8 @@ static NSMutableArray* CODES;
 					if (cl == nil) @throw [[@"Class not found " mutableCopy] stringByAppendingString:name];;
 					id o = [Type createEmptyInstance:cl];
 					[self.cache push:o];
-					[-FDynamic-o hxUnserialize-TDynamic-];
-					if ([-FDynamic-self.buf characterAtIndex:self.pos++] != 103) @throw [@"Invalid custom data" mutableCopy];;
+					[o hxUnserialize:self];
+					if ([self.buf characterAtIndex:self.pos++] != 103) @throw [@"Invalid custom data" mutableCopy];;
 					return o;
 				}}break;
 			default:{

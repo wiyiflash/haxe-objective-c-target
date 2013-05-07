@@ -10,13 +10,13 @@
 @implementation Json
 
 + (id) parse:(NSMutableString*)text{
-	return [[[Json alloc] init] doParse:text];
+	return [[Json alloc]  doParse:text];
 }
 + (NSMutableString*) stringify:(id)value replacer:(id)replacer{
 	// Optional arguments
 	if (!replacer) replacer = nil;
 	
-	return [[[Json alloc] init] toString:value replacer:replacer];
+	return [[Json alloc]  toString:value replacer:replacer];
 }
 @synthesize buf;
 @synthesize str;
@@ -110,7 +110,7 @@
 						id _it2 = [v1 keys];
 						while ( [_it2 hasNext] ) do {
 							NSMutableString k1 = [_it2 next];
-							if (o != nil) [-FDynamic-o __SetField-TDynamic-];
+							if (o != nil) [o __SetField:k1 :[v1 get:k1] :NO];
 						}
 					}
 					[self objString:o];
@@ -121,7 +121,7 @@
 				{
 					id i = ((int)($this:(snd ctx.path)) 
 					EnumValue *e = v
-					__r__3 = [-FDynamic-e __Index]
+					__r__3 = [e __Index]
 					return __r__3{
 						
 						int* __r__3}
@@ -149,7 +149,7 @@
 	[self.buf.b appendString:[@"\"" mutableCopy]];
 	int i = 0;
 	while (YES) {
-		int c = [-FDynamic-s characterAtIndex:i++];
+		int c = [s characterAtIndex:i++];
 		if (c == -1) break;
 		switch (c){
 			case 34:{
@@ -179,14 +179,14 @@
 }
 - (void) invalidChar{
 	self.pos--;
-	@throw [[[[@"Invalid char " mutableCopy] stringByAppendingString:[-FDynamic-self.str characterAtIndex:self.pos]] stringByAppendingString:[@" at position " mutableCopy]] stringByAppendingString:self.pos];;
+	@throw [[[[@"Invalid char " mutableCopy] stringByAppendingString:[self.str characterAtIndex:self.pos]] stringByAppendingString:[@" at position " mutableCopy]] stringByAppendingString:self.pos];;
 }
 - (int) nextChar{
-	return [-FDynamic-self.str characterAtIndex:self.pos++];
+	return [self.str characterAtIndex:self.pos++];
 }
 - (id) parseRec{
 	while (YES) {
-		int c = [-FDynamic-self.str characterAtIndex:self.pos++];
+		int c = [self.str characterAtIndex:self.pos++];
 		switch (c){
 			case 32:case 13:case 10:case 9:{
 				break;
@@ -196,7 +196,7 @@
 						} mutableCopy]; 
 						NSMutableString *field = nil; BOOL comma = nil;
 						while (YES) {
-							int c1 = [-FDynamic-self.str characterAtIndex:self.pos++];
+							int c1 = [self.str characterAtIndex:self.pos++];
 							switch (c1){
 								case 32:case 13:case 10:case 9:{
 									break;
@@ -208,7 +208,7 @@
 									case 58:{
 										{
 											if (field == nil) [self invalidChar];
-											if (obj != nil) [-FDynamic-obj __SetField-TDynamic-];
+											if (obj != nil) [obj __SetField:field :[self parseRec] :NO];
 											field = nil;
 											comma = YES;
 										}}break;
@@ -230,7 +230,7 @@
 							
 							NSMutableArray *arr = [@[] mutableCopy]; BOOL comma = nil;
 							while (YES) {
-								int c1 = [-FDynamic-self.str characterAtIndex:self.pos++];
+								int c1 = [self.str characterAtIndex:self.pos++];
 								switch (c1){
 									case 32:case 13:case 10:case 9:{
 										break;
@@ -255,7 +255,7 @@
 						case 116:{
 							{
 								int save = self.pos;
-								if ([-FDynamic-self.str characterAtIndex:self.pos++] != 114 || [-FDynamic-self.str characterAtIndex:self.pos++] != 117 || [-FDynamic-self.str characterAtIndex:self.pos++] != 101) {
+								if ([self.str characterAtIndex:self.pos++] != 114 || [self.str characterAtIndex:self.pos++] != 117 || [self.str characterAtIndex:self.pos++] != 101) {
 									self.pos = save;
 									[self invalidChar];
 								}
@@ -264,7 +264,7 @@
 						case 102:{
 							{
 								int save = self.pos;
-								if ([-FDynamic-self.str characterAtIndex:self.pos++] != 97 || [-FDynamic-self.str characterAtIndex:self.pos++] != 108 || [-FDynamic-self.str characterAtIndex:self.pos++] != 115 || [-FDynamic-self.str characterAtIndex:self.pos++] != 101) {
+								if ([self.str characterAtIndex:self.pos++] != 97 || [self.str characterAtIndex:self.pos++] != 108 || [self.str characterAtIndex:self.pos++] != 115 || [self.str characterAtIndex:self.pos++] != 101) {
 									self.pos = save;
 									[self invalidChar];
 								}
@@ -273,7 +273,7 @@
 						case 110:{
 							{
 								int save = self.pos;
-								if ([-FDynamic-self.str characterAtIndex:self.pos++] != 117 || [-FDynamic-self.str characterAtIndex:self.pos++] != 108 || [-FDynamic-self.str characterAtIndex:self.pos++] != 108) {
+								if ([self.str characterAtIndex:self.pos++] != 117 || [self.str characterAtIndex:self.pos++] != 108 || [self.str characterAtIndex:self.pos++] != 108) {
 									self.pos = save;
 									[self invalidChar];
 								}
@@ -287,7 +287,7 @@
 							BOOL minus = c1 == 45; BOOL digit = !minus; BOOL zero = c1 == 48
 							BOOL point = NO; BOOL e = NO; BOOL pm = NO; BOOL end = NO
 							while (YES) {
-								c1 = [-FDynamic-self.str characterAtIndex:self.pos++];
+								c1 = [self.str characterAtIndex:self.pos++];
 								switch (c1){
 									case 48:{
 										{
@@ -350,7 +350,7 @@
 				
 				StringBuf *buf = [[StringBuf alloc] init];
 				while (YES) {
-					int c = [-FDynamic-self.str characterAtIndex:self.pos++];
+					int c = [self.str characterAtIndex:self.pos++];
 					if (c == 34) break;
 					if (c == 92) {
 						{
@@ -358,7 +358,7 @@
 							NSMutableString *s = self.str; int len = self.pos - start - 1;
 							buf.b += ( (len == nil) ? [s substr:start len:nil] : [s substr:start len:len]);
 						}
-						c = [-FDynamic-self.str characterAtIndex:self.pos++];
+						c = [self.str characterAtIndex:self.pos++];
 						switch (c){
 							case 114:{
 								[buf.b appendString:[@"\r" mutableCopy]]}break;
@@ -400,7 +400,7 @@
 				BOOL minus = c == 45; BOOL digit = !minus; BOOL zero = c == 48;
 				BOOL point = NO; BOOL e = NO; BOOL pm = NO; BOOL end = NO;
 				while (YES) {
-					c = [-FDynamic-self.str characterAtIndex:self.pos++];
+					c = [self.str characterAtIndex:self.pos++];
 					switch (c){
 						case 48:{
 							{

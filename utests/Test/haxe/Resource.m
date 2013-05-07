@@ -14,18 +14,18 @@ static NSMutableDictionary* __plist__;
 	if (__plist__ == nil) __plist__ = [[NSMutableDictionary alloc] init];
 	return __plist__;
 }
-+ (void) set__plist__:(NSMutableDictionary*)val {
-	__plist__ = val;
++ (void) set__plist__:(NSMutableDictionary*)hx_val {
+	__plist__ = hx_val;
 }
 + (NSMutableArray*) listNames{
-	return [Resource.__plist__.allKeys];
+	return [Resource.__plist__ allKeys];
 }
 + (NSMutableString*) getString:(NSMutableString*)name{
-	return [Resource.__plist__.objectForKey:name];
+	return [Resource.__plist__ objectForKey:name];
 }
 + (Bytes*) getBytes:(NSMutableString*)name{
 	
-	NSMutableArray *array = [Resource.__plist__ __hxcpp_resource_bytes-TDynamic-];
+	NSMutableArray *array = [Resource.__plist__ __hxcpp_resource_bytes:name];
 	if (array == nil) return nil;
 	return [Bytes ofData:array];
 }

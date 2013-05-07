@@ -19,7 +19,7 @@
 }
 + (Bytes*) make:(Bytes*)b{
 	
-	NSMutableArray *h = [[[Md5 alloc] init] doEncode:[Md5 bytes2blks:b]];
+	NSMutableArray *h = [[Md5 alloc]  doEncode:[Md5 bytes2blks:b]];
 	
 	Bytes *_out = [Bytes alloc:16];
 	int p = 0;

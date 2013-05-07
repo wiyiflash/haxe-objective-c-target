@@ -70,10 +70,10 @@
 - (id) iterator{
 	return (id)[@{
 		@"h":[self.h copy],
-		@"hasNext":[^id(){
+		@"hasNext":[^(){
 		return self.h != [NSNull null];
 	} copy],
-		@"next":[^id(){
+		@"next":[^(){
 		if (self.h == [NSNull null]) return [NSNull null];
 		id x = [self.h hx_objectAtIndex:@0];
 		self.h = [self.h hx_objectAtIndex:@1];

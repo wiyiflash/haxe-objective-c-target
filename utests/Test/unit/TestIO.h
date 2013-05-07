@@ -8,7 +8,6 @@
 
 
 #import "../Std.h"
-#import "../Array.h"
 #import "../haxe/io/Bytes.h"
 #import "../haxe/io/BytesOutput.h"
 #import "../String.h"
@@ -18,10 +17,9 @@
 @interface TestIO : Test 
 
 - (void) test;
-- (void) excv:(SEL)f e:(id)e pos:(id)pos;
+- (void) excv:(id)f e:(id)e pos:(id)pos;
 - (void) check:(BOOL)endian;
 - (void) testBytesBounds;
-- (id) init;
 
 @end
 

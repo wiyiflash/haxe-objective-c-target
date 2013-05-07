@@ -14,14 +14,14 @@
 }
 + (NSMutableArray*) gf3_haxe_Template_Array:(Template*)a b:(NSMutableArray*)b{
 	
-	Template *clone = [[Template alloc] init:[NSMutableString stringWithString:@"foo"]];
-	[b.push:clone];
+	Template *clone = [[Template alloc] init:[@"foo" mutableCopy]];
+	[b push:clone];
 	return b;
 }
 + (NSMutableArray*) gf3_String_Array:(NSMutableString*)a b:(NSMutableArray*)b{
 	
-	NSMutableString *clone = [[NSMutableString alloc] init:[NSMutableString stringWithString:@"foo"]];
-	[b.push:clone];
+	NSMutableString *clone = [[NSMutableString alloc] init:[@"foo" mutableCopy]];
+	[b push:clone];
 	return b;
 }
 + (NSMutableString*) gf2_String_Array:(NSMutableString*)a b:(NSMutableArray*)b{
@@ -49,87 +49,87 @@
 	return s;
 }
 + (NSMutableString*) overloadFake_String:(NSMutableString*)a{
-	return [a stringByAppendingString:[NSMutableString stringWithString:@"foo"]];
+	return [a stringByAppendingString:[@"foo" mutableCopy]];
 }
 + (void) _mapMe:(Map*)map{
 }
 - (void) testType{
 	
-	NSMutableString *name = [[[NSMutableString stringWithString:@"unit"] stringByAppendingString:[NSMutableString stringWithString:@"."]] stringByAppendingString:[NSMutableString stringWithString:@"MyClass"]];
-	[self eq:[Type resolveClass:name] v2:MyClass pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"36",@"lineNumber", @"unit.TestType",@"className", @"testType",@"methodName", nil]];
-	[self eq:[Type getClassName:MyClass] v2:name pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"37",@"lineNumber", @"unit.TestType",@"className", @"testType",@"methodName", nil]];
-	[self eq:[Type getClassFields:MyClass].length v2:0 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"38",@"lineNumber", @"unit.TestType",@"className", @"testType",@"methodName", nil]];
+	NSMutableString *name = [[[@"unit" mutableCopy] stringByAppendingString:[@"." mutableCopy]] stringByAppendingString:[@"MyClass" mutableCopy]];
+	[self eq:[Type resolveClass:name] v2:MyClass pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"40", @"className":@"unit.TestType", @"methodName":@"testType"}];
+	[self eq:[Type getClassName:MyClass] v2:name pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"41", @"className":@"unit.TestType", @"methodName":@"testType"}];
+	[self eq:[Type getClassFields:MyClass].length v2:0 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"42", @"className":@"unit.TestType", @"methodName":@"testType"}];
 }
 - (void) testFields{
 	
 	NSMutableArray *sfields = [Type getClassFields:MySubClass];
-	[self eq:sfields.length v2:1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"43",@"lineNumber", @"unit.TestType",@"className", @"testFields",@"methodName", nil]];
-	[self eq:[sfields hx_objectAtIndex:0] v2:[NSMutableString stringWithString:@"XXX"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"44",@"lineNumber", @"unit.TestType",@"className", @"testFields",@"methodName", nil]];
+	[self eq:sfields.length v2:1 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"47", @"className":@"unit.TestType", @"methodName":@"testFields"}];
+	[self eq:[sfields hx_objectAtIndex:0] v2:[@"XXX" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"48", @"className":@"unit.TestType", @"methodName":@"testFields"}];
 	
-	NSMutableArray *fields = [[NSMutableArray alloc] initWithObjects:[NSMutableString stringWithString:@"add"], [NSMutableString stringWithString:@"get"], [NSMutableString stringWithString:@"intValue"], [NSMutableString stringWithString:@"ref"], [NSMutableString stringWithString:@"set"], [NSMutableString stringWithString:@"stringValue"], [NSMutableString stringWithString:@"val"], nil];
+	NSMutableArray *fields = [@[[@"add" mutableCopy], [@"get" mutableCopy], [@"intValue" mutableCopy], [@"ref" mutableCopy], [@"set" mutableCopy], [@"stringValue" mutableCopy], [@"val" mutableCopy]] mutableCopy];
 	
 	NSMutableArray *fl = [Type getInstanceFields:MyClass];
 	[fl sort:Reflect compare];
-	[self eq:[fl join:[NSMutableString stringWithString:@"|"]] v2:[fields join:[NSMutableString stringWithString:@"|"]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"49",@"lineNumber", @"unit.TestType",@"className", @"testFields",@"methodName", nil]];
+	[self eq:[fl join:[@"|" mutableCopy]] v2:[fields join:[@"|" mutableCopy]] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"53", @"className":@"unit.TestType", @"methodName":@"testFields"}];
 	
 	NSMutableArray *fl1 = [Type getInstanceFields:MySubClass];
 	[fl1 sort:Reflect compare];
-	[self eq:[fl1 join:[NSMutableString stringWithString:@"|"]] v2:[fields join:[NSMutableString stringWithString:@"|"]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"52",@"lineNumber", @"unit.TestType",@"className", @"testFields",@"methodName", nil]];
+	[self eq:[fl1 join:[@"|" mutableCopy]] v2:[fields join:[@"|" mutableCopy]] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"56", @"className":@"unit.TestType", @"methodName":@"testFields"}];
 	
 	NSMutableArray *fl2 = [Type getInstanceFields:VarProps];
 	
-	NSMutableArray *fields1 = [[NSMutableArray alloc] initWithObjects:[NSMutableString stringWithString:@"get_x"], [NSMutableString stringWithString:@"get_y"], [NSMutableString stringWithString:@"set_x"], [NSMutableString stringWithString:@"set_y"], [NSMutableString stringWithString:@"set_z"], [NSMutableString stringWithString:@"y"], [NSMutableString stringWithString:@"z"], nil];
+	NSMutableArray *fields1 = [@[[@"get_x" mutableCopy], [@"get_y" mutableCopy], [@"set_x" mutableCopy], [@"set_y" mutableCopy], [@"set_z" mutableCopy], [@"y" mutableCopy], [@"z" mutableCopy]] mutableCopy];
 	[fl2 sort:Reflect compare];
-	[self eq:[fl2 join:[NSMutableString stringWithString:@"|"]] v2:[fields1 join:[NSMutableString stringWithString:@"|"]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"61",@"lineNumber", @"unit.TestType",@"className", @"testFields",@"methodName", nil]];
+	[self eq:[fl2 join:[@"|" mutableCopy]] v2:[fields1 join:[@"|" mutableCopy]] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"65", @"className":@"unit.TestType", @"methodName":@"testFields"}];
 	
 	NSMutableArray *fl3 = [Type getClassFields:VarProps];
 	
-	NSMutableArray *fields2 = [[NSMutableArray alloc] initWithObjects:[NSMutableString stringWithString:@"SY"], [NSMutableString stringWithString:@"get_SX"], [NSMutableString stringWithString:@"get_SY"], [NSMutableString stringWithString:@"set_SX"], [NSMutableString stringWithString:@"set_SY"], nil];
+	NSMutableArray *fields2 = [@[[@"SY" mutableCopy], [@"get_SX" mutableCopy], [@"get_SY" mutableCopy], [@"set_SX" mutableCopy], [@"set_SY" mutableCopy]] mutableCopy];
 	[fl3 sort:Reflect compare];
-	[self eq:[fl3 join:[NSMutableString stringWithString:@"|"]] v2:[fields2 join:[NSMutableString stringWithString:@"|"]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"67",@"lineNumber", @"unit.TestType",@"className", @"testFields",@"methodName", nil]];
+	[self eq:[fl3 join:[@"|" mutableCopy]] v2:[fields2 join:[@"|" mutableCopy]] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"71", @"className":@"unit.TestType", @"methodName":@"testFields"}];
 }
 - (void) testEnumEq{
-	[self t:[Type enumEq:nil b:nil] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"73",@"lineNumber", @"unit.TestType",@"className", @"testEnumEq",@"methodName", nil]];
-	[self f:[Type enumEq: A b:nil] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"74",@"lineNumber", @"unit.TestType",@"className", @"testEnumEq",@"methodName", nil]];
-	[self f:[Type enumEq:nil b:[ D: A]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"75",@"lineNumber", @"unit.TestType",@"className", @"testEnumEq",@"methodName", nil]];
-	[self t:[Type enumEq: A b: A] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"77",@"lineNumber", @"unit.TestType",@"className", @"testEnumEq",@"methodName", nil]];
-	[self t:[Type enumEq: B b: B] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"78",@"lineNumber", @"unit.TestType",@"className", @"testEnumEq",@"methodName", nil]];
-	[self f:[Type enumEq: A b: B] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"79",@"lineNumber", @"unit.TestType",@"className", @"testEnumEq",@"methodName", nil]];
-	[self t:[Type enumEq:[ C:1 b:[NSMutableString stringWithString:@"hello"]] b:[ C:1 b:[NSMutableString stringWithString:@"hello"]]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"81",@"lineNumber", @"unit.TestType",@"className", @"testEnumEq",@"methodName", nil]];
-	[self f:[Type enumEq:[ C:1 b:[NSMutableString stringWithString:@"hello"]] b:[ C:1 b:[NSMutableString stringWithString:@"hellox"]]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"82",@"lineNumber", @"unit.TestType",@"className", @"testEnumEq",@"methodName", nil]];
-	[self t:[Type enumEq:[ D: A] b:[ D: A]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"84",@"lineNumber", @"unit.TestType",@"className", @"testEnumEq",@"methodName", nil]];
-	[self f:[Type enumEq:[ D: A] b:[ D: B]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"85",@"lineNumber", @"unit.TestType",@"className", @"testEnumEq",@"methodName", nil]];
+	[self t:[Type enumEq:nil b:nil] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"77", @"className":@"unit.TestType", @"methodName":@"testEnumEq"}];
+	[self f:[Type enumEq:A b:nil] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"78", @"className":@"unit.TestType", @"methodName":@"testEnumEq"}];
+	[self f:[Type enumEq:nil b:[D:A]] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"79", @"className":@"unit.TestType", @"methodName":@"testEnumEq"}];
+	[self t:[Type enumEq:A b:A] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"81", @"className":@"unit.TestType", @"methodName":@"testEnumEq"}];
+	[self t:[Type enumEq:B b:B] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"82", @"className":@"unit.TestType", @"methodName":@"testEnumEq"}];
+	[self f:[Type enumEq:A b:B] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"83", @"className":@"unit.TestType", @"methodName":@"testEnumEq"}];
+	[self t:[Type enumEq:[C:1 b:[@"hello" mutableCopy]] b:[C:1 b:[@"hello" mutableCopy]]] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"85", @"className":@"unit.TestType", @"methodName":@"testEnumEq"}];
+	[self f:[Type enumEq:[C:1 b:[@"hello" mutableCopy]] b:[C:1 b:[@"hellox" mutableCopy]]] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"86", @"className":@"unit.TestType", @"methodName":@"testEnumEq"}];
+	[self t:[Type enumEq:[D:A] b:[D:A]] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"88", @"className":@"unit.TestType", @"methodName":@"testEnumEq"}];
+	[self f:[Type enumEq:[D:A] b:[D:B]] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"89", @"className":@"unit.TestType", @"methodName":@"testEnumEq"}];
 }
 - (void) testPossibleBug{
 	
 	NSMutableArray *c = [Type getEnumConstructs:];
 	
 	NSMutableString *old = [c hx_objectAtIndex:0];
-	[c hx_replaceObjectAtIndex:0 withObject:[NSMutableString stringWithString:@"modified"]];
-	[self eq:[[Type getEnumConstructs:] hx_objectAtIndex:0] v2:old pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"93",@"lineNumber", @"unit.TestType",@"className", @"testPossibleBug",@"methodName", nil]];
+	[c hx_replaceObjectAtIndex:0 withObject:[@"modified" mutableCopy]];
+	[self eq:[[Type getEnumConstructs:] hx_objectAtIndex:0] v2:old pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"97", @"className":@"unit.TestType", @"methodName":@"testPossibleBug"}];
 	
 	NSMutableArray *i = [Type getInstanceFields:TestType];
 	
 	NSMutableString *old1 = [i hx_objectAtIndex:0];
-	[i hx_replaceObjectAtIndex:0 withObject:[NSMutableString stringWithString:@"modified"]];
-	[self eq:[[Type getInstanceFields:TestType] hx_objectAtIndex:0] v2:old1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"98",@"lineNumber", @"unit.TestType",@"className", @"testPossibleBug",@"methodName", nil]];
+	[i hx_replaceObjectAtIndex:0 withObject:[@"modified" mutableCopy]];
+	[self eq:[[Type getInstanceFields:TestType] hx_objectAtIndex:0] v2:old1 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"102", @"className":@"unit.TestType", @"methodName":@"testPossibleBug"}];
 	
 	NSMutableArray *i1 = [Type getClassFields:TestType];
 	
 	NSMutableString *old2 = [i1 hx_objectAtIndex:0];
-	[i1 hx_replaceObjectAtIndex:0 withObject:[NSMutableString stringWithString:@"modified"]];
-	[self eq:[[Type getClassFields:TestType] hx_objectAtIndex:0] v2:old2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"103",@"lineNumber", @"unit.TestType",@"className", @"testPossibleBug",@"methodName", nil]];
+	[i1 hx_replaceObjectAtIndex:0 withObject:[@"modified" mutableCopy]];
+	[self eq:[[Type getClassFields:TestType] hx_objectAtIndex:0] v2:old2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"107", @"className":@"unit.TestType", @"methodName":@"testPossibleBug"}];
 }
 - (void) testAllField{
-	[self eq:[[Type allEnums:] join:[NSMutableString stringWithString:@"#"]] v2:[NSMutableString stringWithString:@"A#B"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"111",@"lineNumber", @"unit.TestType",@"className", @"testAllField",@"methodName", nil]];
+	[self eq:[[Type allEnums:] join:[@"#" mutableCopy]] v2:[@"A#B" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"115", @"className":@"unit.TestType", @"methodName":@"testAllField"}];
 }
 - (void) testWiderVisibility{
 	
 	MyChild1 *c = [[MyChild1 alloc] init];
-	[self eq:12 v2:[c a] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"116",@"lineNumber", @"unit.TestType",@"className", @"testWiderVisibility",@"methodName", nil]];
+	[self eq:12 v2:[c a] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"120", @"className":@"unit.TestType", @"methodName":@"testWiderVisibility"}];
 	
 	MyChild2 *mc2 = [[MyChild2 alloc] init];
-	[self eq:21 v2:[mc2 test1:[[MyChild1 alloc] init]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"121",@"lineNumber", @"unit.TestType",@"className", @"testWiderVisibility",@"methodName", nil]];
+	[self eq:21 v2:[mc2 test1:[[MyChild1 alloc] init]] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"125", @"className":@"unit.TestType", @"methodName":@"testWiderVisibility"}];
 }
 - (void) testUnifyMin{
 	
@@ -147,76 +147,76 @@
 	
 	NSMutableArray *ts;
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TInst(Array,[TInst(unit.Base,[])])"] v2:[NSMutableString stringWithString:@"TInst(Array,[TInst(unit.Base,[])])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"141",@"lineNumber", @"unit.TestType",@"className", @"testUnifyMin",@"methodName", nil]];
+		count++;
+		[self eq:[@"TInst(Array,[TInst(unit.Base,[])])" mutableCopy] v2:[@"TInst(Array,[TInst(unit.Base,[])])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"145", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TInst(Array,[TInst(unit.Base,[])])"] v2:[NSMutableString stringWithString:@"TInst(Array,[TInst(unit.Base,[])])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"142",@"lineNumber", @"unit.TestType",@"className", @"testUnifyMin",@"methodName", nil]];
+		count++;
+		[self eq:[@"TInst(Array,[TInst(unit.Base,[])])" mutableCopy] v2:[@"TInst(Array,[TInst(unit.Base,[])])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"146", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TInst(Array,[TInst(unit.Base,[])])"] v2:[NSMutableString stringWithString:@"TInst(Array,[TInst(unit.Base,[])])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"143",@"lineNumber", @"unit.TestType",@"className", @"testUnifyMin",@"methodName", nil]];
+		count++;
+		[self eq:[@"TInst(Array,[TInst(unit.Base,[])])" mutableCopy] v2:[@"TInst(Array,[TInst(unit.Base,[])])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"147", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TInst(Array,[TInst(unit.I1,[])])"] v2:[NSMutableString stringWithString:@"TInst(Array,[TInst(unit.I1,[])])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"144",@"lineNumber", @"unit.TestType",@"className", @"testUnifyMin",@"methodName", nil]];
+		count++;
+		[self eq:[@"TInst(Array,[TInst(unit.I1,[])])" mutableCopy] v2:[@"TInst(Array,[TInst(unit.I1,[])])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"148", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TInst(Array,[TInst(unit.I1,[])])"] v2:[NSMutableString stringWithString:@"TInst(Array,[TInst(unit.I1,[])])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"145",@"lineNumber", @"unit.TestType",@"className", @"testUnifyMin",@"methodName", nil]];
+		count++;
+		[self eq:[@"TInst(Array,[TInst(unit.I1,[])])" mutableCopy] v2:[@"TInst(Array,[TInst(unit.I1,[])])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"149", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TInst(Array,[TInst(unit.I1,[])])"] v2:[NSMutableString stringWithString:@"TInst(Array,[TInst(unit.I1,[])])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"147",@"lineNumber", @"unit.TestType",@"className", @"testUnifyMin",@"methodName", nil]];
+		count++;
+		[self eq:[@"TInst(Array,[TInst(unit.I1,[])])" mutableCopy] v2:[@"TInst(Array,[TInst(unit.I1,[])])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"151", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TInst(Array,[TInst(unit.Base,[])])"] v2:[NSMutableString stringWithString:@"TInst(Array,[TInst(unit.Base,[])])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"148",@"lineNumber", @"unit.TestType",@"className", @"testUnifyMin",@"methodName", nil]];
+		count++;
+		[self eq:[@"TInst(Array,[TInst(unit.Base,[])])" mutableCopy] v2:[@"TInst(Array,[TInst(unit.Base,[])])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"152", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TInst(Array,[TInst(unit.Base,[])])"] v2:[NSMutableString stringWithString:@"TInst(Array,[TInst(unit.Base,[])])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"149",@"lineNumber", @"unit.TestType",@"className", @"testUnifyMin",@"methodName", nil]];
+		count++;
+		[self eq:[@"TInst(Array,[TInst(unit.Base,[])])" mutableCopy] v2:[@"TInst(Array,[TInst(unit.Base,[])])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"153", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TInst(Array,[TInst(unit.PClassBase,[TAbstract(Float,[])])])"] v2:[NSMutableString stringWithString:@"TInst(Array,[TInst(unit.PClassBase,[TAbstract(Float,[])])])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"151",@"lineNumber", @"unit.TestType",@"className", @"testUnifyMin",@"methodName", nil]];
+		count++;
+		[self eq:[@"TInst(Array,[TInst(unit.PClassBase,[TAbstract(Float,[])])])" mutableCopy] v2:[@"TInst(Array,[TInst(unit.PClassBase,[TAbstract(Float,[])])])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"155", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TInst(Array,[TAbstract(Bool,[])])"] v2:[NSMutableString stringWithString:@"TInst(Array,[TAbstract(Bool,[])])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"153",@"lineNumber", @"unit.TestType",@"className", @"testUnifyMin",@"methodName", nil]];
+		count++;
+		[self eq:[@"TInst(Array,[TAbstract(Bool,[])])" mutableCopy] v2:[@"TInst(Array,[TAbstract(Bool,[])])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"157", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TInst(Array,[TAbstract(Bool,[])])"] v2:[NSMutableString stringWithString:@"TInst(Array,[TAbstract(Bool,[])])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"154",@"lineNumber", @"unit.TestType",@"className", @"testUnifyMin",@"methodName", nil]];
+		count++;
+		[self eq:[@"TInst(Array,[TAbstract(Bool,[])])" mutableCopy] v2:[@"TInst(Array,[TAbstract(Bool,[])])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"158", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TInst(Array,[TInst(unit.Base,[])])"] v2:[NSMutableString stringWithString:@"TInst(Array,[TInst(unit.Base,[])])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"155",@"lineNumber", @"unit.TestType",@"className", @"testUnifyMin",@"methodName", nil]];
+		count++;
+		[self eq:[@"TInst(Array,[TInst(unit.Base,[])])" mutableCopy] v2:[@"TInst(Array,[TInst(unit.Base,[])])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"159", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TInst(Array,[TInst(unit.Base,[])])"] v2:[NSMutableString stringWithString:@"TInst(Array,[TInst(unit.Base,[])])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"157",@"lineNumber", @"unit.TestType",@"className", @"testUnifyMin",@"methodName", nil]];
+		count++;
+		[self eq:[@"TInst(Array,[TInst(unit.Base,[])])" mutableCopy] v2:[@"TInst(Array,[TInst(unit.Base,[])])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"161", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TInst(Array,[TInst(unit.Base,[])])"] v2:[NSMutableString stringWithString:@"TInst(Array,[TInst(unit.Base,[])])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"158",@"lineNumber", @"unit.TestType",@"className", @"testUnifyMin",@"methodName", nil]];
+		count++;
+		[self eq:[@"TInst(Array,[TInst(unit.Base,[])])" mutableCopy] v2:[@"TInst(Array,[TInst(unit.Base,[])])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"162", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TInst(Array,[TInst(unit.Base,[])])"] v2:[NSMutableString stringWithString:@"TInst(Array,[TInst(unit.Base,[])])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"159",@"lineNumber", @"unit.TestType",@"className", @"testUnifyMin",@"methodName", nil]];
+		count++;
+		[self eq:[@"TInst(Array,[TInst(unit.Base,[])])" mutableCopy] v2:[@"TInst(Array,[TInst(unit.Base,[])])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"163", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TInst(Array,[TInst(unit.Child1,[])])"] v2:[NSMutableString stringWithString:@"TInst(Array,[TInst(unit.Child1,[])])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"160",@"lineNumber", @"unit.TestType",@"className", @"testUnifyMin",@"methodName", nil]];
+		count++;
+		[self eq:[@"TInst(Array,[TInst(unit.Child1,[])])" mutableCopy] v2:[@"TInst(Array,[TInst(unit.Child1,[])])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"164", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TInst(Array,[TAnonymous(<anonymous>)])"] v2:[NSMutableString stringWithString:@"TInst(Array,[TAnonymous(<anonymous>)])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"161",@"lineNumber", @"unit.TestType",@"className", @"testUnifyMin",@"methodName", nil]];
+		count++;
+		[self eq:[@"TInst(Array,[TAnonymous(<anonymous>)])" mutableCopy] v2:[@"TInst(Array,[TAnonymous(<anonymous>)])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"165", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TInst(Array,[TAnonymous(<anonymous>)])"] v2:[NSMutableString stringWithString:@"TInst(Array,[TAnonymous(<anonymous>)])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"162",@"lineNumber", @"unit.TestType",@"className", @"testUnifyMin",@"methodName", nil]];
+		count++;
+		[self eq:[@"TInst(Array,[TAnonymous(<anonymous>)])" mutableCopy] v2:[@"TInst(Array,[TAnonymous(<anonymous>)])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"166", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	
 	Base *tbase1;
@@ -225,458 +225,405 @@
 	BOOL tnullbool1;
 	id ts1;
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TInst(unit.Base,[])"] v2:[NSMutableString stringWithString:@"TInst(unit.Base,[])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"175",@"lineNumber", @"unit.TestType",@"className", @"testUnifyMin",@"methodName", nil]];
+		count++;
+		[self eq:[@"TInst(unit.Base,[])" mutableCopy] v2:[@"TInst(unit.Base,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"179", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TInst(unit.Base,[])"] v2:[NSMutableString stringWithString:@"TInst(unit.Base,[])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"176",@"lineNumber", @"unit.TestType",@"className", @"testUnifyMin",@"methodName", nil]];
+		count++;
+		[self eq:[@"TInst(unit.Base,[])" mutableCopy] v2:[@"TInst(unit.Base,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"180", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TInst(unit.Base,[])"] v2:[NSMutableString stringWithString:@"TInst(unit.Base,[])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"180",@"lineNumber", @"unit.TestType",@"className", @"testUnifyMin",@"methodName", nil]];
+		count++;
+		[self eq:[@"TInst(unit.Base,[])" mutableCopy] v2:[@"TInst(unit.Base,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"184", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TInst(unit.I1,[])"] v2:[NSMutableString stringWithString:@"TInst(unit.I1,[])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"184",@"lineNumber", @"unit.TestType",@"className", @"testUnifyMin",@"methodName", nil]];
+		count++;
+		[self eq:[@"TInst(unit.I1,[])" mutableCopy] v2:[@"TInst(unit.I1,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"188", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TInst(unit.I1,[])"] v2:[NSMutableString stringWithString:@"TInst(unit.I1,[])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"185",@"lineNumber", @"unit.TestType",@"className", @"testUnifyMin",@"methodName", nil]];
+		count++;
+		[self eq:[@"TInst(unit.I1,[])" mutableCopy] v2:[@"TInst(unit.I1,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"189", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TAbstract(Bool,[])"] v2:[NSMutableString stringWithString:@"TAbstract(Bool,[])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"187",@"lineNumber", @"unit.TestType",@"className", @"testUnifyMin",@"methodName", nil]];
+		count++;
+		[self eq:[@"TAbstract(Bool,[])" mutableCopy] v2:[@"TAbstract(Bool,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"191", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TAbstract(Bool,[])"] v2:[NSMutableString stringWithString:@"TAbstract(Bool,[])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"188",@"lineNumber", @"unit.TestType",@"className", @"testUnifyMin",@"methodName", nil]];
+		count++;
+		[self eq:[@"TAbstract(Bool,[])" mutableCopy] v2:[@"TAbstract(Bool,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"192", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TAnonymous(<anonymous>)"] v2:[NSMutableString stringWithString:@"TAnonymous(<anonymous>)"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"189",@"lineNumber", @"unit.TestType",@"className", @"testUnifyMin",@"methodName", nil]];
+		count++;
+		[self eq:[@"TAnonymous(<anonymous>)" mutableCopy] v2:[@"TAnonymous(<anonymous>)" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"193", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TAnonymous(<anonymous>)"] v2:[NSMutableString stringWithString:@"TAnonymous(<anonymous>)"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"190",@"lineNumber", @"unit.TestType",@"className", @"testUnifyMin",@"methodName", nil]];
+		count++;
+		[self eq:[@"TAnonymous(<anonymous>)" mutableCopy] v2:[@"TAnonymous(<anonymous>)" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"194", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TInst(unit.Base,[])"] v2:[NSMutableString stringWithString:@"TInst(unit.Base,[])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"194",@"lineNumber", @"unit.TestType",@"className", @"testUnifyMin",@"methodName", nil]];
+		count++;
+		[self eq:[@"TInst(unit.Base,[])" mutableCopy] v2:[@"TInst(unit.Base,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"198", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TInst(unit.Base,[])"] v2:[NSMutableString stringWithString:@"TInst(unit.Base,[])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"195",@"lineNumber", @"unit.TestType",@"className", @"testUnifyMin",@"methodName", nil]];
+		count++;
+		[self eq:[@"TInst(unit.Base,[])" mutableCopy] v2:[@"TInst(unit.Base,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"199", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TInst(unit.I1,[])"] v2:[NSMutableString stringWithString:@"TInst(unit.I1,[])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"196",@"lineNumber", @"unit.TestType",@"className", @"testUnifyMin",@"methodName", nil]];
+		count++;
+		[self eq:[@"TInst(unit.I1,[])" mutableCopy] v2:[@"TInst(unit.I1,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"200", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TInst(unit.I1,[])"] v2:[NSMutableString stringWithString:@"TInst(unit.I1,[])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"197",@"lineNumber", @"unit.TestType",@"className", @"testUnifyMin",@"methodName", nil]];
+		count++;
+		[self eq:[@"TInst(unit.I1,[])" mutableCopy] v2:[@"TInst(unit.I1,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"201", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TAbstract(Bool,[])"] v2:[NSMutableString stringWithString:@"TAbstract(Bool,[])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"199",@"lineNumber", @"unit.TestType",@"className", @"testUnifyMin",@"methodName", nil]];
+		count++;
+		[self eq:[@"TAbstract(Bool,[])" mutableCopy] v2:[@"TAbstract(Bool,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"203", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TAbstract(Bool,[])"] v2:[NSMutableString stringWithString:@"TAbstract(Bool,[])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"200",@"lineNumber", @"unit.TestType",@"className", @"testUnifyMin",@"methodName", nil]];
+		count++;
+		[self eq:[@"TAbstract(Bool,[])" mutableCopy] v2:[@"TAbstract(Bool,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"204", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TAnonymous(<anonymous>)"] v2:[NSMutableString stringWithString:@"TAnonymous(<anonymous>)"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"201",@"lineNumber", @"unit.TestType",@"className", @"testUnifyMin",@"methodName", nil]];
+		count++;
+		[self eq:[@"TAnonymous(<anonymous>)" mutableCopy] v2:[@"TAnonymous(<anonymous>)" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"205", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TAnonymous(<anonymous>)"] v2:[NSMutableString stringWithString:@"TAnonymous(<anonymous>)"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"202",@"lineNumber", @"unit.TestType",@"className", @"testUnifyMin",@"methodName", nil]];
+		count++;
+		[self eq:[@"TAnonymous(<anonymous>)" mutableCopy] v2:[@"TAnonymous(<anonymous>)" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"206", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TInst(Array,[TAnonymous(<anonymous>)])"] v2:[NSMutableString stringWithString:@"TInst(Array,[TAnonymous(<anonymous>)])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"204",@"lineNumber", @"unit.TestType",@"className", @"testUnifyMin",@"methodName", nil]];
+		count++;
+		[self eq:[@"TInst(Array,[TAnonymous(<anonymous>)])" mutableCopy] v2:[@"TInst(Array,[TAnonymous(<anonymous>)])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"208", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 }
 - (void) testCallback{
-	SEL func = ^- (int) :(int)a b:(NSMutableString*)b c:(float)c{
+	id func = ^(int *a, NSMutableString *b, float *c){
 		return a;
 	}
-	SEL tstringfloat = ^- (int) :(NSMutableString*)b c:(float)c{
+	id tstringfloat = ^(NSMutableString *b, float *c){
 		return 0;
 	}
-	SEL tfloat = ^- (int) :(float)c{
+	id tfloat = ^(float *c){
 		return 0;
 	}
-	SEL tvoid = ^- (int) {
+	id tvoid = ^(){
 		return 0;
 	}
-	SEL tintstring = ^- (int) :(int)a b:(NSMutableString*)b{
+	id tintstring = ^(int *a, NSMutableString *b){
 		return 0;
 	}
-	SEL tintfloat = ^- (int) :(int)a c:(float)c{
+	id tintfloat = ^(int *a, float *c){
 		return 0;
 	}
-	SEL tint = ^- (int) :(int)a{
+	id tint = ^(int *a){
 		return 0;
 	}
-	SEL tstring = ^- (int) :(NSMutableString*)b{
+	id tstring = ^(NSMutableString *b){
 		return 0;
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))"] v2:[NSMutableString stringWithString:@"TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"225",@"lineNumber", @"unit.TestType",@"className", @"testCallback",@"methodName", nil]];
+		count++;
+		[self eq:[@"TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] v2:[@"TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"229", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))"] v2:[NSMutableString stringWithString:@"TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"226",@"lineNumber", @"unit.TestType",@"className", @"testCallback",@"methodName", nil]];
+		count++;
+		[self eq:[@"TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] v2:[@"TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"230", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))"] v2:[NSMutableString stringWithString:@"TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"227",@"lineNumber", @"unit.TestType",@"className", @"testCallback",@"methodName", nil]];
+		count++;
+		[self eq:[@"TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] v2:[@"TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"231", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))"] v2:[NSMutableString stringWithString:@"TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"228",@"lineNumber", @"unit.TestType",@"className", @"testCallback",@"methodName", nil]];
+		count++;
+		[self eq:[@"TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] v2:[@"TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"232", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TFun([],TAbstract(Int,[]))"] v2:[NSMutableString stringWithString:@"TFun([],TAbstract(Int,[]))"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"232",@"lineNumber", @"unit.TestType",@"className", @"testCallback",@"methodName", nil]];
+		count++;
+		[self eq:[@"TFun([],TAbstract(Int,[]))" mutableCopy] v2:[@"TFun([],TAbstract(Int,[]))" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"236", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TFun([{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))"] v2:[NSMutableString stringWithString:@"TFun([{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"236",@"lineNumber", @"unit.TestType",@"className", @"testCallback",@"methodName", nil]];
+		count++;
+		[self eq:[@"TFun([{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] v2:[@"TFun([{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"240", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TFun([{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))"] v2:[NSMutableString stringWithString:@"TFun([{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"237",@"lineNumber", @"unit.TestType",@"className", @"testCallback",@"methodName", nil]];
+		count++;
+		[self eq:[@"TFun([{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] v2:[@"TFun([{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"241", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TFun([{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))"] v2:[NSMutableString stringWithString:@"TFun([{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"241",@"lineNumber", @"unit.TestType",@"className", @"testCallback",@"methodName", nil]];
+		count++;
+		[self eq:[@"TFun([{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] v2:[@"TFun([{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"245", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TFun([{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))"] v2:[NSMutableString stringWithString:@"TFun([{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"242",@"lineNumber", @"unit.TestType",@"className", @"testCallback",@"methodName", nil]];
+		count++;
+		[self eq:[@"TFun([{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] v2:[@"TFun([{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"246", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TFun([{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))"] v2:[NSMutableString stringWithString:@"TFun([{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"243",@"lineNumber", @"unit.TestType",@"className", @"testCallback",@"methodName", nil]];
+		count++;
+		[self eq:[@"TFun([{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] v2:[@"TFun([{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"247", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => b, t => TInst(String,[]), opt => false }],TAbstract(Int,[]))"] v2:[NSMutableString stringWithString:@"TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => b, t => TInst(String,[]), opt => false }],TAbstract(Int,[]))"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"247",@"lineNumber", @"unit.TestType",@"className", @"testCallback",@"methodName", nil]];
+		count++;
+		[self eq:[@"TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => b, t => TInst(String,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] v2:[@"TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => b, t => TInst(String,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"251", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))"] v2:[NSMutableString stringWithString:@"TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"248",@"lineNumber", @"unit.TestType",@"className", @"testCallback",@"methodName", nil]];
+		count++;
+		[self eq:[@"TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] v2:[@"TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"252", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TFun([{ name => a, t => TAbstract(Int,[]), opt => false }],TAbstract(Int,[]))"] v2:[NSMutableString stringWithString:@"TFun([{ name => a, t => TAbstract(Int,[]), opt => false }],TAbstract(Int,[]))"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"249",@"lineNumber", @"unit.TestType",@"className", @"testCallback",@"methodName", nil]];
+		count++;
+		[self eq:[@"TFun([{ name => a, t => TAbstract(Int,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] v2:[@"TFun([{ name => a, t => TAbstract(Int,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"253", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TFun([{ name => b, t => TInst(String,[]), opt => false }],TAbstract(Int,[]))"] v2:[NSMutableString stringWithString:@"TFun([{ name => b, t => TInst(String,[]), opt => false }],TAbstract(Int,[]))"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"250",@"lineNumber", @"unit.TestType",@"className", @"testCallback",@"methodName", nil]];
+		count++;
+		[self eq:[@"TFun([{ name => b, t => TInst(String,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] v2:[@"TFun([{ name => b, t => TInst(String,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"254", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	}
-	[self eq:1 v2:[ (((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:func]
-	__r__ = ^- (int) :(int)a b:(NSMutableString*)b c:(float)c{
-		return [[f hx_objectAtIndex:0]:a b:b c:c];
+	[self eq:1 v2:[ (((id)($this:(snd ctx.path)) id f = func
+	__r__ = ^(int *a, NSMutableString *b, float *c){
+		return [f:a b:b c:c];
 	}
 	return __r__{
 		
-		SEL* __r__}
-	}(self))):1 b:[NSMutableString stringWithString:@"2"] c:3] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"254",@"lineNumber", @"unit.TestType",@"className", @"testCallback",@"methodName", nil]];
-	[self eq:2 v2:[ (((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:func]
-	__r__2 = ^- (int) :(NSMutableString*)b c:(float)c{
-		return [[f hx_objectAtIndex:0]:2 b:b c:c];
+		id* __r__}
+	}(self))):1 b:[@"2" mutableCopy] c:3] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"258", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
+	[self eq:2 v2:[ (((id)($this:(snd ctx.path)) id f = func
+	__r__2 = ^(NSMutableString *b, float *c){
+		return [f:2 b:b c:c];
 	}
 	return __r__2{
 		
-		SEL* __r__2}
-	}(self))):[NSMutableString stringWithString:@"2"] c:3] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"255",@"lineNumber", @"unit.TestType",@"className", @"testCallback",@"methodName", nil]];
-	[self eq:2 v2:[ (((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:func]
-	__r__3 = ^- (int) :(float)c{
-		return [[f hx_objectAtIndex:0]:2 b:[NSMutableString stringWithString:@"3"] c:c];
+		id* __r__2}
+	}(self))):[@"2" mutableCopy] c:3] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"259", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
+	[self eq:2 v2:[ (((id)($this:(snd ctx.path)) id f = func
+	__r__3 = ^(float *c){
+		return [f:2 b:[@"3" mutableCopy] c:c];
 	}
 	return __r__3{
 		
-		SEL* __r__3}
-	}(self))):3] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"256",@"lineNumber", @"unit.TestType",@"className", @"testCallback",@"methodName", nil]];
-	[self eq:2 v2:[ (((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:func]
-	__r__4 = ^- (int) {
-		return [[f hx_objectAtIndex:0]:2 b:[NSMutableString stringWithString:@"3"] c:4];
+		id* __r__3}
+	}(self))):3] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"260", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
+	[self eq:2 v2:[ (((id)($this:(snd ctx.path)) id f = func
+	__r__4 = ^(){
+		return [f:2 b:[@"3" mutableCopy] c:4];
 	}
 	return __r__4{
 		
-		SEL* __r__4}
-	}(self)))] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"257",@"lineNumber", @"unit.TestType",@"className", @"testCallback",@"methodName", nil]];
-	[self eq:1 v2:[ (((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:func]
-	__r__5 = ^- (int) :(int)a{
-		return [[f hx_objectAtIndex:0]:a b:[NSMutableString stringWithString:@"2"] c:3];
+		id* __r__4}
+	}(self)))] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"261", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
+	[self eq:1 v2:[ (((id)($this:(snd ctx.path)) id f = func
+	__r__5 = ^(int *a){
+		return [f:a b:[@"2" mutableCopy] c:3];
 	}
 	return __r__5{
 		
-		SEL* __r__5}
-	}(self))):1] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"259",@"lineNumber", @"unit.TestType",@"className", @"testCallback",@"methodName", nil]];
-	[self eq:1 v2:[ (((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:func]
-	__r__6 = ^- (int) :(int)a c:(float)c{
-		return [[f hx_objectAtIndex:0]:a b:[NSMutableString stringWithString:@"2"] c:c];
+		id* __r__5}
+	}(self))):1] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"263", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
+	[self eq:1 v2:[ (((id)($this:(snd ctx.path)) id f = func
+	__r__6 = ^(int *a, float *c){
+		return [f:a b:[@"2" mutableCopy] c:c];
 	}
 	return __r__6{
 		
-		SEL* __r__6}
-	}(self))):1 c:3] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"260",@"lineNumber", @"unit.TestType",@"className", @"testCallback",@"methodName", nil]];
-	[self eq:1 v2:[ (((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:func]
-	__r__7 = ^- (int) :(int)a b:(NSMutableString*)b c:(float)c{
-		return [[f hx_objectAtIndex:0]:a b:b c:c];
+		id* __r__6}
+	}(self))):1 c:3] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"264", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
+	[self eq:1 v2:[ (((id)($this:(snd ctx.path)) id f = func
+	__r__7 = ^(int *a, NSMutableString *b, float *c){
+		return [f:a b:b c:c];
 	}
 	return __r__7{
 		
-		SEL* __r__7}
-	}(self))):1 b:[NSMutableString stringWithString:@"2"] c:3] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"261",@"lineNumber", @"unit.TestType",@"className", @"testCallback",@"methodName", nil]];
-	[self eq:1 v2:[ (((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:func]
-	__r__8 = ^- (int) :(int)a c:(float)c{
-		return [[f hx_objectAtIndex:0]:a b:[NSMutableString stringWithString:@"2"] c:c];
+		id* __r__7}
+	}(self))):1 b:[@"2" mutableCopy] c:3] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"265", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
+	[self eq:1 v2:[ (((id)($this:(snd ctx.path)) id f = func
+	__r__8 = ^(int *a, float *c){
+		return [f:a b:[@"2" mutableCopy] c:c];
 	}
 	return __r__8{
 		
-		SEL* __r__8}
-	}(self))):1 c:2] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"263",@"lineNumber", @"unit.TestType",@"className", @"testCallback",@"methodName", nil]];
-	[self eq:1 v2:[ (((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:func]
-	__r__10 = ^- (int) :(int)a b:(NSMutableString*)b c:(float)c{
-		return [[f hx_objectAtIndex:0]:a b:b c:c];
+		id* __r__8}
+	}(self))):1 c:2] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"267", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
+	[self eq:1 v2:[ (((id)($this:(snd ctx.path)) id f = ((id)($this:(snd ctx.path)) id f1 = func
+	__r__10 = ^(int *a, NSMutableString *b, float *c){
+		return [f1:a b:b c:c];
 	}
 	return __r__10{
 		
-		SEL* __r__10}
-	}(__self))]
-	__r__9 = ^- (int) :(int)a{
-		return [[f hx_objectAtIndex:0]:a b:[NSMutableString stringWithString:@"2"] c:3];
+		id* __r__10}
+	}(self))
+	__r__9 = ^(int *a){
+		return [f:a b:[@"2" mutableCopy] c:3];
 	}
 	return __r__9{
 		
-		SEL* __r__9}
-	}(self))):1] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"265",@"lineNumber", @"unit.TestType",@"className", @"testCallback",@"methodName", nil]];
-	[self eq:1 v2:[ (((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:func]
-	__r__12 = ^- (int) :(NSMutableString*)b c:(float)c{
-		return [[f hx_objectAtIndex:0]:1 b:b c:c];
+		id* __r__9}
+	}(self))):1] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"269", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
+	[self eq:1 v2:[ (((id)($this:(snd ctx.path)) id f = ((id)($this:(snd ctx.path)) id f1 = func
+	__r__12 = ^(NSMutableString *b, float *c){
+		return [f1:1 b:b c:c];
 	}
 	return __r__12{
 		
-		SEL* __r__12}
-	}(__self))]
-	__r__11 = ^- (int) {
-		return [[f hx_objectAtIndex:0]:[NSMutableString stringWithString:@"2"] c:3];
+		id* __r__12}
+	}(self))
+	__r__11 = ^(){
+		return [f:[@"2" mutableCopy] c:3];
 	}
 	return __r__11{
 		
-		SEL* __r__11}
-	}(self)))] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"266",@"lineNumber", @"unit.TestType",@"className", @"testCallback",@"methodName", nil]];
-	[self eq:1 v2:[ (((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:func]
-	__r__14 = ^- (int) :(NSMutableString*)b c:(float)c{
-		return [[f hx_objectAtIndex:0]:1 b:b c:c];
+		id* __r__11}
+	}(self)))] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"270", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
+	[self eq:1 v2:[ (((id)($this:(snd ctx.path)) id f = ((id)($this:(snd ctx.path)) id f1 = func
+	__r__14 = ^(NSMutableString *b, float *c){
+		return [f1:1 b:b c:c];
 	}
 	return __r__14{
 		
-		SEL* __r__14}
-	}(__self))]
-	__r__13 = ^- (int) :(float)c{
-		return [[f hx_objectAtIndex:0]:[NSMutableString stringWithString:@"2"] c:c];
+		id* __r__14}
+	}(self))
+	__r__13 = ^(float *c){
+		return [f:[@"2" mutableCopy] c:c];
 	}
 	return __r__13{
 		
-		SEL* __r__13}
-	}(self))):3] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"267",@"lineNumber", @"unit.TestType",@"className", @"testCallback",@"methodName", nil]];
-	[self eq:1 v2:[ (((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:func]
-	__r__16 = ^- (int) :(int)a c:(float)c{
-		return [[f hx_objectAtIndex:0]:a b:[NSMutableString stringWithString:@"2"] c:c];
+		id* __r__13}
+	}(self))):3] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"271", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
+	[self eq:1 v2:[ (((id)($this:(snd ctx.path)) id f = ((id)($this:(snd ctx.path)) id f1 = func
+	__r__16 = ^(int *a, float *c){
+		return [f1:a b:[@"2" mutableCopy] c:c];
 	}
 	return __r__16{
 		
-		SEL* __r__16}
-	}(__self))]
-	__r__15 = ^- (int) :(float)c{
-		return [[f hx_objectAtIndex:0]:1 c:c];
+		id* __r__16}
+	}(self))
+	__r__15 = ^(float *c){
+		return [f:1 c:c];
 	}
 	return __r__15{
 		
-		SEL* __r__15}
-	}(self))):3] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"268",@"lineNumber", @"unit.TestType",@"className", @"testCallback",@"methodName", nil]];
+		id* __r__15}
+	}(self))):3] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"272", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	int a = 5;
 	
-	NSMutableString *b = [NSMutableString stringWithString:@"foo"];
-	SEL cb = ((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:func]; 
-	NSMutableArray *a1 = [[NSMutableArray alloc] initWithObject:a]
-	__r__17 = ^- (int) :(NSMutableString*)b1 c:(float)c{
-		return [[f hx_objectAtIndex:0]:[a1 hx_objectAtIndex:0] b:b1 c:c];
+	NSMutableString *b = [@"foo" mutableCopy];
+	id cb = ((id)($this:(snd ctx.path)) id f = func; int a1 = a
+	__r__17 = ^(NSMutableString *b1, float *c){
+		return [f:a1 b:b1 c:c];
 	}
 	return __r__17{
 		
-		SEL* __r__17}
+		id* __r__17}
 	}(self));
 	a = 6;
-	func = ^- (int) :(int)a1 b1:(NSMutableString*)b1 c:(float)c{
-		return ^(int)@throw [NSMutableString stringWithString:@"error"];
+	func = ^(int *a1, NSMutableString *b1, float *c){
+		return ^(int)@throw [@"error" mutableCopy];
 		return __r__18{
 			
 			int* __r__18}
 		}();
 	}
-	[self eq:5 v2:[cb:b c:0] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"275",@"lineNumber", @"unit.TestType",@"className", @"testCallback",@"methodName", nil]];
-	SEL optfunc = ^- (int) :(int)a1 b1:(int)b1 c:(int)c{
-		// Optional arguments
-		if (!c) c = 2;
-		
+	[self eq:5 v2:[cb:b c:0] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"279", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
+	id optfunc = ^(int *a1, int *b1, int *c){
 		return a1 + b1 + c;
 	}
-	[self eq:6 v2:[ (((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:optfunc]
-	__r__19 = ^- (int) :(int)b1{
-		return [[f hx_objectAtIndex:0]:1 b:b1 c:nil];
+	[self eq:6 v2:[ (((id)($this:(snd ctx.path)) id f = optfunc
+	__r__19 = ^(int *b1){
+		return [f:1 b:b1 c:nil];
 	}
 	return __r__19{
 		
-		SEL* __r__19}
-	}(self))):3] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"278",@"lineNumber", @"unit.TestType",@"className", @"testCallback",@"methodName", nil]];
-	[self eq:6 v2:[ (((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:optfunc]
-	__r__20 = ^- (int) {
-		return [[f hx_objectAtIndex:0]:1 b:3 c:nil];
+		id* __r__19}
+	}(self))):3] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"282", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
+	[self eq:6 v2:[ (((id)($this:(snd ctx.path)) id f = optfunc
+	__r__20 = ^(){
+		return [f:1 b:3 c:nil];
 	}
 	return __r__20{
 		
-		SEL* __r__20}
-	}(self)))] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"279",@"lineNumber", @"unit.TestType",@"className", @"testCallback",@"methodName", nil]];
-	[self eq:7 v2:[ (((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:optfunc]
-	__r__21 = ^- (int) :(int)a1 b1:(int)b1 c:(int)c{
-		// Optional arguments
-		if (!c) c = nil;
-		
-		return [[f hx_objectAtIndex:0]:a1 b:b1 c:c];
+		id* __r__20}
+	}(self)))] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"283", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
+	[self eq:7 v2:[ (((id)($this:(snd ctx.path)) id f = optfunc
+	__r__21 = ^(int *a1, int *b1, int *c){
+		return [f:a1 b:b1 c:c];
 	}
 	return __r__21{
 		
-		SEL* __r__21}
-	}(self))):1 b:2 c:4] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"281",@"lineNumber", @"unit.TestType",@"className", @"testCallback",@"methodName", nil]];
-	[self eq:7 v2:[ (((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:optfunc]
-	__r__22 = ^- (int) :(int)a1 c:(int)c{
-		// Optional arguments
-		if (!c) c = nil;
-		
-		return [[f hx_objectAtIndex:0]:a1 b:2 c:c];
+		id* __r__21}
+	}(self))):1 b:2 c:4] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"285", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
+	[self eq:7 v2:[ (((id)($this:(snd ctx.path)) id f = optfunc
+	__r__22 = ^(int *a1, int *c){
+		return [f:a1 b:2 c:c];
 	}
 	return __r__22{
 		
-		SEL* __r__22}
-	}(self))):1 c:4] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"282",@"lineNumber", @"unit.TestType",@"className", @"testCallback",@"methodName", nil]];
-	SEL foo = ^- (NSMutableString*) :(int)x p:(id)p{
-		// Optional arguments
-		if (!p) p = nil;
-		
-		return [[NSMutableString stringWithString:@"foo"] stringByAppendingString:x];
+		id* __r__22}
+	}(self))):1 c:4] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"286", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
+	id foo = ^(int *x, id *p){
+		return [[@"foo" mutableCopy] stringByAppendingString:x];
 	}
-	SEL f = ((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:foo]
-	__r__23 = ^- (NSMutableString*) {
-		return [[f hx_objectAtIndex:0]:0 p:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"285",@"lineNumber", @"unit.TestType",@"className", @"testCallback",@"methodName", nil]];
+	id f = ((id)($this:(snd ctx.path)) id f1 = foo
+	__r__23 = ^(){
+		return [f1:0 p:@{@"fileName":@"TestType.hx", @"lineNumber":@"289", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	}
 	return __r__23{
 		
-		SEL* __r__23}
+		id* __r__23}
 	}(self));
-	[self eq:[NSMutableString stringWithString:@"foo0"] v2:[f] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"286",@"lineNumber", @"unit.TestType",@"className", @"testCallback",@"methodName", nil]];
-	SEL foo1 = ^- (int) :(int)bar{
-		// Optional arguments
-		if (!bar) bar = 2;
-		
+	[self eq:[@"foo0" mutableCopy] v2:[f] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"290", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
+	id foo1 = ^(int *bar){
 		return bar;
 	}
-	SEL l = ((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f1 = [[NSMutableArray alloc] initWithObject:foo1]
-	__r__24 = ^- (int) :(int)a1{
-		// Optional arguments
-		if (!a1) a1 = nil;
-		
-		return [[f1 hx_objectAtIndex:0]:a1];
+	id l = ((id)($this:(snd ctx.path)) id f1 = foo1
+	__r__24 = ^(int *a1){
+		return [f1:a1];
 	}
 	return __r__24{
 		
-		SEL* __r__24}
+		id* __r__24}
 	}(self));
-	[self eq:2 v2:[l:nil] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"294",@"lineNumber", @"unit.TestType",@"className", @"testCallback",@"methodName", nil]];
-	SEL foo2 = ^- (int) :(int)bar{
-		// Optional arguments
-		if (!bar) bar = 2;
-		
+	[self eq:2 v2:[l] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"298", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
+	id foo2 = ^(int *bar){
 		return bar;
 	}
-	SEL l1 = ((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f1 = [[NSMutableArray alloc] initWithObject:foo2]
-	__r__25 = ^- (int) :(int)a1{
-		// Optional arguments
-		if (!a1) a1 = nil;
-		
-		return [[f1 hx_objectAtIndex:0]:a1];
+	id l1 = ((id)($this:(snd ctx.path)) id f1 = foo2
+	__r__25 = ^(int *a1){
+		return [f1:a1];
 	}
 	return __r__25{
 		
-		SEL* __r__25}
+		id* __r__25}
 	}(self));
-	[self eq:2 v2:[l1:nil] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"300",@"lineNumber", @"unit.TestType",@"className", @"testCallback",@"methodName", nil]];
+	[self eq:2 v2:[l1] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"304", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 }
 - (void) testConstantAnonCovariance{
-	SEL func = ^- (void) :(NSMutableString*)str str1:(id)str1 str2:(id)str2{
-		// Optional arguments
-		if (!str2) str2 = nil;
-		if (!str1) str1 = nil;
-		
+	id func = ^(NSMutableString *str, id *str1, id *str2){
 	}
 	id a;
-	id b = [NSMutableString stringWithString:@"bar"];
-	[self f:NO pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"308",@"lineNumber", @"unit.TestType",@"className", @"testConstantAnonCovariance",@"methodName", nil]];
-	[self f:NO pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"309",@"lineNumber", @"unit.TestType",@"className", @"testConstantAnonCovariance",@"methodName", nil]];
+	id b = [@"bar" mutableCopy];
+	[self f:NO pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"312", @"className":@"unit.TestType", @"methodName":@"testConstantAnonCovariance"}];
+	[self f:NO pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"313", @"className":@"unit.TestType", @"methodName":@"testConstantAnonCovariance"}];
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TAnonymous(<anonymous>)"] v2:[NSMutableString stringWithString:@"TAnonymous(<anonymous>)"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"310",@"lineNumber", @"unit.TestType",@"className", @"testConstantAnonCovariance",@"methodName", nil]];
+		count++;
+		[self eq:[@"TAnonymous(<anonymous>)" mutableCopy] v2:[@"TAnonymous(<anonymous>)" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"314", @"className":@"unit.TestType", @"methodName":@"testConstantAnonCovariance"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TAnonymous(<anonymous>)"] v2:[NSMutableString stringWithString:@"TAnonymous(<anonymous>)"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"311",@"lineNumber", @"unit.TestType",@"className", @"testConstantAnonCovariance",@"methodName", nil]];
+		count++;
+		[self eq:[@"TAnonymous(<anonymous>)" mutableCopy] v2:[@"TAnonymous(<anonymous>)" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"315", @"className":@"unit.TestType", @"methodName":@"testConstantAnonCovariance"}];
 	}
-	[self t:YES pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"312",@"lineNumber", @"unit.TestType",@"className", @"testConstantAnonCovariance",@"methodName", nil]];
-	[self f:NO pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"313",@"lineNumber", @"unit.TestType",@"className", @"testConstantAnonCovariance",@"methodName", nil]];
-	[self f:NO pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"314",@"lineNumber", @"unit.TestType",@"className", @"testConstantAnonCovariance",@"methodName", nil]];
-	[self f:NO pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"315",@"lineNumber", @"unit.TestType",@"className", @"testConstantAnonCovariance",@"methodName", nil]];
-	[self t:YES pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"316",@"lineNumber", @"unit.TestType",@"className", @"testConstantAnonCovariance",@"methodName", nil]];
-	[self t:YES pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"317",@"lineNumber", @"unit.TestType",@"className", @"testConstantAnonCovariance",@"methodName", nil]];
-	[self t:YES pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"318",@"lineNumber", @"unit.TestType",@"className", @"testConstantAnonCovariance",@"methodName", nil]];
-	[self t:YES pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"319",@"lineNumber", @"unit.TestType",@"className", @"testConstantAnonCovariance",@"methodName", nil]];
+	[self t:YES pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"316", @"className":@"unit.TestType", @"methodName":@"testConstantAnonCovariance"}];
+	[self f:NO pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"317", @"className":@"unit.TestType", @"methodName":@"testConstantAnonCovariance"}];
+	[self f:NO pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"318", @"className":@"unit.TestType", @"methodName":@"testConstantAnonCovariance"}];
+	[self f:NO pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"319", @"className":@"unit.TestType", @"methodName":@"testConstantAnonCovariance"}];
+	[self t:YES pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"320", @"className":@"unit.TestType", @"methodName":@"testConstantAnonCovariance"}];
+	[self t:YES pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"321", @"className":@"unit.TestType", @"methodName":@"testConstantAnonCovariance"}];
+	[self t:YES pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"322", @"className":@"unit.TestType", @"methodName":@"testConstantAnonCovariance"}];
+	[self t:YES pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"323", @"className":@"unit.TestType", @"methodName":@"testConstantAnonCovariance"}];
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TAnonymous(<anonymous>)"] v2:[NSMutableString stringWithString:@"TAnonymous(<anonymous>)"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"320",@"lineNumber", @"unit.TestType",@"className", @"testConstantAnonCovariance",@"methodName", nil]];
+		count++;
+		[self eq:[@"TAnonymous(<anonymous>)" mutableCopy] v2:[@"TAnonymous(<anonymous>)" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"324", @"className":@"unit.TestType", @"methodName":@"testConstantAnonCovariance"}];
 	}
-	[self t:YES pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"321",@"lineNumber", @"unit.TestType",@"className", @"testConstantAnonCovariance",@"methodName", nil]];
-	[self f:NO pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"322",@"lineNumber", @"unit.TestType",@"className", @"testConstantAnonCovariance",@"methodName", nil]];
-	[self f:NO pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"323",@"lineNumber", @"unit.TestType",@"className", @"testConstantAnonCovariance",@"methodName", nil]];
+	[self t:YES pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"325", @"className":@"unit.TestType", @"methodName":@"testConstantAnonCovariance"}];
+	[self f:NO pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"326", @"className":@"unit.TestType", @"methodName":@"testConstantAnonCovariance"}];
+	[self f:NO pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"327", @"className":@"unit.TestType", @"methodName":@"testConstantAnonCovariance"}];
 }
 - (void) testCovariantReturn{
 	
@@ -688,115 +635,111 @@
 	
 	Cov2 *c = [[Cov2 alloc] init];
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TInst(unit.Child1,[])"] v2:[NSMutableString stringWithString:@"TInst(unit.Child1,[])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"333",@"lineNumber", @"unit.TestType",@"className", @"testCovariantReturn",@"methodName", nil]];
+		count++;
+		[self eq:[@"TInst(unit.Child1,[])" mutableCopy] v2:[@"TInst(unit.Child1,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"337", @"className":@"unit.TestType", @"methodName":@"testCovariantReturn"}];
 	}
-	[self t:[Std is:[c covariant] t:Child1] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"334",@"lineNumber", @"unit.TestType",@"className", @"testCovariantReturn",@"methodName", nil]];
-	[self t:[Std is:[ ((Cov1*)c) covariant] t:Child1] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"335",@"lineNumber", @"unit.TestType",@"className", @"testCovariantReturn",@"methodName", nil]];
+	[self t:[Std is:[c covariant] t:Child1] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"338", @"className":@"unit.TestType", @"methodName":@"testCovariantReturn"}];
+	[self t:[Std is:[ ((Cov1*)c) covariant] t:Child1] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"339", @"className":@"unit.TestType", @"methodName":@"testCovariantReturn"}];
 	
 	Cov1 *br = c;
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TInst(unit.Base,[])"] v2:[NSMutableString stringWithString:@"TInst(unit.Base,[])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"339",@"lineNumber", @"unit.TestType",@"className", @"testCovariantReturn",@"methodName", nil]];
+		count++;
+		[self eq:[@"TInst(unit.Base,[])" mutableCopy] v2:[@"TInst(unit.Base,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"343", @"className":@"unit.TestType", @"methodName":@"testCovariantReturn"}];
 	}
-	[self t:[Std is:[br covariant] t:Child1] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"340",@"lineNumber", @"unit.TestType",@"className", @"testCovariantReturn",@"methodName", nil]];
+	[self t:[Std is:[br covariant] t:Child1] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"344", @"className":@"unit.TestType", @"methodName":@"testCovariantReturn"}];
 	
 	CovI *ir = c;
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TInst(unit.Base,[])"] v2:[NSMutableString stringWithString:@"TInst(unit.Base,[])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"344",@"lineNumber", @"unit.TestType",@"className", @"testCovariantReturn",@"methodName", nil]];
+		count++;
+		[self eq:[@"TInst(unit.Base,[])" mutableCopy] v2:[@"TInst(unit.Base,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"348", @"className":@"unit.TestType", @"methodName":@"testCovariantReturn"}];
 	}
-	[self t:[Std is:[ir covariant] t:Child1] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"345",@"lineNumber", @"unit.TestType",@"className", @"testCovariantReturn",@"methodName", nil]];
+	[self t:[Std is:[ir covariant] t:Child1] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"349", @"className":@"unit.TestType", @"methodName":@"testCovariantReturn"}];
 	id dr = c;
-	[self t:[Std is:[dr covariant] t:Child1] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"349",@"lineNumber", @"unit.TestType",@"className", @"testCovariantReturn",@"methodName", nil]];
+	[self t:[Std is:[dr covariant] t:Child1] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"353", @"className":@"unit.TestType", @"methodName":@"testCovariantReturn"}];
 	
 	Cov3 *c3 = [[Cov3 alloc] init];
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TInst(unit.Child2_1,[])"] v2:[NSMutableString stringWithString:@"TInst(unit.Child2_1,[])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"353",@"lineNumber", @"unit.TestType",@"className", @"testCovariantReturn",@"methodName", nil]];
+		count++;
+		[self eq:[@"TInst(unit.Child2_1,[])" mutableCopy] v2:[@"TInst(unit.Child2_1,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"357", @"className":@"unit.TestType", @"methodName":@"testCovariantReturn"}];
 	}
-	[self t:[Std is:[c3 covariant] t:Child2_1] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"354",@"lineNumber", @"unit.TestType",@"className", @"testCovariantReturn",@"methodName", nil]];
+	[self t:[Std is:[c3 covariant] t:Child2_1] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"358", @"className":@"unit.TestType", @"methodName":@"testCovariantReturn"}];
 }
 - (void) testContravariantArgs{
-	SEL b = ^- (void) :(Base*)arg{
+	id b = ^(Base *arg){
 	}
-	SEL c1 = ^- (void) :(Child1*)arg{
+	id c1 = ^(Child1 *arg){
 	}
 	
 	Ctrv2 *c = [[Ctrv2 alloc] init];
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TFun([{ name => arg, t => TInst(unit.Base,[]), opt => false }],TAbstract(Void,[]))"] v2:[NSMutableString stringWithString:@"TFun([{ name => arg, t => TInst(unit.Base,[]), opt => false }],TAbstract(Void,[]))"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"363",@"lineNumber", @"unit.TestType",@"className", @"testContravariantArgs",@"methodName", nil]];
+		count++;
+		[self eq:[@"TFun([{ name => arg, t => TInst(unit.Base,[]), opt => false }],TAbstract(Void,[]))" mutableCopy] v2:[@"TFun([{ name => arg, t => TInst(unit.Base,[]), opt => false }],TAbstract(Void,[]))" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"367", @"className":@"unit.TestType", @"methodName":@"testContravariantArgs"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TFun([{ name => arg, t => TInst(unit.Child1,[]), opt => false }],TAbstract(Void,[]))"] v2:[NSMutableString stringWithString:@"TFun([{ name => arg, t => TInst(unit.Child1,[]), opt => false }],TAbstract(Void,[]))"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"364",@"lineNumber", @"unit.TestType",@"className", @"testContravariantArgs",@"methodName", nil]];
+		count++;
+		[self eq:[@"TFun([{ name => arg, t => TInst(unit.Child1,[]), opt => false }],TAbstract(Void,[]))" mutableCopy] v2:[@"TFun([{ name => arg, t => TInst(unit.Child1,[]), opt => false }],TAbstract(Void,[]))" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"368", @"className":@"unit.TestType", @"methodName":@"testContravariantArgs"}];
 	}
 }
 - (void) testInlineCast{
 	
-	NSMutableString *s = [(InlineCastB*)[[[InlineCastB alloc] init] self] quote];
-	[self eq:s v2:[NSMutableString stringWithString:@"I am the greatest."] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"369",@"lineNumber", @"unit.TestType",@"className", @"testInlineCast",@"methodName", nil]];
+	NSMutableString *s = [(InlineCastB*)[[InlineCastB alloc]  self] quote];
+	[self eq:s v2:[@"I am the greatest." mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"373", @"className":@"unit.TestType", @"methodName":@"testInlineCast"}];
 }
 - (void) testInitFields{
 	
 	InitBase *c = [[InitBase alloc] init];
-	[self eq:c.i v2:2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"375",@"lineNumber", @"unit.TestType",@"className", @"testInitFields",@"methodName", nil]];
-	[self eq:c.s v2:[NSMutableString stringWithString:@"foo"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"376",@"lineNumber", @"unit.TestType",@"className", @"testInitFields",@"methodName", nil]];
-	[self eq:c.b v2:YES pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"377",@"lineNumber", @"unit.TestType",@"className", @"testInitFields",@"methodName", nil]];
-	[self eq:c.t v2:NSMutableString pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"378",@"lineNumber", @"unit.TestType",@"className", @"testInitFields",@"methodName", nil]];
+	[self eq:c.i v2:2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"379", @"className":@"unit.TestType", @"methodName":@"testInitFields"}];
+	[self eq:c.s v2:[@"foo" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"380", @"className":@"unit.TestType", @"methodName":@"testInitFields"}];
+	[self eq:c.b v2:YES pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"381", @"className":@"unit.TestType", @"methodName":@"testInitFields"}];
+	[self eq:c.t v2:NSMutableString pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"382", @"className":@"unit.TestType", @"methodName":@"testInitFields"}];
 	
 	InitChild *c1 = [[InitChild alloc] init];
-	[self eq:c1.i v2:2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"381",@"lineNumber", @"unit.TestType",@"className", @"testInitFields",@"methodName", nil]];
-	[self eq:c1.s v2:[NSMutableString stringWithString:@"foo"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"382",@"lineNumber", @"unit.TestType",@"className", @"testInitFields",@"methodName", nil]];
-	[self eq:c1.b v2:YES pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"383",@"lineNumber", @"unit.TestType",@"className", @"testInitFields",@"methodName", nil]];
-	[self eq:c1.t v2:NSMutableString pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"384",@"lineNumber", @"unit.TestType",@"className", @"testInitFields",@"methodName", nil]];
+	[self eq:c1.i v2:2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"385", @"className":@"unit.TestType", @"methodName":@"testInitFields"}];
+	[self eq:c1.s v2:[@"foo" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"386", @"className":@"unit.TestType", @"methodName":@"testInitFields"}];
+	[self eq:c1.b v2:YES pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"387", @"className":@"unit.TestType", @"methodName":@"testInitFields"}];
+	[self eq:c1.t v2:NSMutableString pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"388", @"className":@"unit.TestType", @"methodName":@"testInitFields"}];
 	
 	InitChildWithCtor *c2 = [[InitChildWithCtor alloc] init:nil];
-	[self eq:c2.i v2:2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"387",@"lineNumber", @"unit.TestType",@"className", @"testInitFields",@"methodName", nil]];
-	[self eq:c2.s v2:[NSMutableString stringWithString:@"foo"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"388",@"lineNumber", @"unit.TestType",@"className", @"testInitFields",@"methodName", nil]];
-	[self eq:c2.b v2:YES pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"389",@"lineNumber", @"unit.TestType",@"className", @"testInitFields",@"methodName", nil]];
-	[self eq:c2.t v2:NSMutableString pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"390",@"lineNumber", @"unit.TestType",@"className", @"testInitFields",@"methodName", nil]];
+	[self eq:c2.i v2:2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"391", @"className":@"unit.TestType", @"methodName":@"testInitFields"}];
+	[self eq:c2.s v2:[@"foo" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"392", @"className":@"unit.TestType", @"methodName":@"testInitFields"}];
+	[self eq:c2.b v2:YES pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"393", @"className":@"unit.TestType", @"methodName":@"testInitFields"}];
+	[self eq:c2.t v2:NSMutableString pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"394", @"className":@"unit.TestType", @"methodName":@"testInitFields"}];
 	
-	InitWithoutCtor *c3 = [Type createInstance:InitWithoutCtor args:[[NSMutableArray alloc] initWithObjects:, nil]];
-	[self eq:c3.i v2:2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"393",@"lineNumber", @"unit.TestType",@"className", @"testInitFields",@"methodName", nil]];
+	InitWithoutCtor *c3 = [Type createInstance:InitWithoutCtor args:[@[] mutableCopy]];
+	[self eq:c3.i v2:2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"397", @"className":@"unit.TestType", @"methodName":@"testInitFields"}];
 	
-	NSMutableArray *c4 = [[NSMutableArray alloc] initWithObject:[[InitProperties alloc] init]];
-	[self eq:[c4 hx_objectAtIndex:0].accNull v2:3 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"396",@"lineNumber", @"unit.TestType",@"className", @"testInitFields",@"methodName", nil]];
-	[self eq:[c4 hx_objectAtIndex:0].accDefault v2:3 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"397",@"lineNumber", @"unit.TestType",@"className", @"testInitFields",@"methodName", nil]];
-	[self eq:[c4 hx_objectAtIndex:0].accFunc v2:3 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"398",@"lineNumber", @"unit.TestType",@"className", @"testInitFields",@"methodName", nil]];
-	[self eq:[c4 hx_objectAtIndex:0].accNever v2:3 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"399",@"lineNumber", @"unit.TestType",@"className", @"testInitFields",@"methodName", nil]];
-	[self eq:[c4 hx_objectAtIndex:0].accDynamic v2:3 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"400",@"lineNumber", @"unit.TestType",@"className", @"testInitFields",@"methodName", nil]];
-	[self exc:^- (void) {
-		[[c4 hx_objectAtIndex:0] set_accFunc:4];
-	} pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"401",@"lineNumber", @"unit.TestType",@"className", @"testInitFields",@"methodName", nil]];
+	InitProperties *c4 = [[InitProperties alloc] init];
+	[self eq:c4.accNull v2:3 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"400", @"className":@"unit.TestType", @"methodName":@"testInitFields"}];
+	[self eq:c4.accDefault v2:3 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"401", @"className":@"unit.TestType", @"methodName":@"testInitFields"}];
+	[self eq:c4.accFunc v2:3 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"402", @"className":@"unit.TestType", @"methodName":@"testInitFields"}];
+	[self eq:c4.accNever v2:3 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"403", @"className":@"unit.TestType", @"methodName":@"testInitFields"}];
+	[self eq:c4.accDynamic v2:3 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"404", @"className":@"unit.TestType", @"methodName":@"testInitFields"}];
+	[self exc:^(){
+		[c4 set_accFunc:4];
+	} pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"405", @"className":@"unit.TestType", @"methodName":@"testInitFields"}];
 }
 - (void) testReturnFlow{
-	SEL l = ^- (NSMutableString*) {
-		while (YES) return [NSMutableString stringWithString:@"foo"];
+	id l = ^(){
+		while (YES) return [@"foo" mutableCopy];
 		return nil;
 	}
-	[self eq:[l] v2:[NSMutableString stringWithString:@"foo"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"414",@"lineNumber", @"unit.TestType",@"className", @"testReturnFlow",@"methodName", nil]];
+	[self eq:[l] v2:[@"foo" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"418", @"className":@"unit.TestType", @"methodName":@"testReturnFlow"}];
 }
 - (void) testOptionalParamsSkip{
-	SEL foo = ^- (NSMutableString*) :(MyEnum*)a b:(BOOL)b c:(MyEnum*)c{
-		// Optional arguments
-		if (!c) c = nil;
-		if (!b) b = nil;
-		
-		return [NSMutableString stringWithString:@""];
+	id foo = ^(MyEnum *a, BOOL *b, MyEnum *c){
+		return [@"" mutableCopy];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TInst(String,[])"] v2:[NSMutableString stringWithString:@"TInst(String,[])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"421",@"lineNumber", @"unit.TestType",@"className", @"testOptionalParamsSkip",@"methodName", nil]];
+		count++;
+		[self eq:[@"TInst(String,[])" mutableCopy] v2:[@"TInst(String,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"425", @"className":@"unit.TestType", @"methodName":@"testOptionalParamsSkip"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TInst(String,[])"] v2:[NSMutableString stringWithString:@"TInst(String,[])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"422",@"lineNumber", @"unit.TestType",@"className", @"testOptionalParamsSkip",@"methodName", nil]];
+		count++;
+		[self eq:[@"TInst(String,[])" mutableCopy] v2:[@"TInst(String,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"426", @"className":@"unit.TestType", @"methodName":@"testOptionalParamsSkip"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TInst(String,[])"] v2:[NSMutableString stringWithString:@"TInst(String,[])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"423",@"lineNumber", @"unit.TestType",@"className", @"testOptionalParamsSkip",@"methodName", nil]];
+		count++;
+		[self eq:[@"TInst(String,[])" mutableCopy] v2:[@"TInst(String,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"427", @"className":@"unit.TestType", @"methodName":@"testOptionalParamsSkip"}];
 	}
 	YES;
 }
@@ -811,55 +754,54 @@
 	Unrelated *u = [[Unrelated alloc] init];
 	
 	CI1 *ci1 = [[CI1 alloc] init];
-	[self eq:[ParamConstraintsClass staticSingle:b] v2:b pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"435",@"lineNumber", @"unit.TestType",@"className", @"testParamConstraints",@"methodName", nil]];
-	[self eq:[ParamConstraintsClass staticSingle:c1] v2:c1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"436",@"lineNumber", @"unit.TestType",@"className", @"testParamConstraints",@"methodName", nil]];
-	[self eq:[pcc memberSingle:b] v2:b pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"442",@"lineNumber", @"unit.TestType",@"className", @"testParamConstraints",@"methodName", nil]];
-	[self eq:[pcc memberSingle:c1] v2:c1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"443",@"lineNumber", @"unit.TestType",@"className", @"testParamConstraints",@"methodName", nil]];
-	[self eq:[pcc memberMultiple:ci1] v2:ci1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"446",@"lineNumber", @"unit.TestType",@"className", @"testParamConstraints",@"methodName", nil]];
+	[self eq:[ParamConstraintsClass staticSingle:b] v2:b pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"439", @"className":@"unit.TestType", @"methodName":@"testParamConstraints"}];
+	[self eq:[ParamConstraintsClass staticSingle:c1] v2:c1 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"440", @"className":@"unit.TestType", @"methodName":@"testParamConstraints"}];
+	[self eq:[pcc memberSingle:b] v2:b pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"446", @"className":@"unit.TestType", @"methodName":@"testParamConstraints"}];
+	[self eq:[pcc memberSingle:c1] v2:c1 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"447", @"className":@"unit.TestType", @"methodName":@"testParamConstraints"}];
+	[self eq:[pcc memberMultiple:ci1] v2:ci1 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"450", @"className":@"unit.TestType", @"methodName":@"testParamConstraints"}];
 	
 	List *l = [[List alloc] init];
 	[l push:ci1];
 	
 	List *lmono = [[List alloc] init];
-	[self eq:[pcc memberComplex:ci1 b:l] v2:l pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"453",@"lineNumber", @"unit.TestType",@"className", @"testParamConstraints",@"methodName", nil]];
-	[self eq:[pcc memberComplex:ci1 b:lmono] v2:lmono pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"454",@"lineNumber", @"unit.TestType",@"className", @"testParamConstraints",@"methodName", nil]];
-	[self eq:[pcc memberBasic:[NSMutableString stringWithString:@"foo"] b:[[NSMutableArray alloc] initWithObject:[NSMutableString stringWithString:@"bar"]]] v2:[NSMutableString stringWithString:@"bar"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"457",@"lineNumber", @"unit.TestType",@"className", @"testParamConstraints",@"methodName", nil]];
-	[self eq:[pcc memberAnon:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[1 copy], @"x",
-	[3. copy], @"y",
-	nil]] v2:4 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"459",@"lineNumber", @"unit.TestType",@"className", @"testParamConstraints",@"methodName", nil]];
-	[pcc memberOverload:[NSMutableString stringWithString:@"foo"] b:[NSMutableString stringWithString:@"bar"]];
+	[self eq:[pcc memberComplex:ci1 b:l] v2:l pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"457", @"className":@"unit.TestType", @"methodName":@"testParamConstraints"}];
+	[self eq:[pcc memberComplex:ci1 b:lmono] v2:lmono pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"458", @"className":@"unit.TestType", @"methodName":@"testParamConstraints"}];
+	[self eq:[pcc memberBasic:[@"foo" mutableCopy] b:[@[[@"bar" mutableCopy]] mutableCopy]] v2:[@"bar" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"461", @"className":@"unit.TestType", @"methodName":@"testParamConstraints"}];
+	[self eq:[pcc memberAnon:[@{
+		@"x":[@1 copy],
+		@"y":[@3. copy],
+	} mutableCopy]] v2:4 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"463", @"className":@"unit.TestType", @"methodName":@"testParamConstraints"}];
 	
 	ParamConstraintsClass2 *pcc2 = [[ParamConstraintsClass2 alloc] init];
-	[pcc2 check:[[NSMutableArray alloc] initWithObject:[NSNumber numberWithInt:1]]];
+	[pcc2 check:[@[@1] mutableCopy]];
 	
 	ParamConstraintsClass2 *pcc21 = [[ParamConstraintsClass2 alloc] init];
-	[pcc21 bind:[NSMutableString stringWithString:@"foo"]];
-	[pcc21 check:[[NSMutableArray alloc] initWithObject:[NSMutableString stringWithString:@"foo"]]];
+	[pcc21 bind:[@"foo" mutableCopy]];
+	[pcc21 check:[@[[@"foo" mutableCopy]] mutableCopy]];
 	
 	ParamConstraintsClass2 *pcc22 = [[ParamConstraintsClass2 alloc] init];
-	[pcc22 check:[[NSMutableArray alloc] initWithObject:[NSMutableString stringWithString:@"foo"]]];
+	[pcc22 check:[@[[@"foo" mutableCopy]] mutableCopy]];
 }
 - (void) testUsing{
-	[self eq:[UsingChild1 test] v2:[NSMutableString stringWithString:@"FOOFOOFOO"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"486",@"lineNumber", @"unit.TestType",@"className", @"testUsing",@"methodName", nil]];
-	[self eq:[UsingChild2 test] v2:[NSMutableString stringWithString:@"FOO"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"487",@"lineNumber", @"unit.TestType",@"className", @"testUsing",@"methodName", nil]];
-	[self eq:[UsingUnrelated test] v2:[NSMutableString stringWithString:@"FOOFOO"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"488",@"lineNumber", @"unit.TestType",@"className", @"testUsing",@"methodName", nil]];
+	[self eq:[UsingChild1 test] v2:[@"FOOFOOFOO" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"490", @"className":@"unit.TestType", @"methodName":@"testUsing"}];
+	[self eq:[UsingChild2 test] v2:[@"FOO" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"491", @"className":@"unit.TestType", @"methodName":@"testUsing"}];
+	[self eq:[UsingUnrelated test] v2:[@"FOOFOO" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"492", @"className":@"unit.TestType", @"methodName":@"testUsing"}];
 }
 - (void) testInlineInit{
-	[self eq:2 v2:2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"493",@"lineNumber", @"unit.TestType",@"className", @"testInlineInit",@"methodName", nil]];
-	[self eq:27 v2:27 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"494",@"lineNumber", @"unit.TestType",@"className", @"testInlineInit",@"methodName", nil]];
-	[self eq:6 v2:6 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"495",@"lineNumber", @"unit.TestType",@"className", @"testInlineInit",@"methodName", nil]];
-	[self eq:NSMutableString v2:NSMutableString pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"496",@"lineNumber", @"unit.TestType",@"className", @"testInlineInit",@"methodName", nil]];
-	[self eq:60000. v2:60000. pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"497",@"lineNumber", @"unit.TestType",@"className", @"testInlineInit",@"methodName", nil]];
+	[self eq:2 v2:2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"497", @"className":@"unit.TestType", @"methodName":@"testInlineInit"}];
+	[self eq:27 v2:27 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"498", @"className":@"unit.TestType", @"methodName":@"testInlineInit"}];
+	[self eq:6 v2:6 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"499", @"className":@"unit.TestType", @"methodName":@"testInlineInit"}];
+	[self eq:NSMutableString v2:NSMutableString pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"500", @"className":@"unit.TestType", @"methodName":@"testInlineInit"}];
+	[self eq:60000. v2:60000. pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"501", @"className":@"unit.TestType", @"methodName":@"testInlineInit"}];
 }
 - (void) testInline{
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TAbstract(Void,[])"] v2:[NSMutableString stringWithString:@"TAbstract(Void,[])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"502",@"lineNumber", @"unit.TestType",@"className", @"testInline",@"methodName", nil]];
+		count++;
+		[self eq:[@"TAbstract(Void,[])" mutableCopy] v2:[@"TAbstract(Void,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"506", @"className":@"unit.TestType", @"methodName":@"testInline"}];
 	}
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TAbstract(Void,[])"] v2:[NSMutableString stringWithString:@"TAbstract(Void,[])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"503",@"lineNumber", @"unit.TestType",@"className", @"testInline",@"methodName", nil]];
+		count++;
+		[self eq:[@"TAbstract(Void,[])" mutableCopy] v2:[@"TAbstract(Void,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"507", @"className":@"unit.TestType", @"methodName":@"testInline"}];
 	}
 }
 - (void) inlineTest1:(NSMutableArray*)map{
@@ -870,142 +812,141 @@
 }
 - (void) testMacroRest{
 	
-	NSMutableArray *r = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:1], [NSNumber numberWithInt:2], [NSNumber numberWithInt:3], nil];
-	[self eq:r.length v2:3 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"517",@"lineNumber", @"unit.TestType",@"className", @"testMacroRest",@"methodName", nil]];
-	[self eq:[r hx_objectAtIndex:0] v2:1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"518",@"lineNumber", @"unit.TestType",@"className", @"testMacroRest",@"methodName", nil]];
-	[self eq:[r hx_objectAtIndex:1] v2:2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"519",@"lineNumber", @"unit.TestType",@"className", @"testMacroRest",@"methodName", nil]];
-	[self eq:[r hx_objectAtIndex:2] v2:3 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"520",@"lineNumber", @"unit.TestType",@"className", @"testMacroRest",@"methodName", nil]];
+	NSMutableArray *r = [@[@1, @2, @3] mutableCopy];
+	[self eq:r.length v2:3 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"521", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
+	[self eq:[r hx_objectAtIndex:0] v2:1 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"522", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
+	[self eq:[r hx_objectAtIndex:1] v2:2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"523", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
+	[self eq:[r hx_objectAtIndex:2] v2:3 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"524", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
 	
-	NSMutableArray *r1 = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:1], [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:2], [NSNumber numberWithInt:3], nil], nil];
-	[self eq:r1.length v2:2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"523",@"lineNumber", @"unit.TestType",@"className", @"testMacroRest",@"methodName", nil]];
-	[self eq:[r1 hx_objectAtIndex:0] v2:1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"524",@"lineNumber", @"unit.TestType",@"className", @"testMacroRest",@"methodName", nil]];
-	[self eq:[[r1 hx_objectAtIndex:1] hx_objectAtIndex:0] v2:2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"525",@"lineNumber", @"unit.TestType",@"className", @"testMacroRest",@"methodName", nil]];
-	[self eq:[[r1 hx_objectAtIndex:1] hx_objectAtIndex:1] v2:3 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"526",@"lineNumber", @"unit.TestType",@"className", @"testMacroRest",@"methodName", nil]];
+	NSMutableArray *r1 = [@[@1, [@[@2, @3] mutableCopy]] mutableCopy];
+	[self eq:r1.length v2:2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"527", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
+	[self eq:[r1 hx_objectAtIndex:0] v2:1 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"528", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
+	[self eq:[[r1 hx_objectAtIndex:1] hx_objectAtIndex:0] v2:2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"529", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
+	[self eq:[[r1 hx_objectAtIndex:1] hx_objectAtIndex:1] v2:3 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"530", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
 	
-	NSMutableArray *r2 = [[NSMutableArray alloc] initWithObject:[NSNumber numberWithInt:1]];
-	[self eq:r2.length v2:1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"529",@"lineNumber", @"unit.TestType",@"className", @"testMacroRest",@"methodName", nil]];
-	[self eq:[r2 hx_objectAtIndex:0] v2:1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"530",@"lineNumber", @"unit.TestType",@"className", @"testMacroRest",@"methodName", nil]];
+	NSMutableArray *r2 = [@[@1] mutableCopy];
+	[self eq:r2.length v2:1 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"533", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
+	[self eq:[r2 hx_objectAtIndex:0] v2:1 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"534", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
 	
-	NSMutableArray *r3 = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:1], [NSNumber numberWithInt:2], [NSNumber numberWithInt:3], [NSNumber numberWithInt:4], nil];
-	[self eq:r3.length v2:4 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"533",@"lineNumber", @"unit.TestType",@"className", @"testMacroRest",@"methodName", nil]];
-	[self eq:[r3 hx_objectAtIndex:0] v2:1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"534",@"lineNumber", @"unit.TestType",@"className", @"testMacroRest",@"methodName", nil]];
-	[self eq:[r3 hx_objectAtIndex:1] v2:2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"535",@"lineNumber", @"unit.TestType",@"className", @"testMacroRest",@"methodName", nil]];
-	[self eq:[r3 hx_objectAtIndex:2] v2:3 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"536",@"lineNumber", @"unit.TestType",@"className", @"testMacroRest",@"methodName", nil]];
-	[self eq:[r3 hx_objectAtIndex:3] v2:4 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"537",@"lineNumber", @"unit.TestType",@"className", @"testMacroRest",@"methodName", nil]];
+	NSMutableArray *r3 = [@[@1, @2, @3, @4] mutableCopy];
+	[self eq:r3.length v2:4 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"537", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
+	[self eq:[r3 hx_objectAtIndex:0] v2:1 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"538", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
+	[self eq:[r3 hx_objectAtIndex:1] v2:2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"539", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
+	[self eq:[r3 hx_objectAtIndex:2] v2:3 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"540", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
+	[self eq:[r3 hx_objectAtIndex:3] v2:4 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"541", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
 	
-	NSMutableArray *r4 = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:1], [NSNumber numberWithInt:2], nil];
-	[self eq:r4.length v2:2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"540",@"lineNumber", @"unit.TestType",@"className", @"testMacroRest",@"methodName", nil]];
-	[self eq:[r4 hx_objectAtIndex:0] v2:1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"541",@"lineNumber", @"unit.TestType",@"className", @"testMacroRest",@"methodName", nil]];
-	[self eq:[r4 hx_objectAtIndex:1] v2:2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"542",@"lineNumber", @"unit.TestType",@"className", @"testMacroRest",@"methodName", nil]];
+	NSMutableArray *r4 = [@[@1, @2] mutableCopy];
+	[self eq:r4.length v2:2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"544", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
+	[self eq:[r4 hx_objectAtIndex:0] v2:1 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"545", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
+	[self eq:[r4 hx_objectAtIndex:1] v2:2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"546", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
 	
-	NSMutableArray *r5 = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:1], [NSNumber numberWithInt:2], [[NSMutableArray alloc] initWithObject:[NSNumber numberWithInt:3]], nil];
-	[self eq:r5.length v2:3 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"545",@"lineNumber", @"unit.TestType",@"className", @"testMacroRest",@"methodName", nil]];
-	[self eq:[r5 hx_objectAtIndex:0] v2:1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"546",@"lineNumber", @"unit.TestType",@"className", @"testMacroRest",@"methodName", nil]];
-	[self eq:[r5 hx_objectAtIndex:1] v2:2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"547",@"lineNumber", @"unit.TestType",@"className", @"testMacroRest",@"methodName", nil]];
-	[self eq:[[r5 hx_objectAtIndex:2] hx_objectAtIndex:0] v2:3 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"548",@"lineNumber", @"unit.TestType",@"className", @"testMacroRest",@"methodName", nil]];
+	NSMutableArray *r5 = [@[@1, @2, [@[@3] mutableCopy]] mutableCopy];
+	[self eq:r5.length v2:3 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"549", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
+	[self eq:[r5 hx_objectAtIndex:0] v2:1 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"550", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
+	[self eq:[r5 hx_objectAtIndex:1] v2:2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"551", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
+	[self eq:[[r5 hx_objectAtIndex:2] hx_objectAtIndex:0] v2:3 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"552", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
 }
 - (void) testGenericFunction{
 	[TestType gf1_Int:2];
-	[TestType gf1_String:[NSMutableString stringWithString:@"foo"]];
+	[TestType gf1_String:[@"foo" mutableCopy]];
 	[TestType gf1_Bool:YES];
-	[TestType gf1_haxe_Template:[[Template alloc] init:[NSMutableString stringWithString:@"foo"]]];
+	[TestType gf1_haxe_Template:[[Template alloc] init:[@"foo" mutableCopy]]];
 	[TestType gf1_haxe_ds_GenericStack:[[GenericStack alloc] init]];
-	[self hsf:TestType n:[NSMutableString stringWithString:@"gf1_Int"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"563",@"lineNumber", @"unit.TestType",@"className", @"testGenericFunction",@"methodName", nil]];
-	[self hsf:TestType n:[NSMutableString stringWithString:@"gf1_String"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"564",@"lineNumber", @"unit.TestType",@"className", @"testGenericFunction",@"methodName", nil]];
-	[self hsf:TestType n:[NSMutableString stringWithString:@"gf1_Bool"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"565",@"lineNumber", @"unit.TestType",@"className", @"testGenericFunction",@"methodName", nil]];
-	[self hsf:TestType n:[NSMutableString stringWithString:@"gf1_haxe_Template"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"568",@"lineNumber", @"unit.TestType",@"className", @"testGenericFunction",@"methodName", nil]];
-	[self hsf:TestType n:[NSMutableString stringWithString:@"gf1_haxe_ds_GenericStack"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"571",@"lineNumber", @"unit.TestType",@"className", @"testGenericFunction",@"methodName", nil]];
-	[self t:YES pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"572",@"lineNumber", @"unit.TestType",@"className", @"testGenericFunction",@"methodName", nil]];
-	[self t:YES pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"573",@"lineNumber", @"unit.TestType",@"className", @"testGenericFunction",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"foo[1,2]"] v2:[TestType gf2_String_Int:[NSMutableString stringWithString:@"foo"] b:[[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:1], [NSNumber numberWithInt:2], nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"575",@"lineNumber", @"unit.TestType",@"className", @"testGenericFunction",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"foo[[1,2]]"] v2:[TestType gf2_String_Array:[NSMutableString stringWithString:@"foo"] b:[[NSMutableArray alloc] initWithObject:[[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:1], [NSNumber numberWithInt:2], nil]]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"576",@"lineNumber", @"unit.TestType",@"className", @"testGenericFunction",@"methodName", nil]];
-	[self hsf:TestType n:[NSMutableString stringWithString:@"gf2_String_Int"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"577",@"lineNumber", @"unit.TestType",@"className", @"testGenericFunction",@"methodName", nil]];
-	[self hsf:TestType n:[NSMutableString stringWithString:@"gf2_String_Array"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"578",@"lineNumber", @"unit.TestType",@"className", @"testGenericFunction",@"methodName", nil]];
+	[self hsf:TestType n:[@"gf1_Int" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"567", @"className":@"unit.TestType", @"methodName":@"testGenericFunction"}];
+	[self hsf:TestType n:[@"gf1_String" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"568", @"className":@"unit.TestType", @"methodName":@"testGenericFunction"}];
+	[self hsf:TestType n:[@"gf1_Bool" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"569", @"className":@"unit.TestType", @"methodName":@"testGenericFunction"}];
+	[self hsf:TestType n:[@"gf1_haxe_Template" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"572", @"className":@"unit.TestType", @"methodName":@"testGenericFunction"}];
+	[self hsf:TestType n:[@"gf1_haxe_ds_GenericStack" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"575", @"className":@"unit.TestType", @"methodName":@"testGenericFunction"}];
+	[self t:YES pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"576", @"className":@"unit.TestType", @"methodName":@"testGenericFunction"}];
+	[self t:YES pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"577", @"className":@"unit.TestType", @"methodName":@"testGenericFunction"}];
+	[self eq:[@"foo[1,2]" mutableCopy] v2:[TestType gf2_String_Int:[@"foo" mutableCopy] b:[@[@1, @2] mutableCopy]] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"579", @"className":@"unit.TestType", @"methodName":@"testGenericFunction"}];
+	[self eq:[@"foo[[1,2]]" mutableCopy] v2:[TestType gf2_String_Array:[@"foo" mutableCopy] b:[@[[@[@1, @2] mutableCopy]] mutableCopy]] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"580", @"className":@"unit.TestType", @"methodName":@"testGenericFunction"}];
+	[self hsf:TestType n:[@"gf2_String_Int" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"581", @"className":@"unit.TestType", @"methodName":@"testGenericFunction"}];
+	[self hsf:TestType n:[@"gf2_String_Array" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"582", @"className":@"unit.TestType", @"methodName":@"testGenericFunction"}];
 	
-	NSMutableArray *a = [TestType gf3_String_Array:[NSMutableString stringWithString:@"foo"] b:[[NSMutableArray alloc] initWithObjects:[NSMutableString stringWithString:@"bar"], [NSMutableString stringWithString:@"baz"], nil]];
-	[self eq:[a hx_objectAtIndex:0] v2:[NSMutableString stringWithString:@"bar"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"581",@"lineNumber", @"unit.TestType",@"className", @"testGenericFunction",@"methodName", nil]];
-	[self eq:[a hx_objectAtIndex:1] v2:[NSMutableString stringWithString:@"baz"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"582",@"lineNumber", @"unit.TestType",@"className", @"testGenericFunction",@"methodName", nil]];
-	[self eq:[a hx_objectAtIndex:2] v2:[NSMutableString stringWithString:@"foo"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"583",@"lineNumber", @"unit.TestType",@"className", @"testGenericFunction",@"methodName", nil]];
-	[self hsf:TestType n:[NSMutableString stringWithString:@"gf3_String_Array"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"584",@"lineNumber", @"unit.TestType",@"className", @"testGenericFunction",@"methodName", nil]];
+	NSMutableArray *a = [TestType gf3_String_Array:[@"foo" mutableCopy] b:[@[[@"bar" mutableCopy], [@"baz" mutableCopy]] mutableCopy]];
+	[self eq:[a hx_objectAtIndex:0] v2:[@"bar" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"585", @"className":@"unit.TestType", @"methodName":@"testGenericFunction"}];
+	[self eq:[a hx_objectAtIndex:1] v2:[@"baz" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"586", @"className":@"unit.TestType", @"methodName":@"testGenericFunction"}];
+	[self eq:[a hx_objectAtIndex:2] v2:[@"foo" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"587", @"className":@"unit.TestType", @"methodName":@"testGenericFunction"}];
+	[self hsf:TestType n:[@"gf3_String_Array" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"588", @"className":@"unit.TestType", @"methodName":@"testGenericFunction"}];
 	
-	Template *t = [[Template alloc] init:[NSMutableString stringWithString:@"foo"]];
+	Template *t = [[Template alloc] init:[@"foo" mutableCopy]];
 	
-	Template *ta = [[TestType gf3_haxe_Template_Array:t b:[[NSMutableArray alloc] initWithObjects:, nil]] hx_objectAtIndex:0];
-	[self f:t == ta pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"589",@"lineNumber", @"unit.TestType",@"className", @"testGenericFunction",@"methodName", nil]];
-	[self hsf:TestType n:[NSMutableString stringWithString:@"gf3_haxe_Template_Array"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"590",@"lineNumber", @"unit.TestType",@"className", @"testGenericFunction",@"methodName", nil]];
-	[self eq:[TestType overloadFake_Int:1] v2:1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"593",@"lineNumber", @"unit.TestType",@"className", @"testGenericFunction",@"methodName", nil]];
-	[self eq:[TestType overloadFake_String:[NSMutableString stringWithString:@"bar"]] v2:[NSMutableString stringWithString:@"barfoo"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"594",@"lineNumber", @"unit.TestType",@"className", @"testGenericFunction",@"methodName", nil]];
+	Template *ta = [[TestType gf3_haxe_Template_Array:t b:[@[] mutableCopy]] hx_objectAtIndex:0];
+	[self f:t == ta pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"593", @"className":@"unit.TestType", @"methodName":@"testGenericFunction"}];
+	[self hsf:TestType n:[@"gf3_haxe_Template_Array" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"594", @"className":@"unit.TestType", @"methodName":@"testGenericFunction"}];
+	[self eq:[TestType overloadFake_Int:1] v2:1 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"597", @"className":@"unit.TestType", @"methodName":@"testGenericFunction"}];
+	[self eq:[TestType overloadFake_String:[@"bar" mutableCopy]] v2:[@"barfoo" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"598", @"className":@"unit.TestType", @"methodName":@"testGenericFunction"}];
 }
 - (void) testCompletion{
-	
-	NSMutableArray *s = [[NSMutableArray alloc] initWithObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSNumber numberWithInt:1] copy], @"foo",
-	nil]];
-	[self eq:[NSMutableString stringWithString:@"foo:Int"] v2:[NSMutableString stringWithString:@"foo:Int"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"622",@"lineNumber", @"unit.TestType",@"className", @"testCompletion",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"path(haxe)"] v2:[NSMutableString stringWithString:@"path(haxe)"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"623",@"lineNumber", @"unit.TestType",@"className", @"testCompletion",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"path(haxe.macro:Expr)"] v2:[NSMutableString stringWithString:@"path(haxe.macro:Expr)"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"624",@"lineNumber", @"unit.TestType",@"className", @"testCompletion",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"error(haxe.macro.Expr is not a value)"] v2:[NSMutableString stringWithString:@"error(haxe.macro.Expr is not a value)"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"627",@"lineNumber", @"unit.TestType",@"className", @"testCompletion",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"path(unknownVar)"] v2:[NSMutableString stringWithString:@"path(unknownVar)"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"639",@"lineNumber", @"unit.TestType",@"className", @"testCompletion",@"methodName", nil]];
+	id s = [@{
+		@"foo":[@1 copy],
+	} mutableCopy];
+	[self eq:[@"foo:Int" mutableCopy] v2:[@"foo:Int" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"626", @"className":@"unit.TestType", @"methodName":@"testCompletion"}];
+	[self eq:[@"path(haxe)" mutableCopy] v2:[@"path(haxe)" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"627", @"className":@"unit.TestType", @"methodName":@"testCompletion"}];
+	[self eq:[@"path(haxe.macro:Expr)" mutableCopy] v2:[@"path(haxe.macro:Expr)" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"628", @"className":@"unit.TestType", @"methodName":@"testCompletion"}];
+	[self eq:[@"error(haxe.macro.Expr is not a value)" mutableCopy] v2:[@"error(haxe.macro.Expr is not a value)" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"631", @"className":@"unit.TestType", @"methodName":@"testCompletion"}];
+	[self eq:[@"path(unknownVar)" mutableCopy] v2:[@"path(unknownVar)" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"643", @"className":@"unit.TestType", @"methodName":@"testCompletion"}];
 	{
-		id _it = [([[NSMutableArray alloc] initWithObject:[s hx_objectAtIndex:[NSNumber numberWithInt:0]]])-fa8-iterator];
+		id _it = [([@[s] mutableCopy])-fa8-iterator];
 		while ( [_it hasNext] ) do {
 			id k = [_it next];
-			[self eq:[NSMutableString stringWithString:@"foo:Int"] v2:[NSMutableString stringWithString:@"foo:Int"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"646",@"lineNumber", @"unit.TestType",@"className", @"testCompletion",@"methodName", nil]];
+			[self eq:[@"foo:Int" mutableCopy] v2:[@"foo:Int" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"650", @"className":@"unit.TestType", @"methodName":@"testCompletion"}];
 		}
 	}
-	SEL f = ^- (id) {
-		return [([[NSMutableArray alloc] initWithObject:[s hx_objectAtIndex:[NSNumber numberWithInt:0]]])-fa8-iterator];
+	id f = ^(){
+		return [([@[s] mutableCopy])-fa8-iterator];
 	}
-	[self eq:[NSMutableString stringWithString:@"foo:Int"] v2:[NSMutableString stringWithString:@"foo:Int"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"652",@"lineNumber", @"unit.TestType",@"className", @"testCompletion",@"methodName", nil]];
+	[self eq:[@"foo:Int" mutableCopy] v2:[@"foo:Int" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"656", @"className":@"unit.TestType", @"methodName":@"testCompletion"}];
 }
 - (void) testSuperPropAccess{
 	
 	ChildSuperProp *c = [[ChildSuperProp alloc] init];
-	[self eq:[c get_prop] v2:2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"658",@"lineNumber", @"unit.TestType",@"className", @"testSuperPropAccess",@"methodName", nil]];
-	[self eq:[c set_prop:4] v2:5 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"659",@"lineNumber", @"unit.TestType",@"className", @"testSuperPropAccess",@"methodName", nil]];
-	[self eq:[c test] v2:[NSMutableString stringWithString:@"test2"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"660",@"lineNumber", @"unit.TestType",@"className", @"testSuperPropAccess",@"methodName", nil]];
-	[self eq:[[c get_fProp]:9] v2:[NSMutableString stringWithString:@"test09"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"661",@"lineNumber", @"unit.TestType",@"className", @"testSuperPropAccess",@"methodName", nil]];
+	[self eq:[c get_prop] v2:2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"662", @"className":@"unit.TestType", @"methodName":@"testSuperPropAccess"}];
+	[self eq:[c set_prop:4] v2:5 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"663", @"className":@"unit.TestType", @"methodName":@"testSuperPropAccess"}];
+	[self eq:[c test] v2:[@"test2" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"664", @"className":@"unit.TestType", @"methodName":@"testSuperPropAccess"}];
+	[self eq:[[c get_fProp]:9] v2:[@"test09" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"665", @"className":@"unit.TestType", @"methodName":@"testSuperPropAccess"}];
 }
 - (void) testVoidFunc{
-	[self exc:^- (int) {
+	[self exc:^(){
 		@throw nil;;
 		return 1;
-	} pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"665",@"lineNumber", @"unit.TestType",@"className", @"testVoidFunc",@"methodName", nil]];
-	[self exc:^- (NSMutableString*) {
+	} pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"669", @"className":@"unit.TestType", @"methodName":@"testVoidFunc"}];
+	[self exc:^(){
 		@throw nil;;
-		return [NSMutableString stringWithString:@"foo"];
-	} pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"666",@"lineNumber", @"unit.TestType",@"className", @"testVoidFunc",@"methodName", nil]];
-	[self exc:^- (MyEnum*) {
+		return [@"foo" mutableCopy];
+	} pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"670", @"className":@"unit.TestType", @"methodName":@"testVoidFunc"}];
+	[self exc:^(){
 		@throw nil;;
-		return  A;
-	} pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"667",@"lineNumber", @"unit.TestType",@"className", @"testVoidFunc",@"methodName", nil]];
-	[self exc:^- (Template*) {
+		return A;
+	} pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"671", @"className":@"unit.TestType", @"methodName":@"testVoidFunc"}];
+	[self exc:^(){
 		@throw nil;;
-		return [[Template alloc] init:[NSMutableString stringWithString:@"foo"]];
-	} pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"669",@"lineNumber", @"unit.TestType",@"className", @"testVoidFunc",@"methodName", nil]];
-	[self exc:^- (id) {
+		return [[Template alloc] init:[@"foo" mutableCopy]];
+	} pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"673", @"className":@"unit.TestType", @"methodName":@"testVoidFunc"}];
+	[self exc:^(){
 		@throw nil;;
 		return nil;
-	} pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"671",@"lineNumber", @"unit.TestType",@"className", @"testVoidFunc",@"methodName", nil]];
-	[self exc:^- (id) {
+	} pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"675", @"className":@"unit.TestType", @"methodName":@"testVoidFunc"}];
+	[self exc:^(){
 		@throw nil;;
-		return [NSMutableDictionary dictionaryWithObjectsAndKeys:
-		[1 copy], @"foo",
-		nil];
-	} pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"672",@"lineNumber", @"unit.TestType",@"className", @"testVoidFunc",@"methodName", nil]];
+		return [@{
+			@"foo":[@1 copy],
+		} mutableCopy];
+	} pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"676", @"className":@"unit.TestType", @"methodName":@"testVoidFunc"}];
 }
 - (void) testAbstractCastConstraints{
 	
-	AbstractZ *z = [[AbstractBase alloc] init:[NSMutableString stringWithString:@"foo"]];
+	AbstractZ *z = [[AbstractBase alloc] init:[@"foo" mutableCopy]];
 	
-	NSMutableString *s = [AbstractZImpl toString:z];
-	[self t:YES pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"678",@"lineNumber", @"unit.TestType",@"className", @"testAbstractCastConstraints",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"foo"] v2:s pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"681",@"lineNumber", @"unit.TestType",@"className", @"testAbstractCastConstraints",@"methodName", nil]];
+	NSMutableString *s = [AbstractZ_Impl_ toString:z];
+	[self t:YES pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"682", @"className":@"unit.TestType", @"methodName":@"testAbstractCastConstraints"}];
+	[self eq:[@"foo" mutableCopy] v2:s pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"685", @"className":@"unit.TestType", @"methodName":@"testAbstractCastConstraints"}];
 	
 	AbstractZ *z1 = [[AbstractBase alloc] init:12];
-	int i = [AbstractZImpl toFoo:z1];
-	[self eq:12 v2:i pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"685",@"lineNumber", @"unit.TestType",@"className", @"testAbstractCastConstraints",@"methodName", nil]];
-	[self t:YES pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"686",@"lineNumber", @"unit.TestType",@"className", @"testAbstractCastConstraints",@"methodName", nil]];
+	int i = [AbstractZ_Impl_ toFoo:z1];
+	[self eq:12 v2:i pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"689", @"className":@"unit.TestType", @"methodName":@"testAbstractCastConstraints"}];
+	[self t:YES pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"690", @"className":@"unit.TestType", @"methodName":@"testAbstractCastConstraints"}];
 }
 - (void) testOpArrow{
 	
@@ -1013,150 +954,138 @@
 	
 	Map *map = ((Map)($this:(snd ctx.path)) 
 	IntMap *_g = [[IntMap alloc] init]
-	[_g set-TAbstract]
-	[_g set-TAbstract]
+	[_g set:1 :2]
+	[_g set:3 :4]
 	__r__ = _g
 	return __r__{
 		
 		Map* __r__}
 	}(self));
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TAbstract(Map,[TAbstract(Int,[]),TAbstract(Int,[])])"] v2:[NSMutableString stringWithString:@"TAbstract(Map,[TAbstract(Int,[]),TAbstract(Int,[])])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"694",@"lineNumber", @"unit.TestType",@"className", @"testOpArrow",@"methodName", nil]];
+		count++;
+		[self eq:[@"TAbstract(Map,[TAbstract(Int,[]),TAbstract(Int,[])])" mutableCopy] v2:[@"TAbstract(Map,[TAbstract(Int,[]),TAbstract(Int,[])])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"698", @"className":@"unit.TestType", @"methodName":@"testOpArrow"}];
 	}
-	[self t:[Std is:map t:IntMap] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"695",@"lineNumber", @"unit.TestType",@"className", @"testOpArrow",@"methodName", nil]];
-	[self eq:[map get-TAbstract] v2:2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"696",@"lineNumber", @"unit.TestType",@"className", @"testOpArrow",@"methodName", nil]];
-	[self eq:[map get-TAbstract] v2:4 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"697",@"lineNumber", @"unit.TestType",@"className", @"testOpArrow",@"methodName", nil]];
+	[self t:[Std is:map t:IntMap] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"699", @"className":@"unit.TestType", @"methodName":@"testOpArrow"}];
+	[self eq:[map get:1] v2:2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"700", @"className":@"unit.TestType", @"methodName":@"testOpArrow"}];
+	[self eq:[map get:3] v2:4 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"701", @"className":@"unit.TestType", @"methodName":@"testOpArrow"}];
 	
 	StringMap *m1 = [[StringMap alloc] init];
 	
 	Map *map1 = ((Map)($this:(snd ctx.path)) 
 	StringMap *_g1 = [[StringMap alloc] init]
-	[_g1 set-TAbstract]
-	[_g1 set-TAbstract]
+	[_g1 set:[@"1" mutableCopy] :2]
+	[_g1 set:[@"3" mutableCopy] :4]
 	__r__2 = _g1
 	return __r__2{
 		
 		Map* __r__2}
 	}(self));
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TAbstract(Map,[TInst(String,[]),TAbstract(Int,[])])"] v2:[NSMutableString stringWithString:@"TAbstract(Map,[TInst(String,[]),TAbstract(Int,[])])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"701",@"lineNumber", @"unit.TestType",@"className", @"testOpArrow",@"methodName", nil]];
+		count++;
+		[self eq:[@"TAbstract(Map,[TInst(String,[]),TAbstract(Int,[])])" mutableCopy] v2:[@"TAbstract(Map,[TInst(String,[]),TAbstract(Int,[])])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"705", @"className":@"unit.TestType", @"methodName":@"testOpArrow"}];
 	}
-	[self t:[Std is:map1 t:StringMap] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"702",@"lineNumber", @"unit.TestType",@"className", @"testOpArrow",@"methodName", nil]];
-	[self eq:[map1 get-TAbstract] v2:2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"703",@"lineNumber", @"unit.TestType",@"className", @"testOpArrow",@"methodName", nil]];
-	[self eq:[map1 get-TAbstract] v2:4 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"704",@"lineNumber", @"unit.TestType",@"className", @"testOpArrow",@"methodName", nil]];
+	[self t:[Std is:map1 t:StringMap] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"706", @"className":@"unit.TestType", @"methodName":@"testOpArrow"}];
+	[self eq:[map1 get:[@"1" mutableCopy]] v2:2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"707", @"className":@"unit.TestType", @"methodName":@"testOpArrow"}];
+	[self eq:[map1 get:[@"3" mutableCopy]] v2:4 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"708", @"className":@"unit.TestType", @"methodName":@"testOpArrow"}];
 	
 	ClassWithHashCode *a = [[ClassWithHashCode alloc] init:1];
 	
 	ClassWithHashCode *b = [[ClassWithHashCode alloc] init:2];
 	
-	HashMap *m2 = [HashMapImpl _new];
+	ObjectMap *m2 = [[ObjectMap alloc] init];
 	
 	Map *map2 = ((Map)($this:(snd ctx.path)) 
-	HashMap *_g2 = [HashMapImpl _new]
-	{
-		[_g2 keys set:[a hashCode] value:a];
-		[_g2 values set:[a hashCode] value:2];
-	}
-	{
-		[_g2 keys set:[b hashCode] value:b];
-		[_g2 values set:[b hashCode] value:4];
-	}
+	ObjectMap *_g2 = [[ObjectMap alloc] init]
+	[_g2 set:a :2]
+	[_g2 set:b :4]
 	__r__3 = _g2
 	return __r__3{
 		
 		Map* __r__3}
 	}(self));
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TAbstract(Map,[TInst(unit.ClassWithHashCode,[]),TAbstract(Int,[])])"] v2:[NSMutableString stringWithString:@"TAbstract(Map,[TInst(unit.ClassWithHashCode,[]),TAbstract(Int,[])])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"710",@"lineNumber", @"unit.TestType",@"className", @"testOpArrow",@"methodName", nil]];
+		count++;
+		[self eq:[@"TAbstract(Map,[TInst(unit.ClassWithHashCode,[]),TAbstract(Int,[])])" mutableCopy] v2:[@"TAbstract(Map,[TInst(unit.ClassWithHashCode,[]),TAbstract(Int,[])])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"714", @"className":@"unit.TestType", @"methodName":@"testOpArrow"}];
 	}
-	[self eq:[map2 values get:[a hashCode]] v2:2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"712",@"lineNumber", @"unit.TestType",@"className", @"testOpArrow",@"methodName", nil]];
-	[self eq:[map2 values get:[b hashCode]] v2:4 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"713",@"lineNumber", @"unit.TestType",@"className", @"testOpArrow",@"methodName", nil]];
-	[self t:YES pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"716",@"lineNumber", @"unit.TestType",@"className", @"testOpArrow",@"methodName", nil]];
-	[self t:YES pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"718",@"lineNumber", @"unit.TestType",@"className", @"testOpArrow",@"methodName", nil]];
-	[self t:YES pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"720",@"lineNumber", @"unit.TestType",@"className", @"testOpArrow",@"methodName", nil]];
+	[self eq:[map2 get:a] v2:2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"716", @"className":@"unit.TestType", @"methodName":@"testOpArrow"}];
+	[self eq:[map2 get:b] v2:4 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"717", @"className":@"unit.TestType", @"methodName":@"testOpArrow"}];
+	[self t:YES pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"720", @"className":@"unit.TestType", @"methodName":@"testOpArrow"}];
+	[self t:YES pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"722", @"className":@"unit.TestType", @"methodName":@"testOpArrow"}];
+	[self t:YES pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"724", @"className":@"unit.TestType", @"methodName":@"testOpArrow"}];
 }
 - (void) testAbstractGeneric{
 	
 	StringMap *map = [[StringMap alloc] init];
-	[map set-TAbstract];
-	[self t:[Std is:map t:StringMap] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"726",@"lineNumber", @"unit.TestType",@"className", @"testAbstractGeneric",@"methodName", nil]];
+	[map set:[@"foo" mutableCopy] v:1];
+	[self t:[Std is:map t:StringMap] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"730", @"className":@"unit.TestType", @"methodName":@"testAbstractGeneric"}];
 	
 	IntMap *map1 = [[IntMap alloc] init];
 	[TestType _mapMe:map1];
-	[self t:[Std is:map1 t:IntMap] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"730",@"lineNumber", @"unit.TestType",@"className", @"testAbstractGeneric",@"methodName", nil]];
+	[self t:[Std is:map1 t:IntMap] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"734", @"className":@"unit.TestType", @"methodName":@"testAbstractGeneric"}];
 	
-	HashMap *map2 = [HashMapImpl _new];
+	ObjectMap *map2 = [[ObjectMap alloc] init];
 	
 	ClassWithHashCode *a = [[ClassWithHashCode alloc] init:1];
 	
 	ClassWithHashCode *b = [[ClassWithHashCode alloc] init:2];
-	{
-		[map2 keys set:[a hashCode] value:a];
-		[map2 values set:[a hashCode] value:[NSMutableString stringWithString:@"foo"]];
-	}
-	{
-		[map2 keys set:[b hashCode] value:b];
-		[map2 values set:[b hashCode] value:[NSMutableString stringWithString:@"bar"]];
-	}
-	[self eq:[map2 values get:[a hashCode]] v2:[NSMutableString stringWithString:@"foo"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"737",@"lineNumber", @"unit.TestType",@"className", @"testAbstractGeneric",@"methodName", nil]];
-	[self eq:[map2 values get:[b hashCode]] v2:[NSMutableString stringWithString:@"bar"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"738",@"lineNumber", @"unit.TestType",@"className", @"testAbstractGeneric",@"methodName", nil]];
+	[map2 set:a v:[@"foo" mutableCopy]];
+	[map2 set:b v:[@"bar" mutableCopy]];
+	[self eq:[map2 get:a] v2:[@"foo" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"741", @"className":@"unit.TestType", @"methodName":@"testAbstractGeneric"}];
+	[self eq:[map2 get:b] v2:[@"bar" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"742", @"className":@"unit.TestType", @"methodName":@"testAbstractGeneric"}];
 	
-	ObjectMap *map3 = [[ObjectMap alloc] init:nil];
+	ObjectMap *map3 = [[ObjectMap alloc] init];
 	
 	ClassWithoutHashCode *a1 = [[ClassWithoutHashCode alloc] init:1];
 	
 	ClassWithoutHashCode *b1 = [[ClassWithoutHashCode alloc] init:2];
-	[map3 set-TAbstract];
-	[map3 set-TAbstract];
-	[self eq:[map3 get-TAbstract] v2:[NSMutableString stringWithString:@"foo"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"746",@"lineNumber", @"unit.TestType",@"className", @"testAbstractGeneric",@"methodName", nil]];
-	[self eq:[map3 get-TAbstract] v2:[NSMutableString stringWithString:@"bar"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"747",@"lineNumber", @"unit.TestType",@"className", @"testAbstractGeneric",@"methodName", nil]];
+	[map3 set:a1 v:[@"foo" mutableCopy]];
+	[map3 set:b1 v:[@"bar" mutableCopy]];
+	[self eq:[map3 get:a1] v2:[@"foo" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"750", @"className":@"unit.TestType", @"methodName":@"testAbstractGeneric"}];
+	[self eq:[map3 get:b1] v2:[@"bar" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"751", @"className":@"unit.TestType", @"methodName":@"testAbstractGeneric"}];
 }
 - (void) testAbstractOverload{
 	
-	MyString *ms1 = [NSMutableString stringWithString:@"foo"];
+	MyString *ms1 = [@"foo" mutableCopy];
 	
-	MyString *ms2 = [NSMutableString stringWithString:@"bar"];
+	MyString *ms2 = [@"bar" mutableCopy];
 	
 	MyString *msum = [Std string:ms1] + [Std string:ms2];
-	[self eq:msum v2:[NSMutableString stringWithString:@"foobar"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"772",@"lineNumber", @"unit.TestType",@"className", @"testAbstractOverload",@"methodName", nil]];
+	[self eq:msum v2:[@"foobar" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"776", @"className":@"unit.TestType", @"methodName":@"testAbstractOverload"}];
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TAbstract(unit.MyString,[])"] v2:[NSMutableString stringWithString:@"TAbstract(unit.MyString,[])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"773",@"lineNumber", @"unit.TestType",@"className", @"testAbstractOverload",@"methodName", nil]];
+		count++;
+		[self eq:[@"TAbstract(unit.MyString,[])" mutableCopy] v2:[@"TAbstract(unit.MyString,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"777", @"className":@"unit.TestType", @"methodName":@"testAbstractOverload"}];
 	}
-	[self t:[Std is:msum t:NSMutableString] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"774",@"lineNumber", @"unit.TestType",@"className", @"testAbstractOverload",@"methodName", nil]];
+	[self t:[Std is:msum t:NSMutableString] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"778", @"className":@"unit.TestType", @"methodName":@"testAbstractOverload"}];
 	
-	MyString *msum2 = [Std string:ms1] + 1;
-	[self eq:msum2 v2:[NSMutableString stringWithString:@"foo1"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"777",@"lineNumber", @"unit.TestType",@"className", @"testAbstractOverload",@"methodName", nil]];
+	MyString *msum2 = [[Std string:ms1] stringByAppendingString:@"1"];
+	[self eq:msum2 v2:[@"foo1" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"781", @"className":@"unit.TestType", @"methodName":@"testAbstractOverload"}];
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TAbstract(unit.MyString,[])"] v2:[NSMutableString stringWithString:@"TAbstract(unit.MyString,[])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"778",@"lineNumber", @"unit.TestType",@"className", @"testAbstractOverload",@"methodName", nil]];
+		count++;
+		[self eq:[@"TAbstract(unit.MyString,[])" mutableCopy] v2:[@"TAbstract(unit.MyString,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"782", @"className":@"unit.TestType", @"methodName":@"testAbstractOverload"}];
 	}
-	[self t:[Std is:msum2 t:NSMutableString] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"779",@"lineNumber", @"unit.TestType",@"className", @"testAbstractOverload",@"methodName", nil]];
-	[self t:YES pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"782",@"lineNumber", @"unit.TestType",@"className", @"testAbstractOverload",@"methodName", nil]];
-	[self t:YES pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"784",@"lineNumber", @"unit.TestType",@"className", @"testAbstractOverload",@"methodName", nil]];
+	[self t:[Std is:msum2 t:NSMutableString] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"783", @"className":@"unit.TestType", @"methodName":@"testAbstractOverload"}];
+	[self t:YES pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"786", @"className":@"unit.TestType", @"methodName":@"testAbstractOverload"}];
+	[self t:YES pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"788", @"className":@"unit.TestType", @"methodName":@"testAbstractOverload"}];
 }
 - (void) testAbstractUnop{
 	
 	MyVector *vec = [[MyPoint3 alloc] init:1 y:2 z:3];
 	
-	MyVector *vec2 = (MyVector*)[[MyPoint3 alloc] init:-vec x y:-vec y z:-vec z];
-	[self t:vec2 != vec pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"790",@"lineNumber", @"unit.TestType",@"className", @"testAbstractUnop",@"methodName", nil]];
-	[self eq:[[[[[[[NSMutableString stringWithString:@"("] stringByAppendingString:vec.x] stringByAppendingString:[NSMutableString stringWithString:@","]] stringByAppendingString:vec.y] stringByAppendingString:[NSMutableString stringWithString:@","]] stringByAppendingString:vec.z] stringByAppendingString:[NSMutableString stringWithString:@")"]] v2:[NSMutableString stringWithString:@"(1,2,3)"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"791",@"lineNumber", @"unit.TestType",@"className", @"testAbstractUnop",@"methodName", nil]];
-	[self eq:[[[[[[[NSMutableString stringWithString:@"("] stringByAppendingString:vec2.x] stringByAppendingString:[NSMutableString stringWithString:@","]] stringByAppendingString:vec2.y] stringByAppendingString:[NSMutableString stringWithString:@","]] stringByAppendingString:vec2.z] stringByAppendingString:[NSMutableString stringWithString:@")"]] v2:[NSMutableString stringWithString:@"(-1,-2,-3)"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"792",@"lineNumber", @"unit.TestType",@"className", @"testAbstractUnop",@"methodName", nil]];
+	MyVector *vec2 = (MyVector*)[[MyPoint3 alloc] init:-[MyVector_Impl_ get_x:vec] y:-[MyVector_Impl_ get_y:vec] z:-[MyVector_Impl_ get_z:vec]];
+	[self t:vec2 != vec pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"794", @"className":@"unit.TestType", @"methodName":@"testAbstractUnop"}];
+	[self eq:[[[[[[[@"(" mutableCopy] stringByAppendingString:vec.x] stringByAppendingString:[@"," mutableCopy]] stringByAppendingString:vec.y] stringByAppendingString:[@"," mutableCopy]] stringByAppendingString:vec.z] stringByAppendingString:[@")" mutableCopy]] v2:[@"(1,2,3)" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"795", @"className":@"unit.TestType", @"methodName":@"testAbstractUnop"}];
+	[self eq:[[[[[[[@"(" mutableCopy] stringByAppendingString:vec2.x] stringByAppendingString:[@"," mutableCopy]] stringByAppendingString:vec2.y] stringByAppendingString:[@"," mutableCopy]] stringByAppendingString:vec2.z] stringByAppendingString:[@")" mutableCopy]] v2:[@"(-1,-2,-3)" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"796", @"className":@"unit.TestType", @"methodName":@"testAbstractUnop"}];
 	
 	MyInt2 *my = (MyInt2*)12;
-	[self eq:[MyInt2Impl get:(MyInt2*)-my] v2:-12 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"795",@"lineNumber", @"unit.TestType",@"className", @"testAbstractUnop",@"methodName", nil]];
+	[self eq:[MyInt2_Impl_ get:(MyInt2*)-my] v2:-12 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"799", @"className":@"unit.TestType", @"methodName":@"testAbstractUnop"}];
 	{
-		-TMono-++;
-		[self eq:[NSMutableString stringWithString:@"TAbstract(unit.MyInt2,[])"] v2:[NSMutableString stringWithString:@"TAbstract(unit.MyInt2,[])"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"796",@"lineNumber", @"unit.TestType",@"className", @"testAbstractUnop",@"methodName", nil]];
+		count++;
+		[self eq:[@"TAbstract(unit.MyInt2,[])" mutableCopy] v2:[@"TAbstract(unit.MyInt2,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"800", @"className":@"unit.TestType", @"methodName":@"testAbstractUnop"}];
 	}
 	++my;
-	[self eq:[MyInt2Impl get:my] v2:13 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"798",@"lineNumber", @"unit.TestType",@"className", @"testAbstractUnop",@"methodName", nil]];
-	[self t:YES pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"800",@"lineNumber", @"unit.TestType",@"className", @"testAbstractUnop",@"methodName", nil]];
-	[self t:YES pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"802",@"lineNumber", @"unit.TestType",@"className", @"testAbstractUnop",@"methodName", nil]];
+	[self eq:[MyInt2_Impl_ get:my] v2:13 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"802", @"className":@"unit.TestType", @"methodName":@"testAbstractUnop"}];
+	[self t:YES pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"804", @"className":@"unit.TestType", @"methodName":@"testAbstractUnop"}];
+	[self t:YES pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"806", @"className":@"unit.TestType", @"methodName":@"testAbstractUnop"}];
 }
 - (void) testMapComprehension{
 	
@@ -1164,12 +1093,12 @@
 	StringMap *_g = [[StringMap alloc] init]
 	{
 		int _g1 = 0; 
-		NSMutableArray *_g2 = [[NSMutableArray alloc] initWithObjects:[NSMutableString stringWithString:@"a"], [NSMutableString stringWithString:@"b"], nil];
+		NSMutableArray *_g2 = [@[[@"a" mutableCopy], [@"b" mutableCopy]] mutableCopy];
 		while (_g1 < _g2.length) {
 			
 			NSMutableString *x = [_g2 hx_objectAtIndex:_g1];
 			++_g1;
-			[_g set-TAbstract];
+			[_g set:x v:[x toUpperCase]];
 		}
 	}
 	__r__ = _g
@@ -1177,98 +1106,94 @@
 		
 		Map* __r__}
 	}(self));
-	[self t:[map exists-TAbstract] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"807",@"lineNumber", @"unit.TestType",@"className", @"testMapComprehension",@"methodName", nil]];
-	[self t:[map exists-TAbstract] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"808",@"lineNumber", @"unit.TestType",@"className", @"testMapComprehension",@"methodName", nil]];
-	[self eq:[map get-TAbstract] v2:[NSMutableString stringWithString:@"A"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"809",@"lineNumber", @"unit.TestType",@"className", @"testMapComprehension",@"methodName", nil]];
-	[self eq:[map get-TAbstract] v2:[NSMutableString stringWithString:@"B"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"810",@"lineNumber", @"unit.TestType",@"className", @"testMapComprehension",@"methodName", nil]];
+	[self t:[map exists:[@"a" mutableCopy]] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"811", @"className":@"unit.TestType", @"methodName":@"testMapComprehension"}];
+	[self t:[map exists:[@"b" mutableCopy]] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"812", @"className":@"unit.TestType", @"methodName":@"testMapComprehension"}];
+	[self eq:[map get:[@"a" mutableCopy]] v2:[@"A" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"813", @"className":@"unit.TestType", @"methodName":@"testMapComprehension"}];
+	[self eq:[map get:[@"b" mutableCopy]] v2:[@"B" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"814", @"className":@"unit.TestType", @"methodName":@"testMapComprehension"}];
 }
 - (void) testCustomArrayAccess{
-	id obj = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[12 copy], @"foo",
-	[[NSMutableString stringWithString:@"test"] copy], @"bar",
-	nil];
+	id obj = [@{
+		@"foo":[@12 copy],
+		@"bar":[[@"test" mutableCopy] copy],
+	} mutableCopy];
 	
 	MyReflect *mr = obj;
-	[self eq:[Reflect field:mr field:[NSMutableString stringWithString:@"foo"]] v2:12 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"819",@"lineNumber", @"unit.TestType",@"className", @"testCustomArrayAccess",@"methodName", nil]];
-	[self eq:[Reflect field:mr field:[NSMutableString stringWithString:@"bar"]] v2:[NSMutableString stringWithString:@"test"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"820",@"lineNumber", @"unit.TestType",@"className", @"testCustomArrayAccess",@"methodName", nil]];
+	[self eq:[Reflect field:mr field:[@"foo" mutableCopy]] v2:12 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"823", @"className":@"unit.TestType", @"methodName":@"testCustomArrayAccess"}];
+	[self eq:[Reflect field:mr field:[@"bar" mutableCopy]] v2:[@"test" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"824", @"className":@"unit.TestType", @"methodName":@"testCustomArrayAccess"}];
 	{
-		if (mr != nil) [mr __SetField-TDynamic-];
+		if (mr != nil) [mr __SetField:[@"foo" mutableCopy] :11 :NO];
 		11;
 	}
-	[self eq:[Reflect field:mr field:[NSMutableString stringWithString:@"foo"]] v2:11 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"822",@"lineNumber", @"unit.TestType",@"className", @"testCustomArrayAccess",@"methodName", nil]];
+	[self eq:[Reflect field:mr field:[@"foo" mutableCopy]] v2:11 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"826", @"className":@"unit.TestType", @"methodName":@"testCustomArrayAccess"}];
 	{
-		id value = [Reflect field:mr field:[NSMutableString stringWithString:@"foo"]] + 99;
-		if (mr != nil) [mr __SetField-TDynamic-];
+		id value = [[Reflect field:mr field:[@"foo" mutableCopy]] stringByAppendingString:@"99"];
+		if (mr != nil) [mr __SetField:[@"foo" mutableCopy] :value :NO];
 		value;
 	}
-	[self eq:[Reflect field:mr field:[NSMutableString stringWithString:@"foo"]] v2:110 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"824",@"lineNumber", @"unit.TestType",@"className", @"testCustomArrayAccess",@"methodName", nil]];
+	[self eq:[Reflect field:mr field:[@"foo" mutableCopy]] v2:110 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"828", @"className":@"unit.TestType", @"methodName":@"testCustomArrayAccess"}];
 	{
-		id value = ((id)($this:(snd ctx.path)) id value = [Reflect field:mr field:[NSMutableString stringWithString:@"bar"]] + [Reflect field:mr field:[NSMutableString stringWithString:@"foo"]]
-		if (mr != nil) [mr __SetField-TDynamic-]
-		__r__ = value
+		id value = ((id)($this:(snd ctx.path)) id value1 = [Reflect field:mr field:[@"bar" mutableCopy]] + [Reflect field:mr field:[@"foo" mutableCopy]]
+		if (mr != nil) [mr __SetField:[@"bar" mutableCopy] :value1 :NO]
+		__r__ = value1
 		return __r__{
 			
 			id* __r__}
 		}(self));
-		if (mr != nil) [mr __SetField-TDynamic-];
+		if (mr != nil) [mr __SetField:[@"baz" mutableCopy] :value :NO];
 		value;
 	}
-	[self eq:[Reflect field:mr field:[NSMutableString stringWithString:@"baz"]] v2:[NSMutableString stringWithString:@"test110"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"826",@"lineNumber", @"unit.TestType",@"className", @"testCustomArrayAccess",@"methodName", nil]];
-	[self eq:[Reflect field:mr field:[NSMutableString stringWithString:@"bar"]] v2:[NSMutableString stringWithString:@"test110"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"827",@"lineNumber", @"unit.TestType",@"className", @"testCustomArrayAccess",@"methodName", nil]];
+	[self eq:[Reflect field:mr field:[@"baz" mutableCopy]] v2:[@"test110" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"830", @"className":@"unit.TestType", @"methodName":@"testCustomArrayAccess"}];
+	[self eq:[Reflect field:mr field:[@"bar" mutableCopy]] v2:[@"test110" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"831", @"className":@"unit.TestType", @"methodName":@"testCustomArrayAccess"}];
 	
-	NSMutableString *v = [NSMutableString stringWithString:@"hh"];
+	NSMutableString *v = [@"hh" mutableCopy];
 	{
-		if (mr != nil) [mr __SetField-TDynamic-];
+		if (mr != nil) [mr __SetField:v :1 :NO];
 		1;
 	}
 	{
-		if (mr != nil) [mr __SetField-TDynamic-];
+		if (mr != nil) [mr __SetField:[v appendString:[@"h" mutableCopy]] :2 :NO];
 		2;
 	}
-	[self eq:[Reflect field:mr field:[NSMutableString stringWithString:@"hhh"]] v2:2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"832",@"lineNumber", @"unit.TestType",@"className", @"testCustomArrayAccess",@"methodName", nil]];
-	[self eq:v v2:[NSMutableString stringWithString:@"hhh"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"833",@"lineNumber", @"unit.TestType",@"className", @"testCustomArrayAccess",@"methodName", nil]];
+	[self eq:[Reflect field:mr field:[@"hhh" mutableCopy]] v2:2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"836", @"className":@"unit.TestType", @"methodName":@"testCustomArrayAccess"}];
+	[self eq:v v2:[@"hhh" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"837", @"className":@"unit.TestType", @"methodName":@"testCustomArrayAccess"}];
 	{
-		if (mr != nil) [mr __SetField-TDynamic-];
+		if (mr != nil) [mr __SetField:[@"hhhh" mutableCopy] :0 :NO];
 		0;
 	}
 	{
 		
-		NSMutableString *_g = [v appendString:[NSMutableString stringWithString:@"h"]];
+		NSMutableString *_g = [v appendString:[@"h" mutableCopy]];
 		{
-			id value = [Reflect field:mr field:_g] + 4;
-			if (mr != nil) [mr __SetField-TDynamic-];
+			id value = [[Reflect field:mr field:_g] stringByAppendingString:@"4"];
+			if (mr != nil) [mr __SetField:_g :value :NO];
 			value;
 		}
 	}
-	[self eq:[Reflect field:mr field:[NSMutableString stringWithString:@"hhhh"]] v2:4 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"837",@"lineNumber", @"unit.TestType",@"className", @"testCustomArrayAccess",@"methodName", nil]];
-	[self eq:[Reflect field:mr field:[NSMutableString stringWithString:@"hhh"]] v2:2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"838",@"lineNumber", @"unit.TestType",@"className", @"testCustomArrayAccess",@"methodName", nil]];
-	[self eq:v v2:[NSMutableString stringWithString:@"hhhh"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"839",@"lineNumber", @"unit.TestType",@"className", @"testCustomArrayAccess",@"methodName", nil]];
+	[self eq:[Reflect field:mr field:[@"hhhh" mutableCopy]] v2:4 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"841", @"className":@"unit.TestType", @"methodName":@"testCustomArrayAccess"}];
+	[self eq:[Reflect field:mr field:[@"hhh" mutableCopy]] v2:2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"842", @"className":@"unit.TestType", @"methodName":@"testCustomArrayAccess"}];
+	[self eq:v v2:[@"hhhh" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"843", @"className":@"unit.TestType", @"methodName":@"testCustomArrayAccess"}];
 	{
-		id value = ((SEL)($this:(snd ctx.path)) SEL n = ^- (int) :(int)x{
-			return 9 + x;
+		id value = ((id)($this:(snd ctx.path)) id n = ^(int *x){
+			return [@"9" stringByAppendingString:x];
 		}
 		__r__2 = n
 		return __r__2{
 			
-			SEL* __r__2}
+			id* __r__2}
 		}(self));
-		if (mr != nil) [mr __SetField-TDynamic-];
+		if (mr != nil) [mr __SetField:[@"101" mutableCopy] :value :NO];
 		value;
 	}
-	[self eq:[[Reflect field:mr field:[NSMutableString stringWithString:@"101"]]-TDynamic-] v2:10 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"843",@"lineNumber", @"unit.TestType",@"className", @"testCustomArrayAccess",@"methodName", nil]];
+	[self eq:[[Reflect field:mr field:[@"101" mutableCopy]]:1] v2:10 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"847", @"className":@"unit.TestType", @"methodName":@"testCustomArrayAccess"}];
 }
 - (void) testAbstractClosure{
 	
-	MyAbstractClosure *s = [MyAbstractClosureImpl _new:[NSMutableString stringWithString:@"foo"]];
-	SEL func1 = [MyAbstractClosureImpl test:s];
-	[self eq:[func1] v2:[NSMutableString stringWithString:@"foo"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"849",@"lineNumber", @"unit.TestType",@"className", @"testAbstractClosure",@"methodName", nil]];
-	s = [NSMutableString stringWithString:@"bar"];
-	[self eq:[func1] v2:[NSMutableString stringWithString:@"foo"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"851",@"lineNumber", @"unit.TestType",@"className", @"testAbstractClosure",@"methodName", nil]];
-	[self eq:[[MyAbstractClosureImpl test:s]] v2:[NSMutableString stringWithString:@"bar"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestType.hx",@"fileName", @"852",@"lineNumber", @"unit.TestType",@"className", @"testAbstractClosure",@"methodName", nil]];
-}
-- (id) init{
-	self = [super init];
-	return self;
+	MyAbstractClosure *s = [MyAbstractClosure_Impl_ _new:[@"foo" mutableCopy]];
+	id func1 = [MyAbstractClosure_Impl_ test:s];
+	[self eq:[func1] v2:[@"foo" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"853", @"className":@"unit.TestType", @"methodName":@"testAbstractClosure"}];
+	s = [@"bar" mutableCopy];
+	[self eq:[func1] v2:[@"foo" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"855", @"className":@"unit.TestType", @"methodName":@"testAbstractClosure"}];
+	[self eq:[[MyAbstractClosure_Impl_ test:s]] v2:[@"bar" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"856", @"className":@"unit.TestType", @"methodName":@"testAbstractClosure"}];
 }
 
 @end

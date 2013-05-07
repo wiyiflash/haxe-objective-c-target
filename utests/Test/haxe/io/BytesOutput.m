@@ -16,7 +16,7 @@
 	[_this.b appendBytes:_this.b.mutableBytes length:c];
 }
 - (int) writeBytes:(Bytes*)buf pos:(int)pos len:(int)len{
-	if (pos < 0 || len < 0 || pos + len > buf.length) @throw  OutsideBounds;;
+	if (pos < 0 || len < 0 || pos + len > buf.length) @throw OutsideBounds;;
 	return len;
 }
 - (Bytes*) getBytes{

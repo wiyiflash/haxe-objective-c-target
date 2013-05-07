@@ -136,7 +136,7 @@ static int staticVar3;
 	item = [as shift];
 	
 	NSMutableArray *sliceArray = [as slice:1 end:3];
-	[as sort:^int(^property_)(NSMutableString*, NSMutableString*){
+	[as sort:^(NSMutableString *a, NSMutableString *b){
 		return 0;
 	}];
 	sliceArray = [as splice:2 len:2];
@@ -299,10 +299,10 @@ static int staticVar3;
 - (void) testMap{
 	
 	StringMap *h = [[StringMap alloc] init];
-	[h set-TAbstract];
-	[h get-TAbstract];
-	[h remove-TAbstract];
-	BOOL b = [h exists-TAbstract];
+	[h set:[@"key" mutableCopy] v:[@"value" mutableCopy]];
+	[h get:[@"key" mutableCopy]];
+	[h remove:[@"key" mutableCopy]];
+	BOOL b = [h exists:[@"key" mutableCopy]];
 	id arr = [h keys];
 	id iter = [h iterator];
 	
@@ -342,18 +342,18 @@ static int staticVar3;
 	} mutableCopy];
 	BOOL b = [Reflect hasField:obj field:[@"a" mutableCopy]];
 	id f = [Reflect field:obj field:[@"a" mutableCopy]];
-	if (obj != nil) [-FDynamic-obj __SetField-TDynamic-];
-	[-FDynamic-self __SetField-TDynamic-];
-	id p = (id)[-FDynamic-self __Field-TDynamic-];
-	[Reflect callMethod:self func:-FClosure-testStd args:[@[] mutableCopy]];
-	[Reflect callMethod:self func:-FClosure-callLotsOfArguments:arg2:arg3:arg4: args:[@[@1, @2, @3, @4] mutableCopy]];
+	if (obj != nil) [obj __SetField:[@"a" mutableCopy] :[@"bbbbb" mutableCopy] :NO];
+	[self __SetField:[@"interfaceVar1" mutableCopy] :[@"bbbbb" mutableCopy] :YES];
+	id p = (id)[self __Field:[@"interfaceVar1" mutableCopy] :YES];
+	[Reflect callMethod:self func:testStd args:[@[] mutableCopy]];
+	[Reflect callMethod:self func:callLotsOfArguments:arg2:arg3:arg4: args:[@[@1, @2, @3, @4] mutableCopy]];
 	
 	NSMutableArray *fs = [Reflect fields:obj];
-	BOOL isf = [Reflect isFunction:-FClosure-testStd];
+	BOOL isf = [Reflect isFunction:testStd];
 	int i = [Reflect compare:1 b:2];
-	BOOL cm = [Reflect compareMethods:-FClosure-testStd f2:-FClosure-testString];
+	BOOL cm = [Reflect compareMethods:testStd f2:testString];
 	BOOL isobj = [Reflect isObject:obj];
-	isobj = [Reflect isObject:-FClosure-testStd];
+	isobj = [Reflect isObject:testStd];
 	[Reflect deleteField:obj field:[@"a" mutableCopy]];
 	id obj2 = [Reflect copy:obj];
 }
@@ -531,8 +531,8 @@ static int staticVar3;
 	self.d1 = 34;
 	
 	Tests2 *test2 = [[Tests2 alloc] init];
-	test2.functionToRedefine = -FClosure-functionToRedefine;
-	test2.functionToRedefine2 = -FClosure-functionToRedefine2:param2:;
+	test2.functionToRedefine = functionToRedefine;
+	test2.functionToRedefine2 = functionToRedefine2:param2:;
 	[[TestC alloc] init];
 	[[TestHaxePack alloc] init];
 	return self;

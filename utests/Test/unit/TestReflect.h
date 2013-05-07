@@ -80,7 +80,6 @@
 - (void) testCreate;
 - (void) testCompare;
 - (void) testGetProp;
-- (id) init;
 
 @end
 

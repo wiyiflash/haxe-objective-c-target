@@ -8,7 +8,6 @@
 
 
 #import "../../Array.h"
-#import "../../String.h"
 
 @interface NSMutableDictionary ( IntMap )
 
@@ -18,7 +17,6 @@
 - (BOOL) remove:(int)key;
 - (id) keys;
 - (id) iterator;
-- (NSMutableString*) toString;
 - (id) init;
 
 @end

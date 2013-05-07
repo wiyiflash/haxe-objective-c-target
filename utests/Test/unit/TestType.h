@@ -22,8 +22,6 @@
 #import "../unit/MyEnum.h"
 #import "../List.h"
 #import "../unit/MyAbstract.h"
-#import "../haxe/ds/IntMap.h"
-#import "../haxe/ds/HashMap.h"
 #import "../haxe/ds/ObjectMap.h"
 #import "../unit/Test.h"
 
@@ -76,7 +74,6 @@
 - (void) testMapComprehension;
 - (void) testCustomArrayAccess;
 - (void) testAbstractClosure;
-- (id) init;
 
 @end
 

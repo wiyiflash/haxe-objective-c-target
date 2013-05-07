@@ -10,29 +10,48 @@
 @implementation TestInt64
 
 - (void) test{
-	[self eq:[Int64 toInt:[[Int64 alloc] init:0 low:1]] v2:1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestInt64.hx",@"fileName", @"7",@"lineNumber", @"unit.TestInt64",@"className", @"test",@"methodName", nil]];
-	[self eq:[Int64 toInt:[[Int64 alloc] init:-1 low:-1]] v2:-1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestInt64.hx",@"fileName", @"8",@"lineNumber", @"unit.TestInt64",@"className", @"test",@"methodName", nil]];
-	[self eq:[Std string:[[Int64 alloc] init:0 low:156]] v2:[NSMutableString stringWithString:@"156"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestInt64.hx",@"fileName", @"9",@"lineNumber", @"unit.TestInt64",@"className", @"test",@"methodName", nil]];
+	[self eq:[Int64 toInt:[[Int64 alloc] init:0 low:1]] v2:1 pos:@{@"fileName":@"TestInt64.hx", @"lineNumber":@"7", @"className":@"unit.TestInt64", @"methodName":@"test"}];
+	[self eq:[Int64 toInt:[[Int64 alloc] init:-1 low:-1]] v2:-1 pos:@{@"fileName":@"TestInt64.hx", @"lineNumber":@"8", @"className":@"unit.TestInt64", @"methodName":@"test"}];
+	[self eq:[Std string:[[Int64 alloc] init:0 low:156]] v2:[@"156" mutableCopy] pos:@{@"fileName":@"TestInt64.hx", @"lineNumber":@"9", @"className":@"unit.TestInt64", @"methodName":@"test"}];
 	
 	Int64 *v = [[Int64 alloc] init:0 low:1048576];
-	[self eq:[Std string:v] v2:[NSMutableString stringWithString:@"1048576"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestInt64.hx",@"fileName", @"12",@"lineNumber", @"unit.TestInt64",@"className", @"test",@"methodName", nil]];
+	[self eq:[Std string:v] v2:[@"1048576" mutableCopy] pos:@{@"fileName":@"TestInt64.hx", @"lineNumber":@"12", @"className":@"unit.TestInt64", @"methodName":@"test"}];
 	
 	Int64 *p40 = [[Int64 alloc] init:v high << 20 | v low >>> 12 low:v low << 20];
-	[self eq:[Int64 getLow:p40] v2:0 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestInt64.hx",@"fileName", @"15",@"lineNumber", @"unit.TestInt64",@"className", @"test",@"methodName", nil]];
-	[self eq:[Int64 getHigh:p40] v2:256 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestInt64.hx",@"fileName", @"16",@"lineNumber", @"unit.TestInt64",@"className", @"test",@"methodName", nil]];
-	[self eq:[Std string:p40] v2:[NSMutableString stringWithString:@"1099511627776"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestInt64.hx",@"fileName", @"17",@"lineNumber", @"unit.TestInt64",@"className", @"test",@"methodName", nil]];
+	[self eq:[Int64 getLow:p40] v2:0 pos:@{@"fileName":@"TestInt64.hx", @"lineNumber":@"15", @"className":@"unit.TestInt64", @"methodName":@"test"}];
+	[self eq:[Int64 getHigh:p40] v2:256 pos:@{@"fileName":@"TestInt64.hx", @"lineNumber":@"16", @"className":@"unit.TestInt64", @"methodName":@"test"}];
+	[self eq:[Std string:p40] v2:[@"1099511627776" mutableCopy] pos:@{@"fileName":@"TestInt64.hx", @"lineNumber":@"17", @"className":@"unit.TestInt64", @"methodName":@"test"}];
 	[self eq:[ (((Int64)($this:(snd ctx.path)) 
-	Int64 *a = [[Int64 alloc] init:0 low:1]
+	Int64 *a = [Int64 alloc] :0 low:1
 	__r__ = a
 	return __r__{
 		
 		Int64* __r__}
-	}(self))) toString] v2:[NSMutableString stringWithString:@"1"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestInt64.hx",@"fileName", @"19",@"lineNumber", @"unit.TestInt64",@"className", @"test",@"methodName", nil]];
-	[self eq:[[[Int64 alloc] init:0 low:0] toString] v2:[NSMutableString stringWithString:@"0"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestInt64.hx",@"fileName", @"21",@"lineNumber", @"unit.TestInt64",@"className", @"test",@"methodName", nil]];
+	}(self))) toString] v2:[@"1" mutableCopy] pos:@{@"fileName":@"TestInt64.hx", @"lineNumber":@"19", @"className":@"unit.TestInt64", @"methodName":@"test"}];
+	[self eq:[[Int64 alloc] :0 low:0 toString] v2:[@"0" mutableCopy] pos:@{@"fileName":@"TestInt64.hx", @"lineNumber":@"21", @"className":@"unit.TestInt64", @"methodName":@"test"}];
 }
-- (id) init{
-	self = [super init];
-	return self;
+- (void) testMath{
+	
+	Int64 *a = [[Int64 alloc] init:0 low:597364243];
+	
+	Int64 *b = [[Int64 alloc] init:0 low:957955355];
+	
+	Int64 *c = [Int64 mul:a b:b];
+	[self eq:[c toString] v2:[@"572248275467371265" mutableCopy] pos:@{@"fileName":@"TestInt64.hx", @"lineNumber":@"28", @"className":@"unit.TestInt64", @"methodName":@"testMath"}];
+	
+	Int64 *a1 = [[Int64 alloc] init:0 low:-738604556];
+	
+	Int64 *b1 = [[Int64 alloc] init:0 low:-932853915];
+	
+	Int64 *c1 = [Int64 mul:a1 b:b1];
+	[self eq:[c1 toString] v2:[@"-6489849317865727676" mutableCopy] pos:@{@"fileName":@"TestInt64.hx", @"lineNumber":@"34", @"className":@"unit.TestInt64", @"methodName":@"testMath"}];
+	
+	Int64 *a2 = [[Int64 alloc] init:0 low:-1640561919];
+	
+	Int64 *b2 = [[Int64 alloc] init:0 low:-1336344576];
+	
+	Int64 *c2 = [Int64 add:a2 b:b2];
+	[self eq:[c2 toString] v2:[@"5613028097" mutableCopy] pos:@{@"fileName":@"TestInt64.hx", @"lineNumber":@"39", @"className":@"unit.TestInt64", @"methodName":@"testMath"}];
 }
 
 @end

@@ -14,7 +14,7 @@
 @interface TestInt64 : Test 
 
 - (void) test;
-- (id) init;
+- (void) testMath;
 
 @end
 

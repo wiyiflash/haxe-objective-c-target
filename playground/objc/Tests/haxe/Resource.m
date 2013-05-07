@@ -25,7 +25,7 @@ static NSMutableDictionary* __plist__;
 }
 + (Bytes*) getBytes:(NSMutableString*)name{
 	
-	NSMutableArray *array = [-FDynamic-Resource.__plist__ __hxcpp_resource_bytes-TDynamic-];
+	NSMutableArray *array = [Resource.__plist__ __hxcpp_resource_bytes:name];
 	if (array == nil) return nil;
 	return [Bytes ofData:array];
 }

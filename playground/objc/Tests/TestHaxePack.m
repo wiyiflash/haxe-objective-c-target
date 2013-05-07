@@ -14,13 +14,13 @@
 	TestHaxePack *_g = self;
 	
 	Timer *timer = [[Timer alloc] init:50];
-	timer.run = -FClosure-testTimerLoop;
+	timer.run = testTimerLoop;
 	[timer stop];
-	timer = [Timer delay:-FClosure-testTimerLoop time_ms:50];
-	timer = [Timer delay:^void(^property_)(){
+	timer = [Timer delay:testTimerLoop time_ms:50];
+	timer = [Timer delay:^(){
 		[_g testTimerLoop];
 	} time_ms:50];
-	[Timer measure:-FClosure-testTimerLoop pos:@{@"fileName":@"TestHaxePack.hx", @"lineNumber":@"22", @"className":@"TestHaxePack", @"methodName":@"testTimer"}];
+	[Timer measure:testTimerLoop pos:@{@"fileName":@"TestHaxePack.hx", @"lineNumber":@"22", @"className":@"TestHaxePack", @"methodName":@"testTimer"}];
 	float f = [Timer stamp];
 }
 - (void) testTimerLoop{

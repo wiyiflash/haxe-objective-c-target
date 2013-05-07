@@ -85,7 +85,7 @@ static id globals;
 		}
 	}
 	if (v == [@"__current__" mutableCopy]) return self.context;
-	return [Reflect field:-TDynamic- field:v];
+	return [Reflect field:--TDynamic-- field:v];
 }
 - (List*) parseTokens:(NSMutableString*)data{
 	
@@ -232,7 +232,7 @@ static id globals;
 	@catch (NSException *s) {
 		@throw [[[[@"Unexpected '" mutableCopy] stringByAppendingString:s] stringByAppendingString:[@"' in " mutableCopy]] stringByAppendingString:expr];;
 	}
-	return ^int(^property_)(){
+	return ^(){
 		@try {
 			return [e];
 		}
@@ -248,25 +248,25 @@ static id globals;
 	if ([v charCodeAt:0] == 34) {
 		
 		NSMutableString *str = [v substr:1 len:v.length - 2];
-		return ^NSMutableString*(^property_)(){
+		return ^(){
 			return str;
 		}
 	}
 	if ([expr_int match:v]) {
 		int i = [Std parseInt:v];
-		return ^int(^property_)(){
+		return ^(){
 			return i;
 		}
 	}
 	if ([expr_float match:v]) {
 		float f = [Std parseFloat:v];
-		return ^float(^property_)(){
+		return ^(){
 			return f;
 		}
 	}
 	
 	Template *me = self;
-	return ^id(^property_)(){
+	return ^(){
 		return [me resolve:v];
 	}
 }
@@ -280,7 +280,7 @@ static id globals;
 	NSMutableString *f = field[@"p"];
 	[expr_trim match:f];
 	f = [expr_trim matched:1];
-	return [self makePath:^id(^property_)(){
+	return [self makePath:^(){
 		return [Reflect field:[e] field:f];
 	} l:l];
 }
@@ -303,51 +303,51 @@ static id globals;
 				if (p2 == nil || p2[@"p"] != [@")" mutableCopy]) @throw p2[@"p"];;
 				return ((id)($this:(snd ctx.path)) switch (p1[@"p"]){
 					case [@"+" mutableCopy]:{
-						__r__ = ^id(^property_)(){
+						__r__ = ^(){
 							return (id)[e1] + [e2];
 						}}break;
 					case [@"-" mutableCopy]:{
-						__r__ = ^id(^property_)(){
+						__r__ = ^(){
 							return (id)[e1] - [e2];
 						}}break;
 					case [@"*" mutableCopy]:{
-						__r__ = ^id(^property_)(){
+						__r__ = ^(){
 							return (id)[e1] * [e2];
 						}}break;
 					case [@"/" mutableCopy]:{
-						__r__ = ^id(^property_)(){
+						__r__ = ^(){
 							return (id)[e1] / [e2];
 						}}break;
 					case [@">" mutableCopy]:{
-						__r__ = ^id(^property_)(){
+						__r__ = ^(){
 							return (id)[e1] > [e2];
 						}}break;
 					case [@"<" mutableCopy]:{
-						__r__ = ^id(^property_)(){
+						__r__ = ^(){
 							return (id)[e1] < [e2];
 						}}break;
 					case [@">=" mutableCopy]:{
-						__r__ = ^id(^property_)(){
+						__r__ = ^(){
 							return (id)[e1] >= [e2];
 						}}break;
 					case [@"<=" mutableCopy]:{
-						__r__ = ^id(^property_)(){
+						__r__ = ^(){
 							return (id)[e1] <= [e2];
 						}}break;
 					case [@"==" mutableCopy]:{
-						__r__ = ^id(^property_)(){
+						__r__ = ^(){
 							return (id)[e1] == [e2];
 						}}break;
 					case [@"!=" mutableCopy]:{
-						__r__ = ^id(^property_)(){
+						__r__ = ^(){
 							return (id)[e1] != [e2];
 						}}break;
 					case [@"&&" mutableCopy]:{
-						__r__ = ^id(^property_)(){
+						__r__ = ^(){
 							return (id)[e1] && [e2];
 						}}break;
 					case [@"||" mutableCopy]:{
-						__r__ = ^id(^property_)(){
+						__r__ = ^(){
 							return (id)[e1] || [e2];
 						}}break;
 					default:{
@@ -365,7 +365,7 @@ static id globals;
 		case [@"!" mutableCopy]:{
 			{
 				id e = [self makeExpr:l];
-				return ^BOOL(^property_)(){
+				return ^(){
 					id v = [e];
 					return v == nil || v == NO;
 				}
@@ -373,7 +373,7 @@ static id globals;
 		case [@"-" mutableCopy]:{
 			{
 				id e = [self makeExpr:l];
-				return ^int(^property_)(){
+				return ^(){
 					return -[e];
 				}
 			}}break;
@@ -426,13 +426,13 @@ static id globals;
 			{
 				id v = [e_eOpForeach_0];
 				@try {
-					id x = [-FDynamic-v iterator];
-					if (-FDynamic-[x hasNext] == nil) @throw nil;;
+					id x = [v iterator];
+					if ([x hasNext] == nil) @throw nil;;
 					v = x;
 				}
 				@catch (NSException *e1) {
 					@try {
-						if (-FDynamic-[v hasNext] == nil) @throw nil;;
+						if ([v hasNext] == nil) @throw nil;;
 					}
 					@catch (NSException *e2) {
 						@throw [[@"Cannot iter on " mutableCopy] stringByAppendingString:[Std string:v]];;
@@ -461,7 +461,7 @@ static id globals;
 				NSMutableArray *pl = [[NSMutableArray alloc] init];
 				
 				StringBuf *old = self.buf;
-				[pl push:-FClosure-resolve:];
+				[pl push:resolve:];
 				{
 					id _it4 = [e_eOpMacro_1 iterator];
 					while ( [_it4 hasNext] ) do {

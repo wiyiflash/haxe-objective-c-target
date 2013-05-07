@@ -13,7 +13,7 @@
 	[self check:NO];
 	[self check:YES];
 }
-- (void) excv:(SEL)f e:(id)e pos:(id)pos{
+- (void) excv:(id)f e:(id)e pos:(id)pos{
 	// Optional arguments
 	if (!pos) pos = nil;
 	
@@ -26,148 +26,144 @@
 	}
 }
 - (void) check:(BOOL)endian{
-	[self infos:[[NSMutableString stringWithString:@"endian = "] stringByAppendingString:[Std string:endian]]];
+	[self infos:[[@"endian = " mutableCopy] stringByAppendingString:[Std string:endian]]];
 	
-	NSMutableArray *b = [[NSMutableArray alloc] initWithObject:[Bytes ofString:[NSMutableString stringWithString:@"ABCééé\r\n\t"]]];
-	[self eq:[b hx_objectAtIndex:0].length v2:12 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"24",@"lineNumber", @"unit.TestIO",@"className", @"check",@"methodName", nil]];
-	[b hx_replaceObjectAtIndex:0.b hx_replaceObjectAtIndex:1 withObject:[NSNumber numberWithInt:0]];
+	Bytes *b = [Bytes ofString:[@"ABCééé\r\n\t" mutableCopy]];
+	[self eq:b.length v2:12 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"24", @"className":@"unit.TestIO", @"methodName":@"check"}];
+	[b.b hx_replaceObjectAtIndex:1 withObject:@0];
 	
-	NSMutableArray *o = [[NSMutableArray alloc] initWithObject:[[BytesOutput alloc] init]];
-	[[o hx_objectAtIndex:0] set_bigEndian:endian];
-	[self eq:[o hx_objectAtIndex:0].bigEndian v2:endian pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"30",@"lineNumber", @"unit.TestIO",@"className", @"check",@"methodName", nil]];
-	[[o hx_objectAtIndex:0] prepare:4];
-	[[o hx_objectAtIndex:0] writeByte:0];
-	[[o hx_objectAtIndex:0] writeByte:1];
-	[[o hx_objectAtIndex:0] writeByte:2];
-	[[o hx_objectAtIndex:0] writeByte:3];
-	[[o hx_objectAtIndex:0] write:[b hx_objectAtIndex:0]];
-	[[o hx_objectAtIndex:0] writeByte:55];
-	[[o hx_objectAtIndex:0] writeBytes:[b hx_objectAtIndex:0] pos:3 len:5];
-	[self excv:^- (void) {
-		[[o hx_objectAtIndex:0] writeBytes:[b hx_objectAtIndex:0] pos:-1 len:5];
-	} e: OutsideBounds pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"41",@"lineNumber", @"unit.TestIO",@"className", @"check",@"methodName", nil]];
-	[self excv:^- (void) {
-		[[o hx_objectAtIndex:0] writeBytes:[b hx_objectAtIndex:0] pos:3 len:-1];
-	} e: OutsideBounds pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"42",@"lineNumber", @"unit.TestIO",@"className", @"check",@"methodName", nil]];
-	[self excv:^- (void) {
-		[[o hx_objectAtIndex:0] writeBytes:[b hx_objectAtIndex:0] pos:3 len:20];
-	} e: OutsideBounds pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"43",@"lineNumber", @"unit.TestIO",@"className", @"check",@"methodName", nil]];
-	[[o hx_objectAtIndex:0] writeByte:98];
-	[[o hx_objectAtIndex:0] writeDouble:1.23];
-	[[o hx_objectAtIndex:0] writeDouble:-1.23];
-	[[o hx_objectAtIndex:0] writeDouble:0.0];
-	[[o hx_objectAtIndex:0] writeDouble:-0.0];
-	[[o hx_objectAtIndex:0] writeFloat:1.2e10];
-	[[o hx_objectAtIndex:0] writeFloat:-1.2e10];
-	[[o hx_objectAtIndex:0] writeFloat:0.0];
-	[[o hx_objectAtIndex:0] writeFloat:-0.0];
-	[[o hx_objectAtIndex:0] writeByte:99];
+	BytesOutput *o = [[BytesOutput alloc] init];
+	[o set_bigEndian:endian];
+	[self eq:o.bigEndian v2:endian pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"30", @"className":@"unit.TestIO", @"methodName":@"check"}];
+	[o prepare:4];
+	[o writeByte:0];
+	[o writeByte:1];
+	[o writeByte:2];
+	[o writeByte:3];
+	[o write:b];
+	[o writeByte:55];
+	[o writeBytes:b pos:3 len:5];
+	[self excv:^(){
+		[o writeBytes:b pos:-1 len:5];
+	} e:OutsideBounds pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"41", @"className":@"unit.TestIO", @"methodName":@"check"}];
+	[self excv:^(){
+		[o writeBytes:b pos:3 len:-1];
+	} e:OutsideBounds pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"42", @"className":@"unit.TestIO", @"methodName":@"check"}];
+	[self excv:^(){
+		[o writeBytes:b pos:3 len:20];
+	} e:OutsideBounds pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"43", @"className":@"unit.TestIO", @"methodName":@"check"}];
+	[o writeByte:98];
+	[o writeDouble:1.23];
+	[o writeDouble:-1.23];
+	[o writeDouble:0.0];
+	[o writeDouble:-0.0];
+	[o writeFloat:1.2e10];
+	[o writeFloat:-1.2e10];
+	[o writeFloat:0.0];
+	[o writeFloat:-0.0];
+	[o writeByte:99];
 	
-	NSMutableString *str = [NSMutableString stringWithString:@"Héllo World !"];
-	[[o hx_objectAtIndex:0] writeString:str];
-	[[o hx_objectAtIndex:0] writeInt16:-12345];
-	[self excv:^- (void) {
-		[[o hx_objectAtIndex:0] writeInt16:32768];
-	} e: Overflow pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"60",@"lineNumber", @"unit.TestIO",@"className", @"check",@"methodName", nil]];
-	[self excv:^- (void) {
-		[[o hx_objectAtIndex:0] writeInt16:-32769];
-	} e: Overflow pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"61",@"lineNumber", @"unit.TestIO",@"className", @"check",@"methodName", nil]];
-	[[o hx_objectAtIndex:0] writeInt24:-1234567];
-	[self excv:^- (void) {
-		[[o hx_objectAtIndex:0] writeInt16:16777216];
-	} e: Overflow pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"63",@"lineNumber", @"unit.TestIO",@"className", @"check",@"methodName", nil]];
-	[self excv:^- (void) {
-		[[o hx_objectAtIndex:0] writeInt16:-16777217];
-	} e: Overflow pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"64",@"lineNumber", @"unit.TestIO",@"className", @"check",@"methodName", nil]];
-	[[o hx_objectAtIndex:0] writeInt32:-123456789];
-	[[o hx_objectAtIndex:0] writeInt8:-5];
-	[self excv:^- (void) {
-		[[o hx_objectAtIndex:0] writeInt8:128];
-	} e: Overflow pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"68",@"lineNumber", @"unit.TestIO",@"className", @"check",@"methodName", nil]];
-	[self excv:^- (void) {
-		[[o hx_objectAtIndex:0] writeInt8:-129];
-	} e: Overflow pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"69",@"lineNumber", @"unit.TestIO",@"className", @"check",@"methodName", nil]];
-	[[o hx_objectAtIndex:0] writeUInt16:65365];
-	[self excv:^- (void) {
-		[[o hx_objectAtIndex:0] writeUInt16:65536];
-	} e: Overflow pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"71",@"lineNumber", @"unit.TestIO",@"className", @"check",@"methodName", nil]];
-	[self excv:^- (void) {
-		[[o hx_objectAtIndex:0] writeUInt16:-1];
-	} e: Overflow pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"72",@"lineNumber", @"unit.TestIO",@"className", @"check",@"methodName", nil]];
-	[[o hx_objectAtIndex:0] writeUInt24:16711918];
-	[self excv:^- (void) {
-		[[o hx_objectAtIndex:0] writeUInt24:16777216];
-	} e: Overflow pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"74",@"lineNumber", @"unit.TestIO",@"className", @"check",@"methodName", nil]];
-	[self excv:^- (void) {
-		[[o hx_objectAtIndex:0] writeUInt24:-1];
-	} e: Overflow pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"75",@"lineNumber", @"unit.TestIO",@"className", @"check",@"methodName", nil]];
-	[[o hx_objectAtIndex:0] writeInt32:1068153804];
-	[[o hx_objectAtIndex:0] writeInt32:-1593839907];
-	[[o hx_objectAtIndex:0] writeInt32:-1056968995];
-	[self unspec:^- (void) {
-		[[o hx_objectAtIndex:0] writeByte:-1];
+	NSMutableString *str = [@"Héllo World !" mutableCopy];
+	[o writeString:str];
+	[o writeInt16:-12345];
+	[self excv:^(){
+		[o writeInt16:32768];
+	} e:Overflow pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"60", @"className":@"unit.TestIO", @"methodName":@"check"}];
+	[self excv:^(){
+		[o writeInt16:-32769];
+	} e:Overflow pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"61", @"className":@"unit.TestIO", @"methodName":@"check"}];
+	[o writeInt24:-1234567];
+	[self excv:^(){
+		[o writeInt16:16777216];
+	} e:Overflow pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"63", @"className":@"unit.TestIO", @"methodName":@"check"}];
+	[self excv:^(){
+		[o writeInt16:-16777217];
+	} e:Overflow pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"64", @"className":@"unit.TestIO", @"methodName":@"check"}];
+	[o writeInt32:-123456789];
+	[o writeInt8:-5];
+	[self excv:^(){
+		[o writeInt8:128];
+	} e:Overflow pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"68", @"className":@"unit.TestIO", @"methodName":@"check"}];
+	[self excv:^(){
+		[o writeInt8:-129];
+	} e:Overflow pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"69", @"className":@"unit.TestIO", @"methodName":@"check"}];
+	[o writeUInt16:65365];
+	[self excv:^(){
+		[o writeUInt16:65536];
+	} e:Overflow pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"71", @"className":@"unit.TestIO", @"methodName":@"check"}];
+	[self excv:^(){
+		[o writeUInt16:-1];
+	} e:Overflow pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"72", @"className":@"unit.TestIO", @"methodName":@"check"}];
+	[o writeUInt24:16711918];
+	[self excv:^(){
+		[o writeUInt24:16777216];
+	} e:Overflow pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"74", @"className":@"unit.TestIO", @"methodName":@"check"}];
+	[self excv:^(){
+		[o writeUInt24:-1];
+	} e:Overflow pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"75", @"className":@"unit.TestIO", @"methodName":@"check"}];
+	[o writeInt32:1068153804];
+	[o writeInt32:-1593839907];
+	[o writeInt32:-1056968995];
+	[self unspec:^(){
+		[o writeByte:-1];
 	} pos:nil];
-	[self unspec:^- (void) {
-		[[o hx_objectAtIndex:0] writeByte:257];
+	[self unspec:^(){
+		[o writeByte:257];
 	} pos:nil];
 	
-	BytesInput *i = [[BytesInput alloc] init:[[o hx_objectAtIndex:0] getBytes] pos:nil len:nil];
+	BytesInput *i = [[BytesInput alloc] init:[o getBytes] pos:nil len:nil];
 	[i set_bigEndian:endian];
-	[self eq:[i readInt32] v2:( (endian) ? 66051 : 50462976) pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"86",@"lineNumber", @"unit.TestIO",@"className", @"check",@"methodName", nil]];
-	[self eq:[[i read:[b hx_objectAtIndex:0] length] compare:[b hx_objectAtIndex:0]] v2:0 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"87",@"lineNumber", @"unit.TestIO",@"className", @"check",@"methodName", nil]];
-	[self eq:[i readByte] v2:55 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"88",@"lineNumber", @"unit.TestIO",@"className", @"check",@"methodName", nil]];
-	[self eq:[[i read:5] compare:[[b hx_objectAtIndex:0] sub:3 len:5]] v2:0 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"89",@"lineNumber", @"unit.TestIO",@"className", @"check",@"methodName", nil]];
-	[self eq:[i readByte] v2:98 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"91",@"lineNumber", @"unit.TestIO",@"className", @"check",@"methodName", nil]];
-	[self eq:[i readDouble] v2:1.23 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"92",@"lineNumber", @"unit.TestIO",@"className", @"check",@"methodName", nil]];
-	[self eq:[i readDouble] v2:-1.23 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"93",@"lineNumber", @"unit.TestIO",@"className", @"check",@"methodName", nil]];
-	[self eq:[i readDouble] v2:0.0 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"94",@"lineNumber", @"unit.TestIO",@"className", @"check",@"methodName", nil]];
-	[self eq:[i readDouble] v2:-0.0 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"95",@"lineNumber", @"unit.TestIO",@"className", @"check",@"methodName", nil]];
-	[self eq:[i readFloat] v2:1.2e10 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"96",@"lineNumber", @"unit.TestIO",@"className", @"check",@"methodName", nil]];
-	[self eq:[i readFloat] v2:-1.2e10 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"97",@"lineNumber", @"unit.TestIO",@"className", @"check",@"methodName", nil]];
-	[self eq:[i readFloat] v2:0.0 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"98",@"lineNumber", @"unit.TestIO",@"className", @"check",@"methodName", nil]];
-	[self eq:[i readFloat] v2:-0.0 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"99",@"lineNumber", @"unit.TestIO",@"className", @"check",@"methodName", nil]];
-	[self eq:[i readByte] v2:99 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"100",@"lineNumber", @"unit.TestIO",@"className", @"check",@"methodName", nil]];
-	[self eq:[i readString:[Bytes ofString:str].length] v2:str pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"102",@"lineNumber", @"unit.TestIO",@"className", @"check",@"methodName", nil]];
-	[self eq:[i readInt16] v2:-12345 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"104",@"lineNumber", @"unit.TestIO",@"className", @"check",@"methodName", nil]];
-	[self eq:[i readInt24] v2:-1234567 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"105",@"lineNumber", @"unit.TestIO",@"className", @"check",@"methodName", nil]];
-	[self eq:[i readInt32] v2:-123456789 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"106",@"lineNumber", @"unit.TestIO",@"className", @"check",@"methodName", nil]];
-	[self eq:[i readInt8] v2:-5 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"107",@"lineNumber", @"unit.TestIO",@"className", @"check",@"methodName", nil]];
-	[self eq:[i readUInt16] v2:65365 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"108",@"lineNumber", @"unit.TestIO",@"className", @"check",@"methodName", nil]];
-	[self eq:[i readUInt24] v2:16711918 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"109",@"lineNumber", @"unit.TestIO",@"className", @"check",@"methodName", nil]];
-	[self eq:[i readInt32] v2:1068153804 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"110",@"lineNumber", @"unit.TestIO",@"className", @"check",@"methodName", nil]];
-	[self eq:[i readInt32] v2:-1593839907 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"112",@"lineNumber", @"unit.TestIO",@"className", @"check",@"methodName", nil]];
-	[self eq:[i readInt32] v2:-1056968995 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"113",@"lineNumber", @"unit.TestIO",@"className", @"check",@"methodName", nil]];
+	[self eq:[i readInt32] v2:( (endian) ? 66051 : 50462976) pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"86", @"className":@"unit.TestIO", @"methodName":@"check"}];
+	[self eq:[[i read:b length] compare:b] v2:0 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"87", @"className":@"unit.TestIO", @"methodName":@"check"}];
+	[self eq:[i readByte] v2:55 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"88", @"className":@"unit.TestIO", @"methodName":@"check"}];
+	[self eq:[[i read:5] compare:[b sub:3 len:5]] v2:0 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"89", @"className":@"unit.TestIO", @"methodName":@"check"}];
+	[self eq:[i readByte] v2:98 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"91", @"className":@"unit.TestIO", @"methodName":@"check"}];
+	[self eq:[i readDouble] v2:1.23 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"92", @"className":@"unit.TestIO", @"methodName":@"check"}];
+	[self eq:[i readDouble] v2:-1.23 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"93", @"className":@"unit.TestIO", @"methodName":@"check"}];
+	[self eq:[i readDouble] v2:0.0 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"94", @"className":@"unit.TestIO", @"methodName":@"check"}];
+	[self eq:[i readDouble] v2:-0.0 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"95", @"className":@"unit.TestIO", @"methodName":@"check"}];
+	[self eq:[i readFloat] v2:1.2e10 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"96", @"className":@"unit.TestIO", @"methodName":@"check"}];
+	[self eq:[i readFloat] v2:-1.2e10 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"97", @"className":@"unit.TestIO", @"methodName":@"check"}];
+	[self eq:[i readFloat] v2:0.0 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"98", @"className":@"unit.TestIO", @"methodName":@"check"}];
+	[self eq:[i readFloat] v2:-0.0 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"99", @"className":@"unit.TestIO", @"methodName":@"check"}];
+	[self eq:[i readByte] v2:99 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"100", @"className":@"unit.TestIO", @"methodName":@"check"}];
+	[self eq:[i readString:[Bytes ofString:str].length] v2:str pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"102", @"className":@"unit.TestIO", @"methodName":@"check"}];
+	[self eq:[i readInt16] v2:-12345 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"104", @"className":@"unit.TestIO", @"methodName":@"check"}];
+	[self eq:[i readInt24] v2:-1234567 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"105", @"className":@"unit.TestIO", @"methodName":@"check"}];
+	[self eq:[i readInt32] v2:-123456789 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"106", @"className":@"unit.TestIO", @"methodName":@"check"}];
+	[self eq:[i readInt8] v2:-5 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"107", @"className":@"unit.TestIO", @"methodName":@"check"}];
+	[self eq:[i readUInt16] v2:65365 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"108", @"className":@"unit.TestIO", @"methodName":@"check"}];
+	[self eq:[i readUInt24] v2:16711918 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"109", @"className":@"unit.TestIO", @"methodName":@"check"}];
+	[self eq:[i readInt32] v2:1068153804 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"110", @"className":@"unit.TestIO", @"methodName":@"check"}];
+	[self eq:[i readInt32] v2:-1593839907 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"112", @"className":@"unit.TestIO", @"methodName":@"check"}];
+	[self eq:[i readInt32] v2:-1056968995 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"113", @"className":@"unit.TestIO", @"methodName":@"check"}];
 }
 - (void) testBytesBounds{
 	
-	Bytes *b = [Bytes ofString:[NSMutableString stringWithString:@"ABCDEFGHIJ"]];
+	Bytes *b = [Bytes ofString:[@"ABCDEFGHIJ" mutableCopy]];
 	
-	NSMutableArray *tmp = [[NSMutableArray alloc] initWithObject:[Bytes alloc:[NSNumber numberWithInt:7]]];
+	Bytes *tmp = [Bytes alloc:7];
 	
-	NSMutableArray *i = [[NSMutableArray alloc] initWithObject:[[BytesInput alloc] init:b pos:[NSNull null] len:[NSNull null]]];
-	[self excv:^- (void) {
-		[[i hx_objectAtIndex:0] readBytes:[tmp hx_objectAtIndex:0] pos:1 len:7];
-	} e: OutsideBounds pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"121",@"lineNumber", @"unit.TestIO",@"className", @"testBytesBounds",@"methodName", nil]];
-	[self excv:^- (void) {
-		[[i hx_objectAtIndex:0] readBytes:[tmp hx_objectAtIndex:0] pos:-1 len:7];
-	} e: OutsideBounds pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"122",@"lineNumber", @"unit.TestIO",@"className", @"testBytesBounds",@"methodName", nil]];
-	[self excv:^- (void) {
-		[[i hx_objectAtIndex:0] readBytes:[tmp hx_objectAtIndex:0] pos:8 len:1];
-	} e: OutsideBounds pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"123",@"lineNumber", @"unit.TestIO",@"className", @"testBytesBounds",@"methodName", nil]];
-	[self eq:[[i hx_objectAtIndex:0] readBytes:[tmp hx_objectAtIndex:0] pos:0 len:7] v2:7 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"124",@"lineNumber", @"unit.TestIO",@"className", @"testBytesBounds",@"methodName", nil]];
-	[self eq:[[tmp hx_objectAtIndex:0].b hx_objectAtIndex:0] v2:65 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"125",@"lineNumber", @"unit.TestIO",@"className", @"testBytesBounds",@"methodName", nil]];
-	[self eq:[[tmp hx_objectAtIndex:0].b hx_objectAtIndex:6] v2:71 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"126",@"lineNumber", @"unit.TestIO",@"className", @"testBytesBounds",@"methodName", nil]];
-	[self eq:[[i hx_objectAtIndex:0] readBytes:[tmp hx_objectAtIndex:0] pos:0 len:7] v2:3 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"127",@"lineNumber", @"unit.TestIO",@"className", @"testBytesBounds",@"methodName", nil]];
-	[self eq:[[tmp hx_objectAtIndex:0].b hx_objectAtIndex:0] v2:72 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"128",@"lineNumber", @"unit.TestIO",@"className", @"testBytesBounds",@"methodName", nil]];
-	[self eq:[[tmp hx_objectAtIndex:0].b hx_objectAtIndex:2] v2:74 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"129",@"lineNumber", @"unit.TestIO",@"className", @"testBytesBounds",@"methodName", nil]];
-	[self eq:[[tmp hx_objectAtIndex:0].b hx_objectAtIndex:3] v2:68 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"130",@"lineNumber", @"unit.TestIO",@"className", @"testBytesBounds",@"methodName", nil]];
-	[self exc:^- (void) {
-		[[i hx_objectAtIndex:0] readBytes:[tmp hx_objectAtIndex:0] pos:0 len:7];
-	} pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestIO.hx",@"fileName", @"131",@"lineNumber", @"unit.TestIO",@"className", @"testBytesBounds",@"methodName", nil]];
-}
-- (id) init{
-	self = [super init];
-	return self;
+	BytesInput *i = [[BytesInput alloc] init:b pos:nil len:nil];
+	[self excv:^(){
+		[i readBytes:tmp pos:1 len:7];
+	} e:OutsideBounds pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"121", @"className":@"unit.TestIO", @"methodName":@"testBytesBounds"}];
+	[self excv:^(){
+		[i readBytes:tmp pos:-1 len:7];
+	} e:OutsideBounds pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"122", @"className":@"unit.TestIO", @"methodName":@"testBytesBounds"}];
+	[self excv:^(){
+		[i readBytes:tmp pos:8 len:1];
+	} e:OutsideBounds pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"123", @"className":@"unit.TestIO", @"methodName":@"testBytesBounds"}];
+	[self eq:[i readBytes:tmp pos:0 len:7] v2:7 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"124", @"className":@"unit.TestIO", @"methodName":@"testBytesBounds"}];
+	[self eq:[tmp.b hx_objectAtIndex:0] v2:65 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"125", @"className":@"unit.TestIO", @"methodName":@"testBytesBounds"}];
+	[self eq:[tmp.b hx_objectAtIndex:6] v2:71 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"126", @"className":@"unit.TestIO", @"methodName":@"testBytesBounds"}];
+	[self eq:[i readBytes:tmp pos:0 len:7] v2:3 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"127", @"className":@"unit.TestIO", @"methodName":@"testBytesBounds"}];
+	[self eq:[tmp.b hx_objectAtIndex:0] v2:72 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"128", @"className":@"unit.TestIO", @"methodName":@"testBytesBounds"}];
+	[self eq:[tmp.b hx_objectAtIndex:2] v2:74 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"129", @"className":@"unit.TestIO", @"methodName":@"testBytesBounds"}];
+	[self eq:[tmp.b hx_objectAtIndex:3] v2:68 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"130", @"className":@"unit.TestIO", @"methodName":@"testBytesBounds"}];
+	[self exc:^(){
+		[i readBytes:tmp pos:0 len:7];
+	} pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"131", @"className":@"unit.TestIO", @"methodName":@"testBytesBounds"}];
 }
 
 @end

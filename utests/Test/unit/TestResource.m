@@ -11,48 +11,44 @@
 
 static NSMutableString* STR;
 + (NSMutableString*) STR {
-	if (STR == nil) STR = [NSMutableString stringWithString:@"Héllo World !"];
+	if (STR == nil) STR = [@"Héllo World !" mutableCopy];
 	return STR;
 }
-+ (void) setSTR:(NSMutableString*)val {
-	STR = val;
++ (void) setSTR:(NSMutableString*)hx_val {
+	STR = hx_val;
 }
 - (void) testResources{
 	
 	NSMutableArray *names = [Resource listNames];
-	[self eq:names.length v2:2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestResource.hx",@"fileName", @"9",@"lineNumber", @"unit.TestResource",@"className", @"testResources",@"methodName", nil]];
-	if ([names hx_objectAtIndex:0] == [NSMutableString stringWithString:@"res1.txt"]) [self eq:[names hx_objectAtIndex:1] v2:[NSMutableString stringWithString:@"res2.bin"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestResource.hx",@"fileName", @"11",@"lineNumber", @"unit.TestResource",@"className", @"testResources",@"methodName", nil]];
+	[self eq:names.length v2:2 pos:@{@"fileName":@"TestResource.hx", @"lineNumber":@"9", @"className":@"unit.TestResource", @"methodName":@"testResources"}];
+	if ([names hx_objectAtIndex:0] == [@"res1.txt" mutableCopy]) [self eq:[names hx_objectAtIndex:1] v2:[@"res2.bin" mutableCopy] pos:@{@"fileName":@"TestResource.hx", @"lineNumber":@"11", @"className":@"unit.TestResource", @"methodName":@"testResources"}];
 	else {
-		[self eq:[names hx_objectAtIndex:0] v2:[NSMutableString stringWithString:@"res2.bin"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestResource.hx",@"fileName", @"13",@"lineNumber", @"unit.TestResource",@"className", @"testResources",@"methodName", nil]];
-		[self eq:[names hx_objectAtIndex:1] v2:[NSMutableString stringWithString:@"res1.txt"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestResource.hx",@"fileName", @"14",@"lineNumber", @"unit.TestResource",@"className", @"testResources",@"methodName", nil]];
+		[self eq:[names hx_objectAtIndex:0] v2:[@"res2.bin" mutableCopy] pos:@{@"fileName":@"TestResource.hx", @"lineNumber":@"13", @"className":@"unit.TestResource", @"methodName":@"testResources"}];
+		[self eq:[names hx_objectAtIndex:1] v2:[@"res1.txt" mutableCopy] pos:@{@"fileName":@"TestResource.hx", @"lineNumber":@"14", @"className":@"unit.TestResource", @"methodName":@"testResources"}];
 	}
-	[self eq:[Resource getString:[NSMutableString stringWithString:@"res1.txt"]] v2:-TMono- pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestResource.hx",@"fileName", @"16",@"lineNumber", @"unit.TestResource",@"className", @"testResources",@"methodName", nil]];
-	[self eq:[[Resource getString:[NSMutableString stringWithString:@"res2.bin"]] substr:0 len:2] v2:[NSMutableString stringWithString:@"MZ"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestResource.hx",@"fileName", @"22",@"lineNumber", @"unit.TestResource",@"className", @"testResources",@"methodName", nil]];
-	[self eq:[[Resource getBytes:[NSMutableString stringWithString:@"res1.txt"]] compare:[Bytes ofString:-TMono-]] v2:0 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestResource.hx",@"fileName", @"24",@"lineNumber", @"unit.TestResource",@"className", @"testResources",@"methodName", nil]];
+	[self eq:[Resource getString:[@"res1.txt" mutableCopy]] v2:STR pos:@{@"fileName":@"TestResource.hx", @"lineNumber":@"16", @"className":@"unit.TestResource", @"methodName":@"testResources"}];
+	[self eq:[[Resource getString:[@"res2.bin" mutableCopy]] substr:0 len:2] v2:[@"MZ" mutableCopy] pos:@{@"fileName":@"TestResource.hx", @"lineNumber":@"22", @"className":@"unit.TestResource", @"methodName":@"testResources"}];
+	[self eq:[[Resource getBytes:[@"res1.txt" mutableCopy]] compare:[Bytes ofString:STR]] v2:0 pos:@{@"fileName":@"TestResource.hx", @"lineNumber":@"24", @"className":@"unit.TestResource", @"methodName":@"testResources"}];
 	
-	Bytes *b = [Resource getBytes:[NSMutableString stringWithString:@"res2.bin"]];
+	Bytes *b = [Resource getBytes:[@"res2.bin" mutableCopy]];
 	
-	NSMutableArray *firsts = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:77], [NSNumber numberWithInt:90], [NSNumber numberWithInt:144], [NSNumber numberWithInt:0], [NSNumber numberWithInt:3], [NSNumber numberWithInt:0], [NSNumber numberWithInt:0], [NSNumber numberWithInt:0], [NSNumber numberWithInt:4], [NSNumber numberWithInt:0], [NSNumber numberWithInt:0], [NSNumber numberWithInt:0], [NSNumber numberWithInt:255], [NSNumber numberWithInt:255], [NSNumber numberWithInt:0], [NSNumber numberWithInt:0], [NSNumber numberWithInt:184], nil];
+	NSMutableArray *firsts = [@[@77, @90, @144, @0, @3, @0, @0, @0, @4, @0, @0, @0, @255, @255, @0, @0, @184] mutableCopy];
 	
-	NSMutableArray *lasts = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:214], [NSNumber numberWithInt:82], [NSNumber numberWithInt:3], [NSNumber numberWithInt:26], [NSNumber numberWithInt:44], [NSNumber numberWithInt:78], [NSNumber numberWithInt:69], [NSNumber numberWithInt:75], [NSNumber numberWithInt:79], [NSNumber numberWithInt:0], [NSNumber numberWithInt:28], [NSNumber numberWithInt:0], [NSNumber numberWithInt:0], nil];
+	NSMutableArray *lasts = [@[@214, @82, @3, @26, @44, @78, @69, @75, @79, @0, @28, @0, @0] mutableCopy];
 	{
 		int _g1 = 0; int _g = firsts.length;
 		while (_g1 < _g) {
 			int i = _g1++;
-			[self eq:[b.b hx_objectAtIndex:i] v2:[firsts hx_objectAtIndex:i] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestResource.hx",@"fileName", @"29",@"lineNumber", @"unit.TestResource",@"className", @"testResources",@"methodName", nil]];
+			[self eq:[b.b hx_objectAtIndex:i] v2:[firsts hx_objectAtIndex:i] pos:@{@"fileName":@"TestResource.hx", @"lineNumber":@"29", @"className":@"unit.TestResource", @"methodName":@"testResources"}];
 		}
 	}
 	{
 		int _g1 = 0; int _g = lasts.length;
 		while (_g1 < _g) {
 			int i = _g1++;
-			[self eq:[b.b hx_objectAtIndex:b.length - lasts.length + i] v2:[lasts hx_objectAtIndex:i] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestResource.hx",@"fileName", @"31",@"lineNumber", @"unit.TestResource",@"className", @"testResources",@"methodName", nil]];
+			[self eq:[b.b hx_objectAtIndex:b.length - lasts.length + i] v2:[lasts hx_objectAtIndex:i] pos:@{@"fileName":@"TestResource.hx", @"lineNumber":@"31", @"className":@"unit.TestResource", @"methodName":@"testResources"}];
 		}
 	}
-}
-- (id) init{
-	self = [super init];
-	return self;
 }
 
 @end

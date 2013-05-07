@@ -35,9 +35,6 @@
 	NSMutableArray *a = [self allValues];
 	return [a iterator];
 }
-- (NSMutableString*) toString{
-	return [self description];
-}
 - (id) init{
 	self = [super init];
 	return self;

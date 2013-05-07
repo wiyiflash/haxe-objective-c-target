@@ -10,30 +10,30 @@
 @implementation Json
 
 + (id) parse:(NSMutableString*)text{
-	return [[[Json alloc] init].doParse:text];
+	return [[Json alloc]  doParse:text];
 }
-+ (NSMutableString*) stringify:(id)value replacer:(SEL)replacer{
++ (NSMutableString*) stringify:(id)value replacer:(id)replacer{
 	// Optional arguments
 	if (!replacer) replacer = nil;
 	
-	return [[[Json alloc] init].toString:value replacer:replacer];
+	return [[Json alloc]  toString:value replacer:replacer];
 }
 @synthesize buf;
 @synthesize str;
 @synthesize pos;
 
-- (NSMutableString*) toString:(id)v replacer:(SEL)replacer{
+- (NSMutableString*) toString:(id)v replacer:(id)replacer{
 	// Optional arguments
 	if (!replacer) replacer = nil;
 	
 	self.buf = [[StringBuf alloc] init];
 	self.replacer = replacer;
-	[self toStringRec:[NSMutableString stringWithString:@""] v:v];
+	[self toStringRec:[@"" mutableCopy] v:v];
 	return self.buf.b;
 }
 - (void) fieldsString:(id)v fields:(NSMutableArray*)fields{
 	BOOL first = YES;
-	[self.buf.b appendString:[NSMutableString stringWithString:@"{"]];
+	[self.buf.b appendString:[@"{" mutableCopy]];
 	{
 		int _g = 0;
 		while (_g < fields.length) {
@@ -43,13 +43,13 @@
 			id value = [Reflect field:v field:f];
 			if ([Reflect isFunction:value]) continue;
 			if (first) first = NO;
-			else [self.buf.b appendString:[NSMutableString stringWithString:@","]];
+			else [self.buf.b appendString:[@"," mutableCopy]];
 			[self quote:f];
-			[self.buf.b appendString:[NSMutableString stringWithString:@":"]];
+			[self.buf.b appendString:[@":" mutableCopy]];
 			[self toStringRec:f v:value];
 		}
 	}
-	[self.buf.b appendString:[NSMutableString stringWithString:@"}"]];
+	[self.buf.b appendString:[@"}" mutableCopy]];
 }
 - (void) objString:(id)v{
 	[self fieldsString:v fields:[Reflect fields:v]];
@@ -65,7 +65,7 @@
 			
 			case 8:
 			{
-				[self.buf.b appendString:[NSMutableString stringWithString:@"\"???\""]]}break
+				[self.buf.b appendString:[@"\"???\"" mutableCopy]]}break
 			case 4:
 			{
 				[self objString:v]}break
@@ -74,14 +74,14 @@
 				{
 					
 					NSMutableString *v1 = v;
-					self.buf.b += [Std string:v1];
+					[self.buf.b appendString:[Std string:v1]];
 				}}break
 			case 2:
 			{
-				self.buf.b += [Std string:( (isfinite(v)) ? v : [NSMutableString stringWithString:@"null"])]}break
+				[self.buf.b appendString:[Std string:( (isfinite(v)) ? v : [@"null" mutableCopy])]]}break
 			case 5:
 			{
-				[self.buf.b appendString:[NSMutableString stringWithString:@"\"<fun>\""]]}break
+				[self.buf.b appendString:[@"\"<fun>\"" mutableCopy]]}break
 			case 6:
 			
 			var MATCH _g_eTClass_0 : Class = $e.params[0]{
@@ -89,28 +89,28 @@
 				else if (_g_eTClass_0 == NSMutableArray) {
 					
 					NSMutableArray *v1 = v;
-					[self.buf.b appendString:[NSMutableString stringWithString:@"["]];
+					[self.buf.b appendString:[@"[" mutableCopy]];
 					int len = v1.length;
 					if (len > 0) {
 						[self toStringRec:0 v:[v1 hx_objectAtIndex:0]];
 						int i = 1;
 						while (i < len) {
-							[self.buf.b appendString:[NSMutableString stringWithString:@","]];
+							[self.buf.b appendString:[@"," mutableCopy]];
 							[self toStringRec:i v:[v1 hx_objectAtIndex:i++]];
 						}
 					}
-					[self.buf.b appendString:[NSMutableString stringWithString:@"]"]];
+					[self.buf.b appendString:[@"]" mutableCopy]];
 				}
 				else if (_g_eTClass_0 == StringMap) {
 					
 					StringMap *v1 = v;
-					id o = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-					nil];
+					id o = [@{
+					} mutableCopy];
 					{
 						id _it2 = [v1 keys];
 						while ( [_it2 hasNext] ) do {
 							NSMutableString k1 = [_it2 next];
-							if (o != nil) [o __SetField-TDynamic-];
+							if (o != nil) [o __SetField:k1 :[v1 get:k1] :NO];
 						}
 					}
 					[self objString:o];
@@ -129,7 +129,7 @@
 					{
 						
 						NSMutableString *v1 = i;
-						self.buf.b += [Std string:v1];
+						[self.buf.b appendString:[Std string:v1]];
 					}
 				}}break
 			case 3:
@@ -137,40 +137,40 @@
 				{
 					
 					NSMutableString *v1 = v;
-					self.buf.b += [Std string:v1];
+					[self.buf.b appendString:[Std string:v1]];
 				}}break
 			case 0:
 			{
-				[self.buf.b appendString:[NSMutableString stringWithString:@"null"]]}break
+				[self.buf.b appendString:[@"null" mutableCopy]]}break
 		}
 	}
 }
 - (void) quote:(NSMutableString*)s{
-	[self.buf.b appendString:[NSMutableString stringWithString:@"\""]];
+	[self.buf.b appendString:[@"\"" mutableCopy]];
 	int i = 0;
 	while (YES) {
 		int c = [s characterAtIndex:i++];
 		if (c == -1) break;
 		switch (c){
 			case 34:{
-				[self.buf.b appendString:[NSMutableString stringWithString:@"\\\""]]}break;
+				[self.buf.b appendString:[@"\\\"" mutableCopy]]}break;
 			case 92:{
-				[self.buf.b appendString:[NSMutableString stringWithString:@"\\\\"]]}break;
+				[self.buf.b appendString:[@"\\\\" mutableCopy]]}break;
 			case 10:{
-				[self.buf.b appendString:[NSMutableString stringWithString:@"\\n"]]}break;
+				[self.buf.b appendString:[@"\\n" mutableCopy]]}break;
 			case 13:{
-				[self.buf.b appendString:[NSMutableString stringWithString:@"\\r"]]}break;
+				[self.buf.b appendString:[@"\\r" mutableCopy]]}break;
 			case 9:{
-				[self.buf.b appendString:[NSMutableString stringWithString:@"\\t"]]}break;
+				[self.buf.b appendString:[@"\\t" mutableCopy]]}break;
 			case 8:{
-				[self.buf.b appendString:[NSMutableString stringWithString:@"\\b"]]}break;
+				[self.buf.b appendString:[@"\\b" mutableCopy]]}break;
 			case 12:{
-				[self.buf.b appendString:[NSMutableString stringWithString:@"\\f"]]}break;
+				[self.buf.b appendString:[@"\\f" mutableCopy]]}break;
 			default:{
-				self.buf.b += [NSMutableString:c]}break;
+				[self.buf.b appendString:[NSMutableString:c]]}break;
 		}
 	}
-	[self.buf.b appendString:[NSMutableString stringWithString:@"\""]];
+	[self.buf.b appendString:[@"\"" mutableCopy]];
 }
 - (id) doParse:(NSMutableString*)str{
 	self.str = str;
@@ -179,7 +179,7 @@
 }
 - (void) invalidChar{
 	self.pos--;
-	@throw [[[[NSMutableString stringWithString:@"Invalid char "] stringByAppendingString:[self.str characterAtIndex:self.pos]] stringByAppendingString:[NSMutableString stringWithString:@" at position "]] stringByAppendingString:self.pos];;
+	@throw [[[[@"Invalid char " mutableCopy] stringByAppendingString:[self.str characterAtIndex:self.pos]] stringByAppendingString:[@" at position " mutableCopy]] stringByAppendingString:self.pos];;
 }
 - (id) parseRec{
 	while (YES) {
@@ -189,8 +189,8 @@
 				break;
 				case 123:{
 					{
-						id obj = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-						nil]; 
+						id obj = [@{
+						} mutableCopy]; 
 						NSMutableString *field = nil; BOOL comma = nil;
 						while (YES) {
 							int c1 = [self.str characterAtIndex:self.pos++];
@@ -205,7 +205,7 @@
 									case 58:{
 										{
 											if (field == nil) [self invalidChar];
-											if (obj != nil) [obj __SetField-TDynamic-];
+											if (obj != nil) [obj __SetField:field :[self parseRec] :NO];
 											field = nil;
 											comma = YES;
 										}}break;
@@ -225,7 +225,7 @@
 					case 91:{
 						{
 							
-							NSMutableArray *arr = [[NSMutableArray alloc] initWithObjects:, nil]; BOOL comma = nil;
+							NSMutableArray *arr = [@[] mutableCopy]; BOOL comma = nil;
 							while (YES) {
 								int c1 = [self.str characterAtIndex:self.pos++];
 								switch (c1){
@@ -358,29 +358,29 @@
 						c = [self.str characterAtIndex:self.pos++];
 						switch (c){
 							case 114:{
-								[buf.b appendString:[NSMutableString stringWithString:@"\r"]]}break;
+								[buf.b appendString:[@"\r" mutableCopy]]}break;
 							case 110:{
-								[buf.b appendString:[NSMutableString stringWithString:@"\n"]]}break;
+								[buf.b appendString:[@"\n" mutableCopy]]}break;
 							case 116:{
-								[buf.b appendString:[NSMutableString stringWithString:@"\t"]]}break;
+								[buf.b appendString:[@"\t" mutableCopy]]}break;
 							case 98:{
-								[buf.b appendString:[NSMutableString stringWithString:@""]]}break;
+								[buf.b appendString:[@"" mutableCopy]]}break;
 							case 102:{
-								[buf.b appendString:[NSMutableString stringWithString:@""]]}break;
+								[buf.b appendString:[@"" mutableCopy]]}break;
 							case 47:case 92:case 34:{
 								buf.b += [NSMutableString:c]}break;
 							case 117:{
 								{
-									int uc = [Std parseInt:[[NSMutableString stringWithString:@"0x"] stringByAppendingString:[self.str substr:self.pos len:@"4"]]];
-									self.pos += 4;
+									int uc = [Std parseInt:[[@"0x" mutableCopy] stringByAppendingString:[self.str substr:self.pos len:@"4"]]];
+									[self.pos appendString:@"4"];
 									buf.b += [NSMutableString:uc];
 								}}break;
 							default:{
-								@throw [[[[NSMutableString stringWithString:@"Invalid escape sequence \\"] stringByAppendingString:[NSMutableString:c]] stringByAppendingString:[NSMutableString stringWithString:@" at position "]] stringByAppendingString: (self.pos - @"1")];}break;
+								@throw [[[[@"Invalid escape sequence \\" mutableCopy] stringByAppendingString:[NSMutableString:c]] stringByAppendingString:[@" at position " mutableCopy]] stringByAppendingString: (self.pos - @"1")];}break;
 						}
 						start = self.pos;
 					}
-					else if (c == -1) @throw [NSMutableString stringWithString:@"Unclosed string"];;
+					else if (c == -1) @throw [@"Unclosed string" mutableCopy];;
 				}
 				{
 					
@@ -390,7 +390,7 @@
 				return buf.b;
 			}
 			- (void) invalidNumber:(int)start{
-				@throw [[[[NSMutableString stringWithString:@"Invalid number at position "] stringByAppendingString:start] stringByAppendingString:[NSMutableString stringWithString:@": "]] stringByAppendingString:[self.str substr:start len:self.pos - start]];;
+				@throw [[[[@"Invalid number at position " mutableCopy] stringByAppendingString:start] stringByAppendingString:[@": " mutableCopy]] stringByAppendingString:[self.str substr:start len:self.pos - start]];;
 			}
 			- (id) init{
 				self = [super init];

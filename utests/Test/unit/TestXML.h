@@ -8,9 +8,9 @@
 
 
 #import "../Xml.h"
-#import "../Array.h"
 #import "../Lambda.h"
 #import "../String.h"
+#import "../Array.h"
 #import "../haxe/xml/Parser.h"
 #import "../unit/Test.h"
 
@@ -27,7 +27,6 @@
 - (void) testEntities;
 - (void) testCustomXmlParser;
 - (void) testMore;
-- (id) init;
 
 @end
 

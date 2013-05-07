@@ -17,7 +17,7 @@
 - (void) stop;
 // Defining a dynamic method
 - (void) run;
-@property (nonatomic,copy) void(^property_run)();
+@property (nonatomic,copy) void(^property_run);
 - (void) nsrun:(NSTimer*)aTimer;
 - (id) init:(int)time_ms;
 

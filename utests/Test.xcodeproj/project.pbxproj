@@ -31,7 +31,6 @@
 		TESTSRCM3B2684E523748E86 /* Md5.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM684E523748E86; };
 		TESTSRCMA05E4383D7313EB8 /* Sha1.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFME4383D7313EB8; };
 		TESTSRCMC14DF8D0D0583986 /* GenericStack.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFMDF8D0D0583986; };
-		TESTSRCM55D108B56D4448D7 /* HashMap.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM108B56D4448D7; };
 		TESTSRCM2DB5356064FE22DA /* IntMap.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM5356064FE22DA; };
 		TESTSRCMDAB1477FCB682C78 /* ObjectMap.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM1477FCB682C78; };
 		TESTSRCM32E96777F7216256 /* StringMap.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM96777F7216256; };
@@ -54,6 +53,7 @@
 		TESTSRCM0B1850D273F6459E /* TestBasetypes.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM850D273F6459E; };
 		TESTSRCM4049AE9175DC748C /* TestBytes.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM9AE9175DC748C; };
 		TESTSRCM87D822FD10427950 /* TestEReg.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM822FD10427950; };
+		TESTSRCM2A2D6706D6F443AC /* TestGADT.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFMD6706D6F443AC; };
 		TESTSRCM939503448EE92C57 /* TestIO.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM503448EE92C57; };
 		TESTSRCM64173649DB4FCC82 /* TestInt64.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM73649DB4FCC82; };
 		TESTSRCM3A7F4A6BB9443DAE /* TestLocals.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFMF4A6BB9443DAE; };
@@ -67,13 +67,15 @@
 		TESTSRCMF8731C21F9F7003B /* TestSpecification.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM31C21F9F7003B; };
 		TESTSRCMB881C9484FC6710C /* TestType.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM1C9484FC6710C; };
 		TESTSRCM56466D2B01621D69 /* TestXML.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM66D2B01621D69; };
-		TESTRESCED0C963413CD60D4 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = TESTRESREF0C963413CD60D4; };
-		TESTRES9583E6E7B686AAA68 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = TESTRESREF3E6E7B686AAA68; };
-		TESTRES75B33BB17EB997C60 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = TESTRESREF33BB17EB997C60; };
-		TESTRES542493FF4ED3F396D /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = TESTRESREF493FF4ED3F396D; };
-		TESTRESACA4F061747389F57 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = TESTRESREF4F061747389F57; };
-		TESTRES49491ED824047C2FF /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = TESTRESREF91ED824047C2FF; };
-		TESTRESE4096566C326C4BE6 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = TESTRESREF96566C326C4BE6; };
+		TESTRESCED0C963413CD60D4 /* Default-568h@2x.pngpng in Resources */ = {isa = PBXBuildFile; fileRef = TESTRESREF0C963413CD60D4; };
+		TESTRES625E78008C5F0B41A /* Default-landscape~ipad.pngpng in Resources */ = {isa = PBXBuildFile; fileRef = TESTRESREFE78008C5F0B41A; };
+		TESTRES542E5BC9EA6704057 /* Default-portrait~ipad.pngpng in Resources */ = {isa = PBXBuildFile; fileRef = TESTRESREFE5BC9EA6704057; };
+		TESTRES9583E6E7B686AAA68 /* Default.pngpng in Resources */ = {isa = PBXBuildFile; fileRef = TESTRESREF3E6E7B686AAA68; };
+		TESTRES75B33BB17EB997C60 /* Default@2x.pngpng in Resources */ = {isa = PBXBuildFile; fileRef = TESTRESREF33BB17EB997C60; };
+		TESTRES542493FF4ED3F396D /* Icon-72.pngpng in Resources */ = {isa = PBXBuildFile; fileRef = TESTRESREF493FF4ED3F396D; };
+		TESTRESACA4F061747389F57 /* Icon-72@2x.pngpng in Resources */ = {isa = PBXBuildFile; fileRef = TESTRESREF4F061747389F57; };
+		TESTRES49491ED824047C2FF /* Icon.pngpng in Resources */ = {isa = PBXBuildFile; fileRef = TESTRESREF91ED824047C2FF; };
+		TESTRESE4096566C326C4BE6 /* Icon@2x.pngpng in Resources */ = {isa = PBXBuildFile; fileRef = TESTRESREF96566C326C4BE6; };
 		TESTRESREF12485253914667 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = TESTRESREFFF3D47309BAF6C /* InfoPlist.strings */; };
 		TESTRESREF0CEDFD52164E4F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = TESTRESREFAD34034122B42F /* InfoPlist.strings */; };
 		TESTRESREF489B1422E28349 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTRESREF086269C989D672 /* main.m */; };
@@ -102,6 +104,7 @@
 		TESTSRCREFH4CAD85DA1EEBB /* Lambda.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Lambda.h; sourceTree = "<group>"; };
 		TESTSRCREFMD126654BD0E52 /* List.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = List.m; sourceTree = "<group>"; };
 		TESTSRCREFHD126654BD0E52 /* List.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = List.h; sourceTree = "<group>"; };
+		TESTSRCREFHA3126B91F3F70 /* Map.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Map.h; sourceTree = "<group>"; };
 		TESTSRCREFM91E956E8DC18D /* Reflect.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Reflect.m; sourceTree = "<group>"; };
 		TESTSRCREFH91E956E8DC18D /* Reflect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Reflect.h; sourceTree = "<group>"; };
 		TESTSRCREFM348C7DDEC66F1 /* Std.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Std.m; sourceTree = "<group>"; };
@@ -137,8 +140,6 @@
 		TESTSRCREFHE4383D7313EB8 /* haxe/crypto/Sha1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Sha1.h; path = Test/haxe/crypto/Sha1.h; sourceTree = SOURCE_ROOT; };
 		TESTSRCREFMDF8D0D0583986 /* haxe/ds/GenericStack.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = GenericStack.m; path = Test/haxe/ds/GenericStack.m; sourceTree = SOURCE_ROOT; };
 		TESTSRCREFHDF8D0D0583986 /* haxe/ds/GenericStack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GenericStack.h; path = Test/haxe/ds/GenericStack.h; sourceTree = SOURCE_ROOT; };
-		TESTSRCREFM108B56D4448D7 /* haxe/ds/HashMap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = HashMap.m; path = Test/haxe/ds/HashMap.m; sourceTree = SOURCE_ROOT; };
-		TESTSRCREFH108B56D4448D7 /* haxe/ds/HashMap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HashMap.h; path = Test/haxe/ds/HashMap.h; sourceTree = SOURCE_ROOT; };
 		TESTSRCREFM5356064FE22DA /* haxe/ds/IntMap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = IntMap.m; path = Test/haxe/ds/IntMap.m; sourceTree = SOURCE_ROOT; };
 		TESTSRCREFH5356064FE22DA /* haxe/ds/IntMap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IntMap.h; path = Test/haxe/ds/IntMap.h; sourceTree = SOURCE_ROOT; };
 		TESTSRCREFM1477FCB682C78 /* haxe/ds/ObjectMap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ObjectMap.m; path = Test/haxe/ds/ObjectMap.m; sourceTree = SOURCE_ROOT; };
@@ -184,6 +185,7 @@
 		TESTSRCREFH9AE9175DC748C /* unit/TestBytes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TestBytes.h; path = Test/unit/TestBytes.h; sourceTree = SOURCE_ROOT; };
 		TESTSRCREFM822FD10427950 /* unit/TestEReg.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TestEReg.m; path = Test/unit/TestEReg.m; sourceTree = SOURCE_ROOT; };
 		TESTSRCREFH822FD10427950 /* unit/TestEReg.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TestEReg.h; path = Test/unit/TestEReg.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFMD6706D6F443AC /* unit/TestGADT.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TestGADT.m; path = Test/unit/TestGADT.m; sourceTree = SOURCE_ROOT; };
 		TESTSRCREFM503448EE92C57 /* unit/TestIO.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TestIO.m; path = Test/unit/TestIO.m; sourceTree = SOURCE_ROOT; };
 		TESTSRCREFH503448EE92C57 /* unit/TestIO.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TestIO.h; path = Test/unit/TestIO.h; sourceTree = SOURCE_ROOT; };
 		TESTSRCREFM73649DB4FCC82 /* unit/TestInt64.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TestInt64.m; path = Test/unit/TestInt64.m; sourceTree = SOURCE_ROOT; };
@@ -210,6 +212,15 @@
 		TESTSRCREFH66D2B01621D69 /* unit/TestXML.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TestXML.h; path = Test/unit/TestXML.h; sourceTree = SOURCE_ROOT; };
 		TESTSRCDIRREFE85ABA96D37 /* haxe/ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = haxe; sourceTree = "<group>"; };
 		TESTSRCDIRREF1A4C0EF0748 /* unit/ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = unit; sourceTree = "<group>"; };
+		TESTRESREF0C963413CD60D4 /* Default-568h@2x.png in Resources */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "..//Users/Cristi/Documents/haxecompiler/hxcocoa/SupportingFiles/Default-568h@2x.png"; sourceTree = SOURCE_ROOT; };
+		TESTRESREFE78008C5F0B41A /* Default-landscape~ipad.png in Resources */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-landscape~ipad.png"; path = "..//Users/Cristi/Documents/haxecompiler/hxcocoa/SupportingFiles/Default-landscape~ipad.png"; sourceTree = SOURCE_ROOT; };
+		TESTRESREFE5BC9EA6704057 /* Default-portrait~ipad.png in Resources */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-portrait~ipad.png"; path = "..//Users/Cristi/Documents/haxecompiler/hxcocoa/SupportingFiles/Default-portrait~ipad.png"; sourceTree = SOURCE_ROOT; };
+		TESTRESREF3E6E7B686AAA68 /* Default.png in Resources */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default.png"; path = "..//Users/Cristi/Documents/haxecompiler/hxcocoa/SupportingFiles/Default.png"; sourceTree = SOURCE_ROOT; };
+		TESTRESREF33BB17EB997C60 /* Default@2x.png in Resources */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "..//Users/Cristi/Documents/haxecompiler/hxcocoa/SupportingFiles/Default@2x.png"; sourceTree = SOURCE_ROOT; };
+		TESTRESREF493FF4ED3F396D /* Icon-72.png in Resources */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-72.png"; path = "..//Users/Cristi/Documents/haxecompiler/hxcocoa/SupportingFiles/Icon-72.png"; sourceTree = SOURCE_ROOT; };
+		TESTRESREF4F061747389F57 /* Icon-72@2x.png in Resources */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-72@2x.png"; path = "..//Users/Cristi/Documents/haxecompiler/hxcocoa/SupportingFiles/Icon-72@2x.png"; sourceTree = SOURCE_ROOT; };
+		TESTRESREF91ED824047C2FF /* Icon.png in Resources */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon.png"; path = "..//Users/Cristi/Documents/haxecompiler/hxcocoa/SupportingFiles/Icon.png"; sourceTree = SOURCE_ROOT; };
+		TESTRESREF96566C326C4BE6 /* Icon@2x.png in Resources */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "..//Users/Cristi/Documents/haxecompiler/hxcocoa/SupportingFiles/Icon@2x.png"; sourceTree = SOURCE_ROOT; };
 		TESTRESREFC398B4972FE836 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		TESTRESREFD17FEB0DE87B92 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		TESTRESREF96BF51AA985FFE /* Test-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Test-Info.plist"; sourceTree = "<group>"; };
@@ -280,6 +291,7 @@
 				TESTSRCREFH4CAD85DA1EEBB /* Lambda.h */,
 				TESTSRCREFMD126654BD0E52 /* List.m */,
 				TESTSRCREFHD126654BD0E52 /* List.h */,
+				TESTSRCREFHA3126B91F3F70 /* Map.h */,
 				TESTSRCREFM91E956E8DC18D /* Reflect.m */,
 				TESTSRCREFH91E956E8DC18D /* Reflect.h */,
 				TESTSRCREFM348C7DDEC66F1 /* Std.m */,
@@ -306,6 +318,8 @@
 				TESTRESREF086269C989D672 /* main.m */,
 				TESTRESREF70FD764480D760 /* Test-Prefix.pch */,
 				TESTRESREF0C963413CD60D4 /* Default-568h@2x.png in Resoures */,
+				TESTRESREFE78008C5F0B41A /* Default-landscape~ipad.png in Resoures */,
+				TESTRESREFE5BC9EA6704057 /* Default-portrait~ipad.png in Resoures */,
 				TESTRESREF3E6E7B686AAA68 /* Default.png in Resoures */,
 				TESTRESREF33BB17EB997C60 /* Default@2x.png in Resoures */,
 				TESTRESREF493FF4ED3F396D /* Icon-72.png in Resoures */,
@@ -411,6 +425,8 @@
 				TESTSRCDIRB2DE85ABA96D37 /* haxe/ in Resoures */,
 				TESTSRCDIR7A81A4C0EF0748 /* unit/ in Resoures */,
 				TESTRESCED0C963413CD60D4 /* Default-568h@2x.png in Resoures */,
+				TESTRES625E78008C5F0B41A /* Default-landscape~ipad.png in Resoures */,
+				TESTRES542E5BC9EA6704057 /* Default-portrait~ipad.png in Resoures */,
 				TESTRES9583E6E7B686AAA68 /* Default.png in Resoures */,
 				TESTRES75B33BB17EB997C60 /* Default@2x.png in Resoures */,
 				TESTRES542493FF4ED3F396D /* Icon-72.png in Resoures */,
@@ -478,7 +494,6 @@ TESTRESREF489B1422E28349 /* main.m in Sources */,
 				TESTSRCM3B2684E523748E86 /* haxe/crypto/Md5.m in Sources */,
 				TESTSRCMA05E4383D7313EB8 /* haxe/crypto/Sha1.m in Sources */,
 				TESTSRCMC14DF8D0D0583986 /* haxe/ds/GenericStack.m in Sources */,
-				TESTSRCM55D108B56D4448D7 /* haxe/ds/HashMap.m in Sources */,
 				TESTSRCM2DB5356064FE22DA /* haxe/ds/IntMap.m in Sources */,
 				TESTSRCMDAB1477FCB682C78 /* haxe/ds/ObjectMap.m in Sources */,
 				TESTSRCM32E96777F7216256 /* haxe/ds/StringMap.m in Sources */,
@@ -501,6 +516,7 @@ TESTRESREF489B1422E28349 /* main.m in Sources */,
 				TESTSRCM0B1850D273F6459E /* unit/TestBasetypes.m in Sources */,
 				TESTSRCM4049AE9175DC748C /* unit/TestBytes.m in Sources */,
 				TESTSRCM87D822FD10427950 /* unit/TestEReg.m in Sources */,
+				TESTSRCM2A2D6706D6F443AC /* unit/TestGADT.m in Sources */,
 				TESTSRCM939503448EE92C57 /* unit/TestIO.m in Sources */,
 				TESTSRCM64173649DB4FCC82 /* unit/TestInt64.m in Sources */,
 				TESTSRCM3A7F4A6BB9443DAE /* unit/TestLocals.m in Sources */,
@@ -592,7 +608,7 @@ TESTRESREF489B1422E28349 /* main.m in Sources */,
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -609,11 +625,17 @@ TESTRESREF489B1422E28349 /* main.m in Sources */,
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Test/Test-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Test/Test-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_LDFLAGS = (				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -621,10 +643,17 @@ TESTRESREF489B1422E28349 /* main.m in Sources */,
 		TESTRESREFD955E80AD029C9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Test/Test-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Test/Test-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_LDFLAGS = (				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

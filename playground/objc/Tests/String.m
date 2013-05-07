@@ -15,16 +15,16 @@
 // Please provide a getterBody for the property: length
 
 - (NSMutableString*) toUpperCase{
-	return [-FDynamic-self uppercaseString];
+	return [self uppercaseString];
 }
 - (NSMutableString*) toLowerCase{
-	return [-FDynamic-self lowercaseString];
+	return [self lowercaseString];
 }
 - (NSMutableString*) charAt:(int)index{
 	return nil;
 }
 - (int) charCodeAt:(int)index{
-	return [-FDynamic-self characterAtIndex:index];
+	return [self characterAtIndex:index];
 }
 - (int) indexOf:(NSMutableString*)str startIndex:(int)startIndex{
 	// Optional arguments
@@ -49,7 +49,7 @@
 	return -1;
 }
 - (NSMutableArray*) split:(NSMutableString*)delimiter{
-	return [-FDynamic-self componentsSeparatedByString:delimiter];
+	return [self componentsSeparatedByString:delimiter];
 }
 - (NSMutableString*) substr:(int)pos len:(int)len{
 	// Optional arguments
@@ -87,7 +87,7 @@
 	return [self substr:startIndex len:endIndex - startIndex];
 }
 - (NSMutableString*) toString{
-	return [-FDynamic-self description];
+	return [self description];
 }
 - (id) init:(NSMutableString*)string{
 	self = [super init];

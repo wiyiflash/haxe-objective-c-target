@@ -20,7 +20,6 @@
 - (void) testSubCapture;
 - (void) testParallelCapture;
 - (void) testPossibleBug;
-- (id) init;
 
 @end
 

@@ -16,16 +16,16 @@ static NSMutableString* staticVar;
 	if (staticVar == nil) staticVar = ;
 	return staticVar;
 }
-+ (void) setStaticVar:(NSMutableString*)val {
-	staticVar = val;
++ (void) setStaticVar:(NSMutableString*)hx_val {
+	staticVar = hx_val;
 }
 static NSMutableString* staticProp;
 + (NSMutableString*) staticProp {
 	if (staticProp == nil) staticProp = ;
 	return staticProp;
 }
-+ (void) setStaticProp:(NSMutableString*)val {
-	staticProp = val;
++ (void) setStaticProp:(NSMutableString*)hx_val {
+	staticProp = hx_val;
 }
 - (void) func{
 }
@@ -33,10 +33,34 @@ static NSMutableString* staticProp;
 @synthesize prop;
 - (id) init{
 	self = [super init];
-	self.v = [NSMutableString stringWithString:@"var"];
-	self.prop = [NSMutableString stringWithString:@"prop"];
-	C.staticVar = [NSMutableString stringWithString:@"staticVar"];
-	C.staticProp = [NSMutableString stringWithString:@"staticProp"];
+	self.v = [@"var" mutableCopy];
+	self.prop = [@"prop" mutableCopy];
+	C.staticVar = [@"staticVar" mutableCopy];
+	C.staticProp = [@"staticProp" mutableCopy];
+	return self;
+}
+
+@end
+
+@implementation C2
+
+- (NSMutableString*) func{
+	return [@"foo" mutableCopy];
+}
+@synthesize v;
+@synthesize prop;
+
+- (NSMutableString*) get_propAcc{
+	return [@"1" mutableCopy];
+}
+- (NSMutableString*) set_propAcc:(id)v{
+	return self.propAcc = [v[@"toUpperCase"]];
+}
+- (id) init{
+	self = [super init];
+	self.v = [@"var" mutableCopy];
+	self.prop = [@"prop" mutableCopy];
+	[self set_propAcc:[@"0" mutableCopy]];
 	return self;
 }
 
@@ -44,19 +68,11 @@ static NSMutableString* staticProp;
 
 @implementation CChild
 
-- (id) init{
-	self = [super init];
-	return self;
-}
 
 @end
 
 @implementation CDyn
 
-- (id) init{
-	self = [super init];
-	return self;
-}
 
 @end
 
@@ -72,7 +88,7 @@ static NSMutableString* staticProp;
 @implementation ClassWithToString
 
 - (NSMutableString*) toString{
-	return [NSMutableString stringWithString:@"ClassWithToString.toString()"];
+	return [@"ClassWithToString.toString()" mutableCopy];
 }
 - (id) init{
 	self = [super init];
@@ -83,21 +99,13 @@ static NSMutableString* staticProp;
 
 @implementation ClassWithToStringChild
 
-- (id) init{
-	self = [super init];
-	return self;
-}
 
 @end
 
 @implementation ClassWithToStringChild2
 
 - (NSMutableString*) toString{
-	return [NSMutableString stringWithString:@"ClassWithToStringChild2.toString()"];
-}
-- (id) init{
-	self = [super init];
-	return self;
+	return [@"ClassWithToStringChild2.toString()" mutableCopy];
 }
 
 @end
@@ -109,7 +117,7 @@ static NSMutableString* staticProp;
 - (id) init:(int)a b:(NSMutableString*)b{
 	self = [super init];
 	// Optional arguments
-	if (!b) b = [NSMutableString stringWithString:@"foo"];
+	if (!b) b = [@"foo" mutableCopy];
 	if (!a) a = 1;
 	
 	self.a = a;
@@ -121,14 +129,6 @@ static NSMutableString* staticProp;
 
 @implementation ClassWithCtorDefaultValuesChild
 
-- (id) init:(int)a b:(NSMutableString*)b{
-	self = [super init];
-	// Optional arguments
-	if (!b) b = nil;
-	if (!a) a = nil;
-	
-	return self;
-}
 
 @end
 
@@ -148,9 +148,5 @@ static NSMutableString* staticProp;
 
 @implementation TestSpecification
 
-- (id) init{
-	self = [super init];
-	return self;
-}
 
 @end

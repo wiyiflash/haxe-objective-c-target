@@ -13,15 +13,15 @@
 	
 	NSCalendar *calendar = [NSCalendar currentCalendar];
 	
-	NSDateComponents *components = [calendar.components:(((( NSYearCalendarUnit |  NSMonthCalendarUnit) |  NSDayCalendarUnit) |  NSHourCalendarUnit) |  NSMinuteCalendarUnit) |  NSSecondCalendarUnit fromDate:[NSDate date]];
-	return [[NSDate alloc] init:[components.year] month:[components.month] day:[components.day] hour:[components.hour] min:[components.minute] sec:[components.second]];
+	NSDateComponents *components = [calendar components:((((NSYearCalendarUnit | NSMonthCalendarUnit) | NSDayCalendarUnit) | NSHourCalendarUnit) | NSMinuteCalendarUnit) | NSSecondCalendarUnit fromDate:[NSDate date]];
+	return [[NSDate alloc] init:[components year] month:[components month] day:[components day] hour:[components hour] min:[components minute] sec:[components second]];
 }
 + (NSDate*) fromString:(NSMutableString*)s{
 	switch (s.length){
 		case 8:{
 			{
 				
-				NSMutableArray *k = [s.split:[NSMutableString stringWithString:@":"]];
+				NSMutableArray *k = [s split:[@":" mutableCopy]];
 				
 				NSDate *d = [[NSDate alloc] init:0 month:0 day:0 hour:[Std parseInt:[k hx_objectAtIndex:0]] min:[Std parseInt:[k hx_objectAtIndex:1]] sec:[Std parseInt:[k hx_objectAtIndex:2]]];
 				return d;
@@ -29,21 +29,21 @@
 		case 10:{
 			{
 				
-				NSMutableArray *k = [s.split:[NSMutableString stringWithString:@"-"]];
+				NSMutableArray *k = [s split:[@"-" mutableCopy]];
 				return [[NSDate alloc] init:[Std parseInt:[k hx_objectAtIndex:0]] month:[Std parseInt:[k hx_objectAtIndex:1]] - 1 day:[Std parseInt:[k hx_objectAtIndex:2]] hour:0 min:0 sec:0];
 			}}break;
 		case 19:{
 			{
 				
-				NSMutableArray *k = [s.split:[NSMutableString stringWithString:@" "]];
+				NSMutableArray *k = [s split:[@" " mutableCopy]];
 				
-				NSMutableArray *y = [[k hx_objectAtIndex:0].split:[NSMutableString stringWithString:@"-"]];
+				NSMutableArray *y = [[k hx_objectAtIndex:0] split:[@"-" mutableCopy]];
 				
-				NSMutableArray *t = [[k hx_objectAtIndex:1].split:[NSMutableString stringWithString:@":"]];
+				NSMutableArray *t = [[k hx_objectAtIndex:1] split:[@":" mutableCopy]];
 				return [[NSDate alloc] init:[Std parseInt:[y hx_objectAtIndex:0]] month:[Std parseInt:[y hx_objectAtIndex:1]] - 1 day:[Std parseInt:[y hx_objectAtIndex:2]] hour:[Std parseInt:[t hx_objectAtIndex:0]] min:[Std parseInt:[t hx_objectAtIndex:1]] sec:[Std parseInt:[t hx_objectAtIndex:2]]];
 			}}break;
 		default:{
-			@throw [[NSMutableString stringWithString:@"Invalid date format : "] stringByAppendingString:s];}break;
+			@throw [[@"Invalid date format : " mutableCopy] stringByAppendingString:s];}break;
 	}
 	return nil;
 }
@@ -78,13 +78,13 @@
 - (id) init:(int)year month:(int)month day:(int)day hour:(int)hour min:(int)min sec:(int)sec{
 	self = [super init];
 	self._calendar = [NSCalendar currentCalendar];
-	self._components = [self._calendar components:(((( NSYearCalendarUnit |  NSMonthCalendarUnit) |  NSDayCalendarUnit) |  NSHourCalendarUnit) |  NSMinuteCalendarUnit) |  NSSecondCalendarUnit fromDate:[NSDate date]];
-	[self._components setYear-TDynamic-];
-	[self._components setMonth-TDynamic-];
-	[self._components setDay-TDynamic-];
-	[self._components setHour-TDynamic-];
-	[self._components setMinute-TDynamic-];
-	[self._components setSecond-TDynamic-];
+	self._components = [self._calendar components:((((NSYearCalendarUnit | NSMonthCalendarUnit) | NSDayCalendarUnit) | NSHourCalendarUnit) | NSMinuteCalendarUnit) | NSSecondCalendarUnit fromDate:[NSDate date]];
+	[self._components setYear:year];
+	[self._components setMonth:month];
+	[self._components setDay:day];
+	[self._components setHour:hour];
+	[self._components setMinute:min];
+	[self._components setSecond:sec];
 	self = [self._calendar dateFromComponents:self._components];
 	return self;
 }

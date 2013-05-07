@@ -15,7 +15,6 @@
 #import "../Std.h"
 #import "../unit/MyClass.h"
 #import "../Lambda.h"
-#import "../haxe/ds/IntMap.h"
 #import "../haxe/ds/ObjectMap.h"
 #import "../unit/MyAbstract.h"
 #import "../haxe/io/Bytes.h"
@@ -31,7 +30,6 @@
 - (void) doTestEnums;
 - (void) doTestCollection:(NSMutableArray*)a;
 - (void) doTestBytes:(Bytes*)b;
-- (id) init;
 
 @end
 

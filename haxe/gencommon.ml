@@ -514,7 +514,7 @@ type generator_ctx =
 
   (* cast detection helpers / settings *)
   (* this is a cache for all field access types *)
-  greal_field_types : (path * string, (tclass_field (* does the cf exist *) * t (*cf's type in relation to current class type params *) * tclass (* declared class *) ) option) Hashtbl.t;
+  greal_field_types : (path * string, (tclass_field (* does the cf exist *) * t (*cf's type in relation to current class type params *) * t * tclass (* declared class *) ) option) Hashtbl.t;
   (* this function allows any code to handle casts as if it were inside the cast_detect module *)
   mutable ghandle_cast : t->t->texpr->texpr;
   (* when an unsafe cast is made, we can warn the user *)
@@ -1017,9 +1017,11 @@ let dump_descriptor gen name path_s module_s =
   SourceWriter.write w "begin libs";
   SourceWriter.newline w;
   if Common.platform gen.gcon Java then
-    List.iter (fun (s,_,_,_) ->
-      SourceWriter.write w s;
-      SourceWriter.newline w
+    List.iter (fun (s,std,_,_,_) ->
+      if not std then begin
+        SourceWriter.write w s;
+        SourceWriter.newline w;
+      end
     ) gen.gcon.java_libs;
   SourceWriter.write w "end libs";
 
@@ -1168,8 +1170,7 @@ let rec replace_mono t =
   | TFun (args,ret) ->
       List.iter (fun (_,_,t) -> replace_mono t) args;
       replace_mono ret
-  | TAnon a ->
-      PMap.iter (fun _ f -> replace_mono f.cf_type) a.a_fields
+  | TAnon _
   | TDynamic _ -> ()
   | _ -> assert false
 
@@ -1213,6 +1214,52 @@ type tfield_access =
   | FDynamicField of t
   | FNotFound
 
+let find_first_declared_field gen orig_cl ?exact_field field =
+  let chosen = ref None in
+  let is_overload = ref false in
+  let rec loop_cl depth c tl tlch =
+    (try
+      let ret = PMap.find field c.cl_fields in
+      if Meta.has Meta.Overload ret.cf_meta then is_overload := true;
+      match !chosen, exact_field with
+      | Some(d,_,_,_,_), _ when depth <= d -> ()
+      | _, None ->
+        chosen := Some(depth,ret,c,tl,tlch)
+      | _, Some f2 ->
+        List.iter (fun f ->
+          let declared_t = apply_params c.cl_types tl f.cf_type in
+          if Typeload.same_overload_args declared_t f2.cf_type f f2 then
+            chosen := Some(depth,f,c,tl,tlch)
+        ) (ret :: ret.cf_overloads)
+    with | Not_found -> ());
+    (match c.cl_super with
+    | Some (sup,stl) ->
+      let tl = List.map (apply_params c.cl_types tl) stl in
+      let stl = gen.greal_type_param (TClassDecl sup) stl in
+      let tlch = List.map (apply_params c.cl_types tlch) stl in
+      loop_cl (depth+1) sup tl tlch
+    | None -> ());
+    if c.cl_interface then
+      List.iter (fun (sup,stl) ->
+        let tl = List.map (apply_params c.cl_types tl) stl in
+        let stl = gen.greal_type_param (TClassDecl sup) stl in
+        let tlch = List.map (apply_params c.cl_types tlch) stl in
+        loop_cl (depth+1) sup tl tlch
+      ) c.cl_implements
+  in
+  loop_cl 0 orig_cl (List.map snd orig_cl.cl_types) (List.map snd orig_cl.cl_types);
+  match !chosen with
+  | None -> None
+  | Some(_,f,c,tl,tlch) ->
+    if !is_overload && not (Meta.has Meta.Overload f.cf_meta) then
+      f.cf_meta <- (Meta.Overload,[],f.cf_pos) :: f.cf_meta;
+    let declared_t = apply_params c.cl_types tl f.cf_type in
+    let params_t = apply_params c.cl_types tlch f.cf_type in
+    let actual_t = match follow params_t with
+    | TFun(args,ret) -> TFun(List.map (fun (n,o,t) -> (n,o,gen.greal_type t)) args, gen.greal_type ret)
+    | _ -> gen.greal_type params_t in
+    Some(f,actual_t,declared_t,params_t,c,tl,tlch)
+
 let field_access gen (t:t) (field:string) : (tfield_access) =
   (*
     t can be either an haxe-type as a real-type;
@@ -1245,45 +1292,21 @@ let field_access gen (t:t) (field:string) : (tfield_access) =
 
       (* this is a hack for C#'s different generic types with same path *)
       let hashtbl_field = (String.concat "" (List.map (fun _ -> "]") cl.cl_types)) ^ field in
-      (try
-        match Hashtbl.find gen.greal_field_types (orig_cl.cl_path, hashtbl_field) with
-          | None -> not_found()
-          | Some (cf, actual_t, declared_cl) ->
-            FClassField(orig_cl, orig_params, declared_cl, cf, false, actual_t)
+      let types = try
+        Hashtbl.find gen.greal_field_types (orig_cl.cl_path, hashtbl_field)
       with | Not_found ->
-        let rec flatten_hierarchy cl acc =
-          match cl.cl_super with
-            | None -> acc
-            | Some (cl,super) -> flatten_hierarchy cl ((cl,super) :: acc)
+        let ret = find_first_declared_field gen cl field in
+        let ret = match ret with
+          | None -> None
+          | Some(cf,t,dt,_,cl,_,_) -> Some(cf,t,dt,cl)
         in
-
-        let hierarchy = flatten_hierarchy orig_cl [orig_cl, List.map snd orig_cl.cl_types] in
-
-        let rec loop_find_cf acc =
-          match acc with
-            | [] ->
-              not_found()
-            | (cl,params) :: tl ->
-              (try
-                let cf = PMap.find field cl.cl_fields in
-                (* found *)
-                (* get actual type *)
-                let get_real_t = match cf.cf_kind with
-                  | Var _ -> (fun t -> gen.greal_type t)
-                  | _ -> (fun t ->
-                    let args, ret = get_fun t in
-                    TFun(List.map (fun (n,o,t) -> (n,o,gen.greal_type t)) args, gen.greal_type ret)
-                  )
-                in
-                let actual_t = List.fold_left (fun t (cl,params) -> apply_params cl.cl_types (gen.greal_type_param (TClassDecl cl) params) (get_real_t t)) cf.cf_type acc in
-                Hashtbl.add gen.greal_field_types (orig_cl.cl_path, hashtbl_field) (Some (cf, actual_t, cl));
-                FClassField(orig_cl, orig_params, cl, cf, false, actual_t)
-              with | Not_found ->
-                loop_find_cf tl
-              )
-        in
-        loop_find_cf hierarchy
-      )
+        Hashtbl.add gen.greal_field_types (orig_cl.cl_path, hashtbl_field) ret;
+        ret
+      in
+      (match types with
+          | None -> not_found()
+          | Some (cf, actual_t, _, declared_cl) ->
+            FClassField(orig_cl, orig_params, declared_cl, cf, false, actual_t))
     | TEnum _ | TAbstract _ ->
       (* enums have no field *) FNotFound
     | TAnon anon ->
@@ -1671,322 +1694,80 @@ struct
       ncf
     in
     (* take off createEmpty *)
-    let all = List.filter (fun cf -> replace_mono cf.cf_type; not (Meta.has Meta.SkipCtor cf.cf_meta)) (ctor :: ctor.cf_overloads) in
-    let clones = List.map clone all in
-    match clones with
-    | [] ->
-      (* raise Not_found *)
-      assert false (* should never happen *)
-    | cf :: [] -> cf
-    | cf :: overl ->
-      cf.cf_meta <- (Meta.Overload,[],cf.cf_pos) :: cf.cf_meta;
-      cf.cf_overloads <- overl; cf
+      let all = List.filter (fun cf -> replace_mono cf.cf_type; not (Meta.has Meta.SkipCtor cf.cf_meta)) (ctor :: ctor.cf_overloads) in
+      let clones = List.map clone all in
+      match clones with
+      | [] ->
+        (* raise Not_found *)
+        assert false (* should never happen *)
+      | cf :: [] -> cf
+      | cf :: overl ->
+        cf.cf_meta <- (Meta.Overload,[],cf.cf_pos) :: cf.cf_meta;
+        cf.cf_overloads <- overl; cf
 
-  let rec descends_from_native_or_skipctor cl =
-    not (is_hxgen (TClassDecl cl)) || Meta.has Meta.SkipCtor cl.cl_meta || match cl.cl_super with
-    | None -> false
-    | Some(c,_) -> descends_from_native_or_skipctor c
+    let rec descends_from_native_or_skipctor cl =
+      not (is_hxgen (TClassDecl cl)) || Meta.has Meta.SkipCtor cl.cl_meta || match cl.cl_super with
+      | None -> false
+      | Some(c,_) -> descends_from_native_or_skipctor c
 
-  let ensure_super_is_first gen cf =
-    let rec loop e =
-      match e.eexpr with
-      | TBlock (b :: block) ->
-        loop b
-      | TBlock []
-      | TCall({ eexpr = TConst TSuper },_) -> ()
-      | _ ->
-        gen.gcon.error "Types that derive from a native class must have its super() call as the first statement in the constructor" cf.cf_pos
-    in
-    match cf.cf_expr with
-    | None -> ()
-    | Some e -> Type.iter loop e
-
-  (* major restructring made at r6493 *)
-  let configure ~(empty_ctor_type : t) ~(empty_ctor_expr : texpr) ~supports_ctor_inheritance gen =
-    set_new_create_empty gen empty_ctor_expr;
-
-    let basic = gen.gcon.basic in
-    let should_change cl = not cl.cl_interface && (not cl.cl_extern || is_hxgen (TClassDecl cl)) in
-    let static_ctor_name = gen.gmk_internal_name "hx" "ctor" in
-    let msize = List.length gen.gcon.types in
-    let processed, empty_ctors = Hashtbl.create msize, Hashtbl.create msize in
-
-
-    let rec get_last_empty cl =
-      try
-        Hashtbl.find empty_ctors cl.cl_path
-      with | Not_found ->
-        match cl.cl_super with
-        | None -> raise Not_found
-        | Some (sup,_) -> get_last_empty sup
-    in
-
-    let rec change cl =
-      match Hashtbl.mem processed cl.cl_path with
-      | true -> ()
-      | false ->
-        Hashtbl.add processed cl.cl_path true;
-        (* make sure we've processed the super types *)
-        (match cl.cl_super with
-        | Some (super,_) when should_change super && not (Hashtbl.mem processed super.cl_path) ->
-          change super
-        | _ -> ());
-
-        (* implement static hx_ctor and reimplement constructors *)
-        (try
-          let ctor = match cl.cl_constructor with
-          | Some ctor -> ctor
-          | None -> try
-            let sctor, sup, stl = prev_ctor cl (List.map snd cl.cl_types) in
-            (* we have a previous constructor. if we support inheritance, exit *)
-            if supports_ctor_inheritance then raise Exit;
-            (* we'll make constructors that will only call super() *)
-            let ctor = clone_ctors gen sctor sup stl cl in
-            cl.cl_constructor <- Some ctor;
-            ctor
-          with | Not_found -> (* create default constructor *)
-            let ctor = mk_class_field "new" (TFun([], basic.tvoid)) false cl.cl_pos (Method MethNormal) [] in
-            ctor.cf_expr <- Some
-            {
-              eexpr = TFunction {
-                tf_args = [];
-                tf_type = basic.tvoid;
-                tf_expr = { eexpr = TBlock[]; etype = basic.tvoid; epos = cl.cl_pos };
-              };
-              etype = ctor.cf_type;
-              epos = ctor.cf_pos;
-            };
-            cl.cl_constructor <- Some ctor;
-            ctor
-          in
-          (* now that we made sure we have a constructor, exit if native gen *)
-          if not (is_hxgen (TClassDecl cl)) || Meta.has Meta.SkipCtor cl.cl_meta then raise Exit;
-
-          (* if cl descends from a native class, we cannot use the static constructor strategy *)
-          if descends_from_native_or_skipctor cl && is_some cl.cl_super then
-            List.iter (fun cf -> ensure_super_is_first gen cf) (ctor :: ctor.cf_overloads)
-          else
-            (* now that we have a current ctor, create the static counterparts *)
-            List.iter (fun cf ->
-              create_static_ctor gen ~empty_ctor_expr:empty_ctor_expr cl static_ctor_name cf
-            ) (ctor :: ctor.cf_overloads)
-        with | Exit -> ());
-
-        (* implement empty ctor *)
-        (try
-          (* now that we made sure we have a constructor, exit if native gen *)
-          if not (is_hxgen (TClassDecl cl)) then raise Exit;
-          (* get first *)
-          let empty_type = TFun(["empty",false,empty_ctor_type],basic.tvoid) in
-          let super = match cl.cl_super with
-          | None -> (* implement empty *)
-              []
-          | Some (sup,_) -> try
-            ignore (get_last_empty sup);
-            if supports_ctor_inheritance && is_none cl.cl_constructor then raise Exit;
-            [{
-              eexpr = TCall(
-                { eexpr = TConst TSuper; etype = TInst(cl, List.map snd cl.cl_types); epos = cl.cl_pos },
-                [ empty_ctor_expr ]);
-              etype = basic.tvoid;
-              epos = cl.cl_pos
-            }]
-          with | Not_found -> try
-            (* super type is native: find super constructor with least arguments *)
-            let sctor, sup, stl = prev_ctor cl (List.map snd cl.cl_types) in
-            let rec loop remaining (best,n) =
-              match remaining with
-              | [] -> best
-              | cf :: r ->
-                let args,_ = get_fun cf.cf_type in
-                if (List.length args) < n then
-                  loop r (cf,List.length args)
-                else
-                  loop r (best,n)
-            in
-            let args,_ = get_fun sctor.cf_type in
-            let best = loop sctor.cf_overloads (sctor, List.length args) in
-            let args,_ = get_fun best.cf_type in
-            [{
-              eexpr = TCall(
-                { eexpr = TConst TSuper; etype = TInst(cl, List.map snd cl.cl_types); epos = cl.cl_pos },
-                List.map (fun (n,o,t) -> null t cl.cl_pos) args);
-              etype = basic.tvoid;
-              epos = cl.cl_pos
-            }]
-          with | Not_found ->
-            (* extends native type, but no ctor found *)
-            []
-          in
-          let ctor = mk_class_field "new" empty_type false cl.cl_pos (Method MethNormal) [] in
-          ctor.cf_expr <- Some {
-            eexpr = TFunction {
-              tf_type = basic.tvoid;
-              tf_args = [alloc_var "empty" empty_ctor_type, None];
-              tf_expr = { eexpr = TBlock super; etype = basic.tvoid; epos = cl.cl_pos }
-            };
-            etype = empty_type;
-            epos = cl.cl_pos;
-          };
-          ctor.cf_meta <- [Meta.SkipCtor, [], ctor.cf_pos];
-          Hashtbl.add empty_ctors cl.cl_path ctor;
-          match cl.cl_constructor with
-          | None -> cl.cl_constructor <- Some ctor
-          | Some c -> c.cf_overloads <- ctor :: c.cf_overloads
-        with | Exit -> ());
-
-    in
-    let module_filter md = match md with
-      | TClassDecl cl when should_change cl && not (Hashtbl.mem processed cl.cl_path) ->
-        change cl;
-        None
-      | _ -> None
-    in
-    gen.gmodule_filters#add ~name:name ~priority:(PCustom priority) module_filter
-
-end;;
-
-(* ******************************************* *)
-(* init function module *)
-(* ******************************************* *)
-
-(*
-  This module will take proper care of the init function, by taking off all expressions from static vars and putting them
-  in order in the init function.
-  It will also initialize dynamic functions, both by putting them in the constructor and in the init function
-
-  depends on:
-    (syntax) must run before ExprStatement module
-    (ok) must run before OverloadingCtor module so the constructor can be in the correct place
-    (syntax) must run before FunctionToClass module
-*)
-
-module InitFunction =
-struct
-
-  let name = "init_funcs"
-
-  let priority = solve_deps name [DBefore OverloadingConstructor.priority]
-
-  let configure gen should_handle_dynamic_functions =
-    let handle_override_dynfun acc e this field =
-      let add_expr = ref None in
-      let v = mk_temp gen ("super_" ^ field) e.etype in
-      v.v_capture <- true;
-
+    let ensure_super_is_first gen cf =
       let rec loop e =
         match e.eexpr with
-          | TField({ eexpr = TConst(TSuper) }, f) ->
-            let n = field_name f in
-            (if n <> field then assert false);
-            let local = mk_local v e.epos in
-            (match !add_expr with
-              | None ->
-                add_expr := Some { e with eexpr = TVars([v, Some this]) }
-              | Some _ -> ());
-            local
-          | TConst TSuper -> assert false
-          | _ -> Type.map_expr loop e
+        | TBlock (b :: block) ->
+          loop b
+        | TBlock []
+        | TCall({ eexpr = TConst TSuper },_) -> ()
+        | _ ->
+          gen.gcon.error "Types that derive from a native class must have its super() call as the first statement in the constructor" cf.cf_pos
       in
-      let e = loop e in
+      match cf.cf_expr with
+      | None -> ()
+      | Some e -> Type.iter loop e
 
-      match !add_expr with
-        | None -> e :: acc
-        | Some add_expr -> add_expr :: e :: acc
-    in
+    (* major restructring made at r6493 *)
+    let configure ~(empty_ctor_type : t) ~(empty_ctor_expr : texpr) ~supports_ctor_inheritance gen =
+      set_new_create_empty gen empty_ctor_expr;
 
-    let handle_class cl =
-      let init = match cl.cl_init with
-        | None -> []
-        | Some i -> [i]
+      let basic = gen.gcon.basic in
+      let should_change cl = not cl.cl_interface && (not cl.cl_extern || is_hxgen (TClassDecl cl)) in
+      let static_ctor_name = gen.gmk_internal_name "hx" "ctor" in
+      let msize = List.length gen.gcon.types in
+      let processed, empty_ctors = Hashtbl.create msize, Hashtbl.create msize in
+
+
+      let rec get_last_empty cl =
+        try
+          Hashtbl.find empty_ctors cl.cl_path
+        with | Not_found ->
+          match cl.cl_super with
+          | None -> raise Not_found
+          | Some (sup,_) -> get_last_empty sup
       in
-      let init = List.fold_left (fun acc cf ->
-        match cf.cf_kind, should_handle_dynamic_functions with
-          | (Var _, _)
-          | (Method (MethDynamic), true) when not (Type.is_extern_field cf) ->
-            (match cf.cf_expr with
-              | Some e ->
-                (match cf.cf_params with
-                  | [] ->
-                    let var = { eexpr = TField(mk_classtype_access cl cf.cf_pos, FStatic(cl,cf)); etype = cf.cf_type; epos = cf.cf_pos } in
-                    let ret = ({ eexpr = TBinop(Ast.OpAssign, var, e); etype = cf.cf_type; epos = cf.cf_pos; }) in
-                    cf.cf_expr <- None;
 
-                    ret :: acc
-                  | _ ->
-                    let params = List.map (fun _ -> t_dynamic) cf.cf_params in
-                    let fn = apply_params cf.cf_params params in
-                    let var = { eexpr = TField(mk_classtype_access cl cf.cf_pos, FStatic(cl,cf)); etype = fn cf.cf_type; epos = cf.cf_pos } in
-                    let rec change_expr e =
-                      Type.map_expr_type (change_expr) fn (fun v -> v.v_type <- fn v.v_type; v) e
-                    in
+      let rec change cl =
+        match Hashtbl.mem processed cl.cl_path with
+        | true -> ()
+        | false ->
+          Hashtbl.add processed cl.cl_path true;
+          (* make sure we've processed the super types *)
+          (match cl.cl_super with
+          | Some (super,_) when should_change super && not (Hashtbl.mem processed super.cl_path) ->
+            change super
+          | _ -> ());
 
-                    let ret = ({ eexpr = TBinop(Ast.OpAssign, var, change_expr e); etype = fn cf.cf_type; epos = cf.cf_pos; }) in
-                    cf.cf_expr <- None;
-                    ret :: acc
-                )
-              | None -> acc)
-          | _ -> acc
-      ) init cl.cl_ordered_statics
-      in
-      let init = List.rev init in
-      (match init with
-        | [] -> cl.cl_init <- None
-        | _ -> cl.cl_init <- Some { eexpr = TBlock(init); epos = cl.cl_pos; etype = gen.gcon.basic.tvoid; });
-
-      (* FIXME: find a way to tell OverloadingCtors to execute this code even with empty constructors *)
-      if should_handle_dynamic_functions then begin
-        let funs = List.fold_left (fun acc cf ->
-          match cf.cf_kind with
-            | Var _
-            | Method(MethDynamic) ->
-              (match cf.cf_expr, cf.cf_params with
-                | Some e, [] ->
-                  let var = { eexpr = TField({ eexpr = TConst(TThis); epos = cf.cf_pos; etype = TInst(cl, List.map snd cl.cl_types); }, FInstance(cl, cf)); etype = cf.cf_type; epos = cf.cf_pos } in
-                  let ret = ({ eexpr = TBinop(Ast.OpAssign, var, e); etype = cf.cf_type; epos = cf.cf_pos; }) in
-                  cf.cf_expr <- None;
-                  let is_override = List.memq cf cl.cl_overrides in
-
-                  if is_override then begin
-                    cl.cl_ordered_fields <- List.filter (fun f -> f.cf_name <> cf.cf_name) cl.cl_ordered_fields;
-                    cl.cl_fields <- PMap.remove cf.cf_name cl.cl_fields;
-                    handle_override_dynfun acc ret var cf.cf_name
-                  end else ret :: acc
-                | Some e, _ ->
-                  let params = List.map (fun _ -> t_dynamic) cf.cf_params in
-                  let fn = apply_params cf.cf_params params in
-                  let var = { eexpr = TField({ eexpr = TConst(TThis); epos = cf.cf_pos; etype = TInst(cl, List.map snd cl.cl_types); }, FInstance(cl, cf)); etype = cf.cf_type; epos = cf.cf_pos } in
-                  let rec change_expr e =
-                    Type.map_expr_type (change_expr) fn (fun v -> v.v_type <- fn v.v_type; v) e
-                  in
-
-                  let ret = ({ eexpr = TBinop(Ast.OpAssign, var, change_expr e); etype = fn cf.cf_type; epos = cf.cf_pos; }) in
-                  cf.cf_expr <- None;
-                  let is_override = List.memq cf cl.cl_overrides in
-
-                  if is_override then begin
-                    cl.cl_ordered_fields <- List.filter (fun f -> f.cf_name <> cf.cf_name) cl.cl_ordered_fields;
-                    cl.cl_fields <- PMap.remove cf.cf_name cl.cl_fields;
-                    handle_override_dynfun acc ret var cf.cf_name
-                  end else ret :: acc
-                | None, _ -> acc)
-            | _ -> acc
-        ) [] cl.cl_ordered_fields
-        in
-        (* see if there is any *)
-        (match funs with
-          | [] -> ()
-          | _ ->
-            (* if there is, we need to find the constructor *)
-            let ctors = match cl.cl_constructor with
+          (* implement static hx_ctor and reimplement constructors *)
+          (try
+            let ctor = match cl.cl_constructor with
             | Some ctor -> ctor
             | None -> try
-              let sctor, sup, stl = OverloadingConstructor.prev_ctor cl (List.map snd cl.cl_types) in
-              let ctor = OverloadingConstructor.clone_ctors gen sctor sup stl cl in
+              let sctor, sup, stl = prev_ctor cl (List.map snd cl.cl_types) in
+              (* we have a previous constructor. if we support inheritance, exit *)
+              if supports_ctor_inheritance then raise Exit;
+              (* we'll make constructors that will only call super() *)
+              let ctor = clone_ctors gen sctor sup stl cl in
               cl.cl_constructor <- Some ctor;
               ctor
-            with | Not_found ->
-              let basic = gen.gcon.basic in
+            with | Not_found -> (* create default constructor *)
               let ctor = mk_class_field "new" (TFun([], basic.tvoid)) false cl.cl_pos (Method MethNormal) [] in
               ctor.cf_expr <- Some
               {
@@ -2001,210 +1782,435 @@ struct
               cl.cl_constructor <- Some ctor;
               ctor
             in
+            (* now that we made sure we have a constructor, exit if native gen *)
+            if not (is_hxgen (TClassDecl cl)) || Meta.has Meta.SkipCtor cl.cl_meta then raise Exit;
 
-            let process ctor =
-              let func = match ctor.cf_expr with
-                | Some({eexpr = TFunction(tf)} as e) ->
+            (* if cl descends from a native class, we cannot use the static constructor strategy *)
+            if descends_from_native_or_skipctor cl && is_some cl.cl_super then
+              List.iter (fun cf -> ensure_super_is_first gen cf) (ctor :: ctor.cf_overloads)
+            else
+              (* now that we have a current ctor, create the static counterparts *)
+              List.iter (fun cf ->
+                create_static_ctor gen ~empty_ctor_expr:empty_ctor_expr cl static_ctor_name cf
+              ) (ctor :: ctor.cf_overloads)
+          with | Exit -> ());
 
-                  let block = match tf.tf_expr.eexpr with
-                    | TBlock(bl) -> bl
-                    | _ -> [tf.tf_expr]
-                  in
-
-                  let found = ref false in
-                  let rec add_fn block acc =
-                    match block with
-                      | ({ eexpr = TCall({ eexpr = TConst(TSuper) }, _) } as hd) :: tl ->
-                        found := true;
-                        (List.rev acc) @ ((hd :: funs) @ tl)
-                      | ({ eexpr = TBlock bl } as hd) :: tl ->
-                        add_fn tl ( ({ hd with eexpr = TBlock (add_fn bl []) }) :: acc )
-                      | hd :: tl ->
-                        add_fn tl ( hd :: acc )
-                      | [] -> List.rev acc
-                  in
-
-                  let block = add_fn block [] in
-                  let block = if !found then
-                    block
+          (* implement empty ctor *)
+          (try
+            (* now that we made sure we have a constructor, exit if native gen *)
+            if not (is_hxgen (TClassDecl cl)) then raise Exit;
+            (* get first *)
+            let empty_type = TFun(["empty",false,empty_ctor_type],basic.tvoid) in
+            let super = match cl.cl_super with
+            | None -> (* implement empty *)
+                []
+            | Some (sup,_) -> try
+              ignore (get_last_empty sup);
+              if supports_ctor_inheritance && is_none cl.cl_constructor then raise Exit;
+              [{
+                eexpr = TCall(
+                  { eexpr = TConst TSuper; etype = TInst(cl, List.map snd cl.cl_types); epos = cl.cl_pos },
+                  [ empty_ctor_expr ]);
+                etype = basic.tvoid;
+                epos = cl.cl_pos
+              }]
+            with | Not_found -> try
+              (* super type is native: find super constructor with least arguments *)
+              let sctor, sup, stl = prev_ctor cl (List.map snd cl.cl_types) in
+              let rec loop remaining (best,n) =
+                match remaining with
+                | [] -> best
+                | cf :: r ->
+                  let args,_ = get_fun cf.cf_type in
+                  if (List.length args) < n then
+                    loop r (cf,List.length args)
                   else
-                    funs @ block
-                  in
-
-                  { e with eexpr = TFunction({
-                    tf with tf_expr = {tf.tf_expr with eexpr = TBlock(block)}
-                  })}
-                | _ -> assert false
+                    loop r (best,n)
               in
-              ctor.cf_expr <- Some(func)
+              let args,_ = get_fun sctor.cf_type in
+              let best = loop sctor.cf_overloads (sctor, List.length args) in
+              let args,_ = get_fun best.cf_type in
+              [{
+                eexpr = TCall(
+                  { eexpr = TConst TSuper; etype = TInst(cl, List.map snd cl.cl_types); epos = cl.cl_pos },
+                  List.map (fun (n,o,t) -> null t cl.cl_pos) args);
+                etype = basic.tvoid;
+                epos = cl.cl_pos
+              }]
+            with | Not_found ->
+              (* extends native type, but no ctor found *)
+              []
             in
-            List.iter process (ctors :: ctors.cf_overloads)
-        )
-      end
+            let ctor = mk_class_field "new" empty_type false cl.cl_pos (Method MethNormal) [] in
+            ctor.cf_expr <- Some {
+              eexpr = TFunction {
+                tf_type = basic.tvoid;
+                tf_args = [alloc_var "empty" empty_ctor_type, None];
+                tf_expr = { eexpr = TBlock super; etype = basic.tvoid; epos = cl.cl_pos }
+              };
+              etype = empty_type;
+              epos = cl.cl_pos;
+            };
+            ctor.cf_meta <- [Meta.SkipCtor, [], ctor.cf_pos];
+            Hashtbl.add empty_ctors cl.cl_path ctor;
+            match cl.cl_constructor with
+            | None -> cl.cl_constructor <- Some ctor
+            | Some c -> c.cf_overloads <- ctor :: c.cf_overloads
+          with | Exit -> ());
 
-    in
+      in
+      let module_filter md = match md with
+        | TClassDecl cl when should_change cl && not (Hashtbl.mem processed cl.cl_path) ->
+          change cl;
+          None
+        | _ -> None
+      in
+      gen.gmodule_filters#add ~name:name ~priority:(PCustom priority) module_filter
 
-    let mod_filter = function
-      | TClassDecl cl -> (if not cl.cl_extern then handle_class cl); None
-      | _ -> None in
+  end;;
 
-    gen.gmodule_filters#add ~name:"init_funcs" ~priority:(PCustom priority) mod_filter
+  (* ******************************************* *)
+  (* init function module *)
+  (* ******************************************* *)
 
-end;;
+  (*
+    This module will take proper care of the init function, by taking off all expressions from static vars and putting them
+    in order in the init function.
+    It will also initialize dynamic functions, both by putting them in the constructor and in the init function
 
-(* ******************************************* *)
-(* Dynamic Binop/Unop handler *)
-(* ******************************************* *)
+    depends on:
+      (syntax) must run before ExprStatement module
+      (ok) must run before OverloadingCtor module so the constructor can be in the correct place
+      (syntax) must run before FunctionToClass module
+  *)
 
-(*
-  On some languages there is limited support for operations on
-  dynamic variables, so those operations must be changed.
+  module InitFunction =
+  struct
 
-  There are 5 types of binary operators:
-    1 - can take any variable and returns a bool (== and !=)
-    2 - can take either a string, or a number and returns either a bool or the underlying type ( >, < for bool and + for returning its type)
-    3 - take numbers and return a number ( *, /, ...)
-    4 - take ints and return an int (bit manipulation)
-    5 - take a bool and returns a bool ( &&, || ...)
+    let name = "init_funcs"
 
-  On the default implementation, type 1 and the plus function will be handled with a function call;
-  Type 2 will be handled with the parameter "compare_handler", which will do something like Reflect.compare(x1, x2);
-  Types 3, 4 and 5 will perform a cast to double, int and bool, which will then be handled normally by the platform
+    let priority = solve_deps name [DBefore OverloadingConstructor.priority]
 
-  Unary operators are the most difficult to handle correctly.
-  With unary operators, there are 2 types:
+    let configure gen should_handle_dynamic_functions =
+      let handle_override_dynfun acc e this field =
+        let add_expr = ref None in
+        let v = mk_temp gen ("super_" ^ field) e.etype in
+        v.v_capture <- true;
 
-    1 - can take a number, changes and returns the result (++, --, ~)
-    2 - can take a number (-) or bool (!), and returns the result
+        let rec loop e =
+          match e.eexpr with
+            | TField({ eexpr = TConst(TSuper) }, f) ->
+              let n = field_name f in
+              (if n <> field then assert false);
+              let local = mk_local v e.epos in
+              (match !add_expr with
+                | None ->
+                  add_expr := Some { e with eexpr = TVars([v, Some this]) }
+                | Some _ -> ());
+              local
+            | TConst TSuper -> assert false
+            | _ -> Type.map_expr loop e
+        in
+        let e = loop e in
 
-  The first case is much trickier, because it doesn't seem a good idea to change any variable to double just because it is dynamic,
-  but this is how we will handle right now.
-  something like that:
+        match !add_expr with
+          | None -> e :: acc
+          | Some add_expr -> add_expr :: e :: acc
+      in
 
-  var x:Dynamic = 10;
-  x++;
+      let handle_class cl =
+        let init = match cl.cl_init with
+          | None -> []
+          | Some i -> [i]
+        in
+        let init = List.fold_left (fun acc cf ->
+          match cf.cf_kind, should_handle_dynamic_functions with
+            | (Var _, _)
+            | (Method (MethDynamic), true) when not (Type.is_extern_field cf) ->
+              (match cf.cf_expr with
+                | Some e ->
+                  (match cf.cf_params with
+                    | [] ->
+                      let var = { eexpr = TField(mk_classtype_access cl cf.cf_pos, FStatic(cl,cf)); etype = cf.cf_type; epos = cf.cf_pos } in
+                      let ret = ({ eexpr = TBinop(Ast.OpAssign, var, e); etype = cf.cf_type; epos = cf.cf_pos; }) in
+                      cf.cf_expr <- None;
 
-  will be:
-  object x = 10;
-  x = ((IConvertible)x).ToDouble(null) + 1;
+                      ret :: acc
+                    | _ ->
+                      let params = List.map (fun _ -> t_dynamic) cf.cf_params in
+                      let fn = apply_params cf.cf_params params in
+                      let var = { eexpr = TField(mk_classtype_access cl cf.cf_pos, FStatic(cl,cf)); etype = fn cf.cf_type; epos = cf.cf_pos } in
+                      let rec change_expr e =
+                        Type.map_expr_type (change_expr) fn (fun v -> v.v_type <- fn v.v_type; v) e
+                      in
 
-  depends on:
-    (syntax) must run before expression/statment normalization because it may generate complex expressions
-    must run before OverloadingCtor due to later priority conflicts. Since ExpressionUnwrap is only
-    defined afterwards, we will set this value with absolute values
-*)
+                      let ret = ({ eexpr = TBinop(Ast.OpAssign, var, change_expr e); etype = fn cf.cf_type; epos = cf.cf_pos; }) in
+                      cf.cf_expr <- None;
+                      ret :: acc
+                  )
+                | None -> acc)
+            | _ -> acc
+        ) init cl.cl_ordered_statics
+        in
+        let init = List.rev init in
+        (match init with
+          | [] -> cl.cl_init <- None
+          | _ -> cl.cl_init <- Some { eexpr = TBlock(init); epos = cl.cl_pos; etype = gen.gcon.basic.tvoid; });
 
-module DynamicOperators =
-struct
+        (* FIXME: find a way to tell OverloadingCtors to execute this code even with empty constructors *)
+        if should_handle_dynamic_functions then begin
+          let funs = List.fold_left (fun acc cf ->
+            match cf.cf_kind with
+              | Var _
+              | Method(MethDynamic) ->
+                (match cf.cf_expr, cf.cf_params with
+                  | Some e, [] ->
+                    let var = { eexpr = TField({ eexpr = TConst(TThis); epos = cf.cf_pos; etype = TInst(cl, List.map snd cl.cl_types); }, FInstance(cl, cf)); etype = cf.cf_type; epos = cf.cf_pos } in
+                    let ret = ({ eexpr = TBinop(Ast.OpAssign, var, e); etype = cf.cf_type; epos = cf.cf_pos; }) in
+                    cf.cf_expr <- None;
+                    let is_override = List.memq cf cl.cl_overrides in
 
-  let name = "dyn_ops"
+                    if is_override then begin
+                      cl.cl_ordered_fields <- List.filter (fun f -> f.cf_name <> cf.cf_name) cl.cl_ordered_fields;
+                      cl.cl_fields <- PMap.remove cf.cf_name cl.cl_fields;
+                      handle_override_dynfun acc ret var cf.cf_name
+                    end else ret :: acc
+                  | Some e, _ ->
+                    let params = List.map (fun _ -> t_dynamic) cf.cf_params in
+                    let fn = apply_params cf.cf_params params in
+                    let var = { eexpr = TField({ eexpr = TConst(TThis); epos = cf.cf_pos; etype = TInst(cl, List.map snd cl.cl_types); }, FInstance(cl, cf)); etype = cf.cf_type; epos = cf.cf_pos } in
+                    let rec change_expr e =
+                      Type.map_expr_type (change_expr) fn (fun v -> v.v_type <- fn v.v_type; v) e
+                    in
 
-  let priority = 0.0
+                    let ret = ({ eexpr = TBinop(Ast.OpAssign, var, change_expr e); etype = fn cf.cf_type; epos = cf.cf_pos; }) in
+                    cf.cf_expr <- None;
+                    let is_override = List.memq cf cl.cl_overrides in
 
-  let priority_as_synf = 100.0 (*solve_deps name [DBefore ExpressionUnwrap.priority]*)
-
-  let abstract_implementation gen ?(handle_strings = true) (should_change:texpr->bool) (equals_handler:texpr->texpr->texpr) (dyn_plus_handler:texpr->texpr->texpr->texpr) (compare_handler:texpr->texpr->texpr) =
-
-
-    let get_etype_one e =
-      if like_int e.etype then
-        (gen.gcon.basic.tint, { eexpr = TConst(TInt(Int32.one)); etype = gen.gcon.basic.tint; epos = e.epos })
-      else
-        (gen.gcon.basic.tfloat, { eexpr = TConst(TFloat("1.0")); etype = gen.gcon.basic.tfloat; epos = e.epos })
-    in
-
-    let basic = gen.gcon.basic in
-
-    let rec run e =
-      match e.eexpr with
-        | TBinop (OpAssignOp op, e1, e2) when should_change e -> (* e1 will never contain another TBinop *)
-          (match e1.eexpr with
-            | TLocal _ ->
-              mk_paren { e with eexpr = TBinop(OpAssign, e1, run { e with eexpr = TBinop(op, e1, e2) }) }
-            | TField _ | TArray _ ->
-              let eleft, rest = match e1.eexpr with
-                | TField(ef, f) ->
-                  let v = mk_temp gen "dynop" ef.etype in
-                  { e1 with eexpr = TField(mk_local v ef.epos, f) }, [ { eexpr = TVars([v,Some (run ef)]); etype = basic.tvoid; epos = ef.epos } ]
-                | TArray(e1a, e2a) ->
-                  let v = mk_temp gen "dynop" e1a.etype in
-                  let v2 = mk_temp gen "dynopi" e2a.etype in
-                  { e1 with eexpr = TArray(mk_local v e1a.epos, mk_local v2 e2a.epos) }, [ { eexpr = TVars([v,Some (run e1a); v2, Some (run e2a)]); etype = basic.tvoid; epos = e1.epos } ]
-                | _ -> assert false
-              in
-              { e with
-                eexpr = TBlock (rest @ [ { e with eexpr = TBinop(OpAssign, eleft, run { e with eexpr = TBinop(op, eleft, e2) }) } ]);
-              }
-            | _ ->
-              assert false
-          )
-
-        | TBinop (OpAssign, e1, e2)
-        | TBinop (OpInterval, e1, e2) -> Type.map_expr run e
-        | TBinop (op, e1, e2) when should_change e->
-          (match op with
-            | OpEq -> (* type 1 *)
-              equals_handler (run e1) (run e2)
-            | OpNotEq -> (* != -> !equals() *)
-              mk_paren { eexpr = TUnop(Ast.Not, Prefix, (equals_handler (run e1) (run e2))); etype = gen.gcon.basic.tbool; epos = e.epos }
-            | OpAdd  ->
-              if handle_strings && (is_string e.etype or is_string e1.etype or is_string e2.etype) then
-                { e with eexpr = TBinop(op, mk_cast gen.gcon.basic.tstring (run e1), mk_cast gen.gcon.basic.tstring (run e2)) }
-              else
-                dyn_plus_handler e (run e1) (run e2)
-            | OpGt | OpGte | OpLt | OpLte  -> (* type 2 *)
-              { eexpr = TBinop(op, compare_handler (run e1) (run e2), { eexpr = TConst(TInt(Int32.zero)); etype = gen.gcon.basic.tint; epos = e.epos} ); etype = gen.gcon.basic.tbool; epos = e.epos }
-            | OpMult | OpDiv | OpSub -> (* always cast everything to double *)
-              let etype, _ = get_etype_one e in
-              { e with eexpr = TBinop(op, mk_cast etype (run e1), mk_cast etype (run e2)) }
-            | OpBoolAnd | OpBoolOr ->
-              { e with eexpr = TBinop(op, mk_cast gen.gcon.basic.tbool (run e1), mk_cast gen.gcon.basic.tbool (run e2)) }
-            | OpAnd | OpOr | OpXor | OpShl | OpShr | OpUShr | OpMod ->
-              { e with eexpr = TBinop(op, mk_cast gen.gcon.basic.tint (run e1), mk_cast gen.gcon.basic.tint (run e2)) }
-            | OpAssign | OpAssignOp _ | OpInterval | OpArrow -> assert false)
-        | TUnop (Increment as op, flag, e1)
-        | TUnop (Decrement as op, flag, e1) when should_change e ->
-          (*
-            some naming definitions:
-             * ret => the returning variable
-             * _g => the get body
-             * getvar => the get variable expr
-
-            This will work like this:
-              - if e1 is a TField, set _g = get body, getvar = (get body).varname
-              - if Prefix, return getvar = getvar + 1.0
-              - if Postfix, set ret = getvar; getvar = getvar + 1.0; ret;
-          *)
-          let etype, one = get_etype_one e in
-          let op = (match op with Increment -> OpAdd | Decrement -> OpSub | _ -> assert false) in
-
-          let tvars, getvar =
-            match e1.eexpr with
-              | TField(fexpr, field) ->
-                let tmp = mk_temp gen "getvar" fexpr.etype in
-                let tvars = [tmp, Some(run fexpr)] in
-                (tvars, { eexpr = TField( { fexpr with eexpr = TLocal(tmp) }, field); etype = etype; epos = e1.epos })
-              | _ ->
-                ([], e1)
+                    if is_override then begin
+                      cl.cl_ordered_fields <- List.filter (fun f -> f.cf_name <> cf.cf_name) cl.cl_ordered_fields;
+                      cl.cl_fields <- PMap.remove cf.cf_name cl.cl_fields;
+                      handle_override_dynfun acc ret var cf.cf_name
+                    end else ret :: acc
+                  | None, _ -> acc)
+              | _ -> acc
+          ) [] cl.cl_ordered_fields
           in
-
-          (match flag with
-            | Prefix ->
-              let tvars = match tvars with
-                | [] -> []
-                | _ -> [{ eexpr = TVars(tvars); etype = gen.gcon.basic.tvoid; epos = e.epos }]
+          (* see if there is any *)
+          (match funs with
+            | [] -> ()
+            | _ ->
+              (* if there is, we need to find the constructor *)
+              let ctors = match cl.cl_constructor with
+              | Some ctor -> ctor
+              | None -> try
+                let sctor, sup, stl = OverloadingConstructor.prev_ctor cl (List.map snd cl.cl_types) in
+                let ctor = OverloadingConstructor.clone_ctors gen sctor sup stl cl in
+                cl.cl_constructor <- Some ctor;
+                ctor
+              with | Not_found ->
+                let basic = gen.gcon.basic in
+                let ctor = mk_class_field "new" (TFun([], basic.tvoid)) false cl.cl_pos (Method MethNormal) [] in
+                ctor.cf_expr <- Some
+                {
+                  eexpr = TFunction {
+                    tf_args = [];
+                    tf_type = basic.tvoid;
+                    tf_expr = { eexpr = TBlock[]; etype = basic.tvoid; epos = cl.cl_pos };
+                  };
+                  etype = ctor.cf_type;
+                  epos = ctor.cf_pos;
+                };
+                cl.cl_constructor <- Some ctor;
+                ctor
               in
-              let block = tvars @
-              [
-                mk_cast etype { e with eexpr = TBinop(OpAssign, getvar,{ eexpr = TBinop(op, mk_cast etype getvar, one); etype = etype; epos = e.epos }); etype = getvar.etype; }
-              ] in
-              { eexpr = TBlock(block); etype = etype; epos = e.epos }
-            | Postfix ->
-              let ret = mk_temp gen "ret" etype in
-              let tvars = { eexpr = TVars(tvars @ [ret, Some (mk_cast etype getvar)]); etype = gen.gcon.basic.tvoid; epos = e.epos } in
-              let retlocal = { eexpr = TLocal(ret); etype = etype; epos = e.epos } in
-              let block = tvars ::
-              [
+
+              let process ctor =
+                let func = match ctor.cf_expr with
+                  | Some({eexpr = TFunction(tf)} as e) ->
+                    let rec add_fn e = match e.eexpr with
+                      | TBlock(hd :: tl) -> (match hd.eexpr with
+                        | TCall({ eexpr = TConst TSuper }, _) ->
+                          { e with eexpr = TBlock(hd :: (funs @ tl)) }
+                        | TBlock(_) ->
+                          { e with eexpr = TBlock( (add_fn hd) :: tl ) }
+                        | _ ->
+                          { e with eexpr = TBlock( funs @ (hd :: tl) ) })
+                      | _ -> Codegen.concat { e with eexpr = TBlock(funs) } e
+                    in
+                    let tf_expr = add_fn (mk_block tf.tf_expr) in
+                    { e with eexpr = TFunction({ tf with tf_expr = tf_expr }) }
+                  | _ -> assert false
+                in
+                ctor.cf_expr <- Some(func)
+              in
+              List.iter process (ctors :: ctors.cf_overloads)
+          )
+        end
+
+      in
+
+      let mod_filter = function
+        | TClassDecl cl -> (if not cl.cl_extern then handle_class cl); None
+        | _ -> None in
+
+      gen.gmodule_filters#add ~name:"init_funcs" ~priority:(PCustom priority) mod_filter
+
+  end;;
+
+  (* ******************************************* *)
+  (* Dynamic Binop/Unop handler *)
+  (* ******************************************* *)
+
+  (*
+    On some languages there is limited support for operations on
+    dynamic variables, so those operations must be changed.
+
+    There are 5 types of binary operators:
+      1 - can take any variable and returns a bool (== and !=)
+      2 - can take either a string, or a number and returns either a bool or the underlying type ( >, < for bool and + for returning its type)
+      3 - take numbers and return a number ( *, /, ...)
+      4 - take ints and return an int (bit manipulation)
+      5 - take a bool and returns a bool ( &&, || ...)
+
+    On the default implementation, type 1 and the plus function will be handled with a function call;
+    Type 2 will be handled with the parameter "compare_handler", which will do something like Reflect.compare(x1, x2);
+    Types 3, 4 and 5 will perform a cast to double, int and bool, which will then be handled normally by the platform
+
+    Unary operators are the most difficult to handle correctly.
+    With unary operators, there are 2 types:
+
+      1 - can take a number, changes and returns the result (++, --, ~)
+      2 - can take a number (-) or bool (!), and returns the result
+
+    The first case is much trickier, because it doesn't seem a good idea to change any variable to double just because it is dynamic,
+    but this is how we will handle right now.
+    something like that:
+
+    var x:Dynamic = 10;
+    x++;
+
+    will be:
+    object x = 10;
+    x = ((IConvertible)x).ToDouble(null) + 1;
+
+    depends on:
+      (syntax) must run before expression/statment normalization because it may generate complex expressions
+      must run before OverloadingCtor due to later priority conflicts. Since ExpressionUnwrap is only
+      defined afterwards, we will set this value with absolute values
+  *)
+
+  module DynamicOperators =
+  struct
+
+    let name = "dyn_ops"
+
+    let priority = 0.0
+
+    let priority_as_synf = 100.0 (*solve_deps name [DBefore ExpressionUnwrap.priority]*)
+
+    let abstract_implementation gen ?(handle_strings = true) (should_change:texpr->bool) (equals_handler:texpr->texpr->texpr) (dyn_plus_handler:texpr->texpr->texpr->texpr) (compare_handler:texpr->texpr->texpr) =
+
+
+      let get_etype_one e =
+        if like_int e.etype then
+          (gen.gcon.basic.tint, { eexpr = TConst(TInt(Int32.one)); etype = gen.gcon.basic.tint; epos = e.epos })
+        else
+          (gen.gcon.basic.tfloat, { eexpr = TConst(TFloat("1.0")); etype = gen.gcon.basic.tfloat; epos = e.epos })
+      in
+
+      let basic = gen.gcon.basic in
+
+      let rec run e =
+        match e.eexpr with
+          | TBinop (OpAssignOp op, e1, e2) when should_change e -> (* e1 will never contain another TBinop *)
+            (match e1.eexpr with
+              | TLocal _ ->
+                mk_paren { e with eexpr = TBinop(OpAssign, e1, run { e with eexpr = TBinop(op, e1, e2) }) }
+              | TField _ | TArray _ ->
+                let eleft, rest = match e1.eexpr with
+                  | TField(ef, f) ->
+                    let v = mk_temp gen "dynop" ef.etype in
+                    { e1 with eexpr = TField(mk_local v ef.epos, f) }, [ { eexpr = TVars([v,Some (run ef)]); etype = basic.tvoid; epos = ef.epos } ]
+                  | TArray(e1a, e2a) ->
+                    let v = mk_temp gen "dynop" e1a.etype in
+                    let v2 = mk_temp gen "dynopi" e2a.etype in
+                    { e1 with eexpr = TArray(mk_local v e1a.epos, mk_local v2 e2a.epos) }, [ { eexpr = TVars([v,Some (run e1a); v2, Some (run e2a)]); etype = basic.tvoid; epos = e1.epos } ]
+                  | _ -> assert false
+                in
+                { e with
+                  eexpr = TBlock (rest @ [ { e with eexpr = TBinop(OpAssign, eleft, run { e with eexpr = TBinop(op, eleft, e2) }) } ]);
+                }
+              | _ ->
+                assert false
+            )
+
+          | TBinop (OpAssign, e1, e2)
+          | TBinop (OpInterval, e1, e2) -> Type.map_expr run e
+          | TBinop (op, e1, e2) when should_change e->
+            (match op with
+              | OpEq -> (* type 1 *)
+                equals_handler (run e1) (run e2)
+              | OpNotEq -> (* != -> !equals() *)
+                mk_paren { eexpr = TUnop(Ast.Not, Prefix, (equals_handler (run e1) (run e2))); etype = gen.gcon.basic.tbool; epos = e.epos }
+              | OpAdd  ->
+                if handle_strings && (is_string e.etype or is_string e1.etype or is_string e2.etype) then
+                  { e with eexpr = TBinop(op, mk_cast gen.gcon.basic.tstring (run e1), mk_cast gen.gcon.basic.tstring (run e2)) }
+                else
+                  dyn_plus_handler e (run e1) (run e2)
+              | OpGt | OpGte | OpLt | OpLte  -> (* type 2 *)
+                { eexpr = TBinop(op, compare_handler (run e1) (run e2), { eexpr = TConst(TInt(Int32.zero)); etype = gen.gcon.basic.tint; epos = e.epos} ); etype = gen.gcon.basic.tbool; epos = e.epos }
+              | OpMult | OpDiv | OpSub -> (* always cast everything to double *)
+                let etype, _ = get_etype_one e in
+                { e with eexpr = TBinop(op, mk_cast etype (run e1), mk_cast etype (run e2)) }
+              | OpBoolAnd | OpBoolOr ->
+                { e with eexpr = TBinop(op, mk_cast gen.gcon.basic.tbool (run e1), mk_cast gen.gcon.basic.tbool (run e2)) }
+              | OpAnd | OpOr | OpXor | OpShl | OpShr | OpUShr | OpMod ->
+                { e with eexpr = TBinop(op, mk_cast gen.gcon.basic.tint (run e1), mk_cast gen.gcon.basic.tint (run e2)) }
+              | OpAssign | OpAssignOp _ | OpInterval | OpArrow -> assert false)
+          | TUnop (Increment as op, flag, e1)
+          | TUnop (Decrement as op, flag, e1) when should_change e ->
+            (*
+              some naming definitions:
+              * ret => the returning variable
+              * _g => the get body
+              * getvar => the get variable expr
+
+              This will work like this:
+                - if e1 is a TField, set _g = get body, getvar = (get body).varname
+                - if Prefix, return getvar = getvar + 1.0
+                - if Postfix, set ret = getvar; getvar = getvar + 1.0; ret;
+            *)
+            let etype, one = get_etype_one e in
+            let op = (match op with Increment -> OpAdd | Decrement -> OpSub | _ -> assert false) in
+
+            let tvars, getvar =
+              match e1.eexpr with
+                | TField(fexpr, field) ->
+                  let tmp = mk_temp gen "getvar" fexpr.etype in
+                  let tvars = [tmp, Some(run fexpr)] in
+                  (tvars, { eexpr = TField( { fexpr with eexpr = TLocal(tmp) }, field); etype = etype; epos = e1.epos })
+                | _ ->
+                  ([], e1)
+            in
+
+            (match flag with
+              | Prefix ->
+                let tvars = match tvars with
+                  | [] -> []
+                  | _ -> [{ eexpr = TVars(tvars); etype = gen.gcon.basic.tvoid; epos = e.epos }]
+                in
+                let block = tvars @
+                [
+                  mk_cast etype { e with eexpr = TBinop(OpAssign, getvar,{ eexpr = TBinop(op, mk_cast etype getvar, one); etype = etype; epos = e.epos }); etype = getvar.etype; }
+                ] in
+                { eexpr = TBlock(block); etype = etype; epos = e.epos }
+              | Postfix ->
+                let ret = mk_temp gen "ret" etype in
+                let tvars = { eexpr = TVars(tvars @ [ret, Some (mk_cast etype getvar)]); etype = gen.gcon.basic.tvoid; epos = e.epos } in
+                let retlocal = { eexpr = TLocal(ret); etype = etype; epos = e.epos } in
+                let block = tvars ::
+                [
                 { e with eexpr = TBinop(OpAssign, getvar, { eexpr = TBinop(op, retlocal, one); etype = getvar.etype; epos = e.epos }) };
                 retlocal
               ] in
@@ -2285,7 +2291,11 @@ struct
                )
               | _ -> e)
           | TField(e1, FClosure (Some _, cf)) when should_change e1 cf.cf_name ->
-            filter e (run e1) cf.cf_name false
+            (match cf.cf_kind with
+            | Method MethDynamic | Var _ ->
+              Type.map_expr run e
+            | _ ->
+              filter e (run e1) cf.cf_name false)
           | _ -> Type.map_expr run e
     in
     run
@@ -2603,9 +2613,9 @@ struct
                 let rec loop must_wrap_catches = match must_wrap_catches with
                   | (vcatch,catch) :: tl ->
                     { eexpr = TIf(mk_std_is vcatch.v_type catch.epos,
-                      { eexpr = TBlock({ eexpr=TVars([vcatch, Some(mk_cast vcatch.v_type catchall_local)]); etype=gen.gcon.basic.tvoid; epos=catch.epos } :: [catch] ); etype = gen.gcon.basic.tvoid; epos = catch.epos },
+                      { eexpr = TBlock({ eexpr=TVars([vcatch, Some(mk_cast vcatch.v_type catchall_local)]); etype=gen.gcon.basic.tvoid; epos=catch.epos } :: [catch] ); etype = catch.etype; epos = catch.epos },
                       Some (loop tl));
-                    etype = gen.gcon.basic.tvoid; epos = catch.epos }
+                    etype = catch.etype; epos = catch.epos }
                   | [] ->
                     match catchall with
                       | Some (v,s) ->
@@ -2794,26 +2804,31 @@ struct
       | _ -> run e)
 
   let rec get_type_params acc t =
-    match follow t with
+    match t with
       | TInst(( { cl_kind = KTypeParameter _ } as cl), []) ->
-        if List.exists (fun c -> c == cl) acc then acc else cl :: acc
+        if List.memq cl acc then acc else cl :: acc
       | TFun (params,tret) ->
         List.fold_left get_type_params acc ( tret :: List.map (fun (_,_,t) -> t) params )
       | TDynamic t ->
         (match t with | TDynamic _ -> acc | _ -> get_type_params acc t)
-      | TAnon a ->
-        PMap.fold (fun cf acc -> get_type_params acc cf.cf_type) a.a_fields acc
       | TAbstract ({ a_impl = Some _ } as a, pl) ->
           get_type_params acc ( Codegen.Abstract.get_underlying_type a pl)
-      | TMono _
+      | TAnon a ->
+        PMap.fold (fun cf acc -> get_type_params acc cf.cf_type) a.a_fields acc
+      | TType(_, [])
       | TAbstract (_, [])
       | TInst(_, [])
-      | TEnum(_, []) -> acc
+      | TEnum(_, []) ->
+        acc
+      | TType(_, params)
       | TAbstract(_, params)
       | TEnum(_, params)
       | TInst(_, params) ->
         List.fold_left get_type_params acc params
-      | _ -> assert false
+      | TMono r -> (match !r with
+        | Some t -> get_type_params acc t
+        | None -> acc)
+      | _ -> get_type_params acc (follow_once t)
 
   let get_captured expr =
     let ret = Hashtbl.create 1 in
@@ -3700,11 +3715,11 @@ struct
   (* this function will receive the original function argument, the applied function argument and the original function parameters. *)
   (* from this info, it will infer the applied tparams for the function *)
   (* this function is used by CastDetection module *)
-  let infer_params gen pos (original_args:((string * bool * t) list * t)) (applied_args:((string * bool * t) list * t)) (params:(string * t) list) impossible_tparam_is_dynamic : tparams =
+  let infer_params gen pos (original_args:((string * bool * t) list * t)) (applied_args:((string * bool * t) list * t)) (params:(string * t) list) calls_parameters_explicitly : tparams =
     match params with
     | [] -> []
     | _ ->
-      let args_list args = (if impossible_tparam_is_dynamic then t_dynamic else snd args) :: (List.map (fun (n,o,t) -> t) (fst args)) in
+      let args_list args = (if not calls_parameters_explicitly then t_dynamic else snd args) :: (List.map (fun (n,o,t) -> t) (fst args)) in
 
       let monos = List.map (fun _ -> mk_mono()) params in
       let original = args_list (get_fun (apply_params params monos (TFun(fst original_args,snd original_args)))) in
@@ -3964,37 +3979,40 @@ struct
           if (level <> 0 || cls.cl_interface) && tls <> [] && is_hxgeneric (TClassDecl cls) then begin
             let cparams = List.map (fun (s,t) -> (s, TInst (map_param (get_cl_t t), []))) cls.cl_types in
             let name = String.concat "_" ((fst cls.cl_path) @ [snd cls.cl_path; cast_field_name]) in
-            let cfield = mk_class_field name (TFun([], t_dynamic)) false cl.cl_pos (Method MethNormal) cparams in
-            let field = { eexpr = TField(this, FInstance(cl,cast_cfield)); etype = apply_params cast_cfield.cf_params reverse_params cast_cfield.cf_type; epos = p } in
-            let call =
-            {
-              eexpr = TCall(field, []);
-              etype = t_dynamic;
-              epos = p;
-            } in
-            let call = gen.gparam_func_call call field reverse_params [] in
-            let delay () =
-              cfield.cf_expr <-
-              Some {
-                eexpr = TFunction(
-                {
-                  tf_args = [];
-                  tf_type = t_dynamic;
-                  tf_expr =
-                  {
-                    eexpr = TReturn( Some call );
-                    etype = t_dynamic;
-                    epos = p;
-                  }
-                });
-                etype = cfield.cf_type;
+            if not (PMap.mem name cl.cl_fields) then begin
+              let reverse_params = List.map (apply_params cls.cl_types (List.map snd cparams)) reverse_params in
+              let cfield = mk_class_field name (TFun([], t_dynamic)) false cl.cl_pos (Method MethNormal) cparams in
+              let field = { eexpr = TField(this, FInstance(cl,cast_cfield)); etype = apply_params cast_cfield.cf_params reverse_params cast_cfield.cf_type; epos = p } in
+              let call =
+              {
+                eexpr = TCall(field, []);
+                etype = t_dynamic;
                 epos = p;
-              }
-            in
-            gen.gafter_filters_ended <- delay :: gen.gafter_filters_ended; (* do not let filters alter this expression content *)
-            cl.cl_ordered_fields <- cfield :: cl.cl_ordered_fields;
-            cl.cl_fields <- PMap.add cfield.cf_name cfield cl.cl_fields;
-            if level <> 0 then cl.cl_overrides <- cfield :: cl.cl_overrides
+              } in
+              let call = gen.gparam_func_call call field reverse_params [] in
+              let delay () =
+                cfield.cf_expr <-
+                Some {
+                  eexpr = TFunction(
+                  {
+                    tf_args = [];
+                    tf_type = t_dynamic;
+                    tf_expr =
+                    {
+                      eexpr = TReturn( Some call );
+                      etype = t_dynamic;
+                      epos = p;
+                    }
+                  });
+                  etype = cfield.cf_type;
+                  epos = p;
+                }
+              in
+              gen.gafter_filters_ended <- delay :: gen.gafter_filters_ended; (* do not let filters alter this expression content *)
+              cl.cl_ordered_fields <- cfield :: cl.cl_ordered_fields;
+              cl.cl_fields <- PMap.add cfield.cf_name cfield cl.cl_fields;
+              if level <> 0 then cl.cl_overrides <- cfield :: cl.cl_overrides
+            end
           end;
           let get_reverse super supertl =
             let kv = List.map2 (fun (_,tparam) applied -> (follow applied, follow tparam)) super.cl_types supertl in
@@ -4208,13 +4226,47 @@ struct
         in
         cfield, delay
 
+      let get_cast_name cl = String.concat "_" ((fst cl.cl_path) @ [snd cl.cl_path; cast_field_name]) (* explicitly define it *)
+
       let default_implementation gen ifaces base_generic =
         let add_iface cl =
           gen.gadd_to_module (TClassDecl cl) (max_dep);
         in
 
+        let implement_stub_cast cthis iface tl =
+          let name = get_cast_name iface in
+          if not (PMap.mem name cthis.cl_fields) then begin
+            let cparams = List.map (fun (s,t) -> ("To_" ^ s, TInst(map_param (get_cl_t t), []))) iface.cl_types in
+            let field = mk_class_field name (TFun([],t_dynamic)) false iface.cl_pos (Method MethNormal) cparams in
+            let this = { eexpr = TConst TThis; etype = TInst(cthis, List.map snd cthis.cl_types); epos = cthis.cl_pos } in
+            field.cf_expr <- Some {
+              etype = TFun([],t_dynamic);
+              epos = this.epos;
+              eexpr = TFunction {
+                tf_type = t_dynamic;
+                tf_args = [];
+                tf_expr = mk_block { this with
+                  eexpr = TReturn (Some this)
+                }
+              }
+            };
+            cthis.cl_ordered_fields <- field :: cthis.cl_ordered_fields;
+            cthis.cl_fields <- PMap.add name field cthis.cl_fields
+          end
+        in
+
         let rec run md =
           match md with
+            | TClassDecl ({ cl_extern = false; cl_types = [] } as cl) ->
+              (* see if we're implementing any generic interface *)
+              let rec check (iface,tl) =
+                if tl <> [] && set_hxgeneric gen (TClassDecl iface) then
+                  (* implement cast stub *)
+                  implement_stub_cast cl iface tl;
+                List.iter (fun (s,stl) -> check (s, List.map (apply_params iface.cl_types tl) stl)) iface.cl_implements;
+              in
+              List.iter (check) cl.cl_implements;
+              md
             | TClassDecl ({ cl_extern = false; cl_types = hd :: tl } as cl) when set_hxgeneric gen md ->
               let iface = mk_class cl.cl_module cl.cl_path cl.cl_pos in
               iface.cl_array_access <- Option.map (apply_params (cl.cl_types) (List.map (fun _ -> t_dynamic) cl.cl_types)) cl.cl_array_access;
@@ -4226,9 +4278,19 @@ struct
               iface.cl_interface <- true;
               cl.cl_implements <- (iface, []) :: cl.cl_implements;
 
-              let name = String.concat "_" ((fst cl.cl_path) @ [snd cl.cl_path; cast_field_name]) (* explicitly define it *) in
+              let name = get_cast_name cl in
               let cast_cf = create_cast_cfield gen cl name in
               if not cl.cl_interface then create_stub_casts gen cl cast_cf;
+
+              let rec loop c = match c.cl_super with
+                | None -> ()
+                | Some(sup,_) -> try
+                  let siface = Hashtbl.find ifaces sup.cl_path in
+                  iface.cl_implements <- (siface,[]) :: iface.cl_implements;
+                  ()
+                with | Not_found -> loop sup
+              in
+              loop cl;
 
               (if not cl.cl_interface then cl.cl_ordered_fields <- cast_cf :: cl.cl_ordered_fields);
               let iface_cf = mk_class_field name cast_cf.cf_type false cast_cf.cf_pos (Method MethNormal) cast_cf.cf_params in
@@ -4376,874 +4438,6 @@ struct
 
 end;;
 
-(* ******************************************* *)
-(* Casts detection v2 *)
-(* ******************************************* *)
-
-(*
-
-  Will detect implicit casts and add TCast for them. Since everything is already followed by follow_all, typedefs are considered a new type altogether
-
-  Types shouldn't be cast if:
-    * When an instance is being coerced to a superclass or to an implemented interface
-    * When anything is being coerced to Dynamic
-
-  edit:
-    As a matter of performance, we will also run the type parameters casts in here. Otherwise the exact same computation would have to be performed twice,
-    with maybe even some loss of information
-
-    * TAnon / TDynamic will call
-    * Type parameter handling will be abstracted
-
-  dependencies:
-    MUST be one of the first called filters, (right after FollowAll), as it needs the AST still mainly untouched
-    This module depends physically on some methods declared on TypeParams. And it must be executed before TypeParams.
-
-*)
-
-module CastDetect =
-struct
-
-  let name = "cast_detect_2"
-
-  let priority = solve_deps name [DBefore TypeParams.priority]
-
-  let get_args t = match follow t with
-    | TFun(args,ret) -> args,ret
-    | _ -> trace (debug_type t); assert false
-
-  let s_path (pack,n) = (String.concat "." (pack @ [n]))
-
-  (*
-    Since this function is applied under native-context only, the type paraters will already be changed
-  *)
-  let map_cls gen also_implements fn super =
-    let rec loop c tl =
-      if c == super then
-        fn c tl
-      else (match c.cl_super with
-        | None -> false
-        | Some (cs,tls) ->
-          let tls = gen.greal_type_param (TClassDecl cs) tls in
-          loop cs (List.map (apply_params c.cl_types tl) tls)
-      ) || (if also_implements then List.exists (fun (cs,tls) ->
-        loop cs (List.map (apply_params c.cl_types tl) tls)
-      ) c.cl_implements else false)
-    in
-    loop
-
-  let follow_dyn t = match follow t with
-    | TMono _ | TLazy _ -> t_dynamic
-    | t -> t
-
-  (*
-    this has a slight change from the type.ml version, in which it doesn't
-    change a TMono into the other parameter
-  *)
-  let rec type_eq gen param a b =
-    if a == b then
-      ()
-    else match follow_dyn (gen.greal_type a) , follow_dyn (gen.greal_type b) with
-    | TEnum (e1,tl1) , TEnum (e2,tl2) ->
-      if e1 != e2 && not (param = EqCoreType && e1.e_path = e2.e_path) then Type.error [cannot_unify a b];
-      List.iter2 (type_eq gen param) tl1 tl2
-    | TAbstract (a1,tl1) , TAbstract (a2,tl2) ->
-      if a1 != a2 && not (param = EqCoreType && a1.a_path = a2.a_path) then Type.error [cannot_unify a b];
-      List.iter2 (type_eq gen param) tl1 tl2
-    | TInst (c1,tl1) , TInst (c2,tl2) ->
-      if c1 != c2 && not (param = EqCoreType && c1.cl_path = c2.cl_path) && (match c1.cl_kind, c2.cl_kind with KExpr _, KExpr _ -> false | _ -> true) then Type.error [cannot_unify a b];
-      List.iter2 (type_eq gen param) tl1 tl2
-    | TFun (l1,r1) , TFun (l2,r2) when List.length l1 = List.length l2 ->
-      (try
-        type_eq gen param r1 r2;
-        List.iter2 (fun (n,o1,t1) (_,o2,t2) ->
-          if o1 <> o2 then Type.error [Not_matching_optional n];
-          type_eq gen param t1 t2
-        ) l1 l2
-      with
-        Unify_error l -> Type.error (cannot_unify a b :: l))
-    | TDynamic a , TDynamic b ->
-      type_eq gen param a b
-    | TAnon a1, TAnon a2 ->
-      (try
-        PMap.iter (fun n f1 ->
-          try
-            let f2 = PMap.find n a2.a_fields in
-            if f1.cf_kind <> f2.cf_kind && (param = EqStrict || param = EqCoreType || not (unify_kind f1.cf_kind f2.cf_kind)) then Type.error [invalid_kind n f1.cf_kind f2.cf_kind];
-            try
-              type_eq gen param f1.cf_type f2.cf_type
-            with
-              Unify_error l -> Type.error (invalid_field n :: l)
-          with
-            Not_found ->
-              if is_closed a2 then Type.error [has_no_field b n];
-              if not (link (ref None) b f1.cf_type) then Type.error [cannot_unify a b];
-              a2.a_fields <- PMap.add n f1 a2.a_fields
-        ) a1.a_fields;
-        PMap.iter (fun n f2 ->
-          if not (PMap.mem n a1.a_fields) then begin
-            if is_closed a1 then Type.error [has_no_field a n];
-            if not (link (ref None) a f2.cf_type) then Type.error [cannot_unify a b];
-            a1.a_fields <- PMap.add n f2 a1.a_fields
-          end;
-        ) a2.a_fields;
-      with
-        Unify_error l -> Type.error (cannot_unify a b :: l))
-    | _ , _ ->
-      if b == t_dynamic && (param = EqRightDynamic || param = EqBothDynamic) then
-        ()
-      else if a == t_dynamic && param = EqBothDynamic then
-        ()
-      else
-        Type.error [cannot_unify a b]
-
-  let type_iseq gen a b =
-    try
-      type_eq gen EqStrict a b;
-      true
-    with
-      Unify_error _ -> false
-
-  (* Helpers for cast handling *)
-  (* will return true if 'super' is a superclass of 'cl' or if cl implements super or if they are the same class *)
-  let can_be_converted gen cl tl super_t super_tl =
-    map_cls gen (gen.guse_tp_constraints || (match cl.cl_kind,super_t.cl_kind with KTypeParameter _, _ | _,KTypeParameter _ -> false | _ -> true)) (fun _ tl ->
-      try
-        List.iter2 (type_eq gen (if gen.gallow_tp_dynamic_conversion then EqRightDynamic else EqStrict)) tl super_tl;
-        true
-      with | Unify_error _ -> false
-    ) super_t cl tl
-
-  (* will return true if both arguments are compatible. If it's not the case, a runtime error is very likely *)
-  let is_cl_related gen cl tl super superl =
-    let is_cl_related cl tl super superl = map_cls gen (gen.guse_tp_constraints || (match cl.cl_kind,super.cl_kind with KTypeParameter _, _ | _,KTypeParameter _ -> false | _ -> true)) (fun _ _ -> true) super cl tl in
-    is_cl_related cl tl super superl || is_cl_related super superl cl tl
-
-
-  let rec is_unsafe_cast gen to_t from_t =
-    match (follow to_t, follow from_t) with
-      | TInst(cl_to, to_params), TInst(cl_from, from_params) ->
-        not (is_cl_related gen cl_from from_params cl_to to_params)
-      | TEnum(e_to, _), TEnum(e_from, _) ->
-        e_to.e_path <> e_from.e_path
-      | TFun _, TFun _ ->
-        (* functions are never unsafe cast by default. This behavior might be changed *)
-        (* with a later AST pass which will run through TFun to TFun casts *)
-        false
-      | TMono _, _
-      | _, TMono _
-      | TDynamic _, _
-      | _, TDynamic _ ->
-        false
-      | TAnon _, _
-      | _, TAnon _ ->
-        (* anonymous are never unsafe also. *)
-        (* Though they will generate a cast, so if this cast is unneeded it's better to avoid them by tweaking gen.greal_type *)
-        false
-      | TAbstract _, _
-      | _, TAbstract _ ->
-        (try
-          unify from_t to_t;
-          false
-        with | Unify_error _ ->
-          try
-            unify to_t from_t; (* still not unsafe *)
-            false
-          with | Unify_error _ ->
-            true)
-      | _ -> true
-
-  let do_unsafe_cast gen from_t to_t e  =
-    let t_path t =
-      match t with
-        | TInst(cl, _) -> cl.cl_path
-        | TEnum(e, _) -> e.e_path
-        | TType(t, _) -> t.t_path
-        | TAbstract(a, _) -> a.a_path
-        | TDynamic _ -> ([], "Dynamic")
-        | _ -> raise Not_found
-    in
-    let do_default () =
-      gen.gon_unsafe_cast to_t e.etype e.epos;
-      mk_cast to_t (mk_cast t_dynamic e)
-    in
-    (* TODO: there really should be a better way to write that *)
-    try
-      if (Hashtbl.find gen.gsupported_conversions (t_path from_t)) from_t to_t then
-        mk_cast to_t e
-      else
-        do_default()
-    with
-      | Not_found ->
-        try
-          if (Hashtbl.find gen.gsupported_conversions (t_path to_t)) from_t to_t then
-            mk_cast to_t e
-          else
-            do_default()
-        with
-          | Not_found -> do_default()
-
-  (* ****************************** *)
-  (* cast handler *)
-  (* decides if a cast should be emitted, given a from and a to type *)
-  (*
-    this function is like a mini unify, without e.g. subtyping, which makes sense
-    at the backend level, since most probably Anons and TInst will have a different representation there
-  *)
-  let rec handle_cast gen e real_to_t real_from_t =
-    let do_unsafe_cast () = do_unsafe_cast gen real_from_t real_to_t { e with etype = real_from_t } in
-    let to_t, from_t = real_to_t, real_from_t in
-
-    let mk_cast t e =
-      match e.eexpr with
-        (* TThrow is always typed as Dynamic, we just need to type it accordingly *)
-        | TThrow _ -> { e with etype = t }
-        | _ -> mk_cast t e
-    in
-
-    let e = { e with etype = real_from_t } in
-    if try fast_eq real_to_t real_from_t with Invalid_argument("List.for_all2") -> false then e else
-    match real_to_t, real_from_t with
-      (* string is the only type that can be implicitly converted from any other *)
-      | TInst( { cl_path = ([], "String") }, []), _ ->
-        mk_cast to_t e
-      | TInst(cl_to, params_to), TInst(cl_from, params_from) ->
-        let ret = ref None in
-        (*
-          this is a little confusing:
-          we are here mapping classes until we have the same to and from classes, applying the type parameters in each step, so we can
-          compare the type parameters;
-
-          If a class is found - meaning that the cl_from can be converted without a cast into cl_to,
-          we still need to check their type parameters.
-        *)
-        ignore (map_cls gen (gen.guse_tp_constraints || (match cl_from.cl_kind,cl_to.cl_kind with KTypeParameter _, _ | _,KTypeParameter _ -> false | _ -> true)) (fun _ tl ->
-          try
-            (* type found, checking type parameters *)
-            List.iter2 (type_eq gen EqStrict) tl params_to;
-            ret := Some e;
-            true
-          with | Unify_error _ ->
-            (* type parameters need casting *)
-            if gen.ghas_tparam_cast_handler then begin
-              (*
-                if we are already handling type parameter casts on other part of code (e.g. RealTypeParameters),
-                we'll just make a cast to indicate that this place needs type parameter-involved casting
-              *)
-              ret := Some (mk_cast to_t e);
-              true
-            end else
-              (*
-                if not, we're going to check if we only need a simple cast,
-                or if we need to first cast into the dynamic version of it
-              *)
-              try
-                List.iter2 (type_eq gen EqRightDynamic) tl params_to;
-                ret := Some (mk_cast to_t e);
-                true
-              with | Unify_error _ ->
-                ret := Some (mk_cast to_t (mk_cast (TInst(cl_to, List.map (fun _ -> t_dynamic) params_to)) e));
-                true
-        ) cl_to cl_from params_from);
-        if is_some !ret then
-          get !ret
-        else if is_cl_related gen cl_from params_from cl_to params_to then
-          mk_cast to_t e
-        else
-          (* potential unsafe cast *)
-          (do_unsafe_cast ())
-      | TMono _, TMono _
-      | TMono _, TDynamic _
-      | TDynamic _, TDynamic _
-      | TDynamic _, TMono _ ->
-        e
-      | TMono _, _
-      | TDynamic _, _
-      | TAnon _, _ when gen.gneeds_box real_from_t ->
-        mk_cast to_t e
-      | TMono _, _
-      | TDynamic _, _ -> e
-      | _, TMono _
-      | _, TDynamic _ -> mk_cast to_t e
-      | TAbstract (a_to, _), TAbstract(a_from, _) when a_to == a_from ->
-        e
-      | TAbstract _, _
-      | _, TAbstract _ ->
-        (try
-          unify from_t to_t;
-          mk_cast to_t e
-        with | Unify_error _ ->
-          try
-            unify to_t from_t;
-            mk_cast to_t e
-          with | Unify_error _ ->
-            do_unsafe_cast())
-      | TEnum(e_to, []), TEnum(e_from, []) ->
-        if e_to == e_from then
-          e
-        else
-          (* potential unsafe cast *)
-          (do_unsafe_cast ())
-      | TEnum(e_to, params_to), TEnum(e_from, params_from) when e_to.e_path = e_from.e_path ->
-        (try
-            List.iter2 (type_eq gen (if gen.gallow_tp_dynamic_conversion then EqRightDynamic else EqStrict)) params_from params_to;
-            e
-          with
-            | Unify_error _ -> do_unsafe_cast ()
-        )
-      | TEnum(en, params_to), TInst(cl, params_from)
-      | TInst(cl, params_to), TEnum(en, params_from) ->
-        (* this is here for max compatibility with EnumsToClass module *)
-        if en.e_path = cl.cl_path && en.e_extern then begin
-          (try
-            List.iter2 (type_eq gen (if gen.gallow_tp_dynamic_conversion then EqRightDynamic else EqStrict)) params_from params_to;
-            e
-          with
-            | Invalid_argument("List.iter2") ->
-              (*
-                this is a hack for RealTypeParams. Since there is no way at this stage to know if the class is the actual
-                EnumsToClass derived from the enum, we need to imply from possible ArgumentErrors (because of RealTypeParams interfaces),
-                that they would only happen if they were a RealTypeParams created interface
-              *)
-              e
-            | Unify_error _ -> do_unsafe_cast ()
-          )
-        end else
-          do_unsafe_cast ()
-      | TType(t_to, params_to), TType(t_from, params_from) when t_to == t_from ->
-        if gen.gspecial_needs_cast real_to_t real_from_t then
-          (try
-            List.iter2 (type_eq gen (if gen.gallow_tp_dynamic_conversion then EqRightDynamic else EqStrict)) params_from params_to;
-            e
-          with
-            | Unify_error _ -> do_unsafe_cast ()
-          )
-        else
-          e
-      | TType(t_to, _), TType(t_from,_) ->
-        if gen.gspecial_needs_cast real_to_t real_from_t then
-          mk_cast to_t e
-        else
-          e
-      | TType _, _ when gen.gspecial_needs_cast real_to_t real_from_t ->
-        mk_cast to_t e
-      | _, TType _ when gen.gspecial_needs_cast real_to_t real_from_t ->
-        mk_cast to_t e
-      (*| TType(t_to, _), TType(t_from, _) ->
-        if t_to.t_path = t_from.t_path then
-          e
-        else if is_unsafe_cast gen real_to_t real_from_t then (* is_unsafe_cast will already follow both *)
-          (do_unsafe_cast ())
-        else
-          mk_cast to_t e*)
-      | TType _, _
-      | _, TType _ ->
-        if is_unsafe_cast gen real_to_t real_from_t then (* is_unsafe_cast will already follow both *)
-          (do_unsafe_cast ())
-        else
-          mk_cast to_t e
-      | TAnon (a_to), TAnon (a_from) ->
-        if a_to == a_from then
-          e
-        else if type_iseq gen to_t from_t then (* FIXME apply unify correctly *)
-          e
-        else
-          mk_cast to_t e
-      | TAnon anon, _ ->
-        if PMap.is_empty anon.a_fields then
-          e
-        else
-          mk_cast to_t e
-      | _, TAnon _ ->
-        mk_cast to_t e
-      | TFun(args, ret), TFun(args2, ret2) ->
-        let get_args = List.map (fun (_,_,t) -> t) in
-        (try List.iter2 (type_eq gen (EqBothDynamic)) (ret :: get_args args) (ret2 :: get_args args2); e with | Unify_error _ | Invalid_argument("List.iter2") -> mk_cast to_t e)
-      | _, _ ->
-        do_unsafe_cast ()
-
-  (* end of cast handler *)
-  (* ******************* *)
-
-  let is_static_overload c name =
-    match c.cl_super with
-    | None -> false
-    | Some (sup,_) ->
-      let rec loop c =
-        (PMap.mem name c.cl_statics) || (match c.cl_super with
-          | None -> false
-          | Some (sup,_) -> loop sup)
-      in
-      loop sup
-
-  let does_unify a b =
-    try
-      unify a b;
-      true
-    with | Unify_error _ -> false
-
-  (* this is a workaround for issue #1743, as FInstance() is returning the incorrect classfield *)
-  let select_overload gen applied_f overloads types params =
-    let rec check_arg arglist elist =
-      match arglist, elist with
-        | [], [] -> true (* it is valid *)
-        | (_,_,t) :: arglist, (_,_,et) :: elist when Type.type_iseq et t ->
-          check_arg arglist elist
-        | _ -> false
-    in
-    match follow applied_f with
-    | TFun _ ->
-      replace_mono applied_f;
-      let args, _ = get_fun applied_f in
-      let elist = List.rev args in
-      let rec check_overload overloads =
-        match overloads with
-        | (t, cf) :: overloads ->
-            let cft = apply_params types params t in
-            let cft = monomorphs cf.cf_params cft in
-            let args, _ = get_fun cft in
-            if check_arg (List.rev args) elist then
-              cf,t,false
-            else if overloads = [] then
-              cf,t,true (* no compatible overload was found *)
-            else
-              check_overload overloads
-        | [] -> assert false
-      in
-      check_overload overloads
-    | _ -> match overloads with  (* issue #1742 *)
-    | (t,cf) :: [] -> cf,t,true
-    | (t,cf) :: _ -> cf,t,false
-    | _ -> assert false
-
-  let choose_ctor gen cl tparams etl maybe_empty_t p =
-    let ctor, sup, stl = OverloadingConstructor.cur_ctor cl tparams in
-    (* get returned stl, with Dynamic as t_empty *)
-    let rec get_changed_stl c tl =
-      if c == sup then
-        tl
-      else match c.cl_super with
-      | None -> stl
-      | Some(sup,stl) -> get_changed_stl sup (List.map (apply_params c.cl_types tl) stl)
-    in
-    let ret_tparams = List.map (fun t -> match follow t with
-    | TDynamic _ | TMono _ -> t_empty
-    | _ -> t) tparams in
-    let ret_stl = get_changed_stl cl ret_tparams in
-    let ctors = ctor :: ctor.cf_overloads in
-    List.iter replace_mono etl;
-    (* first filter out or select outright maybe_empty *)
-    let ctors, is_overload = match etl, maybe_empty_t with
-    | [t], Some empty_t ->
-      let count = ref 0 in
-      let is_empty_call = Type.type_iseq t empty_t in
-      let ret = List.filter (fun cf -> match follow cf.cf_type with
-      (* | TFun([_,_,t],_) -> incr count; true *)
-      | TFun([_,_,t],_) -> replace_mono t; incr count; is_empty_call = (Type.type_iseq t empty_t)
-      | _ -> false) ctors in
-      ret, !count > 1
-    | _ ->
-      let len = List.length etl in
-      let ret = List.filter (fun cf -> List.length (fst (get_fun cf.cf_type)) = len) ctors in
-      ret, (match ret with | _ :: [] -> false | _ -> true)
-    in
-    let rec check_arg arglist elist =
-      match arglist, elist with
-      | [], [] -> true
-      | (_,_,t) :: arglist, et :: elist -> (try
-        unify et t;
-        check_arg arglist elist
-      with | Unify_error el ->
-        (* List.iter (fun el -> gen.gcon.warning (Typecore.unify_error_msg (print_context()) el) p) el; *)
-        false)
-      | _ -> false
-    in
-    let rec check_cf cf =
-      let t = apply_params sup.cl_types stl cf.cf_type in
-      replace_mono t;
-      let args, _ = get_fun t in
-      check_arg args etl
-    in
-    is_overload, List.find check_cf ctors, sup, ret_stl
-
-  (*
-
-    Type parameter handling
-    It will detect if/what type parameters were used, and call the cast handler
-    It will handle both TCall(TField) and TCall by receiving a texpr option field: e
-    Also it will transform the type parameters with greal_type_param and make
-
-    handle_impossible_tparam - should cases where the type parameter is impossible to be determined from the called parameters be Dynamic?
-    e.g. static function test<T>():T {}
-  *)
-
-  (* match e.eexpr with | TCall( ({ eexpr = TField(ef, f) }) as e1, elist ) -> *)
-  let handle_type_parameter gen e e1 ef ~clean_ef f elist impossible_tparam_is_dynamic =
-    (* the ONLY way to know if this call has parameters is to analyze the calling field. *)
-    (* To make matters a little worse, on both C# and Java only in some special cases that type parameters will be used *)
-    (* Namely, when using reflection type parameters are useless, of course. This also includes anonymous types *)
-    (* this will have to be handled by gparam_func_call *)
-
-    let return_var efield =
-      match e with
-        | None ->
-          efield
-        | Some ecall ->
-          match follow efield.etype with
-            | TFun(_,ret) ->
-              (* closures will be handled by the closure handler. So we will just hint what's the expected type *)
-              (* FIXME: should closures have also its arguments cast correctly? In the current implementation I think not. TO_REVIEW *)
-              handle_cast gen { ecall with eexpr = TCall(efield, elist) } (gen.greal_type ecall.etype) ret
-            | _ ->
-              { ecall with eexpr = TCall(efield, elist) }
-    in
-
-    let real_type = gen.greal_type ef.etype in
-    (* this part was rewritten at roughly r6477 in order to correctly support overloads *)
-    (match field_access gen real_type (field_name f) with
-    | FClassField (cl, params, _, cf, is_static, actual_t) when e <> None && (cf.cf_kind = Method MethNormal || cf.cf_kind = Method MethInline) ->
-        (* C# target changes params with a real_type function *)
-        let params = match follow clean_ef.etype with
-        | TInst(_,params) -> params
-        | _ -> params in
-        let ecall = get e in
-        let is_overload = cf.cf_overloads <> [] || Meta.has Meta.Overload cf.cf_meta || (is_static && is_static_overload cl (field_name f)) in
-        let cf, actual_t, error = match is_overload with
-          | false ->
-              (* since actual_t from FClassField already applies greal_type, we're using the get_overloads helper to get this info *)
-              let overloads = Typeload.get_overloads cl (field_name f) in
-              (match overloads with
-              | [] -> cf, cf.cf_type, false
-              | _ -> try
-                  let t, cf = List.find (fun (t,f) -> f == cf) overloads in
-                  cf,t,false
-                  with | Not_found -> cf,actual_t,true)
-          | true -> match f with
-          | FInstance(c,cf) | FClosure(Some c,cf) ->
-            (* get from overloads *)
-            (* FIXME: this is a workaround for issue #1743 . Uncomment this code after it was solved *)
-            (* let t, cf = List.find (fun (t,cf2) -> cf == cf2) (Typeload.get_overloads cl (field_name f)) in *)
-            (* cf, t, false *)
-            select_overload gen e1.etype (Typeload.get_overloads cl (field_name f)) cl.cl_types params
-          | FStatic(c,f) ->
-            (* workaround for issue #1743 *)
-            (* f,f.cf_type, false *)
-            select_overload gen e1.etype ((f.cf_type,f) :: List.map (fun f -> f.cf_type,f) f.cf_overloads) [] []
-          | _ ->
-            gen.gcon.warning "Overloaded classfield typed as anonymous" ecall.epos;
-            cf, actual_t, true
-        in
-        let error = error || (match follow actual_t with | TFun _ -> false | _ -> true) in
-        if error then (* if error, ignore arguments *)
-          mk_cast ecall.etype { ecall with eexpr = TCall({ e1 with eexpr = TField(ef, f) }, elist ) }
-        else begin
-          (* infer arguments *)
-          (* let called_t = TFun(List.map (fun e -> "arg",false,e.etype) elist, ecall.etype) in *)
-          let called_t = match follow e1.etype with | TFun _ -> e1.etype | _ -> TFun(List.map (fun e -> "arg",false,e.etype) elist, ecall.etype)  in (* workaround for issue #1742 *)
-          let fparams = TypeParams.infer_params gen ecall.epos (get_fun (apply_params cl.cl_types params actual_t)) (get_fun called_t) cf.cf_params impossible_tparam_is_dynamic in
-          let real_params = gen.greal_type_param (TClassDecl cl) params in
-          let real_fparams = gen.greal_type_param (TClassDecl cl) fparams in
-          (* get what the backend actually sees *)
-          (* actual field's function *)
-          let actual_t = get_real_fun gen actual_t in
-          let function_t = apply_params cl.cl_types real_params actual_t in
-          let function_t = get_real_fun gen (apply_params cf.cf_params real_fparams function_t) in
-          let args_ft, ret_ft = get_fun function_t in
-          (* applied function *)
-          let applied = elist in
-          (* check types list *)
-          let new_ecall, elist = try
-            let elist = List.map2 (fun applied (_,_,funct) ->
-              match is_overload, applied.eexpr with
-              | true, TConst TNull ->
-                mk_cast (gen.greal_type funct) applied
-              | true, _ -> (* when not (type_iseq gen (gen.greal_type applied.etype) funct) -> *)
-                let ret = handle_cast gen applied (funct) (gen.greal_type applied.etype) in
-                (match ret.eexpr with
-                | TCast _ -> ret
-                | _ -> mk_cast (funct) ret)
-              | _ ->
-                handle_cast gen applied (funct) (gen.greal_type applied.etype)
-            ) applied args_ft in
-            { ecall with
-              eexpr = TCall(
-                { e1 with eexpr = TField(ef, f) },
-                elist);
-            }, elist
-          with | Invalid_argument("List.map2") ->
-            gen.gcon.warning ("This expression may be invalid" ) ecall.epos;
-            { ecall with eexpr = TCall({ e1 with eexpr = TField(ef, f) }, elist) }, elist
-          in
-          let new_ecall = if fparams <> [] then gen.gparam_func_call new_ecall { e1 with eexpr = TField(ef, f) } fparams elist else new_ecall in
-          handle_cast gen new_ecall (gen.greal_type ecall.etype) (gen.greal_type ret_ft)
-        end
-    | FClassField (cl,params,_,{ cf_kind = (Method MethDynamic | Var _) },_,actual_t) ->
-      (* if it's a var, we will just try to apply the class parameters that have been changed with greal_type_param *)
-      let t = apply_params cl.cl_types (gen.greal_type_param (TClassDecl cl) params) (gen.greal_type actual_t) in
-      return_var (handle_cast gen { e1 with eexpr = TField(ef, f) } (gen.greal_type e1.etype) (gen.greal_type t))
-    | FClassField (cl,params,_,cf,_,actual_t) ->
-      return_var (handle_cast gen { e1 with eexpr = TField({ ef with etype = t_dynamic }, f) } e1.etype t_dynamic) (* force dynamic and cast back to needed type *)
-    | FEnumField (en, efield, true) ->
-      let ecall = match e with | None -> trace (field_name f); trace efield.ef_name; gen.gcon.error "This field should be called immediately" ef.epos; assert false | Some ecall -> ecall in
-      (match en.e_types with
-        (*
-        | [] ->
-          let args, ret = get_args (efield.ef_type) in
-          let ef = { ef with eexpr = TTypeExpr( TEnumDecl en ); etype = TEnum(en, []) } in
-          handle_cast gen { ecall with eexpr = TCall({ e1 with eexpr = TField(ef, FEnum(en, efield)) }, List.map2 (fun param (_,_,t) -> handle_cast gen param (gen.greal_type t) (gen.greal_type param.etype)) elist args) } (gen.greal_type ecall.etype) (gen.greal_type ret)
-      *)
-        | _ ->
-          let pt = match e with | None -> real_type | Some _ -> snd (get_fun e1.etype) in
-          let _params = match follow pt with | TEnum(_, p) -> p | _ -> gen.gcon.warning (debug_expr e1) e1.epos; assert false in
-          let args, ret = get_args efield.ef_type in
-          let actual_t = TFun(List.map (fun (n,o,t) -> (n,o,gen.greal_type t)) args, gen.greal_type ret) in
-          (*
-            because of differences on how <Dynamic> is handled on the platforms, this is a hack to be able to
-            correctly use class field type parameters with RealTypeParams
-          *)
-          let cf_params = List.map (fun t -> match follow t with | TDynamic _ -> t_empty | _ -> t) _params in
-          (* params are inverted *)
-          let cf_params = List.rev cf_params in
-          let t = apply_params en.e_types (gen.greal_type_param (TEnumDecl en) cf_params) actual_t in
-          let t = apply_params efield.ef_params (List.map (fun _ -> t_dynamic) efield.ef_params) t in
-
-          let args, ret = get_args t in
-
-          let elist = List.map2 (fun param (_,_,t) -> handle_cast gen (param) (gen.greal_type t) (gen.greal_type param.etype)) elist args in
-          let e1 = { e1 with eexpr = TField({ ef with eexpr = TTypeExpr( TEnumDecl en ); etype = TEnum(en, _params) }, FEnum(en, efield) ) } in
-          let new_ecall = gen.gparam_func_call ecall e1 _params elist in
-
-          handle_cast gen new_ecall (gen.greal_type ecall.etype) (gen.greal_type ret)
-      )
-    | FEnumField _ when is_some e -> assert false
-    | FEnumField (en,efield,_) ->
-        return_var { e1 with eexpr = TField({ ef with eexpr = TTypeExpr( TEnumDecl en ); },FEnum(en,efield)) }
-    (* no target by date will uses this.so this code may not be correct at all *)
-    | FAnonField cf ->
-      let t = gen.greal_type cf.cf_type in
-      return_var (handle_cast gen { e1 with eexpr = TField(ef, f) } (gen.greal_type e1.etype) t)
-    | FNotFound
-    | FDynamicField _ ->
-      if is_some e then
-        return_var { e1 with eexpr = TField(ef, f) }
-      else
-        return_var (handle_cast gen { e1 with eexpr = TField({ ef with etype = t_dynamic }, f) } e1.etype t_dynamic) (* force dynamic and cast back to needed type *)
-    )
-
-  (* end of type parameter handling *)
-  (* ****************************** *)
-
-  let default_implementation gen ?(native_string_cast = true) maybe_empty_t impossible_tparam_is_dynamic =
-
-    let current_ret_type = ref None in
-
-    let handle e t1 t2 = handle_cast gen e (gen.greal_type t1) (gen.greal_type t2) in
-
-    let in_value = ref false in
-
-	(*
-    let rec get_ctor_p cl p =
-      match cl.cl_constructor with
-        | Some c -> follow (apply_params cl.cl_types p c.cf_type), cl, p
-        | None -> match cl.cl_super with
-          | Some (cls,tl) ->
-            get_ctor_p cls (List.map (apply_params cls.cl_types p) tl)
-          | None -> TFun([],gen.gcon.basic.tvoid), cl, p
-    in
-	*)
-
-    let rec run ?(just_type = false) e =
-      let handle = if not just_type then handle else fun e t1 t2 -> { e with etype = gen.greal_type t2 } in
-      let was_in_value = !in_value in
-      in_value := true;
-      match e.eexpr with
-        | TBinop ( (Ast.OpAssign as op),e1,e2)
-        | TBinop ( (Ast.OpAssignOp _ as op),e1,e2) when was_in_value ->
-          let e1r = run e1 ~just_type:true in
-          let r = { e with eexpr = TBinop(op, e1r, handle (run e2) e1r.etype e2.etype); etype = e1.etype } in
-          handle r e1.etype e1r.etype
-        | TBinop ( (Ast.OpAssign as op),({ eexpr = TField(tf, f) } as e1), e2 )
-        | TBinop ( (Ast.OpAssignOp _ as op),({ eexpr = TField(tf, f) } as e1), e2 ) ->
-          (match field_access gen (gen.greal_type tf.etype) (field_name f) with
-            | FClassField(cl,params,_,_,is_static,actual_t) ->
-              let actual_t = if is_static then actual_t else apply_params cl.cl_types params actual_t in
-
-              let e1 = run e1 ~just_type:true in
-              { e with eexpr = TBinop(op, e1, handle (run e2) actual_t e2.etype); etype = e1.etype }
-            | _ ->
-              let e1 = run e1 ~just_type:true in
-              { e with eexpr = TBinop(op, e1, handle (run e2) e1.etype e2.etype); etype = e1.etype }
-          )
-        | TBinop ( (Ast.OpAssign as op),e1,e2)
-        | TBinop ( (Ast.OpAssignOp _ as op),e1,e2) ->
-          let e1 = run e1 ~just_type:true in
-          { e with eexpr = TBinop(op, e1, handle (run e2) e1.etype e2.etype); etype = e1.etype }
-        (* this is an exception so we can avoid infinite loop on Std.String and haxe.lang.Runtime.toString(). It also takes off unnecessary casts to string *)
-        | TBinop ( Ast.OpAdd, ( { eexpr = TCast(e1, _) } as e1c), e2 ) when native_string_cast && is_string e1c.etype && is_string e2.etype ->
-          { e with eexpr = TBinop( Ast.OpAdd, run e1, run e2 ) }
-        | TField(ef, f) ->
-          handle_type_parameter gen None e (run ef) ~clean_ef:ef f [] impossible_tparam_is_dynamic
-        | TArrayDecl el ->
-          let et = e.etype in
-          let base_type = match follow et with
-            | TInst({ cl_path = ([], "Array") } as cl, bt) -> gen.greal_type_param (TClassDecl cl) bt
-            | _ -> assert false
-          in
-          let base_type = List.hd base_type in
-          { e with eexpr = TArrayDecl( List.map (fun e -> handle (run e) base_type e.etype) el ); etype = et }
-        | TCall( ({ eexpr = TField({ eexpr = TLocal(v) },_) } as tf), params ) when String.get v.v_name 0 = '_' &&String.get v.v_name 1 = '_' && Hashtbl.mem gen.gspecial_vars v.v_name ->
-          { e with eexpr = TCall(tf, List.map run params) }
-        | TCall( ({ eexpr = TLocal v } as local), params ) when String.get v.v_name 0 = '_' && String.get v.v_name 1 = '_' && Hashtbl.mem gen.gspecial_vars v.v_name ->
-          { e with eexpr = TCall(local, List.map run params) }
-        | TCall( ({ eexpr = TField(ef, f) }) as e1, elist ) ->
-          handle_type_parameter gen (Some e) (e1) (run ef) ~clean_ef:ef f (List.map run elist) impossible_tparam_is_dynamic
-
-        (* the TNew and TSuper code was modified at r6497 *)
-        | TCall( { eexpr = TConst TSuper } as ef, eparams ) ->
-          let cl, tparams = match follow ef.etype with
-          | TInst(cl,p) -> cl, p
-          | _ -> assert false in
-          (try
-            let is_overload, cf, sup, stl = choose_ctor gen cl tparams (List.map (fun e -> e.etype) eparams) maybe_empty_t e.epos in
-            let handle e t1 t2 =
-              if is_overload then
-                let ret = handle e t1 t2 in
-                match ret.eexpr with
-                | TCast _ -> ret
-                | _ -> mk_cast (gen.greal_type t1) e
-              else
-                handle e t1 t2
-            in
-            let stl = gen.greal_type_param (TClassDecl sup) stl in
-            let args, _ = get_fun (apply_params sup.cl_types stl cf.cf_type) in
-            let eparams = List.map2 (fun e (_,_,t) ->
-              handle (run e) t e.etype
-            ) eparams args in
-            { e with eexpr = TCall(ef, eparams) }
-          with | Not_found ->
-            gen.gcon.warning "No overload found for this constructor call" e.epos;
-            { e with eexpr = TCall(ef, List.map run eparams) })
-        | TCall (ef, eparams) ->
-          (match ef.etype with
-            | TFun(p, ret) ->
-              handle ({ e with eexpr = TCall(run ef, List.map2 (fun param (_,_,t) -> handle (run param) t param.etype) eparams p) }) e.etype ret
-            | _ -> Type.map_expr run e
-          )
-        (* the TNew and TSuper code was modified at r6497 *)
-        | TNew (cl, tparams, eparams) -> (try
-          let is_overload, cf, sup, stl = choose_ctor gen cl tparams (List.map (fun e -> e.etype) eparams) maybe_empty_t e.epos in
-          let handle e t1 t2 =
-            if true then
-              let ret = handle e t1 t2 in
-              match ret.eexpr with
-              | TCast _ -> ret
-              | _ -> mk_cast (gen.greal_type t1) e
-            else
-              handle e t1 t2
-          in
-          let stl = gen.greal_type_param (TClassDecl sup) stl in
-          let args, _ = get_fun (apply_params sup.cl_types stl cf.cf_type) in
-          let eparams = List.map2 (fun e (_,_,t) ->
-            handle (run e) t e.etype
-          ) eparams args in
-          { e with eexpr = TNew(cl, tparams, eparams) }
-        with | Not_found ->
-          gen.gcon.warning "No overload found for this constructor call" e.epos;
-          { e with eexpr = TNew(cl, tparams, List.map run eparams) })
-        | TArray(arr, idx) ->
-          let arr_etype = match follow arr.etype with
-          | (TInst _ as t) -> t
-          | TAbstract ({ a_impl = Some _ } as a, pl) ->
-            follow (Codegen.Abstract.get_underlying_type a pl)
-          | t -> t in
-          (* get underlying class (if it's a class *)
-          (match arr_etype with
-            | TInst(cl, params) ->
-              (* see if it implements ArrayAccess *)
-              (match cl.cl_array_access with
-                | None -> Type.map_expr run e (*FIXME make it loop through all super types *)
-                | Some t ->
-                  (* if it does, apply current parameters (and change them) *)
-                  (* let real_t = apply_params_internal (List.map (gen.greal_type_param (TClassDecl cl))) cl params t in *)
-                  let param = apply_params cl.cl_types (gen.greal_type_param (TClassDecl cl) params) t in
-                  let real_t = apply_params cl.cl_types params param in
-                  (* see if it needs a cast *)
-
-                  handle (Type.map_expr run e) (gen.greal_type e.etype) (gen.greal_type real_t)
-              )
-            | _ -> Type.map_expr run e)
-        | TVars (veopt_l) ->
-          { e with eexpr = TVars (List.map (fun (v,eopt) ->
-            match eopt with
-              | None -> (v,eopt)
-              | Some e ->
-                (v, Some( handle (run e) v.v_type e.etype ))
-          ) veopt_l) }
-        (* FIXME deal with in_value when using other statements that may not have a TBlock wrapped on them *)
-        | TIf (econd, ethen, Some(eelse)) when was_in_value ->
-          { e with eexpr = TIf (handle (run econd) gen.gcon.basic.tbool econd.etype, handle (run ethen) e.etype ethen.etype, Some( handle (run eelse) e.etype eelse.etype ) ) }
-        | TIf (econd, ethen, eelse) ->
-          { e with eexpr = TIf (handle (run econd) gen.gcon.basic.tbool econd.etype, run (mk_block ethen), Option.map (fun e -> run (mk_block e)) eelse) }
-        | TWhile (econd, e1, flag) ->
-          { e with eexpr = TWhile (handle (run econd) gen.gcon.basic.tbool econd.etype, run (mk_block e1), flag) }
-        | TSwitch (cond, el_e_l, edef) ->
-          { e with eexpr = TSwitch(run cond, List.map (fun (el,e) -> (List.map run el, run (mk_block e))) el_e_l, Option.map (fun e -> run (mk_block e)) edef) }
-        | TMatch (cond, en, il_vl_e_l, edef) ->
-          { e with eexpr = TMatch(run cond, en, List.map (fun (il, vl, e) -> (il, vl, run (mk_block e))) il_vl_e_l, Option.map (fun e -> run (mk_block e)) edef) }
-        | TFor (v,cond,e1) ->
-          { e with eexpr = TFor(v, run cond, run (mk_block e1)) }
-        | TTry (e, ve_l) ->
-          { e with eexpr = TTry(run (mk_block e), List.map (fun (v,e) -> (v, run (mk_block e))) ve_l) }
-        | TReturn (eopt) ->
-          (* a return must be inside a function *)
-          let ret_type = match !current_ret_type with | Some(s) -> s | None -> gen.gcon.error "Invalid return outside function declaration." e.epos; assert false in
-          (match eopt with
-            | None -> e
-            | Some eret ->
-              { e with eexpr = TReturn( Some(handle (run eret) ret_type eret.etype ) ) }
-          )
-        | TBlock el ->
-          { e with eexpr = TBlock ( List.map (fun e -> in_value := false; run e) el ) }
-        | TFunction(tfunc) ->
-          let last_ret = !current_ret_type in
-          current_ret_type := Some(tfunc.tf_type);
-          let ret = Type.map_expr run e in
-          current_ret_type := last_ret;
-          ret
-        | TCast (expr, md) when is_void (follow e.etype) ->
-          run expr
-        | TCast (expr, md) ->
-          let rec get_null e =
-            match e.eexpr with
-            | TConst TNull -> Some e
-            | TParenthesis e -> get_null e
-            | _ -> None
-          in
-          (match get_null expr with
-          | Some enull -> { enull with etype = e.etype }
-          | _ ->
-            let last_unsafe = gen.gon_unsafe_cast in
-            gen.gon_unsafe_cast <- (fun t t2 pos -> ());
-            let ret = handle (run expr) e.etype expr.etype in
-            gen.gon_unsafe_cast <- last_unsafe;
-            match ret.eexpr with
-              | TCast _ -> ret
-              | _ -> { e with eexpr = TCast(ret,md); etype = gen.greal_type e.etype }
-          )
-        (*| TCast _ ->
-          (* if there is already a cast, we should skip this cast check *)
-          Type.map_expr run e*)
-        | _ -> Type.map_expr run e
-    in
-    run
-
-  let configure gen (mapping_func:texpr->texpr) =
-    gen.ghandle_cast <- (fun tto tfrom expr -> handle_cast gen expr (gen.greal_type tto) (gen.greal_type tfrom));
-    let map e = Some(mapping_func e) in
-    gen.gsyntax_filters#add ~name:name ~priority:(PCustom priority) map
-
-end;;
-
 (**************************************************************************************************************************)
 (*                                                   SYNTAX FILTERS                                                       *)
 (**************************************************************************************************************************)
@@ -5281,8 +4475,7 @@ struct
   let name = "expression_unwrap"
 
   (* priority: first syntax filter *)
-  let priority = (-10.0)
-
+  let priority = -10.0
 
   (*
     We always need to rely on Blocks to be able to unwrap expressions correctly.
@@ -5576,9 +4769,10 @@ struct
         { e with eexpr = TBlock([ assign_fun e ]) }
 
   let add_assign gen add_statement expr =
-    match follow expr.etype with
-      | TEnum({ e_path = ([],"Void") },[])
-      | TAbstract ({ a_path = ([],"Void") },[]) ->
+    match expr.eexpr, follow expr.etype with
+      | _, TEnum({ e_path = ([],"Void") },[])
+      | _, TAbstract ({ a_path = ([],"Void") },[])
+      | TThrow _, _ ->
         add_statement expr;
         null expr.etype expr.epos
       | _ ->
@@ -5793,14 +4987,14 @@ struct
         Some { expr with eexpr = TVars([v, Some(right)]) }
       | TVars([v,Some(right)]) when shallow_expr_type right = Statement ->
         add_statement ({ expr with eexpr = TVars([v, Some(null right.etype right.epos)]) });
-        handle_assign Ast.OpAssign { expr with eexpr = TLocal(v) } right
+        handle_assign Ast.OpAssign { expr with eexpr = TLocal(v); etype = v.v_type } right
       (* TIf handling *)
       | TBinop((Ast.OpAssign as op),left, ({ eexpr = TIf _ } as right))
       | TBinop((Ast.OpAssignOp _ as op),left,({ eexpr = TIf _ } as right)) when is_problematic_if right ->
         handle_assign op left right
       | TVars([v,Some({ eexpr = TIf _ } as right)]) when is_problematic_if right ->
         add_statement ({ expr with eexpr = TVars([v, Some(null right.etype right.epos)]) });
-        handle_assign Ast.OpAssign { expr with eexpr = TLocal(v) } right
+        handle_assign Ast.OpAssign { expr with eexpr = TLocal(v); etype = v.v_type } right
       | TWhile(cond, e1, flag) when is_problematic_if cond ->
         twhile_with_condition_statement gen add_statement expr cond e1 flag;
         Some (null expr.etype expr.epos)
@@ -5866,8 +5060,8 @@ struct
                 let kinds = get_kinds e in
                 if has_problematic_expressions kinds then begin
                   match try_call_unwrap_statement gen problematic_expression_unwrap add_statement e with
-                    | Some { eexpr = TConst(TNull) } (* no op *) ->
-                      ()
+                    | Some { eexpr = TConst(TNull) } (* no op *)
+                    | Some { eexpr = TBlock [] } -> ()
                     | Some e ->
                       if has_problematic_expressions (get_kinds e) then begin
                         process_statement e
@@ -5922,6 +5116,939 @@ struct
   let configure gen (mapping_func:texpr->texpr) =
     let map e = Some(mapping_func e) in
     gen.gsyntax_filters#add ~name:name ~priority:(PCustom priority) map
+
+end;;
+
+(* ******************************************* *)
+(* Casts detection v2 *)
+(* ******************************************* *)
+
+(*
+
+  Will detect implicit casts and add TCast for them. Since everything is already followed by follow_all, typedefs are considered a new type altogether
+
+  Types shouldn't be cast if:
+    * When an instance is being coerced to a superclass or to an implemented interface
+    * When anything is being coerced to Dynamic
+
+  edit:
+    As a matter of performance, we will also run the type parameters casts in here. Otherwise the exact same computation would have to be performed twice,
+    with maybe even some loss of information
+
+    * TAnon / TDynamic will call
+    * Type parameter handling will be abstracted
+
+  dependencies:
+    Must run before ExpressionUnwrap
+
+*)
+
+module CastDetect =
+struct
+
+  let name = "cast_detect_2"
+
+  let priority = solve_deps name [DBefore TypeParams.priority; DBefore ExpressionUnwrap.priority]
+
+  (* ******************************************* *)
+  (* ReturnCast *)
+  (* ******************************************* *)
+
+  (*
+
+    Cast detection for return types can't be done at CastDetect time, since we need an
+    unwrapped expression to make sure we catch all return cast detections. So this module
+    is specifically to deal with that, and is configured automatically by CastDetect
+
+    dependencies:
+
+
+  *)
+
+  module ReturnCast =
+  struct
+
+    let name = "return_cast"
+
+    let priority = solve_deps name [DAfter priority; DAfter ExpressionUnwrap.priority]
+
+    let default_implementation gen =
+      let rec extract_expr e = match e.eexpr with
+        | TParenthesis e
+        | TCast(e,_) -> extract_expr e
+        | _ -> e
+      in
+      let current_ret_type = ref None in
+      let handle e tto tfrom = gen.ghandle_cast (gen.greal_type tto) (gen.greal_type tfrom) e in
+      let in_value = ref false in
+
+      let rec run e =
+        let was_in_value = !in_value in
+        in_value := true;
+        match e.eexpr with
+        | TReturn (eopt) ->
+          (* a return must be inside a function *)
+          let ret_type = match !current_ret_type with | Some(s) -> s | None -> gen.gcon.error "Invalid return outside function declaration." e.epos; assert false in
+          (match eopt with
+          | None when not (is_void ret_type) ->
+            { e with eexpr = TReturn( Some(null ret_type e.epos)) }
+          | None -> e
+          | Some eret ->
+            { e with eexpr = TReturn( Some(handle (run eret) ret_type eret.etype ) ) })
+        | TFunction(tfunc) ->
+          let last_ret = !current_ret_type in
+          current_ret_type := Some(tfunc.tf_type);
+          let ret = Type.map_expr run e in
+          current_ret_type := last_ret;
+          ret
+        | TBlock el ->
+          { e with eexpr = TBlock ( List.map (fun e -> in_value := false; run e) el ) }
+        | TBinop ( (Ast.OpAssign as op),e1,e2)
+        | TBinop ( (Ast.OpAssignOp _ as op),e1,e2) when was_in_value ->
+          let e1 = extract_expr (run e1) in
+          let r = { e with eexpr = TBinop(op, e1, handle (run e2) e1.etype e2.etype); etype = e1.etype } in
+          handle r e.etype e1.etype
+        | TBinop ( (Ast.OpAssign as op),({ eexpr = TField(tf, f) } as e1), e2 )
+        | TBinop ( (Ast.OpAssignOp _ as op),({ eexpr = TField(tf, f) } as e1), e2 ) ->
+          (match field_access gen (gen.greal_type tf.etype) (field_name f) with
+            | FClassField(cl,params,_,_,is_static,actual_t) ->
+              let actual_t = if is_static then actual_t else apply_params cl.cl_types params actual_t in
+              let e1 = extract_expr (run e1) in
+              { e with eexpr = TBinop(op, e1, handle (run e2) actual_t e2.etype); etype = e1.etype }
+            | _ ->
+              let e1 = extract_expr (run e1) in
+              { e with eexpr = TBinop(op, e1, handle (run e2) e1.etype e2.etype); etype = e1.etype }
+          )
+        | TBinop ( (Ast.OpAssign as op),e1,e2)
+        | TBinop ( (Ast.OpAssignOp _ as op),e1,e2) ->
+          let e1 = extract_expr (run e1) in
+          { e with eexpr = TBinop(op, e1, handle (run e2) e1.etype e2.etype); etype = e1.etype }
+        | _ -> Type.map_expr run e
+      in
+      run
+
+    let configure gen =
+      let map e = Some(default_implementation gen e) in
+      gen.gsyntax_filters#add ~name:name ~priority:(PCustom priority) map
+
+  end;;
+
+  let get_args t = match follow t with
+    | TFun(args,ret) -> args,ret
+    | _ -> trace (debug_type t); assert false
+
+  let s_path (pack,n) = (String.concat "." (pack @ [n]))
+
+  (*
+    Since this function is applied under native-context only, the type paraters will already be changed
+  *)
+  let map_cls gen also_implements fn super =
+    let rec loop c tl =
+      if c == super then
+        fn c tl
+      else (match c.cl_super with
+        | None -> false
+        | Some (cs,tls) ->
+          let tls = gen.greal_type_param (TClassDecl cs) tls in
+          loop cs (List.map (apply_params c.cl_types tl) tls)
+      ) || (if also_implements then List.exists (fun (cs,tls) ->
+        loop cs (List.map (apply_params c.cl_types tl) tls)
+      ) c.cl_implements else false)
+    in
+    loop
+
+  let follow_dyn t = match follow t with
+    | TMono _ | TLazy _ -> t_dynamic
+    | t -> t
+
+  (*
+    this has a slight change from the type.ml version, in which it doesn't
+    change a TMono into the other parameter
+  *)
+  let rec type_eq gen param a b =
+    if a == b then
+      ()
+    else match follow_dyn (gen.greal_type a) , follow_dyn (gen.greal_type b) with
+    | TEnum (e1,tl1) , TEnum (e2,tl2) ->
+      if e1 != e2 && not (param = EqCoreType && e1.e_path = e2.e_path) then Type.error [cannot_unify a b];
+      List.iter2 (type_eq gen param) tl1 tl2
+    | TAbstract (a1,tl1) , TAbstract (a2,tl2) ->
+      if a1 != a2 && not (param = EqCoreType && a1.a_path = a2.a_path) then Type.error [cannot_unify a b];
+      List.iter2 (type_eq gen param) tl1 tl2
+    | TInst (c1,tl1) , TInst (c2,tl2) ->
+      if c1 != c2 && not (param = EqCoreType && c1.cl_path = c2.cl_path) && (match c1.cl_kind, c2.cl_kind with KExpr _, KExpr _ -> false | _ -> true) then Type.error [cannot_unify a b];
+      List.iter2 (type_eq gen param) tl1 tl2
+    | TFun (l1,r1) , TFun (l2,r2) when List.length l1 = List.length l2 ->
+      (try
+        type_eq gen param r1 r2;
+        List.iter2 (fun (n,o1,t1) (_,o2,t2) ->
+          if o1 <> o2 then Type.error [Not_matching_optional n];
+          type_eq gen param t1 t2
+        ) l1 l2
+      with
+        Unify_error l -> Type.error (cannot_unify a b :: l))
+    | TDynamic a , TDynamic b ->
+      type_eq gen param a b
+    | TAnon a1, TAnon a2 ->
+      (try
+        PMap.iter (fun n f1 ->
+          try
+            let f2 = PMap.find n a2.a_fields in
+            if f1.cf_kind <> f2.cf_kind && (param = EqStrict || param = EqCoreType || not (unify_kind f1.cf_kind f2.cf_kind)) then Type.error [invalid_kind n f1.cf_kind f2.cf_kind];
+            try
+              type_eq gen param f1.cf_type f2.cf_type
+            with
+              Unify_error l -> Type.error (invalid_field n :: l)
+          with
+            Not_found ->
+              if is_closed a2 then Type.error [has_no_field b n];
+              if not (link (ref None) b f1.cf_type) then Type.error [cannot_unify a b];
+              a2.a_fields <- PMap.add n f1 a2.a_fields
+        ) a1.a_fields;
+        PMap.iter (fun n f2 ->
+          if not (PMap.mem n a1.a_fields) then begin
+            if is_closed a1 then Type.error [has_no_field a n];
+            if not (link (ref None) a f2.cf_type) then Type.error [cannot_unify a b];
+            a1.a_fields <- PMap.add n f2 a1.a_fields
+          end;
+        ) a2.a_fields;
+      with
+        Unify_error l -> Type.error (cannot_unify a b :: l))
+    | _ , _ ->
+      if b == t_dynamic && (param = EqRightDynamic || param = EqBothDynamic) then
+        ()
+      else if a == t_dynamic && param = EqBothDynamic then
+        ()
+      else
+        Type.error [cannot_unify a b]
+
+  let type_iseq gen a b =
+    try
+      type_eq gen EqStrict a b;
+      true
+    with
+      Unify_error _ -> false
+
+  (* will return true if both arguments are compatible. If it's not the case, a runtime error is very likely *)
+  let is_cl_related gen cl tl super superl =
+    let is_cl_related cl tl super superl = map_cls gen (gen.guse_tp_constraints || (match cl.cl_kind,super.cl_kind with KTypeParameter _, _ | _,KTypeParameter _ -> false | _ -> true)) (fun _ _ -> true) super cl tl in
+    is_cl_related cl tl super superl || is_cl_related super superl cl tl
+
+
+  let rec is_unsafe_cast gen to_t from_t =
+    match (follow to_t, follow from_t) with
+      | TInst(cl_to, to_params), TInst(cl_from, from_params) ->
+        not (is_cl_related gen cl_from from_params cl_to to_params)
+      | TEnum(e_to, _), TEnum(e_from, _) ->
+        e_to.e_path <> e_from.e_path
+      | TFun _, TFun _ ->
+        (* functions are never unsafe cast by default. This behavior might be changed *)
+        (* with a later AST pass which will run through TFun to TFun casts *)
+        false
+      | TMono _, _
+      | _, TMono _
+      | TDynamic _, _
+      | _, TDynamic _ ->
+        false
+      | TAnon _, _
+      | _, TAnon _ ->
+        (* anonymous are never unsafe also. *)
+        (* Though they will generate a cast, so if this cast is unneeded it's better to avoid them by tweaking gen.greal_type *)
+        false
+      | TAbstract _, _
+      | _, TAbstract _ ->
+        (try
+          unify from_t to_t;
+          false
+        with | Unify_error _ ->
+          try
+            unify to_t from_t; (* still not unsafe *)
+            false
+          with | Unify_error _ ->
+            true)
+      | _ -> true
+
+  let do_unsafe_cast gen from_t to_t e  =
+    let t_path t =
+      match t with
+        | TInst(cl, _) -> cl.cl_path
+        | TEnum(e, _) -> e.e_path
+        | TType(t, _) -> t.t_path
+        | TAbstract(a, _) -> a.a_path
+        | TDynamic _ -> ([], "Dynamic")
+        | _ -> raise Not_found
+    in
+    let do_default () =
+      gen.gon_unsafe_cast to_t e.etype e.epos;
+      mk_cast to_t (mk_cast t_dynamic e)
+    in
+    (* TODO: there really should be a better way to write that *)
+    try
+      if (Hashtbl.find gen.gsupported_conversions (t_path from_t)) from_t to_t then
+        mk_cast to_t e
+      else
+        do_default()
+    with
+      | Not_found ->
+        try
+          if (Hashtbl.find gen.gsupported_conversions (t_path to_t)) from_t to_t then
+            mk_cast to_t e
+          else
+            do_default()
+        with
+          | Not_found -> do_default()
+
+  (* ****************************** *)
+  (* cast handler *)
+  (* decides if a cast should be emitted, given a from and a to type *)
+  (*
+    this function is like a mini unify, without e.g. subtyping, which makes sense
+    at the backend level, since most probably Anons and TInst will have a different representation there
+  *)
+  let rec handle_cast gen e real_to_t real_from_t =
+    let do_unsafe_cast () = do_unsafe_cast gen real_from_t real_to_t { e with etype = real_from_t } in
+    let to_t, from_t = real_to_t, real_from_t in
+
+    let mk_cast t e =
+      match e.eexpr with
+        (* TThrow is always typed as Dynamic, we just need to type it accordingly *)
+        | TThrow _ -> { e with etype = t }
+        | _ -> mk_cast t e
+    in
+
+    let e = { e with etype = real_from_t } in
+    if try fast_eq real_to_t real_from_t with Invalid_argument("List.for_all2") -> false then e else
+    match real_to_t, real_from_t with
+      (* string is the only type that can be implicitly converted from any other *)
+      | TInst( { cl_path = ([], "String") }, []), _ ->
+        mk_cast to_t e
+      | TInst(cl_to, params_to), TInst(cl_from, params_from) ->
+        let ret = ref None in
+        (*
+          this is a little confusing:
+          we are here mapping classes until we have the same to and from classes, applying the type parameters in each step, so we can
+          compare the type parameters;
+
+          If a class is found - meaning that the cl_from can be converted without a cast into cl_to,
+          we still need to check their type parameters.
+        *)
+        ignore (map_cls gen (gen.guse_tp_constraints || (match cl_from.cl_kind,cl_to.cl_kind with KTypeParameter _, _ | _,KTypeParameter _ -> false | _ -> true)) (fun _ tl ->
+          try
+            (* type found, checking type parameters *)
+            List.iter2 (type_eq gen EqStrict) tl params_to;
+            ret := Some e;
+            true
+          with | Unify_error _ ->
+            (* type parameters need casting *)
+            if gen.ghas_tparam_cast_handler then begin
+              (*
+                if we are already handling type parameter casts on other part of code (e.g. RealTypeParameters),
+                we'll just make a cast to indicate that this place needs type parameter-involved casting
+              *)
+              ret := Some (mk_cast to_t e);
+              true
+            end else
+              (*
+                if not, we're going to check if we only need a simple cast,
+                or if we need to first cast into the dynamic version of it
+              *)
+              try
+                List.iter2 (type_eq gen EqRightDynamic) tl params_to;
+                ret := Some (mk_cast to_t e);
+                true
+              with | Unify_error _ ->
+                ret := Some (mk_cast to_t (mk_cast (TInst(cl_to, List.map (fun _ -> t_dynamic) params_to)) e));
+                true
+        ) cl_to cl_from params_from);
+        if is_some !ret then
+          get !ret
+        else if is_cl_related gen cl_from params_from cl_to params_to then
+          mk_cast to_t e
+        else
+          (* potential unsafe cast *)
+          (do_unsafe_cast ())
+      | TMono _, TMono _
+      | TMono _, TDynamic _
+      | TDynamic _, TDynamic _
+      | TDynamic _, TMono _ ->
+        e
+      | TMono _, _
+      | TDynamic _, _
+      | TAnon _, _ when gen.gneeds_box real_from_t ->
+        mk_cast to_t e
+      | TMono _, _
+      | TDynamic _, _ -> e
+      | _, TMono _
+      | _, TDynamic _ -> mk_cast to_t e
+      | TAnon (a_to), TAnon (a_from) ->
+        if a_to == a_from then
+          e
+        else if type_iseq gen to_t from_t then (* FIXME apply unify correctly *)
+          e
+        else
+          mk_cast to_t e
+      | _, TAnon(anon) -> (try
+        let p2 = match !(anon.a_status) with
+        | Statics c -> TInst(c,List.map (fun _ -> t_dynamic) c.cl_types)
+        | EnumStatics e -> TEnum(e, List.map (fun _ -> t_dynamic) e.e_types)
+        | AbstractStatics a -> TAbstract(a, List.map (fun _ -> t_dynamic) a.a_types)
+        | _ -> raise Not_found
+        in
+        let tclass = match get_type gen ([],"Class") with
+        | TAbstractDecl(a) -> a
+        | _ -> assert false in
+        handle_cast gen e real_to_t (gen.greal_type (TAbstract(tclass, [p2])))
+      with | Not_found ->
+        mk_cast to_t e)
+      | TAbstract (a_to, _), TAbstract(a_from, _) when a_to == a_from ->
+        e
+      | TAbstract _, _
+      | _, TAbstract _ ->
+        (try
+          unify from_t to_t;
+          mk_cast to_t e
+        with | Unify_error _ ->
+          try
+            unify to_t from_t;
+            mk_cast to_t e
+          with | Unify_error _ ->
+            do_unsafe_cast())
+      | TEnum(e_to, []), TEnum(e_from, []) ->
+        if e_to == e_from then
+          e
+        else
+          (* potential unsafe cast *)
+          (do_unsafe_cast ())
+      | TEnum(e_to, params_to), TEnum(e_from, params_from) when e_to.e_path = e_from.e_path ->
+        (try
+            List.iter2 (type_eq gen (if gen.gallow_tp_dynamic_conversion then EqRightDynamic else EqStrict)) params_from params_to;
+            e
+          with
+            | Unify_error _ -> do_unsafe_cast ()
+        )
+      | TEnum(en, params_to), TInst(cl, params_from)
+        | TInst(cl, params_to), TEnum(en, params_from) ->
+          (* this is here for max compatibility with EnumsToClass module *)
+        if en.e_path = cl.cl_path && en.e_extern then begin
+          (try
+            List.iter2 (type_eq gen (if gen.gallow_tp_dynamic_conversion then EqRightDynamic else EqStrict)) params_from params_to;
+            e
+          with
+            | Invalid_argument("List.iter2") ->
+              (*
+                this is a hack for RealTypeParams. Since there is no way at this stage to know if the class is the actual
+                EnumsToClass derived from the enum, we need to imply from possible ArgumentErrors (because of RealTypeParams interfaces),
+                that they would only happen if they were a RealTypeParams created interface
+              *)
+              e
+            | Unify_error _ -> do_unsafe_cast ()
+          )
+        end else
+          do_unsafe_cast ()
+      | TType(t_to, params_to), TType(t_from, params_from) when t_to == t_from ->
+        if gen.gspecial_needs_cast real_to_t real_from_t then
+          (try
+            List.iter2 (type_eq gen (if gen.gallow_tp_dynamic_conversion then EqRightDynamic else EqStrict)) params_from params_to;
+            e
+          with
+            | Unify_error _ -> do_unsafe_cast ()
+          )
+        else
+          e
+      | TType(t_to, _), TType(t_from,_) ->
+        if gen.gspecial_needs_cast real_to_t real_from_t then
+          mk_cast to_t e
+        else
+          e
+      | TType _, _ when gen.gspecial_needs_cast real_to_t real_from_t ->
+        mk_cast to_t e
+      | _, TType _ when gen.gspecial_needs_cast real_to_t real_from_t ->
+        mk_cast to_t e
+      (*| TType(t_to, _), TType(t_from, _) ->
+        if t_to.t_path = t_from.t_path then
+          e
+        else if is_unsafe_cast gen real_to_t real_from_t then (* is_unsafe_cast will already follow both *)
+          (do_unsafe_cast ())
+        else
+          mk_cast to_t e*)
+      | TType _, _
+      | _, TType _ ->
+        if is_unsafe_cast gen real_to_t real_from_t then (* is_unsafe_cast will already follow both *)
+          (do_unsafe_cast ())
+        else
+          mk_cast to_t e
+      | TAnon anon, _ ->
+        if PMap.is_empty anon.a_fields then
+          e
+        else
+          mk_cast to_t e
+      | TFun(args, ret), TFun(args2, ret2) ->
+        let get_args = List.map (fun (_,_,t) -> t) in
+        (try List.iter2 (type_eq gen (EqBothDynamic)) (ret :: get_args args) (ret2 :: get_args args2); e with | Unify_error _ | Invalid_argument("List.iter2") -> mk_cast to_t e)
+      | _, _ ->
+        do_unsafe_cast ()
+
+  (* end of cast handler *)
+  (* ******************* *)
+
+  let is_static_overload c name =
+    match c.cl_super with
+    | None -> false
+    | Some (sup,_) ->
+      let rec loop c =
+        (PMap.mem name c.cl_statics) || (match c.cl_super with
+          | None -> false
+          | Some (sup,_) -> loop sup)
+      in
+      loop sup
+
+  let does_unify a b =
+    try
+      unify a b;
+      true
+    with | Unify_error _ -> false
+
+  (* this is a workaround for issue #1743, as FInstance() is returning the incorrect classfield *)
+  let select_overload gen applied_f overloads types params =
+    let rec check_arg arglist elist =
+      match arglist, elist with
+        | [], [] -> true (* it is valid *)
+        | (_,_,t) :: arglist, (_,_,et) :: elist when Type.type_iseq et t ->
+          check_arg arglist elist
+        | _ -> false
+    in
+    match follow applied_f with
+    | TFun _ ->
+      replace_mono applied_f;
+      let args, _ = get_fun applied_f in
+      let elist = List.rev args in
+      let rec check_overload overloads =
+        match overloads with
+        | (t, cf) :: overloads ->
+            let cft = apply_params types params t in
+            let cft = monomorphs cf.cf_params cft in
+            let args, _ = get_fun cft in
+            if check_arg (List.rev args) elist then
+              cf,t,false
+            else if overloads = [] then
+              cf,t,true (* no compatible overload was found *)
+            else
+              check_overload overloads
+        | [] -> assert false
+      in
+      check_overload overloads
+    | _ -> match overloads with  (* issue #1742 *)
+    | (t,cf) :: [] -> cf,t,true
+    | (t,cf) :: _ -> cf,t,false
+    | _ -> assert false
+
+  let choose_ctor gen cl tparams etl maybe_empty_t p =
+    let ctor, sup, stl = OverloadingConstructor.cur_ctor cl tparams in
+    (* get returned stl, with Dynamic as t_empty *)
+    let rec get_changed_stl c tl =
+      if c == sup then
+        tl
+      else match c.cl_super with
+      | None -> stl
+      | Some(sup,stl) -> get_changed_stl sup (List.map (apply_params c.cl_types tl) stl)
+    in
+    let ret_tparams = List.map (fun t -> match follow t with
+    | TDynamic _ | TMono _ -> t_empty
+    | _ -> t) tparams in
+    let ret_stl = get_changed_stl cl ret_tparams in
+    let ctors = ctor :: ctor.cf_overloads in
+    List.iter replace_mono etl;
+    (* first filter out or select outright maybe_empty *)
+    let ctors, is_overload = match etl, maybe_empty_t with
+    | [t], Some empty_t ->
+      let count = ref 0 in
+      let is_empty_call = Type.type_iseq t empty_t in
+      let ret = List.filter (fun cf -> match follow cf.cf_type with
+      (* | TFun([_,_,t],_) -> incr count; true *)
+      | TFun([_,_,t],_) -> replace_mono t; incr count; is_empty_call = (Type.type_iseq t empty_t)
+      | _ -> false) ctors in
+      ret, !count > 1
+    | _ ->
+      let len = List.length etl in
+      let ret = List.filter (fun cf -> List.length (fst (get_fun cf.cf_type)) = len) ctors in
+      ret, (match ret with | _ :: [] -> false | _ -> true)
+    in
+    let rec check_arg arglist elist =
+      match arglist, elist with
+      | [], [] -> true
+      | (_,_,t) :: arglist, et :: elist -> (try
+        unify et t;
+        check_arg arglist elist
+      with | Unify_error el ->
+        (* List.iter (fun el -> gen.gcon.warning (Typecore.unify_error_msg (print_context()) el) p) el; *)
+        false)
+      | _ -> false
+    in
+    let rec check_cf cf =
+      let t = apply_params sup.cl_types stl cf.cf_type in
+      replace_mono t;
+      let args, _ = get_fun t in
+      check_arg args etl
+    in
+    is_overload, List.find check_cf ctors, sup, ret_stl
+
+  (*
+
+    Type parameter handling
+    It will detect if/what type parameters were used, and call the cast handler
+    It will handle both TCall(TField) and TCall by receiving a texpr option field: e
+    Also it will transform the type parameters with greal_type_param and make
+
+    handle_impossible_tparam - should cases where the type parameter is impossible to be determined from the called parameters be Dynamic?
+    e.g. static function test<T>():T {}
+  *)
+
+  (* match e.eexpr with | TCall( ({ eexpr = TField(ef, f) }) as e1, elist ) -> *)
+  let handle_type_parameter gen e e1 ef ~clean_ef ~overloads_cast_to_base f elist calls_parameters_explicitly =
+    (* the ONLY way to know if this call has parameters is to analyze the calling field. *)
+    (* To make matters a little worse, on both C# and Java only in some special cases that type parameters will be used *)
+    (* Namely, when using reflection type parameters are useless, of course. This also includes anonymous types *)
+    (* this will have to be handled by gparam_func_call *)
+
+    let return_var efield =
+      match e with
+        | None ->
+          efield
+        | Some ecall ->
+          match follow efield.etype with
+            | TFun(_,ret) ->
+              (* closures will be handled by the closure handler. So we will just hint what's the expected type *)
+              (* FIXME: should closures have also its arguments cast correctly? In the current implementation I think not. TO_REVIEW *)
+              handle_cast gen { ecall with eexpr = TCall(efield, elist) } (gen.greal_type ecall.etype) ret
+            | _ ->
+              { ecall with eexpr = TCall(efield, elist) }
+    in
+
+    let real_type = gen.greal_type ef.etype in
+    (* this part was rewritten at roughly r6477 in order to correctly support overloads *)
+    (match field_access gen real_type (field_name f) with
+    | FClassField (cl, params, _, cf, is_static, actual_t) when e <> None && (cf.cf_kind = Method MethNormal || cf.cf_kind = Method MethInline) ->
+        (* C# target changes params with a real_type function *)
+        let params = match follow clean_ef.etype with
+        | TInst(_,params) -> params
+        | _ -> params in
+        let ecall = get e in
+        let ef = ref ef in
+        let is_overload = cf.cf_overloads <> [] || Meta.has Meta.Overload cf.cf_meta || (is_static && is_static_overload cl (field_name f)) in
+        let cf, actual_t, error = match is_overload with
+          | false ->
+              (* since actual_t from FClassField already applies greal_type, we're using the get_overloads helper to get this info *)
+              let overloads = Typeload.get_overloads cl (field_name f) in
+              (match overloads with
+              | [] -> cf, cf.cf_type, false
+              | _ -> try
+                  let t, cf = List.find (fun (t,f) -> f == cf) overloads in
+                  cf,t,false
+                  with | Not_found -> cf,actual_t,true)
+          | true ->
+          let (cf, actual_t, error), is_static = match f with
+            | FInstance(c,cf) | FClosure(Some c,cf) ->
+              (* get from overloads *)
+              (* FIXME: this is a workaround for issue #1743 . Uncomment this code after it was solved *)
+              (* let t, cf = List.find (fun (t,cf2) -> cf == cf2) (Typeload.get_overloads cl (field_name f)) in *)
+              (* cf, t, false *)
+              select_overload gen e1.etype (Typeload.get_overloads cl (field_name f)) cl.cl_types params, false
+            | FStatic(c,f) ->
+              (* workaround for issue #1743 *)
+              (* f,f.cf_type, false *)
+              select_overload gen e1.etype ((f.cf_type,f) :: List.map (fun f -> f.cf_type,f) f.cf_overloads) [] [], true
+            | _ ->
+              gen.gcon.warning "Overloaded classfield typed as anonymous" ecall.epos;
+              (cf, actual_t, true), true
+          in
+          if not (is_static || error) then match find_first_declared_field gen cl ~exact_field:{ cf with cf_type = actual_t } cf.cf_name with
+          | Some(_,actual_t,_,_,declared_cl,tl,tlch) ->
+            if declared_cl != cl && overloads_cast_to_base then begin
+              let pos = (!ef).epos in
+              ef := {
+                eexpr = TCall(
+                  { eexpr = TLocal(alloc_var "__as__" t_dynamic); etype = t_dynamic; epos = pos },
+                  [!ef]);
+                etype = TInst(declared_cl,List.map (apply_params cl.cl_types params) tl);
+                epos = pos
+              }
+            end;
+            cf,actual_t,false
+          | None ->
+            gen.gcon.warning "Cannot find matching overload" ecall.epos;
+            cf, actual_t, true
+          else
+            cf,actual_t,error
+        in
+        let error = error || (match follow actual_t with | TFun _ -> false | _ -> true) in
+        if error then (* if error, ignore arguments *)
+          mk_cast ecall.etype { ecall with eexpr = TCall({ e1 with eexpr = TField(!ef, f) }, elist ) }
+        else begin
+          (* infer arguments *)
+          (* let called_t = TFun(List.map (fun e -> "arg",false,e.etype) elist, ecall.etype) in *)
+          let called_t = match follow e1.etype with | TFun _ -> e1.etype | _ -> TFun(List.map (fun e -> "arg",false,e.etype) elist, ecall.etype)  in (* workaround for issue #1742 *)
+          let fparams = TypeParams.infer_params gen ecall.epos (get_fun (apply_params cl.cl_types params actual_t)) (get_fun called_t) cf.cf_params calls_parameters_explicitly in
+          (* get what the backend actually sees *)
+          (* actual field's function *)
+          let actual_t = get_real_fun gen actual_t in
+          let real_params = gen.greal_type_param (TClassDecl cl) params in
+          let function_t = apply_params cl.cl_types real_params actual_t in
+          let real_fparams = if calls_parameters_explicitly then
+            gen.greal_type_param (TClassDecl cl) fparams
+          else
+            gen.greal_type_param (TClassDecl cl) (TypeParams.infer_params gen ecall.epos (get_fun function_t) (get_fun (get_real_fun gen called_t)) cf.cf_params calls_parameters_explicitly) in
+          let function_t = get_real_fun gen (apply_params cf.cf_params real_fparams function_t) in
+          let args_ft, ret_ft = get_fun function_t in
+          (* applied function *)
+          let applied = elist in
+          (* check types list *)
+          let new_ecall, elist = try
+            let elist = List.map2 (fun applied (_,_,funct) ->
+              match is_overload, applied.eexpr with
+              | true, TConst TNull ->
+                mk_cast (gen.greal_type funct) applied
+              | true, _ -> (* when not (type_iseq gen (gen.greal_type applied.etype) funct) -> *)
+                let ret = handle_cast gen applied (funct) (gen.greal_type applied.etype) in
+                (match ret.eexpr with
+                | TCast _ -> ret
+                | _ -> mk_cast (funct) ret)
+              | _ ->
+                handle_cast gen applied (funct) (gen.greal_type applied.etype)
+            ) applied args_ft in
+            { ecall with
+              eexpr = TCall(
+                { e1 with eexpr = TField(!ef, f) },
+                elist);
+            }, elist
+          with | Invalid_argument("List.map2") ->
+            gen.gcon.warning ("This expression may be invalid" ) ecall.epos;
+            { ecall with eexpr = TCall({ e1 with eexpr = TField(!ef, f) }, elist) }, elist
+          in
+          let new_ecall = if fparams <> [] then gen.gparam_func_call new_ecall { e1 with eexpr = TField(!ef, f) } fparams elist else new_ecall in
+          handle_cast gen new_ecall (gen.greal_type ecall.etype) (gen.greal_type ret_ft)
+        end
+    | FClassField (cl,params,_,{ cf_kind = (Method MethDynamic | Var _) },_,actual_t) ->
+      (* if it's a var, we will just try to apply the class parameters that have been changed with greal_type_param *)
+      let t = apply_params cl.cl_types (gen.greal_type_param (TClassDecl cl) params) (gen.greal_type actual_t) in
+      return_var (handle_cast gen { e1 with eexpr = TField(ef, f) } (gen.greal_type e1.etype) (gen.greal_type t))
+    | FClassField (cl,params,_,cf,_,actual_t) ->
+      return_var (handle_cast gen { e1 with eexpr = TField({ ef with etype = t_dynamic }, f) } e1.etype t_dynamic) (* force dynamic and cast back to needed type *)
+    | FEnumField (en, efield, true) ->
+      let ecall = match e with | None -> trace (field_name f); trace efield.ef_name; gen.gcon.error "This field should be called immediately" ef.epos; assert false | Some ecall -> ecall in
+      (match en.e_types with
+        (*
+        | [] ->
+          let args, ret = get_args (efield.ef_type) in
+          let ef = { ef with eexpr = TTypeExpr( TEnumDecl en ); etype = TEnum(en, []) } in
+          handle_cast gen { ecall with eexpr = TCall({ e1 with eexpr = TField(ef, FEnum(en, efield)) }, List.map2 (fun param (_,_,t) -> handle_cast gen param (gen.greal_type t) (gen.greal_type param.etype)) elist args) } (gen.greal_type ecall.etype) (gen.greal_type ret)
+      *)
+        | _ ->
+          let pt = match e with | None -> real_type | Some _ -> snd (get_fun e1.etype) in
+          let _params = match follow pt with | TEnum(_, p) -> p | _ -> gen.gcon.warning (debug_expr e1) e1.epos; assert false in
+          let args, ret = get_args efield.ef_type in
+          let actual_t = TFun(List.map (fun (n,o,t) -> (n,o,gen.greal_type t)) args, gen.greal_type ret) in
+          (*
+            because of differences on how <Dynamic> is handled on the platforms, this is a hack to be able to
+            correctly use class field type parameters with RealTypeParams
+          *)
+          let cf_params = List.map (fun t -> match follow t with | TDynamic _ -> t_empty | _ -> t) _params in
+          (* params are inverted *)
+          let cf_params = List.rev cf_params in
+          let t = apply_params en.e_types (gen.greal_type_param (TEnumDecl en) cf_params) actual_t in
+          let t = apply_params efield.ef_params (List.map (fun _ -> t_dynamic) efield.ef_params) t in
+
+          let args, ret = get_args t in
+
+          let elist = List.map2 (fun param (_,_,t) -> handle_cast gen (param) (gen.greal_type t) (gen.greal_type param.etype)) elist args in
+          let e1 = { e1 with eexpr = TField({ ef with eexpr = TTypeExpr( TEnumDecl en ); etype = TEnum(en, _params) }, FEnum(en, efield) ) } in
+          let new_ecall = gen.gparam_func_call ecall e1 _params elist in
+
+          handle_cast gen new_ecall (gen.greal_type ecall.etype) (gen.greal_type ret)
+      )
+    | FEnumField _ when is_some e -> assert false
+    | FEnumField (en,efield,_) ->
+        return_var { e1 with eexpr = TField({ ef with eexpr = TTypeExpr( TEnumDecl en ); },FEnum(en,efield)) }
+    (* no target by date will uses this.so this code may not be correct at all *)
+    | FAnonField cf ->
+      let t = gen.greal_type cf.cf_type in
+      return_var (handle_cast gen { e1 with eexpr = TField(ef, f) } (gen.greal_type e1.etype) t)
+    | FNotFound
+    | FDynamicField _ ->
+      if is_some e then
+        return_var { e1 with eexpr = TField(ef, f) }
+      else
+        return_var (handle_cast gen { e1 with eexpr = TField({ ef with etype = t_dynamic }, f) } e1.etype t_dynamic) (* force dynamic and cast back to needed type *)
+    )
+
+  (* end of type parameter handling *)
+  (* ****************************** *)
+
+  (** overloads_cast_to_base argument will cast overloaded function types to the class that declared it. **)
+  (**     This is necessary for C#, and if true, will require the target to implement __as__, as a `quicker` form of casting **)
+  let default_implementation gen ?(native_string_cast = true) ?(overloads_cast_to_base = false) maybe_empty_t calls_parameters_explicitly =
+    let handle e t1 t2 = handle_cast gen e (gen.greal_type t1) (gen.greal_type t2) in
+
+    let in_value = ref false in
+
+    let rec run ?(just_type = false) e =
+      let handle = if not just_type then handle else fun e t1 t2 -> { e with etype = gen.greal_type t2 } in
+      let was_in_value = !in_value in
+      in_value := true;
+      match e.eexpr with
+        | TBinop ( (Ast.OpAssign | Ast.OpAssignOp _ as op), e1, e2 ) ->
+          { e with eexpr = TBinop(op, run ~just_type:true e1, run e2) }
+        | TField(ef, f) ->
+          handle_type_parameter gen None e (run ef) ~clean_ef:ef ~overloads_cast_to_base:overloads_cast_to_base f [] calls_parameters_explicitly
+        | TArrayDecl el ->
+          let et = e.etype in
+          let base_type = match follow et with
+            | TInst({ cl_path = ([], "Array") } as cl, bt) -> gen.greal_type_param (TClassDecl cl) bt
+            | _ -> assert false
+          in
+          let base_type = List.hd base_type in
+          { e with eexpr = TArrayDecl( List.map (fun e -> handle (run e) base_type e.etype) el ); etype = et }
+        | TCall( ({ eexpr = TLocal v } as local), params ) when String.get v.v_name 0 = '_' && String.get v.v_name 1 = '_' && Hashtbl.mem gen.gspecial_vars v.v_name ->
+          { e with eexpr = TCall(local, List.map run params) }
+        | TCall( ({ eexpr = TField(ef, f) }) as e1, elist ) ->
+          handle_type_parameter gen (Some e) (e1) (run ef) ~clean_ef:ef ~overloads_cast_to_base:overloads_cast_to_base f (List.map run elist) calls_parameters_explicitly
+
+        (* the TNew and TSuper code was modified at r6497 *)
+        | TCall( { eexpr = TConst TSuper } as ef, eparams ) ->
+          let cl, tparams = match follow ef.etype with
+          | TInst(cl,p) -> cl, p
+          | _ -> assert false in
+          (try
+            let is_overload, cf, sup, stl = choose_ctor gen cl tparams (List.map (fun e -> e.etype) eparams) maybe_empty_t e.epos in
+            let handle e t1 t2 =
+              if is_overload then
+                let ret = handle e t1 t2 in
+                match ret.eexpr with
+                | TCast _ -> ret
+                | _ -> mk_cast (gen.greal_type t1) e
+              else
+                handle e t1 t2
+            in
+            let stl = gen.greal_type_param (TClassDecl sup) stl in
+            let args, _ = get_fun (apply_params sup.cl_types stl cf.cf_type) in
+            let eparams = List.map2 (fun e (_,_,t) ->
+              handle (run e) t e.etype
+            ) eparams args in
+            { e with eexpr = TCall(ef, eparams) }
+          with | Not_found ->
+            gen.gcon.warning "No overload found for this constructor call" e.epos;
+            { e with eexpr = TCall(ef, List.map run eparams) })
+        | TCall (ef, eparams) ->
+          (match ef.etype with
+            | TFun(p, ret) ->
+              handle ({ e with eexpr = TCall(run ef, List.map2 (fun param (_,_,t) -> handle (run param) t param.etype) eparams p) }) e.etype ret
+            | _ -> Type.map_expr run e
+          )
+        (* the TNew and TSuper code was modified at r6497 *)
+        | TNew (cl, tparams, eparams) -> (try
+          let is_overload, cf, sup, stl = choose_ctor gen cl tparams (List.map (fun e -> e.etype) eparams) maybe_empty_t e.epos in
+          let handle e t1 t2 =
+            if true then
+              let ret = handle e t1 t2 in
+              match ret.eexpr with
+              | TCast _ -> ret
+              | _ -> mk_cast (gen.greal_type t1) e
+            else
+              handle e t1 t2
+          in
+          let stl = gen.greal_type_param (TClassDecl sup) stl in
+          let args, _ = get_fun (apply_params sup.cl_types stl cf.cf_type) in
+          let eparams = List.map2 (fun e (_,_,t) ->
+            handle (run e) t e.etype
+          ) eparams args in
+          { e with eexpr = TNew(cl, tparams, eparams) }
+        with | Not_found ->
+          gen.gcon.warning "No overload found for this constructor call" e.epos;
+          { e with eexpr = TNew(cl, tparams, List.map run eparams) })
+        | TArray(arr, idx) ->
+          let arr_etype = match follow arr.etype with
+          | (TInst _ as t) -> t
+          | TAbstract ({ a_impl = Some _ } as a, pl) ->
+            follow (Codegen.Abstract.get_underlying_type a pl)
+          | t -> t in
+          let idx = match gen.greal_type idx.etype with
+          | TAbstract({ a_path = [],"Int" },_) -> run idx
+          | _ -> match handle (run idx) gen.gcon.basic.tint (gen.greal_type idx.etype) with
+          | ({ eexpr = TCast _ } as idx) -> idx
+          | idx -> mk_cast gen.gcon.basic.tint idx
+          in
+          let e = { e with eexpr = TArray(run arr, idx) } in
+          (* get underlying class (if it's a class *)
+          (match arr_etype with
+            | TInst(cl, params) ->
+              (* see if it implements ArrayAccess *)
+              (match cl.cl_array_access with
+                | None -> e
+                | Some t ->
+                  (* if it does, apply current parameters (and change them) *)
+                  (* let real_t = apply_params_internal (List.map (gen.greal_type_param (TClassDecl cl))) cl params t in *)
+                  let param = apply_params cl.cl_types (gen.greal_type_param (TClassDecl cl) params) t in
+                  let real_t = apply_params cl.cl_types params param in
+                  (* see if it needs a cast *)
+
+                  handle (e) (gen.greal_type e.etype) (gen.greal_type real_t)
+              )
+            | _ -> Type.map_expr run e)
+        | TVars (veopt_l) ->
+          { e with eexpr = TVars (List.map (fun (v,eopt) ->
+            match eopt with
+              | None -> (v,eopt)
+              | Some e ->
+                (v, Some( handle (run e) v.v_type e.etype ))
+          ) veopt_l) }
+        (* FIXME deal with in_value when using other statements that may not have a TBlock wrapped on them *)
+        | TIf (econd, ethen, Some(eelse)) when was_in_value ->
+          { e with eexpr = TIf (handle (run econd) gen.gcon.basic.tbool econd.etype, handle (run ethen) e.etype ethen.etype, Some( handle (run eelse) e.etype eelse.etype ) ) }
+        | TIf (econd, ethen, eelse) ->
+          { e with eexpr = TIf (handle (run econd) gen.gcon.basic.tbool econd.etype, run (mk_block ethen), Option.map (fun e -> run (mk_block e)) eelse) }
+        | TWhile (econd, e1, flag) ->
+          { e with eexpr = TWhile (handle (run econd) gen.gcon.basic.tbool econd.etype, run (mk_block e1), flag) }
+        | TSwitch (cond, el_e_l, edef) ->
+          { e with eexpr = TSwitch(run cond, List.map (fun (el,e) -> (List.map run el, run (mk_block e))) el_e_l, Option.map (fun e -> run (mk_block e)) edef) }
+        | TMatch (cond, en, il_vl_e_l, edef) ->
+          { e with eexpr = TMatch(run cond, en, List.map (fun (il, vl, e) -> (il, vl, run (mk_block e))) il_vl_e_l, Option.map (fun e -> run (mk_block e)) edef) }
+        | TFor (v,cond,e1) ->
+          { e with eexpr = TFor(v, run cond, run (mk_block e1)) }
+        | TTry (e, ve_l) ->
+          { e with eexpr = TTry(run (mk_block e), List.map (fun (v,e) -> (v, run (mk_block e))) ve_l) }
+        | TBlock el ->
+          { e with eexpr = TBlock ( List.map (fun e -> in_value := false; run e) el ) }
+        | TCast (expr, md) when is_void (follow e.etype) ->
+          run expr
+        | TCast (expr, md) ->
+          let rec get_null e =
+            match e.eexpr with
+            | TConst TNull -> Some e
+            | TParenthesis e -> get_null e
+            | _ -> None
+          in
+          (match get_null expr with
+          | Some enull -> { enull with etype = e.etype }
+          | _ ->
+            let last_unsafe = gen.gon_unsafe_cast in
+            gen.gon_unsafe_cast <- (fun t t2 pos -> ());
+            let ret = handle (run expr) e.etype expr.etype in
+            gen.gon_unsafe_cast <- last_unsafe;
+            match ret.eexpr with
+              | TCast _ -> ret
+              | _ -> { e with eexpr = TCast(ret,md); etype = gen.greal_type e.etype }
+          )
+        (*| TCast _ ->
+          (* if there is already a cast, we should skip this cast check *)
+          Type.map_expr run e*)
+        | _ -> Type.map_expr run e
+    in
+    run
+
+  let configure gen (mapping_func:texpr->texpr) =
+    gen.ghandle_cast <- (fun tto tfrom expr -> handle_cast gen expr (gen.greal_type tto) (gen.greal_type tfrom));
+    let map e = Some(mapping_func e) in
+    gen.gsyntax_filters#add ~name:name ~priority:(PCustom priority) map;
+    ReturnCast.configure gen
 
 end;;
 
@@ -6578,6 +6705,24 @@ struct
     });
 
     add_constructor cl ctor;
+    (* default ctor also *)
+    let ctor = mk_class_field "new" (TFun([],basic.tvoid)) false pos (Method MethNormal) [] in
+    ctor.cf_expr <- Some {
+      eexpr = TFunction {
+        tf_type = basic.tvoid;
+        tf_args = [];
+        tf_expr = {
+          eexpr = TBlock(List.map (fun (f,t) ->
+            { eexpr = TBinop(Ast.OpAssign, mk_this f t,{ eexpr = TArrayDecl([]); etype = t; epos = pos; }); etype = t; epos = pos }
+          ) fields);
+          etype = basic.tvoid;
+          epos = pos;
+        }
+      };
+      etype = ctor.cf_type;
+      epos = pos;
+    };
+    add_constructor cl ctor;
     (* and finally we will return a function that transforms a TObjectDecl into a new DynamicObject() call *)
     let rec loop objdecl acc acc_f =
       match objdecl with
@@ -7111,8 +7256,8 @@ struct
       let mk_switch static =
         let fields = get_fields static in
         let fields = List.filter (fun (_, cf) -> match is_set, cf.cf_kind with
-          | true, Var { v_write = AccCall _ } -> true
-          | false, Var { v_read = AccCall _ } -> true
+          | true, Var { v_write = AccCall } -> true
+          | false, Var { v_read = AccCall } -> true
           | _ -> not (Type.is_extern_field cf)) fields
         in
         (if fields <> [] then has_fields := true);
@@ -7926,13 +8071,14 @@ struct
     let gen = ctx.rcf_gen in
     let basic = gen.gcon.basic in
     let closure_func eclosure e field is_static =
-      { eclosure with
+      mk_cast eclosure.etype { eclosure with
         eexpr = TNew(closure_cl, [], [
           e;
           { eexpr = TConst(TString field); etype = basic.tstring; epos = eclosure.epos }
         ] @ (
           if ctx.rcf_optimize then [ { eexpr = TConst(TInt (hash_field_i32 ctx eclosure.epos field)); etype = basic.tint; epos = eclosure.epos } ] else []
-        ))
+        ));
+        etype = TInst(closure_cl,[])
       }
     in
     closure_func
@@ -8884,6 +9030,7 @@ end;;
   For compatibility with the C# target, HardNullable will accept both Null<T> and haxe.lang.Null<T> types
 
   dependencies:
+    Needs to be run after all cast detection modules
 
 
 *)
@@ -8893,8 +9040,7 @@ struct
 
   let name = "hard_nullable"
 
-  (* let priority = solve_deps name [] *)
-  let priority = -200.0
+  let priority = solve_deps name [DAfter CastDetect.ReturnCast.priority]
 
   let rec is_null_t gen t = match gen.greal_type t with
     | TType( { t_path = ([], "Null") }, [of_t])
@@ -9161,6 +9307,7 @@ struct
       if before then cur_block := expr :: !cur_block else to_add := expr :: !to_add
     in
     let num = ref 0 in
+    let cur_num = ref 0 in
 
     let rec run e =
       match e.eexpr with
@@ -9174,13 +9321,16 @@ struct
         | TWhile _ ->
           let last_switch = !in_switch in
           let last_found = !did_found in
+          let last_num = !cur_num in
           in_switch := false;
           incr num;
+          cur_num := !num;
           did_found := -1;
             let new_e = Type.map_expr run e in (* assuming that no loop will be found in the condition *)
             let new_e = if !did_found <> -1 then change_loop new_e !did_found api else new_e in
           did_found := last_found;
           in_switch := last_switch;
+          cur_num := last_num;
 
           new_e
         | TSwitch _
@@ -9212,7 +9362,7 @@ struct
 
           { e with eexpr = TBlock(ret) }
         | TBreak ->
-          if !in_switch then (did_found := !num; change_break e !num api) else e
+          if !in_switch then (did_found := !cur_num; change_break e !cur_num api) else e
         | _ -> Type.map_expr run e
     in
     run
@@ -9824,6 +9974,7 @@ end;;
 
   dependencies:
     FixOverrides expects that the target platform is able to deal with overloaded functions
+    It must run after DefaultArguments, otherwise code added by the default arguments may be invalid
 
 *)
 
@@ -9832,7 +9983,7 @@ struct
 
   let name = "fix_overrides"
 
-  let priority = solve_deps name []
+  let priority = solve_deps name [DAfter DefaultArguments.priority]
 
   (*
     if the platform allows explicit interface implementation (C#),
@@ -9842,7 +9993,7 @@ struct
   let run ~explicit_fn_name gen =
     let implement_explicitly = is_some explicit_fn_name in
     let run md = match md with
-      | TClassDecl ( { cl_interface = true } as c ) ->
+      | TClassDecl ( { cl_interface = true; cl_extern = false } as c ) ->
         (* overrides can be removed from interfaces *)
         c.cl_ordered_fields <- List.filter (fun f ->
           try
@@ -9855,7 +10006,7 @@ struct
             true
         ) c.cl_ordered_fields;
         md
-      | TClassDecl c ->
+      | TClassDecl({ cl_extern = false } as c) ->
         let this = { eexpr = TConst TThis; etype = TInst(c,List.map snd c.cl_types); epos = c.cl_pos } in
         (* look through all interfaces, and try to find a type that applies exactly *)
         let rec loop_iface (iface:tclass) itl =
@@ -9958,6 +10109,75 @@ struct
           List.iter loop_f iface.cl_ordered_fields
         in
         List.iter (fun (iface,itl) -> loop_iface iface itl) c.cl_implements;
+        (* now go through all overrides, *)
+        let rec check_f f =
+          (* find the first declared field *)
+          let is_overload = Meta.has Meta.Overload f.cf_meta in
+          let decl = if is_overload then
+            find_first_declared_field gen c ~exact_field:f f.cf_name
+          else
+            find_first_declared_field gen c f.cf_name
+          in
+          match decl with
+          | Some(f2,actual_t,_,t,declared_cl,_,_)
+            when not (Typeload.same_overload_args actual_t (get_real_fun gen f.cf_type) f2 f) ->
+              if Meta.has Meta.Overload f.cf_meta then begin
+                (* if it is overload, create another field with the requested type *)
+                let f3 = mk_class_field f.cf_name t f.cf_public f.cf_pos f.cf_kind f.cf_params in
+                let p = f.cf_pos in
+                let old_args, old_ret = get_fun f.cf_type in
+                let args, ret = get_fun t in
+                let tf_args = List.map (fun (n,o,t) -> alloc_var n t, None) args in
+                f3.cf_expr <- Some {
+                  eexpr = TFunction({
+                    tf_args = tf_args;
+                    tf_type = ret;
+                    tf_expr = mk_block (mk_return (mk_cast ret {
+                      eexpr = TCall(
+                        {
+                          eexpr = TField(
+                            { eexpr = TConst TThis; etype = TInst(c, List.map snd c.cl_types); epos = p },
+                            FInstance(c,f));
+                          etype = f.cf_type;
+                          epos = p
+                        },
+                        List.map2 (fun (v,_) (_,_,t) -> mk_cast t (mk_local v p)) tf_args old_args);
+                      etype = old_ret;
+                      epos = p
+                    }))
+                  });
+                  etype = t;
+                  epos = p;
+                };
+                gen.gafter_filters_ended <- ((fun () ->
+                  f.cf_overloads <- f3 :: f.cf_overloads;
+                ) :: gen.gafter_filters_ended);
+                f3
+              end else begin match f.cf_expr with
+              | Some({ eexpr = TFunction(tf) } as e) ->
+                (* if it's not overload, just cast the vars *)
+                let actual_args, _ = get_fun (get_real_fun gen actual_t) in
+                let new_args, vardecl = List.fold_left2 (fun (args,vdecl) (v,_) (_,_,t) ->
+                  if not (type_iseq (gen.greal_type v.v_type) (gen.greal_type t)) then begin
+                    let new_var = mk_temp gen v.v_name t in
+                    (new_var,None) :: args, (v, Some(mk_cast v.v_type (mk_local new_var f.cf_pos))) :: vdecl
+                  end else
+                    (v,None) :: args, vdecl
+                ) ([],[]) tf.tf_args actual_args in
+                if vardecl <> [] then
+                f.cf_expr <- Some({ e with
+                  eexpr = TFunction({ tf with
+                    tf_args = List.rev new_args;
+                    tf_expr = Codegen.concat { eexpr = TVars(vardecl); etype = gen.gcon.basic.tvoid; epos = e.epos } tf.tf_expr
+                  });
+                });
+                f
+              | _ -> f
+              end
+          | _ -> f
+        in
+        if not c.cl_extern then
+          c.cl_overrides <- List.map (fun f -> check_f f) c.cl_overrides;
         md
       | _ -> md
     in

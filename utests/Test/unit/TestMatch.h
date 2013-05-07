@@ -18,6 +18,9 @@ typedef enum{
 	U1,
 	U2
 } X;
+typedef enum{
+	A
+} NE;
 
 
 #import "../String.h"
@@ -42,15 +45,17 @@ typedef enum{
 + (NSMutableString*) switchGuard:(id)e;
 + (NSMutableString*) switchClass:(Class*)cl;
 + (NSMutableString*) toStringX:(TestMatch*)x1;
++ (NSMutableString*) orMatch:(id)e1 e2:(id)e2;
 - (void) testBasic;
 - (void) testTuple;
 - (void) testGrouping;
 - (void) testSubtyping;
 - (void) testGadt;
 - (void) testClassSwitch;
+- (void) testOr;
+- (void) testStaticNull;
 - (void) testNonExhaustiveness;
 - (void) testInvalidBinding;
-- (id) init;
 
 @end
 

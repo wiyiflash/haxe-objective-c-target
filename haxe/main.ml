@@ -235,7 +235,7 @@ let rec read_type_path com p =
 			loop path p
 		) (extract());
 	) com.swf_libs;
-  List.iter (fun (path,close,all_files,lookup) ->
+  List.iter (fun (path,std,close,all_files,lookup) ->
     List.iter (fun (path, name) ->
       if path = p then classes := name :: !classes else
       let rec loop p1 p2 =
@@ -863,6 +863,7 @@ try
 			set_platform Cs dir;
 		),"<directory> : generate C# code into target directory");
 		("-java",Arg.String (fun dir ->
+			cp_libs := "hxjava" :: !cp_libs;
 			set_platform Java dir;
 		),"<directory> : generate Java code into target directory");
 		("-objc",Arg.String (fun dir ->
@@ -926,7 +927,7 @@ try
 			Genswf.add_swf_lib com file true
 		),"<file> : use the SWF library for type checking");
 		("-java-lib",Arg.String (fun file ->
-			Genjava.add_java_lib com file
+			Genjava.add_java_lib com file false
 		),"<file> : add an external JAR or class directory library");
 		("-x", Arg.String (fun file ->
 			let neko_file = file ^ ".n" in
@@ -1197,6 +1198,11 @@ try
 			Gencs.before_generate com;
 			add_std "cs"; "cs"
 		| Java ->
+      let old_flush = ctx.flush in
+      ctx.flush <- (fun () ->
+        List.iter (fun (_,_,close,_,_) -> close()) com.java_libs;
+        old_flush()
+      );
 			Genjava.before_generate com;
 			add_std "java"; "java"
 		| ObjC ->

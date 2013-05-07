@@ -18,7 +18,7 @@
 	return [self.b hx_objectAtIndex:self.pos++];
 }
 - (int) readBytes:(Bytes*)buf pos:(int)pos len:(int)len{
-	if (pos < 0 || len < 0 || pos + len > buf.length) @throw  OutsideBounds;;
+	if (pos < 0 || len < 0 || pos + len > buf.length) @throw OutsideBounds;;
 	if (self.len == 0 && len > 0) @throw [[Eof alloc] init];;
 	if (self.len < len) len = self.len;
 	
@@ -29,10 +29,10 @@
 		int _g = 0;
 		while (_g < (int)len) {
 			int i = _g++;
-			[b2 hx_replaceObjectAtIndex:pos + i withObject:b1 hx_replaceObjectAtIndex:self.pos + i];
+			[b2 hx_replaceObjectAtIndex:pos + i withObject:b1 hx_replaceObjectAtIndex:[self.pos stringByAppendingString:i]];
 		}
 	}
-	self.pos += len;
+	[self.pos appendString:len];
 	self.len -= len;
 	return len;
 }
@@ -44,7 +44,7 @@
 	
 	if (pos == nil) pos = 0;
 	if (len == nil) len = b.length - pos;
-	if (pos < 0 || len < 0 || pos + len > b.length) @throw  OutsideBounds;;
+	if (pos < 0 || len < 0 || pos + len > b.length) @throw OutsideBounds;;
 	self.b = b.b;
 	self.pos = pos;
 	self.len = len;

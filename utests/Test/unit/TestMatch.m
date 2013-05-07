@@ -11,7 +11,7 @@
 
 + (NSMutableString*) switchNormal:(id)e{
 	return ^(NSMutableString*)
-	var $e2 : enum =  (e expr)
+	var $e2 : enum =  (e[@"expr"])
 	switch ( $e2.index ) {
 		
 		case 0:
@@ -26,7 +26,7 @@
 				var MATCH e_fexpr_eEConst_0_eCString_0 : NSMutableString = $e4.params[0]{
 					__r__3 = e_fexpr_eEConst_0_eCString_0}break
 				default:{
-					__r__3 = [NSMutableString stringWithString:@"not_found"]}break
+					__r__3 = [@"not_found" mutableCopy]}break
 			}
 			return __r__3{
 				
@@ -36,7 +36,7 @@
 		
 		var MATCH e_fexpr_eEParenthesis_0 : id = $e2.params[0]{
 			__r__ = ^(id)
-			var $e6 : enum =  (e_fexpr_eEParenthesis_0 expr)
+			var $e6 : enum =  (e_fexpr_eEParenthesis_0[@"expr"])
 			switch ( $e6.index ) {
 				
 				case 0:
@@ -51,14 +51,14 @@
 						var MATCH e_fexpr_eEParenthesis_0_fexpr_eEConst_0_eCString_0 : NSMutableString = $e8.params[0]{
 							__r__7 = e_fexpr_eEParenthesis_0_fexpr_eEConst_0_eCString_0}break
 						default:{
-							__r__7 = [NSMutableString stringWithString:@"not_found"]}break
+							__r__7 = [@"not_found" mutableCopy]}break
 					}
 					return __r__7{
 						
 						id* __r__7}
 					}()}break
 				default:{
-					__r__5 = [NSMutableString stringWithString:@"not_found"]}break
+					__r__5 = [@"not_found" mutableCopy]}break
 			}
 			return __r__5{
 				
@@ -68,7 +68,7 @@
 		
 		var MATCH e_fexpr_eEUntyped_0 : id = $e2.params[0]{
 			__r__ = ^(id)
-			var $e10 : enum =  (e_fexpr_eEUntyped_0 expr)
+			var $e10 : enum =  (e_fexpr_eEUntyped_0[@"expr"])
 			switch ( $e10.index ) {
 				
 				case 0:
@@ -83,14 +83,14 @@
 						var MATCH e_fexpr_eEUntyped_0_fexpr_eEConst_0_eCString_0 : NSMutableString = $e12.params[0]{
 							__r__11 = e_fexpr_eEUntyped_0_fexpr_eEConst_0_eCString_0}break
 						default:{
-							__r__11 = [NSMutableString stringWithString:@"not_found"]}break
+							__r__11 = [@"not_found" mutableCopy]}break
 					}
 					return __r__11{
 						
 						id* __r__11}
 					}()}break
 				default:{
-					__r__9 = [NSMutableString stringWithString:@"not_found"]}break
+					__r__9 = [@"not_found" mutableCopy]}break
 			}
 			return __r__9{
 				
@@ -98,13 +98,13 @@
 			}()}break
 		case 3:
 		
-		var MATCH e_fexpr_eEField_1 : NSMutableString = $e2.params[1]{
+		var MATCH e_fexpr_eEField_1 : NSMutableString = $e2.params[1], MATCH e_fexpr_eEField_0 : id = $e2.params[0]{
 			__r__ = e_fexpr_eEField_1}break
 		case 1:
 		
 		var MATCH e_fexpr_eEArray_1 : id = $e2.params[1], MATCH e_fexpr_eEArray_0 : id = $e2.params[0]{
 			__r__ = ^(id)
-			var $e14 : enum =  (e_fexpr_eEArray_1 expr)
+			var $e14 : enum =  (e_fexpr_eEArray_1[@"expr"])
 			switch ( $e14.index ) {
 				
 				case 0:
@@ -116,19 +116,21 @@
 						
 						case 0:
 						
-						case 1:
-						
 						var MATCH e_fexpr_eEArray_1_fexpr_eEConst_0_eCInt_0 : NSMutableString = $e16.params[0]{
 							__r__15 = [Std string:e_fexpr_eEArray_1_fexpr_eEConst_0_eCInt_0]}break
+						case 1:
+						
+						var MATCH e_fexpr_eEArray_1_fexpr_eEConst_0_eCFloat_0 : NSMutableString = $e16.params[0]{
+							__r__15 = [Std string:e_fexpr_eEArray_1_fexpr_eEConst_0_eCFloat_0]}break
 						default:{
-							__r__15 = [NSMutableString stringWithString:@"not_found"]}break
+							__r__15 = [@"not_found" mutableCopy]}break
 					}
 					return __r__15{
 						
 						id* __r__15}
 					}()}break
 				default:{
-					__r__13 = [NSMutableString stringWithString:@"not_found"]}break
+					__r__13 = [@"not_found" mutableCopy]}break
 			}
 			return __r__13{
 				
@@ -136,10 +138,10 @@
 			}()}break
 		case 14:
 		
-		var MATCH e_fexpr_eEIn_1 : id = $e2.params[1]{
-			__r__ = [Std string:e_fexpr_eEIn_1 expr]}break
+		var MATCH e_fexpr_eEIn_1 : id = $e2.params[1], MATCH e_fexpr_eEIn_0 : id = $e2.params[0]{
+			__r__ = [Std string:e_fexpr_eEIn_1[@"expr"]]}break
 		default:{
-			__r__ = [NSMutableString stringWithString:@"not_found"]}break
+			__r__ = [@"not_found" mutableCopy]}break
 	}
 	return __r__{
 		
@@ -148,7 +150,7 @@
 }
 + (Expr*) switchCapture:(id)e{
 	return ^(Expr*)
-	var $e2 : enum =  (e expr)
+	var $e2 : enum =  (e[@"expr"])
 	switch ( $e2.index ) {
 		
 		case 0:
@@ -162,7 +164,7 @@
 				
 				var MATCH e_fexpr_eEConst_0_eCString_0 : NSMutableString = $e4.params[0]{
 					__r__3 = ^(id)switch (e_fexpr_eEConst_0_eCString_0){
-						case [NSMutableString stringWithString:@"foobar"]:{
+						case [@"foobar" mutableCopy]:{
 							__r__5 = e_fexpr_eEConst_0}break;
 						default:{
 							__r__5 = nil}break;
@@ -175,7 +177,7 @@
 				
 				var MATCH e_fexpr_eEConst_0_eCInt_0 : NSMutableString = $e4.params[0]{
 					__r__3 = ^(id)switch (e_fexpr_eEConst_0_eCInt_0){
-						case [NSMutableString stringWithString:@"9"]:{
+						case [@"9" mutableCopy]:{
 							__r__6 = e_fexpr_eEConst_0}break;
 						default:{
 							__r__6 = nil}break;
@@ -201,7 +203,7 @@
 }
 + (NSMutableString*) switchArray:(id)e{
 	return ^(NSMutableString*)
-	var $e2 : enum =  (e expr)
+	var $e2 : enum =  (e[@"expr"])
 	switch ( $e2.index ) {
 		
 		case 6:
@@ -209,20 +211,20 @@
 		var MATCH e_fexpr_eEArrayDecl_0 : NSMutableArray = $e2.params[0]{
 			__r__ = ^(id)switch (e_fexpr_eEArrayDecl_0.length){
 				case 0:{
-					__r__3 = [NSMutableString stringWithString:@"[]"]}break;
+					__r__3 = [@"[]" mutableCopy]}break;
 				case 1:{
-					__r__3 = [[[NSMutableString stringWithString:@"["] stringByAppendingString:[Std string:[e_fexpr_eEArrayDecl_0 hx_objectAtIndex:@"0"] expr]] stringByAppendingString:[NSMutableString stringWithString:@"]"]]}break;
+					__r__3 = [[[@"[" mutableCopy] stringByAppendingString:[Std string:[e_fexpr_eEArrayDecl_0 hx_objectAtIndex:@"0"][@"expr"]]] stringByAppendingString:[@"]" mutableCopy]]}break;
 				case 2:{
-					__r__3 = [[[[[NSMutableString stringWithString:@"["] stringByAppendingString:[Std string:[e_fexpr_eEArrayDecl_0 hx_objectAtIndex:@"0"] expr]] stringByAppendingString:[NSMutableString stringWithString:@","]] stringByAppendingString:[Std string:[e_fexpr_eEArrayDecl_0 hx_objectAtIndex:@"1"] expr]] stringByAppendingString:[NSMutableString stringWithString:@"]"]]}break;
+					__r__3 = [[[[[@"[" mutableCopy] stringByAppendingString:[Std string:[e_fexpr_eEArrayDecl_0 hx_objectAtIndex:@"0"][@"expr"]]] stringByAppendingString:[@"," mutableCopy]] stringByAppendingString:[Std string:[e_fexpr_eEArrayDecl_0 hx_objectAtIndex:@"1"][@"expr"]]] stringByAppendingString:[@"]" mutableCopy]]}break;
 				default:{
-					__r__3 = [NSMutableString stringWithString:@"_"]}break;
+					__r__3 = [@"_" mutableCopy]}break;
 			}
 			return __r__3{
 				
 				id* __r__3}
 			}()}break
 		default:{
-			__r__ = [NSMutableString stringWithString:@"_"]}break
+			__r__ = [@"_" mutableCopy]}break
 	}
 	return __r__{
 		
@@ -233,19 +235,19 @@
 	return ^(NSMutableString*)switch (a.length){
 		case 2:{
 			__r__ = ^(id)switch ([a hx_objectAtIndex:0]){
-				case [NSMutableString stringWithString:@"a"]:{
+				case [@"a" mutableCopy]:{
 					__r__2 = ^(id)switch ([a hx_objectAtIndex:1]){
-						case [NSMutableString stringWithString:@"b"]:{
-							__r__3 = [NSMutableString stringWithString:@"0"]}break;
+						case [@"b" mutableCopy]:{
+							__r__3 = [@"0" mutableCopy]}break;
 						default:{
-							__r__3 = [[[[NSMutableString stringWithString:@"4:"] stringByAppendingString:[a hx_objectAtIndex:@"0"]] stringByAppendingString:[NSMutableString stringWithString:@","]] stringByAppendingString:[a hx_objectAtIndex:@"1"]]}break;
+							__r__3 = [[[[@"4:" mutableCopy] stringByAppendingString:[a hx_objectAtIndex:@"0"]] stringByAppendingString:[@"," mutableCopy]] stringByAppendingString:[a hx_objectAtIndex:@"1"]]}break;
 					}
 					return __r__3{
 						
 						id* __r__3}
 					}()}break;
 				default:{
-					__r__2 = [[[[NSMutableString stringWithString:@"4:"] stringByAppendingString:[a hx_objectAtIndex:@"0"]] stringByAppendingString:[NSMutableString stringWithString:@","]] stringByAppendingString:[a hx_objectAtIndex:@"1"]]}break;
+					__r__2 = [[[[@"4:" mutableCopy] stringByAppendingString:[a hx_objectAtIndex:@"0"]] stringByAppendingString:[@"," mutableCopy]] stringByAppendingString:[a hx_objectAtIndex:@"1"]]}break;
 			}
 			return __r__2{
 				
@@ -253,21 +255,21 @@
 			}()}break;
 		case 1:{
 			__r__ = ^(id)switch ([a hx_objectAtIndex:0]){
-				case [NSMutableString stringWithString:@"a"]:{
-					__r__4 = [NSMutableString stringWithString:@"1"]}break;
-				case [NSMutableString stringWithString:@"b"]:{
-					__r__4 = [NSMutableString stringWithString:@"2"]}break;
+				case [@"a" mutableCopy]:{
+					__r__4 = [@"1" mutableCopy]}break;
+				case [@"b" mutableCopy]:{
+					__r__4 = [@"2" mutableCopy]}break;
 				default:{
-					__r__4 = [[NSMutableString stringWithString:@"3:"] stringByAppendingString:[a hx_objectAtIndex:@"0"]]}break;
+					__r__4 = [[@"3:" mutableCopy] stringByAppendingString:[a hx_objectAtIndex:@"0"]]}break;
 			}
 			return __r__4{
 				
 				id* __r__4}
 			}()}break;
 		case 0:{
-			__r__ = ( (a.length == 3) ? [[NSMutableString stringWithString:@"5:"] stringByAppendingString:a.length] : [NSMutableString stringWithString:@"6"])}break;
+			__r__ = ( (a.length == 3) ? [[@"5:" mutableCopy] stringByAppendingString:a.length] : [@"6" mutableCopy])}break;
 		default:{
-			__r__ = ( (a.length == 3) ? [[NSMutableString stringWithString:@"5:"] stringByAppendingString:a.length] : [NSMutableString stringWithString:@"7"])}break;
+			__r__ = ( (a.length == 3) ? [[@"5:" mutableCopy] stringByAppendingString:a.length] : [@"7" mutableCopy])}break;
 	}
 	return __r__{
 		
@@ -275,24 +277,24 @@
 	}();
 }
 + (NSMutableString*) switchStructure:(id)a{
-	return ^(NSMutableString*)switch (a foo){
-		case [NSMutableString stringWithString:@"val1"]:{
-			__r__ = ^(id)switch (a bar){
-				case [NSMutableString stringWithString:@"val2"]:{
-					__r__2 = [NSMutableString stringWithString:@"0"]}break;
+	return ^(NSMutableString*)switch (a[@"foo"]){
+		case [@"val1" mutableCopy]:{
+			__r__ = ^(id)switch (a[@"bar"]){
+				case [@"val2" mutableCopy]:{
+					__r__2 = [@"0" mutableCopy]}break;
 				default:{
-					__r__2 = [NSMutableString stringWithString:@"1"]}break;
+					__r__2 = [@"1" mutableCopy]}break;
 			}
 			return __r__2{
 				
 				id* __r__2}
 			}()}break;
 		default:{
-			__r__ = ^(id)switch (a bar){
-				case [NSMutableString stringWithString:@"val2"]:{
-					__r__3 = [NSMutableString stringWithString:@"2"]}break;
+			__r__ = ^(id)switch (a[@"bar"]){
+				case [@"val2" mutableCopy]:{
+					__r__3 = [@"2" mutableCopy]}break;
 				default:{
-					__r__3 = a bar}break;
+					__r__3 = a[@"bar"]}break;
 			}
 			return __r__3{
 				
@@ -306,28 +308,28 @@
 }
 + (NSMutableString*) switchCrazy:(id)e{
 	return ^(NSMutableString*)
-	var $e2 : enum =  (e expr)
+	var $e2 : enum =  (e[@"expr"])
 	switch ( $e2.index ) {
 		
 		case 22:
 		
 		var MATCH e_fexpr_eEUntyped_0 : id = $e2.params[0]{
 			__r__ = ^(id)
-			var $e4 : enum =  (e_fexpr_eEUntyped_0 expr)
+			var $e4 : enum =  (e_fexpr_eEUntyped_0[@"expr"])
 			switch ( $e4.index ) {
 				
 				case 4:
 				
 				var MATCH e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0 : id = $e4.params[0]{
 					__r__3 = ^(id)
-					var $e6 : enum =  (e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0 expr)
+					var $e6 : enum =  (e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0[@"expr"])
 					switch ( $e6.index ) {
 						
 						case 1:
 						
 						var MATCH e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_1 : id = $e6.params[1], MATCH e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_0 : id = $e6.params[0]{
 							__r__5 = ^(id)
-							var $e8 : enum =  (e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_0 expr)
+							var $e8 : enum =  (e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_0[@"expr"])
 							switch ( $e8.index ) {
 								
 								case 0:
@@ -341,7 +343,7 @@
 										
 										var MATCH e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_0_fexpr_eEConst_0_eCString_0 : NSMutableString = $e10.params[0]{
 											__r__9 = ^(id)
-											var $e12 : enum =  (e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_1 expr)
+											var $e12 : enum =  (e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_1[@"expr"])
 											switch ( $e12.index ) {
 												
 												case 0:
@@ -354,51 +356,51 @@
 														case 0:
 														
 														var MATCH e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_1_fexpr_eEConst_0_eCInt_0 : NSMutableString = $e14.params[0]{
-															__r__13 = [[[Std string:e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_0 expr] stringByAppendingString:[NSMutableString stringWithString:@":"]] stringByAppendingString:e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_1_fexpr_eEConst_0_eCInt_0]}break
+															__r__13 = [[[Std string:e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_0[@"expr"]] stringByAppendingString:[@":" mutableCopy]] stringByAppendingString:e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_1_fexpr_eEConst_0_eCInt_0]}break
 														default:{
-															__r__13 = [NSMutableString stringWithString:@"_"]}break
+															__r__13 = [@"_" mutableCopy]}break
 													}
 													return __r__13{
 														
 														id* __r__13}
 													}()}break
 												default:{
-													__r__11 = [NSMutableString stringWithString:@"_"]}break
+													__r__11 = [@"_" mutableCopy]}break
 											}
 											return __r__11{
 												
 												id* __r__11}
 											}()}break
 										default:{
-											__r__9 = [NSMutableString stringWithString:@"_"]}break
+											__r__9 = [@"_" mutableCopy]}break
 									}
 									return __r__9{
 										
 										id* __r__9}
 									}()}break
 								default:{
-									__r__7 = [NSMutableString stringWithString:@"_"]}break
+									__r__7 = [@"_" mutableCopy]}break
 							}
 							return __r__7{
 								
 								id* __r__7}
 							}()}break
 						default:{
-							__r__5 = [NSMutableString stringWithString:@"_"]}break
+							__r__5 = [@"_" mutableCopy]}break
 					}
 					return __r__5{
 						
 						id* __r__5}
 					}()}break
 				default:{
-					__r__3 = [NSMutableString stringWithString:@"_"]}break
+					__r__3 = [@"_" mutableCopy]}break
 			}
 			return __r__3{
 				
 				id* __r__3}
 			}()}break
 		default:{
-			__r__ = [NSMutableString stringWithString:@"_"]}break
+			__r__ = [@"_" mutableCopy]}break
 	}
 	return __r__{
 		
@@ -407,7 +409,7 @@
 }
 + (NSMutableString*) switchGuard:(id)e{
 	return ^(NSMutableString*)
-	var $e2 : enum =  (e expr)
+	var $e2 : enum =  (e[@"expr"])
 	switch ( $e2.index ) {
 		
 		case 0:
@@ -420,7 +422,7 @@
 				case 2:
 				
 				var MATCH e_fexpr_eEConst_0_eCString_0 : NSMutableString = $e4.params[0]{
-					__r__3 = ( ([StringTools startsWith:e_fexpr_eEConst_0_eCString_0 start:[NSMutableString stringWithString:@"foo"]]) ? [NSMutableString stringWithString:@"1"] : ( ([StringTools startsWith:e_fexpr_eEConst_0_eCString_0 start:[NSMutableString stringWithString:@"bar"]]) ? [NSMutableString stringWithString:@"2"] : [NSMutableString stringWithString:@"4"]))}break
+					__r__3 = ( ([StringTools startsWith:e_fexpr_eEConst_0_eCString_0 start:[@"foo" mutableCopy]]) ? [@"1" mutableCopy] : ( ([StringTools startsWith:e_fexpr_eEConst_0_eCString_0 start:[@"bar" mutableCopy]]) ? [@"2" mutableCopy] : [@"4" mutableCopy]))}break
 				case 0:
 				
 				var MATCH e_fexpr_eEConst_0_eCInt_0 : NSMutableString = $e4.params[0]{
@@ -438,16 +440,16 @@
 					return __r__5{
 						
 						BOOL* __r__5}
-					}()) ? [NSMutableString stringWithString:@"3"] : [NSMutableString stringWithString:@"4"])}break
+					}()) ? [@"3" mutableCopy] : [@"4" mutableCopy])}break
 				default:{
-					__r__3 = [NSMutableString stringWithString:@"4"]}break
+					__r__3 = [@"4" mutableCopy]}break
 			}
 			return __r__3{
 				
 				id* __r__3}
 			}()}break
 		default:{
-			__r__ = [NSMutableString stringWithString:@"5"]}break
+			__r__ = [@"5" mutableCopy]}break
 	}
 	return __r__{
 		
@@ -457,11 +459,11 @@
 + (NSMutableString*) switchClass:(Class*)cl{
 	return ^(NSMutableString*)switch (cl){
 		case NSMutableString:{
-			__r__ = [NSMutableString stringWithString:@"String"]}break;
+			__r__ = [@"String" mutableCopy]}break;
 		case MyClass:{
-			__r__ = [NSMutableString stringWithString:@"unit.MyClass"]}break;
+			__r__ = [@"unit.MyClass" mutableCopy]}break;
 		default:{
-			__r__ = [[NSMutableString stringWithString:@"other: "] stringByAppendingString:[Type getClassName:cl]]}break;
+			__r__ = [[@"other: " mutableCopy] stringByAppendingString:[Type getClassName:cl]]}break;
 	}
 	return __r__{
 		
@@ -476,14 +478,113 @@
 		case 0:
 		
 		var MATCH x1_eU1_0 : int = $e2.params[0]{
-			__r__ = ( (x1_eU1_0 > 1) ? [NSMutableString stringWithString:@">1"] : ( (x1_eU1_0 <= 1) ? [NSMutableString stringWithString:@"<=1"] : ^(NSMutableString*)@throw [NSMutableString stringWithString:@"this is impossible to reach actually"];
+			__r__ = ( (x1_eU1_0 > 1) ? [@">1" mutableCopy] : ( (x1_eU1_0 <= 1) ? [@"<=1" mutableCopy] : ^(NSMutableString*)@throw [@"this is impossible to reach actually" mutableCopy];
 			return __r__3{
 				
 				NSMutableString* __r__3}
 			}()))}break
 		case 1:
 		{
-			__r__ = [NSMutableString stringWithString:@"U2"]}break
+			__r__ = [@"U2" mutableCopy]}break
+	}
+	return __r__{
+		
+		NSMutableString* __r__}
+	}();
+}
++ (NSMutableString*) orMatch:(id)e1 e2:(id)e2{
+	return ^(NSMutableString*)
+	var $e2 : enum =  (e1[@"expr"])
+	switch ( $e2.index ) {
+		
+		case 0:
+		
+		var MATCH e1_fexpr_eEConst_0 : Expr = $e2.params[0]{
+			__r__ = ^(id)
+			var $e4 : enum =  (e1_fexpr_eEConst_0)
+			switch ( $e4.index ) {
+				
+				case 1:
+				
+				var MATCH e1_fexpr_eEConst_0_eCFloat_0 : NSMutableString = $e4.params[0]{
+					__r__3 = ^(id)
+					var $e6 : enum =  (e2[@"expr"])
+					switch ( $e6.index ) {
+						
+						case 0:
+						
+						var MATCH e2_fexpr_eEConst_0 : Expr = $e6.params[0]{
+							__r__5 = ^(id)
+							var $e8 : enum =  (e2_fexpr_eEConst_0)
+							switch ( $e8.index ) {
+								
+								case 1:
+								
+								var MATCH e2_fexpr_eEConst_0_eCFloat_0 : NSMutableString = $e8.params[0]{
+									__r__7 = e1_fexpr_eEConst_0_eCFloat_0 + e2_fexpr_eEConst_0_eCFloat_0}break
+								case 0:
+								
+								var MATCH e2_fexpr_eEConst_0_eCInt_0 : NSMutableString = $e8.params[0]{
+									__r__7 = e1_fexpr_eEConst_0_eCFloat_0 + e2_fexpr_eEConst_0_eCInt_0}break
+								default:{
+									__r__7 = nil}break
+							}
+							return __r__7{
+								
+								id* __r__7}
+							}()}break
+						default:{
+							__r__5 = nil}break
+					}
+					return __r__5{
+						
+						id* __r__5}
+					}()}break
+				case 0:
+				
+				var MATCH e1_fexpr_eEConst_0_eCInt_0 : NSMutableString = $e4.params[0]{
+					__r__3 = ^(id)
+					var $e10 : enum =  (e2[@"expr"])
+					switch ( $e10.index ) {
+						
+						case 0:
+						
+						var MATCH e2_fexpr_eEConst_0 : Expr = $e10.params[0]{
+							__r__9 = ^(id)
+							var $e12 : enum =  (e2_fexpr_eEConst_0)
+							switch ( $e12.index ) {
+								
+								case 1:
+								
+								var MATCH e2_fexpr_eEConst_0_eCFloat_0 : NSMutableString = $e12.params[0]{
+									__r__11 = e1_fexpr_eEConst_0_eCInt_0 + e2_fexpr_eEConst_0_eCFloat_0}break
+								case 0:
+								
+								var MATCH e2_fexpr_eEConst_0_eCInt_0 : NSMutableString = $e12.params[0]{
+									__r__11 = e1_fexpr_eEConst_0_eCInt_0 + e2_fexpr_eEConst_0_eCInt_0}break
+								default:{
+									__r__11 = nil}break
+							}
+							return __r__11{
+								
+								id* __r__11}
+							}()}break
+						default:{
+							__r__9 = nil}break
+					}
+					return __r__9{
+						
+						id* __r__9}
+					}()}break
+				default:{
+					__r__3 = nil}break
+			}
+			return __r__3{
+				
+				id* __r__3}
+			}()}break
+		default:{
+			__r__ = nil}break
 	}
 	return __r__{
 		
@@ -491,530 +592,530 @@
 	}();
 }
 - (void) testBasic{
-	[self eq:[NSMutableString stringWithString:@"bar"] v2:[TestMatch switchNormal:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EConst:[ CString:[NSMutableString stringWithString:@"bar"]]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[2832 copy], @"min",
-	[2837 copy], @"max",
-	nil] copy], @"pos",
-	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"123",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"bar"] v2:[TestMatch switchNormal:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EParenthesis:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EConst:[ CString:[NSMutableString stringWithString:@"bar"]]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[2874 copy], @"min",
-	[2879 copy], @"max",
-	nil] copy], @"pos",
-	nil]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[2873 copy], @"min",
-	[2880 copy], @"max",
-	nil] copy], @"pos",
-	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"124",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"bar"] v2:[TestMatch switchNormal:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EUntyped:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EConst:[ CString:[NSMutableString stringWithString:@"bar"]]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[2924 copy], @"min",
-	[2929 copy], @"max",
-	nil] copy], @"pos",
-	nil]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[2916 copy], @"min",
-	[2929 copy], @"max",
-	nil] copy], @"pos",
-	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"125",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"foo"] v2:[TestMatch switchNormal:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EField:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EConst:[ CIdent:[NSMutableString stringWithString:@"null"]]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[2965 copy], @"min",
-	[2969 copy], @"max",
-	nil] copy], @"pos",
-	nil] field:[NSMutableString stringWithString:@"foo"]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[2965 copy], @"min",
-	[2973 copy], @"max",
-	nil] copy], @"pos",
-	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"126",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"22"] v2:[TestMatch switchNormal:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EArray:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EConst:[ CIdent:[NSMutableString stringWithString:@"null"]]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[3008 copy], @"min",
-	[3012 copy], @"max",
-	nil] copy], @"pos",
-	nil] e2:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EConst:[ CInt:[NSMutableString stringWithString:@"22"]]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[3013 copy], @"min",
-	[3015 copy], @"max",
-	nil] copy], @"pos",
-	nil]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[3008 copy], @"min",
-	[3016 copy], @"max",
-	nil] copy], @"pos",
-	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"127",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"22.5"] v2:[TestMatch switchNormal:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EArray:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EConst:[ CIdent:[NSMutableString stringWithString:@"null"]]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[3053 copy], @"min",
-	[3057 copy], @"max",
-	nil] copy], @"pos",
-	nil] e2:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EConst:[ CFloat:[NSMutableString stringWithString:@"22.5"]]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[3058 copy], @"min",
-	[3062 copy], @"max",
-	nil] copy], @"pos",
-	nil]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[3053 copy], @"min",
-	[3063 copy], @"max",
-	nil] copy], @"pos",
-	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"128",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"EConst(CInt(0))"] v2:[TestMatch switchNormal:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EIn:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EConst:[ CInt:[NSMutableString stringWithString:@"1"]]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[3111 copy], @"min",
-	[3112 copy], @"max",
-	nil] copy], @"pos",
-	nil] e2:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EConst:[ CInt:[NSMutableString stringWithString:@"0"]]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[3116 copy], @"min",
-	[3117 copy], @"max",
-	nil] copy], @"pos",
-	nil]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[3111 copy], @"min",
-	[3117 copy], @"max",
-	nil] copy], @"pos",
-	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"129",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"not_found"] v2:[TestMatch switchNormal:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EArray:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EConst:[ CIdent:[NSMutableString stringWithString:@"null"]]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[3159 copy], @"min",
-	[3163 copy], @"max",
-	nil] copy], @"pos",
-	nil] e2:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EConst:[ CString:[NSMutableString stringWithString:@"22"]]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[3164 copy], @"min",
-	[3168 copy], @"max",
-	nil] copy], @"pos",
-	nil]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[3159 copy], @"min",
-	[3169 copy], @"max",
-	nil] copy], @"pos",
-	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"130",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
-	[self t:nil != [TestMatch switchCapture:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EConst:[ CString:[NSMutableString stringWithString:@"foobar"]]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[3208 copy], @"min",
-	[3216 copy], @"max",
-	nil] copy], @"pos",
-	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"132",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
-	[self t:nil == [TestMatch switchCapture:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EConst:[ CString:[NSMutableString stringWithString:@"fooba"]]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[3253 copy], @"min",
-	[3260 copy], @"max",
-	nil] copy], @"pos",
-	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"133",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
-	[self t:nil != [TestMatch switchCapture:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EConst:[ CInt:[NSMutableString stringWithString:@"9"]]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[3297 copy], @"min",
-	[3298 copy], @"max",
-	nil] copy], @"pos",
-	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"134",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
-	[self t:nil == [TestMatch switchCapture:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EConst:[ CInt:[NSMutableString stringWithString:@"10"]]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[3335 copy], @"min",
-	[3337 copy], @"max",
-	nil] copy], @"pos",
-	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"135",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"[]"] v2:[TestMatch switchArray:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EArrayDecl:[[NSMutableArray alloc] initWithObjects:, nil]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[3373 copy], @"min",
-	[3375 copy], @"max",
-	nil] copy], @"pos",
-	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"137",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"_"] v2:[TestMatch switchArray:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EConst:[ CInt:[NSMutableString stringWithString:@"2"]]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[3408 copy], @"min",
-	[3409 copy], @"max",
-	nil] copy], @"pos",
-	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"138",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"[EConst(CInt(22))]"] v2:[TestMatch switchArray:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EArrayDecl:[[NSMutableArray alloc] initWithObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EConst:[ CInt:[NSMutableString stringWithString:@"22"]]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[[NSNumber numberWithInt:3460] copy], @"min",
-	[[NSNumber numberWithInt:3462] copy], @"max",
-	nil] copy], @"pos",
-	nil]]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[3459 copy], @"min",
-	[3463 copy], @"max",
-	nil] copy], @"pos",
-	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"139",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"[EConst(CInt(22)),EConst(CString(foo))]"] v2:[TestMatch switchArray:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EArrayDecl:[[NSMutableArray alloc] initWithObjects:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EConst:[ CInt:[NSMutableString stringWithString:@"22"]]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[[NSNumber numberWithInt:3535] copy], @"min",
-	[[NSNumber numberWithInt:3537] copy], @"max",
-	nil] copy], @"pos",
-	nil], [NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EConst:[ CString:[NSMutableString stringWithString:@"foo"]]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[[NSNumber numberWithInt:3538] copy], @"min",
-	[[NSNumber numberWithInt:3543] copy], @"max",
-	nil] copy], @"pos",
-	nil], nil]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[3534 copy], @"min",
-	[3544 copy], @"max",
-	nil] copy], @"pos",
-	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"140",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"_"] v2:[TestMatch switchArray:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EArrayDecl:[[NSMutableArray alloc] initWithObjects:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EConst:[ CInt:[NSMutableString stringWithString:@"22"]]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[[NSNumber numberWithInt:3578] copy], @"min",
-	[[NSNumber numberWithInt:3580] copy], @"max",
-	nil] copy], @"pos",
-	nil], [NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EConst:[ CString:[NSMutableString stringWithString:@"foo"]]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[[NSNumber numberWithInt:3582] copy], @"min",
-	[[NSNumber numberWithInt:3587] copy], @"max",
-	nil] copy], @"pos",
-	nil], [NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EConst:[ CString:[NSMutableString stringWithString:@"bar"]]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[[NSNumber numberWithInt:3589] copy], @"min",
-	[[NSNumber numberWithInt:3594] copy], @"max",
-	nil] copy], @"pos",
-	nil], nil]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[3577 copy], @"min",
-	[3595 copy], @"max",
-	nil] copy], @"pos",
-	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"141",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"0"] v2:[TestMatch switchArray2:[[NSMutableArray alloc] initWithObjects:[NSMutableString stringWithString:@"a"], [NSMutableString stringWithString:@"b"], nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"143",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"1"] v2:[TestMatch switchArray2:[[NSMutableArray alloc] initWithObject:[NSMutableString stringWithString:@"a"]]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"144",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"2"] v2:[TestMatch switchArray2:[[NSMutableArray alloc] initWithObject:[NSMutableString stringWithString:@"b"]]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"145",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"3:c"] v2:[TestMatch switchArray2:[[NSMutableArray alloc] initWithObject:[NSMutableString stringWithString:@"c"]]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"146",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"4:a,a"] v2:[TestMatch switchArray2:[[NSMutableArray alloc] initWithObjects:[NSMutableString stringWithString:@"a"], [NSMutableString stringWithString:@"a"], nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"147",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"4:b,a"] v2:[TestMatch switchArray2:[[NSMutableArray alloc] initWithObjects:[NSMutableString stringWithString:@"b"], [NSMutableString stringWithString:@"a"], nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"148",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"5:3"] v2:[TestMatch switchArray2:[[NSMutableArray alloc] initWithObjects:[NSMutableString stringWithString:@"a"], [NSMutableString stringWithString:@"a"], [NSMutableString stringWithString:@"a"], nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"149",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"6"] v2:[TestMatch switchArray2:[[NSMutableArray alloc] initWithObjects:, nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"150",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"7"] v2:[TestMatch switchArray2:[[NSMutableArray alloc] initWithObjects:[NSMutableString stringWithString:@"a"], [NSMutableString stringWithString:@"a"], [NSMutableString stringWithString:@"a"], [NSMutableString stringWithString:@"b"], nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"151",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"EConst(CString(foobar)):12"] v2:[TestMatch switchCrazy:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EUntyped:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EParenthesis:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EArray:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EConst:[ CString:[NSMutableString stringWithString:@"foobar"]]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[4008 copy], @"min",
-	[4016 copy], @"max",
-	nil] copy], @"pos",
-	nil] e2:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EConst:[ CInt:[NSMutableString stringWithString:@"12"]]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[4017 copy], @"min",
-	[4019 copy], @"max",
-	nil] copy], @"pos",
-	nil]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[4008 copy], @"min",
-	[4020 copy], @"max",
-	nil] copy], @"pos",
-	nil]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[4007 copy], @"min",
-	[4021 copy], @"max",
-	nil] copy], @"pos",
-	nil]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[3999 copy], @"min",
-	[4021 copy], @"max",
-	nil] copy], @"pos",
-	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"153",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"1"] v2:[TestMatch switchGuard:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EConst:[ CString:[NSMutableString stringWithString:@"foobar"]]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[4056 copy], @"min",
-	[4064 copy], @"max",
-	nil] copy], @"pos",
-	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"155",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"2"] v2:[TestMatch switchGuard:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EConst:[ CString:[NSMutableString stringWithString:@"barfoo"]]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[4097 copy], @"min",
-	[4105 copy], @"max",
-	nil] copy], @"pos",
-	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"156",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"3"] v2:[TestMatch switchGuard:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EConst:[ CInt:[NSMutableString stringWithString:@"2"]]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[4138 copy], @"min",
-	[4139 copy], @"max",
-	nil] copy], @"pos",
-	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"157",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"4"] v2:[TestMatch switchGuard:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EConst:[ CInt:[NSMutableString stringWithString:@"5"]]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[4172 copy], @"min",
-	[4173 copy], @"max",
-	nil] copy], @"pos",
-	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"158",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"4"] v2:[TestMatch switchGuard:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EConst:[ CString:[NSMutableString stringWithString:@"bazfoo"]]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[4206 copy], @"min",
-	[4214 copy], @"max",
-	nil] copy], @"pos",
-	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"159",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"5"] v2:[TestMatch switchGuard:(id)[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[ EArrayDecl:[[NSMutableArray alloc] initWithObjects:, nil]] copy], @"expr",
-	[[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"haxe/tests/unit/TestMatch.hx"] copy], @"file",
-	[4247 copy], @"min",
-	[4249 copy], @"max",
-	nil] copy], @"pos",
-	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"160",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"0"] v2:((NSMutableString)($this:(snd ctx.path)) BOOL _g = YES; int _g1 = 1; 
-	NSMutableString *_g2 = [NSMutableString stringWithString:@"foo"]
+	[self eq:[@"bar" mutableCopy] v2:[TestMatch switchNormal:(id)[@{
+		@"expr":[[EConst:[CString:[@"bar" mutableCopy]]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@2861 copy],
+		@"max":[@2866 copy],
+	} mutableCopy] copy],
+	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"127", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
+	[self eq:[@"bar" mutableCopy] v2:[TestMatch switchNormal:(id)[@{
+		@"expr":[[EParenthesis:[@{
+		@"expr":[[EConst:[CString:[@"bar" mutableCopy]]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@2903 copy],
+		@"max":[@2908 copy],
+	} mutableCopy] copy],
+	} mutableCopy]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@2902 copy],
+		@"max":[@2909 copy],
+	} mutableCopy] copy],
+	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"128", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
+	[self eq:[@"bar" mutableCopy] v2:[TestMatch switchNormal:(id)[@{
+		@"expr":[[EUntyped:[@{
+		@"expr":[[EConst:[CString:[@"bar" mutableCopy]]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@2953 copy],
+		@"max":[@2958 copy],
+	} mutableCopy] copy],
+	} mutableCopy]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@2945 copy],
+		@"max":[@2958 copy],
+	} mutableCopy] copy],
+	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"129", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
+	[self eq:[@"foo" mutableCopy] v2:[TestMatch switchNormal:(id)[@{
+		@"expr":[[EField:[@{
+		@"expr":[[EConst:[CIdent:[@"null" mutableCopy]]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@2994 copy],
+		@"max":[@2998 copy],
+	} mutableCopy] copy],
+	} mutableCopy] field:[@"foo" mutableCopy]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@2994 copy],
+		@"max":[@3002 copy],
+	} mutableCopy] copy],
+	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"130", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
+	[self eq:[@"22" mutableCopy] v2:[TestMatch switchNormal:(id)[@{
+		@"expr":[[EArray:[@{
+		@"expr":[[EConst:[CIdent:[@"null" mutableCopy]]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@3037 copy],
+		@"max":[@3041 copy],
+	} mutableCopy] copy],
+	} mutableCopy] e2:[@{
+		@"expr":[[EConst:[CInt:[@"22" mutableCopy]]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@3042 copy],
+		@"max":[@3044 copy],
+	} mutableCopy] copy],
+	} mutableCopy]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@3037 copy],
+		@"max":[@3045 copy],
+	} mutableCopy] copy],
+	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"131", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
+	[self eq:[@"22.5" mutableCopy] v2:[TestMatch switchNormal:(id)[@{
+		@"expr":[[EArray:[@{
+		@"expr":[[EConst:[CIdent:[@"null" mutableCopy]]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@3082 copy],
+		@"max":[@3086 copy],
+	} mutableCopy] copy],
+	} mutableCopy] e2:[@{
+		@"expr":[[EConst:[CFloat:[@"22.5" mutableCopy]]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@3087 copy],
+		@"max":[@3091 copy],
+	} mutableCopy] copy],
+	} mutableCopy]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@3082 copy],
+		@"max":[@3092 copy],
+	} mutableCopy] copy],
+	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"132", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
+	[self eq:[@"EConst(CInt(0))" mutableCopy] v2:[TestMatch switchNormal:(id)[@{
+		@"expr":[[EIn:[@{
+		@"expr":[[EConst:[CInt:[@"1" mutableCopy]]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@3140 copy],
+		@"max":[@3141 copy],
+	} mutableCopy] copy],
+	} mutableCopy] e2:[@{
+		@"expr":[[EConst:[CInt:[@"0" mutableCopy]]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@3145 copy],
+		@"max":[@3146 copy],
+	} mutableCopy] copy],
+	} mutableCopy]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@3140 copy],
+		@"max":[@3146 copy],
+	} mutableCopy] copy],
+	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"133", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
+	[self eq:[@"not_found" mutableCopy] v2:[TestMatch switchNormal:(id)[@{
+		@"expr":[[EArray:[@{
+		@"expr":[[EConst:[CIdent:[@"null" mutableCopy]]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@3188 copy],
+		@"max":[@3192 copy],
+	} mutableCopy] copy],
+	} mutableCopy] e2:[@{
+		@"expr":[[EConst:[CString:[@"22" mutableCopy]]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@3193 copy],
+		@"max":[@3197 copy],
+	} mutableCopy] copy],
+	} mutableCopy]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@3188 copy],
+		@"max":[@3198 copy],
+	} mutableCopy] copy],
+	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"134", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
+	[self t:nil != [TestMatch switchCapture:(id)[@{
+		@"expr":[[EConst:[CString:[@"foobar" mutableCopy]]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@3237 copy],
+		@"max":[@3245 copy],
+	} mutableCopy] copy],
+	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"136", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
+	[self t:nil == [TestMatch switchCapture:(id)[@{
+		@"expr":[[EConst:[CString:[@"fooba" mutableCopy]]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@3282 copy],
+		@"max":[@3289 copy],
+	} mutableCopy] copy],
+	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"137", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
+	[self t:nil != [TestMatch switchCapture:(id)[@{
+		@"expr":[[EConst:[CInt:[@"9" mutableCopy]]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@3326 copy],
+		@"max":[@3327 copy],
+	} mutableCopy] copy],
+	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"138", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
+	[self t:nil == [TestMatch switchCapture:(id)[@{
+		@"expr":[[EConst:[CInt:[@"10" mutableCopy]]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@3364 copy],
+		@"max":[@3366 copy],
+	} mutableCopy] copy],
+	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"139", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
+	[self eq:[@"[]" mutableCopy] v2:[TestMatch switchArray:(id)[@{
+		@"expr":[[EArrayDecl:[@[] mutableCopy]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@3402 copy],
+		@"max":[@3404 copy],
+	} mutableCopy] copy],
+	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"141", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
+	[self eq:[@"_" mutableCopy] v2:[TestMatch switchArray:(id)[@{
+		@"expr":[[EConst:[CInt:[@"2" mutableCopy]]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@3437 copy],
+		@"max":[@3438 copy],
+	} mutableCopy] copy],
+	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"142", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
+	[self eq:[@"[EConst(CInt(22))]" mutableCopy] v2:[TestMatch switchArray:(id)[@{
+		@"expr":[[EArrayDecl:[@[[@{
+		@"expr":[[EConst:[CInt:[@"22" mutableCopy]]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@3489 copy],
+		@"max":[@3491 copy],
+	} mutableCopy] copy],
+	} mutableCopy]] mutableCopy]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@3488 copy],
+		@"max":[@3492 copy],
+	} mutableCopy] copy],
+	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"143", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
+	[self eq:[@"[EConst(CInt(22)),EConst(CString(foo))]" mutableCopy] v2:[TestMatch switchArray:(id)[@{
+		@"expr":[[EArrayDecl:[@[[@{
+		@"expr":[[EConst:[CInt:[@"22" mutableCopy]]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@3564 copy],
+		@"max":[@3566 copy],
+	} mutableCopy] copy],
+	} mutableCopy], [@{
+		@"expr":[[EConst:[CString:[@"foo" mutableCopy]]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@3567 copy],
+		@"max":[@3572 copy],
+	} mutableCopy] copy],
+	} mutableCopy]] mutableCopy]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@3563 copy],
+		@"max":[@3573 copy],
+	} mutableCopy] copy],
+	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"144", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
+	[self eq:[@"_" mutableCopy] v2:[TestMatch switchArray:(id)[@{
+		@"expr":[[EArrayDecl:[@[[@{
+		@"expr":[[EConst:[CInt:[@"22" mutableCopy]]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@3607 copy],
+		@"max":[@3609 copy],
+	} mutableCopy] copy],
+	} mutableCopy], [@{
+		@"expr":[[EConst:[CString:[@"foo" mutableCopy]]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@3611 copy],
+		@"max":[@3616 copy],
+	} mutableCopy] copy],
+	} mutableCopy], [@{
+		@"expr":[[EConst:[CString:[@"bar" mutableCopy]]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@3618 copy],
+		@"max":[@3623 copy],
+	} mutableCopy] copy],
+	} mutableCopy]] mutableCopy]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@3606 copy],
+		@"max":[@3624 copy],
+	} mutableCopy] copy],
+	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"145", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
+	[self eq:[@"0" mutableCopy] v2:[TestMatch switchArray2:[@[[@"a" mutableCopy], [@"b" mutableCopy]] mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"147", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
+	[self eq:[@"1" mutableCopy] v2:[TestMatch switchArray2:[@[[@"a" mutableCopy]] mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"148", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
+	[self eq:[@"2" mutableCopy] v2:[TestMatch switchArray2:[@[[@"b" mutableCopy]] mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"149", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
+	[self eq:[@"3:c" mutableCopy] v2:[TestMatch switchArray2:[@[[@"c" mutableCopy]] mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"150", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
+	[self eq:[@"4:a,a" mutableCopy] v2:[TestMatch switchArray2:[@[[@"a" mutableCopy], [@"a" mutableCopy]] mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"151", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
+	[self eq:[@"4:b,a" mutableCopy] v2:[TestMatch switchArray2:[@[[@"b" mutableCopy], [@"a" mutableCopy]] mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"152", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
+	[self eq:[@"5:3" mutableCopy] v2:[TestMatch switchArray2:[@[[@"a" mutableCopy], [@"a" mutableCopy], [@"a" mutableCopy]] mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"153", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
+	[self eq:[@"6" mutableCopy] v2:[TestMatch switchArray2:[@[] mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"154", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
+	[self eq:[@"7" mutableCopy] v2:[TestMatch switchArray2:[@[[@"a" mutableCopy], [@"a" mutableCopy], [@"a" mutableCopy], [@"b" mutableCopy]] mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"155", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
+	[self eq:[@"EConst(CString(foobar)):12" mutableCopy] v2:[TestMatch switchCrazy:(id)[@{
+		@"expr":[[EUntyped:[@{
+		@"expr":[[EParenthesis:[@{
+		@"expr":[[EArray:[@{
+		@"expr":[[EConst:[CString:[@"foobar" mutableCopy]]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@4037 copy],
+		@"max":[@4045 copy],
+	} mutableCopy] copy],
+	} mutableCopy] e2:[@{
+		@"expr":[[EConst:[CInt:[@"12" mutableCopy]]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@4046 copy],
+		@"max":[@4048 copy],
+	} mutableCopy] copy],
+	} mutableCopy]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@4037 copy],
+		@"max":[@4049 copy],
+	} mutableCopy] copy],
+	} mutableCopy]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@4036 copy],
+		@"max":[@4050 copy],
+	} mutableCopy] copy],
+	} mutableCopy]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@4028 copy],
+		@"max":[@4050 copy],
+	} mutableCopy] copy],
+	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"157", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
+	[self eq:[@"1" mutableCopy] v2:[TestMatch switchGuard:(id)[@{
+		@"expr":[[EConst:[CString:[@"foobar" mutableCopy]]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@4085 copy],
+		@"max":[@4093 copy],
+	} mutableCopy] copy],
+	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"159", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
+	[self eq:[@"2" mutableCopy] v2:[TestMatch switchGuard:(id)[@{
+		@"expr":[[EConst:[CString:[@"barfoo" mutableCopy]]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@4126 copy],
+		@"max":[@4134 copy],
+	} mutableCopy] copy],
+	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"160", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
+	[self eq:[@"3" mutableCopy] v2:[TestMatch switchGuard:(id)[@{
+		@"expr":[[EConst:[CInt:[@"2" mutableCopy]]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@4167 copy],
+		@"max":[@4168 copy],
+	} mutableCopy] copy],
+	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"161", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
+	[self eq:[@"4" mutableCopy] v2:[TestMatch switchGuard:(id)[@{
+		@"expr":[[EConst:[CInt:[@"5" mutableCopy]]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@4201 copy],
+		@"max":[@4202 copy],
+	} mutableCopy] copy],
+	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"162", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
+	[self eq:[@"4" mutableCopy] v2:[TestMatch switchGuard:(id)[@{
+		@"expr":[[EConst:[CString:[@"bazfoo" mutableCopy]]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@4235 copy],
+		@"max":[@4243 copy],
+	} mutableCopy] copy],
+	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"163", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
+	[self eq:[@"5" mutableCopy] v2:[TestMatch switchGuard:(id)[@{
+		@"expr":[[EArrayDecl:[@[] mutableCopy]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@4276 copy],
+		@"max":[@4278 copy],
+	} mutableCopy] copy],
+	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"164", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
+	[self eq:[@"0" mutableCopy] v2:((NSMutableString)($this:(snd ctx.path)) BOOL _g = YES; int _g1 = 1; 
+	NSMutableString *_g2 = [@"foo" mutableCopy]
 	__r__ = ((NSMutableString)($this:(snd ctx.path)) switch (_g){
 		case YES:{
 			__r__2 = ((id)($this:(snd ctx.path)) switch (_g1){
 				case 1:{
 					__r__3 = ((id)($this:(snd ctx.path)) switch (_g2){
-						case [NSMutableString stringWithString:@"foo"]:{
-							__r__4 = [NSMutableString stringWithString:@"0"]}break;
+						case [@"foo" mutableCopy]:{
+							__r__4 = [@"0" mutableCopy]}break;
 						default:{
-							__r__4 = [NSMutableString stringWithString:@"1"]}break;
+							__r__4 = [@"1" mutableCopy]}break;
 					}
 					return __r__4{
 						
 						id* __r__4}
-					}(__self))}break;
+					}(self))}break;
 				default:{
-					__r__3 = [NSMutableString stringWithString:@"_"]}break;
+					__r__3 = [@"_" mutableCopy]}break;
 			}
 			return __r__3{
 				
 				id* __r__3}
-			}(__self))}break;
+			}(self))}break;
 		default:{
-			__r__2 = [NSMutableString stringWithString:@"_"]}break;
+			__r__2 = [@"_" mutableCopy]}break;
 	}
 	return __r__2{
 		
 		NSMutableString* __r__2}
-	}(__self))
+	}(self))
 	return __r__{
 		
 		NSMutableString* __r__}
-	}(self)) pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"162",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"0"] v2:((NSMutableString)($this:(snd ctx.path)) BOOL _g3 = YES; int _g4 = 1; 
-	NSMutableString *_g5 = [NSMutableString stringWithString:@"foo"]
+	}(self)) pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"166", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
+	[self eq:[@"0" mutableCopy] v2:((NSMutableString)($this:(snd ctx.path)) BOOL _g3 = YES; int _g4 = 1; 
+	NSMutableString *_g5 = [@"foo" mutableCopy]
 	__r__5 = ((NSMutableString)($this:(snd ctx.path)) switch (_g3){
 		case YES:{
 			__r__6 = ((id)($this:(snd ctx.path)) switch (_g4){
 				case 1:{
 					__r__7 = ((id)($this:(snd ctx.path)) switch (_g5){
-						case [NSMutableString stringWithString:@"foo"]:{
-							__r__8 = [NSMutableString stringWithString:@"0"]}break;
+						case [@"foo" mutableCopy]:{
+							__r__8 = [@"0" mutableCopy]}break;
 						default:{
-							__r__8 = [NSMutableString stringWithString:@"1"]}break;
+							__r__8 = [@"1" mutableCopy]}break;
 					}
 					return __r__8{
 						
 						id* __r__8}
-					}(__self))}break;
+					}(self))}break;
 				default:{
-					__r__7 = [NSMutableString stringWithString:@"_"]}break;
+					__r__7 = [@"_" mutableCopy]}break;
 			}
 			return __r__7{
 				
 				id* __r__7}
-			}(__self))}break;
+			}(self))}break;
 		default:{
-			__r__6 = [NSMutableString stringWithString:@"_"]}break;
+			__r__6 = [@"_" mutableCopy]}break;
 	}
 	return __r__6{
 		
 		NSMutableString* __r__6}
-	}(__self))
+	}(self))
 	return __r__5{
 		
 		NSMutableString* __r__5}
-	}(self)) pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"168",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"1"] v2:((NSMutableString)($this:(snd ctx.path)) BOOL _g6 = YES; int _g7 = 1; 
-	NSMutableString *_g8 = [NSMutableString stringWithString:@"bar"]
+	}(self)) pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"172", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
+	[self eq:[@"1" mutableCopy] v2:((NSMutableString)($this:(snd ctx.path)) BOOL _g6 = YES; int _g7 = 1; 
+	NSMutableString *_g8 = [@"bar" mutableCopy]
 	__r__9 = ((NSMutableString)($this:(snd ctx.path)) switch (_g6){
 		case YES:{
 			__r__10 = ((id)($this:(snd ctx.path)) switch (_g7){
 				case 1:{
 					__r__11 = ((id)($this:(snd ctx.path)) switch (_g8){
-						case [NSMutableString stringWithString:@"foo"]:{
-							__r__12 = [NSMutableString stringWithString:@"0"]}break;
+						case [@"foo" mutableCopy]:{
+							__r__12 = [@"0" mutableCopy]}break;
 						default:{
-							__r__12 = [NSMutableString stringWithString:@"1"]}break;
+							__r__12 = [@"1" mutableCopy]}break;
 					}
 					return __r__12{
 						
 						id* __r__12}
-					}(__self))}break;
+					}(self))}break;
 				default:{
-					__r__11 = [NSMutableString stringWithString:@"_"]}break;
+					__r__11 = [@"_" mutableCopy]}break;
 			}
 			return __r__11{
 				
 				id* __r__11}
-			}(__self))}break;
+			}(self))}break;
 		default:{
-			__r__10 = [NSMutableString stringWithString:@"_"]}break;
+			__r__10 = [@"_" mutableCopy]}break;
 	}
 	return __r__10{
 		
 		NSMutableString* __r__10}
-	}(__self))
+	}(self))
 	return __r__9{
 		
 		NSMutableString* __r__9}
-	}(self)) pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"174",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"_"] v2:((NSMutableString)($this:(snd ctx.path)) BOOL _g9 = NO; int _g10 = 1; 
-	NSMutableString *_g11 = [NSMutableString stringWithString:@"foo"]
+	}(self)) pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"178", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
+	[self eq:[@"_" mutableCopy] v2:((NSMutableString)($this:(snd ctx.path)) BOOL _g9 = NO; int _g10 = 1; 
+	NSMutableString *_g11 = [@"foo" mutableCopy]
 	__r__13 = ((NSMutableString)($this:(snd ctx.path)) switch (_g9){
 		case YES:{
 			__r__14 = ((id)($this:(snd ctx.path)) switch (_g10){
 				case 1:{
 					__r__15 = ((id)($this:(snd ctx.path)) switch (_g11){
-						case [NSMutableString stringWithString:@"foo"]:{
-							__r__16 = [NSMutableString stringWithString:@"0"]}break;
+						case [@"foo" mutableCopy]:{
+							__r__16 = [@"0" mutableCopy]}break;
 						default:{
-							__r__16 = [NSMutableString stringWithString:@"1"]}break;
+							__r__16 = [@"1" mutableCopy]}break;
 					}
 					return __r__16{
 						
 						id* __r__16}
-					}(__self))}break;
+					}(self))}break;
 				default:{
-					__r__15 = [NSMutableString stringWithString:@"_"]}break;
+					__r__15 = [@"_" mutableCopy]}break;
 			}
 			return __r__15{
 				
 				id* __r__15}
-			}(__self))}break;
+			}(self))}break;
 		default:{
-			__r__14 = [NSMutableString stringWithString:@"_"]}break;
+			__r__14 = [@"_" mutableCopy]}break;
 	}
 	return __r__14{
 		
 		NSMutableString* __r__14}
-	}(__self))
+	}(self))
 	return __r__13{
 		
 		NSMutableString* __r__13}
-	}(self)) pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"180",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"1"] v2:((NSMutableString)($this:(snd ctx.path)) int _g12 = 1; int _g13 = 2
+	}(self)) pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"184", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
+	[self eq:[@"1" mutableCopy] v2:((NSMutableString)($this:(snd ctx.path)) int _g12 = 1; int _g13 = 2
 	__r__17 = ((NSMutableString)($this:(snd ctx.path)) switch (_g12){
 		case 0:{
 			__r__18 = ((id)($this:(snd ctx.path)) switch (_g13){
 				case 0:{
-					__r__19 = [NSMutableString stringWithString:@"1"]}break;
+					__r__19 = [@"1" mutableCopy]}break;
 				default:{
-					__r__19 = [NSMutableString stringWithString:@"_"]}break;
+					__r__19 = [@"_" mutableCopy]}break;
 			}
 			return __r__19{
 				
 				id* __r__19}
-			}(__self))}break;
+			}(self))}break;
 		case 1:{
 			__r__18 = ((id)($this:(snd ctx.path)) switch (_g13){
 				case 2:{
-					__r__20 = [NSMutableString stringWithString:@"1"]}break;
+					__r__20 = [@"1" mutableCopy]}break;
 				case 1:{
-					__r__20 = [NSMutableString stringWithString:@"2"]}break;
+					__r__20 = [@"2" mutableCopy]}break;
 				default:{
-					__r__20 = [NSMutableString stringWithString:@"_"]}break;
+					__r__20 = [@"_" mutableCopy]}break;
 			}
 			return __r__20{
 				
 				id* __r__20}
-			}(__self))}break;
+			}(self))}break;
 		default:{
-			__r__18 = [NSMutableString stringWithString:@"_"]}break;
+			__r__18 = [@"_" mutableCopy]}break;
 	}
 	return __r__18{
 		
 		NSMutableString* __r__18}
-	}(__self))
+	}(self))
 	return __r__17{
 		
 		NSMutableString* __r__17}
-	}(self)) pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"186",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
+	}(self)) pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"190", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
 	
-	TestMatch *t = [ TA:[NSMutableString stringWithString:@"foo"]];
-	[self eq:[NSMutableString stringWithString:@"0"] v2:((NSMutableString)($this:(snd ctx.path)) 
+	TestMatch *t = [TA:[@"foo" mutableCopy]];
+	[self eq:[@"0" mutableCopy] v2:((NSMutableString)($this:(snd ctx.path)) 
 	var $e22 : enum =  (t)
 	switch ( $e22.index ) {
 		
@@ -1022,50 +1123,50 @@
 		
 		var MATCH t_eTA_0 : id = $e22.params[0]{
 			__r__21 = ((id)($this:(snd ctx.path)) switch (t_eTA_0){
-				case [NSMutableString stringWithString:@"foo"]:{
-					__r__23 = [NSMutableString stringWithString:@"0"]}break;
+				case [@"foo" mutableCopy]:{
+					__r__23 = [@"0" mutableCopy]}break;
 				default:{
-					__r__23 = [NSMutableString stringWithString:@"1"]}break;
+					__r__23 = [@"1" mutableCopy]}break;
 			}
 			return __r__23{
 				
 				id* __r__23}
-			}(__self))}break
+			}(self))}break
 		case 2:
 		{
-			__r__21 = [NSMutableString stringWithString:@"2"]}break
+			__r__21 = [@"2" mutableCopy]}break
 	}
 	return __r__21{
 		
 		NSMutableString* __r__21}
-	}(self)) pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"193",@"lineNumber", @"unit.TestMatch",@"className", @"testBasic",@"methodName", nil]];
+	}(self)) pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"197", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
 }
 - (void) testTuple{
-	SEL test = ^- (NSMutableString*) :(int)a b:(int)b c:(int)c{
+	id test = ^(int *a, int *b, int *c){
 		return ^(NSMutableString*)switch (a){
 			case 1:{
 				__r__ = ^(id)switch (b){
 					case 1:{
 						__r__2 = ^(id)switch (c){
 							case 2:{
-								__r__3 = [[NSMutableString stringWithString:@"0|x:"] stringByAppendingString:a]}break;
+								__r__3 = [[@"0|x:" mutableCopy] stringByAppendingString:b]}break;
 							default:{
-								__r__3 = [[[[NSMutableString stringWithString:@"2|y:"] stringByAppendingString:b] stringByAppendingString:[NSMutableString stringWithString:@",z:"]] stringByAppendingString:c]}break;
+								__r__3 = [[[[@"2|y:" mutableCopy] stringByAppendingString:b] stringByAppendingString:[@",z:" mutableCopy]] stringByAppendingString:c]}break;
 						}
 						return __r__3{
 							
 							id* __r__3}
 						}()}break;
 					case 2:{
-						__r__2 = [[NSMutableString stringWithString:@"0|x:"] stringByAppendingString:c]}break;
+						__r__2 = [[@"0|x:" mutableCopy] stringByAppendingString:c]}break;
 					case 3:{
 						__r__2 = ^(id)switch (c){
 							case 2:{
-								__r__4 = [[NSMutableString stringWithString:@"0|x:"] stringByAppendingString:b]}break;
+								__r__4 = [[@"0|x:" mutableCopy] stringByAppendingString:b]}break;
 							case 4:{
-								__r__4 = [[NSMutableString stringWithString:@"1|z:"] stringByAppendingString:a]}break;
+								__r__4 = [[@"1|z:" mutableCopy] stringByAppendingString:a]}break;
 							default:{
-								__r__4 = [[[[NSMutableString stringWithString:@"2|y:"] stringByAppendingString:b] stringByAppendingString:[NSMutableString stringWithString:@",z:"]] stringByAppendingString:c]}break;
+								__r__4 = [[[[@"2|y:" mutableCopy] stringByAppendingString:b] stringByAppendingString:[@",z:" mutableCopy]] stringByAppendingString:c]}break;
 						}
 						return __r__4{
 							
@@ -1074,9 +1175,9 @@
 					default:{
 						__r__2 = ^(id)switch (c){
 							case 2:{
-								__r__5 = [[NSMutableString stringWithString:@"0|x:"] stringByAppendingString:b]}break;
+								__r__5 = [[@"0|x:" mutableCopy] stringByAppendingString:b]}break;
 							default:{
-								__r__5 = [[[[NSMutableString stringWithString:@"2|y:"] stringByAppendingString:b] stringByAppendingString:[NSMutableString stringWithString:@",z:"]] stringByAppendingString:c]}break;
+								__r__5 = [[[[@"2|y:" mutableCopy] stringByAppendingString:b] stringByAppendingString:[@",z:" mutableCopy]] stringByAppendingString:c]}break;
 						}
 						return __r__5{
 							
@@ -1092,24 +1193,24 @@
 					case 1:{
 						__r__6 = ^(id)switch (c){
 							case 2:{
-								__r__7 = [[NSMutableString stringWithString:@"0|x:"] stringByAppendingString:a]}break;
+								__r__7 = [[@"0|x:" mutableCopy] stringByAppendingString:a]}break;
 							case 4:{
-								__r__7 = [[NSMutableString stringWithString:@"1|z:"] stringByAppendingString:b]}break;
+								__r__7 = [[@"1|z:" mutableCopy] stringByAppendingString:b]}break;
 							default:{
-								__r__7 = [[[[[[NSMutableString stringWithString:@"_:x:"] stringByAppendingString:a] stringByAppendingString:[NSMutableString stringWithString:@",y:"]] stringByAppendingString:b] stringByAppendingString:[NSMutableString stringWithString:@",z:"]] stringByAppendingString:c]}break;
+								__r__7 = [[[[[[@"_:x:" mutableCopy] stringByAppendingString:a] stringByAppendingString:[@",y:" mutableCopy]] stringByAppendingString:b] stringByAppendingString:[@",z:" mutableCopy]] stringByAppendingString:c]}break;
 						}
 						return __r__7{
 							
 							id* __r__7}
 						}()}break;
 					case 4:{
-						__r__6 = [[NSMutableString stringWithString:@"1|z:"] stringByAppendingString:c]}break;
+						__r__6 = [[@"1|z:" mutableCopy] stringByAppendingString:c]}break;
 					case 3:{
 						__r__6 = ^(id)switch (c){
 							case 4:{
-								__r__8 = [[NSMutableString stringWithString:@"1|z:"] stringByAppendingString:a]}break;
+								__r__8 = [[@"1|z:" mutableCopy] stringByAppendingString:b]}break;
 							default:{
-								__r__8 = [[[[[[NSMutableString stringWithString:@"_:x:"] stringByAppendingString:a] stringByAppendingString:[NSMutableString stringWithString:@",y:"]] stringByAppendingString:b] stringByAppendingString:[NSMutableString stringWithString:@",z:"]] stringByAppendingString:c]}break;
+								__r__8 = [[[[[[@"_:x:" mutableCopy] stringByAppendingString:a] stringByAppendingString:[@",y:" mutableCopy]] stringByAppendingString:b] stringByAppendingString:[@",z:" mutableCopy]] stringByAppendingString:c]}break;
 						}
 						return __r__8{
 							
@@ -1118,9 +1219,9 @@
 					default:{
 						__r__6 = ^(id)switch (c){
 							case 4:{
-								__r__9 = [[NSMutableString stringWithString:@"1|z:"] stringByAppendingString:b]}break;
+								__r__9 = [[@"1|z:" mutableCopy] stringByAppendingString:b]}break;
 							default:{
-								__r__9 = [[[[[[NSMutableString stringWithString:@"_:x:"] stringByAppendingString:a] stringByAppendingString:[NSMutableString stringWithString:@",y:"]] stringByAppendingString:b] stringByAppendingString:[NSMutableString stringWithString:@",z:"]] stringByAppendingString:c]}break;
+								__r__9 = [[[[[[@"_:x:" mutableCopy] stringByAppendingString:a] stringByAppendingString:[@",y:" mutableCopy]] stringByAppendingString:b] stringByAppendingString:[@",z:" mutableCopy]] stringByAppendingString:c]}break;
 						}
 						return __r__9{
 							
@@ -1136,9 +1237,9 @@
 					case 1:{
 						__r__10 = ^(id)switch (c){
 							case 2:{
-								__r__11 = [[NSMutableString stringWithString:@"0|x:"] stringByAppendingString:a]}break;
+								__r__11 = [[@"0|x:" mutableCopy] stringByAppendingString:a]}break;
 							default:{
-								__r__11 = [[[[NSMutableString stringWithString:@"2|y:"] stringByAppendingString:c] stringByAppendingString:[NSMutableString stringWithString:@",z:"]] stringByAppendingString:b]}break;
+								__r__11 = [[[[@"2|y:" mutableCopy] stringByAppendingString:c] stringByAppendingString:[@",z:" mutableCopy]] stringByAppendingString:b]}break;
 						}
 						return __r__11{
 							
@@ -1147,16 +1248,16 @@
 					case 3:{
 						__r__10 = ^(id)switch (c){
 							case 4:{
-								__r__12 = [[NSMutableString stringWithString:@"1|z:"] stringByAppendingString:a]}break;
+								__r__12 = [[@"1|z:" mutableCopy] stringByAppendingString:a]}break;
 							default:{
-								__r__12 = [[[[NSMutableString stringWithString:@"2|y:"] stringByAppendingString:c] stringByAppendingString:[NSMutableString stringWithString:@",z:"]] stringByAppendingString:b]}break;
+								__r__12 = [[[[@"2|y:" mutableCopy] stringByAppendingString:c] stringByAppendingString:[@",z:" mutableCopy]] stringByAppendingString:b]}break;
 						}
 						return __r__12{
 							
 							id* __r__12}
 						}()}break;
 					default:{
-						__r__10 = [[[[NSMutableString stringWithString:@"2|y:"] stringByAppendingString:c] stringByAppendingString:[NSMutableString stringWithString:@",z:"]] stringByAppendingString:b]}break;
+						__r__10 = [[[[@"2|y:" mutableCopy] stringByAppendingString:c] stringByAppendingString:[@",z:" mutableCopy]] stringByAppendingString:b]}break;
 				}
 				return __r__10{
 					
@@ -1167,9 +1268,9 @@
 					case 1:{
 						__r__13 = ^(id)switch (c){
 							case 2:{
-								__r__14 = [[NSMutableString stringWithString:@"0|x:"] stringByAppendingString:a]}break;
+								__r__14 = [[@"0|x:" mutableCopy] stringByAppendingString:a]}break;
 							default:{
-								__r__14 = [[[[[[NSMutableString stringWithString:@"_:x:"] stringByAppendingString:a] stringByAppendingString:[NSMutableString stringWithString:@",y:"]] stringByAppendingString:b] stringByAppendingString:[NSMutableString stringWithString:@",z:"]] stringByAppendingString:c]}break;
+								__r__14 = [[[[[[@"_:x:" mutableCopy] stringByAppendingString:a] stringByAppendingString:[@",y:" mutableCopy]] stringByAppendingString:b] stringByAppendingString:[@",z:" mutableCopy]] stringByAppendingString:c]}break;
 						}
 						return __r__14{
 							
@@ -1178,16 +1279,16 @@
 					case 3:{
 						__r__13 = ^(id)switch (c){
 							case 4:{
-								__r__15 = [[NSMutableString stringWithString:@"1|z:"] stringByAppendingString:a]}break;
+								__r__15 = [[@"1|z:" mutableCopy] stringByAppendingString:a]}break;
 							default:{
-								__r__15 = [[[[[[NSMutableString stringWithString:@"_:x:"] stringByAppendingString:a] stringByAppendingString:[NSMutableString stringWithString:@",y:"]] stringByAppendingString:b] stringByAppendingString:[NSMutableString stringWithString:@",z:"]] stringByAppendingString:c]}break;
+								__r__15 = [[[[[[@"_:x:" mutableCopy] stringByAppendingString:a] stringByAppendingString:[@",y:" mutableCopy]] stringByAppendingString:b] stringByAppendingString:[@",z:" mutableCopy]] stringByAppendingString:c]}break;
 						}
 						return __r__15{
 							
 							id* __r__15}
 						}()}break;
 					default:{
-						__r__13 = [[[[[[NSMutableString stringWithString:@"_:x:"] stringByAppendingString:a] stringByAppendingString:[NSMutableString stringWithString:@",y:"]] stringByAppendingString:b] stringByAppendingString:[NSMutableString stringWithString:@",z:"]] stringByAppendingString:c]}break;
+						__r__13 = [[[[[[@"_:x:" mutableCopy] stringByAppendingString:a] stringByAppendingString:[@",y:" mutableCopy]] stringByAppendingString:b] stringByAppendingString:[@",z:" mutableCopy]] stringByAppendingString:c]}break;
 				}
 				return __r__13{
 					
@@ -1199,31 +1300,31 @@
 			NSMutableString* __r__}
 		}();
 	}
-	[self eq:[NSMutableString stringWithString:@"0|x:9"] v2:[test:9 b:1 c:2] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"207",@"lineNumber", @"unit.TestMatch",@"className", @"testTuple",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"0|x:9"] v2:[test:1 b:2 c:9] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"208",@"lineNumber", @"unit.TestMatch",@"className", @"testTuple",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"0|x:9"] v2:[test:1 b:9 c:2] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"209",@"lineNumber", @"unit.TestMatch",@"className", @"testTuple",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"1|z:12"] v2:[test:3 b:4 c:12] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"210",@"lineNumber", @"unit.TestMatch",@"className", @"testTuple",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"1|z:12"] v2:[test:12 b:3 c:4] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"211",@"lineNumber", @"unit.TestMatch",@"className", @"testTuple",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"1|z:12"] v2:[test:3 b:12 c:4] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"212",@"lineNumber", @"unit.TestMatch",@"className", @"testTuple",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"2|y:9,z:8"] v2:[test:1 b:9 c:8] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"213",@"lineNumber", @"unit.TestMatch",@"className", @"testTuple",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"2|y:9,z:8"] v2:[test:2 b:8 c:9] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"214",@"lineNumber", @"unit.TestMatch",@"className", @"testTuple",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"_:x:9,y:8,z:7"] v2:[test:9 b:8 c:7] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"215",@"lineNumber", @"unit.TestMatch",@"className", @"testTuple",@"methodName", nil]];
+	[self eq:[@"0|x:9" mutableCopy] v2:[test:9 b:1 c:2] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"211", @"className":@"unit.TestMatch", @"methodName":@"testTuple"}];
+	[self eq:[@"0|x:9" mutableCopy] v2:[test:1 b:2 c:9] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"212", @"className":@"unit.TestMatch", @"methodName":@"testTuple"}];
+	[self eq:[@"0|x:9" mutableCopy] v2:[test:1 b:9 c:2] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"213", @"className":@"unit.TestMatch", @"methodName":@"testTuple"}];
+	[self eq:[@"1|z:12" mutableCopy] v2:[test:3 b:4 c:12] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"214", @"className":@"unit.TestMatch", @"methodName":@"testTuple"}];
+	[self eq:[@"1|z:12" mutableCopy] v2:[test:12 b:3 c:4] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"215", @"className":@"unit.TestMatch", @"methodName":@"testTuple"}];
+	[self eq:[@"1|z:12" mutableCopy] v2:[test:3 b:12 c:4] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"216", @"className":@"unit.TestMatch", @"methodName":@"testTuple"}];
+	[self eq:[@"2|y:9,z:8" mutableCopy] v2:[test:1 b:9 c:8] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"217", @"className":@"unit.TestMatch", @"methodName":@"testTuple"}];
+	[self eq:[@"2|y:9,z:8" mutableCopy] v2:[test:2 b:8 c:9] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"218", @"className":@"unit.TestMatch", @"methodName":@"testTuple"}];
+	[self eq:[@"_:x:9,y:8,z:7" mutableCopy] v2:[test:9 b:8 c:7] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"219", @"className":@"unit.TestMatch", @"methodName":@"testTuple"}];
 }
 - (void) testGrouping{
-	SEL test = ^- (NSMutableString*) :(int)v{
+	id test = ^(int *v){
 		return ^(NSMutableString*)switch (v){
 			case 1:case 2:case 3:{
-				__r__ = [NSMutableString stringWithString:@"0"]}break;
+				__r__ = [@"0" mutableCopy]}break;
 			case 4:{
-				__r__ = ( (v == 5) ? [NSMutableString stringWithString:@"1"] : [NSMutableString stringWithString:@"2"])}break;
+				__r__ = ( (v == 5) ? [@"1" mutableCopy] : [@"2" mutableCopy])}break;
 			case 5:{
-				__r__ = ( (v == 5) ? [NSMutableString stringWithString:@"1"] : [NSMutableString stringWithString:@"2"])}break;
+				__r__ = ( (v == 5) ? [@"1" mutableCopy] : [@"2" mutableCopy])}break;
 			case 6:{
-				__r__ = ( (v == 5) ? [NSMutableString stringWithString:@"1"] : [NSMutableString stringWithString:@"2"])}break;
+				__r__ = ( (v == 5) ? [@"1" mutableCopy] : [@"2" mutableCopy])}break;
 			case 8:case 9:{
-				__r__ = [NSMutableString stringWithString:@"3"]}break;
+				__r__ = [@"3" mutableCopy]}break;
 			default:{
-				__r__ = [[NSMutableString stringWithString:@"_:"] stringByAppendingString:v]}break;
+				__r__ = [[@"_:" mutableCopy] stringByAppendingString:v]}break;
 		}
 		return __r__{
 			
@@ -1231,12 +1332,12 @@
 		}();
 	}
 	
-	NSMutableArray *results = [[NSMutableArray alloc] initWithObjects:[NSMutableString stringWithString:@"_:0"], [NSMutableString stringWithString:@"0"], [NSMutableString stringWithString:@"0"], [NSMutableString stringWithString:@"0"], [NSMutableString stringWithString:@"2"], [NSMutableString stringWithString:@"1"], [NSMutableString stringWithString:@"2"], [NSMutableString stringWithString:@"_:7"], [NSMutableString stringWithString:@"3"], [NSMutableString stringWithString:@"3"], [NSMutableString stringWithString:@"_:10"], nil];
+	NSMutableArray *results = [@[[@"_:0" mutableCopy], [@"0" mutableCopy], [@"0" mutableCopy], [@"0" mutableCopy], [@"2" mutableCopy], [@"1" mutableCopy], [@"2" mutableCopy], [@"_:7" mutableCopy], [@"3" mutableCopy], [@"3" mutableCopy], [@"_:10" mutableCopy]] mutableCopy];
 	{
 		int _g1 = 0; int _g = results.length;
 		while (_g1 < _g) {
 			int i = _g1++;
-			[self eq:[results hx_objectAtIndex:i] v2:[test:i] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"228",@"lineNumber", @"unit.TestMatch",@"className", @"testGrouping",@"methodName", nil]];
+			[self eq:[results hx_objectAtIndex:i] v2:[test:i] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"232", @"className":@"unit.TestMatch", @"methodName":@"testGrouping"}];
 		}
 	}
 }
@@ -1245,62 +1346,127 @@
 	InitBase *c = [[InitBase alloc] init];
 	
 	NSMutableString *r = ((NSMutableString)($this:(snd ctx.path)) switch (c.s){
-		case [NSMutableString stringWithString:@"foo"]:{
-			__r__ = [NSMutableString stringWithString:@"s = foo"]}break;
+		case [@"foo" mutableCopy]:{
+			__r__ = [@"s = foo" mutableCopy]}break;
 		default:{
-			__r__ = [NSMutableString stringWithString:@"_"]}break;
+			__r__ = [@"_" mutableCopy]}break;
 	}
 	return __r__{
 		
 		NSMutableString* __r__}
 	}(self));
-	[self eq:[NSMutableString stringWithString:@"s = foo"] v2:r pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"240",@"lineNumber", @"unit.TestMatch",@"className", @"testSubtyping",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"0"] v2:[TestMatch switchStructure:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"val1"] copy], @"foo",
-	[[NSMutableString stringWithString:@"val2"] copy], @"bar",
-	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"242",@"lineNumber", @"unit.TestMatch",@"className", @"testSubtyping",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"1"] v2:[TestMatch switchStructure:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"val1"] copy], @"foo",
-	[[NSMutableString stringWithString:@"val1"] copy], @"bar",
-	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"243",@"lineNumber", @"unit.TestMatch",@"className", @"testSubtyping",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"2"] v2:[TestMatch switchStructure:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"val2"] copy], @"foo",
-	[[NSMutableString stringWithString:@"val2"] copy], @"bar",
-	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"244",@"lineNumber", @"unit.TestMatch",@"className", @"testSubtyping",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"val1"] v2:[TestMatch switchStructure:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"val2"] copy], @"foo",
-	[[NSMutableString stringWithString:@"val1"] copy], @"bar",
-	nil]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"245",@"lineNumber", @"unit.TestMatch",@"className", @"testSubtyping",@"methodName", nil]];
+	[self eq:[@"s = foo" mutableCopy] v2:r pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"244", @"className":@"unit.TestMatch", @"methodName":@"testSubtyping"}];
+	[self eq:[@"0" mutableCopy] v2:[TestMatch switchStructure:[@{
+		@"foo":[[@"val1" mutableCopy] copy],
+		@"bar":[[@"val2" mutableCopy] copy],
+	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"246", @"className":@"unit.TestMatch", @"methodName":@"testSubtyping"}];
+	[self eq:[@"1" mutableCopy] v2:[TestMatch switchStructure:[@{
+		@"foo":[[@"val1" mutableCopy] copy],
+		@"bar":[[@"val1" mutableCopy] copy],
+	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"247", @"className":@"unit.TestMatch", @"methodName":@"testSubtyping"}];
+	[self eq:[@"2" mutableCopy] v2:[TestMatch switchStructure:[@{
+		@"foo":[[@"val2" mutableCopy] copy],
+		@"bar":[[@"val2" mutableCopy] copy],
+	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"248", @"className":@"unit.TestMatch", @"methodName":@"testSubtyping"}];
+	[self eq:[@"val1" mutableCopy] v2:[TestMatch switchStructure:[@{
+		@"foo":[[@"val2" mutableCopy] copy],
+		@"bar":[[@"val1" mutableCopy] copy],
+	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"249", @"className":@"unit.TestMatch", @"methodName":@"testSubtyping"}];
 }
 - (void) testGadt{
-	[self eq:[NSMutableString stringWithString:@"<=1"] v2:[TestMatch toStringX:[ U1:1]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"258",@"lineNumber", @"unit.TestMatch",@"className", @"testGadt",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@">1"] v2:[TestMatch toStringX:[ U1:2]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"259",@"lineNumber", @"unit.TestMatch",@"className", @"testGadt",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"U2"] v2:[TestMatch toStringX: U2] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"260",@"lineNumber", @"unit.TestMatch",@"className", @"testGadt",@"methodName", nil]];
+	[self eq:[@"<=1" mutableCopy] v2:[TestMatch toStringX:[U1:1]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"262", @"className":@"unit.TestMatch", @"methodName":@"testGadt"}];
+	[self eq:[@">1" mutableCopy] v2:[TestMatch toStringX:[U1:2]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"263", @"className":@"unit.TestMatch", @"methodName":@"testGadt"}];
+	[self eq:[@"U2" mutableCopy] v2:[TestMatch toStringX:U2] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"264", @"className":@"unit.TestMatch", @"methodName":@"testGadt"}];
 }
 - (void) testClassSwitch{
-	[self eq:[NSMutableString stringWithString:@"String"] v2:[TestMatch switchClass:NSMutableString] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"264",@"lineNumber", @"unit.TestMatch",@"className", @"testClassSwitch",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"unit.MyClass"] v2:[TestMatch switchClass:MyClass] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"265",@"lineNumber", @"unit.TestMatch",@"className", @"testClassSwitch",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"other: unit.TestMatch"] v2:[TestMatch switchClass:TestMatch] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"266",@"lineNumber", @"unit.TestMatch",@"className", @"testClassSwitch",@"methodName", nil]];
+	[self eq:[@"String" mutableCopy] v2:[TestMatch switchClass:NSMutableString] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"268", @"className":@"unit.TestMatch", @"methodName":@"testClassSwitch"}];
+	[self eq:[@"unit.MyClass" mutableCopy] v2:[TestMatch switchClass:MyClass] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"269", @"className":@"unit.TestMatch", @"methodName":@"testClassSwitch"}];
+	[self eq:[@"other: unit.TestMatch" mutableCopy] v2:[TestMatch switchClass:TestMatch] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"270", @"className":@"unit.TestMatch", @"methodName":@"testClassSwitch"}];
+}
+- (void) testOr{
+	id i1 = (id)[@{
+		@"expr":[[EConst:[CInt:[@"1" mutableCopy]]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@6960 copy],
+		@"max":[@6961 copy],
+	} mutableCopy] copy],
+	} mutableCopy];
+	id i2 = (id)[@{
+		@"expr":[[EConst:[CInt:[@"2" mutableCopy]]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@6981 copy],
+		@"max":[@6982 copy],
+	} mutableCopy] copy],
+	} mutableCopy];
+	id f1 = (id)[@{
+		@"expr":[[EConst:[CFloat:[@"3.9" mutableCopy]]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@7002 copy],
+		@"max":[@7005 copy],
+	} mutableCopy] copy],
+	} mutableCopy];
+	id f2 = (id)[@{
+		@"expr":[[EConst:[CFloat:[@"4.8" mutableCopy]]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@7025 copy],
+		@"max":[@7028 copy],
+	} mutableCopy] copy],
+	} mutableCopy];
+	[self eq:[@"11" mutableCopy] v2:[TestMatch orMatch:i1 e2:i1] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"278", @"className":@"unit.TestMatch", @"methodName":@"testOr"}];
+	[self eq:[@"12" mutableCopy] v2:[TestMatch orMatch:i1 e2:i2] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"279", @"className":@"unit.TestMatch", @"methodName":@"testOr"}];
+	[self eq:[@"13.9" mutableCopy] v2:[TestMatch orMatch:i1 e2:f1] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"280", @"className":@"unit.TestMatch", @"methodName":@"testOr"}];
+	[self eq:[@"14.8" mutableCopy] v2:[TestMatch orMatch:i1 e2:f2] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"281", @"className":@"unit.TestMatch", @"methodName":@"testOr"}];
+	[self eq:[@"21" mutableCopy] v2:[TestMatch orMatch:i2 e2:i1] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"283", @"className":@"unit.TestMatch", @"methodName":@"testOr"}];
+	[self eq:[@"22" mutableCopy] v2:[TestMatch orMatch:i2 e2:i2] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"284", @"className":@"unit.TestMatch", @"methodName":@"testOr"}];
+	[self eq:[@"23.9" mutableCopy] v2:[TestMatch orMatch:i2 e2:f1] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"285", @"className":@"unit.TestMatch", @"methodName":@"testOr"}];
+	[self eq:[@"24.8" mutableCopy] v2:[TestMatch orMatch:i2 e2:f2] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"286", @"className":@"unit.TestMatch", @"methodName":@"testOr"}];
+	[self eq:[@"3.91" mutableCopy] v2:[TestMatch orMatch:f1 e2:i1] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"288", @"className":@"unit.TestMatch", @"methodName":@"testOr"}];
+	[self eq:[@"3.92" mutableCopy] v2:[TestMatch orMatch:f1 e2:i2] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"289", @"className":@"unit.TestMatch", @"methodName":@"testOr"}];
+	[self eq:[@"3.93.9" mutableCopy] v2:[TestMatch orMatch:f1 e2:f1] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"290", @"className":@"unit.TestMatch", @"methodName":@"testOr"}];
+	[self eq:[@"3.94.8" mutableCopy] v2:[TestMatch orMatch:f1 e2:f2] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"291", @"className":@"unit.TestMatch", @"methodName":@"testOr"}];
+	[self eq:[@"4.81" mutableCopy] v2:[TestMatch orMatch:f2 e2:i1] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"293", @"className":@"unit.TestMatch", @"methodName":@"testOr"}];
+	[self eq:[@"4.82" mutableCopy] v2:[TestMatch orMatch:f2 e2:i2] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"294", @"className":@"unit.TestMatch", @"methodName":@"testOr"}];
+	[self eq:[@"4.83.9" mutableCopy] v2:[TestMatch orMatch:f2 e2:f1] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"295", @"className":@"unit.TestMatch", @"methodName":@"testOr"}];
+	[self eq:[@"4.84.8" mutableCopy] v2:[TestMatch orMatch:f2 e2:f2] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"296", @"className":@"unit.TestMatch", @"methodName":@"testOr"}];
+}
+- (void) testStaticNull{
+	
+	TestMatch *v = [A];
+	
+	NSMutableString *r = ((NSMutableString)($this:(snd ctx.path)) 
+	var $e2 : enum =  (v)
+	switch ( $e2.index ) {
+		
+		case 0:
+		
+		var MATCH v_eA_0 : int = $e2.params[0]{
+			__r__ = ( (v_eA_0 == nil) ? [@"null" mutableCopy] : [@"not null" mutableCopy])}break
+	}
+	return __r__{
+		
+		NSMutableString* __r__}
+	}(self));
+	[self eq:[@"null" mutableCopy] v2:r pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"306", @"className":@"unit.TestMatch", @"methodName":@"testStaticNull"}];
 }
 - (void) testNonExhaustiveness{
-	[self eq:[NSMutableString stringWithString:@"Unmatched patterns: false"] v2:[NSMutableString stringWithString:@"Unmatched patterns: false"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"270",@"lineNumber", @"unit.TestMatch",@"className", @"testNonExhaustiveness",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"Unmatched patterns: OpNegBits | OpNeg"] v2:[NSMutableString stringWithString:@"Unmatched patterns: OpNegBits | OpNeg"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"273",@"lineNumber", @"unit.TestMatch",@"className", @"testNonExhaustiveness",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"Unmatched patterns: Node(Leaf(_),_)"] v2:[NSMutableString stringWithString:@"Unmatched patterns: Node(Leaf(_),_)"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"278",@"lineNumber", @"unit.TestMatch",@"className", @"testNonExhaustiveness",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"Unmatched patterns: Leaf"] v2:[NSMutableString stringWithString:@"Unmatched patterns: Leaf"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"282",@"lineNumber", @"unit.TestMatch",@"className", @"testNonExhaustiveness",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"Unmatched patterns: Leaf(_)"] v2:[NSMutableString stringWithString:@"Unmatched patterns: Leaf(_)"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"286",@"lineNumber", @"unit.TestMatch",@"className", @"testNonExhaustiveness",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"Unmatched patterns: [_,false,_]"] v2:[NSMutableString stringWithString:@"Unmatched patterns: [_,false,_]"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"290",@"lineNumber", @"unit.TestMatch",@"className", @"testNonExhaustiveness",@"methodName", nil]];
+	[self eq:[@"Unmatched patterns: false" mutableCopy] v2:[@"Unmatched patterns: false" mutableCopy] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"317", @"className":@"unit.TestMatch", @"methodName":@"testNonExhaustiveness"}];
+	[self eq:[@"Unmatched patterns: OpNegBits | OpNeg" mutableCopy] v2:[@"Unmatched patterns: OpNegBits | OpNeg" mutableCopy] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"320", @"className":@"unit.TestMatch", @"methodName":@"testNonExhaustiveness"}];
+	[self eq:[@"Unmatched patterns: Node(Leaf(_),_)" mutableCopy] v2:[@"Unmatched patterns: Node(Leaf(_),_)" mutableCopy] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"325", @"className":@"unit.TestMatch", @"methodName":@"testNonExhaustiveness"}];
+	[self eq:[@"Unmatched patterns: Leaf" mutableCopy] v2:[@"Unmatched patterns: Leaf" mutableCopy] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"329", @"className":@"unit.TestMatch", @"methodName":@"testNonExhaustiveness"}];
+	[self eq:[@"Unmatched patterns: Leaf(_)" mutableCopy] v2:[@"Unmatched patterns: Leaf(_)" mutableCopy] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"333", @"className":@"unit.TestMatch", @"methodName":@"testNonExhaustiveness"}];
+	[self eq:[@"Unmatched patterns: [_,false,_]" mutableCopy] v2:[@"Unmatched patterns: [_,false,_]" mutableCopy] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"337", @"className":@"unit.TestMatch", @"methodName":@"testNonExhaustiveness"}];
 }
 - (void) testInvalidBinding{
-	[self eq:[NSMutableString stringWithString:@"Variable y must appear exactly once in each sub-pattern"] v2:[NSMutableString stringWithString:@"Variable y must appear exactly once in each sub-pattern"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"296",@"lineNumber", @"unit.TestMatch",@"className", @"testInvalidBinding",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"Variable y must appear exactly once in each sub-pattern"] v2:[NSMutableString stringWithString:@"Variable y must appear exactly once in each sub-pattern"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"299",@"lineNumber", @"unit.TestMatch",@"className", @"testInvalidBinding",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"Variable x must appear exactly once in each sub-pattern"] v2:[NSMutableString stringWithString:@"Variable x must appear exactly once in each sub-pattern"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"302",@"lineNumber", @"unit.TestMatch",@"className", @"testInvalidBinding",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"Variable l must appear exactly once in each sub-pattern"] v2:[NSMutableString stringWithString:@"Variable l must appear exactly once in each sub-pattern"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"305",@"lineNumber", @"unit.TestMatch",@"className", @"testInvalidBinding",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"Variable l must appear exactly once in each sub-pattern"] v2:[NSMutableString stringWithString:@"Variable l must appear exactly once in each sub-pattern"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"308",@"lineNumber", @"unit.TestMatch",@"className", @"testInvalidBinding",@"methodName", nil]];
-	[self eq:[NSMutableString stringWithString:@"String should be unit.Tree<String>"] v2:[NSMutableString stringWithString:@"String should be unit.Tree<String>"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestMatch.hx",@"fileName", @"311",@"lineNumber", @"unit.TestMatch",@"className", @"testInvalidBinding",@"methodName", nil]];
-}
-- (id) init{
-	self = [super init];
-	return self;
+	[self eq:[@"Variable y must appear exactly once in each sub-pattern" mutableCopy] v2:[@"Variable y must appear exactly once in each sub-pattern" mutableCopy] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"343", @"className":@"unit.TestMatch", @"methodName":@"testInvalidBinding"}];
+	[self eq:[@"Variable y must appear exactly once in each sub-pattern" mutableCopy] v2:[@"Variable y must appear exactly once in each sub-pattern" mutableCopy] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"346", @"className":@"unit.TestMatch", @"methodName":@"testInvalidBinding"}];
+	[self eq:[@"Variable x must appear exactly once in each sub-pattern" mutableCopy] v2:[@"Variable x must appear exactly once in each sub-pattern" mutableCopy] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"349", @"className":@"unit.TestMatch", @"methodName":@"testInvalidBinding"}];
+	[self eq:[@"Variable l must appear exactly once in each sub-pattern" mutableCopy] v2:[@"Variable l must appear exactly once in each sub-pattern" mutableCopy] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"352", @"className":@"unit.TestMatch", @"methodName":@"testInvalidBinding"}];
+	[self eq:[@"Variable l must appear exactly once in each sub-pattern" mutableCopy] v2:[@"Variable l must appear exactly once in each sub-pattern" mutableCopy] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"355", @"className":@"unit.TestMatch", @"methodName":@"testInvalidBinding"}];
+	[self eq:[@"String should be unit.Tree<String>" mutableCopy] v2:[@"String should be unit.Tree<String>" mutableCopy] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"358", @"className":@"unit.TestMatch", @"methodName":@"testInvalidBinding"}];
 }
 
 @end

@@ -20,7 +20,6 @@ typedef enum{
 @interface TestOrder : Test 
 
 - (void) testUsing;
-- (id) init;
 
 @end
 

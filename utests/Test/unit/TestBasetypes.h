@@ -16,8 +16,8 @@
 #import "../Math.h"
 #import "../Lambda.h"
 #import "../Reflect.h"
-#import "../haxe/ds/IntMap.h"
 #import "../unit/MyAbstract.h"
+#import "../unit/TestBasetypes.h"
 #import "../haxe/Template.h"
 
 @interface TestBasetypes : Test 
@@ -27,6 +27,7 @@
 - (void) testMath;
 - (void) testStringMap;
 - (void) testIntMap;
+- (void) testMap;
 - (void) testObjectKeyword;
 - (void) testFormat;
 - (void) testAbstract;
@@ -34,9 +35,11 @@
 - (void) testAbstractToAbstractCast;
 - (void) testAbstractTypeParameters;
 - (void) testAbstractToString;
+- (void) testAbstractInline;
+- (int) getAbstractValue:(MyAbstractCounter*)a;
 - (void) testAbstractOperatorOverload;
 - (void) testAbstractSetter;
-- (id) init;
+- (void) testAbstractMemberCall;
 
 @end
 

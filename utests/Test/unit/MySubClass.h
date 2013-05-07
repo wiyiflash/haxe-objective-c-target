@@ -14,7 +14,6 @@
 + (int) XXX;
 + (void) setXXX:(int)val;
 - (int) get;
-- (id) init:(int)v;
 
 @end
 

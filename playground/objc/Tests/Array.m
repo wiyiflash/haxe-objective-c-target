@@ -16,48 +16,48 @@
 - (NSMutableArray*) concat:(NSMutableArray*)a{
 	
 	NSMutableArray *b = [[NSMutableArray alloc] init];
-	[-FDynamic-b addObjectsFromArray:self];
-	[-FDynamic-b addObjectsFromArray:a];
+	[b addObjectsFromArray:self];
+	[b addObjectsFromArray:a];
 	return b;
 }
 - (NSMutableArray*) copy{
-	return [-FDynamic-NSMutableArray arrayWithArray:self];
+	return [NSMutableArray arrayWithArray:self];
 }
 - (void) insert:(int)pos x:(id)x{
 	[self insertObject:(x!=nil?x:[NSNull null]) atIndex:pos];
 }
 - (NSMutableString*) join:(NSMutableString*)sep{
-	return [NSMutableString[@"stringWithString"]:[-FDynamic-self componentsJoinedByString:sep]];
+	return [NSMutableString[@"stringWithString"]:[self componentsJoinedByString:sep]];
 }
 - (NSMutableString*) toString{
-	return [NSMutableString[@"stringWithString"]:[-FDynamic-self description]];
+	return [NSMutableString[@"stringWithString"]:[self description]];
 }
 - (id) pop{
-	if ([-FDynamic-self count] == 0) return nil;
-	id theLastObject = [-FDynamic-self lastObject];
+	if ([self count] == 0) return nil;
+	id theLastObject = [self lastObject];
 	if ([theLastObject isKindOfClass:[NSNull class]]) theLastObject = nil;
-	[-FDynamic-self removeLastObject];
+	[self removeLastObject];
 	return theLastObject;
 }
 - (int) push:(id)x{
 	[self addObject:(x!=nil?x:[NSNull null])];
-	return [-FDynamic-self count];
+	return [self count];
 }
 - (void) unshift:(id)x{
 	[self insertObject:(x!=nil?x:[NSNull null]) atIndex:0];
 }
 - (BOOL) remove:(id)x{
-	BOOL containsObject = [-FDynamic-self containsObject:x];
-	if (containsObject) [-FDynamic-self removeObject:x];
+	BOOL containsObject = [self containsObject:x];
+	if (containsObject) [self removeObject:x];
 	return containsObject;
 }
 - (void) reverse{
-	id reverseArray = [[-FDynamic-self reverseObjectEnumerator][@"allObjects"]];
+	id reverseArray = [[self reverseObjectEnumerator][@"allObjects"]];
 }
 - (id) shift{
 	if (self.length > 0) {
-		id obj = [-FDynamic-self objectAtIndex:0];
-		[-FDynamic-self removeObjectAtIndex:0];
+		id obj = [self objectAtIndex:0];
+		[self removeObjectAtIndex:0];
 		return obj;
 	}
 	return nil;
@@ -72,8 +72,8 @@
 }
 - (NSMutableArray*) splice:(int)pos len:(int)len{
 	NSArray *newArray = [self subarrayWithRange:NSMakeRange(pos, len)];
-	[-FDynamic-self removeObjectsInArray:newArray];
-	return [-FDynamic-NSMutableArray arrayWithArray:newArray];
+	[self removeObjectsInArray:newArray];
+	return [NSMutableArray arrayWithArray:newArray];
 }
 - (id) iterator{
 	__block int p = 0;		return [NSMutableDictionary dictionaryWithObjectsAndKeys:			[^BOOL() { return p < [self count]; } copy], @"hasNext",			[^id() { id i = [self objectAtIndex:p]; p += 1; return i; } copy], @"next",			nil];
@@ -91,7 +91,7 @@
 }
 - (id) hx_objectAtIndex:(int)index{
 	if (index >= [self count]) while ([self count] <= index) [self addObject:[NSNull null]];
-	id obj = [-FDynamic-self objectAtIndex:index];
+	id obj = [self objectAtIndex:index];
 	if ([obj isKindOfClass:[NSNull class]]) obj = nil;
 	return obj;
 }

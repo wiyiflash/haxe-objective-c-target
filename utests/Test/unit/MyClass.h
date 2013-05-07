@@ -42,7 +42,6 @@
 @interface MyDynamicChildWithToString : MyParent 
 
 - (NSMutableString*) toString;
-- (id) init;
 
 @end
 
@@ -52,7 +51,6 @@
 
 @interface MyDynamicChildWithoutToString : MyParent 
 
-- (id) init;
 
 @end
 
@@ -65,7 +63,6 @@
 - (int) a;
 - (int) b;
 - (int) c;
-- (id) init;
 
 @end
 
@@ -76,7 +73,6 @@
 @interface MyChild2 : MyParent 
 
 - (int) test1:(MyChild1*)mc1;
-- (id) init;
 
 @end
 
@@ -329,7 +325,6 @@
 
 @interface InitChild : InitBase 
 
-- (id) init;
 
 @end
 
@@ -479,14 +474,13 @@
 
 - (int) get_prop;
 - (int) set_prop:(int)v;
-- (SEL) get_fProp;
+- (id) get_fProp;
 - (id) init;
 
 @end
 
 
 
-#import "../Array.h"
 #import "../String.h"
 #import "../unit/MyClass.h"
 
@@ -494,9 +488,8 @@
 
 - (int) get_prop;
 - (int) set_prop:(int)v;
-- (SEL) get_fProp;
+- (id) get_fProp;
 - (NSMutableString*) test;
-- (id) init;
 
 @end
 

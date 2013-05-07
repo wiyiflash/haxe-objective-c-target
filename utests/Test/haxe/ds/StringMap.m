@@ -33,18 +33,17 @@
 - (id) iterator{
 	
 	NSMutableArray *a = [self allValues];
+	id it = [a iterator];
 	
-	NSMutableArray *it = [[NSMutableArray alloc] initWithObject:[a iterator]];
-	
-	NSMutableArray *me = [[NSMutableArray alloc] initWithObject:self];
-	return [NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[^BOOL(){
-		return [[it hx_objectAtIndex:0] hasNext];
-	} copy], @"hasNext",
-	[^id(){
-		return [[me hx_objectAtIndex:0] __Internal __Field:[[it hx_objectAtIndex:0] next] :YES];
-	} copy], @"next",
-	nil];
+	StringMap *me = self;
+	return [@{
+		@"hasNext":[^(){
+		return [it[@"hasNext"]];
+	} copy],
+		@"next":[^(){
+		return [me __Internal[@"__Field"]:[it[@"next"]] :YES];
+	} copy],
+	} mutableCopy];
 }
 - (NSMutableString*) toString{
 	return [self description];

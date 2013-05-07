@@ -10,25 +10,25 @@
 @implementation Reflect
 
 + (BOOL) hasField:(id)o field:(NSMutableString*)field{
-	return o != nil && [o __HasField-TDynamic-];
+	return o != nil && [o __HasField:field];
 }
 + (id) field:(id)o field:(NSMutableString*)field{
-	return ( (o == nil) ? nil : [o __Field-TDynamic-]);
+	return ( (o == nil) ? nil : [o __Field:field :NO]);
 }
 + (id) callMethod:(id)o func:(id)func args:(NSMutableArray*)args{
-	if (func != nil && [func __GetType] == __global__ vtString) func = [o __Field-TDynamic-];
-	[func __SetThis-TDynamic-];
-	return [func performSelector-TDynamic-];
+	if (func != nil && [func __GetType] == __global__[@"vtString"]) func = [o __Field:func :YES];
+	[func __SetThis:o];
+	return [func performSelector:args];
 }
 + (NSMutableArray*) fields:(id)o{
 	if (o == nil) return [[NSMutableArray alloc] init];
 	
-	NSMutableArray *a = [[NSMutableArray alloc] initWithObjects:, nil];
-	[o __GetFields-TDynamic-];
+	NSMutableArray *a = [@[] mutableCopy];
+	[o __GetFields:a];
 	return a;
 }
 + (BOOL) isFunction:(id)f{
-	return f != nil && [f __GetType] == __global__ vtFunction;
+	return f != nil && [f __GetType] == __global__[@"vtFunction"];
 }
 + (int) compare:(id)a b:(id)b{
 	return ( (a == b) ? 0 : ( ((int)a > (int)b) ? 1 : -1));
@@ -36,12 +36,12 @@
 + (BOOL) compareMethods:(id)f1 f2:(id)f2{
 	if (f1 == f2) return YES;
 	if (![Reflect isFunction:f1] || ![Reflect isFunction:f2]) return NO;
-	return [__global__ __hxcpp_same_closure:f1 :f2];
+	return [__global__[@"__hxcpp_same_closure"]:f1 :f2];
 }
 + (BOOL) isObject:(id)v{
 	if (v == nil) return NO;
 	int t = [v __GetType];
-	return t == __global__ vtObject || t == __global__ vtClass || t == __global__ vtString || t == __global__ vtArray;
+	return t == __global__[@"vtObject"] || t == __global__[@"vtClass"] || t == __global__[@"vtString"] || t == __global__[@"vtArray"];
 }
 
 @end

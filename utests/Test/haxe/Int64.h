@@ -15,7 +15,9 @@
 + (int) toInt:(Int64*)x;
 + (int) getLow:(Int64*)x;
 + (int) getHigh:(Int64*)x;
++ (Int64*) add:(Int64*)a b:(Int64*)b;
 + (Int64*) sub:(Int64*)a b:(Int64*)b;
++ (Int64*) mul:(Int64*)a b:(Int64*)b;
 + (id) divMod:(Int64*)modulus divisor:(Int64*)divisor;
 + (int) uicompare:(int)a b:(int)b;
 @property (nonatomic) int high;

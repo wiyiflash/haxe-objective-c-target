@@ -7,7 +7,7 @@
 
 #import "../unit/MyAbstract.h"
 
-@implementation MyAbstractImpl
+@implementation MyAbstract_Impl_
 
 + (int) _new:(int)x{
 	return x;
@@ -21,7 +21,7 @@
 
 @end
 
-@implementation TemplateWrapImpl
+@implementation TemplateWrap_Impl_
 
 + (Template*) _new:(NSMutableString*)x{
 	return [[Template alloc] init:x];
@@ -33,14 +33,14 @@
 	return (TemplateWrap*)[[Template alloc] init:s];
 }
 + (NSMutableString*) toString:(Template*)this1{
-	return [this1.execute:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[[NSMutableString stringWithString:@"really works!"] copy], @"t",
-	nil] macros:nil];
+	return [this1 execute:[@{
+		@"t":[[@"really works!" mutableCopy] copy],
+	} mutableCopy] macros:nil];
 }
 
 @end
 
-@implementation MeterImpl
+@implementation Meter_Impl_
 
 + (float) _new:(float)f{
 	return f;
@@ -49,18 +49,18 @@
 	return this1;
 }
 + (NSMutableString*) toString:(float)this1{
-	return [this1 stringByAppendingString:[NSMutableString stringWithString:@"m"]];
+	return [this1 stringByAppendingString:[@"m" mutableCopy]];
 }
 
 @end
 
-@implementation KilometerImpl
+@implementation Kilometer_Impl_
 
 + (float) _new:(float)f{
 	return f;
 }
 + (NSMutableString*) toString:(float)this1{
-	return [this1 stringByAppendingString:[NSMutableString stringWithString:@"km"]];
+	return [this1 stringByAppendingString:[@"km" mutableCopy]];
 }
 + (Kilometer*) fromMeter:(Meter*)m{
 	return (Kilometer*)(float)m / 1000.;
@@ -68,19 +68,30 @@
 
 @end
 
-@implementation MyHashImpl
+@implementation MyClassWithAbstractArgCtor
+
+@synthesize km;
+- (id) init:(Kilometer*)km{
+	self = [super init];
+	self.km = km;
+	return self;
+}
+
+@end
+
+@implementation MyHash_Impl_
 
 + (StringMap*) _new{
 	return [[StringMap alloc] init];
 }
 + (void) set:(StringMap*)this1 k:(NSMutableString*)k v:(id)v{
-	[this1.set:k value:v];
+	[this1 set:k value:v];
 }
 + (id) get:(StringMap*)this1 k:(NSMutableString*)k{
-	return [this1.get:k];
+	return [this1 get:k];
 }
 + (NSMutableString*) toString:(StringMap*)this1{
-	return [this1.toString];
+	return [this1 toString];
 }
 + (MyHash*) fromStringArray:(NSMutableArray*)arr{
 	
@@ -91,7 +102,7 @@
 		NSMutableString *k = [arr hx_objectAtIndex:i++];
 		
 		NSMutableString *v = [arr hx_objectAtIndex:i++];
-		[hash.set:k value:v];
+		[hash set:k value:v];
 	}
 	return hash;
 }
@@ -102,7 +113,7 @@
 	while (i < arr.length) {
 		id k = [arr hx_objectAtIndex:i++];
 		id v = [arr hx_objectAtIndex:i++];
-		[hash.set:[Std string:[[NSMutableString stringWithString:@"_s"] stringByAppendingString:[Std string:k]]] value:v];
+		[hash set:[Std string:[[@"_s" mutableCopy] stringByAppendingString:[Std string:k]]] value:v];
 	}
 	return hash;
 }
@@ -120,7 +131,7 @@
 
 @end
 
-@implementation AbstractZImpl
+@implementation AbstractZ_Impl_
 
 + (int) toFoo:(AbstractBase*)a{
 	return a.value;
@@ -146,33 +157,66 @@
 
 @end
 
-@implementation MyVectorImpl
+@implementation MyVector_Impl_
 
+
+
+
++ (float) get_x:(MyPoint3*)this1{
+	return this1.x;
+}
++ (float) get_y:(MyPoint3*)this1{
+	return this1.y;
+}
++ (float) get_z:(MyPoint3*)this1{
+	return this1.z;
+}
++ (float) set_x:(MyPoint3*)this1 x:(float)x{
+	return this1.x = x;
+}
++ (float) set_y:(MyPoint3*)this1 y:(float)y{
+	return this1.y = y;
+}
++ (float) set_z:(MyPoint3*)this1 z:(float)z{
+	return this1.z = z;
+}
 + (MyVector*) add:(MyVector*)lhs rhs:(MyVector*)rhs{
-	return [[MyPoint3 alloc] init:lhs x + rhs x y:lhs y + rhs y z:lhs z + rhs z];
+	return [[MyPoint3 alloc] init:[MyVector_Impl_ get_x:lhs] + [MyVector_Impl_ get_x:rhs] y:[MyVector_Impl_ get_y:lhs] + [MyVector_Impl_ get_y:rhs] z:[MyVector_Impl_ get_z:lhs] + [MyVector_Impl_ get_z:rhs]];
 }
 + (MyVector*) scalarAssign:(MyVector*)lhs rhs:(float)rhs{
-	lhs.x *= rhs;
-	lhs.y *= rhs;
-	lhs.z *= rhs;
+	{
+		
+		MyVector *_g = lhs;
+		[MyVector_Impl_ set_x:_g x:[MyVector_Impl_ get_x:_g] * rhs];
+	}
+	{
+		
+		MyVector *_g = lhs;
+		[MyVector_Impl_ set_y:_g y:[MyVector_Impl_ get_y:_g] * rhs];
+	}
+	{
+		
+		MyVector *_g = lhs;
+		[MyVector_Impl_ set_z:_g z:[MyVector_Impl_ get_z:_g] * rhs];
+	}
 	return lhs;
 }
 + (MyVector*) scalar:(MyVector*)lhs rhs:(float)rhs{
-	return [[MyPoint3 alloc] init:lhs x * rhs y:lhs y * rhs z:lhs z * rhs];
+	return [[MyPoint3 alloc] init:[MyVector_Impl_ get_x:lhs] * rhs y:[MyVector_Impl_ get_y:lhs] * rhs z:[MyVector_Impl_ get_z:lhs] * rhs];
 }
 + (MyVector*) invert:(MyVector*)t{
-	return [[MyPoint3 alloc] init:-t x y:-t y z:-t z];
+	return [[MyPoint3 alloc] init:-[MyVector_Impl_ get_x:t] y:-[MyVector_Impl_ get_y:t] z:-[MyVector_Impl_ get_z:t]];
 }
 + (MyPoint3*) get:(MyPoint3*)this1{
 	return this1;
 }
 + (NSMutableString*) toString:(MyPoint3*)this1{
-	return [[[[[[[NSMutableString stringWithString:@"("] stringByAppendingString:this1.x] stringByAppendingString:[NSMutableString stringWithString:@","]] stringByAppendingString:this1.y] stringByAppendingString:[NSMutableString stringWithString:@","]] stringByAppendingString:this1.z] stringByAppendingString:[NSMutableString stringWithString:@")"]];
+	return [[[[[[[@"(" mutableCopy] stringByAppendingString:this1.x] stringByAppendingString:[@"," mutableCopy]] stringByAppendingString:this1.y] stringByAppendingString:[@"," mutableCopy]] stringByAppendingString:this1.z] stringByAppendingString:[@")" mutableCopy]];
 }
 
 @end
 
-@implementation MyIntImpl
+@implementation MyInt_Impl_
 
 
 + (NSMutableString*) repeat:(MyInt*)lhs rhs:(NSMutableString*)rhs{
@@ -187,10 +231,13 @@
 	}
 	return s.b;
 }
++ (NSMutableString*) cut:(NSMutableString*)lhs rhs:(MyInt*)rhs{
+	return [lhs substr:0 len:rhs];
+}
 
 @end
 
-@implementation MyInt2Impl
+@implementation MyInt2_Impl_
 
 + (int) _new:(int)v{
 	return v;
@@ -207,7 +254,7 @@
 
 @end
 
-@implementation MyStringImpl
+@implementation MyString_Impl_
 
 
 
@@ -241,28 +288,26 @@
 
 @end
 
-@implementation MyReflectImpl
+@implementation MyReflect_Impl_
 
 + (id) arrayAccess:(id)this1 key:(NSMutableString*)key{
 	return [Reflect field:this1 field:key];
 }
 + (id) arrayWrite:(id)this1 key:(NSMutableString*)key value:(id)value{
-	if (this1 != nil) [this1 __SetField-TDynamic-];
+	if (this1 != nil) [this1 __SetField:key :value :NO];
 	return value;
 }
 
 @end
 
-@implementation MyAbstractClosureImpl
+@implementation MyAbstractClosure_Impl_
 
 + (NSMutableString*) _new:(NSMutableString*)value{
 	return value;
 }
-+ (SEL) test:(NSMutableString*)this1{
-	
-	NSMutableArray *this2 = [[NSMutableArray alloc] initWithObject:this1];
-	SEL fn = ^+ (NSMutableString*) {
-		return [this2 hx_objectAtIndex:0];
++ (id) test:(NSMutableString*)this1{
+	id fn = ^(){
+		return this1;
 	}
 	return fn;
 }
@@ -272,12 +317,12 @@
 
 @end
 
-@implementation MyAbstractSetterImpl
+@implementation MyAbstractSetter_Impl_
 
 
 + (id) _new{
-	return [NSMutableDictionary dictionaryWithObjectsAndKeys:
-	nil];
+	return [@{
+	} mutableCopy];
 }
 + (NSMutableString*) get_value:(id)this1{
 	return [this1 value];
@@ -285,6 +330,52 @@
 + (NSMutableString*) set_value:(id)this1 s:(NSMutableString*)s{
 	[this1 value] = s;
 	return s;
+}
+
+@end
+
+@implementation MyAbstractCounter_Impl_
+
+static int counter;
++ (int) counter {
+	if (counter == nil) counter = 0;
+	return counter;
+}
++ (void) setCounter:(int)hx_val {
+	counter = hx_val;
+}
++ (int) _new:(int)v{
+	int this1;
+	this1 = v;
+	counter++;
+	return this1;
+}
++ (MyAbstractCounter*) fromInt:(int)v{
+	return (MyAbstractCounter*)^(int)int this1
+	this1 = v
+	counter++
+	__r__ = this1
+	return __r__{
+		
+		int* __r__}
+	}();
+}
++ (int) getValue:(int)this1{
+	return [this1 stringByAppendingString:@"1"];
+}
+
+@end
+
+@implementation MyAbstractThatCallsAMember_Impl_
+
++ (int) _new:(int)i{
+	int this1;
+	this1 = i;
+	this1++;
+	return this1;
+}
++ (void) bar:(int)this1{
+	this1++;
 }
 
 @end

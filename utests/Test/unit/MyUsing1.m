@@ -10,7 +10,7 @@
 @implementation Using1
 
 + (NSMutableString*) usingTest:(NSMutableString*)s{
-	return [NSMutableString stringWithString:@"1"];
+	return [@"1" mutableCopy];
 }
 
 @end

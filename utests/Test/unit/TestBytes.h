@@ -7,8 +7,8 @@
 
 
 
-#import "../Array.h"
 #import "../haxe/io/Bytes.h"
+#import "../Array.h"
 #import "../String.h"
 #import "../haxe/io/BytesBuffer.h"
 #import "../haxe/io/BytesInput.h"
@@ -19,7 +19,6 @@
 - (void) test;
 - (void) testBuffer;
 - (void) testInput;
-- (id) init;
 
 @end
 

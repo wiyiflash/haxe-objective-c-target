@@ -16,7 +16,7 @@
 	return [s stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 }
 + (BOOL) startsWith:(NSMutableString*)s start:(NSMutableString*)start{
-	return s.length >= start.length && [s.substr:0 len:start.length] == start;
+	return s.length >= start.length && [s substr:0 len:start.length] == start;
 }
 
 @end

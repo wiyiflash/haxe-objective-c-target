@@ -26,11 +26,26 @@
 
 
 
+#import "../String.h"
+
+@interface C2 : NSObject
+
+- (NSMutableString*) func;
+@property (nonatomic, strong) NSMutableString *v;
+@property (nonatomic, strong) NSMutableString *prop;
+@property (nonatomic, strong, getter=get_propAcc, setter=set_propAcc) NSMutableString *propAcc;
+- (NSMutableString*) get_propAcc;
+- (NSMutableString*) set_propAcc:(id)v;
+- (id) init;
+
+@end
+
+
+
 #import "../unit/TestSpecification.h"
 
 @interface CChild : C 
 
-- (id) init;
 
 @end
 
@@ -40,7 +55,6 @@
 
 @interface CDyn : C 
 
-- (id) init;
 
 @end
 
@@ -70,7 +84,6 @@
 
 @interface ClassWithToStringChild : ClassWithToString 
 
-- (id) init;
 
 @end
 
@@ -82,7 +95,6 @@
 @interface ClassWithToStringChild2 : ClassWithToString 
 
 - (NSMutableString*) toString;
-- (id) init;
 
 @end
 
@@ -100,12 +112,10 @@
 
 
 
-#import "../String.h"
 #import "../unit/TestSpecification.h"
 
 @interface ClassWithCtorDefaultValuesChild : ClassWithCtorDefaultValues 
 
-- (id) init:(int)a b:(NSMutableString*)b;
 
 @end
 
@@ -142,7 +152,6 @@ typedef enum{
 
 @interface TestSpecification : Test 
 
-- (id) init;
 
 @end
 

@@ -13,214 +13,209 @@
 	// Optional arguments
 	if (!pos) pos = nil;
 	
-	
-	NSMutableArray *x1 = [[NSMutableArray alloc] initWithObject:x];
-	[self exc:^- (void) {
-		[[x1 hx_objectAtIndex:0] get_nodeName];
+	[self exc:^(){
+		[x get_nodeName];
 	} pos:pos];
-	[self exc:^- (void) {
-		[[x1 hx_objectAtIndex:0] get_nodeValue];
+	[self exc:^(){
+		[x get_nodeValue];
 	} pos:pos];
-	[self exc:^- (void) {
-		[[x1 hx_objectAtIndex:0] attributes];
+	[self exc:^(){
+		[x attributes];
 	} pos:pos];
-	[self exc:^- (void) {
-		[[x1 hx_objectAtIndex:0] get:[NSMutableString stringWithString:@"att"]];
+	[self exc:^(){
+		[x get:[@"att" mutableCopy]];
 	} pos:pos];
-	[self exc:^- (void) {
-		[[x1 hx_objectAtIndex:0] exists:[NSMutableString stringWithString:@"att"]];
+	[self exc:^(){
+		[x exists:[@"att" mutableCopy]];
 	} pos:pos];
 }
 - (void) testBasic{
 	
-	Xml *x = [Xml parse:[NSMutableString stringWithString:@"<a href=\"hello\">World<b/></a>"]];
-	[self t:binop[Xml compare-TDynamic-] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"16",@"lineNumber", @"unit.TestXML",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:x.nodeType v2:-TEnum- pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"18",@"lineNumber", @"unit.TestXML",@"className", @"testBasic",@"methodName", nil]];
-	[self checkExc:x pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"19",@"lineNumber", @"unit.TestXML",@"className", @"testBasic",@"methodName", nil]];
+	Xml *x = [Xml parse:[@"<a href=\"hello\">World<b/></a>" mutableCopy]];
+	[self t:binop[Xml compare:[x firstChild] :[x firstChild]] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"16", @"className":@"unit.TestXML", @"methodName":@"testBasic"}];
+	[self eq:x.nodeType v2:-TEnum- pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"18", @"className":@"unit.TestXML", @"methodName":@"testBasic"}];
+	[self checkExc:x pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"19", @"className":@"unit.TestXML", @"methodName":@"testBasic"}];
 	x = [x firstChild];
-	[self eq:x.nodeType v2:-TEnum- pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"22",@"lineNumber", @"unit.TestXML",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[x get_nodeName] v2:[NSMutableString stringWithString:@"a"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"26",@"lineNumber", @"unit.TestXML",@"className", @"testBasic",@"methodName", nil]];
-	[x set_nodeName:[NSMutableString stringWithString:@"b"]];
-	[self eq:[x get_nodeName] v2:[NSMutableString stringWithString:@"b"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"28",@"lineNumber", @"unit.TestXML",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[x toString] v2:[NSMutableString stringWithString:@"<b href=\"hello\">World<b/></b>"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"29",@"lineNumber", @"unit.TestXML",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[x get:[NSMutableString stringWithString:@"href"]] v2:[NSMutableString stringWithString:@"hello"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"32",@"lineNumber", @"unit.TestXML",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[x get:[NSMutableString stringWithString:@"other"]] v2:nil pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"33",@"lineNumber", @"unit.TestXML",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[x exists:[NSMutableString stringWithString:@"href"]] v2:YES pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"34",@"lineNumber", @"unit.TestXML",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[x exists:[NSMutableString stringWithString:@"other"]] v2:NO pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"35",@"lineNumber", @"unit.TestXML",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[[Lambda array:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[attributes copy], @"iterator",
-	nil]] join:[NSMutableString stringWithString:@"#"]] v2:[NSMutableString stringWithString:@"href"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"36",@"lineNumber", @"unit.TestXML",@"className", @"testBasic",@"methodName", nil]];
-	[x remove:[NSMutableString stringWithString:@"href"]];
-	[self eq:[[Lambda array:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[attributes copy], @"iterator",
-	nil]] join:[NSMutableString stringWithString:@"#"]] v2:[NSMutableString stringWithString:@""] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"38",@"lineNumber", @"unit.TestXML",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[x toString] v2:[NSMutableString stringWithString:@"<b>World<b/></b>"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"39",@"lineNumber", @"unit.TestXML",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[[x firstChild] get_nodeValue] v2:[NSMutableString stringWithString:@"World"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"42",@"lineNumber", @"unit.TestXML",@"className", @"testBasic",@"methodName", nil]];
-	[self eq:[[x firstElement] get_nodeName] v2:[NSMutableString stringWithString:@"b"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"43",@"lineNumber", @"unit.TestXML",@"className", @"testBasic",@"methodName", nil]];
-	[self exc:^- (void) {
-		[Xml parse:[NSMutableString stringWithString:@"<node>"]];
-	} pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"46",@"lineNumber", @"unit.TestXML",@"className", @"testBasic",@"methodName", nil]];
+	[self eq:x.nodeType v2:-TEnum- pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"22", @"className":@"unit.TestXML", @"methodName":@"testBasic"}];
+	[self eq:[x get_nodeName] v2:[@"a" mutableCopy] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"26", @"className":@"unit.TestXML", @"methodName":@"testBasic"}];
+	[x set_nodeName:[@"b" mutableCopy]];
+	[self eq:[x get_nodeName] v2:[@"b" mutableCopy] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"28", @"className":@"unit.TestXML", @"methodName":@"testBasic"}];
+	[self eq:[x toString] v2:[@"<b href=\"hello\">World<b/></b>" mutableCopy] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"29", @"className":@"unit.TestXML", @"methodName":@"testBasic"}];
+	[self eq:[x get:[@"href" mutableCopy]] v2:[@"hello" mutableCopy] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"32", @"className":@"unit.TestXML", @"methodName":@"testBasic"}];
+	[self eq:[x get:[@"other" mutableCopy]] v2:nil pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"33", @"className":@"unit.TestXML", @"methodName":@"testBasic"}];
+	[self eq:[x exists:[@"href" mutableCopy]] v2:YES pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"34", @"className":@"unit.TestXML", @"methodName":@"testBasic"}];
+	[self eq:[x exists:[@"other" mutableCopy]] v2:NO pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"35", @"className":@"unit.TestXML", @"methodName":@"testBasic"}];
+	[self eq:[[Lambda array:[@{
+		@"iterator":[attributes copy],
+	} mutableCopy]] join:[@"#" mutableCopy]] v2:[@"href" mutableCopy] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"36", @"className":@"unit.TestXML", @"methodName":@"testBasic"}];
+	[x remove:[@"href" mutableCopy]];
+	[self eq:[[Lambda array:[@{
+		@"iterator":[attributes copy],
+	} mutableCopy]] join:[@"#" mutableCopy]] v2:[@"" mutableCopy] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"38", @"className":@"unit.TestXML", @"methodName":@"testBasic"}];
+	[self eq:[x toString] v2:[@"<b>World<b/></b>" mutableCopy] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"39", @"className":@"unit.TestXML", @"methodName":@"testBasic"}];
+	[self eq:[[x firstChild] get_nodeValue] v2:[@"World" mutableCopy] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"42", @"className":@"unit.TestXML", @"methodName":@"testBasic"}];
+	[self eq:[[x firstElement] get_nodeName] v2:[@"b" mutableCopy] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"43", @"className":@"unit.TestXML", @"methodName":@"testBasic"}];
+	[self exc:^(){
+		[Xml parse:[@"<node>" mutableCopy]];
+	} pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"46", @"className":@"unit.TestXML", @"methodName":@"testBasic"}];
 }
 - (void) testFormat{
-	[self eq:[[Xml parse:[NSMutableString stringWithString:@"<a><b><c/> <d/> \n <e/><![CDATA[<x>]]></b></a>"]] toString] v2:[NSMutableString stringWithString:@"<a><b><c/> <d/> \n <e/><![CDATA[<x>]]></b></a>"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"54",@"lineNumber", @"unit.TestXML",@"className", @"testFormat",@"methodName", nil]];
-	[self eq:[[Xml parse:[NSMutableString stringWithString:@"\""]] toString] v2:[NSMutableString stringWithString:@"\""] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"59",@"lineNumber", @"unit.TestXML",@"className", @"testFormat",@"methodName", nil]];
+	[self eq:[[Xml parse:[@"<a><b><c/> <d/> \n <e/><![CDATA[<x>]]></b></a>" mutableCopy]] toString] v2:[@"<a><b><c/> <d/> \n <e/><![CDATA[<x>]]></b></a>" mutableCopy] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"54", @"className":@"unit.TestXML", @"methodName":@"testFormat"}];
+	[self eq:[[Xml parse:[@"\"" mutableCopy]] toString] v2:[@"\"" mutableCopy] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"59", @"className":@"unit.TestXML", @"methodName":@"testFormat"}];
 }
 - (void) testComplex{
 	
-	NSMutableString *header = [NSMutableString stringWithString:@"<?some header?>"];
+	NSMutableString *header = [@"<?some header?>" mutableCopy];
 	
-	NSMutableString *doctype = [NSMutableString stringWithString:@"<!DOCTYPE root SYSTEM \"\">"];
+	NSMutableString *doctype = [@"<!DOCTYPE root SYSTEM \"\">" mutableCopy];
 	
-	NSMutableString *comment = [NSMutableString stringWithString:@"<!--Comment-->"];
+	NSMutableString *comment = [@"<!--Comment-->" mutableCopy];
 	
-	NSMutableString *xml = [NSMutableString stringWithString:@"<html><body><![CDATA[<a href=\"CDATA\"/>&lt;]]></body></html>"];
+	NSMutableString *xml = [@"<html><body><![CDATA[<a href=\"CDATA\"/>&lt;]]></body></html>" mutableCopy];
 	
 	Xml *x = [Xml parse:[[[header stringByAppendingString:doctype] stringByAppendingString:comment] stringByAppendingString:xml]];
-	[self eq:[x toString] v2:[[[header stringByAppendingString:doctype] stringByAppendingString:comment] stringByAppendingString:xml] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"87",@"lineNumber", @"unit.TestXML",@"className", @"testComplex",@"methodName", nil]];
+	[self eq:[x toString] v2:[[[header stringByAppendingString:doctype] stringByAppendingString:comment] stringByAppendingString:xml] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"87", @"className":@"unit.TestXML", @"methodName":@"testComplex"}];
 }
 - (void) testWhitespaces{
 	
-	Xml *x = [Xml parse:[NSMutableString stringWithString:@"<a> </a><b></b> \n <c/>"]];
+	Xml *x = [Xml parse:[@"<a> </a><b></b> \n <c/>" mutableCopy]];
 	
 	NSMutableArray *childs = [Lambda array:x];
-	[self eq:childs.length v2:4 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"96",@"lineNumber", @"unit.TestXML",@"className", @"testWhitespaces",@"methodName", nil]];
+	[self eq:childs.length v2:4 pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"96", @"className":@"unit.TestXML", @"methodName":@"testWhitespaces"}];
 	
 	Xml *d = [childs hx_objectAtIndex:2];
-	[self eq:d.nodeType v2:-TEnum- pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"99",@"lineNumber", @"unit.TestXML",@"className", @"testWhitespaces",@"methodName", nil]];
-	[self eq:[d get_nodeValue] v2:[NSMutableString stringWithString:@" \n "] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"100",@"lineNumber", @"unit.TestXML",@"className", @"testWhitespaces",@"methodName", nil]];
+	[self eq:d.nodeType v2:-TEnum- pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"99", @"className":@"unit.TestXML", @"methodName":@"testWhitespaces"}];
+	[self eq:[d get_nodeValue] v2:[@" \n " mutableCopy] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"100", @"className":@"unit.TestXML", @"methodName":@"testWhitespaces"}];
 	id el = [x elements];
 	
-	Xml *a = [el next];
-	[self eq:[[a firstChild] get_nodeValue] v2:[NSMutableString stringWithString:@" "] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"104",@"lineNumber", @"unit.TestXML",@"className", @"testWhitespaces",@"methodName", nil]];
+	Xml *a = [el[@"next"]];
+	[self eq:[[a firstChild] get_nodeValue] v2:[@" " mutableCopy] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"104", @"className":@"unit.TestXML", @"methodName":@"testWhitespaces"}];
 	
-	Xml *b = [el next];
-	[self eq:[[b firstChild] get_nodeValue] v2:[NSMutableString stringWithString:@""] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"110",@"lineNumber", @"unit.TestXML",@"className", @"testWhitespaces",@"methodName", nil]];
-	[self eq:[[[x toString] split:[NSMutableString stringWithString:@"\n"]] join:[NSMutableString stringWithString:@"\\n"]] v2:[NSMutableString stringWithString:@"<a> </a><b></b> \\n <c/>"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"111",@"lineNumber", @"unit.TestXML",@"className", @"testWhitespaces",@"methodName", nil]];
+	Xml *b = [el[@"next"]];
+	[self eq:[[b firstChild] get_nodeValue] v2:[@"" mutableCopy] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"110", @"className":@"unit.TestXML", @"methodName":@"testWhitespaces"}];
+	[self eq:[[[x toString] split:[@"\n" mutableCopy]] join:[@"\\n" mutableCopy]] v2:[@"<a> </a><b></b> \\n <c/>" mutableCopy] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"111", @"className":@"unit.TestXML", @"methodName":@"testWhitespaces"}];
 	
-	Xml *c = [el next];
-	[self eq:[c firstChild] v2:nil pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"114",@"lineNumber", @"unit.TestXML",@"className", @"testWhitespaces",@"methodName", nil]];
+	Xml *c = [el[@"next"]];
+	[self eq:[c firstChild] v2:nil pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"114", @"className":@"unit.TestXML", @"methodName":@"testWhitespaces"}];
 }
 - (void) testCreate{
-	[self eq:[[Xml createDocument] toString] v2:[NSMutableString stringWithString:@""] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"118",@"lineNumber", @"unit.TestXML",@"className", @"testCreate",@"methodName", nil]];
-	[self eq:[[Xml createPCData:[NSMutableString stringWithString:@"Hello"]] toString] v2:[NSMutableString stringWithString:@"Hello"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"119",@"lineNumber", @"unit.TestXML",@"className", @"testCreate",@"methodName", nil]];
-	[self eq:[[Xml createCData:[NSMutableString stringWithString:@"<x>"]] toString] v2:[NSMutableString stringWithString:@"<![CDATA[<x>]]>"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"125",@"lineNumber", @"unit.TestXML",@"className", @"testCreate",@"methodName", nil]];
-	[self eq:[[Xml createComment:[NSMutableString stringWithString:@"Hello"]] toString] v2:[NSMutableString stringWithString:@"<!--Hello-->"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"126",@"lineNumber", @"unit.TestXML",@"className", @"testCreate",@"methodName", nil]];
-	[self eq:[[Xml createProcessingInstruction:[NSMutableString stringWithString:@"XHTML"]] toString] v2:[NSMutableString stringWithString:@"<?XHTML?>"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"133",@"lineNumber", @"unit.TestXML",@"className", @"testCreate",@"methodName", nil]];
-	[self eq:[[Xml createDocType:[NSMutableString stringWithString:@"XHTML"]] toString] v2:[NSMutableString stringWithString:@"<!DOCTYPE XHTML>"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"134",@"lineNumber", @"unit.TestXML",@"className", @"testCreate",@"methodName", nil]];
-	[self eq:[[[Xml parse:[NSMutableString stringWithString:@"<!--Hello-->"]] firstChild] get_nodeValue] v2:[NSMutableString stringWithString:@"Hello"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"137",@"lineNumber", @"unit.TestXML",@"className", @"testCreate",@"methodName", nil]];
+	[self eq:[[Xml createDocument] toString] v2:[@"" mutableCopy] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"118", @"className":@"unit.TestXML", @"methodName":@"testCreate"}];
+	[self eq:[[Xml createPCData:[@"Hello" mutableCopy]] toString] v2:[@"Hello" mutableCopy] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"119", @"className":@"unit.TestXML", @"methodName":@"testCreate"}];
+	[self eq:[[Xml createCData:[@"<x>" mutableCopy]] toString] v2:[@"<![CDATA[<x>]]>" mutableCopy] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"125", @"className":@"unit.TestXML", @"methodName":@"testCreate"}];
+	[self eq:[[Xml createComment:[@"Hello" mutableCopy]] toString] v2:[@"<!--Hello-->" mutableCopy] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"126", @"className":@"unit.TestXML", @"methodName":@"testCreate"}];
+	[self eq:[[Xml createProcessingInstruction:[@"XHTML" mutableCopy]] toString] v2:[@"<?XHTML?>" mutableCopy] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"133", @"className":@"unit.TestXML", @"methodName":@"testCreate"}];
+	[self eq:[[Xml createDocType:[@"XHTML" mutableCopy]] toString] v2:[@"<!DOCTYPE XHTML>" mutableCopy] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"134", @"className":@"unit.TestXML", @"methodName":@"testCreate"}];
+	[self eq:[[[Xml parse:[@"<!--Hello-->" mutableCopy]] firstChild] get_nodeValue] v2:[@"Hello" mutableCopy] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"137", @"className":@"unit.TestXML", @"methodName":@"testCreate"}];
 	
-	Xml *c = [Xml createComment:[NSMutableString stringWithString:@"Hello"]];
-	[self eq:[c get_nodeValue] v2:[NSMutableString stringWithString:@"Hello"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"139",@"lineNumber", @"unit.TestXML",@"className", @"testCreate",@"methodName", nil]];
-	[c set_nodeValue:[NSMutableString stringWithString:@"Blabla"]];
-	[self eq:[c get_nodeValue] v2:[NSMutableString stringWithString:@"Blabla"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"141",@"lineNumber", @"unit.TestXML",@"className", @"testCreate",@"methodName", nil]];
-	[self eq:[c toString] v2:[NSMutableString stringWithString:@"<!--Blabla-->"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"142",@"lineNumber", @"unit.TestXML",@"className", @"testCreate",@"methodName", nil]];
-	[self eq:[[[Xml parse:[NSMutableString stringWithString:@"<![CDATA[Hello]]>"]] firstChild] get_nodeValue] v2:[NSMutableString stringWithString:@"Hello"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"143",@"lineNumber", @"unit.TestXML",@"className", @"testCreate",@"methodName", nil]];
+	Xml *c = [Xml createComment:[@"Hello" mutableCopy]];
+	[self eq:[c get_nodeValue] v2:[@"Hello" mutableCopy] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"139", @"className":@"unit.TestXML", @"methodName":@"testCreate"}];
+	[c set_nodeValue:[@"Blabla" mutableCopy]];
+	[self eq:[c get_nodeValue] v2:[@"Blabla" mutableCopy] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"141", @"className":@"unit.TestXML", @"methodName":@"testCreate"}];
+	[self eq:[c toString] v2:[@"<!--Blabla-->" mutableCopy] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"142", @"className":@"unit.TestXML", @"methodName":@"testCreate"}];
+	[self eq:[[[Xml parse:[@"<![CDATA[Hello]]>" mutableCopy]] firstChild] get_nodeValue] v2:[@"Hello" mutableCopy] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"143", @"className":@"unit.TestXML", @"methodName":@"testCreate"}];
 	
-	Xml *c1 = [Xml createCData:[NSMutableString stringWithString:@"Hello"]];
-	[self eq:[c1 get_nodeValue] v2:[NSMutableString stringWithString:@"Hello"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"145",@"lineNumber", @"unit.TestXML",@"className", @"testCreate",@"methodName", nil]];
-	[c1 set_nodeValue:[NSMutableString stringWithString:@"Blabla"]];
-	[self eq:[c1 get_nodeValue] v2:[NSMutableString stringWithString:@"Blabla"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"147",@"lineNumber", @"unit.TestXML",@"className", @"testCreate",@"methodName", nil]];
-	[self eq:[c1 toString] v2:[NSMutableString stringWithString:@"<![CDATA[Blabla]]>"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"148",@"lineNumber", @"unit.TestXML",@"className", @"testCreate",@"methodName", nil]];
-	[self eq:[[Xml createPCData:[NSMutableString stringWithString:@"Hello"]] get_nodeValue] v2:[NSMutableString stringWithString:@"Hello"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"149",@"lineNumber", @"unit.TestXML",@"className", @"testCreate",@"methodName", nil]];
+	Xml *c1 = [Xml createCData:[@"Hello" mutableCopy]];
+	[self eq:[c1 get_nodeValue] v2:[@"Hello" mutableCopy] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"145", @"className":@"unit.TestXML", @"methodName":@"testCreate"}];
+	[c1 set_nodeValue:[@"Blabla" mutableCopy]];
+	[self eq:[c1 get_nodeValue] v2:[@"Blabla" mutableCopy] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"147", @"className":@"unit.TestXML", @"methodName":@"testCreate"}];
+	[self eq:[c1 toString] v2:[@"<![CDATA[Blabla]]>" mutableCopy] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"148", @"className":@"unit.TestXML", @"methodName":@"testCreate"}];
+	[self eq:[[Xml createPCData:[@"Hello" mutableCopy]] get_nodeValue] v2:[@"Hello" mutableCopy] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"149", @"className":@"unit.TestXML", @"methodName":@"testCreate"}];
 }
 - (void) testNS{
 	
-	Xml *x = [[Xml parse:[NSMutableString stringWithString:@"<xhtml:br xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" xhtml:alt=\"test\"><hello/></xhtml:br>"]] firstChild];
-	[self eq:x.nodeType v2:-TEnum- pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"154",@"lineNumber", @"unit.TestXML",@"className", @"testNS",@"methodName", nil]];
-	[self eq:[x get_nodeName] v2:[NSMutableString stringWithString:@"xhtml:br"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"155",@"lineNumber", @"unit.TestXML",@"className", @"testNS",@"methodName", nil]];
-	[self t:[x exists:[NSMutableString stringWithString:@"xhtml:alt"]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"156",@"lineNumber", @"unit.TestXML",@"className", @"testNS",@"methodName", nil]];
-	[self eq:[x get:[NSMutableString stringWithString:@"xhtml:alt"]] v2:[NSMutableString stringWithString:@"test"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"157",@"lineNumber", @"unit.TestXML",@"className", @"testNS",@"methodName", nil]];
-	[self eq:[x get:[NSMutableString stringWithString:@"xhtml:other"]] v2:nil pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"158",@"lineNumber", @"unit.TestXML",@"className", @"testNS",@"methodName", nil]];
-	[x set:[NSMutableString stringWithString:@"xhtml:alt"] value:[NSMutableString stringWithString:@"bye"]];
-	[self eq:[x get:[NSMutableString stringWithString:@"xhtml:alt"]] v2:[NSMutableString stringWithString:@"bye"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"160",@"lineNumber", @"unit.TestXML",@"className", @"testNS",@"methodName", nil]];
+	Xml *x = [[Xml parse:[@"<xhtml:br xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" xhtml:alt=\"test\"><hello/></xhtml:br>" mutableCopy]] firstChild];
+	[self eq:x.nodeType v2:-TEnum- pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"154", @"className":@"unit.TestXML", @"methodName":@"testNS"}];
+	[self eq:[x get_nodeName] v2:[@"xhtml:br" mutableCopy] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"155", @"className":@"unit.TestXML", @"methodName":@"testNS"}];
+	[self t:[x exists:[@"xhtml:alt" mutableCopy]] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"156", @"className":@"unit.TestXML", @"methodName":@"testNS"}];
+	[self eq:[x get:[@"xhtml:alt" mutableCopy]] v2:[@"test" mutableCopy] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"157", @"className":@"unit.TestXML", @"methodName":@"testNS"}];
+	[self eq:[x get:[@"xhtml:other" mutableCopy]] v2:nil pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"158", @"className":@"unit.TestXML", @"methodName":@"testNS"}];
+	[x set:[@"xhtml:alt" mutableCopy] value:[@"bye" mutableCopy]];
+	[self eq:[x get:[@"xhtml:alt" mutableCopy]] v2:[@"bye" mutableCopy] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"160", @"className":@"unit.TestXML", @"methodName":@"testNS"}];
 	
 	Xml *h = [x firstElement];
-	[self eq:[h get_nodeName] v2:[NSMutableString stringWithString:@"hello"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"163",@"lineNumber", @"unit.TestXML",@"className", @"testNS",@"methodName", nil]];
-	[h set_nodeName:[NSMutableString stringWithString:@"em"]];
-	[self eq:[h get_nodeName] v2:[NSMutableString stringWithString:@"em"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"165",@"lineNumber", @"unit.TestXML",@"className", @"testNS",@"methodName", nil]];
-	[self eq:[Lambda count:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:elementsNamed:]
-	__r__ = ^id(){
-		return [[f hx_objectAtIndex:0]:[NSMutableString stringWithString:@"em"]];
+	[self eq:[h get_nodeName] v2:[@"hello" mutableCopy] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"163", @"className":@"unit.TestXML", @"methodName":@"testNS"}];
+	[h set_nodeName:[@"em" mutableCopy]];
+	[self eq:[h get_nodeName] v2:[@"em" mutableCopy] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"165", @"className":@"unit.TestXML", @"methodName":@"testNS"}];
+	[self eq:[Lambda count:[@{
+		@"iterator":[((id)($this:(snd ctx.path)) id f = elementsNamed:
+	__r__ = ^(){
+		return [f:[@"em" mutableCopy]];
 	}
 	return __r__{
 		
-		SEL* __r__}
-	}(self)) copy], @"iterator",
-	nil] pred:nil] v2:1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"167",@"lineNumber", @"unit.TestXML",@"className", @"testNS",@"methodName", nil]];
-	[h set_nodeName:[NSMutableString stringWithString:@"xhtml:em"]];
-	[self eq:[Lambda count:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:elementsNamed:]
-	__r__2 = ^id(){
-		return [[f hx_objectAtIndex:0]:[NSMutableString stringWithString:@"xhtml:em"]];
+		id* __r__}
+	}(self)) copy],
+	} mutableCopy] pred:nil] v2:1 pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"167", @"className":@"unit.TestXML", @"methodName":@"testNS"}];
+	[h set_nodeName:[@"xhtml:em" mutableCopy]];
+	[self eq:[Lambda count:[@{
+		@"iterator":[((id)($this:(snd ctx.path)) id f = elementsNamed:
+	__r__2 = ^(){
+		return [f:[@"xhtml:em" mutableCopy]];
 	}
 	return __r__2{
 		
-		SEL* __r__2}
-	}(self)) copy], @"iterator",
-	nil] pred:nil] v2:1 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"171",@"lineNumber", @"unit.TestXML",@"className", @"testNS",@"methodName", nil]];
-	[self eq:[Lambda count:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-	[((SEL)($this:(snd ctx.path)) 
-	NSMutableArray *f = [[NSMutableArray alloc] initWithObject:elementsNamed:]
-	__r__3 = ^id(){
-		return [[f hx_objectAtIndex:0]:[NSMutableString stringWithString:@"em"]];
+		id* __r__2}
+	}(self)) copy],
+	} mutableCopy] pred:nil] v2:1 pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"171", @"className":@"unit.TestXML", @"methodName":@"testNS"}];
+	[self eq:[Lambda count:[@{
+		@"iterator":[((id)($this:(snd ctx.path)) id f = elementsNamed:
+	__r__3 = ^(){
+		return [f:[@"em" mutableCopy]];
 	}
 	return __r__3{
 		
-		SEL* __r__3}
-	}(self)) copy], @"iterator",
-	nil] pred:nil] v2:0 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"172",@"lineNumber", @"unit.TestXML",@"className", @"testNS",@"methodName", nil]];
-	[self eq:[h get_nodeName] v2:[NSMutableString stringWithString:@"xhtml:em"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"174",@"lineNumber", @"unit.TestXML",@"className", @"testNS",@"methodName", nil]];
+		id* __r__3}
+	}(self)) copy],
+	} mutableCopy] pred:nil] v2:0 pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"172", @"className":@"unit.TestXML", @"methodName":@"testNS"}];
+	[self eq:[h get_nodeName] v2:[@"xhtml:em" mutableCopy] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"174", @"className":@"unit.TestXML", @"methodName":@"testNS"}];
 }
 - (void) testNodetype{
 	
-	NSMutableArray *element = [[NSMutableArray alloc] initWithObject:[Xml createElement:[NSMutableString stringWithString:@"x"]]];
+	Xml *element = [Xml createElement:[@"x" mutableCopy]];
 	
-	NSMutableArray *l = [[NSMutableArray alloc] initWithObjects:[Xml createPCData:[NSMutableString stringWithString:@"x"]], [Xml createCData:[NSMutableString stringWithString:@"x"]], [Xml createDocType:[NSMutableString stringWithString:@"x"]], [Xml createProcessingInstruction:[NSMutableString stringWithString:@"x"]], [Xml createComment:[NSMutableString stringWithString:@"x"]], nil];
+	NSMutableArray *l = [@[[Xml createPCData:[@"x" mutableCopy]], [Xml createCData:[@"x" mutableCopy]], [Xml createDocType:[@"x" mutableCopy]], [Xml createProcessingInstruction:[@"x" mutableCopy]], [Xml createComment:[@"x" mutableCopy]]] mutableCopy];
 	{
 		int _g = 0;
 		while (_g < l.length) {
 			
-			NSMutableArray *xml = [[NSMutableArray alloc] initWithObject:[l hx_objectAtIndex:_g]];
+			Xml *xml = [l hx_objectAtIndex:_g];
 			++_g;
-			[self exc:^- (void) {
-				[[xml hx_objectAtIndex:0] firstChild];
-			} pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"183",@"lineNumber", @"unit.TestXML",@"className", @"testNodetype",@"methodName", nil]];
-			[self exc:^- (void) {
-				[[xml hx_objectAtIndex:0] firstElement];
-			} pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"184",@"lineNumber", @"unit.TestXML",@"className", @"testNodetype",@"methodName", nil]];
-			[self exc:^- (void) {
-				[[xml hx_objectAtIndex:0] elements];
-			} pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"185",@"lineNumber", @"unit.TestXML",@"className", @"testNodetype",@"methodName", nil]];
-			[self exc:^- (void) {
-				[[xml hx_objectAtIndex:0] elementsNamed:[NSMutableString stringWithString:@"x"]];
-			} pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"186",@"lineNumber", @"unit.TestXML",@"className", @"testNodetype",@"methodName", nil]];
-			[self exc:^- (void) {
-				[[xml hx_objectAtIndex:0] addChild:[element hx_objectAtIndex:0]];
-			} pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"187",@"lineNumber", @"unit.TestXML",@"className", @"testNodetype",@"methodName", nil]];
-			[self exc:^- (void) {
-				[[xml hx_objectAtIndex:0] removeChild:[element hx_objectAtIndex:0]];
-			} pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"188",@"lineNumber", @"unit.TestXML",@"className", @"testNodetype",@"methodName", nil]];
-			[self exc:^- (void) {
-				[[xml hx_objectAtIndex:0] insertChild:[element hx_objectAtIndex:0] pos:0];
-			} pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"189",@"lineNumber", @"unit.TestXML",@"className", @"testNodetype",@"methodName", nil]];
-			[self exc:^- (void) {
+			[self exc:^(){
+				[xml firstChild];
+			} pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"183", @"className":@"unit.TestXML", @"methodName":@"testNodetype"}];
+			[self exc:^(){
+				[xml firstElement];
+			} pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"184", @"className":@"unit.TestXML", @"methodName":@"testNodetype"}];
+			[self exc:^(){
+				[xml elements];
+			} pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"185", @"className":@"unit.TestXML", @"methodName":@"testNodetype"}];
+			[self exc:^(){
+				[xml elementsNamed:[@"x" mutableCopy]];
+			} pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"186", @"className":@"unit.TestXML", @"methodName":@"testNodetype"}];
+			[self exc:^(){
+				[xml addChild:element];
+			} pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"187", @"className":@"unit.TestXML", @"methodName":@"testNodetype"}];
+			[self exc:^(){
+				[xml removeChild:element];
+			} pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"188", @"className":@"unit.TestXML", @"methodName":@"testNodetype"}];
+			[self exc:^(){
+				[xml insertChild:element pos:0];
+			} pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"189", @"className":@"unit.TestXML", @"methodName":@"testNodetype"}];
+			[self exc:^(){
 				{
-					id _it = [[xml hx_objectAtIndex:0] iterator];
+					id _it = [xml iterator];
 					while ( [_it hasNext] ) do {
 						Xml x = [_it next];
 						nil;
 					}
 				}
-			} pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"190",@"lineNumber", @"unit.TestXML",@"className", @"testNodetype",@"methodName", nil]];
+			} pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"190", @"className":@"unit.TestXML", @"methodName":@"testNodetype"}];
 		}
 	}
 }
 - (void) testEntities{
 	
-	NSMutableArray *entities = [[NSMutableArray alloc] initWithObjects:[NSMutableString stringWithString:@"&lt;"], [NSMutableString stringWithString:@"&gt;"], [NSMutableString stringWithString:@"&quot;"], [NSMutableString stringWithString:@"&amp;"], [NSMutableString stringWithString:@"&apos;"], [NSMutableString stringWithString:@"&nbsp;"], [NSMutableString stringWithString:@"&euro;"], [NSMutableString stringWithString:@"&#64;"], [NSMutableString stringWithString:@"&#244;"], [NSMutableString stringWithString:@"&#x3F;"], [NSMutableString stringWithString:@"&#xFF;"], nil];
+	NSMutableArray *entities = [@[[@"&lt;" mutableCopy], [@"&gt;" mutableCopy], [@"&quot;" mutableCopy], [@"&amp;" mutableCopy], [@"&apos;" mutableCopy], [@"&nbsp;" mutableCopy], [@"&euro;" mutableCopy], [@"&#64;" mutableCopy], [@"&#244;" mutableCopy], [@"&#x3F;" mutableCopy], [@"&#xFF;" mutableCopy]] mutableCopy];
 	
 	NSMutableArray *values = [entities copy];
 	{
@@ -228,42 +223,38 @@
 		while (_g1 < _g) {
 			int i = _g1++;
 			[self infos:[entities hx_objectAtIndex:i]];
-			[self eq:[[[Xml parse:[entities hx_objectAtIndex:i]] firstChild] get_nodeValue] v2:[values hx_objectAtIndex:i] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"217",@"lineNumber", @"unit.TestXML",@"className", @"testEntities",@"methodName", nil]];
+			[self eq:[[[Xml parse:[entities hx_objectAtIndex:i]] firstChild] get_nodeValue] v2:[values hx_objectAtIndex:i] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"217", @"className":@"unit.TestXML", @"methodName":@"testEntities"}];
 		}
 	}
 }
 - (void) testCustomXmlParser{
 	
-	NSMutableArray *entities = [[NSMutableArray alloc] initWithObjects:[NSMutableString stringWithString:@"&lt;"], [NSMutableString stringWithString:@"&gt;"], [NSMutableString stringWithString:@"&quot;"], [NSMutableString stringWithString:@"&amp;"], [NSMutableString stringWithString:@"&apos;"], [NSMutableString stringWithString:@"&euro;"], [NSMutableString stringWithString:@"&#64;"], [NSMutableString stringWithString:@"&#244;"], [NSMutableString stringWithString:@"&#x3F;"], [NSMutableString stringWithString:@"&#xFF;"], nil];
+	NSMutableArray *entities = [@[[@"&lt;" mutableCopy], [@"&gt;" mutableCopy], [@"&quot;" mutableCopy], [@"&amp;" mutableCopy], [@"&apos;" mutableCopy], [@"&euro;" mutableCopy], [@"&#64;" mutableCopy], [@"&#244;" mutableCopy], [@"&#x3F;" mutableCopy], [@"&#xFF;" mutableCopy]] mutableCopy];
 	
-	NSMutableArray *values = [[NSMutableArray alloc] initWithObjects:[NSMutableString stringWithString:@"<"], [NSMutableString stringWithString:@">"], [NSMutableString stringWithString:@"\""], [NSMutableString stringWithString:@"&"], [NSMutableString stringWithString:@"'"], [NSMutableString stringWithString:@"&euro;"], [NSMutableString stringWithString:@"@"], [NSMutableString:[NSNumber numberWithInt:244]], [NSMutableString stringWithString:@"?"], [NSMutableString:[NSNumber numberWithInt:255]], nil];
+	NSMutableArray *values = [@[[@"<" mutableCopy], [@">" mutableCopy], [@"\"" mutableCopy], [@"&" mutableCopy], [@"'" mutableCopy], [@"&euro;" mutableCopy], [@"@" mutableCopy], [NSMutableString:@244], [@"?" mutableCopy], [NSMutableString:@255]] mutableCopy];
 	{
 		int _g1 = 0; int _g = entities.length;
 		while (_g1 < _g) {
 			int i = _g1++;
 			[self infos:[entities hx_objectAtIndex:i]];
-			[self eq:[[[Parser parse:[entities hx_objectAtIndex:i]] firstChild] get_nodeValue] v2:[values hx_objectAtIndex:i] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"227",@"lineNumber", @"unit.TestXML",@"className", @"testCustomXmlParser",@"methodName", nil]];
+			[self eq:[[[Parser parse:[entities hx_objectAtIndex:i]] firstChild] get_nodeValue] v2:[values hx_objectAtIndex:i] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"227", @"className":@"unit.TestXML", @"methodName":@"testCustomXmlParser"}];
 		}
 	}
 	
-	NSMutableString *s = [NSMutableString stringWithString:@"<a>&gt;<b>&lt;</b>&lt;&gt;<b>&gt;&lt;</b>\"</a>"];
+	NSMutableString *s = [@"<a>&gt;<b>&lt;</b>&lt;&gt;<b>&gt;&lt;</b>\"</a>" mutableCopy];
 	
 	Xml *xml = [Parser parse:s];
-	[self eq:s v2:[xml toString] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"232",@"lineNumber", @"unit.TestXML",@"className", @"testCustomXmlParser",@"methodName", nil]];
+	[self eq:s v2:[xml toString] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"232", @"className":@"unit.TestXML", @"methodName":@"testCustomXmlParser"}];
 }
 - (void) testMore{
 	
-	Xml *doc = [Xml parse:[NSMutableString stringWithString:@"<a>A</a><i>I</i>"]];
+	Xml *doc = [Xml parse:[@"<a>A</a><i>I</i>" mutableCopy]];
 	
-	Xml *aElement = [[doc elementsNamed:[NSMutableString stringWithString:@"a"]] next];
+	Xml *aElement = [[doc elementsNamed:[@"a" mutableCopy]][@"next"]];
 	
-	Xml *iElement = [[doc elementsNamed:[NSMutableString stringWithString:@"i"]] next];
+	Xml *iElement = [[doc elementsNamed:[@"i" mutableCopy]][@"next"]];
 	[iElement addChild:aElement];
-	[self eq:[doc toString] v2:[NSMutableString stringWithString:@"<i>I<a>A</a></i>"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestXML.hx",@"fileName", @"241",@"lineNumber", @"unit.TestXML",@"className", @"testMore",@"methodName", nil]];
-}
-- (id) init{
-	self = [super init];
-	return self;
+	[self eq:[doc toString] v2:[@"<i>I<a>A</a></i>" mutableCopy] pos:@{@"fileName":@"TestXML.hx", @"lineNumber":@"241", @"className":@"unit.TestXML", @"methodName":@"testMore"}];
 }
 
 @end

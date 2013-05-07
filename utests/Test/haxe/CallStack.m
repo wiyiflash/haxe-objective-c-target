@@ -10,7 +10,7 @@
 @implementation CallStack
 
 + (NSMutableArray*) exceptionStack{
-	return [[NSMutableArray alloc] initWithObjects:, nil];
+	return [@[] mutableCopy];
 }
 + (NSMutableString*) toString:(NSMutableArray*)stack{
 	
@@ -21,7 +21,7 @@
 			
 			CallStack *s = [stack hx_objectAtIndex:_g];
 			++_g;
-			[b.b appendString:[NSMutableString stringWithString:@"\nCalled from "]];
+			[b.b appendString:[@"\nCalled from " mutableCopy]];
 			[CallStack itemToString:b s:s];
 		}
 	}
@@ -34,12 +34,12 @@
 		
 		case 0:
 		{
-			[b.b appendString:[NSMutableString stringWithString:@"a C function"]]}break
+			[b.b appendString:[@"a C function" mutableCopy]]}break
 		case 1:
 		
 		var MATCH s_eModule_0 : NSMutableString = $e.params[0]{
 			{
-				[b.b appendString:[NSMutableString stringWithString:@"module "]];
+				[b.b appendString:[@"module " mutableCopy]];
 				b.b += [Std string:s_eModule_0];
 			}}break
 		case 2:
@@ -48,26 +48,26 @@
 			{
 				if (s_eFilePos_0 != nil) {
 					[CallStack itemToString:b s:s_eFilePos_0];
-					[b.b appendString:[NSMutableString stringWithString:@" ("]];
+					[b.b appendString:[@" (" mutableCopy]];
 				}
 				b.b += [Std string:s_eFilePos_1];
-				[b.b appendString:[NSMutableString stringWithString:@" line "]];
+				[b.b appendString:[@" line " mutableCopy]];
 				b.b += [Std string:s_eFilePos_2];
-				if (s_eFilePos_0 != nil) [b.b appendString:[NSMutableString stringWithString:@")"]];
+				if (s_eFilePos_0 != nil) [b.b appendString:[@")" mutableCopy]];
 			}}break
 		case 3:
 		
 		var MATCH s_eMethod_1 : NSMutableString = $e.params[1], MATCH s_eMethod_0 : NSMutableString = $e.params[0]{
 			{
 				b.b += [Std string:s_eMethod_0];
-				[b.b appendString:[NSMutableString stringWithString:@"."]];
+				[b.b appendString:[@"." mutableCopy]];
 				b.b += [Std string:s_eMethod_1];
 			}}break
 		case 4:
 		
 		var MATCH s_eLambda_0 : int = $e.params[0]{
 			{
-				[b.b appendString:[NSMutableString stringWithString:@"local function #"]];
+				[b.b appendString:[@"local function #" mutableCopy]];
 				b.b += [Std string:s_eLambda_0];
 			}}break
 	}

@@ -265,7 +265,7 @@ let prepare_using_field cf = match cf.cf_type with
 	| TFun((_,_,tf) :: args,ret) ->
 		let rec loop acc overloads = match overloads with
 			| ({cf_type = TFun((_,_,tfo) :: args,ret)} as cfo) :: l ->
-				let tfo = apply_params cfo.cf_params (List.map snd cf.cf_params) tfo in
+				let tfo = apply_params cfo.cf_params (List.map snd cfo.cf_params) tfo in
 				(* ignore overloads which have a different first argument *)
 				if Type.type_iseq tf tfo then loop ({cfo with cf_type = TFun(args,ret)} :: acc) l else loop acc l
 			| _ :: l ->
@@ -456,35 +456,53 @@ let unify_min ctx el =
 		(List.hd el).etype
 
 let rec unify_call_params ctx ?(overloads=None) cf el args r p inline =
-	let overloads = match cf, overloads with
-		| Some(TInst(c,pl),f), None when ctx.com.config.pf_overload ->
-				let overloads = Typeload.get_overloads c f.cf_name in
+  (* 'overloads' will carry a ( return_result ) list, called 'compatible' *)
+  (* it's used to correctly support an overload selection algorithm *)
+	let overloads, compatible, legacy = match cf, overloads with
+		| Some(TInst(c,pl),f), None when ctx.com.config.pf_overload && Meta.has Meta.Overload f.cf_meta ->
+				let overloads = List.filter (fun (_,f2) -> not (f == f2)) (Typeload.get_overloads c f.cf_name) in
 				if overloads = [] then (* is static function *)
-					List.map (fun f -> f.cf_type, f) f.cf_overloads
+					List.map (fun f -> f.cf_type, f) f.cf_overloads, [], false
 				else
-					overloads
+					overloads, [], false
 		| Some(_,f), None ->
-				List.map (fun f -> f.cf_type, f) f.cf_overloads
+				List.map (fun f -> f.cf_type, f) f.cf_overloads, [], true
 		| _, Some s ->
 				s
-		| _ -> []
+		| _ -> [], [], true
 	in
-	let next() =
+	let next ?retval () =
+		let compatible = Option.map_default (fun r -> r :: compatible) compatible retval in
 		match cf, overloads with
 		| Some (TInst(c,pl),_), (ft,o) :: l ->
+			let o = { o with cf_type = ft } in
 			let args, ret = (match follow (apply_params c.cl_types pl (field_type ctx c pl o p)) with (* I'm getting non-followed types here. Should it happen? *)
 				| TFun (tl,t) -> tl, t
 				| _ -> assert false
 			) in
-			Some (unify_call_params ctx ~overloads:(Some l) (Some (TInst(c,pl),{ o with cf_type = ft })) el args ret p inline)
-		| Some (t,_), (_,o) :: l ->
+			Some (unify_call_params ctx ~overloads:(Some (l,compatible,legacy)) (Some (TInst(c,pl),o)) el args ret p inline)
+		| Some (t,_), (ft,o) :: l ->
+			let o = { o with cf_type = ft } in
 			let args, ret = (match Type.field_type o with
 				| TFun (tl,t) -> tl, t
 				| _ -> assert false
 			) in
-			Some (unify_call_params ctx ~overloads:(Some l) (Some (t, o)) el args ret p inline)
+			Some (unify_call_params ctx ~overloads:(Some (l,compatible,legacy)) (Some (t, o)) el args ret p inline)
 		| _ ->
-			None
+			match compatible with
+			| [] -> None
+			| [acc,t] -> Some (List.map fst acc, t)
+			| comp ->
+				match Codegen.Overloads.reduce_compatible compatible with
+				| [acc,t] -> Some (List.map fst acc, t)
+				| (acc,t) :: _ -> (* ambiguous overload *)
+					let name = match cf with | Some(_,f) -> "'" ^ f.cf_name ^ "' " | _ -> "" in
+					let format_amb = String.concat "\n" (List.map (fun (_,t) ->
+						"Function " ^ name ^ "with type " ^ (s_type (print_context()) t)
+					) compatible) in
+					display_error ctx ("This call is ambiguous between the following methods:\n" ^ format_amb) p;
+					Some (List.map fst acc,t)
+				| [] -> None
 	in
 	let fun_details() =
 		let format_arg = (fun (name,opt,_) -> (if opt then "?" else "") ^ name) in
@@ -505,7 +523,7 @@ let rec unify_call_params ctx ?(overloads=None) cf el args r p inline =
 	let rec no_opt = function
 		| [] -> []
 		| ({ eexpr = TConst TNull },true) :: l -> no_opt l
-		| l -> List.map fst l
+		| l -> l
 	in
 	let rec default_value t =
 		if is_pos_infos t then
@@ -518,10 +536,19 @@ let rec unify_call_params ctx ?(overloads=None) cf el args r p inline =
 	let rec loop acc l l2 skip =
 		match l , l2 with
 		| [] , [] ->
-			if not (inline && ctx.g.doinline) && not ctx.com.config.pf_pad_nulls then
+			let args,tf = if not (inline && ctx.g.doinline) && not ctx.com.config.pf_pad_nulls then
 				List.rev (no_opt acc), (TFun(args,r))
 			else
-				List.rev (List.map fst acc), (TFun(args,r))
+				List.rev (acc), (TFun(args,r))
+			in
+			if not legacy && ctx.com.config.pf_overload then
+				match next ~retval:(args,tf) () with
+				| Some l -> l
+				| None ->
+					display_error ctx ("No overloaded function matches the arguments. Are the arguments correctly typed?") p;
+					List.map fst args, tf
+			else
+				List.map fst args, tf
 		| [] , (_,false,_) :: _ ->
 			error (List.fold_left (fun acc (_,_,t) -> default_value t :: acc) acc l2) "Not enough"
 		| [] , (name,true,t) :: l ->
@@ -1059,9 +1086,9 @@ and type_field ctx e i p mode =
 		(try
 			let c2, t , f = class_field ctx c params i p in
 			if e.eexpr = TConst TSuper then (match mode,f.cf_kind with
-				| MGet,Var {v_read = AccCall _}
-				| MSet,Var {v_write = AccCall _}
-				| MCall,Var {v_read = AccCall _} ->
+				| MGet,Var {v_read = AccCall }
+				| MSet,Var {v_write = AccCall }
+				| MCall,Var {v_read = AccCall } ->
 					()
 				| MCall, Var _ ->
 					error "Cannot access superclass variable for calling: needs to be a proper method" p
@@ -1186,7 +1213,7 @@ and type_field ctx e i p mode =
 				let t = field_type f in
 				let ef = field_expr f t in
 				AKUsing (ef,c,f,e)
-			| MCall, Var {v_read = AccCall _} ->
+			| MCall, Var {v_read = AccCall} ->
 				error (i ^ " cannot be called") p
 			| MGet, Var {v_read = AccNever} ->
 				AKNo f.cf_name
@@ -1384,6 +1411,11 @@ let type_generic_function ctx (e,cf) el p =
 	with Codegen.Generic_Exception (msg,p) ->
 		error msg p)
 
+let call_to_string ctx c e =
+	let et = type_module_type ctx (TClassDecl c) None e.epos in
+	let cf = PMap.find "toString" c.cl_statics in
+	make_call ctx (mk (TField(et,FStatic(c,cf))) cf.cf_type e.epos) [e] ctx.t.tstring e.epos
+
 let rec type_binop ctx op e1 e2 is_assign_op p =
 	match op with
 	| OpAssign ->
@@ -1514,9 +1546,7 @@ let rec type_binop ctx op e1 e2 is_assign_op p =
 	let to_string e =
 		match classify e.etype with
 		| KAbstract {a_impl = Some c} when PMap.mem "toString" c.cl_statics ->
-			let et = type_module_type ctx (TClassDecl c) None e.epos in
-			let cf = PMap.find "toString" c.cl_statics in
-			make_call ctx (mk (TField(et,FStatic(c,cf))) cf.cf_type e.epos) [e] ctx.t.tstring e.epos
+			call_to_string ctx c e
 		| KUnk | KDyn | KParam _ | KOther | KAbstract _ ->
 			let std = type_type ctx ([],"Std") e.epos in
 			let acc = acc_get ctx (type_field ctx std "string" e.epos MCall) e.epos in
@@ -2663,8 +2693,13 @@ and type_expr ctx (e,p) (with_type:with_type) =
 				| Value -> unify_min ctx [e1; e2]
 				| WithType t | WithTypeResume t when (match follow t with TMono _ -> true | _ -> false) -> unify_min ctx [e1; e2]
 				| WithType t | WithTypeResume t ->
-					unify ctx e1.etype t e1.epos;
-					unify ctx e2.etype t e2.epos;
+					begin try
+						unify_raise ctx e1.etype t e1.epos;
+						unify_raise ctx e2.etype t e2.epos;
+					with Error (Unify l,p) -> match with_type with
+						| WithTypeResume _ -> raise (WithTypeError (l,p))
+						| _ -> display_error ctx (error_msg (Unify l)) p
+					end;
 					t
 			in
 			mk (TIf (e,e1,Some e2)) t p)
@@ -3094,6 +3129,13 @@ and type_expr ctx (e,p) (with_type:with_type) =
 		let old = ctx.meta in
 		ctx.meta <- m :: ctx.meta;
 		let e = type_expr ctx e with_type in
+		let e = match m with
+			| (Meta.ToString,_,_) ->
+				(match follow e.etype with
+					| TAbstract({a_impl = Some c},_) when PMap.mem "toString" c.cl_statics -> call_to_string ctx c e
+					| _ -> e)
+			| _ -> e
+		in
 		ctx.meta <- old;
 		e
 
@@ -3115,7 +3157,8 @@ and type_call ctx e el (with_type:with_type) p =
 			let infos = type_expr ctx infos Value in
 			mk (TCall (mk (TLocal (alloc_var "`trace" t_dynamic)) t_dynamic p,[e;infos])) ctx.t.tvoid p
 		else
-			type_expr ctx (ECall ((EField ((EField ((EConst (Ident "haxe"),p),"Log"),p),"trace"),p),[e;EUntyped infos,p]),p) NoValue
+			let me = Meta.ToString,[],pos e in
+			type_expr ctx (ECall ((EField ((EField ((EConst (Ident "haxe"),p),"Log"),p),"trace"),p),[(EMeta (me,e),pos e);EUntyped infos,p]),p) NoValue
 	| (EConst(Ident "callback"),p1),args ->
 		let ecb = try Some (type_ident_raise ctx "callback" p1 MCall) with Not_found -> None in
 		(match ecb with
@@ -3703,6 +3746,9 @@ let make_macro_api ctx p =
 			let ret = !delayed_macro_result in
 			delayed_macro_result := (fun() -> assert false);
 			ret
+		);
+		Interp.use_cache = (fun() ->
+			!macro_enable_cache
 		);
 	}
 

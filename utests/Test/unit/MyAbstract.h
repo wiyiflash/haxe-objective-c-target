@@ -8,7 +8,7 @@
 
 
 
-@interface MyAbstractImpl : NSObject
+@interface MyAbstract_Impl_ : NSObject
 
 + (int) _new:(int)x;
 + (int) incr:(int)this1;
@@ -22,7 +22,7 @@
 #import "../String.h"
 #import "../unit/MyAbstract.h"
 
-@interface TemplateWrapImpl : NSObject
+@interface TemplateWrap_Impl_ : NSObject
 
 + (Template*) _new:(NSMutableString*)x;
 + (Template*) get:(Template*)this1;
@@ -35,7 +35,7 @@
 
 #import "../String.h"
 
-@interface MeterImpl : NSObject
+@interface Meter_Impl_ : NSObject
 
 + (float) _new:(float)f;
 + (float) get:(float)this1;
@@ -48,11 +48,22 @@
 #import "../String.h"
 #import "../unit/MyAbstract.h"
 
-@interface KilometerImpl : NSObject
+@interface Kilometer_Impl_ : NSObject
 
 + (float) _new:(float)f;
 + (NSMutableString*) toString:(float)this1;
 + (Kilometer*) fromMeter:(Meter*)m;
+
+@end
+
+
+
+#import "../unit/MyAbstract.h"
+
+@interface MyClassWithAbstractArgCtor : NSObject
+
+@property (nonatomic, strong) Kilometer *km;
+- (id) init:(Kilometer*)km;
 
 @end
 
@@ -64,7 +75,7 @@
 #import "../Array.h"
 #import "../Std.h"
 
-@interface MyHashImpl : NSObject
+@interface MyHash_Impl_ : NSObject
 
 + (StringMap*) _new;
 + (void) set:(StringMap*)this1 k:(NSMutableString*)k v:(id)v;
@@ -90,7 +101,7 @@
 #import "../unit/MyAbstract.h"
 #import "../String.h"
 
-@interface AbstractZImpl : NSObject
+@interface AbstractZ_Impl_ : NSObject
 
 + (int) toFoo:(AbstractBase*)a;
 + (NSMutableString*) toString:(AbstractBase*)a;
@@ -114,8 +125,20 @@
 #import "../unit/MyAbstract.h"
 #import "../String.h"
 
-@interface MyVectorImpl : NSObject
+@interface MyVector_Impl_ : NSObject
 
++ (float) x;
++ (void) setX:(float)val;
++ (float) y;
++ (void) setY:(float)val;
++ (float) z;
++ (void) setZ:(float)val;
++ (float) get_x:(MyPoint3*)this1;
++ (float) get_y:(MyPoint3*)this1;
++ (float) get_z:(MyPoint3*)this1;
++ (float) set_x:(MyPoint3*)this1 x:(float)x;
++ (float) set_y:(MyPoint3*)this1 y:(float)y;
++ (float) set_z:(MyPoint3*)this1 z:(float)z;
 + (MyVector*) add:(MyVector*)lhs rhs:(MyVector*)rhs;
 + (MyVector*) scalarAssign:(MyVector*)lhs rhs:(float)rhs;
 + (MyVector*) scalar:(MyVector*)lhs rhs:(float)rhs;
@@ -132,10 +155,11 @@
 #import "../StringBuf.h"
 #import "../Std.h"
 
-@interface MyIntImpl : NSObject
+@interface MyInt_Impl_ : NSObject
 
 
 + (NSMutableString*) repeat:(MyInt*)lhs rhs:(NSMutableString*)rhs;
++ (NSMutableString*) cut:(NSMutableString*)lhs rhs:(MyInt*)rhs;
 
 @end
 
@@ -143,7 +167,7 @@
 
 #import "../unit/MyAbstract.h"
 
-@interface MyInt2Impl : NSObject
+@interface MyInt2_Impl_ : NSObject
 
 + (int) _new:(int)v;
 + (int) get:(int)this1;
@@ -155,7 +179,7 @@
 
 
 
-@interface MyStringImpl : NSObject
+@interface MyString_Impl_ : NSObject
 
 
 
@@ -190,7 +214,7 @@
 #import "../String.h"
 #import "../Reflect.h"
 
-@interface MyReflectImpl : NSObject
+@interface MyReflect_Impl_ : NSObject
 
 + (id) arrayAccess:(id)this1 key:(NSMutableString*)key;
 + (id) arrayWrite:(id)this1 key:(NSMutableString*)key value:(id)value;
@@ -200,12 +224,11 @@
 
 
 #import "../String.h"
-#import "../Array.h"
 
-@interface MyAbstractClosureImpl : NSObject
+@interface MyAbstractClosure_Impl_ : NSObject
 
 + (NSMutableString*) _new:(NSMutableString*)value;
-+ (SEL) test:(NSMutableString*)this1;
++ (id) test:(NSMutableString*)this1;
 + (void) setVal:(NSMutableString*)this1 v:(NSMutableString*)v;
 
 @end
@@ -214,13 +237,37 @@
 
 #import "../String.h"
 
-@interface MyAbstractSetterImpl : NSObject
+@interface MyAbstractSetter_Impl_ : NSObject
 
 + (NSMutableString*) value;
 + (void) setValue:(NSMutableString*)val;
 + (id) _new;
 + (NSMutableString*) get_value:(id)this1;
 + (NSMutableString*) set_value:(id)this1 s:(NSMutableString*)s;
+
+@end
+
+
+
+#import "../unit/MyAbstract.h"
+
+@interface MyAbstractCounter_Impl_ : NSObject
+
++ (int) counter;
++ (void) setCounter:(int)val;
++ (int) _new:(int)v;
++ (MyAbstractCounter*) fromInt:(int)v;
++ (int) getValue:(int)this1;
+
+@end
+
+
+
+
+@interface MyAbstractThatCallsAMember_Impl_ : NSObject
+
++ (int) _new:(int)i;
++ (void) bar:(int)this1;
 
 @end
 

@@ -12,7 +12,7 @@
 
 // Defining a dynamic method
 + (void) trace:(id)v infos:(id)infos;
-@property (nonatomic,copy) void(^property_trace)(id, id);
+@property (nonatomic,copy) void(^property_trace);
 
 @end
 

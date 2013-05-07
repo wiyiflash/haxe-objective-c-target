@@ -18,45 +18,13 @@
 - (BOOL) exists:(id)key{
 	return [self objectForKey:[NSString stringWithFormat:@"%@",key]] != nil;
 }
-- (BOOL) remove:(id)key{
-	if ([self exists:key]) {
-		[self removeObjectForKey:[NSString stringWithFormat:@"%@",key]];
-		return YES;
-	}
-	return NO;
-}
 - (id) keys{
 	
 	NSMutableArray *a = [self allKeys];
 	return [a iterator];
 }
-- (id) iterator{
-	
-	NSMutableArray *a = [self allValues];
-	return [a iterator];
-}
-- (NSMutableString*) toString{
-	
-	NSMutableString *s = [NSMutableString stringWithString:@""];
-	id it = [self keys];
-	{
-		id _it = it;
-		while ( [_it hasNext] ) do {
-			id i = [_it next];
-			{
-				[s appendString: (( (s == [NSMutableString stringWithString:@""]) ? [NSMutableString stringWithString:@""] : [NSMutableString stringWithString:@","])) + [Std string:i]];
-				[s appendString:[NSMutableString stringWithString:@" => "]];
-				[s appendString:[Std string:[self get:i]]];
-			};
-		}
-	}
-	return [s stringByAppendingString:[NSMutableString stringWithString:@"}"]];
-}
-- (id) init:(BOOL)weakKeys{
+- (id) init{
 	self = [super init];
-	// Optional arguments
-	if (!weakKeys) weakKeys = NO;
-	
 	return self;
 }
 

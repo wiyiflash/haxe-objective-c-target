@@ -11,133 +11,129 @@
 
 - (void) test{
 	
-	NSMutableArray *r = [[NSMutableArray alloc] initWithObject:[[EReg alloc] init:[NSMutableString stringWithString:@"a+(b)?(c*)a+"] opt:[NSMutableString stringWithString:@""]]];
-	[self f:[[r hx_objectAtIndex:0] match:[NSMutableString stringWithString:@""]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"9",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self f:[[r hx_objectAtIndex:0] match:[NSMutableString stringWithString:@"xxyy"]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"10",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self t:[[r hx_objectAtIndex:0] match:[NSMutableString stringWithString:@"xxaabcayyy"]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"11",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self eq:[[r hx_objectAtIndex:0] matched:0] v2:[NSMutableString stringWithString:@"aabca"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"12",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self eq:[[r hx_objectAtIndex:0] matched:1] v2:[NSMutableString stringWithString:@"b"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"13",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self eq:[[r hx_objectAtIndex:0] matched:2] v2:[NSMutableString stringWithString:@"c"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"14",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self eq:[[r hx_objectAtIndex:0] matchedLeft] v2:[NSMutableString stringWithString:@"xx"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"15",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self eq:[[r hx_objectAtIndex:0] matchedRight] v2:[NSMutableString stringWithString:@"yyy"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"16",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self eq:[[r hx_objectAtIndex:0] matchedPos] pos v2:2 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"17",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self eq:[[r hx_objectAtIndex:0] matchedPos] len v2:5 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"18",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self t:[[r hx_objectAtIndex:0] match:[NSMutableString stringWithString:@"aaa"]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"20",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self eq:[[r hx_objectAtIndex:0] matched:0] v2:[NSMutableString stringWithString:@"aaa"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"21",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self eq:[[r hx_objectAtIndex:0] matchedLeft] v2:[NSMutableString stringWithString:@""] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"22",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self eq:[[r hx_objectAtIndex:0] matchedRight] v2:[NSMutableString stringWithString:@""] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"23",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self eq:[[r hx_objectAtIndex:0] matched:1] v2:nil pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"24",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self eq:[[r hx_objectAtIndex:0] matched:2] v2:[NSMutableString stringWithString:@""] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"25",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self unspec:^- (void) {
-		[[r hx_objectAtIndex:0] matched:3];
+	EReg *r = [[EReg alloc] init:[@"a+(b)?(c*)a+" mutableCopy] opt:[@"" mutableCopy]];
+	[self f:[r match:[@"" mutableCopy]] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"9", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self f:[r match:[@"xxyy" mutableCopy]] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"10", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self t:[r match:[@"xxaabcayyy" mutableCopy]] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"11", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self eq:[r matched:0] v2:[@"aabca" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"12", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self eq:[r matched:1] v2:[@"b" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"13", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self eq:[r matched:2] v2:[@"c" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"14", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self eq:[r matchedLeft] v2:[@"xx" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"15", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self eq:[r matchedRight] v2:[@"yyy" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"16", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self eq:[r matchedPos][@"pos"] v2:2 pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"17", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self eq:[r matchedPos][@"len"] v2:5 pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"18", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self t:[r match:[@"aaa" mutableCopy]] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"20", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self eq:[r matched:0] v2:[@"aaa" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"21", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self eq:[r matchedLeft] v2:[@"" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"22", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self eq:[r matchedRight] v2:[@"" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"23", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self eq:[r matched:1] v2:nil pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"24", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self eq:[r matched:2] v2:[@"" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"25", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self unspec:^(){
+		[r matched:3];
 	} pos:nil];
-	[self unspec:^- (void) {
-		[[r hx_objectAtIndex:0] matched:-1];
+	[self unspec:^(){
+		[r matched:-1];
 	} pos:nil];
 	
-	EReg *r1 = [[EReg alloc] init:[NSMutableString stringWithString:@"^(b)?$"] opt:[NSMutableString stringWithString:@""]];
-	[self t:[r1 match:[NSMutableString stringWithString:@""]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"30",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self eq:[r1 matched:0] v2:[NSMutableString stringWithString:@""] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"31",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self eq:[r1 matched:1] v2:nil pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"32",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self t:[[[EReg alloc] init:[NSMutableString stringWithString:@"/"] opt:[NSMutableString stringWithString:@""]] match:[NSMutableString stringWithString:@"/"]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"34",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self t:[[[EReg alloc] init:[NSMutableString stringWithString:@"\n"] opt:[NSMutableString stringWithString:@""]] match:[NSMutableString stringWithString:@"\n"]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"36",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self f:[[[EReg alloc] init:[NSMutableString stringWithString:@"\\\\n"] opt:[NSMutableString stringWithString:@""]] match:[NSMutableString stringWithString:@"\n"]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"37",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self t:[[[EReg alloc] init:[NSMutableString stringWithString:@"\\\\n"] opt:[NSMutableString stringWithString:@""]] match:[NSMutableString stringWithString:@"\\n"]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"38",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self t:[[[EReg alloc] init:[NSMutableString stringWithString:@"\""] opt:[NSMutableString stringWithString:@""]] match:[NSMutableString stringWithString:@"\""]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"40",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self f:[[[EReg alloc] init:[NSMutableString stringWithString:@"\\\\\""] opt:[NSMutableString stringWithString:@""]] match:[NSMutableString stringWithString:@"\""]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"41",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self t:[[[EReg alloc] init:[NSMutableString stringWithString:@"\\\\\""] opt:[NSMutableString stringWithString:@""]] match:[NSMutableString stringWithString:@"\\\""]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"42",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self t:[[[EReg alloc] init:[NSMutableString stringWithString:@"\\$"] opt:[NSMutableString stringWithString:@""]] match:[NSMutableString stringWithString:@"$"]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"44",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self f:[[[EReg alloc] init:[NSMutableString stringWithString:@"\\\\$"] opt:[NSMutableString stringWithString:@""]] match:[NSMutableString stringWithString:@"$"]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"45",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self f:[[[EReg alloc] init:[NSMutableString stringWithString:@"\\\\$"] opt:[NSMutableString stringWithString:@""]] match:[NSMutableString stringWithString:@"\\$"]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"46",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self t:[[[EReg alloc] init:[NSMutableString stringWithString:@"\\\\\\$"] opt:[NSMutableString stringWithString:@""]] match:[NSMutableString stringWithString:@"\\$"]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"47",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
+	EReg *r1 = [[EReg alloc] init:[@"^(b)?$" mutableCopy] opt:[@"" mutableCopy]];
+	[self t:[r1 match:[@"" mutableCopy]] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"30", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self eq:[r1 matched:0] v2:[@"" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"31", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self eq:[r1 matched:1] v2:nil pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"32", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self t:[[EReg alloc] :[@"/" mutableCopy] opt:[@"" mutableCopy] match:[@"/" mutableCopy]] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"34", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self t:[[EReg alloc] :[@"\n" mutableCopy] opt:[@"" mutableCopy] match:[@"\n" mutableCopy]] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"36", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self f:[[EReg alloc] :[@"\\\\n" mutableCopy] opt:[@"" mutableCopy] match:[@"\n" mutableCopy]] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"37", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self t:[[EReg alloc] :[@"\\\\n" mutableCopy] opt:[@"" mutableCopy] match:[@"\\n" mutableCopy]] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"38", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self t:[[EReg alloc] :[@"\"" mutableCopy] opt:[@"" mutableCopy] match:[@"\"" mutableCopy]] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"40", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self f:[[EReg alloc] :[@"\\\\\"" mutableCopy] opt:[@"" mutableCopy] match:[@"\"" mutableCopy]] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"41", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self t:[[EReg alloc] :[@"\\\\\"" mutableCopy] opt:[@"" mutableCopy] match:[@"\\\"" mutableCopy]] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"42", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self t:[[EReg alloc] :[@"\\$" mutableCopy] opt:[@"" mutableCopy] match:[@"$" mutableCopy]] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"44", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self f:[[EReg alloc] :[@"\\\\$" mutableCopy] opt:[@"" mutableCopy] match:[@"$" mutableCopy]] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"45", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self f:[[EReg alloc] :[@"\\\\$" mutableCopy] opt:[@"" mutableCopy] match:[@"\\$" mutableCopy]] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"46", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self t:[[EReg alloc] :[@"\\\\\\$" mutableCopy] opt:[@"" mutableCopy] match:[@"\\$" mutableCopy]] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"47", @"className":@"unit.TestEReg", @"methodName":@"test"}];
 	
-	EReg *r2 = [[EReg alloc] init:[NSMutableString stringWithString:@"cat"] opt:[NSMutableString stringWithString:@"g"]];
-	[self t:[r2 match:[NSMutableString stringWithString:@"catneko"]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"51",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self t:[r2 match:[NSMutableString stringWithString:@"catneko"]] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"52",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self eq:[[[EReg alloc] init:[NSMutableString stringWithString:@"a+"] opt:[NSMutableString stringWithString:@""]] replace:[NSMutableString stringWithString:@"aabbccaa"] by:[NSMutableString stringWithString:@"x"]] v2:[NSMutableString stringWithString:@"xbbccaa"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"54",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self eq:[[[EReg alloc] init:[NSMutableString stringWithString:@"a+"] opt:[NSMutableString stringWithString:@"g"]] replace:[NSMutableString stringWithString:@"aabbccaa"] by:[NSMutableString stringWithString:@"x"]] v2:[NSMutableString stringWithString:@"xbbccx"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"55",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
+	EReg *r2 = [[EReg alloc] init:[@"cat" mutableCopy] opt:[@"g" mutableCopy]];
+	[self t:[r2 match:[@"catneko" mutableCopy]] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"51", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self t:[r2 match:[@"catneko" mutableCopy]] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"52", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self eq:[[EReg alloc] :[@"a+" mutableCopy] opt:[@"" mutableCopy] replace:[@"aabbccaa" mutableCopy] by:[@"x" mutableCopy]] v2:[@"xbbccaa" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"54", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self eq:[[EReg alloc] :[@"a+" mutableCopy] opt:[@"g" mutableCopy] replace:[@"aabbccaa" mutableCopy] by:[@"x" mutableCopy]] v2:[@"xbbccx" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"55", @"className":@"unit.TestEReg", @"methodName":@"test"}];
 	
-	NSMutableString *test = [NSMutableString stringWithString:@"{ test } .blah  { something:someval } "];
+	NSMutableString *test = [@"{ test } .blah  { something:someval } " mutableCopy];
 	
-	EReg *block = [[EReg alloc] init:[NSMutableString stringWithString:@"\\s*\\{\\s*|\\s*\\}\\s*"] opt:[NSMutableString stringWithString:@"gm"]];
-	[self eq:[block split:test].length v2:5 pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"60",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self eq:[[[NSMutableString stringWithString:@"\""] stringByAppendingString:[[block split:test] join:[NSMutableString stringWithString:@"\",\""]]] stringByAppendingString:[NSMutableString stringWithString:@"\""]] v2:[NSMutableString stringWithString:@"\"\",\"test\",\".blah\",\"something:someval\",\"\""] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"61",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self eq:[[[EReg alloc] init:[NSMutableString stringWithString:@"a+"] opt:[NSMutableString stringWithString:@"g"]] map:[NSMutableString stringWithString:@"aaabacx"] f:^- (NSMutableString*) :(EReg*)r3{
-		return [[[NSMutableString stringWithString:@"["] stringByAppendingString:[[r3 matched:@"0"] substr:@"1" len:nil]] stringByAppendingString:[NSMutableString stringWithString:@"]"]];
-	}] v2:[NSMutableString stringWithString:@"[aa]b[]cx"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"64",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self eq:[[[EReg alloc] init:[NSMutableString stringWithString:@"a+"] opt:[NSMutableString stringWithString:@""]] map:[NSMutableString stringWithString:@"aaabacx"] f:^- (NSMutableString*) :(EReg*)r3{
-		return [[[NSMutableString stringWithString:@"["] stringByAppendingString:[[r3 matched:@"0"] substr:@"1" len:nil]] stringByAppendingString:[NSMutableString stringWithString:@"]"]];
-	}] v2:[NSMutableString stringWithString:@"[aa]bacx"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"65",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self eq:[[[EReg alloc] init:[NSMutableString stringWithString:@"a+(b*)"] opt:[NSMutableString stringWithString:@"g"]] map:[NSMutableString stringWithString:@"aaabacx"] f:^- (NSMutableString*) :(EReg*)r3{
-		return [[[NSMutableString stringWithString:@"["] stringByAppendingString:[r3 matched:@"1"]] stringByAppendingString:[NSMutableString stringWithString:@"]"]];
-	}] v2:[NSMutableString stringWithString:@"[b][]cx"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"67",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self eq:[[[EReg alloc] init:[NSMutableString stringWithString:@"a+"] opt:[NSMutableString stringWithString:@"g"]] map:[NSMutableString stringWithString:@"aaabacx"] f:^- (NSMutableString*) :(EReg*)r3{
-		return [[[NSMutableString stringWithString:@"["] stringByAppendingString:[r3 matchedRight]] stringByAppendingString:[NSMutableString stringWithString:@"]"]];
-	}] v2:[NSMutableString stringWithString:@"[bacx]b[cx]cx"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"68",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self eq:[[[EReg alloc] init:[NSMutableString stringWithString:@"a+"] opt:[NSMutableString stringWithString:@"g"]] map:[NSMutableString stringWithString:@"aaabacxa"] f:^- (NSMutableString*) :(EReg*)r3{
-		return [[[NSMutableString stringWithString:@"["] stringByAppendingString:[r3 matchedLeft]] stringByAppendingString:[NSMutableString stringWithString:@"]"]];
-	}] v2:[NSMutableString stringWithString:@"[]b[aaab]cx[aaabacx]"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"72",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
+	EReg *block = [[EReg alloc] init:[@"\\s*\\{\\s*|\\s*\\}\\s*" mutableCopy] opt:[@"gm" mutableCopy]];
+	[self eq:[block split:test].length v2:5 pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"60", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self eq:[[[@"\"" mutableCopy] stringByAppendingString:[[block split:test] join:[@"\",\"" mutableCopy]]] stringByAppendingString:[@"\"" mutableCopy]] v2:[@"\"\",\"test\",\".blah\",\"something:someval\",\"\"" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"61", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self eq:[[EReg alloc] :[@"a+" mutableCopy] opt:[@"g" mutableCopy] map:[@"aaabacx" mutableCopy] f:^(EReg *r3){
+		return [[[@"[" mutableCopy] stringByAppendingString:[[r3 matched:@"0"] substr:@"1" len:nil]] stringByAppendingString:[@"]" mutableCopy]];
+	}] v2:[@"[aa]b[]cx" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"64", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self eq:[[EReg alloc] :[@"a+" mutableCopy] opt:[@"" mutableCopy] map:[@"aaabacx" mutableCopy] f:^(EReg *r3){
+		return [[[@"[" mutableCopy] stringByAppendingString:[[r3 matched:@"0"] substr:@"1" len:nil]] stringByAppendingString:[@"]" mutableCopy]];
+	}] v2:[@"[aa]bacx" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"65", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self eq:[[EReg alloc] :[@"a+(b*)" mutableCopy] opt:[@"g" mutableCopy] map:[@"aaabacx" mutableCopy] f:^(EReg *r3){
+		return [[[@"[" mutableCopy] stringByAppendingString:[r3 matched:@"1"]] stringByAppendingString:[@"]" mutableCopy]];
+	}] v2:[@"[b][]cx" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"67", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self eq:[[EReg alloc] :[@"a+" mutableCopy] opt:[@"g" mutableCopy] map:[@"aaabacx" mutableCopy] f:^(EReg *r3){
+		return [[[@"[" mutableCopy] stringByAppendingString:[r3 matchedRight]] stringByAppendingString:[@"]" mutableCopy]];
+	}] v2:[@"[bacx]b[cx]cx" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"68", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self eq:[[EReg alloc] :[@"a+" mutableCopy] opt:[@"g" mutableCopy] map:[@"aaabacxa" mutableCopy] f:^(EReg *r3){
+		return [[[@"[" mutableCopy] stringByAppendingString:[r3 matchedLeft]] stringByAppendingString:[@"]" mutableCopy]];
+	}] v2:[@"[]b[aaab]cx[aaabacx]" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"72", @"className":@"unit.TestEReg", @"methodName":@"test"}];
 	
-	EReg *r3 = [[EReg alloc] init:[NSMutableString stringWithString:@"a+"] opt:[NSMutableString stringWithString:@"g"]];
-	[self eq:[r3 map:[NSMutableString stringWithString:@"aaabacx"] f:^- (NSMutableString*) :(EReg*)r4{
-		return [[[NSMutableString stringWithString:@"["] stringByAppendingString:[r4 matchedLeft]] stringByAppendingString:[NSMutableString stringWithString:@"]"]];
-	}] v2:[NSMutableString stringWithString:@"[]b[aaab]cx"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"76",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self eq:[r3 map:[NSMutableString stringWithString:@"aaabacx"] f:^- (NSMutableString*) :(EReg*)r4{
-		return [[[NSMutableString stringWithString:@"["] stringByAppendingString:[r4 matchedLeft]] stringByAppendingString:[NSMutableString stringWithString:@"]"]];
-	}] v2:[NSMutableString stringWithString:@"[]b[aaab]cx"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"77",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
+	EReg *r3 = [[EReg alloc] init:[@"a+" mutableCopy] opt:[@"g" mutableCopy]];
+	[self eq:[r3 map:[@"aaabacx" mutableCopy] f:^(EReg *r4){
+		return [[[@"[" mutableCopy] stringByAppendingString:[r4 matchedLeft]] stringByAppendingString:[@"]" mutableCopy]];
+	}] v2:[@"[]b[aaab]cx" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"76", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self eq:[r3 map:[@"aaabacx" mutableCopy] f:^(EReg *r4){
+		return [[[@"[" mutableCopy] stringByAppendingString:[r4 matchedLeft]] stringByAppendingString:[@"]" mutableCopy]];
+	}] v2:[@"[]b[aaab]cx" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"77", @"className":@"unit.TestEReg", @"methodName":@"test"}];
 	
-	EReg *r4 = [[EReg alloc] init:[NSMutableString stringWithString:@"a+"] opt:[NSMutableString stringWithString:@""]];
-	[self t:[r4 matchSub:[NSMutableString stringWithString:@"abab"] pos:0 len:nil] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"81",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self eq:[r4 matchedRight] v2:[NSMutableString stringWithString:@"bab"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"82",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self t:[r4 matchSub:[NSMutableString stringWithString:@"abab"] pos:1 len:nil] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"83",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self eq:[r4 matchedRight] v2:[NSMutableString stringWithString:@"b"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"84",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self eq:[r4 matchedLeft] v2:[NSMutableString stringWithString:@"ab"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"85",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self t:[r4 matchSub:[NSMutableString stringWithString:@"abab"] pos:0 len:nil] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"87",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self eq:[r4 matchedRight] v2:[NSMutableString stringWithString:@"bab"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"88",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self t:[r4 matchSub:[NSMutableString stringWithString:@"abab"] pos:1 len:nil] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"89",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self eq:[r4 matchedRight] v2:[NSMutableString stringWithString:@"b"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"90",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self eq:[r4 matchedLeft] v2:[NSMutableString stringWithString:@"ab"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"91",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self f:[r4 matchSub:[NSMutableString stringWithString:@"bbaa"] pos:0 len:1] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"93",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self f:[r4 matchSub:[NSMutableString stringWithString:@"bbaa"] pos:0 len:2] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"94",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self f:[r4 matchSub:[NSMutableString stringWithString:@"bbaa"] pos:1 len:1] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"95",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self t:[r4 matchSub:[NSMutableString stringWithString:@"bbaa"] pos:2 len:1] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"96",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self eq:[r4 matchedLeft] v2:[NSMutableString stringWithString:@"bb"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"97",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self eq:[r4 matchedRight] v2:[NSMutableString stringWithString:@"a"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"98",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self eq:[[[EReg alloc] init:[NSMutableString stringWithString:@"x?"] opt:[NSMutableString stringWithString:@"g"]] map:[NSMutableString stringWithString:@"aaabacx"] f:^- (NSMutableString*) :(EReg*)r5{
-		return [[[NSMutableString stringWithString:@"["] stringByAppendingString:[r5 matched:@"0"]] stringByAppendingString:[NSMutableString stringWithString:@"]"]];
-	}] v2:[NSMutableString stringWithString:@"[]a[]a[]a[]b[]a[]c[x]"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"100",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	SEL f = ^- (NSMutableString*) :(id)x{
-		return [[[[[[[[[NSMutableString stringWithString:@"(["] stringByAppendingString:[x matchedLeft]] stringByAppendingString:[NSMutableString stringWithString:@"]"]] stringByAppendingString:[NSMutableString stringWithString:@"["]] stringByAppendingString:[x matched:@"0"]] stringByAppendingString:[NSMutableString stringWithString:@"]"]] stringByAppendingString:[NSMutableString stringWithString:@"["]] stringByAppendingString:[x matchedRight]] stringByAppendingString:[NSMutableString stringWithString:@"])b"]];
+	EReg *r4 = [[EReg alloc] init:[@"a+" mutableCopy] opt:[@"" mutableCopy]];
+	[self t:[r4 matchSub:[@"abab" mutableCopy] pos:0 len:nil] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"81", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self eq:[r4 matchedRight] v2:[@"bab" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"82", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self t:[r4 matchSub:[@"abab" mutableCopy] pos:1 len:nil] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"83", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self eq:[r4 matchedRight] v2:[@"b" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"84", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self eq:[r4 matchedLeft] v2:[@"ab" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"85", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self t:[r4 matchSub:[@"abab" mutableCopy] pos:0 len:nil] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"87", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self eq:[r4 matchedRight] v2:[@"bab" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"88", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self t:[r4 matchSub:[@"abab" mutableCopy] pos:1 len:nil] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"89", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self eq:[r4 matchedRight] v2:[@"b" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"90", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self eq:[r4 matchedLeft] v2:[@"ab" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"91", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self f:[r4 matchSub:[@"bbaa" mutableCopy] pos:0 len:1] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"93", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self f:[r4 matchSub:[@"bbaa" mutableCopy] pos:0 len:2] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"94", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self f:[r4 matchSub:[@"bbaa" mutableCopy] pos:1 len:1] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"95", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self t:[r4 matchSub:[@"bbaa" mutableCopy] pos:2 len:1] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"96", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self eq:[r4 matchedLeft] v2:[@"bb" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"97", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self eq:[r4 matchedRight] v2:[@"a" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"98", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self eq:[[EReg alloc] :[@"x?" mutableCopy] opt:[@"g" mutableCopy] map:[@"aaabacx" mutableCopy] f:^(EReg *r5){
+		return [[[@"[" mutableCopy] stringByAppendingString:[r5 matched:@"0"]] stringByAppendingString:[@"]" mutableCopy]];
+	}] v2:[@"[]a[]a[]a[]b[]a[]c[x]" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"100", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	id f = ^(id *x){
+		return [[[[[[[[[@"([" mutableCopy] stringByAppendingString:[x[@"matchedLeft"]]] stringByAppendingString:[@"]" mutableCopy]] stringByAppendingString:[@"[" mutableCopy]] stringByAppendingString:[x[@"matched"]:@"0"]] stringByAppendingString:[@"]" mutableCopy]] stringByAppendingString:[@"[" mutableCopy]] stringByAppendingString:[x[@"matchedRight"]]] stringByAppendingString:[@"])b" mutableCopy]];
 	}
 	
-	EReg *r5 = [[EReg alloc] init:[NSMutableString stringWithString:@"$"] opt:[NSMutableString stringWithString:@"mg"]];
-	[self eq:[r5 map:[NSMutableString stringWithString:@"\n"] f:f] v2:[NSMutableString stringWithString:@"([][][\n])b\n"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"104",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self eq:[r5 map:[NSMutableString stringWithString:@"a"] f:f] v2:[NSMutableString stringWithString:@"a([a][][])b"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"105",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self eq:[r5 map:[NSMutableString stringWithString:@"aa\na"] f:f] v2:[NSMutableString stringWithString:@"aa([aa][][\na])b\na([aa\na][][])b"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"106",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
+	EReg *r5 = [[EReg alloc] init:[@"$" mutableCopy] opt:[@"mg" mutableCopy]];
+	[self eq:[r5 map:[@"\n" mutableCopy] f:f] v2:[@"([][][\n])b\n" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"104", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self eq:[r5 map:[@"a" mutableCopy] f:f] v2:[@"a([a][][])b" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"105", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self eq:[r5 map:[@"aa\na" mutableCopy] f:f] v2:[@"aa([aa][][\na])b\na([aa\na][][])b" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"106", @"className":@"unit.TestEReg", @"methodName":@"test"}];
 	
-	EReg *r6 = [[EReg alloc] init:[NSMutableString stringWithString:@"^"] opt:[NSMutableString stringWithString:@"mg"]];
-	[self eq:[r6 map:[NSMutableString stringWithString:@"\n"] f:f] v2:[NSMutableString stringWithString:@"([][][\n])b\n"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"110",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self eq:[r6 map:[NSMutableString stringWithString:@"a"] f:f] v2:[NSMutableString stringWithString:@"([][][a])ba"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"111",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self eq:[r6 map:[NSMutableString stringWithString:@"aa\na"] f:f] v2:[NSMutableString stringWithString:@"([][][aa\na])baa\n([aa\n][][a])ba"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"112",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
+	EReg *r6 = [[EReg alloc] init:[@"^" mutableCopy] opt:[@"mg" mutableCopy]];
+	[self eq:[r6 map:[@"\n" mutableCopy] f:f] v2:[@"([][][\n])b\n" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"110", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self eq:[r6 map:[@"a" mutableCopy] f:f] v2:[@"([][][a])ba" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"111", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self eq:[r6 map:[@"aa\na" mutableCopy] f:f] v2:[@"([][][aa\na])baa\n([aa\n][][a])ba" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"112", @"className":@"unit.TestEReg", @"methodName":@"test"}];
 	
-	EReg *r7 = [[EReg alloc] init:[NSMutableString stringWithString:@"$"] opt:[NSMutableString stringWithString:@"m"]];
-	[self eq:[r7 map:[NSMutableString stringWithString:@"\n"] f:f] v2:[NSMutableString stringWithString:@"([][][\n])b\n"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"115",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self eq:[r7 map:[NSMutableString stringWithString:@"a"] f:f] v2:[NSMutableString stringWithString:@"a([a][][])b"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"116",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self eq:[r7 map:[NSMutableString stringWithString:@"aa\na"] f:f] v2:[NSMutableString stringWithString:@"aa([aa][][\na])b\na"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"117",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
+	EReg *r7 = [[EReg alloc] init:[@"$" mutableCopy] opt:[@"m" mutableCopy]];
+	[self eq:[r7 map:[@"\n" mutableCopy] f:f] v2:[@"([][][\n])b\n" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"115", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self eq:[r7 map:[@"a" mutableCopy] f:f] v2:[@"a([a][][])b" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"116", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self eq:[r7 map:[@"aa\na" mutableCopy] f:f] v2:[@"aa([aa][][\na])b\na" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"117", @"className":@"unit.TestEReg", @"methodName":@"test"}];
 	
-	EReg *r8 = [[EReg alloc] init:[NSMutableString stringWithString:@"^"] opt:[NSMutableString stringWithString:@"m"]];
-	[self eq:[r8 map:[NSMutableString stringWithString:@"\n"] f:f] v2:[NSMutableString stringWithString:@"([][][\n])b\n"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"121",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self eq:[r8 map:[NSMutableString stringWithString:@"a"] f:f] v2:[NSMutableString stringWithString:@"([][][a])ba"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"122",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-	[self eq:[r8 map:[NSMutableString stringWithString:@"aa\na"] f:f] v2:[NSMutableString stringWithString:@"([][][aa\na])baa\na"] pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"123",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
+	EReg *r8 = [[EReg alloc] init:[@"^" mutableCopy] opt:[@"m" mutableCopy]];
+	[self eq:[r8 map:[@"\n" mutableCopy] f:f] v2:[@"([][][\n])b\n" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"121", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self eq:[r8 map:[@"a" mutableCopy] f:f] v2:[@"([][][a])ba" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"122", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self eq:[r8 map:[@"aa\na" mutableCopy] f:f] v2:[@"([][][aa\na])baa\na" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"123", @"className":@"unit.TestEReg", @"methodName":@"test"}];
 	
-	NSMutableArray *r9 = [[NSMutableArray alloc] initWithObject:[[EReg alloc] init:[NSMutableString stringWithString:@"a"] opt:[NSMutableString stringWithString:@""]]];
-	[self exc:^- (void) {
-		[[r9 hx_objectAtIndex:0] matched:0];
-	} pos:[NSDictionary dictionaryWithObjectsAndKeys:@"TestEReg.hx",@"fileName", @"126",@"lineNumber", @"unit.TestEReg",@"className", @"test",@"methodName", nil]];
-}
-- (id) init{
-	self = [super init];
-	return self;
+	EReg *r9 = [[EReg alloc] init:[@"a" mutableCopy] opt:[@"" mutableCopy]];
+	[self exc:^(){
+		[r9 matched:0];
+	} pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"126", @"className":@"unit.TestEReg", @"methodName":@"test"}];
 }
 
 @end

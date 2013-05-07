@@ -61,10 +61,10 @@
 	
 	GenericCell *l = self.head;
 	return [@{
-		@"hasNext":[^BOOL(){
+		@"hasNext":[^(){
 		return l != [NSNull null];
 	} copy],
-		@"next":[^id(){
+		@"next":[^(){
 		
 		GenericCell *k = l;
 		l = k.next;

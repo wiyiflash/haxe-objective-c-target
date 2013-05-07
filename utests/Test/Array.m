@@ -27,10 +27,10 @@
 	[self insertObject:(x!=nil?x:[NSNull null]) atIndex:pos];
 }
 - (NSMutableString*) join:(NSMutableString*)sep{
-	return [NSMutableString stringWithString:[self componentsJoinedByString:sep]];
+	return [NSMutableString[@"stringWithString"]:[self componentsJoinedByString:sep]];
 }
 - (NSMutableString*) toString{
-	return [NSMutableString stringWithString:[self description]];
+	return [NSMutableString[@"stringWithString"]:[self description]];
 }
 - (id) pop{
 	if ([self count] == 0) return nil;
@@ -52,7 +52,7 @@
 	return containsObject;
 }
 - (void) reverse{
-	id reverseArray = [[self reverseObjectEnumerator] allObjects];
+	id reverseArray = [[self reverseObjectEnumerator][@"allObjects"]];
 }
 - (id) shift{
 	if (self.length > 0) {
@@ -68,7 +68,7 @@
 	
 	return [self splice:pos len:end - pos];
 }
-- (void) sort:(SEL)f{
+- (void) sort:(id)f{
 }
 - (NSMutableArray*) splice:(int)pos len:(int)len{
 	NSArray *newArray = [self subarrayWithRange:NSMakeRange(pos, len)];
@@ -79,10 +79,10 @@
 	__block int p = 0;		return [NSMutableDictionary dictionaryWithObjectsAndKeys:			[^BOOL() { return p < [self count]; } copy], @"hasNext",			[^id() { id i = [self objectAtIndex:p]; p += 1; return i; } copy], @"next",			nil];
 	return nil;
 }
-- (NSMutableArray*) map:(SEL)f{
+- (NSMutableArray*) map:(id)f{
 	return nil;
 }
-- (NSMutableArray*) filter:(SEL)f{
+- (NSMutableArray*) filter:(id)f{
 	return nil;
 }
 - (void) hx_replaceObjectAtIndex:(int)index withObject:(id)withObject{

@@ -15,7 +15,7 @@
 + (void) setZ:(int)val;
 // Defining a dynamic method
 + (int) staticDynamic:(int)x y:(int)y;
-@property (nonatomic,copy) int(^property_staticDynamic)(int, int);
+@property (nonatomic,copy) int(^property_staticDynamic);
 + (int) W;
 + (void) setW:(int)val;
 + (int) get_W;
@@ -24,7 +24,7 @@
 - (int) get;
 // Defining a dynamic method
 - (int) add:(int)x y:(int)y;
-@property (nonatomic,copy) int(^property_add)(int, int);
+@property (nonatomic,copy) int(^property_add);
 - (int) iadd:(int)x y:(int)y;
 - (id) init:(int)v;
 
@@ -38,8 +38,7 @@
 
 // Defining a dynamic method
 - (int) add:(int)x y:(int)y;
-@property (nonatomic,copy) int(^property_add)(int, int);
-- (id) init:(int)v;
+@property (nonatomic,copy) int(^property_add);
 
 @end
 
@@ -51,8 +50,7 @@
 
 // Defining a dynamic method
 - (int) add:(int)x y:(int)y;
-@property (nonatomic,copy) int(^property_add)(int, int);
-- (id) init:(int)v;
+@property (nonatomic,copy) int(^property_add);
 
 @end
 
@@ -120,12 +118,10 @@
 
 
 
-#import "../String.h"
 #import "../unit/TestMisc.h"
 
 @interface SubConstrOpt2 : BaseConstrOpt 
 
-- (id) init:(NSMutableString*)s i:(int)i b:(BOOL)b;
 
 @end
 
@@ -145,7 +141,6 @@
 
 #import "../String.h"
 #import "../unit/MyClass.h"
-#import "../Array.h"
 #import "../Math.h"
 #import "../Type.h"
 #import "../haxe/crypto/Md5.h"
@@ -154,6 +149,7 @@
 #import "../haxe/crypto/Sha1.h"
 #import "../haxe/crypto/BaseCode.h"
 #import "../StringTools.h"
+#import "../Array.h"
 #import "../StringBuf.h"
 #import "../Std.h"
 #import "../haxe/Json.h"
@@ -199,7 +195,6 @@
 - (void) testFormat;
 - (void) testJSon;
 - (void) testConstructorsOpts;
-- (id) init;
 
 @end
 

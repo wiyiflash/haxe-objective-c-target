@@ -8,19 +8,14 @@
 
 
 #import "../../Array.h"
-#import "../../String.h"
-#import "../../Std.h"
 
 @interface NSMutableDictionary ( ObjectMap )
 
 - (id) get:(id)key;
 - (void) set:(id)key value:(id)value;
 - (BOOL) exists:(id)key;
-- (BOOL) remove:(id)key;
 - (id) keys;
-- (id) iterator;
-- (NSMutableString*) toString;
-- (id) init:(BOOL)weakKeys;
+- (id) init;
 
 @end
 

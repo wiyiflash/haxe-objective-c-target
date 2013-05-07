@@ -10,34 +10,34 @@
 @implementation Reflect
 
 + (BOOL) hasField:(id)o field:(NSMutableString*)field{
-	return o != nil && [-FDynamic-o __HasField-TDynamic-];
+	return o != nil && [o __HasField:field];
 }
 + (id) field:(id)o field:(NSMutableString*)field{
-	return ( (o == nil) ? nil : [-FDynamic-o __Field-TDynamic-]);
+	return ( (o == nil) ? nil : [o __Field:field :NO]);
 }
 + (void) setField:(id)o field:(NSMutableString*)field value:(id)value{
-	if (o != nil) [-FDynamic-o __SetField-TDynamic-];
+	if (o != nil) [o __SetField:field :value :NO];
 }
 + (id) getProperty:(id)o field:(NSMutableString*)field{
-	return ( (o == nil) ? nil : [-FDynamic-o __Field-TDynamic-]);
+	return ( (o == nil) ? nil : [o __Field:field :YES]);
 }
 + (void) setProperty:(id)o field:(NSMutableString*)field value:(id)value{
-	if (o != nil) [-FDynamic-o __SetField-TDynamic-];
+	if (o != nil) [o __SetField:field :value :YES];
 }
 + (id) callMethod:(id)o func:(id)func args:(NSMutableArray*)args{
-	if (func != nil && [-FDynamic-func __GetType] == __global__[@"vtString"]) func = [-FDynamic-o __Field-TDynamic-];
-	[-FDynamic-func __SetThis-TDynamic-];
-	return [-FDynamic-func performSelector-TDynamic-];
+	if (func != nil && [func __GetType] == __global__[@"vtString"]) func = [o __Field:func :YES];
+	[func __SetThis:o];
+	return [func performSelector:args];
 }
 + (NSMutableArray*) fields:(id)o{
 	if (o == nil) return [[NSMutableArray alloc] init];
 	
 	NSMutableArray *a = [@[] mutableCopy];
-	[-FDynamic-o __GetFields-TDynamic-];
+	[o __GetFields:a];
 	return a;
 }
 + (BOOL) isFunction:(id)f{
-	return f != nil && [-FDynamic-f __GetType] == __global__[@"vtFunction"];
+	return f != nil && [f __GetType] == __global__[@"vtFunction"];
 }
 + (int) compare:(id)a b:(id)b{
 	return ( (a == b) ? 0 : ( ((int)a > (int)b) ? 1 : -1));
@@ -49,7 +49,7 @@
 }
 + (BOOL) isObject:(id)v{
 	if (v == nil) return NO;
-	int t = [-FDynamic-v __GetType];
+	int t = [v __GetType];
 	return t == __global__[@"vtObject"] || t == __global__[@"vtClass"] || t == __global__[@"vtString"] || t == __global__[@"vtArray"];
 }
 + (BOOL) deleteField:(id)o field:(NSMutableString*)field{
@@ -58,8 +58,8 @@
 }
 + (id) copy:(id)o{
 	if (o == nil) return nil;
-	if ([-FDynamic-o __GetType] == __global__[@"vtString"]) return o;
-	if ([-FDynamic-o __GetType] == __global__[@"vtArray"]) return [[-FDynamic-o __Field:[@"copy" mutableCopy] :YES]];
+	if ([o __GetType] == __global__[@"vtString"]) return o;
+	if ([o __GetType] == __global__[@"vtArray"]) return [[o __Field:[@"copy" mutableCopy] :YES]];
 	id o2 = [@{
 	} mutableCopy];
 	{
@@ -69,7 +69,7 @@
 			
 			NSMutableString *f = [_g1 hx_objectAtIndex:_g];
 			++_g;
-			if (o2 != nil) [-FDynamic-o2 __SetField-TDynamic-];
+			if (o2 != nil) [o2 __SetField:f :[Reflect field:o field:f] :NO];
 		}
 	}
 	return o2;

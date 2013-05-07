@@ -18,7 +18,6 @@
 + (NSMutableString*) STR;
 + (void) setSTR:(NSMutableString*)val;
 - (void) testResources;
-- (id) init;
 
 @end
 
