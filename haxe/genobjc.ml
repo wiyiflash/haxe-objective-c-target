@@ -384,19 +384,16 @@ let rec isString e =
 	| TConst (TString s) -> true
 	| TField (e,fa) -> isString e
 	| TCall (e,el) -> isString e
-	| TConst c -> true
-		(* (match c with
-			| TString s -> print_endline "TString"
-			| TInt i -> print_endline "TInt"
-			| TFloat f -> print_endline "TFloat"
-			| TString s -> print_endline "TString"
-			| TBool b -> print_endline "TBool"
-			| TNull -> print_endline "TNull"
-			| TThis -> print_endline "TThis"
-			| TSuper -> print_endline "TSuper"
-			(* | _ -> false *)
-		); *)
-		
+	| TConst c -> (* true *)
+		(match c with
+			| TString s -> print_endline "TString"; true;
+			| TInt i -> print_endline "TInt"; false;
+			| TFloat f -> print_endline "TFloat"; false;
+			| TBool b -> print_endline "TBool"; false;
+			| TNull -> print_endline "TNull"; false;
+			| TThis -> print_endline "TThis"; false;
+			| TSuper -> print_endline "TSuper"; false;
+		)
 	| _ -> false)
 ;;
 let rec isArray e =
@@ -1031,7 +1028,8 @@ and generateExpression ctx e =
 	| TBinop (op,e1,e2) ->
 		(* An assign to a property or mathematical/string operations *)
 		let s_op = Ast.s_binop op in
-		(* ctx.writer#write ("binop"^s_op); *)
+		if isString e1 then ctx.writer#write ("-isString1-");
+		if isString e2 then ctx.writer#write ("-isString2-");
 		if (s_op="+" or s_op="+=") && (isString e1 or isString e2) then begin
 			(* ctx.writer#write ("first"); *)
 			ctx.generating_string_append <- ctx.generating_string_append + 1;
