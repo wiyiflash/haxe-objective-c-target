@@ -29,22 +29,22 @@
 }
 + (void) itemToString:(StringBuf*)b s:(CallStack*)s{
 	
-	var $e : enum =  (s)
-	switch ( $e.index ) {
+	enum s = e (s)
+	switch ( e.index ) {
 		
 		case 0:
 		{
 			[b.b appendString:[@"a C function" mutableCopy]]}break
 		case 1:
 		
-		var MATCH s_eModule_0 : NSMutableString = $e.params[0]{
+		var MATCH s_eModule_0 : NSMutableString = e.params[0]{
 			{
 				[b.b appendString:[@"module " mutableCopy]];
 				b.b += [Std string:s_eModule_0];
 			}}break
 		case 2:
 		
-		var MATCH s_eFilePos_2 : int = $e.params[2], MATCH s_eFilePos_1 : NSMutableString = $e.params[1], MATCH s_eFilePos_0 : CallStack = $e.params[0]{
+		var MATCH s_eFilePos_2 : int = e.params[2], MATCH s_eFilePos_1 : NSMutableString = e.params[1], MATCH s_eFilePos_0 : CallStack = e.params[0]{
 			{
 				if (s_eFilePos_0 != nil) {
 					[CallStack itemToString:b s:s_eFilePos_0];
@@ -57,7 +57,7 @@
 			}}break
 		case 3:
 		
-		var MATCH s_eMethod_1 : NSMutableString = $e.params[1], MATCH s_eMethod_0 : NSMutableString = $e.params[0]{
+		var MATCH s_eMethod_1 : NSMutableString = e.params[1], MATCH s_eMethod_0 : NSMutableString = e.params[0]{
 			{
 				b.b += [Std string:s_eMethod_0];
 				[b.b appendString:[@"." mutableCopy]];
@@ -65,7 +65,7 @@
 			}}break
 		case 4:
 		
-		var MATCH s_eLambda_0 : int = $e.params[0]{
+		var MATCH s_eLambda_0 : int = e.params[0]{
 			{
 				[b.b appendString:[@"local function #" mutableCopy]];
 				b.b += [Std string:s_eLambda_0];

@@ -27,43 +27,43 @@
 @:coreApi class Reflect {
 
 	public  static function hasField( o : Dynamic, field : String ) : Bool untyped {
-		return o!=null && o.__HasField(field);
+		return o!=null && o.hx_has_field (field);
 	}
 
 	public static function field( o : Dynamic, field : String ) : Dynamic untyped {
-		return (o==null) ? null : o.__Field(field,false);
+		return (o==null) ? null : o.hx_field(field,false);
 	}
 
 	public inline static function setField( o : Dynamic, field : String, value : Dynamic ) : Void untyped {
 		if (o!=null)
-			o.__SetField(field,value,false);
+			o.hx_set_field (field,value,false);
 	}
 
 	public static inline function getProperty( o : Dynamic, field : String ) : Dynamic {
-		return (o==null) ? null : o.__Field(field,true);
+		return (o==null) ? null : o.hx_field (field,true);
 	}
 
 	public static inline function setProperty( o : Dynamic, field : String, value : Dynamic ) : Void {
 		if (o!=null)
-			o.__SetField(field,value,true);
+			o.hx_set_field (field,value,true);
 	}
 
 	public static function callMethod( o : Dynamic, func : Dynamic, args : Array<Dynamic> ) : Dynamic untyped {
-			if (func!=null && func.__GetType()==__global__.vtString)
-				func = o.__Field(func,true);
-			untyped func.__SetThis(o);
-         return untyped func.performSelector(args);
+		if (func!=null && func.hx_get_type() == __global__.vtString)
+			func = o.hx_field(func,true);
+		untyped func.hx_set_this(o);
+		return untyped func.performSelector ( new SEL(args));
 	}
 
 	public static function fields( o : Dynamic ) : Array<String> untyped {
 		if( o == null ) return new Array();
 		var a : Array<String> = [];
-		o.__GetFields(a);
+		o.hx_get_fields(a);
 		return a;
 	}
 
 	public static function isFunction( f : Dynamic ) : Bool untyped {
-		return f!=null && f.__GetType() ==  __global__.vtFunction;
+		return f!=null && f.hx_get_type() ==  __global__.vtFunction;
 	}
 
 	public static function compare<T>( a : T, b : T ) : Int {
@@ -80,9 +80,11 @@
 
 	public static function isObject( v : Dynamic ) : Bool untyped {
 		if (v==null) return false;
-		var t:Int = v.__GetType();
-		return t ==  __global__.vtObject || t==__global__.vtClass || t==__global__.vtString ||
-				t==__global__.vtArray;
+		var t:Int = v.hx_get_type();
+		return t==__global__.vtObject || 
+			t==__global__.vtClass || 
+			t==__global__.vtString ||
+			t==__global__.vtArray;
 	}
 
 	public static function deleteField(o:Dynamic, field:String) :Bool untyped {
@@ -92,12 +94,12 @@
 
 	public static function copy<T>( o : T ) : T {
 		if (o==null) return null;
-		if(untyped o.__GetType()==__global__.vtString ) return o;
-		if(untyped o.__GetType()==__global__.vtArray )
-			return untyped o.__Field("copy",true)();
+		if(untyped o.hx_get_type()==__global__.vtString ) return o;
+		if(untyped o.hx_get_type()==__global__.vtArray )
+			return untyped o.hx_field("copy",true)();
 		var o2 : Dynamic = {};
 		for( f in Reflect.fields(o) )
-			Reflect.setField(o2,f,Reflect.field(o,f));
+			Reflect.setField (o2,f,Reflect.field(o,f));
 		return o2;
 	}
 

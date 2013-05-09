@@ -10,34 +10,34 @@
 @implementation Reflect
 
 + (BOOL) hasField:(id)o field:(NSMutableString*)field{
-	return o != nil && [o __HasField:field];
+	return o != nil && [o hx_has_field:field];
 }
 + (id) field:(id)o field:(NSMutableString*)field{
-	return ( (o == nil) ? nil : [o __Field:field :NO]);
+	return ( (o == nil) ? nil : [o hx_field:field :NO]);
 }
 + (void) setField:(id)o field:(NSMutableString*)field value:(id)value{
-	if (o != nil) [o __SetField:field :value :NO];
+	if (o != nil) [o hx_set_field:field :value :NO];
 }
 + (id) getProperty:(id)o field:(NSMutableString*)field{
-	return ( (o == nil) ? nil : [o __Field:field :YES]);
+	return ( (o == nil) ? nil : [o hx_field:field :YES]);
 }
 + (void) setProperty:(id)o field:(NSMutableString*)field value:(id)value{
-	if (o != nil) [o __SetField:field :value :YES];
+	if (o != nil) [o hx_set_field:field :value :YES];
 }
 + (id) callMethod:(id)o func:(id)func args:(NSMutableArray*)args{
-	if (func != nil && [func __GetType] == __global__[@"vtString"]) func = [o __Field:func :YES];
-	[func __SetThis:o];
-	return [func performSelector:args];
+	if (func != nil && [func hx_get_type] == __global__[@"vtString"]) func = [o hx_field:func :YES];
+	[func hx_set_this:o];
+	return [func performSelector:@selector(args)];
 }
 + (NSMutableArray*) fields:(id)o{
 	if (o == nil) return [[NSMutableArray alloc] init];
 	
 	NSMutableArray *a = [@[] mutableCopy];
-	[o __GetFields:a];
+	[o hx_get_fields:a];
 	return a;
 }
 + (BOOL) isFunction:(id)f{
-	return f != nil && [f __GetType] == __global__[@"vtFunction"];
+	return f != nil && [f hx_get_type] == __global__[@"vtFunction"];
 }
 + (int) compare:(id)a b:(id)b{
 	return ( (a == b) ? 0 : ( ((int)a > (int)b) ? 1 : -1));
@@ -49,7 +49,7 @@
 }
 + (BOOL) isObject:(id)v{
 	if (v == nil) return NO;
-	int t = [v __GetType];
+	int t = [v hx_get_type];
 	return t == __global__[@"vtObject"] || t == __global__[@"vtClass"] || t == __global__[@"vtString"] || t == __global__[@"vtArray"];
 }
 + (BOOL) deleteField:(id)o field:(NSMutableString*)field{
@@ -58,8 +58,8 @@
 }
 + (id) copy:(id)o{
 	if (o == nil) return nil;
-	if ([o __GetType] == __global__[@"vtString"]) return o;
-	if ([o __GetType] == __global__[@"vtArray"]) return [[o __Field:[@"copy" mutableCopy] :YES]];
+	if ([o hx_get_type] == __global__[@"vtString"]) return o;
+	if ([o hx_get_type] == __global__[@"vtArray"]) return [[o hx_field:[@"copy" mutableCopy] :YES]];
 	id o2 = [@{
 	} mutableCopy];
 	{
@@ -69,7 +69,7 @@
 			
 			NSMutableString *f = [_g1 hx_objectAtIndex:_g];
 			++_g;
-			if (o2 != nil) [o2 __SetField:f :[Reflect field:o field:f] :NO];
+			if (o2 != nil) [o2 hx_set_field:f :[Reflect field:o field:f] :NO];
 		}
 	}
 	return o2;

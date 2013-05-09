@@ -383,20 +383,20 @@ static id globals;
 }
 - (void) run:(Template*)e{
 	
-	var $e : enum =  (e)
-	switch ( $e.index ) {
+	enum s = e (e)
+	switch ( e.index ) {
 		
 		case 0:
 		
-		var MATCH e_eOpVar_0 : NSMutableString = $e.params[0]{
+		var MATCH e_eOpVar_0 : NSMutableString = e.params[0]{
 			[self.buf.b appendString:[Std string:[Std string:[self resolve:e_eOpVar_0]]]]}break
 		case 1:
 		
-		var MATCH e_eOpExpr_0 : id = $e.params[0]{
+		var MATCH e_eOpExpr_0 : id = e.params[0]{
 			[self.buf.b appendString:[Std string:[Std string:[e_eOpExpr_0]]]]}break
 		case 2:
 		
-		var MATCH e_eOpIf_2 : Template = $e.params[2], MATCH e_eOpIf_1 : Template = $e.params[1], MATCH e_eOpIf_0 : id = $e.params[0]{
+		var MATCH e_eOpIf_2 : Template = e.params[2], MATCH e_eOpIf_1 : Template = e.params[1], MATCH e_eOpIf_0 : id = e.params[0]{
 			{
 				id v = [e_eOpIf_0];
 				if (v == nil || v == NO) {
@@ -406,11 +406,11 @@ static id globals;
 			}}break
 		case 3:
 		
-		var MATCH e_eOpStr_0 : NSMutableString = $e.params[0]{
+		var MATCH e_eOpStr_0 : NSMutableString = e.params[0]{
 			[self.buf.b appendString:[Std string:e_eOpStr_0]]}break
 		case 4:
 		
-		var MATCH e_eOpBlock_0 : List = $e.params[0]{
+		var MATCH e_eOpBlock_0 : List = e.params[0]{
 			{
 				{
 					id _it2 = [e_eOpBlock_0 iterator];
@@ -422,7 +422,7 @@ static id globals;
 			}}break
 		case 5:
 		
-		var MATCH e_eOpForeach_1 : Template = $e.params[1], MATCH e_eOpForeach_0 : id = $e.params[0]{
+		var MATCH e_eOpForeach_1 : Template = e.params[1], MATCH e_eOpForeach_0 : id = e.params[0]{
 			{
 				id v = [e_eOpForeach_0];
 				@try {
@@ -454,7 +454,7 @@ static id globals;
 			}}break
 		case 6:
 		
-		var MATCH e_eOpMacro_1 : List = $e.params[1], MATCH e_eOpMacro_0 : NSMutableString = $e.params[0]{
+		var MATCH e_eOpMacro_1 : List = e.params[1], MATCH e_eOpMacro_0 : NSMutableString = e.params[0]{
 			{
 				id v = [Reflect field:self.macros field:e_eOpMacro_0];
 				
@@ -468,12 +468,12 @@ static id globals;
 						Template p = [_it4 next];
 						{
 							
-							var $e5 : enum =  (p)
-							switch ( $e5.index ) {
+							enum s = e5 (p)
+							switch ( e5.index ) {
 								
 								case 0:
 								
-								var MATCH p_eOpVar_0 : NSMutableString = $e5.params[0]{
+								var MATCH p_eOpVar_0 : NSMutableString = e5.params[0]{
 									[pl push:[self resolve:p_eOpVar_0]]}break
 								default:{
 									{

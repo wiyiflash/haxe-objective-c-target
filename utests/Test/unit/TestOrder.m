@@ -247,12 +247,12 @@ static NSMutableArray* TNAMES;
 	
 	MyEnum *e1 = [Type createEnum: constr:[@"C" mutableCopy] params:[@[@55, [@"hello" mutableCopy]] mutableCopy]];
 	
-	var $e : enum =  (e1)
-	switch ( $e.index ) {
+	enum s = e (e1)
+	switch ( e.index ) {
 		
 		case 2:
 		
-		var MATCH e_eC_1 : NSMutableString = $e.params[1], MATCH e_eC_0 : int = $e.params[0]{
+		var MATCH e_eC_1 : NSMutableString = e.params[1], MATCH e_eC_0 : int = e.params[0]{
 			{
 				[self eq:e_eC_0 v2:55 pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"229", @"className":@"unit.TestReflect", @"methodName":@"testCreate"}];
 				[self eq:e_eC_1 v2:[@"hello" mutableCopy] pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"229", @"className":@"unit.TestReflect", @"methodName":@"testCreate"}];
@@ -285,44 +285,44 @@ static NSMutableArray* TNAMES;
 	
 	ClassWithProp *c = [[ClassWithProp alloc] init];
 	[self eq:[c get_x] v2:5 pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"263", @"className":@"unit.TestReflect", @"methodName":@"testGetProp"}];
-	[self eq:(id)( (c == nil) ? nil : [c __Field:[@"x" mutableCopy] :YES]) v2:5 pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"265", @"className":@"unit.TestReflect", @"methodName":@"testGetProp"}];
+	[self eq:(id)( (c == nil) ? nil : [c hx_field:[@"x" mutableCopy] :YES]) v2:5 pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"265", @"className":@"unit.TestReflect", @"methodName":@"testGetProp"}];
 	[c set_x:0];
-	if (c != nil) [c __SetField:[@"x" mutableCopy] :10 :YES];
+	if (c != nil) [c hx_set_field:[@"x" mutableCopy] :10 :YES];
 	[self eq:[c get_x] v2:10 pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"271", @"className":@"unit.TestReflect", @"methodName":@"testGetProp"}];
-	[self eq:(id)( (c == nil) ? nil : [c __Field:[@"x" mutableCopy] :YES]) v2:10 pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"272", @"className":@"unit.TestReflect", @"methodName":@"testGetProp"}];
+	[self eq:(id)( (c == nil) ? nil : [c hx_field:[@"x" mutableCopy] :YES]) v2:10 pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"272", @"className":@"unit.TestReflect", @"methodName":@"testGetProp"}];
 	
 	InterfWithProp *c1 = [[ClassWithProp alloc] init];
 	[self eq:[c1 get_x] v2:5 pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"275", @"className":@"unit.TestReflect", @"methodName":@"testGetProp"}];
-	[self eq:(id)( (c1 == nil) ? nil : [c1 __Field:[@"x" mutableCopy] :YES]) v2:5 pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"277", @"className":@"unit.TestReflect", @"methodName":@"testGetProp"}];
-	if (c1 != nil) [c1 __SetField:[@"x" mutableCopy] :10 :YES];
+	[self eq:(id)( (c1 == nil) ? nil : [c1 hx_field:[@"x" mutableCopy] :YES]) v2:5 pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"277", @"className":@"unit.TestReflect", @"methodName":@"testGetProp"}];
+	if (c1 != nil) [c1 hx_set_field:[@"x" mutableCopy] :10 :YES];
 	[self eq:[c1 get_x] v2:10 pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"279", @"className":@"unit.TestReflect", @"methodName":@"testGetProp"}];
-	[self eq:(id)( (c1 == nil) ? nil : [c1 __Field:[@"x" mutableCopy] :YES]) v2:10 pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"280", @"className":@"unit.TestReflect", @"methodName":@"testGetProp"}];
+	[self eq:(id)( (c1 == nil) ? nil : [c1 hx_field:[@"x" mutableCopy] :YES]) v2:10 pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"280", @"className":@"unit.TestReflect", @"methodName":@"testGetProp"}];
 	
 	SubClassWithProp *c2 = [[SubClassWithProp alloc] init];
 	[self eq:[c2 get_x] v2:6 pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"283", @"className":@"unit.TestReflect", @"methodName":@"testGetProp"}];
-	[self eq:(id)( (c2 == nil) ? nil : [c2 __Field:[@"x" mutableCopy] :YES]) v2:6 pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"284", @"className":@"unit.TestReflect", @"methodName":@"testGetProp"}];
+	[self eq:(id)( (c2 == nil) ? nil : [c2 hx_field:[@"x" mutableCopy] :YES]) v2:6 pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"284", @"className":@"unit.TestReflect", @"methodName":@"testGetProp"}];
 	[self eq:c2.y v2:10 pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"285", @"className":@"unit.TestReflect", @"methodName":@"testGetProp"}];
-	[self eq:(id)( (c2 == nil) ? nil : [c2 __Field:[@"y" mutableCopy] :YES]) v2:10 pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"286", @"className":@"unit.TestReflect", @"methodName":@"testGetProp"}];
-	if (c2 != nil) [c2 __SetField:[@"x" mutableCopy] :10 :YES];
-	if (c2 != nil) [c2 __SetField:[@"y" mutableCopy] :20 :YES];
+	[self eq:(id)( (c2 == nil) ? nil : [c2 hx_field:[@"y" mutableCopy] :YES]) v2:10 pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"286", @"className":@"unit.TestReflect", @"methodName":@"testGetProp"}];
+	if (c2 != nil) [c2 hx_set_field:[@"x" mutableCopy] :10 :YES];
+	if (c2 != nil) [c2 hx_set_field:[@"y" mutableCopy] :20 :YES];
 	[self eq:[c2 get_x] v2:11 pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"291", @"className":@"unit.TestReflect", @"methodName":@"testGetProp"}];
-	[self eq:(id)( (c2 == nil) ? nil : [c2 __Field:[@"x" mutableCopy] :YES]) v2:11 pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"292", @"className":@"unit.TestReflect", @"methodName":@"testGetProp"}];
+	[self eq:(id)( (c2 == nil) ? nil : [c2 hx_field:[@"x" mutableCopy] :YES]) v2:11 pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"292", @"className":@"unit.TestReflect", @"methodName":@"testGetProp"}];
 	[self eq:c2.y v2:20 pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"293", @"className":@"unit.TestReflect", @"methodName":@"testGetProp"}];
-	[self eq:(id)( (c2 == nil) ? nil : [c2 __Field:[@"y" mutableCopy] :YES]) v2:20 pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"294", @"className":@"unit.TestReflect", @"methodName":@"testGetProp"}];
+	[self eq:(id)( (c2 == nil) ? nil : [c2 hx_field:[@"y" mutableCopy] :YES]) v2:20 pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"294", @"className":@"unit.TestReflect", @"methodName":@"testGetProp"}];
 	[self eq:ClassWithProp.STAT_X v2:6 pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"296", @"className":@"unit.TestReflect", @"methodName":@"testGetProp"}];
 	[self eq:((id)($this:(snd ctx.path)) id o = ClassWithProp
-	__r__ = ( (o == nil) ? nil : [o __Field:[@"STAT_X" mutableCopy] :YES])
+	__r__ = ( (o == nil) ? nil : [o hx_field:[@"STAT_X" mutableCopy] :YES])
 	return __r__{
 		
 		id* __r__}
 	}(self)) v2:6 pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"297", @"className":@"unit.TestReflect", @"methodName":@"testGetProp"}];
 	{
 		id o = ClassWithProp;
-		if (o != nil) [o __SetField:[@"STAT_X" mutableCopy] :8 :YES];
+		if (o != nil) [o hx_set_field:[@"STAT_X" mutableCopy] :8 :YES];
 	}
 	[self eq:ClassWithProp.STAT_X v2:16 pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"301", @"className":@"unit.TestReflect", @"methodName":@"testGetProp"}];
 	[self eq:((id)($this:(snd ctx.path)) id o = ClassWithProp
-	__r__2 = ( (o == nil) ? nil : [o __Field:[@"STAT_X" mutableCopy] :YES])
+	__r__2 = ( (o == nil) ? nil : [o hx_field:[@"STAT_X" mutableCopy] :YES])
 	return __r__2{
 		
 		id* __r__2}

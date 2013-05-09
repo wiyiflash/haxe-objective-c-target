@@ -95,8 +95,8 @@ static NSMutableString* BASE64;
 	
 	Type *_g = [Type _typeof:v];
 	
-	var $e : enum =  (_g)
-	switch ( $e.index ) {
+	enum s = e (_g)
+	switch ( e.index ) {
 		
 		case 0:
 		{
@@ -124,7 +124,7 @@ static NSMutableString* BASE64;
 			[self.buf.b appendString:[Std string:( (v) ? [@"t" mutableCopy] : [@"f" mutableCopy])]]}break
 		case 6:
 		
-		var MATCH _g_eTClass_0 : Class = $e.params[0]{
+		var MATCH _g_eTClass_0 : Class = e.params[0]{
 			{
 				if (_g_eTClass_0 == NSMutableString) {
 					[self serializeString:v];
@@ -303,7 +303,7 @@ static NSMutableString* BASE64;
 			}}break
 		case 7:
 		
-		var MATCH _g_eTEnum_0 : Enum = $e.params[0]{
+		var MATCH _g_eTEnum_0 : Enum = e.params[0]{
 			{
 				if (self.useCache && [self serializeRef:v]) return;
 				[self.cache pop];

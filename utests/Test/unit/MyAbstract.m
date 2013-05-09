@@ -294,7 +294,7 @@
 	return [Reflect field:this1 field:key];
 }
 + (id) arrayWrite:(id)this1 key:(NSMutableString*)key value:(id)value{
-	if (this1 != nil) [this1 __SetField:key :value :NO];
+	if (this1 != nil) [this1 hx_set_field:key :value :NO];
 	return value;
 }
 

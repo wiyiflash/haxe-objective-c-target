@@ -11,20 +11,20 @@
 
 + (id) evalConst:(TestGADT*)c{
 	return ^(id)
-	var $e2 : enum =  (c)
-	switch ( $e2.index ) {
+	enum s = e2 (c)
+	switch ( e2.index ) {
 		
 		case 0:
 		
-		var MATCH c_eCString_0 : NSMutableString = $e2.params[0]{
+		var MATCH c_eCString_0 : NSMutableString = e2.params[0]{
 			__r__ = c_eCString_0}break
 		case 1:
 		
-		var MATCH c_eCInt_0 : NSMutableString = $e2.params[0]{
+		var MATCH c_eCInt_0 : NSMutableString = e2.params[0]{
 			__r__ = [Std parseInt:c_eCInt_0]}break
 		case 2:
 		
-		var MATCH c_eCFloat_0 : NSMutableString = $e2.params[0]{
+		var MATCH c_eCFloat_0 : NSMutableString = e2.params[0]{
 			__r__ = [Std parseFloat:c_eCFloat_0]}break
 	}
 	return __r__{
@@ -34,8 +34,8 @@
 }
 + (id) evalBinop:(TestGADT*)op e1:(TestGADT*)e1 e2:(TestGADT*)e2{
 	return ^(id)
-	var $e2 : enum =  (op)
-	switch ( $e2.index ) {
+	enum s = e2 (op)
+	switch ( e2.index ) {
 		
 		case 0:
 		{
@@ -51,16 +51,16 @@
 }
 + (id) eval:(TestGADT*)e{
 	return ^(id)
-	var $e2 : enum =  (e)
-	switch ( $e2.index ) {
+	enum s = e2 (e)
+	switch ( e2.index ) {
 		
 		case 0:
 		
-		var MATCH e_eEConst_0 : TestGADT = $e2.params[0]{
+		var MATCH e_eEConst_0 : TestGADT = e2.params[0]{
 			__r__ = [TestGADT evalConst:e_eEConst_0]}break
 		case 1:
 		
-		var MATCH e_eEBinop_2 : TestGADT = $e2.params[2], MATCH e_eEBinop_1 : TestGADT = $e2.params[1], MATCH e_eEBinop_0 : TestGADT = $e2.params[0]{
+		var MATCH e_eEBinop_2 : TestGADT = e2.params[2], MATCH e_eEBinop_1 : TestGADT = e2.params[1], MATCH e_eEBinop_0 : TestGADT = e2.params[0]{
 			__r__ = [TestGADT evalBinop:e_eEBinop_0 e1:e_eEBinop_1 e2:e_eEBinop_2]}break
 	}
 	return __r__{

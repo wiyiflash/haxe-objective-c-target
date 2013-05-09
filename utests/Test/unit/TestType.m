@@ -1121,25 +1121,25 @@
 	[self eq:[Reflect field:mr field:[@"foo" mutableCopy]] v2:12 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"823", @"className":@"unit.TestType", @"methodName":@"testCustomArrayAccess"}];
 	[self eq:[Reflect field:mr field:[@"bar" mutableCopy]] v2:[@"test" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"824", @"className":@"unit.TestType", @"methodName":@"testCustomArrayAccess"}];
 	{
-		if (mr != nil) [mr __SetField:[@"foo" mutableCopy] :11 :NO];
+		if (mr != nil) [mr hx_set_field:[@"foo" mutableCopy] :11 :NO];
 		11;
 	}
 	[self eq:[Reflect field:mr field:[@"foo" mutableCopy]] v2:11 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"826", @"className":@"unit.TestType", @"methodName":@"testCustomArrayAccess"}];
 	{
 		id value = [[Reflect field:mr field:[@"foo" mutableCopy]] stringByAppendingString:@"99"];
-		if (mr != nil) [mr __SetField:[@"foo" mutableCopy] :value :NO];
+		if (mr != nil) [mr hx_set_field:[@"foo" mutableCopy] :value :NO];
 		value;
 	}
 	[self eq:[Reflect field:mr field:[@"foo" mutableCopy]] v2:110 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"828", @"className":@"unit.TestType", @"methodName":@"testCustomArrayAccess"}];
 	{
 		id value = ((id)($this:(snd ctx.path)) id value1 = [Reflect field:mr field:[@"bar" mutableCopy]] + [Reflect field:mr field:[@"foo" mutableCopy]]
-		if (mr != nil) [mr __SetField:[@"bar" mutableCopy] :value1 :NO]
+		if (mr != nil) [mr hx_set_field:[@"bar" mutableCopy] :value1 :NO]
 		__r__ = value1
 		return __r__{
 			
 			id* __r__}
 		}(self));
-		if (mr != nil) [mr __SetField:[@"baz" mutableCopy] :value :NO];
+		if (mr != nil) [mr hx_set_field:[@"baz" mutableCopy] :value :NO];
 		value;
 	}
 	[self eq:[Reflect field:mr field:[@"baz" mutableCopy]] v2:[@"test110" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"830", @"className":@"unit.TestType", @"methodName":@"testCustomArrayAccess"}];
@@ -1147,17 +1147,17 @@
 	
 	NSMutableString *v = [@"hh" mutableCopy];
 	{
-		if (mr != nil) [mr __SetField:v :1 :NO];
+		if (mr != nil) [mr hx_set_field:v :1 :NO];
 		1;
 	}
 	{
-		if (mr != nil) [mr __SetField:[v appendString:[@"h" mutableCopy]] :2 :NO];
+		if (mr != nil) [mr hx_set_field:[v appendString:[@"h" mutableCopy]] :2 :NO];
 		2;
 	}
 	[self eq:[Reflect field:mr field:[@"hhh" mutableCopy]] v2:2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"836", @"className":@"unit.TestType", @"methodName":@"testCustomArrayAccess"}];
 	[self eq:v v2:[@"hhh" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"837", @"className":@"unit.TestType", @"methodName":@"testCustomArrayAccess"}];
 	{
-		if (mr != nil) [mr __SetField:[@"hhhh" mutableCopy] :0 :NO];
+		if (mr != nil) [mr hx_set_field:[@"hhhh" mutableCopy] :0 :NO];
 		0;
 	}
 	{
@@ -1165,7 +1165,7 @@
 		NSMutableString *_g = [v appendString:[@"h" mutableCopy]];
 		{
 			id value = [[Reflect field:mr field:_g] stringByAppendingString:@"4"];
-			if (mr != nil) [mr __SetField:_g :value :NO];
+			if (mr != nil) [mr hx_set_field:_g :value :NO];
 			value;
 		}
 	}
@@ -1181,7 +1181,7 @@
 			
 			id* __r__2}
 		}(self));
-		if (mr != nil) [mr __SetField:[@"101" mutableCopy] :value :NO];
+		if (mr != nil) [mr hx_set_field:[@"101" mutableCopy] :value :NO];
 		value;
 	}
 	[self eq:[[Reflect field:mr field:[@"101" mutableCopy]]:1] v2:10 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"847", @"className":@"unit.TestType", @"methodName":@"testCustomArrayAccess"}];

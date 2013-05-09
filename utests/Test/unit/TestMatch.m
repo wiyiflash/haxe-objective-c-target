@@ -11,19 +11,19 @@
 
 + (NSMutableString*) switchNormal:(id)e{
 	return ^(NSMutableString*)
-	var $e2 : enum =  (e[@"expr"])
-	switch ( $e2.index ) {
+	enum s = e2 (e[@"expr"])
+	switch ( e2.index ) {
 		
 		case 0:
 		
-		var MATCH e_fexpr_eEConst_0 : Expr = $e2.params[0]{
+		var MATCH e_fexpr_eEConst_0 : Expr = e2.params[0]{
 			__r__ = ^(id)
-			var $e4 : enum =  (e_fexpr_eEConst_0)
-			switch ( $e4.index ) {
+			enum s = e4 (e_fexpr_eEConst_0)
+			switch ( e4.index ) {
 				
 				case 2:
 				
-				var MATCH e_fexpr_eEConst_0_eCString_0 : NSMutableString = $e4.params[0]{
+				var MATCH e_fexpr_eEConst_0_eCString_0 : NSMutableString = e4.params[0]{
 					__r__3 = e_fexpr_eEConst_0_eCString_0}break
 				default:{
 					__r__3 = [@"not_found" mutableCopy]}break
@@ -34,21 +34,21 @@
 			}()}break
 		case 4:
 		
-		var MATCH e_fexpr_eEParenthesis_0 : id = $e2.params[0]{
+		var MATCH e_fexpr_eEParenthesis_0 : id = e2.params[0]{
 			__r__ = ^(id)
-			var $e6 : enum =  (e_fexpr_eEParenthesis_0[@"expr"])
-			switch ( $e6.index ) {
+			enum s = e6 (e_fexpr_eEParenthesis_0[@"expr"])
+			switch ( e6.index ) {
 				
 				case 0:
 				
-				var MATCH e_fexpr_eEParenthesis_0_fexpr_eEConst_0 : Expr = $e6.params[0]{
+				var MATCH e_fexpr_eEParenthesis_0_fexpr_eEConst_0 : Expr = e6.params[0]{
 					__r__5 = ^(id)
-					var $e8 : enum =  (e_fexpr_eEParenthesis_0_fexpr_eEConst_0)
-					switch ( $e8.index ) {
+					enum s = e8 (e_fexpr_eEParenthesis_0_fexpr_eEConst_0)
+					switch ( e8.index ) {
 						
 						case 2:
 						
-						var MATCH e_fexpr_eEParenthesis_0_fexpr_eEConst_0_eCString_0 : NSMutableString = $e8.params[0]{
+						var MATCH e_fexpr_eEParenthesis_0_fexpr_eEConst_0_eCString_0 : NSMutableString = e8.params[0]{
 							__r__7 = e_fexpr_eEParenthesis_0_fexpr_eEConst_0_eCString_0}break
 						default:{
 							__r__7 = [@"not_found" mutableCopy]}break
@@ -66,21 +66,21 @@
 			}()}break
 		case 22:
 		
-		var MATCH e_fexpr_eEUntyped_0 : id = $e2.params[0]{
+		var MATCH e_fexpr_eEUntyped_0 : id = e2.params[0]{
 			__r__ = ^(id)
-			var $e10 : enum =  (e_fexpr_eEUntyped_0[@"expr"])
-			switch ( $e10.index ) {
+			enum s = e10 (e_fexpr_eEUntyped_0[@"expr"])
+			switch ( e10.index ) {
 				
 				case 0:
 				
-				var MATCH e_fexpr_eEUntyped_0_fexpr_eEConst_0 : Expr = $e10.params[0]{
+				var MATCH e_fexpr_eEUntyped_0_fexpr_eEConst_0 : Expr = e10.params[0]{
 					__r__9 = ^(id)
-					var $e12 : enum =  (e_fexpr_eEUntyped_0_fexpr_eEConst_0)
-					switch ( $e12.index ) {
+					enum s = e12 (e_fexpr_eEUntyped_0_fexpr_eEConst_0)
+					switch ( e12.index ) {
 						
 						case 2:
 						
-						var MATCH e_fexpr_eEUntyped_0_fexpr_eEConst_0_eCString_0 : NSMutableString = $e12.params[0]{
+						var MATCH e_fexpr_eEUntyped_0_fexpr_eEConst_0_eCString_0 : NSMutableString = e12.params[0]{
 							__r__11 = e_fexpr_eEUntyped_0_fexpr_eEConst_0_eCString_0}break
 						default:{
 							__r__11 = [@"not_found" mutableCopy]}break
@@ -98,29 +98,29 @@
 			}()}break
 		case 3:
 		
-		var MATCH e_fexpr_eEField_1 : NSMutableString = $e2.params[1], MATCH e_fexpr_eEField_0 : id = $e2.params[0]{
+		var MATCH e_fexpr_eEField_1 : NSMutableString = e2.params[1], MATCH e_fexpr_eEField_0 : id = e2.params[0]{
 			__r__ = e_fexpr_eEField_1}break
 		case 1:
 		
-		var MATCH e_fexpr_eEArray_1 : id = $e2.params[1], MATCH e_fexpr_eEArray_0 : id = $e2.params[0]{
+		var MATCH e_fexpr_eEArray_1 : id = e2.params[1], MATCH e_fexpr_eEArray_0 : id = e2.params[0]{
 			__r__ = ^(id)
-			var $e14 : enum =  (e_fexpr_eEArray_1[@"expr"])
-			switch ( $e14.index ) {
+			enum s = e14 (e_fexpr_eEArray_1[@"expr"])
+			switch ( e14.index ) {
 				
 				case 0:
 				
-				var MATCH e_fexpr_eEArray_1_fexpr_eEConst_0 : Expr = $e14.params[0]{
+				var MATCH e_fexpr_eEArray_1_fexpr_eEConst_0 : Expr = e14.params[0]{
 					__r__13 = ^(id)
-					var $e16 : enum =  (e_fexpr_eEArray_1_fexpr_eEConst_0)
-					switch ( $e16.index ) {
+					enum s = e16 (e_fexpr_eEArray_1_fexpr_eEConst_0)
+					switch ( e16.index ) {
 						
 						case 0:
 						
-						var MATCH e_fexpr_eEArray_1_fexpr_eEConst_0_eCInt_0 : NSMutableString = $e16.params[0]{
+						var MATCH e_fexpr_eEArray_1_fexpr_eEConst_0_eCInt_0 : NSMutableString = e16.params[0]{
 							__r__15 = [Std string:e_fexpr_eEArray_1_fexpr_eEConst_0_eCInt_0]}break
 						case 1:
 						
-						var MATCH e_fexpr_eEArray_1_fexpr_eEConst_0_eCFloat_0 : NSMutableString = $e16.params[0]{
+						var MATCH e_fexpr_eEArray_1_fexpr_eEConst_0_eCFloat_0 : NSMutableString = e16.params[0]{
 							__r__15 = [Std string:e_fexpr_eEArray_1_fexpr_eEConst_0_eCFloat_0]}break
 						default:{
 							__r__15 = [@"not_found" mutableCopy]}break
@@ -138,7 +138,7 @@
 			}()}break
 		case 14:
 		
-		var MATCH e_fexpr_eEIn_1 : id = $e2.params[1], MATCH e_fexpr_eEIn_0 : id = $e2.params[0]{
+		var MATCH e_fexpr_eEIn_1 : id = e2.params[1], MATCH e_fexpr_eEIn_0 : id = e2.params[0]{
 			__r__ = [Std string:e_fexpr_eEIn_1[@"expr"]]}break
 		default:{
 			__r__ = [@"not_found" mutableCopy]}break
@@ -150,19 +150,19 @@
 }
 + (Expr*) switchCapture:(id)e{
 	return ^(Expr*)
-	var $e2 : enum =  (e[@"expr"])
-	switch ( $e2.index ) {
+	enum s = e2 (e[@"expr"])
+	switch ( e2.index ) {
 		
 		case 0:
 		
-		var MATCH e_fexpr_eEConst_0 : Expr = $e2.params[0]{
+		var MATCH e_fexpr_eEConst_0 : Expr = e2.params[0]{
 			__r__ = ^(id)
-			var $e4 : enum =  (e_fexpr_eEConst_0)
-			switch ( $e4.index ) {
+			enum s = e4 (e_fexpr_eEConst_0)
+			switch ( e4.index ) {
 				
 				case 2:
 				
-				var MATCH e_fexpr_eEConst_0_eCString_0 : NSMutableString = $e4.params[0]{
+				var MATCH e_fexpr_eEConst_0_eCString_0 : NSMutableString = e4.params[0]{
 					__r__3 = ^(id)switch (e_fexpr_eEConst_0_eCString_0){
 						case [@"foobar" mutableCopy]:{
 							__r__5 = e_fexpr_eEConst_0}break;
@@ -175,7 +175,7 @@
 					}()}break
 				case 0:
 				
-				var MATCH e_fexpr_eEConst_0_eCInt_0 : NSMutableString = $e4.params[0]{
+				var MATCH e_fexpr_eEConst_0_eCInt_0 : NSMutableString = e4.params[0]{
 					__r__3 = ^(id)switch (e_fexpr_eEConst_0_eCInt_0){
 						case [@"9" mutableCopy]:{
 							__r__6 = e_fexpr_eEConst_0}break;
@@ -203,12 +203,12 @@
 }
 + (NSMutableString*) switchArray:(id)e{
 	return ^(NSMutableString*)
-	var $e2 : enum =  (e[@"expr"])
-	switch ( $e2.index ) {
+	enum s = e2 (e[@"expr"])
+	switch ( e2.index ) {
 		
 		case 6:
 		
-		var MATCH e_fexpr_eEArrayDecl_0 : NSMutableArray = $e2.params[0]{
+		var MATCH e_fexpr_eEArrayDecl_0 : NSMutableArray = e2.params[0]{
 			__r__ = ^(id)switch (e_fexpr_eEArrayDecl_0.length){
 				case 0:{
 					__r__3 = [@"[]" mutableCopy]}break;
@@ -308,54 +308,54 @@
 }
 + (NSMutableString*) switchCrazy:(id)e{
 	return ^(NSMutableString*)
-	var $e2 : enum =  (e[@"expr"])
-	switch ( $e2.index ) {
+	enum s = e2 (e[@"expr"])
+	switch ( e2.index ) {
 		
 		case 22:
 		
-		var MATCH e_fexpr_eEUntyped_0 : id = $e2.params[0]{
+		var MATCH e_fexpr_eEUntyped_0 : id = e2.params[0]{
 			__r__ = ^(id)
-			var $e4 : enum =  (e_fexpr_eEUntyped_0[@"expr"])
-			switch ( $e4.index ) {
+			enum s = e4 (e_fexpr_eEUntyped_0[@"expr"])
+			switch ( e4.index ) {
 				
 				case 4:
 				
-				var MATCH e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0 : id = $e4.params[0]{
+				var MATCH e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0 : id = e4.params[0]{
 					__r__3 = ^(id)
-					var $e6 : enum =  (e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0[@"expr"])
-					switch ( $e6.index ) {
+					enum s = e6 (e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0[@"expr"])
+					switch ( e6.index ) {
 						
 						case 1:
 						
-						var MATCH e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_1 : id = $e6.params[1], MATCH e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_0 : id = $e6.params[0]{
+						var MATCH e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_1 : id = e6.params[1], MATCH e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_0 : id = e6.params[0]{
 							__r__5 = ^(id)
-							var $e8 : enum =  (e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_0[@"expr"])
-							switch ( $e8.index ) {
+							enum s = e8 (e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_0[@"expr"])
+							switch ( e8.index ) {
 								
 								case 0:
 								
-								var MATCH e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_0_fexpr_eEConst_0 : Expr = $e8.params[0]{
+								var MATCH e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_0_fexpr_eEConst_0 : Expr = e8.params[0]{
 									__r__7 = ^(id)
-									var $e10 : enum =  (e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_0_fexpr_eEConst_0)
-									switch ( $e10.index ) {
+									enum s = e10 (e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_0_fexpr_eEConst_0)
+									switch ( e10.index ) {
 										
 										case 2:
 										
-										var MATCH e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_0_fexpr_eEConst_0_eCString_0 : NSMutableString = $e10.params[0]{
+										var MATCH e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_0_fexpr_eEConst_0_eCString_0 : NSMutableString = e10.params[0]{
 											__r__9 = ^(id)
-											var $e12 : enum =  (e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_1[@"expr"])
-											switch ( $e12.index ) {
+											enum s = e12 (e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_1[@"expr"])
+											switch ( e12.index ) {
 												
 												case 0:
 												
-												var MATCH e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_1_fexpr_eEConst_0 : Expr = $e12.params[0]{
+												var MATCH e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_1_fexpr_eEConst_0 : Expr = e12.params[0]{
 													__r__11 = ^(id)
-													var $e14 : enum =  (e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_1_fexpr_eEConst_0)
-													switch ( $e14.index ) {
+													enum s = e14 (e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_1_fexpr_eEConst_0)
+													switch ( e14.index ) {
 														
 														case 0:
 														
-														var MATCH e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_1_fexpr_eEConst_0_eCInt_0 : NSMutableString = $e14.params[0]{
+														var MATCH e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_1_fexpr_eEConst_0_eCInt_0 : NSMutableString = e14.params[0]{
 															__r__13 = [[[Std string:e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_0[@"expr"]] stringByAppendingString:[@":" mutableCopy]] stringByAppendingString:e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_1_fexpr_eEConst_0_eCInt_0]}break
 														default:{
 															__r__13 = [@"_" mutableCopy]}break
@@ -409,23 +409,23 @@
 }
 + (NSMutableString*) switchGuard:(id)e{
 	return ^(NSMutableString*)
-	var $e2 : enum =  (e[@"expr"])
-	switch ( $e2.index ) {
+	enum s = e2 (e[@"expr"])
+	switch ( e2.index ) {
 		
 		case 0:
 		
-		var MATCH e_fexpr_eEConst_0 : Expr = $e2.params[0]{
+		var MATCH e_fexpr_eEConst_0 : Expr = e2.params[0]{
 			__r__ = ^(id)
-			var $e4 : enum =  (e_fexpr_eEConst_0)
-			switch ( $e4.index ) {
+			enum s = e4 (e_fexpr_eEConst_0)
+			switch ( e4.index ) {
 				
 				case 2:
 				
-				var MATCH e_fexpr_eEConst_0_eCString_0 : NSMutableString = $e4.params[0]{
+				var MATCH e_fexpr_eEConst_0_eCString_0 : NSMutableString = e4.params[0]{
 					__r__3 = ( ([StringTools startsWith:e_fexpr_eEConst_0_eCString_0 start:[@"foo" mutableCopy]]) ? [@"1" mutableCopy] : ( ([StringTools startsWith:e_fexpr_eEConst_0_eCString_0 start:[@"bar" mutableCopy]]) ? [@"2" mutableCopy] : [@"4" mutableCopy]))}break
 				case 0:
 				
-				var MATCH e_fexpr_eEConst_0_eCInt_0 : NSMutableString = $e4.params[0]{
+				var MATCH e_fexpr_eEConst_0_eCInt_0 : NSMutableString = e4.params[0]{
 					__r__3 = ( (^(BOOL)int _g = [Std parseInt:e_fexpr_eEConst_0_eCInt_0] * 2
 					__r__5 = ^(BOOL)switch (_g){
 						case 4:{
@@ -472,12 +472,12 @@
 }
 + (NSMutableString*) toStringX:(TestMatch*)x1{
 	return ^(NSMutableString*)
-	var $e2 : enum =  (x1)
-	switch ( $e2.index ) {
+	enum s = e2 (x1)
+	switch ( e2.index ) {
 		
 		case 0:
 		
-		var MATCH x1_eU1_0 : int = $e2.params[0]{
+		var MATCH x1_eU1_0 : int = e2.params[0]{
 			__r__ = ( (x1_eU1_0 > 1) ? [@">1" mutableCopy] : ( (x1_eU1_0 <= 1) ? [@"<=1" mutableCopy] : ^(NSMutableString*)@throw [@"this is impossible to reach actually" mutableCopy];
 			return __r__3{
 				
@@ -494,37 +494,37 @@
 }
 + (NSMutableString*) orMatch:(id)e1 e2:(id)e2{
 	return ^(NSMutableString*)
-	var $e2 : enum =  (e1[@"expr"])
-	switch ( $e2.index ) {
+	enum s = e2 (e1[@"expr"])
+	switch ( e2.index ) {
 		
 		case 0:
 		
-		var MATCH e1_fexpr_eEConst_0 : Expr = $e2.params[0]{
+		var MATCH e1_fexpr_eEConst_0 : Expr = e2.params[0]{
 			__r__ = ^(id)
-			var $e4 : enum =  (e1_fexpr_eEConst_0)
-			switch ( $e4.index ) {
+			enum s = e4 (e1_fexpr_eEConst_0)
+			switch ( e4.index ) {
 				
 				case 1:
 				
-				var MATCH e1_fexpr_eEConst_0_eCFloat_0 : NSMutableString = $e4.params[0]{
+				var MATCH e1_fexpr_eEConst_0_eCFloat_0 : NSMutableString = e4.params[0]{
 					__r__3 = ^(id)
-					var $e6 : enum =  (e2[@"expr"])
-					switch ( $e6.index ) {
+					enum s = e6 (e2[@"expr"])
+					switch ( e6.index ) {
 						
 						case 0:
 						
-						var MATCH e2_fexpr_eEConst_0 : Expr = $e6.params[0]{
+						var MATCH e2_fexpr_eEConst_0 : Expr = e6.params[0]{
 							__r__5 = ^(id)
-							var $e8 : enum =  (e2_fexpr_eEConst_0)
-							switch ( $e8.index ) {
+							enum s = e8 (e2_fexpr_eEConst_0)
+							switch ( e8.index ) {
 								
 								case 1:
 								
-								var MATCH e2_fexpr_eEConst_0_eCFloat_0 : NSMutableString = $e8.params[0]{
+								var MATCH e2_fexpr_eEConst_0_eCFloat_0 : NSMutableString = e8.params[0]{
 									__r__7 = e1_fexpr_eEConst_0_eCFloat_0 + e2_fexpr_eEConst_0_eCFloat_0}break
 								case 0:
 								
-								var MATCH e2_fexpr_eEConst_0_eCInt_0 : NSMutableString = $e8.params[0]{
+								var MATCH e2_fexpr_eEConst_0_eCInt_0 : NSMutableString = e8.params[0]{
 									__r__7 = e1_fexpr_eEConst_0_eCFloat_0 + e2_fexpr_eEConst_0_eCInt_0}break
 								default:{
 									__r__7 = nil}break
@@ -542,25 +542,25 @@
 					}()}break
 				case 0:
 				
-				var MATCH e1_fexpr_eEConst_0_eCInt_0 : NSMutableString = $e4.params[0]{
+				var MATCH e1_fexpr_eEConst_0_eCInt_0 : NSMutableString = e4.params[0]{
 					__r__3 = ^(id)
-					var $e10 : enum =  (e2[@"expr"])
-					switch ( $e10.index ) {
+					enum s = e10 (e2[@"expr"])
+					switch ( e10.index ) {
 						
 						case 0:
 						
-						var MATCH e2_fexpr_eEConst_0 : Expr = $e10.params[0]{
+						var MATCH e2_fexpr_eEConst_0 : Expr = e10.params[0]{
 							__r__9 = ^(id)
-							var $e12 : enum =  (e2_fexpr_eEConst_0)
-							switch ( $e12.index ) {
+							enum s = e12 (e2_fexpr_eEConst_0)
+							switch ( e12.index ) {
 								
 								case 1:
 								
-								var MATCH e2_fexpr_eEConst_0_eCFloat_0 : NSMutableString = $e12.params[0]{
+								var MATCH e2_fexpr_eEConst_0_eCFloat_0 : NSMutableString = e12.params[0]{
 									__r__11 = e1_fexpr_eEConst_0_eCInt_0 + e2_fexpr_eEConst_0_eCFloat_0}break
 								case 0:
 								
-								var MATCH e2_fexpr_eEConst_0_eCInt_0 : NSMutableString = $e12.params[0]{
+								var MATCH e2_fexpr_eEConst_0_eCInt_0 : NSMutableString = e12.params[0]{
 									__r__11 = e1_fexpr_eEConst_0_eCInt_0 + e2_fexpr_eEConst_0_eCInt_0}break
 								default:{
 									__r__11 = nil}break
@@ -1116,12 +1116,12 @@
 	
 	TestMatch *t = [TA:[@"foo" mutableCopy]];
 	[self eq:[@"0" mutableCopy] v2:((NSMutableString)($this:(snd ctx.path)) 
-	var $e22 : enum =  (t)
-	switch ( $e22.index ) {
+	enum s = e22 (t)
+	switch ( e22.index ) {
 		
 		case 0:
 		
-		var MATCH t_eTA_0 : id = $e22.params[0]{
+		var MATCH t_eTA_0 : id = e22.params[0]{
 			__r__21 = ((id)($this:(snd ctx.path)) switch (t_eTA_0){
 				case [@"foo" mutableCopy]:{
 					__r__23 = [@"0" mutableCopy]}break;
@@ -1438,12 +1438,12 @@
 	TestMatch *v = [A];
 	
 	NSMutableString *r = ((NSMutableString)($this:(snd ctx.path)) 
-	var $e2 : enum =  (v)
-	switch ( $e2.index ) {
+	enum s = e2 (v)
+	switch ( e2.index ) {
 		
 		case 0:
 		
-		var MATCH v_eA_0 : int = $e2.params[0]{
+		var MATCH v_eA_0 : int = e2.params[0]{
 			__r__ = ( (v_eA_0 == nil) ? [@"null" mutableCopy] : [@"not null" mutableCopy])}break
 	}
 	return __r__{

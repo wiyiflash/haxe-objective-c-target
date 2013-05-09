@@ -57,12 +57,12 @@
 		
 		MyEnum *_g = [D:A];
 		
-		var $e : enum =  (_g)
-		switch ( $e.index ) {
+		enum s = e (_g)
+		switch ( e.index ) {
 			
 			case 3:
 			
-			var MATCH _g_eD_0 : MyEnum = $e.params[0]{
+			var MATCH _g_eD_0 : MyEnum = e.params[0]{
 				[self eq:_g_eD_0 v2:A pos:@{@"fileName":@"TestLocals.hx", @"lineNumber":@"45", @"className":@"unit.TestLocals", @"methodName":@"testScope"}]}break
 			default:{
 				[self assert:@{@"fileName":@"TestLocals.hx", @"lineNumber":@"47", @"className":@"unit.TestLocals", @"methodName":@"testScope"}]}break

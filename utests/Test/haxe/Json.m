@@ -60,8 +60,8 @@
 		
 		Type *_g = [Type _typeof:v];
 		
-		var $e : enum =  (_g)
-		switch ( $e.index ) {
+		enum s = e (_g)
+		switch ( e.index ) {
 			
 			case 8:
 			{
@@ -84,7 +84,7 @@
 				[self.buf.b appendString:[@"\"<fun>\"" mutableCopy]]}break
 			case 6:
 			
-			var MATCH _g_eTClass_0 : Class = $e.params[0]{
+			var MATCH _g_eTClass_0 : Class = e.params[0]{
 				if (_g_eTClass_0 == NSMutableString) [self quote:v];
 				else if (_g_eTClass_0 == NSMutableArray) {
 					
@@ -110,7 +110,7 @@
 						id _it2 = [v1 keys];
 						while ( [_it2 hasNext] ) do {
 							NSMutableString k1 = [_it2 next];
-							if (o != nil) [o __SetField:k1 :[v1 get:k1] :NO];
+							if (o != nil) [o hx_set_field:k1 :[v1 get:k1] :NO];
 						}
 					}
 					[self objString:o];
@@ -205,7 +205,7 @@
 									case 58:{
 										{
 											if (field == nil) [self invalidChar];
-											if (obj != nil) [obj __SetField:field :[self parseRec] :NO];
+											if (obj != nil) [obj hx_set_field:field :[self parseRec] :NO];
 											field = nil;
 											comma = YES;
 										}}break;

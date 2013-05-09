@@ -93,7 +93,7 @@ static NSMutableArray* CODES;
 		NSMutableString *k = [self unserialize];
 		if (![Std is:k t:NSMutableString]) @throw [@"Invalid object key" mutableCopy];;
 		id v = [self unserialize];
-		if (o != nil) [o __SetField:k :v :NO];
+		if (o != nil) [o hx_set_field:k :v :NO];
 	}
 	self.pos++;
 }

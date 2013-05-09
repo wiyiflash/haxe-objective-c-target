@@ -1,11 +1,11 @@
-class HXObject extends objc.foundation.NSObject{
+class HXObject extends objc.foundation.NSObject {
 
 
-	public static function __HasField () :Bool { return true; }
-	public static function __GetType () :Dynamic { return null; }
-	public static function __GetFields () :Array<Dynamic> { return null; }
-	public static function __Field () :Dynamic { return null; }
-	public static function __GetClass () :Dynamic { return null; }
-	public static function __ToString () :String { return null; }
-	public static function GetInstanceFields () :Array<Dynamic> { return null; }
+	public static function hx_has_field () :Bool { return true; }
+	public static function hx_get_type () :Dynamic { return null; }
+	public static function hx_get_fields () :Array<Dynamic> { return null; }
+	public static function hx_field () :Dynamic { return null; }
+	public static function hx_get_class () :Dynamic { return null; }
+	public static function hx_to_string () :String { return null; }
+	public static function hx_get_instance_fields () :Array<Dynamic> { return null; }
 }

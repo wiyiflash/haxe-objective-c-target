@@ -224,8 +224,8 @@ static int staticVar3;
 - (int) enumToInt:(Tests*)c{
 	[self testEnum:ExternEnumValue1];
 	return ((int)($this:(snd ctx.path)) 
-	var $e2 : enum =  (c)
-	switch ( $e2.index ) {
+	enum s = e2 (c)
+	switch ( e2.index ) {
 		
 		case 0:
 		{
@@ -238,15 +238,15 @@ static int staticVar3;
 			__r__ = 255}break
 		case 3:
 		
-		var MATCH c_eGrey_0 : int = $e2.params[0]{
+		var MATCH c_eGrey_0 : int = e2.params[0]{
 			__r__ = ((c_eGrey_0 << 16 | c_eGrey_0 << 8) | c_eGrey_0)}break
 		case 4:
 		
-		var MATCH c_eRgb_2 : int = $e2.params[2], MATCH c_eRgb_1 : int = $e2.params[1], MATCH c_eRgb_0 : int = $e2.params[0]{
+		var MATCH c_eRgb_2 : int = e2.params[2], MATCH c_eRgb_1 : int = e2.params[1], MATCH c_eRgb_0 : int = e2.params[0]{
 			__r__ = ((c_eRgb_0 << 16 | c_eRgb_1 << 8) | c_eRgb_2)}break
 		case 5:
 		
-		var MATCH c_eAlpha_1 : Tests = $e2.params[1], MATCH c_eAlpha_0 : int = $e2.params[0]{
+		var MATCH c_eAlpha_1 : Tests = e2.params[1], MATCH c_eAlpha_0 : int = e2.params[0]{
 			__r__ = (c_eAlpha_0 << 24 | ([self enumToInt:c_eAlpha_1] & 16777215))}break
 	}
 	return __r__{
@@ -256,8 +256,8 @@ static int staticVar3;
 }
 - (void) testEnum:(id)v{
 	int i = ((int)($this:(snd ctx.path)) 
-	var $e2 : enum =  (v)
-	switch ( $e2.index ) {
+	enum s = e2 (v)
+	switch ( e2.index ) {
 		
 		case 0:
 		{
@@ -276,8 +276,8 @@ static int staticVar3;
 	
 	Tests *red = Red2;
 	int j = ((int)($this:(snd ctx.path)) 
-	var $e4 : enum =  (red)
-	switch ( $e4.index ) {
+	enum s = e4 (red)
+	switch ( e4.index ) {
 		
 		case 0:
 		{
@@ -342,9 +342,9 @@ static int staticVar3;
 	} mutableCopy];
 	BOOL b = [Reflect hasField:obj field:[@"a" mutableCopy]];
 	id f = [Reflect field:obj field:[@"a" mutableCopy]];
-	if (obj != nil) [obj __SetField:[@"a" mutableCopy] :[@"bbbbb" mutableCopy] :NO];
-	[self __SetField:[@"interfaceVar1" mutableCopy] :[@"bbbbb" mutableCopy] :YES];
-	id p = (id)[self __Field:[@"interfaceVar1" mutableCopy] :YES];
+	if (obj != nil) [obj hx_set_field:[@"a" mutableCopy] :[@"bbbbb" mutableCopy] :NO];
+	[self hx_set_field:[@"interfaceVar1" mutableCopy] :[@"bbbbb" mutableCopy] :YES];
+	id p = (id)[self hx_field:[@"interfaceVar1" mutableCopy] :YES];
 	[Reflect callMethod:self func:testStd args:[@[] mutableCopy]];
 	[Reflect callMethod:self func:callLotsOfArguments:arg2:arg3:arg4: args:[@[@1, @2, @3, @4] mutableCopy]];
 	

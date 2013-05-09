@@ -154,8 +154,8 @@
 	[self t:((BOOL)($this:(snd ctx.path)) 
 	MyEnum *_g = [self id:c]
 	__r__ = ((BOOL)($this:(snd ctx.path)) 
-	var $e3 : enum =  (_g)
-	switch ( $e3.index ) {
+	enum s = e3 (_g)
+	switch ( e3.index ) {
 		
 		case 2:
 		{

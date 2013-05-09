@@ -1,6 +1,6 @@
 package haxe.ds;
 
-@:category("NSMutableDictionary") @:coreApi class ObjectMap<K,V> implements Map.IMap<K,V> {
+@:category("NSMutableDictionary") @:coreApi class ObjectMap< K: { }, V > implements Map.IMap<K,V> {
 	
 	public function new() : Void {
 		

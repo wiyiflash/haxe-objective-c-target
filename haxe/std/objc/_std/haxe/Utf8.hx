@@ -73,17 +73,4 @@ class Utf8
 		return untyped __global__.__hxcpp_char_array_to_utf8_string(sub);
 	}
 
-
-
-
-
-
-
-
-
-
-
-
 }
-
-

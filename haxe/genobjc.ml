@@ -1625,8 +1625,8 @@ and generateExpression ctx e =
 	| TMatch (e,_,cases,def) ->
 		(* ctx.writer#begin_block; *)
 		ctx.writer#new_line;
-		let tmp = genLocal ctx "$e" in
-		ctx.writer#write (Printf.sprintf "var %s : enum = " tmp);
+		let tmp = genLocal ctx "e" in
+		ctx.writer#write (Printf.sprintf "enum s = %s" tmp);
 		generateValue ctx e;
 		ctx.writer#new_line;
 		ctx.writer#write (Printf.sprintf "switch ( %s.index ) " tmp);
