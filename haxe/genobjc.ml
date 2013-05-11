@@ -384,15 +384,15 @@ let rec isString e =
 	| TConst (TString s) -> true
 	| TField (e,fa) -> isString e
 	| TCall (e,el) -> isString e
-	| TConst c -> (* true *)
+	| TConst c ->
 		(match c with
-			| TString s -> print_endline "TString"; true;
-			| TInt i -> print_endline "TInt"; false;
-			| TFloat f -> print_endline "TFloat"; false;
-			| TBool b -> print_endline "TBool"; false;
-			| TNull -> print_endline "TNull"; false;
-			| TThis -> print_endline "TThis"; false;
-			| TSuper -> print_endline "TSuper"; false;
+			| TString s -> true;
+			| TInt i -> false;
+			| TFloat f -> false;
+			| TBool b -> false;
+			| TNull -> false;
+			| TThis -> true;
+			| TSuper -> false;
 		)
 	| _ -> false)
 ;;
@@ -822,6 +822,19 @@ let rec generateCall ctx (func:texpr) arg_list =
 		(* When we have a self followed by 2 TFields in a row we use dot notation for the first field *)
 		if ctx.generating_fields > 0 then ctx.generating_fields <- ctx.generating_fields - 1;
 		ctx.generating_calls <- ctx.generating_calls + 1;
+		(* Cast the result *)
+		(* ctx.writer#write "returning-"; *)
+		(* (match func.etype with
+			| TMono _ -> ctx.writer#write "TMono";
+			| TEnum _ -> ctx.writer#write "Tenum";
+			| TInst _ -> ctx.writer#write "TInst";
+			| TType _ -> ctx.writer#write "TType";
+			| TFun _ -> ctx.writer#write "TFun";
+			| TAnon _ -> ctx.writer#write "TAnon";
+			| TDynamic _ -> ctx.writer#write "TDynamic";
+			| TLazy _ -> ctx.writer#write "TLazy";
+			| TAbstract _ -> ctx.writer#write "TAbstract";
+		); *)
 		ctx.writer#write "[";
 		
 		(* Check if the called function has a custom selector defined *)
@@ -1008,7 +1021,34 @@ and generateExpression ctx e =
 			ctx.writer#write " hx_replaceObjectAtIndex:";
 			generateValue ctx e2;
 		end else begin
-			ctx.writer#write "[";
+			(* Cast the result *)
+			ctx.writer#write "(";
+			(match e1.etype with
+				| TMono _ -> ctx.writer#write "CASTTMono";
+				| TEnum _ -> ctx.writer#write "CASTTenum";
+				| TInst (tc, tp) ->
+				List.iter(fun tt ->
+					(* ctx.writer#write "-1P-"; *)
+					(match tt with
+					| TMono _ -> ctx.writer#write "CASTTMono";
+					| TEnum _ -> ctx.writer#write "CASTTenum";
+					| TInst (tc, tp) -> ctx.writer#write (snd tc.cl_path);
+					| TType _ -> ctx.writer#write "CASTTType";
+					| TFun _ -> ctx.writer#write "CASTTFun";
+					| TAnon _ -> ctx.writer#write "CASTTAnon";
+					| TDynamic _ -> ctx.writer#write "CASTTDynamic";
+					| TLazy _ -> ctx.writer#write "CASTTLazy";
+					| TAbstract _ -> ctx.writer#write "CASTTAbstract";
+					);
+				)tp;
+				| TType _ -> ctx.writer#write "CASTTType";
+				(* | TFun (tc, tp) -> ctx.writer#write ("TFun"^(snd tc.cl_path)); *)
+				| TAnon _ -> ctx.writer#write "CASTTAnon";
+				| TDynamic _ -> ctx.writer#write "CASTTDynamic";
+				| TLazy _ -> ctx.writer#write "CASTTLazy";
+				| TAbstract _ -> ctx.writer#write "CASTTAbstract";
+			);
+			ctx.writer#write "*)[";
 			generateValue ctx e1;
 			ctx.writer#write " hx_objectAtIndex:";
 			generateValue ctx e2;
@@ -1028,8 +1068,8 @@ and generateExpression ctx e =
 	| TBinop (op,e1,e2) ->
 		(* An assign to a property or mathematical/string operations *)
 		let s_op = Ast.s_binop op in
-		if isString e1 then ctx.writer#write ("-isString1-");
-		if isString e2 then ctx.writer#write ("-isString2-");
+		(* if isString e1 then ctx.writer#write ("-isString1-"); *)
+		(* if isString e2 then ctx.writer#write ("-isString2-"); *)
 		if (s_op="+" or s_op="+=") && (isString e1 or isString e2) then begin
 			(* ctx.writer#write ("first"); *)
 			ctx.generating_string_append <- ctx.generating_string_append + 1;
