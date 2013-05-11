@@ -354,11 +354,13 @@ let isSpecialCompare e1 e2 =
 	| _ -> None
 ;;
 
-let rec isString e =
+let rec isString ctx e =
 	(* TODO: left side of the binop is never discovered as being string *)
+	(* ctx.writer#write ("\"-CHECK ISSTRING-\""); *)
 	(match e.eexpr with
-	| TBinop (op,e1,e2) -> isString e1 or isString e2
+	| TBinop (op,e1,e2) -> (* ctx.writer#write ("\"-redirect check isString-\""); *) isString ctx e1 or isString ctx e2
 	| TLocal v ->
+		(* ctx.writer#write ("\"-check local-\""); *)
 		(match v.v_type with
 		(* match e.etype with *)
 		| TMono r ->
@@ -382,16 +384,44 @@ let rec isString e =
 		| _ -> false
 		)
 	| TConst (TString s) -> true
-	| TField (e,fa) -> isString e
-	| TCall (e,el) -> isString e
+	| TField (e,fa) ->
+		(* e might be of type TThis and we need to check the fa *)
+		let b1 = isString ctx e in 
+		if b1 = false then begin
+			(* If the expression is not string check the fa also *)
+			(match fa with
+				| FInstance (tc,tcf) ->
+					let ft = field_type tcf in
+					(match ft with
+						| TMono _ -> ctx.writer#write "CASTTMono";false;
+						| TEnum _ -> ctx.writer#write "CASTTenum";false;
+						| TInst (tc, tp) -> ctx.writer#write (snd tc.cl_path);false;
+						| TType _ -> ctx.writer#write "CASTTType";false;
+						| TFun _ -> ctx.writer#write "CASTTFun";false;
+						| TAnon _ -> ctx.writer#write "CASTTAnon";false;
+						| TDynamic _ -> ctx.writer#write "CASTTDynamic";false;
+						| TLazy _ -> ctx.writer#write "CASTTLazy";false;
+						| TAbstract (ta,tp) -> (* ctx.writer#write "CASTTAbstract"; *)
+							if (snd ta.a_path) = "String" then true
+							else false
+					)
+				| FStatic _ -> ctx.writer#write "isstrFStatic";false;
+				| FAnon _ -> ctx.writer#write "isstrFAnon";false;
+				| FDynamic _ -> ctx.writer#write "isstrFDynamic";false;
+				| FClosure _ -> ctx.writer#write "isstrFClosure";false;
+				| FEnum _ -> ctx.writer#write "isstrFEnum";false;
+			);
+		end else b1
+	| TCall (e,el) -> isString ctx e
 	| TConst c ->
+		(* ctx.writer#write ("\"-check const-\""); *)
 		(match c with
 			| TString s -> true;
 			| TInt i -> false;
 			| TFloat f -> false;
 			| TBool b -> false;
 			| TNull -> false;
-			| TThis -> true;
+			| TThis -> false;(* In this case the field_access will be checked for String as well *)
 			| TSuper -> false;
 		)
 	| _ -> false)
@@ -982,7 +1012,7 @@ and generateExpression ctx e =
 	| TConst c ->
 		if not ctx.generating_selector then generateConstant ctx e.epos c;
 	| TLocal v ->
-		(* ctx.writer#write "-b-"; *)
+		(* ctx.writer#write "-TLocal-"; *)
 		(* (match v.v_type with
 		| TMono _ -> ctx.writer#write ">TMono<";
 		| TEnum _ -> ctx.writer#write ">TEnum<";
@@ -1068,10 +1098,13 @@ and generateExpression ctx e =
 	| TBinop (op,e1,e2) ->
 		(* An assign to a property or mathematical/string operations *)
 		let s_op = Ast.s_binop op in
-		(* if isString e1 then ctx.writer#write ("-isString1-"); *)
-		(* if isString e2 then ctx.writer#write ("-isString2-"); *)
-		if (s_op="+" or s_op="+=") && (isString e1 or isString e2) then begin
+		(* if isString ctx e1 then ctx.writer#write ("\"-isString1-\""); *)
+		(* if isString ctx e2 then ctx.writer#write ("\"-isString2-\""); *)
+		
+		
+		if (s_op="+" or s_op="+=") && (isString ctx e1 or isString ctx e2) then begin
 			(* ctx.writer#write ("first"); *)
+			
 			ctx.generating_string_append <- ctx.generating_string_append + 1;
 			ctx.writer#write "[";
 			generateValueOp ctx e1;
@@ -1211,7 +1244,7 @@ and generateExpression ctx e =
 		end else begin
 			
 			(match fa with
-			| FInstance _ -> (* ctx.writer#write "-FInstance-"; *)
+			| FInstance _ -> (* ctx.writer#write ("-FInstance-"^(field_name fa)); *)
 				(* if ctx.generating_calls = 0 then ctx.generating_property_access <- true; *)
 				generateValue ctx e;
 				(* if ctx.generating_self_access then ctx.writer#write "-generating_self_access-";
@@ -1239,7 +1272,7 @@ and generateExpression ctx e =
 							) *)
 						| None -> ctx.writer#write "-TMonoNone-";
 					) *)
-				| TEnum _ -> ctx.writer#write "-TEnum-";
+				| TEnum _ -> debug ctx "-TEnum-";
 				| TInst _ 
 				| TAbstract _ ->
 					(match cls.cl_path with
@@ -1268,11 +1301,15 @@ and generateExpression ctx e =
 				| TLazy _ -> ctx.writer#write "-TLazy-"
 				);
 				
-			| FAnon tclass_field -> (* ctx.writer#write "-FAnon-"; *)
+			| FAnon tclass_field -> debug ctx "-FAnon-";
 				(* Accesing the field of an anonimous object with the modern notation obj[@key] *)
+				(* generateValue ctx e;
+				ctx.writer#write ("[@\"" ^ (field_name fa) ^ "\"]") *)
+				(* Accesing the field of an anonimous object by calling it as a function *)
+				(* TODO: distinguish this two kind of accesses *)
 				generateValue ctx e;
-				ctx.writer#write ("[@\"" ^ (field_name fa) ^ "\"]")
-			| FDynamic name -> (* ctx.writer#write "-FDynamic-"; *)
+				ctx.writer#write (" " ^ (field_name fa))
+			| FDynamic name -> debug ctx "-FDynamic-";
 				(* This is called by untyped *)
 				if ctx.generating_selector then begin
 					(* TODO: generate functions with arguments as selector. currently does not support arguments *)
@@ -1723,11 +1760,12 @@ and generateExpression ctx e =
 		(* ctx.writer#write "}" *)
 		ctx.writer#end_block
 	| TCast (e1,None) ->
-		ctx.writer#write "((";
+		ctx.writer#write "(";
+		ctx.writer#write (Printf.sprintf "%s*)" (typeToString ctx e.etype e.epos));
 		generateExpression ctx e1;
-		ctx.writer#write (Printf.sprintf ") as %s)" (typeToString ctx e.etype e.epos));
-	| TCast (e1,Some t) -> ()
-		(* generateExpression ctx (Codegen.default_cast ctx.com e1 t e.etype e.epos) *)
+	| TCast (e1,Some t) -> 
+		ctx.writer#write "-CAST-"
+		(* generateExpression ctx (Codegen.default_cast ctx.common_ctx e1 t e.etype e.epos) *)
 
 and generateBlock ctx e =
 	ctx.writer#begin_block;
