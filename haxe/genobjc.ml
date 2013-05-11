@@ -1463,10 +1463,15 @@ and generateExpression ctx e =
 			generateExpression ctx f.tf_expr;
 			ctx.in_static <- old;
 			h();
-			(* ctx.writer#write ";"; *)
 		end;
 		(* if ctx.generating_var && ctx.generating_objc_block_asign then ctx.writer#write ";"; *)
-		ctx.generating_objc_block_asign <- false;
+		if ctx.generating_objc_block_asign then begin
+			(* TODO: Weird fact. We check if the function was a block declaration becuse we need to add ; at the end
+				If we print one ; it appears twice. The second one is not generated from here
+				Quick fix: print nothing *)
+			ctx.writer#write "";
+			ctx.generating_objc_block_asign <- false;
+		end
 	| TCall (func, arg_list) when
 		(match func.eexpr with
 		| TLocal { v_name = "__objc__" } -> true
