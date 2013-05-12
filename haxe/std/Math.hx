@@ -23,6 +23,7 @@
 	This class defines mathematical functions and constants.
 **/
 #if cpp @:include("hxMath") #end
+#if objc @:framework("Foundation") #end
 extern class Math
 {
 	static var PI(default,null) : Float;

@@ -331,7 +331,7 @@ let newModuleContext ctx_m ctx_h = {
 }
 
 let debug ctx str =
-	if false then ctx.writer#write str
+	if true then ctx.writer#write str
 ;;
 
 let isVarField e v =
@@ -390,22 +390,44 @@ let rec isString ctx e =
 		if b1 = false then begin
 			(* If the expression is not string check the fa also *)
 			(match fa with
-				| FInstance (tc,tcf) ->
+				| FInstance (tc,tcf)
+				| FStatic (tc,tcf) ->
 					let ft = field_type tcf in
 					(match ft with
 						| TMono _ -> ctx.writer#write "CASTTMono";false;
 						| TEnum _ -> ctx.writer#write "CASTTenum";false;
-						| TInst (tc, tp) -> ctx.writer#write (snd tc.cl_path);false;
+						| TInst (tc, tp) -> (* ctx.writer#write (snd tc.cl_path);false; *)
+							if (snd tc.cl_path) = "String" then true
+							else false
 						| TType _ -> ctx.writer#write "CASTTType";false;
-						| TFun _ -> ctx.writer#write "CASTTFun";false;
+						| TFun (_,t) -> (* ctx.writer#write "CASTTFun"; *)
+							(* ctx.writer#write ("TFun"^(snd tc.cl_path)); *)
+							(* Analize the return type of the function *)
+							(match t with
+								| TMono _ -> ctx.writer#write "CASTTMono";false;
+								| TEnum _ -> ctx.writer#write "CASTTenum";false;
+								| TInst (tc, tp) -> (* ctx.writer#write (snd tc.cl_path); *)
+									if (snd tc.cl_path) = "String" then true else false
+								| TType _ -> ctx.writer#write "CASTTType";false;
+								| TFun (_,t) -> ctx.writer#write "CASTTFun";
+									(* ctx.writer#write ("TFun"^(snd tc.cl_path)); *)
+									false;
+								| TAnon _ -> ctx.writer#write "CASTTAnon";false;
+								| TDynamic _ -> ctx.writer#write "isstringCASTTDynamic";false;
+								| TLazy _ -> ctx.writer#write "CASTTLazy";false;
+								| TAbstract (ta,tp) -> (* ctx.writer#write "CASTTAbstract"; *)
+									if (snd ta.a_path) = "String" then true
+									else false
+							)
+							
 						| TAnon _ -> ctx.writer#write "CASTTAnon";false;
-						| TDynamic _ -> ctx.writer#write "CASTTDynamic";false;
+						| TDynamic _ -> ctx.writer#write "isstringCASTTDynamic";false;
 						| TLazy _ -> ctx.writer#write "CASTTLazy";false;
 						| TAbstract (ta,tp) -> (* ctx.writer#write "CASTTAbstract"; *)
 							if (snd ta.a_path) = "String" then true
 							else false
 					)
-				| FStatic _ -> ctx.writer#write "isstrFStatic";false;
+				(* | FStatic _ -> ctx.writer#write "isstrFStatic";false; *)
 				| FAnon _ -> ctx.writer#write "isstrFAnon";false;
 				| FDynamic _ -> ctx.writer#write "isstrFDynamic";false;
 				| FClosure _ -> ctx.writer#write "isstrFClosure";false;
@@ -529,15 +551,16 @@ let rec typeToString ctx t p =
 	| TAbstract (a,_) ->(* ctx.writer#write "TAbstract?"; *)
 		ctx.imports_manager#add_abstract a;
 		remapHaxeTypeToObjc ctx true a.a_path p;
-	| TEnum (e,_) ->(* ctx.writer#write "TEnum?"; *)
+	| TEnum (e,_) ->(* ctx.writer#write "TEnum-"; *)
 		if e.e_extern then
 			(match e.e_path with
 			| [], "Void" -> "void"
 			| [], "Bool" -> "BOOL"
 			| _ -> "id")
 		else begin
+			(* Import the module but use the type itself *)
 			ctx.imports_manager#add_class_path e.e_module.m_path;
-			remapHaxeTypeToObjc ctx true e.e_module.m_path p
+			remapHaxeTypeToObjc ctx true e.e_path p
 		end
 	| TInst (c,_) ->(* ctx.writer#write "TInst?"; *)
 		(match c.cl_kind with
@@ -781,7 +804,15 @@ let generateFunctionHeader ctx name f params pos is_static kind =
 			) f.tf_args;
 			ctx.writer#write ")";
 
-		| HeaderDynamic -> ()
+		| HeaderDynamic ->
+			(* Arguments types *)
+			ctx.writer#write "(";
+			concat ctx ", " (fun (v,c) ->
+				let type_name = typeToString ctx v.v_type pos in
+				let arg_name = (remapKeyword v.v_name) in
+				ctx.writer#write (Printf.sprintf "%s%s" type_name (addPointerIfNeeded type_name));
+			) f.tf_args;
+			ctx.writer#write ")";
 	);
 	(* Generate the block version of the method. When we pass a reference to a function we pass to this block *)
 	(* if not ctx.generating_header then begin
@@ -1052,21 +1083,58 @@ and generateExpression ctx e =
 			generateValue ctx e2;
 		end else begin
 			(* Cast the result *)
-			ctx.writer#write "(";
+			let pointer = ref true in
+			ctx.writer#write "((";
 			(match e1.etype with
-				| TMono _ -> ctx.writer#write "CASTTMono";
+				| TMono t  -> (* ctx.writer#write "CASTTMono"; *)
+						(match !t with
+							| Some tt ->(* ctx.writer#write "-TMonoSome-"; *)
+								
+								(match tt with
+								| TMono t -> ctx.writer#write "CASTTMono";
+								| TEnum _ -> ctx.writer#write "CASTTenum";
+								| TInst (tc, tp) ->
+									let t = (typeToString ctx e.etype e.epos) in
+									ctx.writer#write (remapHaxeTypeToObjc ctx false tc.cl_path e.epos);
+								| TType _ -> ctx.writer#write "CASTTType";
+								| TFun _ -> ctx.writer#write "CASTTFun";
+								| TAnon _ -> ctx.writer#write "CASTTAnon";
+								| TDynamic _ -> ctx.writer#write "TArrayCASTTDynamic";
+								| TLazy _ -> ctx.writer#write "CASTTLazy";
+								| TAbstract _ -> ctx.writer#write "CASTTAbstract";
+								);
+								(* let ttt = (typeToString ctx e.etype e.epos) in
+								ctx.writer#write (remapHaxeTypeToObjc ctx false tt.cl_path e.epos);
+								ctx.writer#write (typeToString ctx tt e.epos); *)
+							| None -> ctx.writer#write "-TMonoNone-";()
+						)
 				| TEnum _ -> ctx.writer#write "CASTTenum";
 				| TInst (tc, tp) ->
 				List.iter(fun tt ->
 					(* ctx.writer#write "-1P-"; *)
 					(match tt with
-					| TMono _ -> ctx.writer#write "CASTTMono";
+					| TMono t -> ctx.writer#write "CASTTMono";
+						(match !t with
+							| Some tt ->ctx.writer#write "-TMonoSome-";
+								let ttt = (typeToString ctx e.etype e.epos) in
+								ctx.writer#write (remapHaxeTypeToObjc ctx false tc.cl_path e.epos);
+								ctx.writer#write (typeToString ctx tt e.epos);
+							| None -> ctx.writer#write "-TMonoNone-";
+						)
 					| TEnum _ -> ctx.writer#write "CASTTenum";
-					| TInst (tc, tp) -> ctx.writer#write (snd tc.cl_path);
+					| TInst (tc, tp) ->
+						let t = (typeToString ctx e.etype e.epos) in
+						ctx.writer#write (remapHaxeTypeToObjc ctx false tc.cl_path e.epos);
 					| TType _ -> ctx.writer#write "CASTTType";
 					| TFun _ -> ctx.writer#write "CASTTFun";
 					| TAnon _ -> ctx.writer#write "CASTTAnon";
-					| TDynamic _ -> ctx.writer#write "CASTTDynamic";
+					| TDynamic t -> (* ctx.writer#write "TArray2TDynamic"; *)
+						let ttt = (typeToString ctx e.etype e.epos) in
+						ctx.writer#write ttt;
+						pointer := false;
+						(* ctx.writer#write (typeToString ctx tt e.epos); *)
+						
+					
 					| TLazy _ -> ctx.writer#write "CASTTLazy";
 					| TAbstract _ -> ctx.writer#write "CASTTAbstract";
 					);
@@ -1074,15 +1142,15 @@ and generateExpression ctx e =
 				| TType _ -> ctx.writer#write "CASTTType";
 				(* | TFun (tc, tp) -> ctx.writer#write ("TFun"^(snd tc.cl_path)); *)
 				| TAnon _ -> ctx.writer#write "CASTTAnon";
-				| TDynamic _ -> ctx.writer#write "CASTTDynamic";
+				| TDynamic _ -> ctx.writer#write "TArray3TDynamic";
 				| TLazy _ -> ctx.writer#write "CASTTLazy";
 				| TAbstract _ -> ctx.writer#write "CASTTAbstract";
 			);
-			ctx.writer#write "*)[";
+			ctx.writer#write ((if !pointer then "*" else "")^")[");
 			generateValue ctx e1;
 			ctx.writer#write " hx_objectAtIndex:";
 			generateValue ctx e2;
-			ctx.writer#write "]";
+			ctx.writer#write "])";
 		end
 	| TBinop (Ast.OpEq,e1,e2) when (match isSpecialCompare e1 e2 with Some c -> true | None -> false) ->
 		ctx.writer#write "binop";
@@ -1448,6 +1516,7 @@ and generateExpression ctx e =
 		if ctx.generating_var then
 			ctx.generating_objc_block_asign <- true;
 			
+		let semicolon = ctx.generating_objc_block_asign in
 		if ctx.generating_object_declaration then begin
 			ctx.generating_objc_block <- true;
 			let h = generateFunctionHeader ctx None f [] e.epos ctx.in_static HeaderBlockInline in
@@ -1465,7 +1534,7 @@ and generateExpression ctx e =
 			h();
 		end;
 		(* if ctx.generating_var && ctx.generating_objc_block_asign then ctx.writer#write ";"; *)
-		if ctx.generating_objc_block_asign then begin
+		if semicolon then begin
 			(* TODO: Weird fact. We check if the function was a block declaration becuse we need to add ; at the end
 				If we print one ; it appears twice. The second one is not generated from here
 				Quick fix: print nothing *)
@@ -1766,10 +1835,12 @@ and generateExpression ctx e =
 		ctx.writer#end_block
 	| TCast (e1,None) ->
 		ctx.writer#write "(";
-		ctx.writer#write (Printf.sprintf "%s*)" (typeToString ctx e.etype e.epos));
+		let t = (typeToString ctx e.etype e.epos) in
+		ctx.writer#write t;
+		ctx.writer#write (Printf.sprintf "%s*)" (remapHaxeTypeToObjc ctx false ([],t) e.epos));
 		generateExpression ctx e1;
 	| TCast (e1,Some t) -> 
-		ctx.writer#write "-CAST-"
+		ctx.writer#write "-CASTSomeType-"
 		(* generateExpression ctx (Codegen.default_cast ctx.common_ctx e1 t e.etype e.epos) *)
 
 and generateBlock ctx e =
@@ -1924,7 +1995,10 @@ let generateProperty ctx field pos is_static =
 			| AccCall -> Printf.sprintf ", setter=set_%s" field.cf_name;
 			| _ -> "")
 		| _ -> "" in
-		let strong = if Meta.has Meta.Weak field.cf_meta then ", weak" else if (isPointer t) then ", strong" else "" in
+		let is_enum = (match field.cf_type with
+			| TEnum (e,_) -> true
+			| _ -> false) in
+		let strong = if Meta.has Meta.Weak field.cf_meta then ", weak" else if is_enum then "" else if (isPointer t) then ", strong" else "" in
 		let readonly = if false then ", readonly" else "" in
 		ctx.writer#write (Printf.sprintf "@property (nonatomic%s%s%s%s) %s %s%s;" strong readonly getter setter t (addPointerIfNeeded t) (remapKeyword id))
 	end

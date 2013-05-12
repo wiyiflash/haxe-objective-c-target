@@ -49,7 +49,8 @@
 		Affects the characters [a-z]. Other characters remain unchanged.
 	**/
 	public function toUpperCase() : String {
-		return untyped this.uppercaseString();
+		//return untyped this.uppercaseString().mutableString();
+		return untyped this.uppercaseString().mutableCopy();
 	}
 
 	/**
@@ -58,7 +59,7 @@
 		Affects the characters [A-Z]. Other characters remain unchanged.
 	**/
 	public function toLowerCase() : String {
-		return untyped this.lowercaseString();
+		return untyped this.lowercaseString().mutableCopy();
 	}
 
 	/**
@@ -181,8 +182,8 @@
 
 		if( pos < 0 || len <= 0 ) return "";
 		
-		return untyped __objc__("[self substringFromIndex:pos]");
-		return untyped __objc__("[self substringWithRange:NSMakeRange(pos,len)]");
+		return untyped __objc__("[[self substringFromIndex:pos] mutableCopy]");
+		//return untyped __objc__("[self substringWithRange:NSMakeRange(pos,len)]");
 	}
 
 	/**
@@ -222,7 +223,7 @@
 		Returns the String itself.
 	**/
 	public function toString() : String {
-		return untyped this.description();
+		return untyped this.description().mutableCopy();
 	}
 
 	/**
@@ -232,6 +233,6 @@
 		unspecified.
 	**/	
 	static public function fromCharCode( code : Int ) : String {
-		return untyped __objc__("[NSString stringWithFormat:@\"%C\", code]");
+		return untyped __objc__("[NSMutableString stringWithFormat:@\"%C\", code]");
 	}
 }

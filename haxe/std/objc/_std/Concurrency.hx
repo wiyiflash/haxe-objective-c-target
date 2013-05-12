@@ -1,3 +1,4 @@
+@:framework("Foundation")
 extern class Concurrency {
 
 	@:c public static function dispatch_get_global_queue (a:Int, b:Int) :Void;
