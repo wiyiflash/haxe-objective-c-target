@@ -894,7 +894,7 @@ let rec generateCall ctx (func:texpr) arg_list =
 	
 	(* Generate an Objective-C call with [] *)
 	end else begin
-		debug ctx "-OBJC-";
+		(* ctx.writer#write "-OBJC-"; *)
 		(* A call should cancel the TField *)
 		(* When we have a self followed by 2 TFields in a row we use dot notation for the first field *)
 		if ctx.generating_fields > 0 then ctx.generating_fields <- ctx.generating_fields - 1;
@@ -1328,7 +1328,7 @@ and generateExpression ctx e =
 		end else begin
 			
 			(match fa with
-			| FInstance _ -> (* ctx.writer#write ("-FInstance-"^(field_name fa)); *)
+			| FInstance _ -> (* ctx.writer#write ("-FInstance-"^(remapKeyword (field_name fa))); *)
 				(* if ctx.generating_calls = 0 then ctx.generating_property_access <- true; *)
 				generateValue ctx e;
 				(* if ctx.generating_self_access then ctx.writer#write "-generating_self_access-";
@@ -1339,7 +1339,7 @@ and generateExpression ctx e =
 				let fan = if (ctx.generating_self_access && ctx.generating_calls>0 && ctx.generating_fields>=2) then "." 
 				else if (not ctx.generating_self_access && ctx.generating_calls>0) then " "
 				else if (ctx.generating_self_access && ctx.generating_calls>0) then " " else "." in
-				ctx.writer#write (fan^(if ctx.generating_custom_selector then "" else (field_name fa)));
+				ctx.writer#write (fan^(if ctx.generating_custom_selector then "" else (remapKeyword (field_name fa))));
 				ctx.generating_property_access <- false;
 				
 			| FStatic (cls, cls_f) -> (* ctx.writer#write "-FStatic-"; *)
