@@ -262,6 +262,7 @@ type context = {
 	mutable class_def : tclass;
 	mutable in_value : tvar option;
 	mutable in_static : bool;
+	mutable is_protocol : bool;
 	mutable is_category : bool;(* In categories @synthesize should be replaced with the getter and setter *)
 	mutable handle_break : bool;
 	mutable generating_header : bool;
@@ -296,6 +297,7 @@ let newContext common_ctx writer imports_manager file_info = {
 	class_def = null_class;
 	in_value = None;
 	in_static = false;
+	is_protocol = false;
 	is_category = false;
 	handle_break = false;
 	generating_header = false;
@@ -718,27 +720,34 @@ let defaultValue s =
 
 (* A function header in objc is a message *)
 (* We need to follow some strict rules *)
-let generateFunctionHeader ctx name f params pos is_static kind =
+let generateFunctionHeader ctx name (meta:metadata) (f:tfunc) params pos is_static kind =
 	(* ctx.writer#write ("gen-func-"); *)
 	let old = ctx.in_value in
 	let locals = saveLocals ctx in
 	let old_t = ctx.local_types in
 	ctx.in_value <- None;
 	ctx.local_types <- List.map snd params @ ctx.local_types;
+	let sel = if Meta.has Meta.Selector meta then (getFirstMetaValue Meta.Selector meta) else "" in
+	let first_arg = ref true in
+	let sel_list = if (String.length sel > 0) then Str.split_delim (Str.regexp ":") sel else [] in
+	let sel_arr = Array.of_list sel_list in
 	let return_type = if ctx.generating_constructor then "id" else typeToString ctx f.tf_type pos in
 	(* This part generates the name of the function, the first part of the objc message *)
-	let func_name = (match name with None -> "" | Some (n,meta) ->
+	let func_name = if Array.length sel_arr > 1 then sel_arr.(0) else begin
+		(match name with None -> "" | Some (n,meta) ->
 		let rec loop = function
 			| [] -> (* processFunctionName *) n
 			| _ :: l -> loop l
 		in
 		"" ^ loop meta
-	) in
+		)
+	end in
 	
 	(* Return type and function name *)
 	(match kind with
 		| HeaderObjc | HeaderObjcWithoutParams ->
-			ctx.writer#write (Printf.sprintf "%s (%s%s)" (if is_static then "+" else "-") return_type (addPointerIfNeeded return_type));
+			let method_kind = if is_static then "+" else "-" in
+			ctx.writer#write (Printf.sprintf "%s (%s%s)" method_kind return_type (addPointerIfNeeded return_type));
 			ctx.writer#write (Printf.sprintf " %s" (remapKeyword func_name));
 			
 		| HeaderBlock ->
@@ -760,13 +769,14 @@ let generateFunctionHeader ctx name f params pos is_static kind =
 	
 	(match kind with
 		| HeaderObjc ->
-			let first_arg = ref true in
+			let index = ref 0 in
 			concat ctx " " (fun (v,c) ->
 				let type_name = typeToString ctx v.v_type pos in
 				let arg_name = (remapKeyword v.v_name) in
-				let message_name = if !first_arg then "" else arg_name in
+				let message_name = if !first_arg then "" else if Array.length sel_arr > 1 then sel_arr.(!index) else arg_name in
 				ctx.writer#write (Printf.sprintf "%s:(%s%s)%s" (remapKeyword message_name) type_name (addPointerIfNeeded type_name) arg_name);
 				first_arg := false;
+				index := !index+1;
 				if not ctx.generating_header then begin
 					match c with
 					| None -> ();(* Hashtbl.add ctx.function_arguments arg_name (defaultValue arg_name) *)
@@ -1527,13 +1537,13 @@ and generateExpression ctx e =
 		let semicolon = ctx.generating_objc_block_asign in
 		if ctx.generating_object_declaration then begin
 			ctx.generating_objc_block <- true;
-			let h = generateFunctionHeader ctx None f [] e.epos ctx.in_static HeaderBlockInline in
+			let h = generateFunctionHeader ctx None [] f [] e.epos ctx.in_static HeaderBlockInline in
 			ctx.generating_objc_block <- false;
 			generateExpression ctx f.tf_expr;
 			h();
 		end else begin
 			ctx.generating_objc_block <- true;
-			let h = generateFunctionHeader ctx None f [] e.epos ctx.in_static HeaderBlockInline in
+			let h = generateFunctionHeader ctx None [] f [] e.epos ctx.in_static HeaderBlockInline in
 			let old = ctx.in_static in
 			ctx.in_static <- true;
 			ctx.generating_objc_block <- false;
@@ -2237,35 +2247,35 @@ let generateField ctx is_static field =
 	(f.cf_name = "main" && static) || f.cf_name = "resolve" || has_meta ":public" f.cf_meta in *)
 	let pos = ctx.class_def.cl_pos in
 	match field.cf_expr, field.cf_kind with
-	| Some { eexpr = TFunction fd }, Method (MethNormal | MethInline) ->
+	| Some { eexpr = TFunction func }, Method (MethNormal | MethInline) ->
 		if field.cf_name = "main" && is_static then begin
-			if not ctx.generating_header then generateMain ctx fd;
+			if not ctx.generating_header then generateMain ctx func;
 		end
 		else begin
 			(* Generate function header *)
-			let h = generateFunctionHeader ctx (Some (field.cf_name, field.cf_meta)) fd field.cf_params pos is_static HeaderObjc in
+			let h = generateFunctionHeader ctx (Some (field.cf_name, field.cf_meta)) field.cf_meta func field.cf_params pos is_static HeaderObjc in
 			h();
 			(* Generate function content if is not a header file *)
 			if not ctx.generating_header then
-				generateExpression ctx fd.tf_expr
+				generateExpression ctx func.tf_expr
 			else
 				ctx.writer#write ";";
 		end
-	| Some { eexpr = TFunction fd }, Method (MethDynamic) ->
+	| Some { eexpr = TFunction func }, Method (MethDynamic) ->
 		ctx.writer#write "// Defining a dynamic method\n";
 		(* ctx.writer#write (Printf.sprintf "%s " (if is_static then "+" else "-")); *)
 		(* Generate function header *)
-		let h = generateFunctionHeader ctx (Some (field.cf_name, field.cf_meta)) fd field.cf_params pos is_static HeaderObjc in
+		let h = generateFunctionHeader ctx (Some (field.cf_name, field.cf_meta)) field.cf_meta func field.cf_params pos is_static HeaderObjc in
 		h();
 		(* Generate function content if is not a header file *)
 		if not ctx.generating_header then
-			generateExpression ctx fd.tf_expr
+			generateExpression ctx func.tf_expr
 		else
 			ctx.writer#write ";\n";
 		ctx.generating_objc_block <- true;
 		if ctx.generating_header then begin
 			ctx.writer#write (Printf.sprintf "@property (nonatomic,copy) ");
-			let h = generateFunctionHeader ctx (Some (field.cf_name, field.cf_meta)) fd field.cf_params pos is_static HeaderDynamic in h();
+			let h = generateFunctionHeader ctx (Some (field.cf_name, field.cf_meta)) field.cf_meta func field.cf_params pos is_static HeaderDynamic in h();
 			ctx.writer#write ";";
 		end else begin
 			let func_name = (match (Some (field.cf_name, field.cf_meta)) with None -> "" | Some (n,meta) ->
@@ -3150,7 +3160,6 @@ let generateImplementation ctx files_manager imports_manager =
 ;;	
 
 let generateHeader ctx files_manager imports_manager =
-	(* print_endline ("> Generating header : "^(snd ctx.class_def.cl_path)); *)
 	ctx.generating_header <- true;
 	(* Import the super class *)
 	(match ctx.class_def.cl_super with
@@ -3186,6 +3195,9 @@ let generateHeader ctx files_manager imports_manager =
 	if ctx.is_category then begin
 		let category_class = getFirstMetaValue Meta.Category ctx.class_def.cl_meta in
 		ctx.writer#write ("@interface " ^ category_class ^ " ( " ^ (snd class_path) ^ " )");
+	end
+	else if ctx.is_protocol then begin
+		ctx.writer#write ("@protocol " ^ (snd class_path) ^ "<NSObject>");
 	end
 	else begin
 		
@@ -3272,7 +3284,7 @@ let generate common_ctx =
 					m.module_path_m <- module_path;
 					
 					if not class_def.cl_interface then begin
-						(* Create the implementation file *)
+						(* Create the implementation file only for classes, not protocols *)
 						files_manager#register_source_file module_path ".m";
 						let file_m = newSourceFile src_dir module_path ".m" in
 						let ctx_m = newContext common_ctx file_m imports_manager file_info in
@@ -3303,6 +3315,7 @@ let generate common_ctx =
 					(* m.ctx_h.class_def <- class_def; *)
 					m.ctx_h.writer#write_copy module_path (appName common_ctx);
 				end;
+				if class_def.cl_interface then m.ctx_h.is_protocol <- true;
 				m.ctx_h.class_def <- class_def;
 				generateHeader m.ctx_h files_manager imports_manager;
 			end
