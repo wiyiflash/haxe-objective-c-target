@@ -22,6 +22,7 @@ open Type
 open Common
 open Unix
 
+let d = false;;
 let joinClassPath path separator =
 	match fst path, snd path with
 	| [], s -> s
@@ -281,6 +282,7 @@ type context = {
 	mutable generating_fields : int;(* How many fields are generated in a row *)
 	mutable generating_string_append : int;
 	mutable require_pointer : bool;
+	mutable return_needs_semicolon : bool;
 	mutable gen_uid : int;
 	mutable local_types : t list;
 }
@@ -314,6 +316,7 @@ let newContext common_ctx writer imports_manager file_info = {
 	generating_fields = 0;
 	generating_string_append = 0;
 	require_pointer = false;
+	return_needs_semicolon = false;
 	gen_uid = 0;
 	local_types = [];
 }
@@ -331,7 +334,7 @@ let newModuleContext ctx_m ctx_h = {
 }
 
 let debug ctx str =
-	if true then ctx.writer#write str
+	if d then ctx.writer#write str
 ;;
 
 let isVarField e v =
@@ -546,6 +549,7 @@ let parent e =
 
 let rec typeToString ctx t p =
 	match t with
+	(* | TEnum (te,tp) -> "TEnumInBlock" *)
 	| TEnum _ | TInst _ when List.memq t ctx.local_types ->
 		"id"
 	| TAbstract (a,_) ->(* ctx.writer#write "TAbstract?"; *)
@@ -556,7 +560,8 @@ let rec typeToString ctx t p =
 			(match e.e_path with
 			| [], "Void" -> "void"
 			| [], "Bool" -> "BOOL"
-			| _ -> "id")
+			| _, name -> name
+			)
 		else begin
 			(* Import the module but use the type itself *)
 			ctx.imports_manager#add_class_path e.e_module.m_path;
@@ -795,7 +800,8 @@ let generateFunctionHeader ctx name f params pos is_static kind =
 			concat ctx ", " (fun (v,c) ->
 				let type_name = typeToString ctx v.v_type pos in
 				let arg_name = (remapKeyword v.v_name) in
-				ctx.writer#write (Printf.sprintf "%s %s%s" type_name (* (addPointerIfNeeded type_name) *)"*" arg_name);
+				let is_enum = (match v.v_type with | TEnum _ -> true | _ -> false) in
+				ctx.writer#write (Printf.sprintf "%s %s%s" type_name (if is_enum then "" else (addPointerIfNeeded type_name)) arg_name);
 				(* if not ctx.generating_header then begin
 					match c with
 					| None -> ();(* Hashtbl.add ctx.function_arguments arg_name (defaultValue arg_name) *)
@@ -1460,7 +1466,9 @@ and generateExpression ctx e =
 			ctx.writer#write "}";
 		| Some e ->
 			ctx.writer#write "return ";
-			generateValue ctx e);
+			generateValue ctx e;
+			if ctx.return_needs_semicolon then ctx.writer#write ";";
+		);
 	| TBreak ->
 		(* if ctx.in_value <> None then unsupported e.epos; *)
 		if ctx.handle_break then ctx.writer#write "@throw \"__break__\"" else ctx.writer#write "break"
@@ -1711,14 +1719,16 @@ and generateExpression ctx e =
 		ctx.writer#write " ";
 		generateExpression ctx e;
 		(match eelse with
-		| None -> ()
-		| Some e2 ->
-			(match e.eexpr with
-				| TBlock _ -> ()
-				| _ ->ctx.writer#write ";");
-			ctx.writer#new_line;
-			ctx.writer#write "else ";
-			generateExpression ctx e2);
+			| None -> ()
+			| Some e2 ->
+				(match e.eexpr with
+					| TBlock _ | TSwitch _ -> ()
+					| _ -> ();ctx.writer#write ";"
+				);
+				ctx.writer#new_line;
+				ctx.writer#write "else ";
+				generateExpression ctx e2
+		);
 	| TUnop (op,Ast.Prefix,e) ->
 		ctx.writer#write (Ast.s_unop op);
 		generateValue ctx e
@@ -1799,7 +1809,7 @@ and generateExpression ctx e =
 					concat ctx ", " (fun (v,n) ->
 						ctx.writer#write (Printf.sprintf "MATCH %s : %s = %s.params[%d]" (remapKeyword v.v_name) (typeToString ctx v.v_type e.epos) tmp n);
 					) l);
-			generateBlock ctx e;
+			generateCaseBlock ctx e;
 			ctx.writer#write "break";
 		) cases;
 		(match def with
@@ -1807,19 +1817,21 @@ and generateExpression ctx e =
 		| Some e ->
 			ctx.writer#new_line;
 			ctx.writer#write "default:";
-			generateBlock ctx e;
+			generateCaseBlock ctx e;
 			ctx.writer#write "break";
 		);
 		ctx.writer#new_line;
 		ctx.writer#end_block;
 		(* ctx.writer#end_block; *)
 	| TSwitch (e,cases,def) ->
+		ctx.return_needs_semicolon <- true;
 		ctx.writer#write "switch"; generateValue ctx (parent e); ctx.writer#begin_block;
 		List.iter (fun (el,e2) ->
 			List.iter (fun e ->
 				ctx.writer#write "case "; generateValue ctx e; ctx.writer#write ":";
 			) el;
-			generateBlock ctx e2;
+			generateCaseBlock ctx e2;
+			ctx.writer#new_line;
 			ctx.writer#write "break;";
 			ctx.writer#new_line;
 		) cases;
@@ -1827,11 +1839,12 @@ and generateExpression ctx e =
 		| None -> ()
 		| Some e ->
 			ctx.writer#write "default:";
-			generateBlock ctx e;
+			generateCaseBlock ctx e;
 			ctx.writer#write "break;";
 			ctx.writer#new_line;
 		);
 		(* ctx.writer#write "}" *)
+		ctx.return_needs_semicolon <- false;
 		ctx.writer#end_block
 	| TCast (e1,None) ->
 		ctx.writer#write "(";
@@ -1843,12 +1856,13 @@ and generateExpression ctx e =
 		ctx.writer#write "-CASTSomeType-"
 		(* generateExpression ctx (Codegen.default_cast ctx.common_ctx e1 t e.etype e.epos) *)
 
-and generateBlock ctx e =
-	ctx.writer#begin_block;
+and generateCaseBlock ctx e =
+	(* ctx.writer#begin_block; *)
+	generateExpression ctx e;
 	match e.eexpr with
-	| TBlock [] -> ()
-	| _ -> generateExpression ctx e;
-	ctx.writer#end_block
+	| TBlock _ -> ()
+	| _ -> ctx.writer#write ";"; 
+	(* ctx.writer#end_block *)
 	
 and generateValue ctx e =
 	(* debug ctx ("\"-V-"^(Type.s_expr_kind e)^">\""); *)
