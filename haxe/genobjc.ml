@@ -2368,7 +2368,7 @@ let pbxproj common_ctx files_manager =
 		if ext=".m" then file#write ("		"^uuid^" /* "^(snd path)^ext^" in Sources */ = {isa = PBXBuildFile; fileRef = "^fileRef^"; };\n");
 	) files_manager#get_source_files;
 	
-	(* Register packages root folder as source_folders *)
+	(* Register haxe packages as source_folders *)
 	List.iter ( fun (path) ->
 		files_manager#register_source_folder (fst path, "")
 	) !packages;
@@ -2377,7 +2377,7 @@ let pbxproj common_ctx files_manager =
 	let supporting_files = ref "" in
 	(match common_ctx.objc_supporting_files with
 	| None ->
-		print_endline "No SupportingFiles defined. Search in hxcocoa lib";
+		print_endline "No SupportingFiles linked by user, search in hxcocoa lib. -Info.plist will not be used.";
 		List.iter (fun dir ->
 			if Sys.file_exists dir then begin
 				let contents = Array.to_list (Sys.readdir dir) in
@@ -2395,7 +2395,7 @@ let pbxproj common_ctx files_manager =
 	if (!supporting_files != "") then begin
 		let contents = Array.to_list (Sys.readdir !supporting_files) in
 		List.iter (fun f ->
-			if f <> ".DS_Store" then begin
+			if String.sub f 0 1 <> "." && f <> (app_name ^ "-Info.plist") then begin
 				let lst = Str.split (Str.regexp "/") f in
 				let file = List.hd (List.rev lst) in
 				let path = List.rev (List.tl (List.rev lst)) in
@@ -3047,61 +3047,80 @@ let generatePch common_ctx class_def =
 	file#close
 ;;
 
+let read_file f =
+  let ic = open_in f in
+  let n = in_channel_length ic in
+  let s = String.create n in
+  really_input ic s 0 n;
+  close_in ic;
+  (s)
+;;
+
 let generatePlist common_ctx file_info  =
 	(* TODO: Allows the application to specify what location will be used for in their app. 
 	This will be displayed along with the standard Location permissions dialogs. 
 	This property will need to be set prior to calling startUpdatingLocation.
 	Set the purpose string in Info.plist using key NSLocationUsageDescription. *)
-	(* let main_class_def = common_ctx.main_class in *)
+	
+	(* Search the user defined -Info.plist in the custom SupportingFiles folder *)
 	let app_name = appName common_ctx in
+	let supporting_files = (match common_ctx.objc_supporting_files with
+		| None -> ""
+		| Some p -> p) in
+	let plist_path = if (supporting_files != "") then (supporting_files ^ app_name ^ "-Info.plist") else "" in
 	let src_dir = srcDir common_ctx in
-	let identifier = match common_ctx.objc_identifier with 
-		| Some id -> id
-		| None -> "org.haxe.ObjC" in
-	let bundle_name = match common_ctx.objc_bundle_name with 
-		| Some name -> name 
-		| None -> "${PRODUCT_NAME}" in
-	let executable_name = match common_ctx.objc_bundle_name with 
-		| Some name -> name 
-		| None -> "${EXECUTABLE_NAME}" in
-	let bundle_version = Printf.sprintf "%.1f" common_ctx.objc_bundle_version in
 	let file = newSourceFile src_dir ([],app_name^"-Info") ".plist" in
-	file#write ("<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
-<plist version=\"1.0\">
-<dict>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>en</string>
-	<key>CFBundleDisplayName</key>
-	<string>" ^ bundle_name ^ "</string>
-	<key>CFBundleExecutable</key>
-	<string>" ^ executable_name ^ "</string>
-	<key>CFBundleIdentifier</key>
-	<string>" ^ identifier ^ "</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundleName</key>
-	<string>" ^ bundle_name ^ "</string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
-	<key>CFBundleShortVersionString</key>
-	<string>" ^ bundle_version ^ "</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>" ^ bundle_version ^ "</string>
-	<key>LSRequiresIPhoneOS</key>
-	<true/>
-	<key>UIRequiredDeviceCapabilities</key>
-	<array>
-		<string>armv7</string>
-	</array>
-	<key>UISupportedInterfaceOrientations</key>
-	<array>");
-	List.iter (fun v -> file#write ("		<string>" ^ v ^ "</string>");) common_ctx.ios_orientations;
-	file#write ("	</array>
-</dict>
-</plist>");
+	if plist_path <> "" && Sys.file_exists plist_path then begin
+		let file_contents = read_file plist_path in
+		file#write file_contents;
+	end else begin
+		let identifier = match common_ctx.objc_identifier with 
+			| Some id -> id
+			| None -> "org.haxe.hxobjc" in
+		let bundle_name = match common_ctx.objc_bundle_name with 
+			| Some name -> name 
+			| None -> "${PRODUCT_NAME}" in
+		let executable_name = match common_ctx.objc_bundle_name with 
+			| Some name -> name 
+			| None -> "${EXECUTABLE_NAME}" in
+		let bundle_version = Printf.sprintf "%.1f" common_ctx.objc_bundle_version in
+		file#write ("<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+	<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+	<plist version=\"1.0\">
+	<dict>
+		<key>CFBundleDevelopmentRegion</key>
+		<string>en</string>
+		<key>CFBundleDisplayName</key>
+		<string>" ^ bundle_name ^ "</string>
+		<key>CFBundleExecutable</key>
+		<string>" ^ executable_name ^ "</string>
+		<key>CFBundleIdentifier</key>
+		<string>" ^ identifier ^ "</string>
+		<key>CFBundleInfoDictionaryVersion</key>
+		<string>6.0</string>
+		<key>CFBundleName</key>
+		<string>" ^ bundle_name ^ "</string>
+		<key>CFBundlePackageType</key>
+		<string>APPL</string>
+		<key>CFBundleShortVersionString</key>
+		<string>" ^ bundle_version ^ "</string>
+		<key>CFBundleSignature</key>
+		<string>????</string>
+		<key>CFBundleVersion</key>
+		<string>" ^ bundle_version ^ "</string>
+		<key>LSRequiresIPhoneOS</key>
+		<true/>
+		<key>UIRequiredDeviceCapabilities</key>
+		<array>
+			<string>armv7</string>
+		</array>
+		<key>UISupportedInterfaceOrientations</key>
+		<array>");
+		List.iter (fun v -> file#write ("		<string>" ^ v ^ "</string>");) common_ctx.ios_orientations;
+		file#write ("	</array>
+	</dict>
+	</plist>");
+	end;
 	file#close
 ;;
 
