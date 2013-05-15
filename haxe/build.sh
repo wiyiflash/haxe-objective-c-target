@@ -8,6 +8,9 @@ echo " "
 cd ../hxcocoa/demos/Hello
 # ./../../../haxe/haxe compile.hxml
 
+cd ../Busses
+./../../../haxe/haxe compile.hxml
+
 cd ../PiratePig
 ./../../../haxe/haxe compile.hxml
 
@@ -15,7 +18,7 @@ cd ../WWX
 # ./../../../haxe/haxe compile.hxml
 
 echo " "
-echo "Build ObjC tests..."
+echo "Build the playground..."
 echo " "
 cd ../../../playground
 #./../haxe/haxe compile.hxml

@@ -268,6 +268,7 @@ type context = {
 	mutable class_def : tclass;
 	mutable in_value : tvar option;
 	mutable in_static : bool;
+	mutable in_condition : bool;
 	mutable is_protocol : bool;
 	mutable is_category : bool;(* In categories @synthesize should be replaced with the getter and setter *)
 	mutable handle_break : bool;
@@ -304,6 +305,7 @@ let newContext common_ctx writer imports_manager file_info = {
 	class_def = null_class;
 	in_value = None;
 	in_static = false;
+	in_condition = false;
 	is_protocol = false;
 	is_category = false;
 	handle_break = false;
@@ -833,7 +835,7 @@ let generateFunctionHeader ctx name (meta:metadata) (f:tfunc) params pos is_stat
 			ctx.writer#write "(";
 			concat ctx ", " (fun (v,c) ->
 				let type_name = typeToString ctx v.v_type pos in
-				let arg_name = (remapKeyword v.v_name) in
+				(* let arg_name = (remapKeyword v.v_name) in *)
 				ctx.writer#write (Printf.sprintf "%s%s" type_name (addPointerIfNeeded type_name));
 			) f.tf_args;
 			ctx.writer#write ")";
@@ -1120,7 +1122,7 @@ and generateExpression ctx e =
 								| TMono t -> ctx.writer#write "CASTTMono";
 								| TEnum _ -> ctx.writer#write "CASTTenum";
 								| TInst (tc, tp) ->
-									let t = (typeToString ctx e.etype e.epos) in
+									(* let t = (typeToString ctx e.etype e.epos) in *)
 									ctx.writer#write (remapHaxeTypeToObjc ctx false tc.cl_path e.epos);
 								| TType _ -> ctx.writer#write "CASTTType";
 								| TFun _ -> ctx.writer#write "CASTTFun";
@@ -1136,41 +1138,37 @@ and generateExpression ctx e =
 						)
 				| TEnum _ -> ctx.writer#write "CASTTenum";
 				| TInst (tc, tp) ->
-				List.iter(fun tt ->
-					(* ctx.writer#write "-1P-"; *)
-					(match tt with
-					| TMono t -> ctx.writer#write "CASTTMono";
-						(match !t with
-							| Some tt ->ctx.writer#write "-TMonoSome-";
-								let ttt = (typeToString ctx e.etype e.epos) in
-								ctx.writer#write (remapHaxeTypeToObjc ctx false tc.cl_path e.epos);
-								ctx.writer#write (typeToString ctx tt e.epos);
-							| None -> ctx.writer#write "-TMonoNone-";
-						)
-					| TEnum _ -> ctx.writer#write "CASTTenum";
-					| TInst (tc, tp) ->
-						let t = (typeToString ctx e.etype e.epos) in
-						ctx.writer#write (remapHaxeTypeToObjc ctx false tc.cl_path e.epos);
-					| TType _ -> ctx.writer#write "CASTTType";
-					| TFun _ -> ctx.writer#write "CASTTFun";
-					| TAnon _ -> ctx.writer#write "CASTTAnon";
-					| TDynamic t -> (* ctx.writer#write "TArray2TDynamic"; *)
-						let ttt = (typeToString ctx e.etype e.epos) in
-						ctx.writer#write ttt;
-						pointer := false;
-						(* ctx.writer#write (typeToString ctx tt e.epos); *)
-						
-					
-					| TLazy _ -> ctx.writer#write "CASTTLazy";
-					| TAbstract _ -> ctx.writer#write "CASTTAbstract";
-					);
-				)tp;
+					List.iter (fun tt ->
+						(match tt with
+						| TMono t -> ctx.writer#write "CASTTMono";
+							(match !t with
+								| Some tt ->(* ctx.writer#write "-TMonoSome-"; *)
+									(* let ttt = (typeToString ctx e.etype e.epos) in *)
+									ctx.writer#write (remapHaxeTypeToObjc ctx false tc.cl_path e.epos);
+									ctx.writer#write (typeToString ctx tt e.epos);
+								| None -> ctx.writer#write "-TMonoNone-";
+							)
+						| TEnum _ -> ctx.writer#write "CASTTenum";
+						| TInst (tc, tp) ->
+							(* let t = (typeToString ctx e.etype e.epos) in *)
+							ctx.writer#write (remapHaxeTypeToObjc ctx false tc.cl_path e.epos);
+						| TType _ -> ctx.writer#write "CASTTType";
+						| TFun _ -> ctx.writer#write "CASTTFun";
+						| TAnon _ -> ctx.writer#write "CASTTAnon";
+						| TDynamic t -> (* ctx.writer#write "TArray2TDynamic"; *)
+							ctx.writer#write (typeToString ctx e.etype e.epos);
+							pointer := false;
+						| TLazy _ -> ctx.writer#write "CASTTLazy";
+						| TAbstract _ -> ctx.writer#write "CASTTAbstract";
+						);
+					)tp;
 				| TType _ -> ctx.writer#write "CASTTType";
 				(* | TFun (tc, tp) -> ctx.writer#write ("TFun"^(snd tc.cl_path)); *)
 				| TAnon _ -> ctx.writer#write "CASTTAnon";
 				| TDynamic _ -> ctx.writer#write "TArray3TDynamic";
 				| TLazy _ -> ctx.writer#write "CASTTLazy";
 				| TAbstract _ -> ctx.writer#write "CASTTAbstract";
+				| _ -> ctx.writer#write "CASTOther";
 			);
 			ctx.writer#write ((if !pointer then "*" else "")^")[");
 			generateValue ctx e1;
@@ -1247,7 +1245,7 @@ and generateExpression ctx e =
 			(* if ctx.generating_calls = 0 then ctx.generating_property_access <- true; *)
 			generateValue ctx e;
 			let f_prefix = (match tcf.cf_type with
-				| TFun _ -> if ctx.generating_left_side_of_operator then "hx_dyn_" else "";
+				| TFun _ -> if ctx.generating_left_side_of_operator && not ctx.in_condition then "hx_dyn_" else "";
 				| _ -> "";
 			) in
 			let fan = if (ctx.generating_self_access && ctx.generating_calls>0 && ctx.generating_fields>=2) then "." 
@@ -1765,10 +1763,12 @@ and generateExpression ctx e =
 				if !inited then ctx.writer#write "]";
 		)
 	| TIf (cond,e,eelse) ->
+		ctx.in_condition <- true;
 		ctx.writer#write "if";
 		generateValue ctx (parent cond);
 		ctx.writer#write " ";
 		generateExpression ctx e;
+		ctx.in_condition <- false;
 		(match eelse with
 			| None -> ()
 			| Some e2 ->
@@ -2437,7 +2437,6 @@ let pbxproj common_ctx files_manager =
 			end
 		) common_ctx.class_path;
 	| Some p ->
-		print_endline p;
 		supporting_files := p;
 	);
 	print_endline ("SupportingFiles found at path: "^(!supporting_files));
@@ -2460,7 +2459,6 @@ let pbxproj common_ctx files_manager =
 		(* print_endline ("add resource "^(snd path)^" >> "^ext); *)
 		let n = if List.length (fst path) > 0 then List.hd (fst path) else (snd path) in
 		file#write ("		"^uuid^" /* "^n^ext^" in Resources */ = {isa = PBXBuildFile; fileRef = "^fileRef^"; };\n");
-		print_endline n;
 	) files_manager#get_resource_files;
 	(* Add some hardcoded files *)
 	let build_file_main = files_manager#generate_uuid_for_file ([],"build_file_main") in
@@ -2548,7 +2546,6 @@ let pbxproj common_ctx files_manager =
 		) in
 		(* if List.length (fst path) > 0 then List.hd (fst path) else (snd path) in *)
 		file#write ("		"^fileRef^" /* "^(snd path)^" in Resources */ = {isa = PBXFileReference; lastKnownFileType = image."^ext^"; name = \""^(snd path)^"\"; path = \""^final_path^"\"; sourceTree = "^final_source_tree^"; };\n");
-		print_endline final_path;
 	) files_manager#get_resource_files;
 	
 	(* Add some hardcoded files *)
