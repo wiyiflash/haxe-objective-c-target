@@ -14,15 +14,19 @@
 @synthesize intValue;
 @synthesize stringValue;
 - (int) get{
+	
 	return self.val;
 }
 - (void) set:(int)v{
+	
 	self.val = v;
 }
 - (int) add:(int)x y:(int)y{
-	return [[self.val stringByAppendingString:x] stringByAppendingString:y];
+	
+	return self.val + x + y;
 }
 - (id) init:(int)v{
+	
 	self = [super init];
 	self.val = v;
 	self.intValue = 55;
@@ -34,12 +38,15 @@
 @implementation MyParent
 
 - (int) a{
+	
 	return 11;
 }
 - (int) b{
+	
 	return 20;
 }
 - (id) init{
+	
 	self = [super init];
 	return self;
 }
@@ -49,6 +56,7 @@
 @implementation MyDynamicChildWithToString
 
 - (NSMutableString*) toString{
+	
 	return [@"Custom toString" mutableCopy];
 }
 
@@ -62,12 +70,15 @@
 @implementation MyChild1
 
 - (int) a{
+	
 	return 12;
 }
 - (int) b{
+	
 	return 21;
 }
 - (int) c{
+	
 	return 19;
 }
 
@@ -76,6 +87,7 @@
 @implementation MyChild2
 
 - (int) test1:(MyChild1*)mc1{
+	
 	return [mc1 b];
 }
 
@@ -85,6 +97,7 @@
 
 @synthesize s;
 - (id) init{
+	
 	self = [super init];
 	return self;
 }
@@ -94,6 +107,7 @@
 @implementation Child1
 
 - (id) init{
+	
 	self = [super init];
 	return self;
 }
@@ -103,6 +117,7 @@
 @implementation Child2
 
 - (id) init{
+	
 	self = [super init];
 	return self;
 }
@@ -112,6 +127,7 @@
 @implementation Child2_1
 
 - (id) init{
+	
 	self = [super init];
 	return self;
 }
@@ -123,6 +139,7 @@
 @synthesize s;
 @synthesize t;
 - (id) init{
+	
 	self = [super init];
 	return self;
 }
@@ -132,6 +149,7 @@
 @implementation ClassI2
 
 - (id) init{
+	
 	self = [super init];
 	return self;
 }
@@ -141,6 +159,7 @@
 @implementation CI1
 
 - (id) init{
+	
 	self = [super init];
 	return self;
 }
@@ -150,6 +169,7 @@
 @implementation CI2
 
 - (id) init{
+	
 	self = [super init];
 	return self;
 }
@@ -159,6 +179,7 @@
 @implementation CII1
 
 - (id) init{
+	
 	self = [super init];
 	return self;
 }
@@ -168,6 +189,7 @@
 @implementation CII2
 
 - (id) init{
+	
 	self = [super init];
 	return self;
 }
@@ -177,6 +199,7 @@
 @implementation PClassBase
 
 - (id) init{
+	
 	self = [super init];
 	return self;
 }
@@ -186,6 +209,7 @@
 @implementation PClass1
 
 - (id) init{
+	
 	self = [super init];
 	return self;
 }
@@ -195,6 +219,7 @@
 @implementation PClass2
 
 - (id) init:(id)t{
+	
 	self = [super init];
 	return self;
 }
@@ -204,9 +229,11 @@
 @implementation Cov1
 
 - (Base*) covariant{
+	
 	return [[Base alloc] init];
 }
 - (id) init{
+	
 	self = [super init];
 	return self;
 }
@@ -216,9 +243,11 @@
 @implementation Cov2
 
 - (Base*) covariant{
+	
 	return [[Child1 alloc] init];
 }
 - (id) init{
+	
 	self = [super init];
 	return self;
 }
@@ -228,9 +257,11 @@
 @implementation Cov3
 
 - (Base*) covariant{
+	
 	return [[Child2_1 alloc] init];
 }
 - (id) init{
+	
 	self = [super init];
 	return self;
 }
@@ -240,8 +271,10 @@
 @implementation Ctrv1
 
 - (void) contravariant:(Child1*)arg{
+	
 }
 - (id) init{
+	
 	self = [super init];
 	return self;
 }
@@ -252,9 +285,11 @@
 
 - (void) contravariant:(Child1*)_tmp_arg{
 	
+	
 	Base *arg = (Base*)_tmp_arg;
 }
 - (id) init{
+	
 	self = [super init];
 	return self;
 }
@@ -308,6 +343,7 @@ static float sinline;
 @synthesize b;
 @synthesize t;
 - (id) init{
+	
 	self = [super init];
 	self.t = NSMutableString;
 	self.b = YES;
@@ -326,6 +362,7 @@ static float sinline;
 @implementation InitChildWithCtor
 
 - (id) init:(id)_{
+	
 	self = [super init];
 	return self;
 }
@@ -336,6 +373,7 @@ static float sinline;
 
 @synthesize i;
 - (id) init{
+	
 	self = [super init];
 	self.i = 2;
 	return self;
@@ -351,6 +389,7 @@ static float sinline;
 @synthesize accNever;
 
 - (int) set_accFunc:(int)v{
+	
 	return ((int)($this:(snd ctx.path)) @throw [@"setter was called" mutableCopy];
 	return __r__{
 		
@@ -358,6 +397,7 @@ static float sinline;
 	}(self));
 }
 - (id) set_accDynamic:(id)v{
+	
 	return ((id)($this:(snd ctx.path)) @throw [@"setter was called" mutableCopy];
 	return __r__{
 		
@@ -365,6 +405,7 @@ static float sinline;
 	}(self));
 }
 - (id) init{
+	
 	self = [super init];
 	self.accDynamic = 3;
 	self.accNever = 3;
@@ -379,26 +420,34 @@ static float sinline;
 @implementation ParamConstraintsClass
 
 + (id) staticSingle:(id)a{
+	
 	return a;
 }
 - (id) memberSingle:(id)a{
+	
 	return a;
 }
 - (id) memberMultiple:(id)a{
+	
 	return a;
 }
 - (id) memberComplex:(id)a b:(id)b{
+	
 	return b;
 }
 - (id) memberBasic:(id)a b:(id)b{
-	return [b hx_objectAtIndex:0];
+	
+	return ((CASTTLazy*)[b hx_objectAtIndex:0]);
 }
 - (float) memberAnon:(id)v{
-	return v[@"x"] + v[@"y"];
+	
+	return isstrFAnonisstrFAnonv x + v y;
 }
 - (void) memberOverload:(NSMutableString*)a b:(NSMutableString*)b{
+	
 }
 - (id) init{
+	
 	self = [super init];
 	return self;
 }
@@ -408,10 +457,13 @@ static float sinline;
 @implementation ParamConstraintsClass2
 
 - (void) bind:(id)t{
+	
 }
 - (void) check:(id)a{
+	
 }
 - (id) init{
+	
 	self = [super init];
 	return self;
 }
@@ -421,9 +473,11 @@ static float sinline;
 @implementation UsingBase
 
 + (NSMutableString*) privFunc:(NSMutableString*)s{
+	
 	return [s toUpperCase];
 }
 + (NSMutableString*) pupFunc:(NSMutableString*)s{
+	
 	return [s toUpperCase];
 }
 
@@ -432,9 +486,11 @@ static float sinline;
 @implementation UsingChild1
 
 + (NSMutableString*) test{
-	return [UsingBase pupFunc:[@"foo" mutableCopy]] + [UsingBase privFunc:[@"foo" mutableCopy]] + [UsingChild2 siblingFunc:[@"FOO" mutableCopy]];
+	
+	return CASTTMonoCASTTMonoCASTTMonoCASTTMonoCASTTMono[UsingBase pupFunc:[@"foo" mutableCopy]] + [UsingBase privFunc:[@"foo" mutableCopy]] + [UsingChild2 siblingFunc:[@"FOO" mutableCopy]];
 }
 + (NSMutableString*) siblingFunc:(NSMutableString*)s{
+	
 	return [s toLowerCase];
 }
 
@@ -443,9 +499,11 @@ static float sinline;
 @implementation UsingChild2
 
 + (NSMutableString*) test{
+	
 	return [UsingChild2 siblingFunc:[@"foo" mutableCopy]];
 }
 + (NSMutableString*) siblingFunc:(NSMutableString*)s{
+	
 	return [s toUpperCase];
 }
 
@@ -454,7 +512,8 @@ static float sinline;
 @implementation UsingUnrelated
 
 + (NSMutableString*) test{
-	return [UsingBase pupFunc:[@"foo" mutableCopy]] + [UsingChild2 siblingFunc:[@"foo" mutableCopy]];
+	
+	return CASTTMonoCASTTMono[UsingBase pupFunc:[@"foo" mutableCopy]] + [UsingChild2 siblingFunc:[@"foo" mutableCopy]];
 }
 
 @end
@@ -464,15 +523,19 @@ static float sinline;
 
 
 + (int) get_SX{
+	
 	return 1;
 }
 + (int) set_SX:(int)v{
+	
 	return v;
 }
 + (int) get_SY{
+	
 	return VarProps.SY;
 }
 + (int) set_SY:(int)v{
+	
 	VarProps.SY = v;
 	return v;
 }
@@ -480,23 +543,29 @@ static float sinline;
 
 
 - (int) get_x{
+	
 	return 1;
 }
 - (int) set_x:(int)v{
+	
 	return v;
 }
 - (int) get_y{
+	
 	return self.y;
 }
 - (int) set_y:(int)v{
+	
 	self.y = v;
 	return v;
 }
 - (int) set_z:(int)v{
-	self.z = [v stringByAppendingString:@"1"];
+	
+	self.z = v + 1;
 	return self.z;
 }
 - (id) init{
+	
 	self = [super init];
 	[self set_x:1];
 	[self set_y:2];
@@ -511,17 +580,22 @@ static float sinline;
 
 
 - (int) get_prop{
+	
 	return 1;
 }
 - (int) set_prop:(int)v{
+	
 	return v;
 }
 - (id) get_fProp{
-	return ^(int *i){
+	
+	return ^(int i){
+		
 		return [[@"test" mutableCopy] stringByAppendingString:i];
 	}
 }
 - (id) init{
+	
 	self = [super init];
 	return self;
 }
@@ -531,19 +605,24 @@ static float sinline;
 @implementation ChildSuperProp
 
 - (int) get_prop{
-	return [[super get_prop] stringByAppendingString:@"1"];
+	
+	return CASTTMono[super hx_dyn_get_prop] + 1;
 }
 - (int) set_prop:(int)v{
-	return [[super set_prop:v] stringByAppendingString:@"1"];
+	
+	return CASTTMono[super hx_dyn_set_prop:v] + 1;
 }
 - (id) get_fProp{
 	
+	
 	NSMutableString *s = [[super get_fProp]:0];
-	return ^(int *i){
+	return ^(int i){
+		
 		return [s stringByAppendingString:i];
 	}
 }
 - (NSMutableString*) test{
+	
 	return [[super get_fProp]:2];
 }
 
@@ -552,6 +631,7 @@ static float sinline;
 @implementation InlineCastA
 
 - (InlineCastA*) _self{
+	
 	return self;
 }
 
@@ -560,12 +640,15 @@ static float sinline;
 @implementation InlineCastB
 
 - (InlineCastB*) test{
-	return (InlineCastB*)[self self];
+	
+	return (InlineCastB*)[self _self];
 }
 - (NSMutableString*) quote{
+	
 	return [@"I am the greatest." mutableCopy];
 }
 - (id) init{
+	
 	self = [super init];
 	return self;
 }

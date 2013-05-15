@@ -10,6 +10,7 @@
 #import "String.h"
 #import "Array.h"
 #import "Reflect.h"
+#import <objc/runtime.h>
 
 @interface Reflect : NSObject
 

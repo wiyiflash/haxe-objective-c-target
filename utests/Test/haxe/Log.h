@@ -10,9 +10,9 @@
 
 @interface Log : NSObject
 
-// Defining a dynamic method
+// Dynamic method defined with an objc method and a block property
 + (void) trace:(id)v infos:(id)infos;
-@property (nonatomic,copy) void(^property_trace);
+@property (nonatomic,copy) void(^hx_dyn_trace)(id, id);
 
 @end
 

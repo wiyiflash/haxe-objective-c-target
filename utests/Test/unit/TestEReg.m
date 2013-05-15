@@ -11,6 +11,7 @@
 
 - (void) test{
 	
+	
 	EReg *r = [[EReg alloc] init:[@"a+(b)?(c*)a+" mutableCopy] opt:[@"" mutableCopy]];
 	[self f:[r match:[@"" mutableCopy]] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"9", @"className":@"unit.TestEReg", @"methodName":@"test"}];
 	[self f:[r match:[@"xxyy" mutableCopy]] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"10", @"className":@"unit.TestEReg", @"methodName":@"test"}];
@@ -20,8 +21,8 @@
 	[self eq:[r matched:2] v2:[@"c" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"14", @"className":@"unit.TestEReg", @"methodName":@"test"}];
 	[self eq:[r matchedLeft] v2:[@"xx" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"15", @"className":@"unit.TestEReg", @"methodName":@"test"}];
 	[self eq:[r matchedRight] v2:[@"yyy" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"16", @"className":@"unit.TestEReg", @"methodName":@"test"}];
-	[self eq:[r matchedPos][@"pos"] v2:2 pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"17", @"className":@"unit.TestEReg", @"methodName":@"test"}];
-	[self eq:[r matchedPos][@"len"] v2:5 pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"18", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self eq:[r matchedPos] pos v2:2 pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"17", @"className":@"unit.TestEReg", @"methodName":@"test"}];
+	[self eq:[r matchedPos] len v2:5 pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"18", @"className":@"unit.TestEReg", @"methodName":@"test"}];
 	[self t:[r match:[@"aaa" mutableCopy]] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"20", @"className":@"unit.TestEReg", @"methodName":@"test"}];
 	[self eq:[r matched:0] v2:[@"aaa" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"21", @"className":@"unit.TestEReg", @"methodName":@"test"}];
 	[self eq:[r matchedLeft] v2:[@"" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"22", @"className":@"unit.TestEReg", @"methodName":@"test"}];
@@ -29,9 +30,11 @@
 	[self eq:[r matched:1] v2:nil pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"24", @"className":@"unit.TestEReg", @"methodName":@"test"}];
 	[self eq:[r matched:2] v2:[@"" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"25", @"className":@"unit.TestEReg", @"methodName":@"test"}];
 	[self unspec:^(){
+		
 		[r matched:3];
 	} pos:nil];
 	[self unspec:^(){
+		
 		[r matched:-1];
 	} pos:nil];
 	
@@ -63,26 +66,33 @@
 	[self eq:[block split:test].length v2:5 pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"60", @"className":@"unit.TestEReg", @"methodName":@"test"}];
 	[self eq:[[[@"\"" mutableCopy] stringByAppendingString:[[block split:test] join:[@"\",\"" mutableCopy]]] stringByAppendingString:[@"\"" mutableCopy]] v2:[@"\"\",\"test\",\".blah\",\"something:someval\",\"\"" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"61", @"className":@"unit.TestEReg", @"methodName":@"test"}];
 	[self eq:[[EReg alloc] :[@"a+" mutableCopy] opt:[@"g" mutableCopy] map:[@"aaabacx" mutableCopy] f:^(EReg *r3){
+		
 		return [[[@"[" mutableCopy] stringByAppendingString:[[r3 matched:@"0"] substr:@"1" len:nil]] stringByAppendingString:[@"]" mutableCopy]];
 	}] v2:[@"[aa]b[]cx" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"64", @"className":@"unit.TestEReg", @"methodName":@"test"}];
 	[self eq:[[EReg alloc] :[@"a+" mutableCopy] opt:[@"" mutableCopy] map:[@"aaabacx" mutableCopy] f:^(EReg *r3){
+		
 		return [[[@"[" mutableCopy] stringByAppendingString:[[r3 matched:@"0"] substr:@"1" len:nil]] stringByAppendingString:[@"]" mutableCopy]];
 	}] v2:[@"[aa]bacx" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"65", @"className":@"unit.TestEReg", @"methodName":@"test"}];
 	[self eq:[[EReg alloc] :[@"a+(b*)" mutableCopy] opt:[@"g" mutableCopy] map:[@"aaabacx" mutableCopy] f:^(EReg *r3){
+		
 		return [[[@"[" mutableCopy] stringByAppendingString:[r3 matched:@"1"]] stringByAppendingString:[@"]" mutableCopy]];
 	}] v2:[@"[b][]cx" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"67", @"className":@"unit.TestEReg", @"methodName":@"test"}];
 	[self eq:[[EReg alloc] :[@"a+" mutableCopy] opt:[@"g" mutableCopy] map:[@"aaabacx" mutableCopy] f:^(EReg *r3){
+		
 		return [[[@"[" mutableCopy] stringByAppendingString:[r3 matchedRight]] stringByAppendingString:[@"]" mutableCopy]];
 	}] v2:[@"[bacx]b[cx]cx" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"68", @"className":@"unit.TestEReg", @"methodName":@"test"}];
 	[self eq:[[EReg alloc] :[@"a+" mutableCopy] opt:[@"g" mutableCopy] map:[@"aaabacxa" mutableCopy] f:^(EReg *r3){
+		
 		return [[[@"[" mutableCopy] stringByAppendingString:[r3 matchedLeft]] stringByAppendingString:[@"]" mutableCopy]];
 	}] v2:[@"[]b[aaab]cx[aaabacx]" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"72", @"className":@"unit.TestEReg", @"methodName":@"test"}];
 	
 	EReg *r3 = [[EReg alloc] init:[@"a+" mutableCopy] opt:[@"g" mutableCopy]];
 	[self eq:[r3 map:[@"aaabacx" mutableCopy] f:^(EReg *r4){
+		
 		return [[[@"[" mutableCopy] stringByAppendingString:[r4 matchedLeft]] stringByAppendingString:[@"]" mutableCopy]];
 	}] v2:[@"[]b[aaab]cx" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"76", @"className":@"unit.TestEReg", @"methodName":@"test"}];
 	[self eq:[r3 map:[@"aaabacx" mutableCopy] f:^(EReg *r4){
+		
 		return [[[@"[" mutableCopy] stringByAppendingString:[r4 matchedLeft]] stringByAppendingString:[@"]" mutableCopy]];
 	}] v2:[@"[]b[aaab]cx" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"77", @"className":@"unit.TestEReg", @"methodName":@"test"}];
 	
@@ -104,11 +114,13 @@
 	[self eq:[r4 matchedLeft] v2:[@"bb" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"97", @"className":@"unit.TestEReg", @"methodName":@"test"}];
 	[self eq:[r4 matchedRight] v2:[@"a" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"98", @"className":@"unit.TestEReg", @"methodName":@"test"}];
 	[self eq:[[EReg alloc] :[@"x?" mutableCopy] opt:[@"g" mutableCopy] map:[@"aaabacx" mutableCopy] f:^(EReg *r5){
+		
 		return [[[@"[" mutableCopy] stringByAppendingString:[r5 matched:@"0"]] stringByAppendingString:[@"]" mutableCopy]];
 	}] v2:[@"[]a[]a[]a[]b[]a[]c[x]" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"100", @"className":@"unit.TestEReg", @"methodName":@"test"}];
-	id f = ^(id *x){
-		return [[[[[[[[[@"([" mutableCopy] stringByAppendingString:[x[@"matchedLeft"]]] stringByAppendingString:[@"]" mutableCopy]] stringByAppendingString:[@"[" mutableCopy]] stringByAppendingString:[x[@"matched"]:@"0"]] stringByAppendingString:[@"]" mutableCopy]] stringByAppendingString:[@"[" mutableCopy]] stringByAppendingString:[x[@"matchedRight"]]] stringByAppendingString:[@"])b" mutableCopy]];
-	}
+	id f = ^(id x){
+		
+		return [[[[[[[[[@"([" mutableCopy] stringByAppendingString:[x matchedLeft]] stringByAppendingString:[@"]" mutableCopy]] stringByAppendingString:[@"[" mutableCopy]] stringByAppendingString:[x matched:@"0"]] stringByAppendingString:[@"]" mutableCopy]] stringByAppendingString:[@"[" mutableCopy]] stringByAppendingString:[x matchedRight]] stringByAppendingString:[@"])b" mutableCopy]];
+	};
 	
 	EReg *r5 = [[EReg alloc] init:[@"$" mutableCopy] opt:[@"mg" mutableCopy]];
 	[self eq:[r5 map:[@"\n" mutableCopy] f:f] v2:[@"([][][\n])b\n" mutableCopy] pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"104", @"className":@"unit.TestEReg", @"methodName":@"test"}];
@@ -132,6 +144,7 @@
 	
 	EReg *r9 = [[EReg alloc] init:[@"a" mutableCopy] opt:[@"" mutableCopy]];
 	[self exc:^(){
+		
 		[r9 matched:0];
 	} pos:@{@"fileName":@"TestEReg.hx", @"lineNumber":@"126", @"className":@"unit.TestEReg", @"methodName":@"test"}];
 }

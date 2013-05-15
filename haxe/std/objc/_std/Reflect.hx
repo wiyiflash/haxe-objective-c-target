@@ -23,7 +23,7 @@
  * DAMAGE.
  */
 
-
+@:include("objc/runtime.h")
 @:coreApi class Reflect {
 
 	public  static function hasField( o : Dynamic, field : String ) : Bool untyped {
@@ -86,7 +86,11 @@
 			t==__global__.vtString ||
 			t==__global__.vtArray;
 	}
-
+	
+	public static function isEnumValue( v : Dynamic ) : Bool untyped {
+		return v!=null && v.__GetType() == __global__.vtEnum;
+	}
+	
 	public static function deleteField(o:Dynamic, field:String) :Bool untyped {
 		if (o==null) return false;
 		return untyped __global__.__hxcpp_anon_remove(o,f);

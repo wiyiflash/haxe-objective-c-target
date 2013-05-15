@@ -10,17 +10,21 @@
 @implementation Reflect
 
 + (BOOL) hasField:(id)o field:(NSMutableString*)field{
+	
 	return o != nil && [o hx_has_field:field];
 }
 + (id) field:(id)o field:(NSMutableString*)field{
+	
 	return ( (o == nil) ? nil : [o hx_field:field :NO]);
 }
 + (id) callMethod:(id)o func:(id)func args:(NSMutableArray*)args{
-	if (func != nil && [func hx_get_type] == __global__[@"vtString"]) func = [o hx_field:func :YES];
+	
+	if (func != nil && [func hx_get_type] == __global__ vtString) func = [o hx_field:func :YES];
 	[func hx_set_this:o];
 	return [func performSelector:@selector(args)];
 }
 + (NSMutableArray*) fields:(id)o{
+	
 	if (o == nil) return [[NSMutableArray alloc] init];
 	
 	NSMutableArray *a = [@[] mutableCopy];
@@ -28,20 +32,24 @@
 	return a;
 }
 + (BOOL) isFunction:(id)f{
-	return f != nil && [f hx_get_type] == __global__[@"vtFunction"];
+	
+	return f != nil && [f hx_get_type] == __global__ vtFunction;
 }
 + (int) compare:(id)a b:(id)b{
+	
 	return ( (a == b) ? 0 : ( ((int)a > (int)b) ? 1 : -1));
 }
 + (BOOL) compareMethods:(id)f1 f2:(id)f2{
+	
 	if (f1 == f2) return YES;
 	if (![Reflect isFunction:f1] || ![Reflect isFunction:f2]) return NO;
-	return [__global__[@"__hxcpp_same_closure"]:f1 :f2];
+	return [__global__ __hxcpp_same_closure:f1 :f2];
 }
 + (BOOL) isObject:(id)v{
+	
 	if (v == nil) return NO;
 	int t = [v hx_get_type];
-	return t == __global__[@"vtObject"] || t == __global__[@"vtClass"] || t == __global__[@"vtString"] || t == __global__[@"vtArray"];
+	return t == __global__ vtObject || t == __global__ vtClass || t == __global__ vtString || t == __global__ vtArray;
 }
 
 @end

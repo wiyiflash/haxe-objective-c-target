@@ -11,46 +11,64 @@
 
 
 + (void) set:(IMap*)this1 key:(id)key value:(id)value{
+	
 	[this1 set:key v:value];
 }
 + (id) get:(IMap*)this1 key:(id)key{
+	
 	return [this1 get:key];
 }
 + (BOOL) exists:(IMap*)this1 key:(id)key{
+	
 	return [this1 exists:key];
 }
 + (BOOL) remove:(IMap*)this1 key:(id)key{
+	
 	return [this1 remove:key];
 }
 + (id) keys:(IMap*)this1{
+	
 	return [this1 keys];
 }
 + (id) iterator:(IMap*)this1{
+	
 	return [this1 iterator];
 }
 + (NSMutableString*) toString:(IMap*)this1{
+	
 	return [this1 toString];
 }
 + (id) arrayWrite:(IMap*)this1 k:(id)k v:(id)v{
+	
 	[this1 set:k v:v];
 	return v;
 }
 + (StringMap*) toStringMap:(IMap*)t{
+	
 	return [[StringMap alloc] init];
 }
 + (IntMap*) toIntMap:(IMap*)t{
+	
 	return [[IntMap alloc] init];
 }
++ (EnumValueMap*) toEnumValueMapMap:(IMap*)t{
+	
+	return [[EnumValueMap alloc] init];
+}
 + (ObjectMap*) toObjectMap:(IMap*)t{
+	
 	return [[ObjectMap alloc] init];
 }
 + (Map*) fromStringMap:(StringMap*)map{
+	
 	return map;
 }
 + (Map*) fromIntMap:(IntMap*)map{
+	
 	return map;
 }
 + (Map*) fromObjectMap:(ObjectMap*)map{
+	
 	return map;
 }
 

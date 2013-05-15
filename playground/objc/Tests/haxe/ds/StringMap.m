@@ -11,23 +11,28 @@
 
 - (void) set:(id)_tmp_key _tmp_value:(id)_tmp_value{
 	
+	
 	NSMutableString *key = (NSMutableString*)_tmp_key; id value = (id)_tmp_value;
 	[self setObject:value forKey:key];
 }
 - (id) get:(id)_tmp_key{
+	
 	
 	NSMutableString *key = (NSMutableString*)_tmp_key;
 	return [self objectForKey:key];
 }
 - (BOOL) exists:(id)_tmp_key{
 	
+	
 	NSMutableString *key = (NSMutableString*)_tmp_key;
 	return [self objectForKey:key] != nil;
 }
 - (BOOL) remove:(id)_tmp_key{
 	
+	
 	NSMutableString *key = (NSMutableString*)_tmp_key;
 	if ([self exists:key]) {
+		
 		[self removeObjectForKey:key];
 		return YES;
 	}
@@ -35,10 +40,12 @@
 }
 - (id) keys{
 	
+	
 	NSMutableArray *a = [self allKeys];
 	return [a iterator];
 }
 - (id) iterator{
+	
 	
 	NSMutableArray *a = [self allValues];
 	id it = [a iterator];
@@ -46,17 +53,21 @@
 	StringMap *me = self;
 	return [@{
 		@"hasNext":[^(){
-		return [it[@"hasNext"]];
+		
+		return [it hasNext];
 	} copy],
 		@"next":[^(){
-		return [me __Internal[@"__Field"]:[it[@"next"]] :YES];
+		
+		return [me __Internal __Field:[it next] :YES];
 	} copy],
 	} mutableCopy];
 }
 - (NSMutableString*) toString{
+	
 	return [self description];
 }
 - (id) init{
+	
 	self = [super init];
 	return self;
 }

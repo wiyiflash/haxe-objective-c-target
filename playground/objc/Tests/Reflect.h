@@ -10,6 +10,7 @@
 #import "String.h"
 #import "Array.h"
 #import "Reflect.h"
+#import <objc/runtime.h>
 
 @interface Reflect : NSObject
 
@@ -24,6 +25,7 @@
 + (int) compare:(id)a b:(id)b;
 + (BOOL) compareMethods:(id)f1 f2:(id)f2;
 + (BOOL) isObject:(id)v;
++ (BOOL) isEnumValue:(id)v;
 + (BOOL) deleteField:(id)o field:(NSMutableString*)field;
 + (id) copy:(id)o;
 + (id) makeVarArgs:(id)f;

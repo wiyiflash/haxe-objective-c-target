@@ -10,20 +10,25 @@
 @implementation NSMutableDictionary ( ObjectMap )
 
 - (id) get:(id)key{
+	
 	return [self objectForKey:[NSString stringWithFormat:@"%@",key]];
 }
 - (void) set:(id)key value:(id)value{
+	
 	[self setObject:value forKey:[NSString stringWithFormat:@"%@",key]];
 }
 - (BOOL) exists:(id)key{
+	
 	return [self objectForKey:[NSString stringWithFormat:@"%@",key]] != nil;
 }
 - (id) keys{
+	
 	
 	NSMutableArray *a = [self allKeys];
 	return [a iterator];
 }
 - (id) init{
+	
 	self = [super init];
 	return self;
 }

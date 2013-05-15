@@ -8,7 +8,7 @@
 
 
 
-@interface IMap : NSObject
+@protocol IMap<NSObject>
 
 
 @end

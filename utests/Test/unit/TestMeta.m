@@ -48,6 +48,7 @@ static int foo;
 	foo = hx_val;
 }
 - (NSMutableString*) fields:(id)o{
+	
 	if (o == nil) return nil;
 	
 	NSMutableArray *fl = [Reflect fields:o];
@@ -55,6 +56,7 @@ static int foo;
 	return [fl join:[@"#" mutableCopy]];
 }
 - (void) testMeta{
+	
 	id m = [Meta getType:];
 	[self eq:[self fields:m] v2:[@"enumMeta" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"25", @"className":@"unit.TestMeta", @"methodName":@"testMeta"}];
 	[self eq:[m enumMeta] v2:nil pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"26", @"className":@"unit.TestMeta", @"methodName":@"testMeta"}];
@@ -75,7 +77,7 @@ static int foo;
 	[self eq:[self fields:[m4 foo]] v2:[@"_int#complex#empty" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"45", @"className":@"unit.TestMeta", @"methodName":@"testMeta"}];
 	[self eq:[[m4 foo] empty] v2:nil pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"46", @"className":@"unit.TestMeta", @"methodName":@"testMeta"}];
 	[self eq:[Std string:[[m4 foo] _int]] v2:[@"[-45]" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"47", @"className":@"unit.TestMeta", @"methodName":@"testMeta"}];
-	id c = [[[[m4 foo] complex] hx_objectAtIndex:0] hx_objectAtIndex:0];
+	id c = ((NSMutableArray*)[((NSMutableArray)[[[m4 foo] complex] hx_objectAtIndex:0]) hx_objectAtIndex:0]);
 	[self eq:[self fields:c] v2:[@"b#k#x#y#z" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"49", @"className":@"unit.TestMeta", @"methodName":@"testMeta"}];
 	[self eq:[c x] v2:0 pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"50", @"className":@"unit.TestMeta", @"methodName":@"testMeta"}];
 	[self eq:[c y] v2:[@"hello" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"51", @"className":@"unit.TestMeta", @"methodName":@"testMeta"}];
@@ -84,35 +86,37 @@ static int foo;
 	[self eq:[c k] v2:nil pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"54", @"className":@"unit.TestMeta", @"methodName":@"testMeta"}];
 }
 - (void) testExprMeta{
+	
 	[self eq:[@{
 		@"name":[[@"foo" mutableCopy] copy],
 		@"args":[[@[] mutableCopy] copy],
-	} mutableCopy][@"name"] v2:[@"foo" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"58", @"className":@"unit.TestMeta", @"methodName":@"testExprMeta"}];
+	} mutableCopy] name v2:[@"foo" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"58", @"className":@"unit.TestMeta", @"methodName":@"testExprMeta"}];
 	[self eq:[@{
 		@"name":[[@"foo" mutableCopy] copy],
 		@"args":[[@[[@"a" mutableCopy]] mutableCopy] copy],
-	} mutableCopy][@"name"] v2:[@"foo" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"59", @"className":@"unit.TestMeta", @"methodName":@"testExprMeta"}];
+	} mutableCopy] name v2:[@"foo" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"59", @"className":@"unit.TestMeta", @"methodName":@"testExprMeta"}];
 	[self eq:[@{
 		@"name":[[@"foo" mutableCopy] copy],
 		@"args":[[@[] mutableCopy] copy],
-	} mutableCopy][@"name"] v2:[@"foo" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"60", @"className":@"unit.TestMeta", @"methodName":@"testExprMeta"}];
+	} mutableCopy] name v2:[@"foo" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"60", @"className":@"unit.TestMeta", @"methodName":@"testExprMeta"}];
 	id m = [@{
 		@"name":[[@"bar" mutableCopy] copy],
 		@"args":[[@[[@"1" mutableCopy], [@"foo" mutableCopy]] mutableCopy] copy],
 	} mutableCopy];
-	[self eq:m[@"name"] v2:[@"bar" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"63", @"className":@"unit.TestMeta", @"methodName":@"testExprMeta"}];
-	[self eq:[m[@"args"] hx_objectAtIndex:0] v2:[@"1" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"64", @"className":@"unit.TestMeta", @"methodName":@"testExprMeta"}];
-	[self eq:[m[@"args"] hx_objectAtIndex:1] v2:[@"foo" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"65", @"className":@"unit.TestMeta", @"methodName":@"testExprMeta"}];
+	[self eq:m name v2:[@"bar" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"63", @"className":@"unit.TestMeta", @"methodName":@"testExprMeta"}];
+	[self eq:((CASTTMono-TMonoSome-NSMutableArrayNSMutableString*)[m args hx_objectAtIndex:0]) v2:[@"1" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"64", @"className":@"unit.TestMeta", @"methodName":@"testExprMeta"}];
+	[self eq:((CASTTMono-TMonoSome-NSMutableArrayNSMutableString*)[m args hx_objectAtIndex:1]) v2:[@"foo" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"65", @"className":@"unit.TestMeta", @"methodName":@"testExprMeta"}];
 	[self eq:[@{
 		@"name":[[@"foo" mutableCopy] copy],
 		@"args":[[@[] mutableCopy] copy],
-	} mutableCopy][@"args"].length v2:0 pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"67", @"className":@"unit.TestMeta", @"methodName":@"testExprMeta"}];
+	} mutableCopy] args.length v2:0 pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"67", @"className":@"unit.TestMeta", @"methodName":@"testExprMeta"}];
 	[self eq:[@{
 		@"name":[[@"foo" mutableCopy] copy],
 		@"args":[[@[[@"1" mutableCopy]] mutableCopy] copy],
-	} mutableCopy][@"args"].length v2:1 pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"68", @"className":@"unit.TestMeta", @"methodName":@"testExprMeta"}];
+	} mutableCopy] args.length v2:1 pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"68", @"className":@"unit.TestMeta", @"methodName":@"testExprMeta"}];
 }
 - (id) init{
+	
 	self = [super init];
 	return self;
 }

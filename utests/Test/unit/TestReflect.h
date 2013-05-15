@@ -8,7 +8,7 @@
 
 
 
-@interface InterfWithProp : NSObject
+@protocol InterfWithProp<NSObject>
 
 @property (nonatomic) int x;
 
@@ -18,7 +18,7 @@
 
 #import "../unit/TestReflect.h"
 
-@interface ClassWithProp : NSObject<InterfWithProp>
+@protocol ClassWithProp<NSObject>
 
 + (int) STAT_X;
 + (void) setSTAT_X:(int)val;
@@ -35,7 +35,7 @@
 
 #import "../unit/TestReflect.h"
 
-@interface SubClassWithProp : ClassWithProp 
+@protocol SubClassWithProp<NSObject>
 
 @property (nonatomic, setter=set_y) int y;
 - (int) get_x;
@@ -52,7 +52,6 @@
 #import "../String.h"
 #import "../List.h"
 #import "../Xml.h"
-#import "../Math.h"
 #import "../unit/MyClass.h"
 #import "../unit/MySubClass.h"
 #import "../unit/MyInterface.h"
@@ -63,7 +62,7 @@
 #import "../Reflect.h"
 #import "../unit/Test.h"
 
-@interface TestReflect : Test 
+@protocol TestReflect<NSObject>
 
 + (NSMutableArray*) TYPES;
 + (void) setTYPES:(NSMutableArray*)val;
@@ -75,7 +74,7 @@
 - (void) testIs;
 - (void) is:(id)v t1:(id)t1 t2:(id)t2 pos:(id)pos;
 - (void) testTypeof;
-- (void) _typeof:(id)v rt:(Type*)rt pos:(id)pos;
+- (void) _typeof:(id)v rt:(ValueType*)rt pos:(id)pos;
 - (void) testConv;
 - (void) testCreate;
 - (void) testCompare;

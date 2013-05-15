@@ -58,8 +58,8 @@ typedef enum{
 - (void) testSwitch;
 - (void) testArray;
 - (void) testDate;
-- (int) enumToInt:(Tests*)c;
-- (void) testEnum:(id)v;
+- (int) enumToInt:(Color*)c;
+- (void) testEnum:(TestsEnumExtern*)v;
 - (void) testEReg;
 - (void) testMap;
 - (void) testLambda;
@@ -100,12 +100,12 @@ typedef enum{
 
 @property (nonatomic) int d1;
 - (void) methodInTests2;
-// Defining a dynamic method
+// Dynamic method defined with an objc method and a block property
 - (void) functionToRedefine;
-@property (nonatomic,copy) void(^property_functionToRedefine);
-// Defining a dynamic method
+@property (nonatomic,copy) void(^hx_dyn_functionToRedefine)();
+// Dynamic method defined with an objc method and a block property
 - (void) functionToRedefine2:(int)param1 param2:(NSMutableString*)param2;
-@property (nonatomic,copy) void(^property_functionToRedefine2);
+@property (nonatomic,copy) void(^hx_dyn_functionToRedefine2)(int, NSMutableString*);
 - (id) init;
 
 @end

@@ -39,7 +39,7 @@ typedef enum{
 + (NSMutableArray*) getInstanceFields:(Class*)c;
 + (NSMutableArray*) getClassFields:(Class*)c;
 + (NSMutableArray*) getEnumConstructs:(Enum*)e;
-+ (Type*) _typeof:(id)v;
++ (ValueType*) _typeof:(id)v;
 + (BOOL) enumEq:(id)a b:(id)b;
 + (NSMutableArray*) allEnums:(Enum*)e;
 

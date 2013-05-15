@@ -10,6 +10,7 @@
 @implementation TestInt64
 
 - (void) test{
+	
 	[self eq:[Int64 toInt:[[Int64 alloc] init:0 low:1]] v2:1 pos:@{@"fileName":@"TestInt64.hx", @"lineNumber":@"7", @"className":@"unit.TestInt64", @"methodName":@"test"}];
 	[self eq:[Int64 toInt:[[Int64 alloc] init:-1 low:-1]] v2:-1 pos:@{@"fileName":@"TestInt64.hx", @"lineNumber":@"8", @"className":@"unit.TestInt64", @"methodName":@"test"}];
 	[self eq:[Std string:[[Int64 alloc] init:0 low:156]] v2:[@"156" mutableCopy] pos:@{@"fileName":@"TestInt64.hx", @"lineNumber":@"9", @"className":@"unit.TestInt64", @"methodName":@"test"}];
@@ -31,6 +32,7 @@
 	[self eq:[[Int64 alloc] :0 low:0 toString] v2:[@"0" mutableCopy] pos:@{@"fileName":@"TestInt64.hx", @"lineNumber":@"21", @"className":@"unit.TestInt64", @"methodName":@"test"}];
 }
 - (void) testMath{
+	
 	
 	Int64 *a = [[Int64 alloc] init:0 low:597364243];
 	

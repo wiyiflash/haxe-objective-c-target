@@ -35,6 +35,7 @@ static NSMutableString* BASE64;
 }
 + (NSMutableString*) run:(id)v{
 	
+	
 	Serializer *s = [[Serializer alloc] init];
 	[s serialize:v];
 	return [s toString];
@@ -46,11 +47,14 @@ static NSMutableString* BASE64;
 @synthesize useCache;
 @synthesize useEnumIndex;
 - (NSMutableString*) toString{
+	
 	return self.buf.b;
 }
 - (void) serializeString:(NSMutableString*)s{
+	
 	int x = [self.shash get:s];
 	if (x != nil) {
+		
 		[self.buf.b appendString:[@"R" mutableCopy]];
 		[self.buf.b appendString:[Std string:x]];
 		return;
@@ -63,11 +67,15 @@ static NSMutableString* BASE64;
 	[self.buf.b appendString:[Std string:s]];
 }
 - (BOOL) serializeRef:(id)v{
+	
 	{
+		
 		int _g1 = 0; int _g = self.cache.length;
 		while (_g1 < _g) {
+			
 			int i = _g1++;
-			if ([self.cache hx_objectAtIndex:i] == v) {
+			if (((id)[self.cache hx_objectAtIndex:i]) == v) {
+				
 				[self.buf.b appendString:[@"r" mutableCopy]];
 				[self.buf.b appendString:[Std string:i]];
 				return YES;
@@ -78,12 +86,15 @@ static NSMutableString* BASE64;
 	return NO;
 }
 - (void) serializeFields:(id)v{
+	
 	{
+		
 		int _g = 0; 
 		NSMutableArray *_g1 = [Reflect fields:v];
 		while (_g < _g1.length) {
 			
-			NSMutableString *f = [_g1 hx_objectAtIndex:_g];
+			
+			NSMutableString *f = ((NSMutableString*)[_g1 hx_objectAtIndex:_g]);
 			++_g;
 			[self serializeString:f];
 			[self serialize:[Reflect field:v field:f]];
@@ -93,247 +104,272 @@ static NSMutableString* BASE64;
 }
 - (void) serialize:(id)v{
 	
-	Type *_g = [Type _typeof:v];
+	
+	ValueType *_g = [Type _typeof:v];
 	
 	enum s = e (_g)
 	switch ( e.index ) {
 		
 		case 0:
-		{
-			[self.buf.b appendString:[@"n" mutableCopy]]}break
+		[self.buf.b appendString:[@"n" mutableCopy]];break
 		case 1:
 		{
-			{
-				if (v == 0) {
-					[self.buf.b appendString:[@"z" mutableCopy]];
-					return;
-				}
-				[self.buf.b appendString:[@"i" mutableCopy]];
-				[self.buf.b appendString:[Std string:v]];
-			}}break
+			
+			if (v == 0) {
+				
+				[self.buf.b appendString:[@"z" mutableCopy]];
+				return;
+			}
+			[self.buf.b appendString:[@"i" mutableCopy]];
+			[self.buf.b appendString:[Std string:v]];
+		}break
 		case 2:
-		{
-			if (isnan(v)) [self.buf.b appendString:[@"k" mutableCopy]];
-			else if (!isfinite(v)) [self.buf.b appendString:[Std string:( (v < @"0") ? [@"m" mutableCopy] : [@"p" mutableCopy])]];
-			else {
-				[self.buf.b appendString:[@"d" mutableCopy]];
-				[self.buf.b appendString:[Std string:v]];
-			}}break
+		if (isnan(v)) [self.buf.b appendString:[@"k" mutableCopy]];
+		else if (!isfinite(v)) [self.buf.b appendString:[Std string:( (v < @"0") ? [@"m" mutableCopy] : [@"p" mutableCopy])]];
+		else {
+			
+			[self.buf.b appendString:[@"d" mutableCopy]];
+			[self.buf.b appendString:[Std string:v]];
+		};break
 		case 3:
-		{
-			[self.buf.b appendString:[Std string:( (v) ? [@"t" mutableCopy] : [@"f" mutableCopy])]]}break
+		[self.buf.b appendString:[Std string:( (v) ? [@"t" mutableCopy] : [@"f" mutableCopy])]];break
 		case 6:
 		
-		var MATCH _g_eTClass_0 : Class = e.params[0]{
-			{
-				if (_g_eTClass_0 == NSMutableString) {
-					[self serializeString:v];
-					return;
-				}
-				if (self.useCache && [self serializeRef:v]) return;
-				switch (_g_eTClass_0){
-					case NSMutableArray:{
-						{
-							int ucount = 0;
-							[self.buf.b appendString:[@"a" mutableCopy]];
-							int l = [v hx_objectAtIndex:[@"length" mutableCopy]];
-							{
-								int _g1 = 0;
-								while (_g1 < (int)l) {
-									int i = _g1++;
-									if ([v hx_objectAtIndex:i] == nil) ucount++;
-									else {
-										if (ucount > 0) {
-											if (ucount == 1) [self.buf.b appendString:[@"n" mutableCopy]];
-											else {
-												[self.buf.b appendString:[@"u" mutableCopy]];
-												[self.buf.b appendString:[Std string:ucount]];
-											}
-											ucount = 0;
-										}
-										[self serialize:[v hx_objectAtIndex:i]];
-									}
-								}
-							}
-							if (ucount > 0) {
-								if (ucount == 1) [self.buf.b appendString:[@"n" mutableCopy]];
-								else {
-									[self.buf.b appendString:[@"u" mutableCopy]];
-									[self.buf.b appendString:[Std string:ucount]];
-								}
-							}
-							[self.buf.b appendString:[@"h" mutableCopy]];
-						}}break;
-					case List:{
-						{
-							[self.buf.b appendString:[@"l" mutableCopy]];
+		var MATCH c : Class = e.params[0]{
+			
+			if (c == NSMutableString) {
+				
+				[self serializeString:v];
+				return;
+			}
+			if (self.useCache && [self serializeRef:v]) return;
+			switch (c){
+				case NSMutableArray:{
+					
+					int ucount = 0;
+					[self.buf.b appendString:[@"a" mutableCopy]];
+					int l = ((TArray3TDynamic*)[v hx_objectAtIndex:[@"length" mutableCopy]]);
+					{
+						
+						int _g1 = 0;
+						while (_g1 < (int)l) {
 							
-							List *v1 = v;
-							{
-								id _it2 = [v1 iterator];
-								while ( [_it2 hasNext] ) do {
-									id i = [_it2 next];
-									[self serialize:i];
-								}
-							}
-							[self.buf.b appendString:[@"h" mutableCopy]];
-						}}break;
-					case NSDate:{
-						{
-							
-							NSDate *d = v;
-							[self.buf.b appendString:[@"v" mutableCopy]];
-							[self.buf.b appendString:[Std string:[d toString]]];
-						}}break;
-					case StringMap:{
-						{
-							[self.buf.b appendString:[@"b" mutableCopy]];
-							
-							StringMap *v1 = v;
-							{
-								id _it3 = [v1 keys];
-								while ( [_it3 hasNext] ) do {
-									NSMutableString k = [_it3 next];
-									{
-										[self serializeString:k];
-										[self serialize:[v1 get:k]];
-									};
-								}
-							}
-							[self.buf.b appendString:[@"h" mutableCopy]];
-						}}break;
-					case IntMap:{
-						{
-							[self.buf.b appendString:[@"q" mutableCopy]];
-							
-							IntMap *v1 = v;
-							{
-								id _it4 = [v1 keys];
-								while ( [_it4 hasNext] ) do {
-									int k = [_it4 next];
-									{
-										[self.buf.b appendString:[@":" mutableCopy]];
-										[self.buf.b appendString:[Std string:k]];
-										[self serialize:[v1 get:k]];
-									};
-								}
-							}
-							[self.buf.b appendString:[@"h" mutableCopy]];
-						}}break;
-					case ObjectMap:{
-						{
-							[self.buf.b appendString:[@"M" mutableCopy]];
-							
-							ObjectMap *v1 = v;
-							{
-								id _it5 = [v1 keys];
-								while ( [_it5 hasNext] ) do {
-									id k = [_it5 next];
-									{
-										[self serialize:k];
-										[self serialize:[v1 get:k]];
-									};
-								}
-							}
-							[self.buf.b appendString:[@"h" mutableCopy]];
-						}}break;
-					case Bytes:{
-						{
-							
-							Bytes *v1 = v;
-							int i = 0;
-							int max = v1.length - 2;
-							
-							StringBuf *charsBuf = [[StringBuf alloc] init];
-							
-							NSMutableString *b64 = BASE64;
-							while (i < max) {
-								int b1 = [v1.b hx_objectAtIndex:i++];
-								int b2 = [v1.b hx_objectAtIndex:i++];
-								int b3 = [v1.b hx_objectAtIndex:i++];
-								charsBuf.b += [Std string:[b64 charAt:b1 >> 2]];
-								charsBuf.b += [Std string:[b64 charAt: (b1 << 4 | b2 >> 4) & 63]];
-								charsBuf.b += [Std string:[b64 charAt: (b2 << 2 | b3 >> 6) & 63]];
-								charsBuf.b += [Std string:[b64 charAt:b3 & 63]];
-							}
-							if (i == max) {
-								int b1 = [v1.b hx_objectAtIndex:i++];
-								int b2 = [v1.b hx_objectAtIndex:i++];
-								charsBuf.b += [Std string:[b64 charAt:b1 >> 2]];
-								charsBuf.b += [Std string:[b64 charAt: (b1 << 4 | b2 >> 4) & 63]];
-								charsBuf.b += [Std string:[b64 charAt:b2 << 2 & 63]];
-							}
-							else if (i == [max stringByAppendingString:@"1"]) {
-								int b1 = [v1.b hx_objectAtIndex:i++];
-								charsBuf.b += [Std string:[b64 charAt:b1 >> 2]];
-								charsBuf.b += [Std string:[b64 charAt:b1 << 4 & 63]];
-							}
-							
-							NSMutableString *chars = charsBuf.b;
-							[self.buf.b appendString:[@"s" mutableCopy]];
-							[self.buf.b appendString:[Std string:chars.length]];
-							[self.buf.b appendString:[@":" mutableCopy]];
-							[self.buf.b appendString:[Std string:chars]];
-						}}break;
-					default:{
-						{
-							[self.cache pop];
-							if ([v hxSerialize] != nil) {
-								[self.buf.b appendString:[@"C" mutableCopy]];
-								[self serializeString:[Type getClassName:_g_eTClass_0]];
-								[self.cache push:v];
-								[v hxSerialize:self];
-								[self.buf.b appendString:[@"g" mutableCopy]];
-							}
+							int i = _g1++;
+							if (((TArray3TDynamic*)[v hx_objectAtIndex:i]) == nil) ucount++;
 							else {
-								[self.buf.b appendString:[@"c" mutableCopy]];
-								[self serializeString:[Type getClassName:_g_eTClass_0]];
-								[self.cache push:v];
-								[self serializeFields:v];
+								
+								if (ucount > 0) {
+									
+									if (ucount == 1) [self.buf.b appendString:[@"n" mutableCopy]];
+									else {
+										
+										[self.buf.b appendString:[@"u" mutableCopy]];
+										[self.buf.b appendString:[Std string:ucount]];
+									}
+									ucount = 0;
+								}
+								[self serialize:((TArray3TDynamic*)[v hx_objectAtIndex:i])];
 							}
-						}}break;
+						}
+					}
+					if (ucount > 0) {
+						
+						if (ucount == 1) [self.buf.b appendString:[@"n" mutableCopy]];
+						else {
+							
+							[self.buf.b appendString:[@"u" mutableCopy]];
+							[self.buf.b appendString:[Std string:ucount]];
+						}
+					}
+					[self.buf.b appendString:[@"h" mutableCopy]];
 				}
-			}}break
+				break;
+				case List:{
+					
+					[self.buf.b appendString:[@"l" mutableCopy]];
+					
+					List *v1 = v;
+					{
+						id _it2 = [v1 iterator];
+						while ( [_it2 hasNext] ) do {
+							id i = [_it2 next];
+							[self serialize:i];
+						}
+					}
+					[self.buf.b appendString:[@"h" mutableCopy]];
+				}
+				break;
+				case NSDate:{
+					
+					
+					NSDate *d = v;
+					[self.buf.b appendString:[@"v" mutableCopy]];
+					[self.buf.b appendString:[Std string:[d toString]]];
+				}
+				break;
+				case StringMap:{
+					
+					[self.buf.b appendString:[@"b" mutableCopy]];
+					
+					StringMap *v1 = v;
+					{
+						id _it3 = [v1 keys];
+						while ( [_it3 hasNext] ) do {
+							NSMutableString k = [_it3 next];
+							{
+								
+								[self serializeString:k];
+								[self serialize:[v1 get:k]];
+							};
+						}
+					}
+					[self.buf.b appendString:[@"h" mutableCopy]];
+				}
+				break;
+				case IntMap:{
+					
+					[self.buf.b appendString:[@"q" mutableCopy]];
+					
+					IntMap *v1 = v;
+					{
+						id _it4 = [v1 keys];
+						while ( [_it4 hasNext] ) do {
+							int k = [_it4 next];
+							{
+								
+								[self.buf.b appendString:[@":" mutableCopy]];
+								[self.buf.b appendString:[Std string:k]];
+								[self serialize:[v1 get:k]];
+							};
+						}
+					}
+					[self.buf.b appendString:[@"h" mutableCopy]];
+				}
+				break;
+				case ObjectMap:{
+					
+					[self.buf.b appendString:[@"M" mutableCopy]];
+					
+					ObjectMap *v1 = v;
+					{
+						id _it5 = [v1 keys];
+						while ( [_it5 hasNext] ) do {
+							id k = [_it5 next];
+							{
+								
+								[self serialize:k];
+								[self serialize:[v1 get:k]];
+							};
+						}
+					}
+					[self.buf.b appendString:[@"h" mutableCopy]];
+				}
+				break;
+				case Bytes:{
+					
+					
+					Bytes *v1 = v;
+					int i = 0;
+					int max = v1.length - 2;
+					
+					StringBuf *charsBuf = [[StringBuf alloc] init];
+					
+					NSMutableString *b64 = BASE64;
+					while (i < max) {
+						
+						int b1 = ((CASTTType*)[v1.b hx_objectAtIndex:i++]);
+						int b2 = ((CASTTType*)[v1.b hx_objectAtIndex:i++]);
+						int b3 = ((CASTTType*)[v1.b hx_objectAtIndex:i++]);
+						[charsBuf.b appendString:[Std string:[b64 charAt:b1 >> @"2"]]];
+						[charsBuf.b appendString:[Std string:[b64 charAt: (b1 << @"4" | b2 >> @"4") & @"63"]]];
+						[charsBuf.b appendString:[Std string:[b64 charAt: (b2 << @"2" | b3 >> @"6") & @"63"]]];
+						[charsBuf.b appendString:[Std string:[b64 charAt:b3 & @"63"]]];
+					}
+					if (i == max) {
+						
+						int b1 = ((CASTTType*)[v1.b hx_objectAtIndex:i++]);
+						int b2 = ((CASTTType*)[v1.b hx_objectAtIndex:i++]);
+						[charsBuf.b appendString:[Std string:[b64 charAt:b1 >> @"2"]]];
+						[charsBuf.b appendString:[Std string:[b64 charAt: (b1 << @"4" | b2 >> @"4") & @"63"]]];
+						[charsBuf.b appendString:[Std string:[b64 charAt:b2 << @"2" & @"63"]]];
+					}
+					else if (i == max + 1) {
+						
+						int b1 = ((CASTTType*)[v1.b hx_objectAtIndex:i++]);
+						[charsBuf.b appendString:[Std string:[b64 charAt:b1 >> @"2"]]];
+						[charsBuf.b appendString:[Std string:[b64 charAt:b1 << @"4" & @"63"]]];
+					}
+					
+					NSMutableString *chars = charsBuf.b;
+					[self.buf.b appendString:[@"s" mutableCopy]];
+					[self.buf.b appendString:[Std string:chars.length]];
+					[self.buf.b appendString:[@":" mutableCopy]];
+					[self.buf.b appendString:[Std string:chars]];
+				}
+				break;
+				default:{
+					
+					[self.cache pop];
+					if ([v hxSerialize] != nil) {
+						
+						[self.buf.b appendString:[@"C" mutableCopy]];
+						[self serializeString:[Type getClassName:c]];
+						[self.cache push:v];
+						[v hxSerialize:self];
+						[self.buf.b appendString:[@"g" mutableCopy]];
+					}
+					else {
+						
+						[self.buf.b appendString:[@"c" mutableCopy]];
+						[self serializeString:[Type getClassName:c]];
+						[self.cache push:v];
+						[self serializeFields:v];
+					}
+				}break;
+			}
+		}break
 		case 4:
 		{
-			{
-				if (self.useCache && [self serializeRef:v]) return;
-				[self.buf.b appendString:[@"o" mutableCopy]];
-				[self serializeFields:v];
-			}}break
+			
+			if (self.useCache && [self serializeRef:v]) return;
+			[self.buf.b appendString:[@"o" mutableCopy]];
+			[self serializeFields:v];
+		}break
 		case 7:
 		
-		var MATCH _g_eTEnum_0 : Enum = e.params[0]{
-			{
-				if (self.useCache && [self serializeRef:v]) return;
-				[self.cache pop];
-				[self.buf.b appendString:[Std string:( (self.useEnumIndex) ? [@"j" mutableCopy] : [@"w" mutableCopy])]];
-				[self serializeString:[Type getEnumName:_g_eTEnum_0]];
-				if (self.useEnumIndex) {
-					[self.buf.b appendString:[@":" mutableCopy]];
-					[self.buf.b appendString:[Std string:[v hx_objectAtIndex:@"1"]]];
-				}
-				else [self serializeString:[v hx_objectAtIndex:0]];
+		var MATCH e : Enum = e.params[0]{
+			
+			if (self.useCache && [self serializeRef:v]) return;
+			[self.cache pop];
+			[self.buf.b appendString:[Std string:( (self.useEnumIndex) ? [@"j" mutableCopy] : [@"w" mutableCopy])]];
+			[self serializeString:[Type getEnumName:e]];
+			if (self.useEnumIndex) {
+				
 				[self.buf.b appendString:[@":" mutableCopy]];
-				int l = [v hx_objectAtIndex:[@"length" mutableCopy]];
-				[self.buf.b appendString:[Std string:l - @"2"]];
-				{
-					int _g1 = 2;
-					while (_g1 < (int)l) {
-						int i = _g1++;
-						[self serialize:[v hx_objectAtIndex:i]];
-					}
+				[self.buf.b appendString:[Std string:((TArray3TDynamic*)[v hx_objectAtIndex:@"1"])]];
+			}
+			else [self serializeString:((TArray3TDynamic*)[v hx_objectAtIndex:0])];
+			[self.buf.b appendString:[@":" mutableCopy]];
+			int l = ((TArray3TDynamic*)[v hx_objectAtIndex:[@"length" mutableCopy]]);
+			[self.buf.b appendString:[Std string:l - @"2"]];
+			{
+				
+				int _g1 = 2;
+				while (_g1 < (int)l) {
+					
+					int i = _g1++;
+					[self serialize:((TArray3TDynamic*)[v hx_objectAtIndex:i])];
 				}
-				[self.cache push:v];
-			}}break
+			}
+			[self.cache push:v];
+		}break
 		case 5:
-		{
-			@throw [@"Cannot serialize function" mutableCopy];}break
-		default:{
-			@throw [[@"Cannot serialize " mutableCopy] stringByAppendingString:[Std string:v]];}break
+		@throw [@"Cannot serialize function" mutableCopy];;break
+		default:@throw [[@"Cannot serialize " mutableCopy] stringByAppendingString:[Std string:v]];;break
 	}
 }
 - (id) init{
+	
 	self = [super init];
 	self.buf = [[StringBuf alloc] init];
 	self.cache = [[NSMutableArray alloc] init];

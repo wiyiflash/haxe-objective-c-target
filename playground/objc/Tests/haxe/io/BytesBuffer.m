@@ -11,18 +11,23 @@
 
 @synthesize b;
 - (void) addByte:(int)byte{
+	
 	[self.b appendBytes:self.b.mutableBytes length:byte];
 }
 - (void) add:(Bytes*)src{
+	
 }
 - (void) addBytes:(Bytes*)src pos:(int)pos len:(int)len{
+	
 	if (pos < 0 || len < 0 || pos + len > src.length) @throw OutsideBounds;;
 }
 - (Bytes*) getBytes{
+	
 	self.b = nil;
 	return bytes;
 }
 - (id) init{
+	
 	self = [super init];
 	self.b = [[NSMutableData alloc] init];
 	return self;

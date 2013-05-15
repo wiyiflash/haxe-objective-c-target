@@ -12,21 +12,25 @@
 @synthesize nstimer;
 @synthesize _id;
 - (void) stop{
-	if (self.id == nil) return;
+	
+	if (self._id == nil) return;
 	[self.nstimer invalidate];
 	self.nstimer = nil;
-	self.id = nil;
+	self._id = nil;
 }
-// Defining a dynamic method
+// Dynamic method defined with an objc method and a block property
 - (void) run{
+	if ( hx_dyn_run ) { hx_dyn_run(); return; }
 	[Log trace:[@"run" mutableCopy] infos:@{@"fileName":@"Timer.hx", @"lineNumber":@"112", @"className":@"haxe.Timer", @"methodName":@"run"}];
 }
-@synthesize property_run;
+@synthesize hx_dyn_run;
 
 - (void) nsrun:(NSTimer*)aTimer{
+	
 	[self run];
 }
 - (id) init:(int)time_ms{
+	
 	self = [super init];
 	self.nstimer = [NSTimer timerWithTimeInterval:time_ms * 1000 target:self selector:@selector(nsrun:) userInfo:nil repeats:YES];
 	

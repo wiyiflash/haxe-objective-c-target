@@ -13,18 +13,18 @@
 
 + (int) Z;
 + (void) setZ:(int)val;
-// Defining a dynamic method
+// Dynamic method defined with an objc method and a block property
 + (int) staticDynamic:(int)x y:(int)y;
-@property (nonatomic,copy) int(^property_staticDynamic);
+@property (nonatomic,copy) int(^hx_dyn_staticDynamic)(int, int);
 + (int) W;
 + (void) setW:(int)val;
 + (int) get_W;
 + (int) set_W:(int)v;
 @property (nonatomic) int v;
 - (int) get;
-// Defining a dynamic method
+// Dynamic method defined with an objc method and a block property
 - (int) add:(int)x y:(int)y;
-@property (nonatomic,copy) int(^property_add);
+@property (nonatomic,copy) int(^hx_dyn_add)(int, int);
 - (int) iadd:(int)x y:(int)y;
 - (id) init:(int)v;
 
@@ -36,9 +36,9 @@
 
 @interface MyDynamicSubClass : MyDynamicClass 
 
-// Defining a dynamic method
+// Dynamic method defined with an objc method and a block property
 - (int) add:(int)x y:(int)y;
-@property (nonatomic,copy) int(^property_add);
+@property (nonatomic,copy) int(^hx_dyn_add)(int, int);
 
 @end
 
@@ -48,9 +48,9 @@
 
 @interface MyDynamicSubClass2 : MyDynamicClass 
 
-// Defining a dynamic method
+// Dynamic method defined with an objc method and a block property
 - (int) add:(int)x y:(int)y;
-@property (nonatomic,copy) int(^property_add);
+@property (nonatomic,copy) int(^hx_dyn_add)(int, int);
 
 @end
 
@@ -67,7 +67,7 @@
 
 
 
-@interface IDefArgs : NSObject
+@protocol IDefArgs<NSObject>
 
 
 
@@ -76,7 +76,7 @@
 
 
 
-@interface BaseDefArgs : NSObject
+@protocol BaseDefArgs<NSObject>
 
 - (int) get:(int)x;
 
@@ -86,7 +86,7 @@
 
 #import "../unit/TestMisc.h"
 
-@interface ExtDefArgs : BaseDefArgs <IDefArgs>
+@protocol ExtDefArgs<NSObject>
 
 - (int) get:(int)x;
 - (id) init;
@@ -97,7 +97,7 @@
 
 #import "../String.h"
 
-@interface BaseConstrOpt : NSObject
+@protocol BaseConstrOpt<NSObject>
 
 @property (nonatomic, strong) NSMutableString *s;
 @property (nonatomic) int i;
@@ -110,7 +110,7 @@
 
 #import "../unit/TestMisc.h"
 
-@interface SubConstrOpt : BaseConstrOpt 
+@protocol SubConstrOpt<NSObject>
 
 - (id) init;
 
@@ -120,7 +120,7 @@
 
 #import "../unit/TestMisc.h"
 
-@interface SubConstrOpt2 : BaseConstrOpt 
+@protocol SubConstrOpt2<NSObject>
 
 
 @end
@@ -130,7 +130,7 @@
 #import "../String.h"
 #import "../unit/TestMisc.h"
 
-@interface SubConstrOpt3 : BaseConstrOpt 
+@protocol SubConstrOpt3<NSObject>
 
 - (id) init:(NSMutableString*)s i:(int)i;
 
@@ -141,7 +141,6 @@
 
 #import "../String.h"
 #import "../unit/MyClass.h"
-#import "../Math.h"
 #import "../Type.h"
 #import "../haxe/crypto/Md5.h"
 #import "../unit/TestMisc.h"
@@ -155,7 +154,7 @@
 #import "../haxe/Json.h"
 #import "../unit/Test.h"
 
-@interface TestMisc : Test 
+@protocol TestMisc<NSObject>
 
 + (NSMutableString*) unit;
 + (void) setUnit:(NSMutableString*)val;

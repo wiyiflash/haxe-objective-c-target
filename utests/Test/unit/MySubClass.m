@@ -18,6 +18,7 @@ static int XXX;
 	XXX = hx_val;
 }
 - (int) get{
+	
 	return self.val * 2;
 }
 

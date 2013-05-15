@@ -405,7 +405,7 @@ module MetaInfo = struct
 		| Category -> ":category",("Converts a class to an Objective-C category of another class",[Platform ObjC])
 		| GetterBody -> ":getterBody",("Set the code inside a getter method",[UsedOn TClassField;Platform ObjC])
 		| Import -> ":import",("Generates an #import statement for a native class",[Platform ObjC])
-		| Framework -> ":framework",("Generates an #import statement for the framework of a class",[Platform ObjC])
+		| Framework -> ":framework",("Generates an #import for the framework instead the class path",[Platform ObjC])
 		| Selector -> ":sel",("Use this as a signature instead the method arguments",[Platform ObjC])
 		| Weak -> ":weak",("Declaring a property with weak reference instead strong",[Platform ObjC])
 		| Last -> assert false

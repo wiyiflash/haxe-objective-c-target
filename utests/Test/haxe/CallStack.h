@@ -24,7 +24,7 @@ typedef enum{
 
 + (NSMutableArray*) exceptionStack;
 + (NSMutableString*) toString:(NSMutableArray*)stack;
-+ (void) itemToString:(StringBuf*)b s:(CallStack*)s;
++ (void) itemToString:(StringBuf*)b s:(StackItem*)s;
 
 @end
 

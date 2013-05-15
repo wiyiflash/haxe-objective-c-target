@@ -11,10 +11,12 @@
 
 @synthesize b;
 - (Bytes*) getBytes{
+	
 	self.b = nil;
 	return bytes;
 }
 - (id) init{
+	
 	self = [super init];
 	self.b = [[NSMutableData alloc] init];
 	return self;

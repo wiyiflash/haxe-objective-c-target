@@ -2318,12 +2318,14 @@ let generateField ctx is_static field =
 		) in
 		if not ctx.generating_header then begin
 			ctx.writer#begin_block;
-			ctx.writer#write ("if ( hx_dyn_" ^ func_name ^ " ) { hx_dyn_" ^ func_name ^ "(");
-			concat ctx ", " (fun (v,c) ->
-				ctx.writer#write (remapKeyword v.v_name);
-			) func.tf_args;
-			ctx.writer#write ("); return; }");
-			ctx.writer#new_line;
+			if not ctx.in_static then begin
+				ctx.writer#write ("if ( hx_dyn_" ^ func_name ^ " ) { hx_dyn_" ^ func_name ^ "(");
+				concat ctx ", " (fun (v,c) ->
+					ctx.writer#write (remapKeyword v.v_name);
+				) func.tf_args;
+				ctx.writer#write ("); return; }");
+				ctx.writer#new_line;
+			end;
 			generateExpression ctx func.tf_expr
 		end else
 			ctx.writer#write ";\n";
@@ -2424,7 +2426,7 @@ let pbxproj common_ctx files_manager =
 	let supporting_files = ref "" in
 	(match common_ctx.objc_supporting_files with
 	| None ->
-		print_endline "No SupportingFiles linked by user, search in hxcocoa lib. -Info.plist will not be used.";
+		print_endline "No SupportingFiles linked by user, search in hxcocoa lib. Custom -Info.plist is ignored.";
 		List.iter (fun dir ->
 			if Sys.file_exists dir then begin
 				let contents = Array.to_list (Sys.readdir dir) in
@@ -2457,7 +2459,8 @@ let pbxproj common_ctx files_manager =
 	List.iter ( fun (uuid, fileRef, path, ext) -> 
 		(* print_endline ("add resource "^(snd path)^" >> "^ext); *)
 		let n = if List.length (fst path) > 0 then List.hd (fst path) else (snd path) in
-		file#write ("		"^uuid^" /* "^n^ext^" in Resources */ = {isa = PBXBuildFile; fileRef = "^fileRef^"; };\n"); 
+		file#write ("		"^uuid^" /* "^n^ext^" in Resources */ = {isa = PBXBuildFile; fileRef = "^fileRef^"; };\n");
+		print_endline n;
 	) files_manager#get_resource_files;
 	(* Add some hardcoded files *)
 	let build_file_main = files_manager#generate_uuid_for_file ([],"build_file_main") in
@@ -2535,8 +2538,17 @@ let pbxproj common_ctx files_manager =
 		let comps = Str.split (Str.regexp "/") common_ctx.file in
 		List.iter (fun p -> prefix := (!prefix) ^ "../") comps;
 		let n = (joinClassPath path "/") in
+		let final_path = (match common_ctx.objc_supporting_files with
+			| None -> (!supporting_files)^n
+			| Some _ -> (!prefix)^(!supporting_files)^n
+		) in
+		let final_source_tree = (match common_ctx.objc_supporting_files with
+			| None -> "\"<absolute>\""
+			| Some _ -> "SOURCE_ROOT"
+		) in
 		(* if List.length (fst path) > 0 then List.hd (fst path) else (snd path) in *)
-		file#write ("		"^fileRef^" /* "^(snd path)^" in Resources */ = {isa = PBXFileReference; lastKnownFileType = image."^ext^"; name = \""^(snd path)^"\"; path = \""^(!prefix)^(!supporting_files)^n^"\"; sourceTree = SOURCE_ROOT; };\n");
+		file#write ("		"^fileRef^" /* "^(snd path)^" in Resources */ = {isa = PBXFileReference; lastKnownFileType = image."^ext^"; name = \""^(snd path)^"\"; path = \""^final_path^"\"; sourceTree = "^final_source_tree^"; };\n");
+		print_endline final_path;
 	) files_manager#get_resource_files;
 	
 	(* Add some hardcoded files *)

@@ -10,21 +10,27 @@
 @implementation Std
 
 + (BOOL) is:(id)v t:(id)t{
+	
 	return NO;
 }
 + (NSMutableString*) string:(id)s{
+	
 	return [s description];
 }
 + (int) _int:(float)x{
+	
 	return (int)x;
 }
 + (int) parseInt:(NSMutableString*)x{
+	
 	return [x intValue];
 }
 + (float) parseFloat:(NSMutableString*)x{
+	
 	return [x floatValue];
 }
 + (int) random:(int)x{
+	
 	if (x <= 0) return 0;
 	return rand() % x;
 }

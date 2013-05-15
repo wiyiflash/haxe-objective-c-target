@@ -13,6 +13,7 @@
 @synthesize nbits;
 @synthesize tbl;
 - (Bytes*) encodeBytes:(Bytes*)b{
+	
 	int nbits = self.nbits;
 	
 	Bytes *base = self.base;
@@ -25,10 +26,12 @@
 	int pin = 0;
 	int pout = 0;
 	while (pout < size) {
+		
 		while (curbits < nbits) {
-			[curbits appendString:@"8"];
+			
+			curbits += 8;
 			buf <<= 8;
-			buf |= [b.b hx_objectAtIndex:pin++];
+			buf |= ((CASTTType*)[b.b hx_objectAtIndex:pin++]);
 		}
 		curbits -= nbits;
 		[_out.b hx_replaceObjectAtIndex:pout++ withObject:(base.b hx_replaceObjectAtIndex:buf >> curbits & mask & @255)];
@@ -38,17 +41,22 @@
 }
 - (void) initTable{
 	
+	
 	NSMutableArray *tbl = [[NSMutableArray alloc] init];
 	{
+		
 		int _g = 0;
 		while (_g < 256) {
+			
 			int i = _g++;
 			[tbl hx_replaceObjectAtIndex:i withObject:@-1];
 		}
 	}
 	{
+		
 		int _g1 = 0; int _g = self.base.length;
 		while (_g1 < _g) {
+			
 			int i = _g1++;
 			[tbl hx_replaceObjectAtIndex:self.base.b hx_replaceObjectAtIndex:i withObject:i];
 		}
@@ -56,6 +64,7 @@
 	self.tbl = tbl;
 }
 - (Bytes*) decodeBytes:(Bytes*)b{
+	
 	int nbits = self.nbits;
 	
 	Bytes *base = self.base;
@@ -70,10 +79,12 @@
 	int pin = 0;
 	int pout = 0;
 	while (pout < size) {
+		
 		while (curbits < 8) {
+			
 			curbits += nbits;
 			buf <<= nbits;
-			int i = [tbl hx_objectAtIndex:[b.b hx_objectAtIndex:pin++]];
+			int i = ((NSMutableArray*)[tbl hx_objectAtIndex:((CASTTType*)[b.b hx_objectAtIndex:pin++])]);
 			if (i == -1) @throw [@"BaseCode : invalid encoded char" mutableCopy];;
 			buf |= i;
 		}
@@ -83,12 +94,15 @@
 	return _out;
 }
 - (NSMutableString*) encodeString:(NSMutableString*)s{
+	
 	return [[self encodeBytes:[Bytes ofString:s]] toString];
 }
 - (NSMutableString*) decodeString:(NSMutableString*)s{
+	
 	return [[self decodeBytes:[Bytes ofString:s]] toString];
 }
 - (id) init:(Bytes*)base{
+	
 	self = [super init];
 	int len = base.length;
 	int nbits = 1;

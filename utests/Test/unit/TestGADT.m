@@ -9,59 +9,55 @@
 
 @implementation TestGADT
 
-+ (id) evalConst:(TestGADT*)c{
++ (id) evalConst:(Constant*)c{
+	
 	return ^(id)
 	enum s = e2 (c)
 	switch ( e2.index ) {
 		
 		case 0:
 		
-		var MATCH c_eCString_0 : NSMutableString = e2.params[0]{
-			__r__ = c_eCString_0}break
+		var MATCH s : NSMutableString = e2.params[0]__r__ = s;break
 		case 1:
 		
-		var MATCH c_eCInt_0 : NSMutableString = e2.params[0]{
-			__r__ = [Std parseInt:c_eCInt_0]}break
+		var MATCH i : NSMutableString = e2.params[0]__r__ = [Std parseInt:i];break
 		case 2:
 		
-		var MATCH c_eCFloat_0 : NSMutableString = e2.params[0]{
-			__r__ = [Std parseFloat:c_eCFloat_0]}break
+		var MATCH f : NSMutableString = e2.params[0]__r__ = [Std parseFloat:f];break
 	}
 	return __r__{
 		
 		id* __r__}
 	}();
 }
-+ (id) evalBinop:(TestGADT*)op e1:(TestGADT*)e1 e2:(TestGADT*)e2{
++ (id) evalBinop:(Binop*)op e1:(Expr*)e1 e2:(Expr*)e2{
+	
 	return ^(id)
 	enum s = e2 (op)
 	switch ( e2.index ) {
 		
 		case 0:
-		{
-			__r__ = [TestGADT eval:e1] + [TestGADT eval:e2]}break
+		__r__ = CASTTMonoCASTTMono[TestGADT eval:e1] + [TestGADT eval:e2];break
 		case 1:
-		{
-			__r__ = [TestGADT eval:e1] == [TestGADT eval:e2]}break
+		__r__ = [TestGADT eval:e1] == [TestGADT eval:e2];break
 	}
 	return __r__{
 		
 		id* __r__}
 	}();
 }
-+ (id) eval:(TestGADT*)e{
++ (id) eval:(Expr*)e{
+	
 	return ^(id)
 	enum s = e2 (e)
 	switch ( e2.index ) {
 		
 		case 0:
 		
-		var MATCH e_eEConst_0 : TestGADT = e2.params[0]{
-			__r__ = [TestGADT evalConst:e_eEConst_0]}break
+		var MATCH c : Constant = e2.params[0]__r__ = [TestGADT evalConst:c];break
 		case 1:
 		
-		var MATCH e_eEBinop_2 : TestGADT = e2.params[2], MATCH e_eEBinop_1 : TestGADT = e2.params[1], MATCH e_eEBinop_0 : TestGADT = e2.params[0]{
-			__r__ = [TestGADT evalBinop:e_eEBinop_0 e1:e_eEBinop_1 e2:e_eEBinop_2]}break
+		var MATCH _e2 : Expr = e2.params[2], MATCH _e1 : Expr = e2.params[1], MATCH _op : Binop = e2.params[0]__r__ = [TestGADT evalBinop:_op e1:_e1 e2:_e2];break
 	}
 	return __r__{
 		
@@ -69,34 +65,38 @@
 	}();
 }
 - (void) testBasic{
+	
 	float ti = 1.22;
 	BOOL tb = NO;
 	
-	TestGADT *e1 = [EConst:[CFloat:[@"12" mutableCopy]]];
+	Expr *e1 = [EConst:[CFloat:[@"12" mutableCopy]]];
 	
-	TestGADT *e2 = [EConst:[CFloat:[@"8" mutableCopy]]];
+	Expr *e2 = [EConst:[CFloat:[@"8" mutableCopy]]];
 	
-	TestGADT *e3 = [EConst:[CFloat:[@"12" mutableCopy]]];
+	Expr *e3 = [EConst:[CFloat:[@"12" mutableCopy]]];
 	
-	TestGADT *eadd = [EBinop:OpAdd e1:e1 e2:e2];
+	Expr *eadd = [EBinop:OpAdd e1:e1 e2:e2];
 	float s = [TestGADT eval:eadd];
 	{
+		
 		count++;
 		[self eq:[@"TAbstract(Float,[])" mutableCopy] v2:[@"TAbstract(Float,[])" mutableCopy] pos:@{@"fileName":@"TestGADT.hx", @"lineNumber":@"31", @"className":@"unit.TestGADT", @"methodName":@"testBasic"}];
 	}
 	[self eq:s v2:20 pos:@{@"fileName":@"TestGADT.hx", @"lineNumber":@"32", @"className":@"unit.TestGADT", @"methodName":@"testBasic"}];
 	
-	TestGADT *eeq = [EBinop:OpEq e1:e1 e2:e2];
+	Expr *eeq = [EBinop:OpEq e1:e1 e2:e2];
 	BOOL s1 = [TestGADT eval:eeq];
 	{
+		
 		count++;
 		[self eq:[@"TAbstract(Bool,[])" mutableCopy] v2:[@"TAbstract(Bool,[])" mutableCopy] pos:@{@"fileName":@"TestGADT.hx", @"lineNumber":@"36", @"className":@"unit.TestGADT", @"methodName":@"testBasic"}];
 	}
 	[self eq:s1 v2:NO pos:@{@"fileName":@"TestGADT.hx", @"lineNumber":@"37", @"className":@"unit.TestGADT", @"methodName":@"testBasic"}];
 	
-	TestGADT *eeq1 = [EBinop:OpEq e1:e1 e2:e3];
+	Expr *eeq1 = [EBinop:OpEq e1:e1 e2:e3];
 	BOOL s2 = [TestGADT eval:eeq1];
 	{
+		
 		count++;
 		[self eq:[@"TAbstract(Bool,[])" mutableCopy] v2:[@"TAbstract(Bool,[])" mutableCopy] pos:@{@"fileName":@"TestGADT.hx", @"lineNumber":@"41", @"className":@"unit.TestGADT", @"methodName":@"testBasic"}];
 	}

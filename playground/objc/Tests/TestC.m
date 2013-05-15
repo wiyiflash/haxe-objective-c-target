@@ -10,6 +10,7 @@
 @implementation TestC
 
 - (void) testMath{
+	
 	float pi = -fa3-PI;
 	float max = -fa3-NEGATIVE_INFINITY;
 	float min = -fa3-POSITIVE_INFINITY;
@@ -40,6 +41,7 @@
 	float k = ( (b) ? -x : x);
 }
 - (id) init{
+	
 	self = [super init];
 	float x = rand() * 50;
 	float y = cosf(x);

@@ -10,9 +10,11 @@
 @implementation TestType
 
 + (int) overloadFake_Int:(int)a{
+	
 	return a;
 }
 + (NSMutableArray*) gf3_haxe_Template_Array:(Template*)a b:(NSMutableArray*)b{
+	
 	
 	Template *clone = [[Template alloc] init:[@"foo" mutableCopy]];
 	[b push:clone];
@@ -20,40 +22,52 @@
 }
 + (NSMutableArray*) gf3_String_Array:(NSMutableString*)a b:(NSMutableArray*)b{
 	
+	
 	NSMutableString *clone = [[NSMutableString alloc] init:[@"foo" mutableCopy]];
 	[b push:clone];
 	return b;
 }
 + (NSMutableString*) gf2_String_Array:(NSMutableString*)a b:(NSMutableArray*)b{
-	return [Std string:a] + [Std string:b];
+	
+	return [[Std string:a] stringByAppendingString:[Std string:b]];
 }
 + (NSMutableString*) gf2_String_Int:(NSMutableString*)a b:(NSMutableArray*)b{
-	return [Std string:a] + [Std string:b];
+	
+	return [[Std string:a] stringByAppendingString:[Std string:b]];
 }
 + (GenericStack*) gf1_haxe_ds_GenericStack:(GenericStack*)a{
+	
 	return a;
 }
 + (Template*) gf1_haxe_Template:(Template*)a{
+	
 	return a;
 }
 + (BOOL) gf1_Bool:(BOOL)a{
+	
 	return a;
 }
 + (NSMutableString*) gf1_String:(NSMutableString*)a{
+	
 	return a;
 }
 + (int) gf1_Int:(int)a{
+	
 	return a;
 }
 + (NSMutableString*) u:(NSMutableString*)s{
+	
 	return s;
 }
 + (NSMutableString*) overloadFake_String:(NSMutableString*)a{
+	
 	return [a stringByAppendingString:[@"foo" mutableCopy]];
 }
 + (void) _mapMe:(Map*)map{
+	
 }
 - (void) testType{
+	
 	
 	NSMutableString *name = [[[@"unit" mutableCopy] stringByAppendingString:[@"." mutableCopy]] stringByAppendingString:[@"MyClass" mutableCopy]];
 	[self eq:[Type resolveClass:name] v2:MyClass pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"40", @"className":@"unit.TestType", @"methodName":@"testType"}];
@@ -62,9 +76,10 @@
 }
 - (void) testFields{
 	
+	
 	NSMutableArray *sfields = [Type getClassFields:MySubClass];
 	[self eq:sfields.length v2:1 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"47", @"className":@"unit.TestType", @"methodName":@"testFields"}];
-	[self eq:[sfields hx_objectAtIndex:0] v2:[@"XXX" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"48", @"className":@"unit.TestType", @"methodName":@"testFields"}];
+	[self eq:((NSMutableArray*)[sfields hx_objectAtIndex:0]) v2:[@"XXX" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"48", @"className":@"unit.TestType", @"methodName":@"testFields"}];
 	
 	NSMutableArray *fields = [@[[@"add" mutableCopy], [@"get" mutableCopy], [@"intValue" mutableCopy], [@"ref" mutableCopy], [@"set" mutableCopy], [@"stringValue" mutableCopy], [@"val" mutableCopy]] mutableCopy];
 	
@@ -89,6 +104,7 @@
 	[self eq:[fl3 join:[@"|" mutableCopy]] v2:[fields2 join:[@"|" mutableCopy]] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"71", @"className":@"unit.TestType", @"methodName":@"testFields"}];
 }
 - (void) testEnumEq{
+	
 	[self t:[Type enumEq:nil b:nil] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"77", @"className":@"unit.TestType", @"methodName":@"testEnumEq"}];
 	[self f:[Type enumEq:A b:nil] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"78", @"className":@"unit.TestType", @"methodName":@"testEnumEq"}];
 	[self f:[Type enumEq:nil b:[D:A]] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"79", @"className":@"unit.TestType", @"methodName":@"testEnumEq"}];
@@ -102,28 +118,31 @@
 }
 - (void) testPossibleBug{
 	
+	
 	NSMutableArray *c = [Type getEnumConstructs:];
 	
-	NSMutableString *old = [c hx_objectAtIndex:0];
+	NSMutableString *old = ((NSMutableArray*)[c hx_objectAtIndex:0]);
 	[c hx_replaceObjectAtIndex:0 withObject:[@"modified" mutableCopy]];
-	[self eq:[[Type getEnumConstructs:] hx_objectAtIndex:0] v2:old pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"97", @"className":@"unit.TestType", @"methodName":@"testPossibleBug"}];
+	[self eq:((NSMutableString*)[[Type getEnumConstructs:] hx_objectAtIndex:0]) v2:old pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"97", @"className":@"unit.TestType", @"methodName":@"testPossibleBug"}];
 	
 	NSMutableArray *i = [Type getInstanceFields:TestType];
 	
-	NSMutableString *old1 = [i hx_objectAtIndex:0];
+	NSMutableString *old1 = ((NSMutableArray*)[i hx_objectAtIndex:0]);
 	[i hx_replaceObjectAtIndex:0 withObject:[@"modified" mutableCopy]];
-	[self eq:[[Type getInstanceFields:TestType] hx_objectAtIndex:0] v2:old1 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"102", @"className":@"unit.TestType", @"methodName":@"testPossibleBug"}];
+	[self eq:((NSMutableString*)[[Type getInstanceFields:TestType] hx_objectAtIndex:0]) v2:old1 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"102", @"className":@"unit.TestType", @"methodName":@"testPossibleBug"}];
 	
 	NSMutableArray *i1 = [Type getClassFields:TestType];
 	
-	NSMutableString *old2 = [i1 hx_objectAtIndex:0];
+	NSMutableString *old2 = ((NSMutableArray*)[i1 hx_objectAtIndex:0]);
 	[i1 hx_replaceObjectAtIndex:0 withObject:[@"modified" mutableCopy]];
-	[self eq:[[Type getClassFields:TestType] hx_objectAtIndex:0] v2:old2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"107", @"className":@"unit.TestType", @"methodName":@"testPossibleBug"}];
+	[self eq:((NSMutableString*)[[Type getClassFields:TestType] hx_objectAtIndex:0]) v2:old2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"107", @"className":@"unit.TestType", @"methodName":@"testPossibleBug"}];
 }
 - (void) testAllField{
+	
 	[self eq:[[Type allEnums:] join:[@"#" mutableCopy]] v2:[@"A#B" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"115", @"className":@"unit.TestType", @"methodName":@"testAllField"}];
 }
 - (void) testWiderVisibility{
+	
 	
 	MyChild1 *c = [[MyChild1 alloc] init];
 	[self eq:12 v2:[c a] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"120", @"className":@"unit.TestType", @"methodName":@"testWiderVisibility"}];
@@ -132,6 +151,7 @@
 	[self eq:21 v2:[mc2 test1:[[MyChild1 alloc] init]] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"125", @"className":@"unit.TestType", @"methodName":@"testWiderVisibility"}];
 }
 - (void) testUnifyMin{
+	
 	
 	NSMutableArray *ti1;
 	
@@ -147,74 +167,92 @@
 	
 	NSMutableArray *ts;
 	{
+		
 		count++;
 		[self eq:[@"TInst(Array,[TInst(unit.Base,[])])" mutableCopy] v2:[@"TInst(Array,[TInst(unit.Base,[])])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"145", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TInst(Array,[TInst(unit.Base,[])])" mutableCopy] v2:[@"TInst(Array,[TInst(unit.Base,[])])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"146", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TInst(Array,[TInst(unit.Base,[])])" mutableCopy] v2:[@"TInst(Array,[TInst(unit.Base,[])])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"147", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TInst(Array,[TInst(unit.I1,[])])" mutableCopy] v2:[@"TInst(Array,[TInst(unit.I1,[])])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"148", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TInst(Array,[TInst(unit.I1,[])])" mutableCopy] v2:[@"TInst(Array,[TInst(unit.I1,[])])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"149", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TInst(Array,[TInst(unit.I1,[])])" mutableCopy] v2:[@"TInst(Array,[TInst(unit.I1,[])])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"151", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TInst(Array,[TInst(unit.Base,[])])" mutableCopy] v2:[@"TInst(Array,[TInst(unit.Base,[])])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"152", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TInst(Array,[TInst(unit.Base,[])])" mutableCopy] v2:[@"TInst(Array,[TInst(unit.Base,[])])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"153", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TInst(Array,[TInst(unit.PClassBase,[TAbstract(Float,[])])])" mutableCopy] v2:[@"TInst(Array,[TInst(unit.PClassBase,[TAbstract(Float,[])])])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"155", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TInst(Array,[TAbstract(Bool,[])])" mutableCopy] v2:[@"TInst(Array,[TAbstract(Bool,[])])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"157", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TInst(Array,[TAbstract(Bool,[])])" mutableCopy] v2:[@"TInst(Array,[TAbstract(Bool,[])])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"158", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TInst(Array,[TInst(unit.Base,[])])" mutableCopy] v2:[@"TInst(Array,[TInst(unit.Base,[])])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"159", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TInst(Array,[TInst(unit.Base,[])])" mutableCopy] v2:[@"TInst(Array,[TInst(unit.Base,[])])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"161", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TInst(Array,[TInst(unit.Base,[])])" mutableCopy] v2:[@"TInst(Array,[TInst(unit.Base,[])])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"162", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TInst(Array,[TInst(unit.Base,[])])" mutableCopy] v2:[@"TInst(Array,[TInst(unit.Base,[])])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"163", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TInst(Array,[TInst(unit.Child1,[])])" mutableCopy] v2:[@"TInst(Array,[TInst(unit.Child1,[])])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"164", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TInst(Array,[TAnonymous(<anonymous>)])" mutableCopy] v2:[@"TInst(Array,[TAnonymous(<anonymous>)])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"165", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TInst(Array,[TAnonymous(<anonymous>)])" mutableCopy] v2:[@"TInst(Array,[TAnonymous(<anonymous>)])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"166", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
@@ -225,161 +263,203 @@
 	BOOL tnullbool1;
 	id ts1;
 	{
+		
 		count++;
 		[self eq:[@"TInst(unit.Base,[])" mutableCopy] v2:[@"TInst(unit.Base,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"179", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TInst(unit.Base,[])" mutableCopy] v2:[@"TInst(unit.Base,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"180", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TInst(unit.Base,[])" mutableCopy] v2:[@"TInst(unit.Base,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"184", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TInst(unit.I1,[])" mutableCopy] v2:[@"TInst(unit.I1,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"188", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TInst(unit.I1,[])" mutableCopy] v2:[@"TInst(unit.I1,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"189", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TAbstract(Bool,[])" mutableCopy] v2:[@"TAbstract(Bool,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"191", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TAbstract(Bool,[])" mutableCopy] v2:[@"TAbstract(Bool,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"192", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TAnonymous(<anonymous>)" mutableCopy] v2:[@"TAnonymous(<anonymous>)" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"193", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TAnonymous(<anonymous>)" mutableCopy] v2:[@"TAnonymous(<anonymous>)" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"194", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TInst(unit.Base,[])" mutableCopy] v2:[@"TInst(unit.Base,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"198", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TInst(unit.Base,[])" mutableCopy] v2:[@"TInst(unit.Base,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"199", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TInst(unit.I1,[])" mutableCopy] v2:[@"TInst(unit.I1,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"200", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TInst(unit.I1,[])" mutableCopy] v2:[@"TInst(unit.I1,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"201", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TAbstract(Bool,[])" mutableCopy] v2:[@"TAbstract(Bool,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"203", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TAbstract(Bool,[])" mutableCopy] v2:[@"TAbstract(Bool,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"204", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TAnonymous(<anonymous>)" mutableCopy] v2:[@"TAnonymous(<anonymous>)" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"205", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TAnonymous(<anonymous>)" mutableCopy] v2:[@"TAnonymous(<anonymous>)" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"206", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TInst(Array,[TAnonymous(<anonymous>)])" mutableCopy] v2:[@"TInst(Array,[TAnonymous(<anonymous>)])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"208", @"className":@"unit.TestType", @"methodName":@"testUnifyMin"}];
 	}
 }
 - (void) testCallback{
-	id func = ^(int *a, NSMutableString *b, float *c){
+	
+	id func = ^(int a, NSMutableString *b, float c){
+		
 		return a;
-	}
-	id tstringfloat = ^(NSMutableString *b, float *c){
+	};
+	id tstringfloat = ^(NSMutableString *b, float c){
+		
 		return 0;
-	}
-	id tfloat = ^(float *c){
+	};
+	id tfloat = ^(float c){
+		
 		return 0;
-	}
+	};
 	id tvoid = ^(){
+		
 		return 0;
-	}
-	id tintstring = ^(int *a, NSMutableString *b){
+	};
+	id tintstring = ^(int a, NSMutableString *b){
+		
 		return 0;
-	}
-	id tintfloat = ^(int *a, float *c){
+	};
+	id tintfloat = ^(int a, float c){
+		
 		return 0;
-	}
-	id tint = ^(int *a){
+	};
+	id tint = ^(int a){
+		
 		return 0;
-	}
+	};
 	id tstring = ^(NSMutableString *b){
+		
 		return 0;
-	}
+	};
 	{
+		
 		count++;
 		[self eq:[@"TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] v2:[@"TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"229", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] v2:[@"TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"230", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] v2:[@"TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"231", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] v2:[@"TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"232", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TFun([],TAbstract(Int,[]))" mutableCopy] v2:[@"TFun([],TAbstract(Int,[]))" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"236", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TFun([{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] v2:[@"TFun([{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"240", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TFun([{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] v2:[@"TFun([{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"241", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TFun([{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] v2:[@"TFun([{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"245", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TFun([{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] v2:[@"TFun([{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"246", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TFun([{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] v2:[@"TFun([{ name => b, t => TInst(String,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"247", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => b, t => TInst(String,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] v2:[@"TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => b, t => TInst(String,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"251", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] v2:[@"TFun([{ name => a, t => TAbstract(Int,[]), opt => false },{ name => c, t => TAbstract(Float,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"252", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TFun([{ name => a, t => TAbstract(Int,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] v2:[@"TFun([{ name => a, t => TAbstract(Int,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"253", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TFun([{ name => b, t => TInst(String,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] v2:[@"TFun([{ name => b, t => TInst(String,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"254", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	}
 	[self eq:1 v2:[ (((id)($this:(snd ctx.path)) id f = func
-	__r__ = ^(int *a, NSMutableString *b, float *c){
+	__r__ = ^(int a, NSMutableString *b, float c){
+		
 		return [f:a b:b c:c];
 	}
 	return __r__{
@@ -387,7 +467,8 @@
 		id* __r__}
 	}(self))):1 b:[@"2" mutableCopy] c:3] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"258", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	[self eq:2 v2:[ (((id)($this:(snd ctx.path)) id f = func
-	__r__2 = ^(NSMutableString *b, float *c){
+	__r__2 = ^(NSMutableString *b, float c){
+		
 		return [f:2 b:b c:c];
 	}
 	return __r__2{
@@ -395,7 +476,8 @@
 		id* __r__2}
 	}(self))):[@"2" mutableCopy] c:3] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"259", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	[self eq:2 v2:[ (((id)($this:(snd ctx.path)) id f = func
-	__r__3 = ^(float *c){
+	__r__3 = ^(float c){
+		
 		return [f:2 b:[@"3" mutableCopy] c:c];
 	}
 	return __r__3{
@@ -404,6 +486,7 @@
 	}(self))):3] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"260", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	[self eq:2 v2:[ (((id)($this:(snd ctx.path)) id f = func
 	__r__4 = ^(){
+		
 		return [f:2 b:[@"3" mutableCopy] c:4];
 	}
 	return __r__4{
@@ -411,7 +494,8 @@
 		id* __r__4}
 	}(self)))] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"261", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	[self eq:1 v2:[ (((id)($this:(snd ctx.path)) id f = func
-	__r__5 = ^(int *a){
+	__r__5 = ^(int a){
+		
 		return [f:a b:[@"2" mutableCopy] c:3];
 	}
 	return __r__5{
@@ -419,7 +503,8 @@
 		id* __r__5}
 	}(self))):1] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"263", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	[self eq:1 v2:[ (((id)($this:(snd ctx.path)) id f = func
-	__r__6 = ^(int *a, float *c){
+	__r__6 = ^(int a, float c){
+		
 		return [f:a b:[@"2" mutableCopy] c:c];
 	}
 	return __r__6{
@@ -427,7 +512,8 @@
 		id* __r__6}
 	}(self))):1 c:3] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"264", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	[self eq:1 v2:[ (((id)($this:(snd ctx.path)) id f = func
-	__r__7 = ^(int *a, NSMutableString *b, float *c){
+	__r__7 = ^(int a, NSMutableString *b, float c){
+		
 		return [f:a b:b c:c];
 	}
 	return __r__7{
@@ -435,7 +521,8 @@
 		id* __r__7}
 	}(self))):1 b:[@"2" mutableCopy] c:3] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"265", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	[self eq:1 v2:[ (((id)($this:(snd ctx.path)) id f = func
-	__r__8 = ^(int *a, float *c){
+	__r__8 = ^(int a, float c){
+		
 		return [f:a b:[@"2" mutableCopy] c:c];
 	}
 	return __r__8{
@@ -443,14 +530,16 @@
 		id* __r__8}
 	}(self))):1 c:2] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"267", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	[self eq:1 v2:[ (((id)($this:(snd ctx.path)) id f = ((id)($this:(snd ctx.path)) id f1 = func
-	__r__10 = ^(int *a, NSMutableString *b, float *c){
+	__r__10 = ^(int a, NSMutableString *b, float c){
+		
 		return [f1:a b:b c:c];
 	}
 	return __r__10{
 		
 		id* __r__10}
 	}(self))
-	__r__9 = ^(int *a){
+	__r__9 = ^(int a){
+		
 		return [f:a b:[@"2" mutableCopy] c:3];
 	}
 	return __r__9{
@@ -458,7 +547,8 @@
 		id* __r__9}
 	}(self))):1] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"269", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	[self eq:1 v2:[ (((id)($this:(snd ctx.path)) id f = ((id)($this:(snd ctx.path)) id f1 = func
-	__r__12 = ^(NSMutableString *b, float *c){
+	__r__12 = ^(NSMutableString *b, float c){
+		
 		return [f1:1 b:b c:c];
 	}
 	return __r__12{
@@ -466,6 +556,7 @@
 		id* __r__12}
 	}(self))
 	__r__11 = ^(){
+		
 		return [f:[@"2" mutableCopy] c:3];
 	}
 	return __r__11{
@@ -473,14 +564,16 @@
 		id* __r__11}
 	}(self)))] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"270", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	[self eq:1 v2:[ (((id)($this:(snd ctx.path)) id f = ((id)($this:(snd ctx.path)) id f1 = func
-	__r__14 = ^(NSMutableString *b, float *c){
+	__r__14 = ^(NSMutableString *b, float c){
+		
 		return [f1:1 b:b c:c];
 	}
 	return __r__14{
 		
 		id* __r__14}
 	}(self))
-	__r__13 = ^(float *c){
+	__r__13 = ^(float c){
+		
 		return [f:[@"2" mutableCopy] c:c];
 	}
 	return __r__13{
@@ -488,14 +581,16 @@
 		id* __r__13}
 	}(self))):3] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"271", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	[self eq:1 v2:[ (((id)($this:(snd ctx.path)) id f = ((id)($this:(snd ctx.path)) id f1 = func
-	__r__16 = ^(int *a, float *c){
+	__r__16 = ^(int a, float c){
+		
 		return [f1:a b:[@"2" mutableCopy] c:c];
 	}
 	return __r__16{
 		
 		id* __r__16}
 	}(self))
-	__r__15 = ^(float *c){
+	__r__15 = ^(float c){
+		
 		return [f:1 c:c];
 	}
 	return __r__15{
@@ -506,7 +601,8 @@
 	
 	NSMutableString *b = [@"foo" mutableCopy];
 	id cb = ((id)($this:(snd ctx.path)) id f = func; int a1 = a
-	__r__17 = ^(NSMutableString *b1, float *c){
+	__r__17 = ^(NSMutableString *b1, float c){
+		
 		return [f:a1 b:b1 c:c];
 	}
 	return __r__17{
@@ -514,7 +610,8 @@
 		id* __r__17}
 	}(self));
 	a = 6;
-	func = ^(int *a1, NSMutableString *b1, float *c){
+	func = ^(int a1, NSMutableString *b1, float c){
+		
 		return ^(int)@throw [@"error" mutableCopy];
 		return __r__18{
 			
@@ -522,11 +619,13 @@
 		}();
 	}
 	[self eq:5 v2:[cb:b c:0] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"279", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
-	id optfunc = ^(int *a1, int *b1, int *c){
+	id optfunc = ^(int a1, int b1, int c){
+		
 		return a1 + b1 + c;
-	}
+	};
 	[self eq:6 v2:[ (((id)($this:(snd ctx.path)) id f = optfunc
-	__r__19 = ^(int *b1){
+	__r__19 = ^(int b1){
+		
 		return [f:1 b:b1 c:nil];
 	}
 	return __r__19{
@@ -535,6 +634,7 @@
 	}(self))):3] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"282", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	[self eq:6 v2:[ (((id)($this:(snd ctx.path)) id f = optfunc
 	__r__20 = ^(){
+		
 		return [f:1 b:3 c:nil];
 	}
 	return __r__20{
@@ -542,7 +642,8 @@
 		id* __r__20}
 	}(self)))] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"283", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	[self eq:7 v2:[ (((id)($this:(snd ctx.path)) id f = optfunc
-	__r__21 = ^(int *a1, int *b1, int *c){
+	__r__21 = ^(int a1, int b1, int c){
+		
 		return [f:a1 b:b1 c:c];
 	}
 	return __r__21{
@@ -550,18 +651,21 @@
 		id* __r__21}
 	}(self))):1 b:2 c:4] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"285", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	[self eq:7 v2:[ (((id)($this:(snd ctx.path)) id f = optfunc
-	__r__22 = ^(int *a1, int *c){
+	__r__22 = ^(int a1, int c){
+		
 		return [f:a1 b:2 c:c];
 	}
 	return __r__22{
 		
 		id* __r__22}
 	}(self))):1 c:4] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"286", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
-	id foo = ^(int *x, id *p){
+	id foo = ^(int x, id p){
+		
 		return [[@"foo" mutableCopy] stringByAppendingString:x];
-	}
+	};
 	id f = ((id)($this:(snd ctx.path)) id f1 = foo
 	__r__23 = ^(){
+		
 		return [f1:0 p:@{@"fileName":@"TestType.hx", @"lineNumber":@"289", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	}
 	return __r__23{
@@ -569,11 +673,13 @@
 		id* __r__23}
 	}(self));
 	[self eq:[@"foo0" mutableCopy] v2:[f] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"290", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
-	id foo1 = ^(int *bar){
+	id foo1 = ^(int bar){
+		
 		return bar;
-	}
+	};
 	id l = ((id)($this:(snd ctx.path)) id f1 = foo1
-	__r__24 = ^(int *a1){
+	__r__24 = ^(int a1){
+		
 		return [f1:a1];
 	}
 	return __r__24{
@@ -581,11 +687,13 @@
 		id* __r__24}
 	}(self));
 	[self eq:2 v2:[l] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"298", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
-	id foo2 = ^(int *bar){
+	id foo2 = ^(int bar){
+		
 		return bar;
-	}
+	};
 	id l1 = ((id)($this:(snd ctx.path)) id f1 = foo2
-	__r__25 = ^(int *a1){
+	__r__25 = ^(int a1){
+		
 		return [f1:a1];
 	}
 	return __r__25{
@@ -595,17 +703,21 @@
 	[self eq:2 v2:[l1] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"304", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 }
 - (void) testConstantAnonCovariance{
-	id func = ^(NSMutableString *str, id *str1, id *str2){
-	}
+	
+	id func = ^(NSMutableString *str, id str1, id str2){
+		
+	};
 	id a;
 	id b = [@"bar" mutableCopy];
 	[self f:NO pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"312", @"className":@"unit.TestType", @"methodName":@"testConstantAnonCovariance"}];
 	[self f:NO pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"313", @"className":@"unit.TestType", @"methodName":@"testConstantAnonCovariance"}];
 	{
+		
 		count++;
 		[self eq:[@"TAnonymous(<anonymous>)" mutableCopy] v2:[@"TAnonymous(<anonymous>)" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"314", @"className":@"unit.TestType", @"methodName":@"testConstantAnonCovariance"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TAnonymous(<anonymous>)" mutableCopy] v2:[@"TAnonymous(<anonymous>)" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"315", @"className":@"unit.TestType", @"methodName":@"testConstantAnonCovariance"}];
 	}
@@ -618,6 +730,7 @@
 	[self t:YES pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"322", @"className":@"unit.TestType", @"methodName":@"testConstantAnonCovariance"}];
 	[self t:YES pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"323", @"className":@"unit.TestType", @"methodName":@"testConstantAnonCovariance"}];
 	{
+		
 		count++;
 		[self eq:[@"TAnonymous(<anonymous>)" mutableCopy] v2:[@"TAnonymous(<anonymous>)" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"324", @"className":@"unit.TestType", @"methodName":@"testConstantAnonCovariance"}];
 	}
@@ -627,6 +740,7 @@
 }
 - (void) testCovariantReturn{
 	
+	
 	Base *b = nil;
 	
 	Child1 *c1 = nil;
@@ -635,6 +749,7 @@
 	
 	Cov2 *c = [[Cov2 alloc] init];
 	{
+		
 		count++;
 		[self eq:[@"TInst(unit.Child1,[])" mutableCopy] v2:[@"TInst(unit.Child1,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"337", @"className":@"unit.TestType", @"methodName":@"testCovariantReturn"}];
 	}
@@ -643,6 +758,7 @@
 	
 	Cov1 *br = c;
 	{
+		
 		count++;
 		[self eq:[@"TInst(unit.Base,[])" mutableCopy] v2:[@"TInst(unit.Base,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"343", @"className":@"unit.TestType", @"methodName":@"testCovariantReturn"}];
 	}
@@ -650,6 +766,7 @@
 	
 	CovI *ir = c;
 	{
+		
 		count++;
 		[self eq:[@"TInst(unit.Base,[])" mutableCopy] v2:[@"TInst(unit.Base,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"348", @"className":@"unit.TestType", @"methodName":@"testCovariantReturn"}];
 	}
@@ -659,33 +776,41 @@
 	
 	Cov3 *c3 = [[Cov3 alloc] init];
 	{
+		
 		count++;
 		[self eq:[@"TInst(unit.Child2_1,[])" mutableCopy] v2:[@"TInst(unit.Child2_1,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"357", @"className":@"unit.TestType", @"methodName":@"testCovariantReturn"}];
 	}
 	[self t:[Std is:[c3 covariant] t:Child2_1] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"358", @"className":@"unit.TestType", @"methodName":@"testCovariantReturn"}];
 }
 - (void) testContravariantArgs{
+	
 	id b = ^(Base *arg){
-	}
+		
+	};
 	id c1 = ^(Child1 *arg){
-	}
+		
+	};
 	
 	Ctrv2 *c = [[Ctrv2 alloc] init];
 	{
+		
 		count++;
 		[self eq:[@"TFun([{ name => arg, t => TInst(unit.Base,[]), opt => false }],TAbstract(Void,[]))" mutableCopy] v2:[@"TFun([{ name => arg, t => TInst(unit.Base,[]), opt => false }],TAbstract(Void,[]))" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"367", @"className":@"unit.TestType", @"methodName":@"testContravariantArgs"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TFun([{ name => arg, t => TInst(unit.Child1,[]), opt => false }],TAbstract(Void,[]))" mutableCopy] v2:[@"TFun([{ name => arg, t => TInst(unit.Child1,[]), opt => false }],TAbstract(Void,[]))" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"368", @"className":@"unit.TestType", @"methodName":@"testContravariantArgs"}];
 	}
 }
 - (void) testInlineCast{
 	
-	NSMutableString *s = [(InlineCastB*)[[InlineCastB alloc]  self] quote];
+	
+	NSMutableString *s = [(InlineCastB*)[[InlineCastB alloc]  _self] quote];
 	[self eq:s v2:[@"I am the greatest." mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"373", @"className":@"unit.TestType", @"methodName":@"testInlineCast"}];
 }
 - (void) testInitFields{
+	
 	
 	InitBase *c = [[InitBase alloc] init];
 	[self eq:c.i v2:2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"379", @"className":@"unit.TestType", @"methodName":@"testInitFields"}];
@@ -715,35 +840,44 @@
 	[self eq:c4.accNever v2:3 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"403", @"className":@"unit.TestType", @"methodName":@"testInitFields"}];
 	[self eq:c4.accDynamic v2:3 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"404", @"className":@"unit.TestType", @"methodName":@"testInitFields"}];
 	[self exc:^(){
+		
 		[c4 set_accFunc:4];
 	} pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"405", @"className":@"unit.TestType", @"methodName":@"testInitFields"}];
 }
 - (void) testReturnFlow{
+	
 	id l = ^(){
+		
 		while (YES) return [@"foo" mutableCopy];
 		return nil;
-	}
+	};
 	[self eq:[l] v2:[@"foo" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"418", @"className":@"unit.TestType", @"methodName":@"testReturnFlow"}];
 }
 - (void) testOptionalParamsSkip{
-	id foo = ^(MyEnum *a, BOOL *b, MyEnum *c){
+	
+	id foo = ^(MyEnum a, BOOL b, MyEnum c){
+		
 		return [@"" mutableCopy];
-	}
+	};
 	{
+		
 		count++;
 		[self eq:[@"TInst(String,[])" mutableCopy] v2:[@"TInst(String,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"425", @"className":@"unit.TestType", @"methodName":@"testOptionalParamsSkip"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TInst(String,[])" mutableCopy] v2:[@"TInst(String,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"426", @"className":@"unit.TestType", @"methodName":@"testOptionalParamsSkip"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TInst(String,[])" mutableCopy] v2:[@"TInst(String,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"427", @"className":@"unit.TestType", @"methodName":@"testOptionalParamsSkip"}];
 	}
 	YES;
 }
 - (void) testParamConstraints{
+	
 	
 	ParamConstraintsClass *pcc = [[ParamConstraintsClass alloc] init];
 	
@@ -783,11 +917,13 @@
 	[pcc22 check:[@[[@"foo" mutableCopy]] mutableCopy]];
 }
 - (void) testUsing{
+	
 	[self eq:[UsingChild1 test] v2:[@"FOOFOOFOO" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"490", @"className":@"unit.TestType", @"methodName":@"testUsing"}];
 	[self eq:[UsingChild2 test] v2:[@"FOO" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"491", @"className":@"unit.TestType", @"methodName":@"testUsing"}];
 	[self eq:[UsingUnrelated test] v2:[@"FOOFOO" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"492", @"className":@"unit.TestType", @"methodName":@"testUsing"}];
 }
 - (void) testInlineInit{
+	
 	[self eq:2 v2:2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"497", @"className":@"unit.TestType", @"methodName":@"testInlineInit"}];
 	[self eq:27 v2:27 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"498", @"className":@"unit.TestType", @"methodName":@"testInlineInit"}];
 	[self eq:6 v2:6 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"499", @"className":@"unit.TestType", @"methodName":@"testInlineInit"}];
@@ -795,58 +931,65 @@
 	[self eq:60000. v2:60000. pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"501", @"className":@"unit.TestType", @"methodName":@"testInlineInit"}];
 }
 - (void) testInline{
+	
 	{
+		
 		count++;
 		[self eq:[@"TAbstract(Void,[])" mutableCopy] v2:[@"TAbstract(Void,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"506", @"className":@"unit.TestType", @"methodName":@"testInline"}];
 	}
 	{
+		
 		count++;
 		[self eq:[@"TAbstract(Void,[])" mutableCopy] v2:[@"TAbstract(Void,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"507", @"className":@"unit.TestType", @"methodName":@"testInline"}];
 	}
 }
 - (void) inlineTest1:(NSMutableArray*)map{
-	[map hx_objectAtIndex:0];
+	
+	((T*)[map hx_objectAtIndex:0]);
 }
 - (void) inlineTest2:(NSMutableArray*)map{
-	[map hx_objectAtIndex:0];
+	
+	((id)[map hx_objectAtIndex:0]);
 }
 - (void) testMacroRest{
 	
+	
 	NSMutableArray *r = [@[@1, @2, @3] mutableCopy];
 	[self eq:r.length v2:3 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"521", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
-	[self eq:[r hx_objectAtIndex:0] v2:1 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"522", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
-	[self eq:[r hx_objectAtIndex:1] v2:2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"523", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
-	[self eq:[r hx_objectAtIndex:2] v2:3 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"524", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
+	[self eq:((NSMutableArray*)[r hx_objectAtIndex:0]) v2:1 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"522", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
+	[self eq:((NSMutableArray*)[r hx_objectAtIndex:1]) v2:2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"523", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
+	[self eq:((NSMutableArray*)[r hx_objectAtIndex:2]) v2:3 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"524", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
 	
 	NSMutableArray *r1 = [@[@1, [@[@2, @3] mutableCopy]] mutableCopy];
 	[self eq:r1.length v2:2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"527", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
-	[self eq:[r1 hx_objectAtIndex:0] v2:1 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"528", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
-	[self eq:[[r1 hx_objectAtIndex:1] hx_objectAtIndex:0] v2:2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"529", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
-	[self eq:[[r1 hx_objectAtIndex:1] hx_objectAtIndex:1] v2:3 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"530", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
+	[self eq:((int)[r1 hx_objectAtIndex:0]) v2:1 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"528", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
+	[self eq:((NSMutableArray*)[((NSMutableArray)[r1 hx_objectAtIndex:1]) hx_objectAtIndex:0]) v2:2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"529", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
+	[self eq:((NSMutableArray*)[((NSMutableArray)[r1 hx_objectAtIndex:1]) hx_objectAtIndex:1]) v2:3 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"530", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
 	
 	NSMutableArray *r2 = [@[@1] mutableCopy];
 	[self eq:r2.length v2:1 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"533", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
-	[self eq:[r2 hx_objectAtIndex:0] v2:1 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"534", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
+	[self eq:((NSMutableArray*)[r2 hx_objectAtIndex:0]) v2:1 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"534", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
 	
 	NSMutableArray *r3 = [@[@1, @2, @3, @4] mutableCopy];
 	[self eq:r3.length v2:4 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"537", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
-	[self eq:[r3 hx_objectAtIndex:0] v2:1 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"538", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
-	[self eq:[r3 hx_objectAtIndex:1] v2:2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"539", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
-	[self eq:[r3 hx_objectAtIndex:2] v2:3 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"540", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
-	[self eq:[r3 hx_objectAtIndex:3] v2:4 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"541", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
+	[self eq:((NSMutableArray*)[r3 hx_objectAtIndex:0]) v2:1 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"538", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
+	[self eq:((NSMutableArray*)[r3 hx_objectAtIndex:1]) v2:2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"539", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
+	[self eq:((NSMutableArray*)[r3 hx_objectAtIndex:2]) v2:3 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"540", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
+	[self eq:((NSMutableArray*)[r3 hx_objectAtIndex:3]) v2:4 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"541", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
 	
 	NSMutableArray *r4 = [@[@1, @2] mutableCopy];
 	[self eq:r4.length v2:2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"544", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
-	[self eq:[r4 hx_objectAtIndex:0] v2:1 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"545", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
-	[self eq:[r4 hx_objectAtIndex:1] v2:2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"546", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
+	[self eq:((NSMutableArray*)[r4 hx_objectAtIndex:0]) v2:1 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"545", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
+	[self eq:((NSMutableArray*)[r4 hx_objectAtIndex:1]) v2:2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"546", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
 	
 	NSMutableArray *r5 = [@[@1, @2, [@[@3] mutableCopy]] mutableCopy];
 	[self eq:r5.length v2:3 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"549", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
-	[self eq:[r5 hx_objectAtIndex:0] v2:1 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"550", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
-	[self eq:[r5 hx_objectAtIndex:1] v2:2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"551", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
-	[self eq:[[r5 hx_objectAtIndex:2] hx_objectAtIndex:0] v2:3 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"552", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
+	[self eq:((int)[r5 hx_objectAtIndex:0]) v2:1 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"550", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
+	[self eq:((int)[r5 hx_objectAtIndex:1]) v2:2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"551", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
+	[self eq:((NSMutableArray*)[((NSMutableArray)[r5 hx_objectAtIndex:2]) hx_objectAtIndex:0]) v2:3 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"552", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
 }
 - (void) testGenericFunction{
+	
 	[TestType gf1_Int:2];
 	[TestType gf1_String:[@"foo" mutableCopy]];
 	[TestType gf1_Bool:YES];
@@ -865,20 +1008,21 @@
 	[self hsf:TestType n:[@"gf2_String_Array" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"582", @"className":@"unit.TestType", @"methodName":@"testGenericFunction"}];
 	
 	NSMutableArray *a = [TestType gf3_String_Array:[@"foo" mutableCopy] b:[@[[@"bar" mutableCopy], [@"baz" mutableCopy]] mutableCopy]];
-	[self eq:[a hx_objectAtIndex:0] v2:[@"bar" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"585", @"className":@"unit.TestType", @"methodName":@"testGenericFunction"}];
-	[self eq:[a hx_objectAtIndex:1] v2:[@"baz" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"586", @"className":@"unit.TestType", @"methodName":@"testGenericFunction"}];
-	[self eq:[a hx_objectAtIndex:2] v2:[@"foo" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"587", @"className":@"unit.TestType", @"methodName":@"testGenericFunction"}];
+	[self eq:((NSMutableArray*)[a hx_objectAtIndex:0]) v2:[@"bar" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"585", @"className":@"unit.TestType", @"methodName":@"testGenericFunction"}];
+	[self eq:((NSMutableArray*)[a hx_objectAtIndex:1]) v2:[@"baz" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"586", @"className":@"unit.TestType", @"methodName":@"testGenericFunction"}];
+	[self eq:((NSMutableArray*)[a hx_objectAtIndex:2]) v2:[@"foo" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"587", @"className":@"unit.TestType", @"methodName":@"testGenericFunction"}];
 	[self hsf:TestType n:[@"gf3_String_Array" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"588", @"className":@"unit.TestType", @"methodName":@"testGenericFunction"}];
 	
 	Template *t = [[Template alloc] init:[@"foo" mutableCopy]];
 	
-	Template *ta = [[TestType gf3_haxe_Template_Array:t b:[@[] mutableCopy]] hx_objectAtIndex:0];
+	Template *ta = ((NSMutableArray*)[[TestType gf3_haxe_Template_Array:t b:[@[] mutableCopy]] hx_objectAtIndex:0]);
 	[self f:t == ta pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"593", @"className":@"unit.TestType", @"methodName":@"testGenericFunction"}];
 	[self hsf:TestType n:[@"gf3_haxe_Template_Array" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"594", @"className":@"unit.TestType", @"methodName":@"testGenericFunction"}];
 	[self eq:[TestType overloadFake_Int:1] v2:1 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"597", @"className":@"unit.TestType", @"methodName":@"testGenericFunction"}];
 	[self eq:[TestType overloadFake_String:[@"bar" mutableCopy]] v2:[@"barfoo" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"598", @"className":@"unit.TestType", @"methodName":@"testGenericFunction"}];
 }
 - (void) testCompletion{
+	
 	id s = [@{
 		@"foo":[@1 copy],
 	} mutableCopy];
@@ -895,11 +1039,13 @@
 		}
 	}
 	id f = ^(){
+		
 		return [([@[s] mutableCopy])-fa8-iterator];
-	}
+	};
 	[self eq:[@"foo:Int" mutableCopy] v2:[@"foo:Int" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"656", @"className":@"unit.TestType", @"methodName":@"testCompletion"}];
 }
 - (void) testSuperPropAccess{
+	
 	
 	ChildSuperProp *c = [[ChildSuperProp alloc] init];
 	[self eq:[c get_prop] v2:2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"662", @"className":@"unit.TestType", @"methodName":@"testSuperPropAccess"}];
@@ -908,27 +1054,34 @@
 	[self eq:[[c get_fProp]:9] v2:[@"test09" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"665", @"className":@"unit.TestType", @"methodName":@"testSuperPropAccess"}];
 }
 - (void) testVoidFunc{
+	
 	[self exc:^(){
+		
 		@throw nil;;
 		return 1;
 	} pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"669", @"className":@"unit.TestType", @"methodName":@"testVoidFunc"}];
 	[self exc:^(){
+		
 		@throw nil;;
 		return [@"foo" mutableCopy];
 	} pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"670", @"className":@"unit.TestType", @"methodName":@"testVoidFunc"}];
 	[self exc:^(){
+		
 		@throw nil;;
 		return A;
 	} pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"671", @"className":@"unit.TestType", @"methodName":@"testVoidFunc"}];
 	[self exc:^(){
+		
 		@throw nil;;
 		return [[Template alloc] init:[@"foo" mutableCopy]];
 	} pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"673", @"className":@"unit.TestType", @"methodName":@"testVoidFunc"}];
 	[self exc:^(){
+		
 		@throw nil;;
 		return nil;
 	} pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"675", @"className":@"unit.TestType", @"methodName":@"testVoidFunc"}];
 	[self exc:^(){
+		
 		@throw nil;;
 		return [@{
 			@"foo":[@1 copy],
@@ -936,6 +1089,7 @@
 	} pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"676", @"className":@"unit.TestType", @"methodName":@"testVoidFunc"}];
 }
 - (void) testAbstractCastConstraints{
+	
 	
 	AbstractZ *z = [[AbstractBase alloc] init:[@"foo" mutableCopy]];
 	
@@ -950,6 +1104,7 @@
 }
 - (void) testOpArrow{
 	
+	
 	IntMap *m = [[IntMap alloc] init];
 	
 	Map *map = ((Map)($this:(snd ctx.path)) 
@@ -962,6 +1117,7 @@
 		Map* __r__}
 	}(self));
 	{
+		
 		count++;
 		[self eq:[@"TAbstract(Map,[TAbstract(Int,[]),TAbstract(Int,[])])" mutableCopy] v2:[@"TAbstract(Map,[TAbstract(Int,[]),TAbstract(Int,[])])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"698", @"className":@"unit.TestType", @"methodName":@"testOpArrow"}];
 	}
@@ -981,6 +1137,7 @@
 		Map* __r__2}
 	}(self));
 	{
+		
 		count++;
 		[self eq:[@"TAbstract(Map,[TInst(String,[]),TAbstract(Int,[])])" mutableCopy] v2:[@"TAbstract(Map,[TInst(String,[]),TAbstract(Int,[])])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"705", @"className":@"unit.TestType", @"methodName":@"testOpArrow"}];
 	}
@@ -1004,6 +1161,7 @@
 		Map* __r__3}
 	}(self));
 	{
+		
 		count++;
 		[self eq:[@"TAbstract(Map,[TInst(unit.ClassWithHashCode,[]),TAbstract(Int,[])])" mutableCopy] v2:[@"TAbstract(Map,[TInst(unit.ClassWithHashCode,[]),TAbstract(Int,[])])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"714", @"className":@"unit.TestType", @"methodName":@"testOpArrow"}];
 	}
@@ -1014,6 +1172,7 @@
 	[self t:YES pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"724", @"className":@"unit.TestType", @"methodName":@"testOpArrow"}];
 }
 - (void) testAbstractGeneric{
+	
 	
 	StringMap *map = [[StringMap alloc] init];
 	[map set:[@"foo" mutableCopy] v:1];
@@ -1045,13 +1204,15 @@
 }
 - (void) testAbstractOverload{
 	
+	
 	MyString *ms1 = [@"foo" mutableCopy];
 	
 	MyString *ms2 = [@"bar" mutableCopy];
 	
-	MyString *msum = [Std string:ms1] + [Std string:ms2];
+	MyString *msum = [[Std string:ms1] stringByAppendingString:[Std string:ms2]];
 	[self eq:msum v2:[@"foobar" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"776", @"className":@"unit.TestType", @"methodName":@"testAbstractOverload"}];
 	{
+		
 		count++;
 		[self eq:[@"TAbstract(unit.MyString,[])" mutableCopy] v2:[@"TAbstract(unit.MyString,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"777", @"className":@"unit.TestType", @"methodName":@"testAbstractOverload"}];
 	}
@@ -1060,6 +1221,7 @@
 	MyString *msum2 = [[Std string:ms1] stringByAppendingString:@"1"];
 	[self eq:msum2 v2:[@"foo1" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"781", @"className":@"unit.TestType", @"methodName":@"testAbstractOverload"}];
 	{
+		
 		count++;
 		[self eq:[@"TAbstract(unit.MyString,[])" mutableCopy] v2:[@"TAbstract(unit.MyString,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"782", @"className":@"unit.TestType", @"methodName":@"testAbstractOverload"}];
 	}
@@ -1068,6 +1230,7 @@
 	[self t:YES pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"788", @"className":@"unit.TestType", @"methodName":@"testAbstractOverload"}];
 }
 - (void) testAbstractUnop{
+	
 	
 	MyVector *vec = [[MyPoint3 alloc] init:1 y:2 z:3];
 	
@@ -1079,6 +1242,7 @@
 	MyInt2 *my = (MyInt2*)12;
 	[self eq:[MyInt2_Impl_ get:(MyInt2*)-my] v2:-12 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"799", @"className":@"unit.TestType", @"methodName":@"testAbstractUnop"}];
 	{
+		
 		count++;
 		[self eq:[@"TAbstract(unit.MyInt2,[])" mutableCopy] v2:[@"TAbstract(unit.MyInt2,[])" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"800", @"className":@"unit.TestType", @"methodName":@"testAbstractUnop"}];
 	}
@@ -1089,14 +1253,17 @@
 }
 - (void) testMapComprehension{
 	
+	
 	Map *map = ((Map)($this:(snd ctx.path)) 
 	StringMap *_g = [[StringMap alloc] init]
 	{
+		
 		int _g1 = 0; 
 		NSMutableArray *_g2 = [@[[@"a" mutableCopy], [@"b" mutableCopy]] mutableCopy];
 		while (_g1 < _g2.length) {
 			
-			NSMutableString *x = [_g2 hx_objectAtIndex:_g1];
+			
+			NSMutableString *x = ((CASTTMono-TMonoSome-NSMutableArrayNSMutableString*)[_g2 hx_objectAtIndex:_g1]);
 			++_g1;
 			[_g set:x v:[x toUpperCase]];
 		}
@@ -1112,6 +1279,7 @@
 	[self eq:[map get:[@"b" mutableCopy]] v2:[@"B" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"814", @"className":@"unit.TestType", @"methodName":@"testMapComprehension"}];
 }
 - (void) testCustomArrayAccess{
+	
 	id obj = [@{
 		@"foo":[@12 copy],
 		@"bar":[[@"test" mutableCopy] copy],
@@ -1121,18 +1289,21 @@
 	[self eq:[Reflect field:mr field:[@"foo" mutableCopy]] v2:12 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"823", @"className":@"unit.TestType", @"methodName":@"testCustomArrayAccess"}];
 	[self eq:[Reflect field:mr field:[@"bar" mutableCopy]] v2:[@"test" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"824", @"className":@"unit.TestType", @"methodName":@"testCustomArrayAccess"}];
 	{
+		
 		if (mr != nil) [mr hx_set_field:[@"foo" mutableCopy] :11 :NO];
 		11;
 	}
 	[self eq:[Reflect field:mr field:[@"foo" mutableCopy]] v2:11 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"826", @"className":@"unit.TestType", @"methodName":@"testCustomArrayAccess"}];
 	{
-		id value = [[Reflect field:mr field:[@"foo" mutableCopy]] stringByAppendingString:@"99"];
+		
+		id value = isstringCASTTDynamic[Reflect field:mr field:[@"foo" mutableCopy]] + 99;
 		if (mr != nil) [mr hx_set_field:[@"foo" mutableCopy] :value :NO];
 		value;
 	}
 	[self eq:[Reflect field:mr field:[@"foo" mutableCopy]] v2:110 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"828", @"className":@"unit.TestType", @"methodName":@"testCustomArrayAccess"}];
 	{
-		id value = ((id)($this:(snd ctx.path)) id value1 = [Reflect field:mr field:[@"bar" mutableCopy]] + [Reflect field:mr field:[@"foo" mutableCopy]]
+		
+		id value = ((id)($this:(snd ctx.path)) id value1 = isstringCASTTDynamicisstringCASTTDynamic[Reflect field:mr field:[@"bar" mutableCopy]] + [Reflect field:mr field:[@"foo" mutableCopy]]
 		if (mr != nil) [mr hx_set_field:[@"bar" mutableCopy] :value1 :NO]
 		__r__ = value1
 		return __r__{
@@ -1147,24 +1318,29 @@
 	
 	NSMutableString *v = [@"hh" mutableCopy];
 	{
+		
 		if (mr != nil) [mr hx_set_field:v :1 :NO];
 		1;
 	}
 	{
+		
 		if (mr != nil) [mr hx_set_field:[v appendString:[@"h" mutableCopy]] :2 :NO];
 		2;
 	}
 	[self eq:[Reflect field:mr field:[@"hhh" mutableCopy]] v2:2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"836", @"className":@"unit.TestType", @"methodName":@"testCustomArrayAccess"}];
 	[self eq:v v2:[@"hhh" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"837", @"className":@"unit.TestType", @"methodName":@"testCustomArrayAccess"}];
 	{
+		
 		if (mr != nil) [mr hx_set_field:[@"hhhh" mutableCopy] :0 :NO];
 		0;
 	}
 	{
 		
+		
 		NSMutableString *_g = [v appendString:[@"h" mutableCopy]];
 		{
-			id value = [[Reflect field:mr field:_g] stringByAppendingString:@"4"];
+			
+			id value = isstringCASTTDynamic[Reflect field:mr field:_g] + 4;
 			if (mr != nil) [mr hx_set_field:_g :value :NO];
 			value;
 		}
@@ -1173,8 +1349,10 @@
 	[self eq:[Reflect field:mr field:[@"hhh" mutableCopy]] v2:2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"842", @"className":@"unit.TestType", @"methodName":@"testCustomArrayAccess"}];
 	[self eq:v v2:[@"hhhh" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"843", @"className":@"unit.TestType", @"methodName":@"testCustomArrayAccess"}];
 	{
-		id value = ((id)($this:(snd ctx.path)) id n = ^(int *x){
-			return [@"9" stringByAppendingString:x];
+		
+		id value = ((id)($this:(snd ctx.path)) id n = ^(int x){
+			
+			return 9 + x;
 		}
 		__r__2 = n
 		return __r__2{
@@ -1187,6 +1365,7 @@
 	[self eq:[[Reflect field:mr field:[@"101" mutableCopy]]:1] v2:10 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"847", @"className":@"unit.TestType", @"methodName":@"testCustomArrayAccess"}];
 }
 - (void) testAbstractClosure{
+	
 	
 	MyAbstractClosure *s = [MyAbstractClosure_Impl_ _new:[@"foo" mutableCopy]];
 	id func1 = [MyAbstractClosure_Impl_ test:s];

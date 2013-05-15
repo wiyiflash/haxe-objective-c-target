@@ -11,6 +11,7 @@
 
 @synthesize d1;
 - (id) init{
+	
 	self = [super init];
 	self.d1 = 34;
 	return self;

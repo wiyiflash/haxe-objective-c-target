@@ -73,28 +73,30 @@ static Timer* timer;
 + (void) setTimer:(Timer*)hx_val {
 	timer = hx_val;
 }
-// Defining a dynamic method
+// Dynamic method defined with an objc method and a block property
 + (void) report:(NSMutableString*)msg pos:(id)pos{
+	if ( hx_dyn_report ) { hx_dyn_report(msg, pos); return; }
 	// Optional arguments
 	if (!pos) pos = nil;
 	
-	if (reportInfos != nil) {
-		[msg appendString:[[[@" (" mutableCopy] stringByAppendingString:reportInfos] stringByAppendingString:[@")" mutableCopy]]];
-		reportInfos = nil;
-	}
-	[Log trace:msg infos:pos];
-	reportCount++;
-	if (reportCount == 50) {
-		[Log trace:[@"Too many errors" mutableCopy] infos:@{@"fileName":@"Test.hx", @"lineNumber":@"154", @"className":@"unit.Test", @"methodName":@"report"}];
-		Test report = ^(NSMutableString *msg1, id *pos1){
-		}
-	}
+	if (reportInfos != nil) [msg appendString:[[[@" (" mutableCopy] stringByAppendingString:reportInfos] stringByAppendingString:[@")" mutableCopy]]];
+	reportInfos = nil;
 }
-@synthesize property_report;
+[Log trace:msg infos:pos];
+reportCount++;
+if (reportCount == 50) [Log trace:[@"Too many errors" mutableCopy] infos:@{@"fileName":@"Test.hx", @"lineNumber":@"154", @"className":@"unit.Test", @"methodName":@"report"}];
+Test report = ^(NSMutableString *msg1, id pos1){
+	
+}
+/*?*/}
+/*?*/}
+@synthesize hx_dyn_report;
 
-+ (void) checkDone{
+/*?*/+ (void) checkDone{
+	
 	if (asyncWaits.length != 0) return;
 	if (asyncCache.length == 0) {
+		
 		[Test report:[[[@"DONE [" mutableCopy] stringByAppendingString:count] stringByAppendingString:[@" tests]" mutableCopy]] pos:@{@"fileName":@"Test.hx", @"lineNumber":@"163", @"className":@"unit.Test", @"methodName":@"checkDone"}];
 		return;
 	}
@@ -102,12 +104,15 @@ static Timer* timer;
 	while (asyncCache.length > 0 && asyncWaits.length < AMAX) [[asyncCache shift]];
 }
 + (void) asyncTimeout{
+	
 	if (asyncWaits.length == 0) return;
 	{
+		
 		int _g = 0; 
 		NSMutableArray *_g1 = asyncWaits;
 		while (_g < _g1.length) {
-			id pos = [_g1 hx_objectAtIndex:_g];
+			
+			id pos = ((NSMutableArray*)[_g1 hx_objectAtIndex:_g]);
 			++_g;
 			[Test report:[@"TIMEOUT" mutableCopy] pos:pos];
 		}
@@ -116,19 +121,23 @@ static Timer* timer;
 	[Test checkDone];
 }
 + (void) resetTimer{
+	
 	if (Test.timer != nil) [Test.timer stop];
 	Test.timer = [[Timer alloc] init:10000];
-	Test.timer.run = Test asyncTimeout;
+	Test.timer.hx_dyn_run = Test asyncTimeout;
 }
 + (void) onError:(id)e msg:(NSMutableString*)msg context:(NSMutableString*)context{
+	
 	
 	NSMutableString *msg1 = [@"???" mutableCopy];
 	
 	NSMutableString *stack = [CallStack toString:[CallStack exceptionStack]];
 	@try {
+		
 		msg1 = [Std string:e];
 	}
 	@catch (NSException *e1) {
+		
 	}
 	reportCount = 0;
 	[Test report:[[[[@"ABORTED : " mutableCopy] stringByAppendingString:msg1] stringByAppendingString:[@" in " mutableCopy]] stringByAppendingString:context] pos:@{@"fileName":@"Test.hx", @"lineNumber":@"198", @"className":@"unit.Test", @"methodName":@"onError"}];
@@ -137,6 +146,7 @@ static Timer* timer;
 }
 
 - (void) eq:(id)v v2:(id)v2 pos:(id)pos{
+	
 	// Optional arguments
 	if (!pos) pos = nil;
 	
@@ -144,6 +154,7 @@ static Timer* timer;
 	if (v != v2) [Test report:[[[Std string:v] stringByAppendingString:[@" should be " mutableCopy]] stringByAppendingString:[Std string:v2]] pos:pos];
 }
 - (void) feq:(float)v v2:(float)v2 pos:(id)pos{
+	
 	// Optional arguments
 	if (!pos) pos = nil;
 	
@@ -152,55 +163,67 @@ static Timer* timer;
 	else if (fabsf(v - v2) > 1e-15) [Test report:[[v stringByAppendingString:[@" should be " mutableCopy]] stringByAppendingString:v2] pos:pos];
 }
 - (void) t:(BOOL)v pos:(id)pos{
+	
 	// Optional arguments
 	if (!pos) pos = nil;
 	
 	[self eq:v v2:YES pos:pos];
 }
 - (void) f:(BOOL)v pos:(id)pos{
+	
 	// Optional arguments
 	if (!pos) pos = nil;
 	
 	[self eq:v v2:NO pos:pos];
 }
 - (void) _assert:(id)pos{
+	
 	// Optional arguments
 	if (!pos) pos = nil;
 	
 	[Test report:[@"Assert" mutableCopy] pos:pos];
 }
 - (void) exc:(id)f pos:(id)pos{
+	
 	// Optional arguments
 	if (!pos) pos = nil;
 	
 	count++;
 	@try {
+		
 		[f];
 		[Test report:[@"No exception occured" mutableCopy] pos:pos];
 	}
 	@catch (NSException *e) {
+		
 	}
 }
 - (void) unspec:(id)f pos:(id)pos{
+	
 	// Optional arguments
 	if (!pos) pos = nil;
 	
 	count++;
 	@try {
+		
 		[f];
 	}
 	@catch (NSException *e) {
+		
 	}
 }
 - (void) allow:(id)v values:(NSMutableArray*)values pos:(id)pos{
+	
 	// Optional arguments
 	if (!pos) pos = nil;
 	
 	count++;
 	{
+		
 		int _g = 0;
 		while (_g < values.length) {
-			id v2 = [values hx_objectAtIndex:_g];
+			
+			id v2 = ((T*)[values hx_objectAtIndex:_g]);
 			++_g;
 			if (v == v2) return;
 		}
@@ -208,6 +231,7 @@ static Timer* timer;
 	[Test report:[[[Std string:v] stringByAppendingString:[@" not in " mutableCopy]] stringByAppendingString:[Std string:values]] pos:pos];
 }
 - (void) hf:(Class*)c n:(NSMutableString*)n pos:(id)pos{
+	
 	// Optional arguments
 	if (!pos) pos = nil;
 	
@@ -215,6 +239,7 @@ static Timer* timer;
 	if (![Lambda has:[Type getInstanceFields:c] elt:n]) [Test report:[[[Type getClassName:c] stringByAppendingString:[@" should have member field " mutableCopy]] stringByAppendingString:n] pos:pos];
 }
 - (void) nhf:(Class*)c n:(NSMutableString*)n pos:(id)pos{
+	
 	// Optional arguments
 	if (!pos) pos = nil;
 	
@@ -222,6 +247,7 @@ static Timer* timer;
 	if ([Lambda has:[Type getInstanceFields:c] elt:n]) [Test report:[[[Type getClassName:c] stringByAppendingString:[@" should not have member field " mutableCopy]] stringByAppendingString:n] pos:pos];
 }
 - (void) hsf:(Class*)c n:(NSMutableString*)n pos:(id)pos{
+	
 	// Optional arguments
 	if (!pos) pos = nil;
 	
@@ -229,6 +255,7 @@ static Timer* timer;
 	if (![Lambda has:[Type getClassFields:c] elt:n]) [Test report:[[[Type getClassName:c] stringByAppendingString:[@" should have static field " mutableCopy]] stringByAppendingString:n] pos:pos];
 }
 - (void) nhsf:(Class*)c n:(NSMutableString*)n pos:(id)pos{
+	
 	// Optional arguments
 	if (!pos) pos = nil;
 	
@@ -236,15 +263,19 @@ static Timer* timer;
 	if ([Lambda has:[Type getClassFields:c] elt:n]) [Test report:[[[Type getClassName:c] stringByAppendingString:[@" should not have static field " mutableCopy]] stringByAppendingString:n] pos:pos];
 }
 - (void) infos:(NSMutableString*)m{
+	
 	reportInfos = m;
 }
 - (void) async:(id)f args:(id)args v:(id)v pos:(id)pos{
+	
 	// Optional arguments
 	if (!pos) pos = nil;
 	
 	if (asyncWaits.length >= AMAX) {
-		[asyncCache push:((id)($this:(snd ctx.path)) id f1 = async:args:v:pos:; id f2 = f; id a1 = args; id v1 = v; id a2 = pos
+		
+		[asyncCache push:((id)($this:(snd ctx.path)) id f1 = ^(id f, id args, id v, id pos){ [self async:f args:args v:v pos:pos]; }; id f2 = f; id a1 = args; id v1 = v; id a2 = pos
 		__r__ = ^(){
+			
 			{
 			[f1:f2 args:a1 v:v1 pos:a2]
 			return{
@@ -258,9 +289,11 @@ static Timer* timer;
 			return;
 		}
 		[asyncWaits push:pos];
-		[f:args :^(id *v2){
+		[f:args :^(id v2){
+			
 			count++;
 			if (![asyncWaits remove:pos]) {
+				
 				[Test report:[@"Double async result" mutableCopy] pos:pos];
 				return;
 			}
@@ -269,12 +302,15 @@ static Timer* timer;
 		}];
 	}
 	- (void) asyncExc:(id)seterror f:(id)f args:(id)args pos:(id)pos{
+		
 		// Optional arguments
 		if (!pos) pos = nil;
 		
 		if (asyncWaits.length >= AMAX) {
-			[asyncCache push:((id)($this:(snd ctx.path)) id f1 = asyncExc:f:args:pos:; id a1 = seterror; id f2 = f; id a2 = args; id a3 = pos
+			
+			[asyncCache push:((id)($this:(snd ctx.path)) id f1 = ^(id seterror, id f, id args, id pos){ [self asyncExc:seterror f:f args:args pos:pos]; }; id a1 = seterror; id f2 = f; id a2 = args; id a3 = pos
 			__r__ = ^(){
+				
 				{
 				[f1:a1 f:f2 args:a2 pos:a3]
 				return{
@@ -288,14 +324,17 @@ static Timer* timer;
 				return;
 			}
 			[asyncWaits push:pos];
-			[seterror:^(id *e){
+			[seterror:^(id e){
+				
 				count++;
 				if ([asyncWaits remove:pos]) [Test checkDone];
 				else [Test report:[@"Multiple async events" mutableCopy] pos:pos];
 			}];
-			[f:args :^(id *v){
+			[f:args :^(id v){
+				
 				count++;
 				if ([asyncWaits remove:pos]) {
+					
 					[Test report:[@"No exception occured" mutableCopy] pos:pos];
 					[Test checkDone];
 				}
@@ -303,12 +342,14 @@ static Timer* timer;
 			}];
 		}
 		- (void) log:(id)msg pos:(id)pos{
+			
 			// Optional arguments
 			if (!pos) pos = nil;
 			
 			[Log trace:msg infos:pos];
 		}
 		- (id) init{
+			
 			self = [super init];
 			return self;
 		}

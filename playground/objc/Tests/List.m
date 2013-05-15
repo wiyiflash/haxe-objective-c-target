@@ -14,6 +14,7 @@
 @synthesize length;
 - (void) add:(id)item{
 	
+	
 	NSMutableArray *x = [@[item] mutableCopy];
 	if (self.h == nil) self.h = x;
 	else [self.q hx_replaceObjectAtIndex:1 withObject:x];
@@ -22,66 +23,79 @@
 }
 - (void) push:(id)item{
 	
+	
 	NSMutableArray *x = [@[item, self.h] mutableCopy];
 	self.h = x;
 	if (self.q == nil) self.q = x;
 	self.length++;
 }
 - (id) first{
-	return ( (self.h == nil) ? nil : [self.h hx_objectAtIndex:0]);
+	
+	return ( (self.h == nil) ? nil : ((id)[self.h hx_objectAtIndex:0]));
 }
 - (id) last{
-	return ( (self.q == nil) ? nil : [self.q hx_objectAtIndex:0]);
+	
+	return ( (self.q == nil) ? nil : ((id)[self.q hx_objectAtIndex:0]));
 }
 - (id) pop{
+	
 	if (self.h == nil) return nil;
-	id x = [self.h hx_objectAtIndex:0];
-	self.h = [self.h hx_objectAtIndex:1];
+	id x = ((id)[self.h hx_objectAtIndex:0]);
+	self.h = ((NSMutableArray)[self.h hx_objectAtIndex:1]);
 	if (self.h == nil) self.q = nil;
 	self.length--;
 	return x;
 }
 - (BOOL) isEmpty{
+	
 	return self.h == nil;
 }
 - (void) clear{
+	
 	self.h = nil;
 	self.q = nil;
 	self.length = 0;
 }
 - (BOOL) remove:(id)v{
 	
+	
 	NSMutableArray *prev = nil;
 	
 	NSMutableArray *l = self.h;
 	while (l != nil) {
-		if ([l hx_objectAtIndex:0] == v) {
-			if (prev == nil) self.h = [l hx_objectAtIndex:1];
+		
+		if (((NSMutableArray*)[l hx_objectAtIndex:0]) == v) {
+			
+			if (prev == nil) self.h = ((NSMutableArray*)[l hx_objectAtIndex:1]);
 			else [prev hx_replaceObjectAtIndex:1 withObject:l hx_replaceObjectAtIndex:@1];
 			if (self.q == l) self.q = prev;
 			self.length--;
 			return YES;
 		}
 		prev = l;
-		l = [l hx_objectAtIndex:1];
+		l = ((NSMutableArray*)[l hx_objectAtIndex:1]);
 	}
 	return NO;
 }
 - (id) iterator{
+	
 	return (id)[@{
 		@"h":[self.h copy],
 		@"hasNext":[^(){
+		
 		return self.h != [NSNull null];
 	} copy],
 		@"next":[^(){
+		
 		if (self.h == [NSNull null]) return [NSNull null];
-		id x = [self.h hx_objectAtIndex:@0];
-		self.h = [self.h hx_objectAtIndex:@1];
+		id x = ((id)[self.h hx_objectAtIndex:@0]);
+		self.h = ((NSMutableArray)[self.h hx_objectAtIndex:@1]);
 		return x;
 	} copy],
 	} mutableCopy];
 }
 - (NSMutableString*) toString{
+	
 	
 	StringBuf *s = [[StringBuf alloc] init];
 	BOOL first = YES;
@@ -89,53 +103,61 @@
 	NSMutableArray *l = self.h;
 	[s.b appendString:[@"{" mutableCopy]];
 	while (l != nil) {
+		
 		if (first) first = NO;
 		else [s.b appendString:[@", " mutableCopy]];
-		s.b += [Std string:[Std string:[l hx_objectAtIndex:0]]];
-		l = [l hx_objectAtIndex:1];
+		[s.b appendString:[Std string:[Std string:((NSMutableArray*)[l hx_objectAtIndex:@"0"])]]];
+		l = ((NSMutableArray*)[l hx_objectAtIndex:1]);
 	}
 	[s.b appendString:[@"}" mutableCopy]];
 	return s.b;
 }
 - (NSMutableString*) join:(NSMutableString*)sep{
 	
+	
 	StringBuf *s = [[StringBuf alloc] init];
 	BOOL first = YES;
 	
 	NSMutableArray *l = self.h;
 	while (l != nil) {
+		
 		if (first) first = NO;
-		else s.b += [Std string:sep];
-		s.b += [Std string:[l hx_objectAtIndex:0]];
-		l = [l hx_objectAtIndex:1];
+		else [s.b appendString:[Std string:sep]];
+		[s.b appendString:[Std string:((NSMutableArray*)[l hx_objectAtIndex:@"0"])]];
+		l = ((NSMutableArray*)[l hx_objectAtIndex:1]);
 	}
 	return s.b;
 }
 - (List*) filter:(id)f{
 	
+	
 	List *l2 = [[List alloc] init];
 	
 	NSMutableArray *l = self.h;
 	while (l != nil) {
-		id v = [l hx_objectAtIndex:0];
-		l = [l hx_objectAtIndex:1];
+		
+		id v = ((NSMutableArray*)[l hx_objectAtIndex:0]);
+		l = ((NSMutableArray*)[l hx_objectAtIndex:1]);
 		if ([f:v]) [l2 add:v];
 	}
 	return l2;
 }
 - (List*) map:(id)f{
 	
+	
 	List *b = [[List alloc] init];
 	
 	NSMutableArray *l = self.h;
 	while (l != nil) {
-		id v = [l hx_objectAtIndex:0];
-		l = [l hx_objectAtIndex:1];
+		
+		id v = ((NSMutableArray*)[l hx_objectAtIndex:0]);
+		l = ((NSMutableArray*)[l hx_objectAtIndex:1]);
 		[b add:[f:v]];
 	}
 	return b;
 }
 - (id) init{
+	
 	self = [super init];
 	self.length = 0;
 	return self;

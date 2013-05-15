@@ -27,9 +27,9 @@ typedef enum{
 
 @interface TestGADT : Test 
 
-+ (id) evalConst:(TestGADT*)c;
-+ (id) evalBinop:(TestGADT*)op e1:(TestGADT*)e1 e2:(TestGADT*)e2;
-+ (id) eval:(TestGADT*)e;
++ (id) evalConst:(Constant*)c;
++ (id) evalBinop:(Binop*)op e1:(Expr*)e1 e2:(Expr*)e2;
++ (id) eval:(Expr*)e;
 - (void) testBasic;
 
 @end

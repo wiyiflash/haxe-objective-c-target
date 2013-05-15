@@ -11,20 +11,25 @@
 
 + (NSMutableArray*) callStack{
 	
+	
 	NSMutableArray *s = [NSThread callStackSymbols];
 	return [CallStack makeStack:s];
 }
 + (NSMutableArray*) exceptionStack{
+	
 	return [@[] mutableCopy];
 }
 + (NSMutableString*) toString:(NSMutableArray*)stack{
 	
+	
 	StringBuf *b = [[StringBuf alloc] init];
 	{
+		
 		int _g = 0;
 		while (_g < stack.length) {
 			
-			CallStack *s = [stack hx_objectAtIndex:_g];
+			
+			StackItem *s = ((CASTTenum*)[stack hx_objectAtIndex:_g]);
 			++_g;
 			[b.b appendString:[@"\nCalled from " mutableCopy]];
 			[CallStack itemToString:b s:s];
@@ -32,67 +37,71 @@
 	}
 	return b.b;
 }
-+ (void) itemToString:(StringBuf*)b s:(CallStack*)s{
++ (void) itemToString:(StringBuf*)b s:(StackItem*)s{
+	
 	
 	enum s = e (s)
 	switch ( e.index ) {
 		
 		case 0:
-		{
-			[b.b appendString:[@"a C function" mutableCopy]]}break
+		[b.b appendString:[@"a C function" mutableCopy]];break
 		case 1:
 		
-		var MATCH s_eModule_0 : NSMutableString = e.params[0]{
-			{
-				[b.b appendString:[@"module " mutableCopy]];
-				b.b += [Std string:s_eModule_0];
-			}}break
+		var MATCH m : NSMutableString = e.params[0]{
+			
+			[b.b appendString:[@"module " mutableCopy]];
+			[b.b appendString:[Std string:m]];
+		}break
 		case 2:
 		
-		var MATCH s_eFilePos_2 : int = e.params[2], MATCH s_eFilePos_1 : NSMutableString = e.params[1], MATCH s_eFilePos_0 : CallStack = e.params[0]{
-			{
-				if (s_eFilePos_0 != nil) {
-					[CallStack itemToString:b s:s_eFilePos_0];
-					[b.b appendString:[@" (" mutableCopy]];
-				}
-				b.b += [Std string:s_eFilePos_1];
-				[b.b appendString:[@" line " mutableCopy]];
-				b.b += [Std string:s_eFilePos_2];
-				if (s_eFilePos_0 != nil) [b.b appendString:[@")" mutableCopy]];
-			}}break
+		var MATCH line : int = e.params[2], MATCH file : NSMutableString = e.params[1], MATCH s1 : StackItem = e.params[0]{
+			
+			if (s1 != nil) {
+				
+				[CallStack itemToString:b s:s1];
+				[b.b appendString:[@" (" mutableCopy]];
+			}
+			[b.b appendString:[Std string:file]];
+			[b.b appendString:[@" line " mutableCopy]];
+			[b.b appendString:[Std string:line]];
+			if (s1 != nil) [b.b appendString:[@")" mutableCopy]];
+		}break
 		case 3:
 		
-		var MATCH s_eMethod_1 : NSMutableString = e.params[1], MATCH s_eMethod_0 : NSMutableString = e.params[0]{
-			{
-				b.b += [Std string:s_eMethod_0];
-				[b.b appendString:[@"." mutableCopy]];
-				b.b += [Std string:s_eMethod_1];
-			}}break
+		var MATCH meth : NSMutableString = e.params[1], MATCH cname : NSMutableString = e.params[0]{
+			
+			[b.b appendString:[Std string:cname]];
+			[b.b appendString:[@"." mutableCopy]];
+			[b.b appendString:[Std string:meth]];
+		}break
 		case 4:
 		
-		var MATCH s_eLambda_0 : int = e.params[0]{
-			{
-				[b.b appendString:[@"local function #" mutableCopy]];
-				b.b += [Std string:s_eLambda_0];
-			}}break
+		var MATCH n : int = e.params[0]{
+			
+			[b.b appendString:[@"local function #" mutableCopy]];
+			[b.b appendString:[Std string:n]];
+		}break
 	}
 }
 + (NSMutableArray*) makeStack:(NSMutableArray*)s{
+	
 	
 	NSMutableArray *stack = s;
 	
 	NSMutableArray *m = [[NSMutableArray alloc] init];
 	{
+		
 		int _g = 0;
 		while (_g < stack.length) {
 			
-			NSMutableString *func = [stack hx_objectAtIndex:_g];
+			
+			NSMutableString *func = ((NSMutableString*)[stack hx_objectAtIndex:_g]);
 			++_g;
 			
 			NSMutableArray *words = [func split:[@"::" mutableCopy]];
 			if (words.length == 0) [m unshift:CFunction];
-			else if (words.length == 2) [m unshift:[Method:[words hx_objectAtIndex:0] method:[words hx_objectAtIndex:1]]];
-			else if (words.length == 4) [m unshift:[FilePos:[Method:[words hx_objectAtIndex:0] method:[words hx_objectAtIndex:1]] file:[words hx_objectAtIndex:2] line:[Std parseInt:[words hx_objectAtIndex:3]]]];
+			else if (words.length == 2) [m unshift:[Method:((NSMutableArray*)[words hx_objectAtIndex:0]) method:((NSMutableArray*)[words hx_objectAtIndex:1])]];
+			else if (words.length == 4) [m unshift:[FilePos:[Method:((NSMutableArray*)[words hx_objectAtIndex:0]) method:((NSMutableArray*)[words hx_objectAtIndex:1])] file:((NSMutableArray*)[words hx_objectAtIndex:2]) line:[Std parseInt:((NSMutableArray*)[words hx_objectAtIndex:3])]]];
 		}
 	}
 	return m;

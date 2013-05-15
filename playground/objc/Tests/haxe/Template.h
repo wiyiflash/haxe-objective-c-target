@@ -39,7 +39,7 @@ typedef enum{
 + (void) setExpr_float:(EReg*)val;
 + (id) globals;
 + (void) setGlobals:(id)val;
-@property (nonatomic, strong) Template *expr;
+@property (nonatomic) TemplateExpr *expr;
 @property (nonatomic) id context;
 @property (nonatomic) id macros;
 @property (nonatomic, strong) List *stack;
@@ -47,14 +47,14 @@ typedef enum{
 - (NSMutableString*) execute:(id)context macros:(id)macros;
 - (id) resolve:(NSMutableString*)v;
 - (List*) parseTokens:(NSMutableString*)data;
-- (Template*) parseBlock:(List*)tokens;
-- (Template*) parse:(List*)tokens;
+- (TemplateExpr*) parseBlock:(List*)tokens;
+- (TemplateExpr*) parse:(List*)tokens;
 - (id) parseExpr:(NSMutableString*)data;
 - (id) makeConst:(NSMutableString*)v;
 - (id) makePath:(id)e l:(List*)l;
 - (id) makeExpr:(List*)l;
 - (id) makeExpr2:(List*)l;
-- (void) run:(Template*)e;
+- (void) run:(TemplateExpr*)e;
 - (id) init:(NSMutableString*)str;
 
 @end

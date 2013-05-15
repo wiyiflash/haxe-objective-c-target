@@ -93,10 +93,6 @@ let rec classify t =
 	| TDynamic _ -> KDyn
 	| _ -> KOther
 
-let quick_field_dynamic t s =
-	try quick_field t s
-	with Not_found -> FDynamic s
-
 let object_field f =
 	let pf = Parser.quoted_ident_prefix in
 	let pflen = String.length pf in
@@ -863,14 +859,13 @@ let field_access ctx mode f fmode t e p =
 				normal()
 		| AccCall ->
 			let m = (match mode with MSet -> "set_" | _ -> "get_") ^ f.cf_name in
-			if m = ctx.curfield.cf_name && (match e.eexpr with TConst TThis -> true | TTypeExpr (TClassDecl c) when c == ctx.curclass -> true | _ -> false) then
-				let prefix = (match ctx.com.platform with Flash when Common.defined ctx.com Define.As3 -> "$" | _ -> "") in
+			if m = ctx.curfield.cf_name && (match e.eexpr with TConst TThis -> true | TTypeExpr (TClassDecl c) when c == ctx.curclass -> true | _ -> false) then begin
 				if is_extern_field f then begin
 					display_error ctx "This field cannot be accessed because it is not a real variable" p;
 					display_error ctx "Add @:isVar here to enable it" f.cf_pos;
 				end;
-				AKExpr (mk (TField (e,if prefix = "" then fmode else FDynamic (prefix ^ f.cf_name))) t p)
-			else if (match e.eexpr with TTypeExpr (TClassDecl ({cl_kind = KAbstractImpl _} as c)) when c == ctx.curclass -> true | _ -> false) then begin
+				AKExpr (mk (TField(e, fmode)) t p)
+			end else if (match e.eexpr with TTypeExpr (TClassDecl ({cl_kind = KAbstractImpl _} as c)) when c == ctx.curclass -> true | _ -> false) then begin
 				let this = get_this ctx p in
 				if mode = MSet then begin
 					let c,a = match ctx.curclass with {cl_kind = KAbstractImpl a} as c -> c,a | _ -> assert false in
@@ -2636,12 +2631,12 @@ and type_expr ctx (e,p) (with_type:with_type) =
 					with Error (Unify _,_) ->
 						let acc = acc_get ctx (type_field ctx e1 "iterator" e1.epos MCall) e1.epos in
 						let acc = (match acc.eexpr with TField (e,FClosure (c,f)) -> { acc with eexpr = TField (e,match c with None -> FAnon f | Some c -> FInstance (c,f)) } | _ -> acc) in
-						match follow acc.etype with
-						| TFun ([],it) ->
-							unify ctx it t e1.epos;
-							make_call ctx acc [] it e1.epos
-						| _ ->
-							display_error ctx "The field iterator is not a method" e1.epos;
+						try
+							unify_raise ctx acc.etype (tfun [] t) acc.epos;
+							make_call ctx acc [] t e1.epos
+						with Error (Unify(l),p) ->
+							display_error ctx "Field iterator has an invalid type" acc.epos;
+							display_error ctx (error_msg (Unify l)) p;
 							mk (TConst TNull) t_dynamic p
 					)
 				) in
@@ -3279,7 +3274,7 @@ and build_call ctx acc el (with_type:with_type) p =
 		let el , t, e = (match follow e.etype with
 		| TFun (args,r) ->
 			let fopts = (match acc with
-				| AKExpr {eexpr = TField(e, (FStatic (_,f) | FInstance(_,f)))} ->
+				| AKExpr {eexpr = TField(e, (FStatic (_,f) | FInstance(_,f) | FAnon(f)))} ->
 					fopts e.etype f
 				| _ ->
 					None

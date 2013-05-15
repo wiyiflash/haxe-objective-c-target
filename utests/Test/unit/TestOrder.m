@@ -10,10 +10,12 @@
 @implementation TestOrder
 
 - (void) testUsing{
+	
 	[self eq:[Using3 usingTest:[@"foo" mutableCopy]] v2:[@"3" mutableCopy] pos:@{@"fileName":@"TestOrder.hx", @"lineNumber":@"17", @"className":@"unit.TestOrder", @"methodName":@"testUsing"}];
 	
-	TestOrder *c = C1;
+	E2 *c = C1;
 	{
+		
 		count++;
 		[self eq:[@"TEnum(unit.E2,[])" mutableCopy] v2:[@"TEnum(unit.E2,[])" mutableCopy] pos:@{@"fileName":@"TestOrder.hx", @"lineNumber":@"21", @"className":@"unit.TestOrder", @"methodName":@"testUsing"}];
 	}
@@ -26,19 +28,23 @@
 
 
 + (int) set_STAT_X:(int)v{
+	
 	ClassWithProp.STAT_X = v * 2;
 	return v;
 }
 
 @synthesize _x;
 - (int) get_x{
+	
 	return self._x;
 }
 - (int) set_x:(int)v{
+	
 	self._x = v;
 	return v;
 }
 - (id) init{
+	
 	self = [super init];
 	self._x = 5;
 	return self;
@@ -50,16 +56,20 @@
 
 
 - (int) get_x{
-	return [self._x stringByAppendingString:@"1"];
+	
+	return self._x + 1;
 }
 - (int) get_y{
+	
 	return self.y;
 }
 - (int) set_y:(int)v{
+	
 	self.y = v;
 	return v;
 }
 - (id) init{
+	
 	self = [super init];
 	[self set_y:10];
 	return self;
@@ -78,9 +88,11 @@ static NSMutableArray* TYPES;
 	TYPES = hx_val;
 }
 + (NSMutableString*) u:(NSMutableString*)s{
+	
 	return s;
 }
 + (NSMutableString*) u2:(NSMutableString*)s s2:(NSMutableString*)s2{
+	
 	return [[s stringByAppendingString:[@"." mutableCopy]] stringByAppendingString:s2];
 }
 static NSMutableArray* TNAMES;
@@ -92,22 +104,28 @@ static NSMutableArray* TNAMES;
 	TNAMES = hx_val;
 }
 - (void) testTypes{
+	
 	{
+		
 		int _g1 = 1; int _g = TestReflect.TYPES.length;
 		while (_g1 < _g) {
-			int i = _g1++;
-			id t = [TestReflect.TYPES hx_objectAtIndex:i];
 			
-			NSMutableString *name = [TNAMES hx_objectAtIndex:i];
+			int i = _g1++;
+			id t = ((id)[TestReflect.TYPES hx_objectAtIndex:i]);
+			
+			NSMutableString *name = ((NSMutableArray*)[TNAMES hx_objectAtIndex:i]);
 			[self infos:[[@"type " mutableCopy] stringByAppendingString:name]];
 			[self f:t == nil pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"99", @"className":@"unit.TestReflect", @"methodName":@"testTypes"}];
 			if (name == [@"Enum" mutableCopy]) {
+				
 			}
 			else if (t ==  || t ==  TAbstractDecl ) {
+				
 				[self eq:[Type getEnumName:t] v2:name pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"103", @"className":@"unit.TestReflect", @"methodName":@"testTypes"}];
 				[self eq:[Type resolveEnum:name] v2:t pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"104", @"className":@"unit.TestReflect", @"methodName":@"testTypes"}];
 			}
 			else {
+				
 				[self eq:[Type getClassName:t] v2:name pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"106", @"className":@"unit.TestReflect", @"methodName":@"testTypes"}];
 				[self eq:[Type resolveClass:name] v2:t pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"107", @"className":@"unit.TestReflect", @"methodName":@"testTypes"}];
 			}
@@ -116,6 +134,7 @@ static NSMutableArray* TNAMES;
 	[self infos:nil];
 }
 - (void) testIs{
+	
 	[self is:nil t1:nil t2:nil pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"114", @"className":@"unit.TestReflect", @"methodName":@"testIs"}];
 	[self is:0 t1: TAbstractDecl  t2: TAbstractDecl  pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"115", @"className":@"unit.TestReflect", @"methodName":@"testIs"}];
 	[self is:1 t1: TAbstractDecl  t2: TAbstractDecl  pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"116", @"className":@"unit.TestReflect", @"methodName":@"testIs"}];
@@ -145,22 +164,26 @@ static NSMutableArray* TNAMES;
 		@"x":[@0 copy],
 	} mutableCopy] t1:nil t2:nil pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"139", @"className":@"unit.TestReflect", @"methodName":@"testIs"}];
 	[self is:^(){
+		
 	} t1:nil t2:nil pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"140", @"className":@"unit.TestReflect", @"methodName":@"testIs"}];
 	[self is:MyClass t1: TAbstractDecl  t2:nil pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"141", @"className":@"unit.TestReflect", @"methodName":@"testIs"}];
 	[self is: t1: TAbstractDecl  t2:nil pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"142", @"className":@"unit.TestReflect", @"methodName":@"testIs"}];
 	[self is: TAbstractDecl  t1: TAbstractDecl  t2:nil pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"143", @"className":@"unit.TestReflect", @"methodName":@"testIs"}];
 }
 - (void) is:(id)v t1:(id)t1 t2:(id)t2 pos:(id)pos{
+	
 	// Optional arguments
 	if (!pos) pos = nil;
 	if (!t2) t2 = nil;
 	
 	{
+		
 		int _g1 = 0; int _g = TestReflect.TYPES.length;
 		while (_g1 < _g) {
+			
 			int i = _g1++;
-			id c = [TestReflect.TYPES hx_objectAtIndex:i];
-			[self infos:[[[Std string:v] stringByAppendingString:[@" is " mutableCopy]] stringByAppendingString:[TNAMES hx_objectAtIndex:i]]];
+			id c = ((id)[TestReflect.TYPES hx_objectAtIndex:i]);
+			[self infos:[[[Std string:v] stringByAppendingString:[@" is " mutableCopy]] stringByAppendingString:((NSMutableArray*)[TNAMES hx_objectAtIndex:i])]];
 			[self eq:[Std is:v t:c] v2:c != nil &&  (c == t1 || c == t2) || c ==  TAbstractDecl  pos:pos];
 		}
 	}
@@ -168,50 +191,55 @@ static NSMutableArray* TNAMES;
 	[self t:[Std is:v t: TAbstractDecl ] pos:pos];
 }
 - (void) testTypeof{
-	[self typeof:nil rt:TNull pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"157", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
-	[self typeof:0 rt:TInt pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"158", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
-	[self typeof:1 rt:TInt pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"159", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
-	[self typeof:-1 rt:TInt pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"160", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
-	[self typeof:1.2 rt:TFloat pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"161", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
-	[self typeof:1e10 rt:TFloat pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"162", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
-	[self typeof:-1e10 rt:TFloat pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"163", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
-	[self typeof:-fa3-NaN rt:TFloat pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"164", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
-	[self typeof:-fa3-POSITIVE_INFINITY rt:TFloat pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"165", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
-	[self typeof:-fa3-NEGATIVE_INFINITY rt:TFloat pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"166", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
-	[self typeof:YES rt:TBool pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"167", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
-	[self typeof:NO rt:TBool pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"168", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
-	[self typeof:[@"Hello" mutableCopy] rt:[TClass:NSMutableString] pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"169", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
-	[self typeof:[@"" mutableCopy] rt:[TClass:NSMutableString] pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"170", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
-	[self typeof:[@[] mutableCopy] rt:[TClass:NSMutableArray] pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"171", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
-	[self typeof:[[List alloc] init] rt:[TClass:List] pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"172", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
-	[self typeof:[[StringMap alloc] init] rt:[TClass:StringMap] pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"173", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
-	[self typeof:[[MyClass alloc] init:0] rt:[TClass:MyClass] pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"174", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
-	[self typeof:[[MySubClass alloc] init] rt:[TClass:MySubClass] pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"175", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
-	[self typeof:A rt:[TEnum:] pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"176", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
-	[self typeof:[C:0 b:[@"" mutableCopy]] rt:[TEnum:] pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"177", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
-	[self typeof:[NSDatenow] rt:[TClass:NSDate] pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"178", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
-	[self typeof:[@{
+	
+	[self _typeof:nil rt:TNull pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"157", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
+	[self _typeof:0 rt:TInt pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"158", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
+	[self _typeof:1 rt:TInt pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"159", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
+	[self _typeof:-1 rt:TInt pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"160", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
+	[self _typeof:1.2 rt:TFloat pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"161", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
+	[self _typeof:1e10 rt:TFloat pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"162", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
+	[self _typeof:-1e10 rt:TFloat pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"163", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
+	[self _typeof:-fa3-NaN rt:TFloat pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"164", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
+	[self _typeof:-fa3-POSITIVE_INFINITY rt:TFloat pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"165", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
+	[self _typeof:-fa3-NEGATIVE_INFINITY rt:TFloat pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"166", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
+	[self _typeof:YES rt:TBool pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"167", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
+	[self _typeof:NO rt:TBool pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"168", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
+	[self _typeof:[@"Hello" mutableCopy] rt:[TClass:NSMutableString] pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"169", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
+	[self _typeof:[@"" mutableCopy] rt:[TClass:NSMutableString] pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"170", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
+	[self _typeof:[@[] mutableCopy] rt:[TClass:NSMutableArray] pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"171", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
+	[self _typeof:[[List alloc] init] rt:[TClass:List] pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"172", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
+	[self _typeof:[[StringMap alloc] init] rt:[TClass:StringMap] pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"173", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
+	[self _typeof:[[MyClass alloc] init:0] rt:[TClass:MyClass] pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"174", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
+	[self _typeof:[[MySubClass alloc] init] rt:[TClass:MySubClass] pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"175", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
+	[self _typeof:A rt:[TEnum:] pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"176", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
+	[self _typeof:[C:0 b:[@"" mutableCopy]] rt:[TEnum:] pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"177", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
+	[self _typeof:[NSDatenow] rt:[TClass:NSDate] pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"178", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
+	[self _typeof:[@{
 		@"x":[@0 copy],
 	} mutableCopy] rt:TObject pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"179", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
-	[self typeof:^(){
+	[self _typeof:^(){
+		
 	} rt:TFunction pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"180", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
-	[self typeof:MyClass rt:TObject pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"181", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
-	[self typeof: rt:TObject pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"182", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
-	[self typeof: TAbstractDecl  rt:TObject pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"185", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
-	[self typeof: TAbstractDecl  rt:TObject pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"186", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
+	[self _typeof:MyClass rt:TObject pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"181", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
+	[self _typeof: rt:TObject pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"182", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
+	[self _typeof: TAbstractDecl  rt:TObject pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"185", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
+	[self _typeof: TAbstractDecl  rt:TObject pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"186", @"className":@"unit.TestReflect", @"methodName":@"testTypeof"}];
 }
-- (void) _typeof:(id)v rt:(Type*)rt pos:(id)pos{
+- (void) _typeof:(id)v rt:(ValueType*)rt pos:(id)pos{
+	
 	// Optional arguments
 	if (!pos) pos = nil;
 	
 	
-	Type *vt = [Type _typeof:v];
+	ValueType *vt = [Type _typeof:v];
 	[self infos:[[[[@"typeof(" mutableCopy] stringByAppendingString:[Std string:v]] stringByAppendingString:[@") = " mutableCopy]] stringByAppendingString:[Std string:vt]]];
 	[self t:[Type enumEq:vt b:rt] pos:pos];
 }
 - (void) testConv{
+	
 	[self eq:[@"A" mutableCopy] v2:[@"A" mutableCopy] pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"197", @"className":@"unit.TestReflect", @"methodName":@"testConv"}];
 	[self unspec:^(){
+		
 		[NSMutableString:1024];
 	} pos:nil];
 	[self eq:[[@"A" mutableCopy] charCodeAt:0] v2:65 pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"199", @"className":@"unit.TestReflect", @"methodName":@"testConv"}];
@@ -231,6 +259,7 @@ static NSMutableArray* TNAMES;
 	[self eq:[Std parseInt:[@"0xFF" mutableCopy]] v2:255 pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"213", @"className":@"unit.TestReflect", @"methodName":@"testConv"}];
 }
 - (void) testCreate{
+	
 	
 	MyClass *i = [Type createInstance:MyClass args:[@[@33] mutableCopy]];
 	[self t:[Std is:i t:MyClass] pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"218", @"className":@"unit.TestReflect", @"methodName":@"testCreate"}];
@@ -252,36 +281,40 @@ static NSMutableArray* TNAMES;
 		
 		case 2:
 		
-		var MATCH e_eC_1 : NSMutableString = e.params[1], MATCH e_eC_0 : int = e.params[0]{
-			{
-				[self eq:e_eC_0 v2:55 pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"229", @"className":@"unit.TestReflect", @"methodName":@"testCreate"}];
-				[self eq:e_eC_1 v2:[@"hello" mutableCopy] pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"229", @"className":@"unit.TestReflect", @"methodName":@"testCreate"}];
-			}}break
-		default:{
-			[self assert:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"230", @"className":@"unit.TestReflect", @"methodName":@"testCreate"}]}break
+		var MATCH s : NSMutableString = e.params[1], MATCH i2 : int = e.params[0]{
+			
+			[self eq:i2 v2:55 pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"229", @"className":@"unit.TestReflect", @"methodName":@"testCreate"}];
+			[self eq:s v2:[@"hello" mutableCopy] pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"229", @"className":@"unit.TestReflect", @"methodName":@"testCreate"}];
+		}break
+		default:[self _assert:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"230", @"className":@"unit.TestReflect", @"methodName":@"testCreate"}];break
 	}
 	[self exc:^(){
+		
 		[Type createEnum: constr:[@"A" mutableCopy] params:[@[@0] mutableCopy]];
 	} pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"232", @"className":@"unit.TestReflect", @"methodName":@"testCreate"}];
 	[self exc:^(){
+		
 		[Type createEnum: constr:[@"C" mutableCopy] params:nil];
 	} pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"233", @"className":@"unit.TestReflect", @"methodName":@"testCreate"}];
 	[self exc:^(){
+		
 		[Type createEnum: constr:[@"Z" mutableCopy] params:[@[] mutableCopy]];
 	} pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"234", @"className":@"unit.TestReflect", @"methodName":@"testCreate"}];
 }
 - (void) testCompare{
 	
+	
 	MyClass *a = [[MyClass alloc] init:0];
 	
 	MyClass *b = [[MyClass alloc] init:1];
-	[self t:[Reflect compareMethods:add:y: f2:add:y:] pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"240", @"className":@"unit.TestReflect", @"methodName":@"testCompare"}];
-	[self f:[Reflect compareMethods:add:y: f2:add:y:] pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"241", @"className":@"unit.TestReflect", @"methodName":@"testCompare"}];
-	[self f:[Reflect compareMethods:add:y: f2:get] pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"242", @"className":@"unit.TestReflect", @"methodName":@"testCompare"}];
-	[self f:[Reflect compareMethods:add:y: f2:nil] pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"243", @"className":@"unit.TestReflect", @"methodName":@"testCompare"}];
-	[self f:[Reflect compareMethods:nil f2:add:y:] pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"244", @"className":@"unit.TestReflect", @"methodName":@"testCompare"}];
+	[self t:[Reflect compareMethods:^(int x, int y){ [self add:x y:y]; } f2:^(int x, int y){ [self add:x y:y]; }] pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"240", @"className":@"unit.TestReflect", @"methodName":@"testCompare"}];
+	[self f:[Reflect compareMethods:^(int x, int y){ [self add:x y:y]; } f2:^(int x, int y){ [self add:x y:y]; }] pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"241", @"className":@"unit.TestReflect", @"methodName":@"testCompare"}];
+	[self f:[Reflect compareMethods:^(int x, int y){ [self add:x y:y]; } f2:^(){ [self get]; }] pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"242", @"className":@"unit.TestReflect", @"methodName":@"testCompare"}];
+	[self f:[Reflect compareMethods:^(int x, int y){ [self add:x y:y]; } f2:nil] pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"243", @"className":@"unit.TestReflect", @"methodName":@"testCompare"}];
+	[self f:[Reflect compareMethods:nil f2:^(int x, int y){ [self add:x y:y]; }] pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"244", @"className":@"unit.TestReflect", @"methodName":@"testCompare"}];
 }
 - (void) testGetProp{
+	
 	
 	ClassWithProp *c = [[ClassWithProp alloc] init];
 	[self eq:[c get_x] v2:5 pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"263", @"className":@"unit.TestReflect", @"methodName":@"testGetProp"}];
@@ -317,6 +350,7 @@ static NSMutableArray* TNAMES;
 		id* __r__}
 	}(self)) v2:6 pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"297", @"className":@"unit.TestReflect", @"methodName":@"testGetProp"}];
 	{
+		
 		id o = ClassWithProp;
 		if (o != nil) [o hx_set_field:[@"STAT_X" mutableCopy] :8 :YES];
 	}

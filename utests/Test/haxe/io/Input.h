@@ -6,11 +6,11 @@
 //
 
 
+#import <Foundation/Foundation.h>
 
 #import "../../haxe/io/Bytes.h"
 #import "../../Array.h"
 #import "../../haxe/io/BytesBuffer.h"
-#import "../../Math.h"
 #import "../../String.h"
 
 @interface Input : NSObject

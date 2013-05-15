@@ -11,35 +11,40 @@
 
 - (void) testArray{
 	
+	
 	NSMutableArray *a = [@[@1, @2, @3] mutableCopy];
 	[self eq:a.length v2:3 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"7", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
-	[self eq:[a hx_objectAtIndex:0] v2:1 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"8", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
-	[self eq:[a hx_objectAtIndex:2] v2:3 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"9", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
-	[self eq:[a hx_objectAtIndex:3] v2:nil pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"11", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
-	[self eq:[a hx_objectAtIndex:1000] v2:nil pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"12", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
-	[self eq:[a hx_objectAtIndex:-1] v2:nil pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"13", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
+	[self eq:((CASTTType*)[a hx_objectAtIndex:0]) v2:1 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"8", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
+	[self eq:((CASTTType*)[a hx_objectAtIndex:2]) v2:3 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"9", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
+	[self eq:((CASTTType*)[a hx_objectAtIndex:3]) v2:nil pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"11", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
+	[self eq:((CASTTType*)[a hx_objectAtIndex:1000]) v2:nil pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"12", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
+	[self eq:((CASTTType*)[a hx_objectAtIndex:-1]) v2:nil pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"13", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
 	[a remove:2];
 	[self eq:a.length v2:2 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"16", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
-	[self eq:[a hx_objectAtIndex:0] v2:1 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"17", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
-	[self eq:[a hx_objectAtIndex:1] v2:3 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"18", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
-	[self eq:[a hx_objectAtIndex:2] v2:nil pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"19", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
+	[self eq:((CASTTType*)[a hx_objectAtIndex:0]) v2:1 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"17", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
+	[self eq:((CASTTType*)[a hx_objectAtIndex:1]) v2:3 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"18", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
+	[self eq:((CASTTType*)[a hx_objectAtIndex:2]) v2:nil pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"19", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
 	
 	NSMutableArray *a1 = [@[@1, @2, @3] mutableCopy];
 	[a1 splice:1 len:1];
 	[self eq:a1.length v2:2 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"23", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
-	[self eq:[a1 hx_objectAtIndex:0] v2:1 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"24", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
-	[self eq:[a1 hx_objectAtIndex:1] v2:3 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"25", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
-	[self eq:[a1 hx_objectAtIndex:2] v2:nil pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"26", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
+	[self eq:((CASTTType*)[a1 hx_objectAtIndex:0]) v2:1 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"24", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
+	[self eq:((CASTTType*)[a1 hx_objectAtIndex:1]) v2:3 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"25", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
+	[self eq:((CASTTType*)[a1 hx_objectAtIndex:2]) v2:nil pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"26", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
 }
 - (void) testString{
+	
 	[self eq:[@"M" mutableCopy] v2:[@"M" mutableCopy] pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"30", @"className":@"unit.TestBasetypes", @"methodName":@"testString"}];
 	[self unspec:^(){
+		
 		[NSMutableString:0];
 	} pos:nil];
 	[self unspec:^(){
+		
 		[NSMutableString:-1];
 	} pos:nil];
 	[self unspec:^(){
+		
 		[NSMutableString:256];
 	} pos:nil];
 	[self eq:[nil stringByAppendingString:[@"x" mutableCopy]] v2:[@"nullx" mutableCopy] pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"38", @"className":@"unit.TestBasetypes", @"methodName":@"testString"}];
@@ -47,9 +52,9 @@
 	
 	NSMutableArray *abc = [[@"abc" mutableCopy] split:[@"" mutableCopy]];
 	[self eq:abc.length v2:3 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"43", @"className":@"unit.TestBasetypes", @"methodName":@"testString"}];
-	[self eq:[abc hx_objectAtIndex:0] v2:[@"a" mutableCopy] pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"44", @"className":@"unit.TestBasetypes", @"methodName":@"testString"}];
-	[self eq:[abc hx_objectAtIndex:1] v2:[@"b" mutableCopy] pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"45", @"className":@"unit.TestBasetypes", @"methodName":@"testString"}];
-	[self eq:[abc hx_objectAtIndex:2] v2:[@"c" mutableCopy] pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"46", @"className":@"unit.TestBasetypes", @"methodName":@"testString"}];
+	[self eq:((NSMutableArray*)[abc hx_objectAtIndex:0]) v2:[@"a" mutableCopy] pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"44", @"className":@"unit.TestBasetypes", @"methodName":@"testString"}];
+	[self eq:((NSMutableArray*)[abc hx_objectAtIndex:1]) v2:[@"b" mutableCopy] pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"45", @"className":@"unit.TestBasetypes", @"methodName":@"testString"}];
+	[self eq:((NSMutableArray*)[abc hx_objectAtIndex:2]) v2:[@"c" mutableCopy] pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"46", @"className":@"unit.TestBasetypes", @"methodName":@"testString"}];
 	
 	NSMutableString *str = [@"abc" mutableCopy];
 	[self eq:[str charCodeAt:0] v2:97 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"49", @"className":@"unit.TestBasetypes", @"methodName":@"testString"}];
@@ -90,10 +95,10 @@
 	NSMutableString *xs = [[@"" mutableCopy] stringByAppendingString:[Std string:x2]];
 	int h = [xs indexOf:[@"hello" mutableCopy] startIndex:nil];
 	[self t:h != -1 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"90", @"className":@"unit.TestBasetypes", @"methodName":@"testString"}];
-	[self t:[xs indexOf:[@"world" mutableCopy] startIndex:h] != -1 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"91", @"className":@"unit.TestBasetypes", @"methodName":@"testString"}];
+	[self t:[xs hx_dyn_indexOf:[@"world" mutableCopy] startIndex:h] != -1 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"91", @"className":@"unit.TestBasetypes", @"methodName":@"testString"}];
 	h = [xs indexOf:[@"val" mutableCopy] startIndex:nil];
 	[self t:h != -1 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"93", @"className":@"unit.TestBasetypes", @"methodName":@"testString"}];
-	[self t:[xs indexOf:[@"5" mutableCopy] startIndex:h] != -1 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"94", @"className":@"unit.TestBasetypes", @"methodName":@"testString"}];
+	[self t:[xs hx_dyn_indexOf:[@"5" mutableCopy] startIndex:h] != -1 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"94", @"className":@"unit.TestBasetypes", @"methodName":@"testString"}];
 	[self eq:[[Std string:x2] stringByAppendingString:[@"" mutableCopy]] v2:xs pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"95", @"className":@"unit.TestBasetypes", @"methodName":@"testString"}];
 	[self eq:[@"5" stringByAppendingString:[@"5" mutableCopy]] v2:[@"55" mutableCopy] pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"98", @"className":@"unit.TestBasetypes", @"methodName":@"testString"}];
 	[self eq:[[@"5" mutableCopy] stringByAppendingString:@"5"] v2:[@"55" mutableCopy] pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"99", @"className":@"unit.TestBasetypes", @"methodName":@"testString"}];
@@ -112,9 +117,11 @@
 	[self eq:[[@"" mutableCopy] stringByAppendingString:[Std string:x5]] v2:[@"[1,hello]" mutableCopy] pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"118", @"className":@"unit.TestBasetypes", @"methodName":@"testString"}];
 	[self eq:[[Std string:x5] stringByAppendingString:[@"" mutableCopy]] v2:[[@"" mutableCopy] stringByAppendingString:[Std string:x5]] pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"119", @"className":@"unit.TestBasetypes", @"methodName":@"testString"}];
 	@try {
-		[[@"" mutableCopy] stringByAppendingString:[Std string:[x5[@"iterator"]]]];
+		
+		[[@"" mutableCopy] stringByAppendingString:[Std string:[x5 iterator]]];
 	}
 	@catch (NSException *e) {
+		
 		[Test report:[@"Could not convert Iterator to String" mutableCopy] pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"125", @"className":@"unit.TestBasetypes", @"methodName":@"testString"}];
 	}
 	
@@ -132,6 +139,7 @@
 	[self eq:[tester lastIndexOf:[@"show me" mutableCopy] startIndex:28] v2:13 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"140", @"className":@"unit.TestBasetypes", @"methodName":@"testString"}];
 }
 - (void) testMath{
+	
 	[self eq:floorf(-1.7) v2:-2 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"144", @"className":@"unit.TestBasetypes", @"methodName":@"testMath"}];
 	[self eq:floorf(-1.5) v2:-2 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"145", @"className":@"unit.TestBasetypes", @"methodName":@"testMath"}];
 	[self eq:floorf(-1.2) v2:-2 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"146", @"className":@"unit.TestBasetypes", @"methodName":@"testMath"}];
@@ -156,6 +164,7 @@
 }
 - (void) testStringMap{
 	
+	
 	StringMap *h = [[StringMap alloc] init];
 	[h set:[@"x" mutableCopy] value:-1];
 	[h set:[@"abcd" mutableCopy] value:8546];
@@ -168,7 +177,7 @@
 	[self eq:[k join:[@"#" mutableCopy]] v2:[@"-1#8546" mutableCopy] pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"216", @"className":@"unit.TestBasetypes", @"methodName":@"testStringMap"}];
 	
 	NSMutableArray *k1 = [Lambda array:[@{
-		@"iterator":[keys copy],
+		@"iterator":[^(){ [self keys]; } copy],
 	} mutableCopy]];
 	[k1 sort:Reflect compare];
 	[self eq:[k1 join:[@"#" mutableCopy]] v2:[@"abcd#x" mutableCopy] pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"220", @"className":@"unit.TestBasetypes", @"methodName":@"testStringMap"}];
@@ -187,6 +196,7 @@
 }
 - (void) testIntMap{
 	
+	
 	IntMap *h = [[IntMap alloc] init];
 	[h set:0 value:-1];
 	[h set:-4815 value:8546];
@@ -199,7 +209,7 @@
 	[self eq:[k join:[@"#" mutableCopy]] v2:[@"-1#8546" mutableCopy] pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"247", @"className":@"unit.TestBasetypes", @"methodName":@"testIntMap"}];
 	
 	NSMutableArray *k1 = [Lambda array:[@{
-		@"iterator":[keys copy],
+		@"iterator":[^(){ [self keys]; } copy],
 	} mutableCopy]];
 	[k1 sort:Reflect compare];
 	[self eq:[k1 join:[@"#" mutableCopy]] v2:[@"-4815#0" mutableCopy] pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"251", @"className":@"unit.TestBasetypes", @"methodName":@"testIntMap"}];
@@ -224,16 +234,20 @@
 }
 - (void) testMap{
 	
+	
 	IntMap *i = [[IntMap alloc] init];
 	{
+		
 		[i set:1 v:0];
 		0;
 	}
 	int x = 1;
 	{
+		
 		int _g = x++;
 		{
-			int v = [[i get:_g] stringByAppendingString:@"4"];
+			
+			int v = CASTTType[i hx_dyn_get:_g] + 4;
 			[i set:_g v:v];
 			v;
 		}
@@ -242,6 +256,7 @@
 	[self eq:[i get:1] v2:4 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"280", @"className":@"unit.TestBasetypes", @"methodName":@"testMap"}];
 }
 - (void) testObjectKeyword{
+	
 	id l = [@{
 		@"new":[[@"test" mutableCopy] copy],
 	} mutableCopy];
@@ -251,10 +266,11 @@
 	id o = [@{
 		@"const":[@6 copy],
 	} mutableCopy];
-	[self eq:o[@"const"] v2:6 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"291", @"className":@"unit.TestBasetypes", @"methodName":@"testObjectKeyword"}];
+	[self eq:o const v2:6 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"291", @"className":@"unit.TestBasetypes", @"methodName":@"testObjectKeyword"}];
 	[self eq:[Reflect field:o field:[prefix stringByAppendingString:[@"const" mutableCopy]]] v2:6 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"292", @"className":@"unit.TestBasetypes", @"methodName":@"testObjectKeyword"}];
 }
 - (void) testFormat{
+	
 	[self eq:[@"" mutableCopy] v2:[@"" mutableCopy] pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"296", @"className":@"unit.TestBasetypes", @"methodName":@"testFormat"}];
 	[self eq:[@"$" mutableCopy] v2:[@"$" mutableCopy] pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"297", @"className":@"unit.TestBasetypes", @"methodName":@"testFormat"}];
 	[self eq:[@"$" mutableCopy] v2:[@"$" mutableCopy] pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"298", @"className":@"unit.TestBasetypes", @"methodName":@"testFormat"}];
@@ -270,6 +286,7 @@
 }
 - (void) testAbstract{
 	
+	
 	MyAbstract *a = (MyAbstract*)33;
 	[self t:[Std is:a t: TAbstractDecl ] pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"313", @"className":@"unit.TestBasetypes", @"methodName":@"testAbstract"}];
 	[self eq:(int)a v2:33 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"314", @"className":@"unit.TestBasetypes", @"methodName":@"testAbstract"}];
@@ -280,6 +297,7 @@
 	[self eq:(int)b v2:33 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"318", @"className":@"unit.TestBasetypes", @"methodName":@"testAbstract"}];
 }
 - (void) testAbstractCast{
+	
 	
 	TestBasetypes *_g = self;
 	
@@ -313,28 +331,30 @@
 	[self t:[Std is:str1 t:NSMutableString] pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"346", @"className":@"unit.TestBasetypes", @"methodName":@"testAbstractCast"}];
 	[self eq:str1 v2:[@"Abstract casting really works!" mutableCopy] pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"347", @"className":@"unit.TestBasetypes", @"methodName":@"testAbstractCast"}];
 	id from = ^(TemplateWrap *tpl2){
+		
 		[_g eq:[(Template*)tpl2 execute:[@{
 			@"t":[[@"works!" mutableCopy] copy],
 		} mutableCopy] macros:nil] v2:[@"Abstract casting works!" mutableCopy] pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"351", @"className":@"unit.TestBasetypes", @"methodName":@"testAbstractCast"}];
-	}
+	};
 	[from:[[Template alloc] init:s]];
 	id from1 = ^(NSMutableString *s1){
+		
 		[_g eq:s1 v2:[@"Abstract casting really works!" mutableCopy] pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"357", @"className":@"unit.TestBasetypes", @"methodName":@"testAbstractCast"}];
-	}
+	};
 	[from1:[tpl1 execute:[@{
 		@"t":[[@"really works!" mutableCopy] copy],
 	} mutableCopy] macros:nil]];
 	id obj = [@{
 		@"tpl":[[[Template alloc] init:s] copy],
 	} mutableCopy];
-	[self eq:[(Template*)obj[@"tpl"] execute:[@{
+	[self eq:[(Template*)obj tpl execute:[@{
 		@"t":[[@"works!" mutableCopy] copy],
 	} mutableCopy] macros:nil] v2:[@"Abstract casting works!" mutableCopy] pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"363", @"className":@"unit.TestBasetypes", @"methodName":@"testAbstractCast"}];
 	id obj1;
 	obj1 = [@{
 		@"tpl":[[[Template alloc] init:s] copy],
 	} mutableCopy];
-	[self eq:[(Template*)obj1[@"tpl"] execute:[@{
+	[self eq:[(Template*)obj1 tpl execute:[@{
 		@"t":[[@"works!" mutableCopy] copy],
 	} mutableCopy] macros:nil] v2:[@"Abstract casting works!" mutableCopy] pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"368", @"className":@"unit.TestBasetypes", @"methodName":@"testAbstractCast"}];
 	id obj2 = [@{
@@ -342,42 +362,43 @@
 		@"t":[[@"really works!" mutableCopy] copy],
 	} mutableCopy] macros:nil] copy],
 	} mutableCopy];
-	[self eq:obj2[@"s"] v2:[@"Abstract casting really works!" mutableCopy] pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"372", @"className":@"unit.TestBasetypes", @"methodName":@"testAbstractCast"}];
+	[self eq:obj2 s v2:[@"Abstract casting really works!" mutableCopy] pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"372", @"className":@"unit.TestBasetypes", @"methodName":@"testAbstractCast"}];
 	id obj3;
 	obj3 = [@{
 		@"s":[[tpl1 execute:[@{
 		@"t":[[@"really works!" mutableCopy] copy],
 	} mutableCopy] macros:nil] copy],
 	} mutableCopy];
-	[self eq:obj3[@"s"] v2:[@"Abstract casting really works!" mutableCopy] pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"377", @"className":@"unit.TestBasetypes", @"methodName":@"testAbstractCast"}];
+	[self eq:obj3 s v2:[@"Abstract casting really works!" mutableCopy] pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"377", @"className":@"unit.TestBasetypes", @"methodName":@"testAbstractCast"}];
 	
 	NSMutableArray *arr = [@[[[Template alloc] init:s], [[Template alloc] init:[@"foo" mutableCopy]]] mutableCopy];
-	[self eq:[(Template*)[arr hx_objectAtIndex:0] execute:[@{
+	[self eq:[(Template*)((CASTTAbstract*)[arr hx_objectAtIndex:0]) execute:[@{
 		@"t":[[@"works!" mutableCopy] copy],
 	} mutableCopy] macros:nil] v2:[@"Abstract casting works!" mutableCopy] pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"381", @"className":@"unit.TestBasetypes", @"methodName":@"testAbstractCast"}];
-	[self eq:[(Template*)[arr hx_objectAtIndex:1] execute:[@{
+	[self eq:[(Template*)((CASTTAbstract*)[arr hx_objectAtIndex:1]) execute:[@{
 	} mutableCopy] macros:nil] v2:[@"foo" mutableCopy] pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"382", @"className":@"unit.TestBasetypes", @"methodName":@"testAbstractCast"}];
 	
 	NSMutableArray *arr1 = [@[[tpl1 execute:[@{
 		@"t":[[@"really works!" mutableCopy] copy],
 	} mutableCopy] macros:nil]] mutableCopy];
-	[self eq:[arr1 hx_objectAtIndex:0] v2:[@"Abstract casting really works!" mutableCopy] pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"386", @"className":@"unit.TestBasetypes", @"methodName":@"testAbstractCast"}];
+	[self eq:((NSMutableString*)[arr1 hx_objectAtIndex:0]) v2:[@"Abstract casting really works!" mutableCopy] pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"386", @"className":@"unit.TestBasetypes", @"methodName":@"testAbstractCast"}];
 	id returnAbstractCast = ^(){
+		
 		return [(Meter*)@"12.2" stringByAppendingString:[@"m" mutableCopy]];
-	}
+	};
 	[self eq:[returnAbstractCast] v2:[@"12.2m" mutableCopy] pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"394", @"className":@"unit.TestBasetypes", @"methodName":@"testAbstractCast"}];
-	id switchMe = ^(BOOL *b){
+	id switchMe = ^(BOOL b){
+		
 		return ^(NSMutableString*)switch (b){
-			case YES:{
-				__r__ = [(Meter*)@"12.2" stringByAppendingString:[@"m" mutableCopy]]}break;
-			default:{
-				__r__ = [(Meter*)@"2.4" stringByAppendingString:[@"m" mutableCopy]]}break;
+			case YES:__r__ = [(Meter*)@"12.2" stringByAppendingString:[@"m" mutableCopy]];
+			break;
+			default:__r__ = [(Meter*)@"2.4" stringByAppendingString:[@"m" mutableCopy]];break;
 		}
 		return __r__{
 			
 			NSMutableString* __r__}
 		}();
-	}
+	};
 	[self eq:[switchMe:YES] v2:[@"12.2m" mutableCopy] pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"404", @"className":@"unit.TestBasetypes", @"methodName":@"testAbstractCast"}];
 	[self eq:[switchMe:NO] v2:[@"2.4m" mutableCopy] pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"405", @"className":@"unit.TestBasetypes", @"methodName":@"testAbstractCast"}];
 	
@@ -388,12 +409,14 @@
 }
 - (void) testAbstractToAbstractCast{
 	
+	
 	Meter *m = 122.2;
 	
 	Kilometer *km = (float)m / 1000.;
 	[self feq:km v2:0.1222 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"416", @"className":@"unit.TestBasetypes", @"methodName":@"testAbstractToAbstractCast"}];
 }
 - (void) testAbstractTypeParameters{
+	
 	
 	MyHash *hash1 = [MyHash_Impl_ fromStringArray:[@[[@"k1" mutableCopy], [@"v1" mutableCopy], [@"k2" mutableCopy], [@"v2" mutableCopy]] mutableCopy]];
 	[self eq:[@"v1" mutableCopy] v2:[hash1 get:[@"k1" mutableCopy]] pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"421", @"className":@"unit.TestBasetypes", @"methodName":@"testAbstractTypeParameters"}];
@@ -405,6 +428,7 @@
 }
 - (void) testAbstractToString{
 	
+	
 	Kilometer *km = 12.5;
 	
 	Meter *m = 12.5;
@@ -414,44 +438,47 @@
 	[self eq:[@"Distance: 12.5m" mutableCopy] v2:[[@"Distance: " mutableCopy] stringByAppendingString: ([m stringByAppendingString:[@"m" mutableCopy]])] pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"434", @"className":@"unit.TestBasetypes", @"methodName":@"testAbstractToString"}];
 }
 - (void) testAbstractInline{
-	[self eq:[((int)($this:(snd ctx.path)) int this1
-	this1 = @"1"
+	
+	[self eq:((int)($this:(snd ctx.path)) int this1
+	this1 = 1
 	counter++
 	__r__ = this1
 	return __r__{
 		
 		int* __r__}
-	}(self)) stringByAppendingString:@"1"] v2:2 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"438", @"className":@"unit.TestBasetypes", @"methodName":@"testAbstractInline"}];
+	}(self)) + 1 v2:2 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"438", @"className":@"unit.TestBasetypes", @"methodName":@"testAbstractInline"}];
 	[self eq:counter v2:1 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"439", @"className":@"unit.TestBasetypes", @"methodName":@"testAbstractInline"}];
-	[self eq:[((int)($this:(snd ctx.path)) int this1
-	this1 = @"2"
+	[self eq:((int)($this:(snd ctx.path)) int this1
+	this1 = 2
 	counter++
 	__r__2 = this1
 	return __r__2{
 		
 		int* __r__2}
-	}(self)) stringByAppendingString:@"1"] v2:3 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"440", @"className":@"unit.TestBasetypes", @"methodName":@"testAbstractInline"}];
+	}(self)) + 1 v2:3 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"440", @"className":@"unit.TestBasetypes", @"methodName":@"testAbstractInline"}];
 	[self eq:counter v2:2 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"441", @"className":@"unit.TestBasetypes", @"methodName":@"testAbstractInline"}];
-	[self eq:[((int)($this:(snd ctx.path)) int this1
-	this1 = @"3"
+	[self eq:((int)($this:(snd ctx.path)) int this1
+	this1 = 3
 	counter++
 	__r__3 = this1
 	return __r__3{
 		
 		int* __r__3}
-	}(self)) stringByAppendingString:@"1"] v2:4 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"442", @"className":@"unit.TestBasetypes", @"methodName":@"testAbstractInline"}];
+	}(self)) + 1 v2:4 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"442", @"className":@"unit.TestBasetypes", @"methodName":@"testAbstractInline"}];
 	[self eq:counter v2:3 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"443", @"className":@"unit.TestBasetypes", @"methodName":@"testAbstractInline"}];
 }
 - (int) getAbstractValue:(MyAbstractCounter*)a{
-	return [a stringByAppendingString:@"1"];
+	
+	return a + 1;
 }
 - (void) testAbstractOperatorOverload{
+	
 	
 	MyVector *v1 = [[MyPoint3 alloc] init:1 y:1 z:1];
 	
 	MyVector *v2 = [[MyPoint3 alloc] init:1 y:2 z:3];
 	[self eq:[@"(2,3,4)" mutableCopy] v2:((NSMutableString)($this:(snd ctx.path)) 
-	MyPoint3 *this1 = (MyVector*)[[MyPoint3 alloc] init:[MyVector_Impl_ get_x:v1] + [MyVector_Impl_ get_x:v2] y:[MyVector_Impl_ get_y:v1] + [MyVector_Impl_ get_y:v2] z:[MyVector_Impl_ get_z:v1] + [MyVector_Impl_ get_z:v2]]
+	MyPoint3 *this1 = (MyVector*)[[MyPoint3 alloc] init:CASTTMonoCASTTMono[MyVector_Impl_ get_x:v1] + [MyVector_Impl_ get_x:v2] y:CASTTMonoCASTTMono[MyVector_Impl_ get_y:v1] + [MyVector_Impl_ get_y:v2] z:CASTTMonoCASTTMono[MyVector_Impl_ get_z:v1] + [MyVector_Impl_ get_z:v2]]
 	__r__ = [[[[[[[@"(" mutableCopy] stringByAppendingString:this1.x] stringByAppendingString:[@"," mutableCopy]] stringByAppendingString:this1.y] stringByAppendingString:[@"," mutableCopy]] stringByAppendingString:this1.z] stringByAppendingString:[@")" mutableCopy]]
 	return __r__{
 		
@@ -467,17 +494,21 @@
 	
 	MyVector *v1Old = v1;
 	{
+		
 		{
+			
 			
 			MyVector *_g = v1;
 			[MyVector_Impl_ set_x:_g x:[MyVector_Impl_ get_x:_g] * 2.];
 		}
 		{
 			
+			
 			MyVector *_g = v1;
 			[MyVector_Impl_ set_y:_g y:[MyVector_Impl_ get_y:_g] * 2.];
 		}
 		{
+			
 			
 			MyVector *_g = v1;
 			[MyVector_Impl_ set_z:_g z:[MyVector_Impl_ get_z:_g] * 2.];
@@ -505,15 +536,18 @@
 }
 - (void) testAbstractSetter{
 	
+	
 	MyAbstractSetter *as = (MyAbstractSetter*)[@{
 	} mutableCopy];
 	{
+		
 		[as value] = [@"foo" mutableCopy];
 		[@"foo" mutableCopy];
 	}
 	[self eq:[as value] v2:[@"foo" mutableCopy] pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"478", @"className":@"unit.TestBasetypes", @"methodName":@"testAbstractSetter"}];
 }
 - (void) testAbstractMemberCall{
+	
 	
 	MyAbstractThatCallsAMember *as = [MyAbstractThatCallsAMember_Impl_ _new:2];
 	[self eq:3 v2:as pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"483", @"className":@"unit.TestBasetypes", @"methodName":@"testAbstractMemberCall"}];

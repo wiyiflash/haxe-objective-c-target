@@ -11,6 +11,7 @@
 
 @synthesize b;
 - (id) init{
+	
 	self = [super init];
 	self.b = [@"" mutableCopy];
 	return self;

@@ -10,16 +10,21 @@
 @implementation NSMutableDictionary ( StringMap )
 
 - (void) set:(NSMutableString*)key value:(id)value{
+	
 	[self setObject:value forKey:key];
 }
 - (id) get:(NSMutableString*)key{
+	
 	return [self objectForKey:key];
 }
 - (BOOL) exists:(NSMutableString*)key{
+	
 	return [self objectForKey:key] != nil;
 }
 - (BOOL) remove:(NSMutableString*)key{
+	
 	if ([self exists:key]) {
+		
 		[self removeObjectForKey:key];
 		return YES;
 	}
@@ -27,10 +32,12 @@
 }
 - (id) keys{
 	
+	
 	NSMutableArray *a = [self allKeys];
 	return [a iterator];
 }
 - (id) iterator{
+	
 	
 	NSMutableArray *a = [self allValues];
 	id it = [a iterator];
@@ -38,17 +45,21 @@
 	StringMap *me = self;
 	return [@{
 		@"hasNext":[^(){
-		return [it[@"hasNext"]];
+		
+		return [it hasNext];
 	} copy],
 		@"next":[^(){
-		return [me __Internal[@"__Field"]:[it[@"next"]] :YES];
+		
+		return [me __Internal __Field:[it next] :YES];
 	} copy],
 	} mutableCopy];
 }
 - (NSMutableString*) toString{
+	
 	return [self description];
 }
 - (id) init{
+	
 	self = [super init];
 	return self;
 }

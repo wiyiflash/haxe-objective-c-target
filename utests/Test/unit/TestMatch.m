@@ -10,221 +10,192 @@
 @implementation TestMatch
 
 + (NSMutableString*) switchNormal:(id)e{
+	
 	return ^(NSMutableString*)
-	enum s = e2 (e[@"expr"])
+	enum s = e2 (e expr)
 	switch ( e2.index ) {
 		
 		case 0:
 		
-		var MATCH e_fexpr_eEConst_0 : Expr = e2.params[0]{
-			__r__ = ^(id)
-			enum s = e4 (e_fexpr_eEConst_0)
-			switch ( e4.index ) {
+		var MATCH e_fexpr_eEConst_0 : Constant = e2.params[0]__r__ = ^(id)
+		enum s = e4 (e_fexpr_eEConst_0)
+		switch ( e4.index ) {
+			
+			case 2:
+			
+			var MATCH s : NSMutableString = e4.params[0]__r__3 = s;break
+			default:__r__3 = [@"not_found" mutableCopy];break
+		}
+		return __r__3{
+			
+			id* __r__3}
+		}();break
+		case 4:
+		
+		var MATCH e_fexpr_eEParenthesis_0 : id = e2.params[0]__r__ = ^(id)
+		enum s = e6 (e_fexpr_eEParenthesis_0 expr)
+		switch ( e6.index ) {
+			
+			case 0:
+			
+			var MATCH e_fexpr_eEParenthesis_0_fexpr_eEConst_0 : Constant = e6.params[0]__r__5 = ^(id)
+			enum s = e8 (e_fexpr_eEParenthesis_0_fexpr_eEConst_0)
+			switch ( e8.index ) {
 				
 				case 2:
 				
-				var MATCH e_fexpr_eEConst_0_eCString_0 : NSMutableString = e4.params[0]{
-					__r__3 = e_fexpr_eEConst_0_eCString_0}break
-				default:{
-					__r__3 = [@"not_found" mutableCopy]}break
+				var MATCH s : NSMutableString = e8.params[0]__r__7 = s;break
+				default:__r__7 = [@"not_found" mutableCopy];break
 			}
-			return __r__3{
+			return __r__7{
 				
-				id* __r__3}
-			}()}break
-		case 4:
-		
-		var MATCH e_fexpr_eEParenthesis_0 : id = e2.params[0]{
-			__r__ = ^(id)
-			enum s = e6 (e_fexpr_eEParenthesis_0[@"expr"])
-			switch ( e6.index ) {
-				
-				case 0:
-				
-				var MATCH e_fexpr_eEParenthesis_0_fexpr_eEConst_0 : Expr = e6.params[0]{
-					__r__5 = ^(id)
-					enum s = e8 (e_fexpr_eEParenthesis_0_fexpr_eEConst_0)
-					switch ( e8.index ) {
-						
-						case 2:
-						
-						var MATCH e_fexpr_eEParenthesis_0_fexpr_eEConst_0_eCString_0 : NSMutableString = e8.params[0]{
-							__r__7 = e_fexpr_eEParenthesis_0_fexpr_eEConst_0_eCString_0}break
-						default:{
-							__r__7 = [@"not_found" mutableCopy]}break
-					}
-					return __r__7{
-						
-						id* __r__7}
-					}()}break
-				default:{
-					__r__5 = [@"not_found" mutableCopy]}break
-			}
-			return __r__5{
-				
-				id* __r__5}
-			}()}break
+				id* __r__7}
+			}();break
+			default:__r__5 = [@"not_found" mutableCopy];break
+		}
+		return __r__5{
+			
+			id* __r__5}
+		}();break
 		case 22:
 		
-		var MATCH e_fexpr_eEUntyped_0 : id = e2.params[0]{
-			__r__ = ^(id)
-			enum s = e10 (e_fexpr_eEUntyped_0[@"expr"])
-			switch ( e10.index ) {
+		var MATCH e_fexpr_eEUntyped_0 : id = e2.params[0]__r__ = ^(id)
+		enum s = e10 (e_fexpr_eEUntyped_0 expr)
+		switch ( e10.index ) {
+			
+			case 0:
+			
+			var MATCH e_fexpr_eEUntyped_0_fexpr_eEConst_0 : Constant = e10.params[0]__r__9 = ^(id)
+			enum s = e12 (e_fexpr_eEUntyped_0_fexpr_eEConst_0)
+			switch ( e12.index ) {
 				
-				case 0:
+				case 2:
 				
-				var MATCH e_fexpr_eEUntyped_0_fexpr_eEConst_0 : Expr = e10.params[0]{
-					__r__9 = ^(id)
-					enum s = e12 (e_fexpr_eEUntyped_0_fexpr_eEConst_0)
-					switch ( e12.index ) {
-						
-						case 2:
-						
-						var MATCH e_fexpr_eEUntyped_0_fexpr_eEConst_0_eCString_0 : NSMutableString = e12.params[0]{
-							__r__11 = e_fexpr_eEUntyped_0_fexpr_eEConst_0_eCString_0}break
-						default:{
-							__r__11 = [@"not_found" mutableCopy]}break
-					}
-					return __r__11{
-						
-						id* __r__11}
-					}()}break
-				default:{
-					__r__9 = [@"not_found" mutableCopy]}break
+				var MATCH s : NSMutableString = e12.params[0]__r__11 = s;break
+				default:__r__11 = [@"not_found" mutableCopy];break
 			}
-			return __r__9{
+			return __r__11{
 				
-				id* __r__9}
-			}()}break
+				id* __r__11}
+			}();break
+			default:__r__9 = [@"not_found" mutableCopy];break
+		}
+		return __r__9{
+			
+			id* __r__9}
+		}();break
 		case 3:
 		
-		var MATCH e_fexpr_eEField_1 : NSMutableString = e2.params[1], MATCH e_fexpr_eEField_0 : id = e2.params[0]{
-			__r__ = e_fexpr_eEField_1}break
+		var MATCH s : NSMutableString = e2.params[1], MATCH e_fexpr_eEField_0 : id = e2.params[0]__r__ = s;break
 		case 1:
 		
-		var MATCH e_fexpr_eEArray_1 : id = e2.params[1], MATCH e_fexpr_eEArray_0 : id = e2.params[0]{
-			__r__ = ^(id)
-			enum s = e14 (e_fexpr_eEArray_1[@"expr"])
-			switch ( e14.index ) {
+		var MATCH e_fexpr_eEArray_1 : id = e2.params[1], MATCH e_fexpr_eEArray_0 : id = e2.params[0]__r__ = ^(id)
+		enum s = e14 (e_fexpr_eEArray_1 expr)
+		switch ( e14.index ) {
+			
+			case 0:
+			
+			var MATCH e_fexpr_eEArray_1_fexpr_eEConst_0 : Constant = e14.params[0]__r__13 = ^(id)
+			enum s = e16 (e_fexpr_eEArray_1_fexpr_eEConst_0)
+			switch ( e16.index ) {
 				
 				case 0:
 				
-				var MATCH e_fexpr_eEArray_1_fexpr_eEConst_0 : Expr = e14.params[0]{
-					__r__13 = ^(id)
-					enum s = e16 (e_fexpr_eEArray_1_fexpr_eEConst_0)
-					switch ( e16.index ) {
-						
-						case 0:
-						
-						var MATCH e_fexpr_eEArray_1_fexpr_eEConst_0_eCInt_0 : NSMutableString = e16.params[0]{
-							__r__15 = [Std string:e_fexpr_eEArray_1_fexpr_eEConst_0_eCInt_0]}break
-						case 1:
-						
-						var MATCH e_fexpr_eEArray_1_fexpr_eEConst_0_eCFloat_0 : NSMutableString = e16.params[0]{
-							__r__15 = [Std string:e_fexpr_eEArray_1_fexpr_eEConst_0_eCFloat_0]}break
-						default:{
-							__r__15 = [@"not_found" mutableCopy]}break
-					}
-					return __r__15{
-						
-						id* __r__15}
-					}()}break
-				default:{
-					__r__13 = [@"not_found" mutableCopy]}break
-			}
-			return __r__13{
+				var MATCH i : NSMutableString = e16.params[0]__r__15 = [Std string:i];break
+				case 1:
 				
-				id* __r__13}
-			}()}break
+				var MATCH i : NSMutableString = e16.params[0]__r__15 = [Std string:i];break
+				default:__r__15 = [@"not_found" mutableCopy];break
+			}
+			return __r__15{
+				
+				id* __r__15}
+			}();break
+			default:__r__13 = [@"not_found" mutableCopy];break
+		}
+		return __r__13{
+			
+			id* __r__13}
+		}();break
 		case 14:
 		
-		var MATCH e_fexpr_eEIn_1 : id = e2.params[1], MATCH e_fexpr_eEIn_0 : id = e2.params[0]{
-			__r__ = [Std string:e_fexpr_eEIn_1[@"expr"]]}break
-		default:{
-			__r__ = [@"not_found" mutableCopy]}break
+		var MATCH e_fexpr_eEIn_1 : id = e2.params[1], MATCH e_fexpr_eEIn_0 : id = e2.params[0]__r__ = [Std string:e_fexpr_eEIn_1 expr];break
+		default:__r__ = [@"not_found" mutableCopy];break
 	}
 	return __r__{
 		
 		NSMutableString* __r__}
 	}();
 }
-+ (Expr*) switchCapture:(id)e{
-	return ^(Expr*)
-	enum s = e2 (e[@"expr"])
++ (Constant*) switchCapture:(id)e{
+	
+	return ^(Constant*)
+	enum s = e2 (e expr)
 	switch ( e2.index ) {
 		
 		case 0:
 		
-		var MATCH e_fexpr_eEConst_0 : Expr = e2.params[0]{
-			__r__ = ^(id)
-			enum s = e4 (e_fexpr_eEConst_0)
-			switch ( e4.index ) {
-				
-				case 2:
-				
-				var MATCH e_fexpr_eEConst_0_eCString_0 : NSMutableString = e4.params[0]{
-					__r__3 = ^(id)switch (e_fexpr_eEConst_0_eCString_0){
-						case [@"foobar" mutableCopy]:{
-							__r__5 = e_fexpr_eEConst_0}break;
-						default:{
-							__r__5 = nil}break;
-					}
-					return __r__5{
-						
-						id* __r__5}
-					}()}break
-				case 0:
-				
-				var MATCH e_fexpr_eEConst_0_eCInt_0 : NSMutableString = e4.params[0]{
-					__r__3 = ^(id)switch (e_fexpr_eEConst_0_eCInt_0){
-						case [@"9" mutableCopy]:{
-							__r__6 = e_fexpr_eEConst_0}break;
-						default:{
-							__r__6 = nil}break;
-					}
-					return __r__6{
-						
-						id* __r__6}
-					}()}break
-				default:{
-					__r__3 = nil}break
+		var MATCH _const : Constant = e2.params[0]__r__ = ^(id)
+		enum s = e4 (_const)
+		switch ( e4.index ) {
+			
+			case 2:
+			
+			var MATCH e_fexpr_eEConst_0_eCString_0 : NSMutableString = e4.params[0]__r__3 = ^(id)switch (e_fexpr_eEConst_0_eCString_0){
+				case [@"foobar" mutableCopy]:__r__5 = _const;
+				break;
+				default:__r__5 = nil;break;
 			}
-			return __r__3{
+			return __r__5{
 				
-				id* __r__3}
-			}()}break
-		default:{
-			__r__ = nil}break
+				id* __r__5}
+			}();break
+			case 0:
+			
+			var MATCH e_fexpr_eEConst_0_eCInt_0 : NSMutableString = e4.params[0]__r__3 = ^(id)switch (e_fexpr_eEConst_0_eCInt_0){
+				case [@"9" mutableCopy]:__r__6 = _const;
+				break;
+				default:__r__6 = nil;break;
+			}
+			return __r__6{
+				
+				id* __r__6}
+			}();break
+			default:__r__3 = nil;break
+		}
+		return __r__3{
+			
+			id* __r__3}
+		}();break
+		default:__r__ = nil;break
 	}
 	return __r__{
 		
-		Expr* __r__}
+		Constant* __r__}
 	}();
 }
 + (NSMutableString*) switchArray:(id)e{
+	
 	return ^(NSMutableString*)
-	enum s = e2 (e[@"expr"])
+	enum s = e2 (e expr)
 	switch ( e2.index ) {
 		
 		case 6:
 		
-		var MATCH e_fexpr_eEArrayDecl_0 : NSMutableArray = e2.params[0]{
-			__r__ = ^(id)switch (e_fexpr_eEArrayDecl_0.length){
-				case 0:{
-					__r__3 = [@"[]" mutableCopy]}break;
-				case 1:{
-					__r__3 = [[[@"[" mutableCopy] stringByAppendingString:[Std string:[e_fexpr_eEArrayDecl_0 hx_objectAtIndex:@"0"][@"expr"]]] stringByAppendingString:[@"]" mutableCopy]]}break;
-				case 2:{
-					__r__3 = [[[[[@"[" mutableCopy] stringByAppendingString:[Std string:[e_fexpr_eEArrayDecl_0 hx_objectAtIndex:@"0"][@"expr"]]] stringByAppendingString:[@"," mutableCopy]] stringByAppendingString:[Std string:[e_fexpr_eEArrayDecl_0 hx_objectAtIndex:@"1"][@"expr"]]] stringByAppendingString:[@"]" mutableCopy]]}break;
-				default:{
-					__r__3 = [@"_" mutableCopy]}break;
-			}
-			return __r__3{
-				
-				id* __r__3}
-			}()}break
-		default:{
-			__r__ = [@"_" mutableCopy]}break
+		var MATCH e_fexpr_eEArrayDecl_0 : NSMutableArray = e2.params[0]__r__ = ^(id)switch (e_fexpr_eEArrayDecl_0.length){
+			case 0:__r__3 = [@"[]" mutableCopy];
+			break;
+			case 1:__r__3 = [[[@"[" mutableCopy] stringByAppendingString:[Std string:((CASTTType*)[e_fexpr_eEArrayDecl_0 hx_objectAtIndex:@"0"]) expr]] stringByAppendingString:[@"]" mutableCopy]];
+			break;
+			case 2:__r__3 = [[[[[@"[" mutableCopy] stringByAppendingString:[Std string:((CASTTType*)[e_fexpr_eEArrayDecl_0 hx_objectAtIndex:@"0"]) expr]] stringByAppendingString:[@"," mutableCopy]] stringByAppendingString:[Std string:((CASTTType*)[e_fexpr_eEArrayDecl_0 hx_objectAtIndex:@"1"]) expr]] stringByAppendingString:[@"]" mutableCopy]];
+			break;
+			default:__r__3 = [@"_" mutableCopy];break;
+		}
+		return __r__3{
+			
+			id* __r__3}
+		}();break
+		default:__r__ = [@"_" mutableCopy];break
 	}
 	return __r__{
 		
@@ -232,44 +203,41 @@
 	}();
 }
 + (NSMutableString*) switchArray2:(NSMutableArray*)a{
+	
 	return ^(NSMutableString*)switch (a.length){
-		case 2:{
-			__r__ = ^(id)switch ([a hx_objectAtIndex:0]){
-				case [@"a" mutableCopy]:{
-					__r__2 = ^(id)switch ([a hx_objectAtIndex:1]){
-						case [@"b" mutableCopy]:{
-							__r__3 = [@"0" mutableCopy]}break;
-						default:{
-							__r__3 = [[[[@"4:" mutableCopy] stringByAppendingString:[a hx_objectAtIndex:@"0"]] stringByAppendingString:[@"," mutableCopy]] stringByAppendingString:[a hx_objectAtIndex:@"1"]]}break;
-					}
-					return __r__3{
-						
-						id* __r__3}
-					}()}break;
-				default:{
-					__r__2 = [[[[@"4:" mutableCopy] stringByAppendingString:[a hx_objectAtIndex:@"0"]] stringByAppendingString:[@"," mutableCopy]] stringByAppendingString:[a hx_objectAtIndex:@"1"]]}break;
+		case 2:__r__ = ^(id)switch (((NSMutableString*)[a hx_objectAtIndex:0])){
+			case [@"a" mutableCopy]:__r__2 = ^(id)switch (((NSMutableString*)[a hx_objectAtIndex:1])){
+				case [@"b" mutableCopy]:__r__3 = [@"0" mutableCopy];
+				break;
+				default:__r__3 = [[[[@"4:" mutableCopy] stringByAppendingString:((NSMutableString*)[a hx_objectAtIndex:@"0"])] stringByAppendingString:[@"," mutableCopy]] stringByAppendingString:((NSMutableString*)[a hx_objectAtIndex:@"1"])];break;
 			}
-			return __r__2{
+			return __r__3{
 				
-				id* __r__2}
-			}()}break;
-		case 1:{
-			__r__ = ^(id)switch ([a hx_objectAtIndex:0]){
-				case [@"a" mutableCopy]:{
-					__r__4 = [@"1" mutableCopy]}break;
-				case [@"b" mutableCopy]:{
-					__r__4 = [@"2" mutableCopy]}break;
-				default:{
-					__r__4 = [[@"3:" mutableCopy] stringByAppendingString:[a hx_objectAtIndex:@"0"]]}break;
-			}
-			return __r__4{
-				
-				id* __r__4}
-			}()}break;
-		case 0:{
-			__r__ = ( (a.length == 3) ? [[@"5:" mutableCopy] stringByAppendingString:a.length] : [@"6" mutableCopy])}break;
-		default:{
-			__r__ = ( (a.length == 3) ? [[@"5:" mutableCopy] stringByAppendingString:a.length] : [@"7" mutableCopy])}break;
+				id* __r__3}
+			}();
+			break;
+			default:__r__2 = [[[[@"4:" mutableCopy] stringByAppendingString:((NSMutableString*)[a hx_objectAtIndex:@"0"])] stringByAppendingString:[@"," mutableCopy]] stringByAppendingString:((NSMutableString*)[a hx_objectAtIndex:@"1"])];break;
+		}
+		return __r__2{
+			
+			id* __r__2}
+		}();
+		break;
+		case 1:__r__ = ^(id)switch (((NSMutableString*)[a hx_objectAtIndex:0])){
+			case [@"a" mutableCopy]:__r__4 = [@"1" mutableCopy];
+			break;
+			case [@"b" mutableCopy]:__r__4 = [@"2" mutableCopy];
+			break;
+			default:__r__4 = [[@"3:" mutableCopy] stringByAppendingString:((NSMutableString*)[a hx_objectAtIndex:@"0"])];break;
+		}
+		return __r__4{
+			
+			id* __r__4}
+		}();
+		break;
+		case 0:__r__ = ( (a.length == 3) ? [[@"5:" mutableCopy] stringByAppendingString:a.length] : [@"6" mutableCopy]);
+		break;
+		default:__r__ = ( (a.length == 3) ? [[@"5:" mutableCopy] stringByAppendingString:a.length] : [@"7" mutableCopy]);break;
 	}
 	return __r__{
 		
@@ -277,29 +245,27 @@
 	}();
 }
 + (NSMutableString*) switchStructure:(id)a{
-	return ^(NSMutableString*)switch (a[@"foo"]){
-		case [@"val1" mutableCopy]:{
-			__r__ = ^(id)switch (a[@"bar"]){
-				case [@"val2" mutableCopy]:{
-					__r__2 = [@"0" mutableCopy]}break;
-				default:{
-					__r__2 = [@"1" mutableCopy]}break;
-			}
-			return __r__2{
-				
-				id* __r__2}
-			}()}break;
-		default:{
-			__r__ = ^(id)switch (a[@"bar"]){
-				case [@"val2" mutableCopy]:{
-					__r__3 = [@"2" mutableCopy]}break;
-				default:{
-					__r__3 = a[@"bar"]}break;
-			}
-			return __r__3{
-				
-				id* __r__3}
-			}()}break;
+	
+	return ^(NSMutableString*)switch (a foo){
+		case [@"val1" mutableCopy]:__r__ = ^(id)switch (a bar){
+			case [@"val2" mutableCopy]:__r__2 = [@"0" mutableCopy];
+			break;
+			default:__r__2 = [@"1" mutableCopy];break;
+		}
+		return __r__2{
+			
+			id* __r__2}
+		}();
+		break;
+		default:__r__ = ^(id)switch (a bar){
+			case [@"val2" mutableCopy]:__r__3 = [@"2" mutableCopy];
+			break;
+			default:__r__3 = a bar;break;
+		}
+		return __r__3{
+			
+			id* __r__3}
+		}();break;
 	}
 	return __r__{
 		
@@ -307,100 +273,87 @@
 	}();
 }
 + (NSMutableString*) switchCrazy:(id)e{
+	
 	return ^(NSMutableString*)
-	enum s = e2 (e[@"expr"])
+	enum s = e2 (e expr)
 	switch ( e2.index ) {
 		
 		case 22:
 		
-		var MATCH e_fexpr_eEUntyped_0 : id = e2.params[0]{
-			__r__ = ^(id)
-			enum s = e4 (e_fexpr_eEUntyped_0[@"expr"])
-			switch ( e4.index ) {
+		var MATCH e_fexpr_eEUntyped_0 : id = e2.params[0]__r__ = ^(id)
+		enum s = e4 (e_fexpr_eEUntyped_0 expr)
+		switch ( e4.index ) {
+			
+			case 4:
+			
+			var MATCH e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0 : id = e4.params[0]__r__3 = ^(id)
+			enum s = e6 (e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0 expr)
+			switch ( e6.index ) {
 				
-				case 4:
+				case 1:
 				
-				var MATCH e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0 : id = e4.params[0]{
-					__r__3 = ^(id)
-					enum s = e6 (e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0[@"expr"])
-					switch ( e6.index ) {
+				var MATCH e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_1 : id = e6.params[1], MATCH e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_0 : id = e6.params[0]__r__5 = ^(id)
+				enum s = e8 (e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_0 expr)
+				switch ( e8.index ) {
+					
+					case 0:
+					
+					var MATCH e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_0_fexpr_eEConst_0 : Constant = e8.params[0]__r__7 = ^(id)
+					enum s = e10 (e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_0_fexpr_eEConst_0)
+					switch ( e10.index ) {
 						
-						case 1:
+						case 2:
 						
-						var MATCH e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_1 : id = e6.params[1], MATCH e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_0 : id = e6.params[0]{
-							__r__5 = ^(id)
-							enum s = e8 (e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_0[@"expr"])
-							switch ( e8.index ) {
+						var MATCH e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_0_fexpr_eEConst_0_eCString_0 : NSMutableString = e10.params[0]__r__9 = ^(id)
+						enum s = e12 (e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_1 expr)
+						switch ( e12.index ) {
+							
+							case 0:
+							
+							var MATCH e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_1_fexpr_eEConst_0 : Constant = e12.params[0]__r__11 = ^(id)
+							enum s = e14 (e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_1_fexpr_eEConst_0)
+							switch ( e14.index ) {
 								
 								case 0:
 								
-								var MATCH e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_0_fexpr_eEConst_0 : Expr = e8.params[0]{
-									__r__7 = ^(id)
-									enum s = e10 (e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_0_fexpr_eEConst_0)
-									switch ( e10.index ) {
-										
-										case 2:
-										
-										var MATCH e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_0_fexpr_eEConst_0_eCString_0 : NSMutableString = e10.params[0]{
-											__r__9 = ^(id)
-											enum s = e12 (e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_1[@"expr"])
-											switch ( e12.index ) {
-												
-												case 0:
-												
-												var MATCH e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_1_fexpr_eEConst_0 : Expr = e12.params[0]{
-													__r__11 = ^(id)
-													enum s = e14 (e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_1_fexpr_eEConst_0)
-													switch ( e14.index ) {
-														
-														case 0:
-														
-														var MATCH e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_1_fexpr_eEConst_0_eCInt_0 : NSMutableString = e14.params[0]{
-															__r__13 = [[[Std string:e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_0[@"expr"]] stringByAppendingString:[@":" mutableCopy]] stringByAppendingString:e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_1_fexpr_eEConst_0_eCInt_0]}break
-														default:{
-															__r__13 = [@"_" mutableCopy]}break
-													}
-													return __r__13{
-														
-														id* __r__13}
-													}()}break
-												default:{
-													__r__11 = [@"_" mutableCopy]}break
-											}
-											return __r__11{
-												
-												id* __r__11}
-											}()}break
-										default:{
-											__r__9 = [@"_" mutableCopy]}break
-									}
-									return __r__9{
-										
-										id* __r__9}
-									}()}break
-								default:{
-									__r__7 = [@"_" mutableCopy]}break
+								var MATCH b : NSMutableString = e14.params[0]__r__13 = [[[Std string:e_fexpr_eEUntyped_0_fexpr_eEParenthesis_0_fexpr_eEArray_0 expr] stringByAppendingString:[@":" mutableCopy]] stringByAppendingString:b];break
+								default:__r__13 = [@"_" mutableCopy];break
 							}
-							return __r__7{
+							return __r__13{
 								
-								id* __r__7}
-							}()}break
-						default:{
-							__r__5 = [@"_" mutableCopy]}break
+								id* __r__13}
+							}();break
+							default:__r__11 = [@"_" mutableCopy];break
+						}
+						return __r__11{
+							
+							id* __r__11}
+						}();break
+						default:__r__9 = [@"_" mutableCopy];break
 					}
-					return __r__5{
+					return __r__9{
 						
-						id* __r__5}
-					}()}break
-				default:{
-					__r__3 = [@"_" mutableCopy]}break
+						id* __r__9}
+					}();break
+					default:__r__7 = [@"_" mutableCopy];break
+				}
+				return __r__7{
+					
+					id* __r__7}
+				}();break
+				default:__r__5 = [@"_" mutableCopy];break
 			}
-			return __r__3{
+			return __r__5{
 				
-				id* __r__3}
-			}()}break
-		default:{
-			__r__ = [@"_" mutableCopy]}break
+				id* __r__5}
+			}();break
+			default:__r__3 = [@"_" mutableCopy];break
+		}
+		return __r__3{
+			
+			id* __r__3}
+		}();break
+		default:__r__ = [@"_" mutableCopy];break
 	}
 	return __r__{
 		
@@ -408,84 +361,78 @@
 	}();
 }
 + (NSMutableString*) switchGuard:(id)e{
+	
 	return ^(NSMutableString*)
-	enum s = e2 (e[@"expr"])
+	enum s = e2 (e expr)
 	switch ( e2.index ) {
 		
 		case 0:
 		
-		var MATCH e_fexpr_eEConst_0 : Expr = e2.params[0]{
-			__r__ = ^(id)
-			enum s = e4 (e_fexpr_eEConst_0)
-			switch ( e4.index ) {
-				
-				case 2:
-				
-				var MATCH e_fexpr_eEConst_0_eCString_0 : NSMutableString = e4.params[0]{
-					__r__3 = ( ([StringTools startsWith:e_fexpr_eEConst_0_eCString_0 start:[@"foo" mutableCopy]]) ? [@"1" mutableCopy] : ( ([StringTools startsWith:e_fexpr_eEConst_0_eCString_0 start:[@"bar" mutableCopy]]) ? [@"2" mutableCopy] : [@"4" mutableCopy]))}break
-				case 0:
-				
-				var MATCH e_fexpr_eEConst_0_eCInt_0 : NSMutableString = e4.params[0]{
-					__r__3 = ( (^(BOOL)int _g = [Std parseInt:e_fexpr_eEConst_0_eCInt_0] * 2
-					__r__5 = ^(BOOL)switch (_g){
-						case 4:{
-							__r__6 = YES}break;
-						default:{
-							__r__6 = NO}break;
-					}
-					return __r__6{
-						
-						BOOL* __r__6}
-					}()
-					return __r__5{
-						
-						BOOL* __r__5}
-					}()) ? [@"3" mutableCopy] : [@"4" mutableCopy])}break
-				default:{
-					__r__3 = [@"4" mutableCopy]}break
+		var MATCH e_fexpr_eEConst_0 : Constant = e2.params[0]__r__ = ^(id)
+		enum s = e4 (e_fexpr_eEConst_0)
+		switch ( e4.index ) {
+			
+			case 2:
+			
+			var MATCH s : NSMutableString = e4.params[0]__r__3 = ( ([StringTools startsWith:s start:[@"foo" mutableCopy]]) ? [@"1" mutableCopy] : ( ([StringTools startsWith:s start:[@"bar" mutableCopy]]) ? [@"2" mutableCopy] : [@"4" mutableCopy]));break
+			case 0:
+			
+			var MATCH i : NSMutableString = e4.params[0]__r__3 = ( (^(BOOL)int _g = [Std parseInt:i] * 2
+			__r__5 = ^(BOOL)switch (_g){
+				case 4:__r__6 = YES;
+				break;
+				default:__r__6 = NO;break;
 			}
-			return __r__3{
+			return __r__6{
 				
-				id* __r__3}
-			}()}break
-		default:{
-			__r__ = [@"5" mutableCopy]}break
+				BOOL* __r__6}
+			}()
+			return __r__5{
+				
+				BOOL* __r__5}
+			}()) ? [@"3" mutableCopy] : [@"4" mutableCopy]);break
+			default:__r__3 = [@"4" mutableCopy];break
+		}
+		return __r__3{
+			
+			id* __r__3}
+		}();break
+		default:__r__ = [@"5" mutableCopy];break
 	}
 	return __r__{
 		
 		NSMutableString* __r__}
 	}();
 }
-+ (NSMutableString*) switchClass:(Class*)cl{
-	return ^(NSMutableString*)switch (cl){
-		case NSMutableString:{
-			__r__ = [@"String" mutableCopy]}break;
-		case MyClass:{
-			__r__ = [@"unit.MyClass" mutableCopy]}break;
-		default:{
-			__r__ = [[@"other: " mutableCopy] stringByAppendingString:[Type getClassName:cl]]}break;
++ (NSMutableString*) switchClass:(Class*)a{
+	
+	return ^(NSMutableString*)switch (a){
+		case NSMutableString:__r__ = [@"String" mutableCopy];
+		break;
+		case MyClass:__r__ = [@"unit.MyClass" mutableCopy];
+		break;
+		default:__r__ = [[@"other: " mutableCopy] stringByAppendingString:[Type getClassName:a]];break;
 	}
 	return __r__{
 		
 		NSMutableString* __r__}
 	}();
 }
-+ (NSMutableString*) toStringX:(TestMatch*)x1{
++ (NSMutableString*) toStringX:(X*)x1{
+	
 	return ^(NSMutableString*)
 	enum s = e2 (x1)
 	switch ( e2.index ) {
 		
 		case 0:
 		
-		var MATCH x1_eU1_0 : int = e2.params[0]{
-			__r__ = ( (x1_eU1_0 > 1) ? [@">1" mutableCopy] : ( (x1_eU1_0 <= 1) ? [@"<=1" mutableCopy] : ^(NSMutableString*)@throw [@"this is impossible to reach actually" mutableCopy];
-			return __r__3{
-				
-				NSMutableString* __r__3}
-			}()))}break
+		var MATCH x : int = e2.params[0]__r__ = ( (x > 1) ? [@">1" mutableCopy] : ( (x <= 1) ? [@"<=1" mutableCopy] : ^(NSMutableString*)@throw [@"this is impossible to reach actually" mutableCopy];
+		return __r__3{
+			
+			NSMutableString* __r__3}
+		}()));break
 		case 1:
-		{
-			__r__ = [@"U2" mutableCopy]}break
+		__r__ = [@"U2" mutableCopy];break
 	}
 	return __r__{
 		
@@ -493,98 +440,84 @@
 	}();
 }
 + (NSMutableString*) orMatch:(id)e1 e2:(id)e2{
+	
 	return ^(NSMutableString*)
-	enum s = e2 (e1[@"expr"])
+	enum s = e2 (e1 expr)
 	switch ( e2.index ) {
 		
 		case 0:
 		
-		var MATCH e1_fexpr_eEConst_0 : Expr = e2.params[0]{
-			__r__ = ^(id)
-			enum s = e4 (e1_fexpr_eEConst_0)
-			switch ( e4.index ) {
+		var MATCH e1_fexpr_eEConst_0 : Constant = e2.params[0]__r__ = ^(id)
+		enum s = e4 (e1_fexpr_eEConst_0)
+		switch ( e4.index ) {
+			
+			case 1:
+			
+			var MATCH a : NSMutableString = e4.params[0]__r__3 = ^(id)
+			enum s = e6 (e2 expr)
+			switch ( e6.index ) {
 				
-				case 1:
-				
-				var MATCH e1_fexpr_eEConst_0_eCFloat_0 : NSMutableString = e4.params[0]{
-					__r__3 = ^(id)
-					enum s = e6 (e2[@"expr"])
-					switch ( e6.index ) {
-						
-						case 0:
-						
-						var MATCH e2_fexpr_eEConst_0 : Expr = e6.params[0]{
-							__r__5 = ^(id)
-							enum s = e8 (e2_fexpr_eEConst_0)
-							switch ( e8.index ) {
-								
-								case 1:
-								
-								var MATCH e2_fexpr_eEConst_0_eCFloat_0 : NSMutableString = e8.params[0]{
-									__r__7 = e1_fexpr_eEConst_0_eCFloat_0 + e2_fexpr_eEConst_0_eCFloat_0}break
-								case 0:
-								
-								var MATCH e2_fexpr_eEConst_0_eCInt_0 : NSMutableString = e8.params[0]{
-									__r__7 = e1_fexpr_eEConst_0_eCFloat_0 + e2_fexpr_eEConst_0_eCInt_0}break
-								default:{
-									__r__7 = nil}break
-							}
-							return __r__7{
-								
-								id* __r__7}
-							}()}break
-						default:{
-							__r__5 = nil}break
-					}
-					return __r__5{
-						
-						id* __r__5}
-					}()}break
 				case 0:
 				
-				var MATCH e1_fexpr_eEConst_0_eCInt_0 : NSMutableString = e4.params[0]{
-					__r__3 = ^(id)
-					enum s = e10 (e2[@"expr"])
-					switch ( e10.index ) {
-						
-						case 0:
-						
-						var MATCH e2_fexpr_eEConst_0 : Expr = e10.params[0]{
-							__r__9 = ^(id)
-							enum s = e12 (e2_fexpr_eEConst_0)
-							switch ( e12.index ) {
-								
-								case 1:
-								
-								var MATCH e2_fexpr_eEConst_0_eCFloat_0 : NSMutableString = e12.params[0]{
-									__r__11 = e1_fexpr_eEConst_0_eCInt_0 + e2_fexpr_eEConst_0_eCFloat_0}break
-								case 0:
-								
-								var MATCH e2_fexpr_eEConst_0_eCInt_0 : NSMutableString = e12.params[0]{
-									__r__11 = e1_fexpr_eEConst_0_eCInt_0 + e2_fexpr_eEConst_0_eCInt_0}break
-								default:{
-									__r__11 = nil}break
-							}
-							return __r__11{
-								
-								id* __r__11}
-							}()}break
-						default:{
-							__r__9 = nil}break
-					}
-					return __r__9{
-						
-						id* __r__9}
-					}()}break
-				default:{
-					__r__3 = nil}break
+				var MATCH e2_fexpr_eEConst_0 : Constant = e6.params[0]__r__5 = ^(id)
+				enum s = e8 (e2_fexpr_eEConst_0)
+				switch ( e8.index ) {
+					
+					case 1:
+					
+					var MATCH b : NSMutableString = e8.params[0]__r__7 = a + b;break
+					case 0:
+					
+					var MATCH b : NSMutableString = e8.params[0]__r__7 = a + b;break
+					default:__r__7 = nil;break
+				}
+				return __r__7{
+					
+					id* __r__7}
+				}();break
+				default:__r__5 = nil;break
 			}
-			return __r__3{
+			return __r__5{
 				
-				id* __r__3}
-			}()}break
-		default:{
-			__r__ = nil}break
+				id* __r__5}
+			}();break
+			case 0:
+			
+			var MATCH a : NSMutableString = e4.params[0]__r__3 = ^(id)
+			enum s = e10 (e2 expr)
+			switch ( e10.index ) {
+				
+				case 0:
+				
+				var MATCH e2_fexpr_eEConst_0 : Constant = e10.params[0]__r__9 = ^(id)
+				enum s = e12 (e2_fexpr_eEConst_0)
+				switch ( e12.index ) {
+					
+					case 1:
+					
+					var MATCH b : NSMutableString = e12.params[0]__r__11 = a + b;break
+					case 0:
+					
+					var MATCH b : NSMutableString = e12.params[0]__r__11 = a + b;break
+					default:__r__11 = nil;break
+				}
+				return __r__11{
+					
+					id* __r__11}
+				}();break
+				default:__r__9 = nil;break
+			}
+			return __r__9{
+				
+				id* __r__9}
+			}();break
+			default:__r__3 = nil;break
+		}
+		return __r__3{
+			
+			id* __r__3}
+		}();break
+		default:__r__ = nil;break
 	}
 	return __r__{
 		
@@ -592,6 +525,7 @@
 	}();
 }
 - (void) testBasic{
+	
 	[self eq:[@"bar" mutableCopy] v2:[TestMatch switchNormal:(id)[@{
 		@"expr":[[EConst:[CString:[@"bar" mutableCopy]]] copy],
 		@"pos":[[@{
@@ -943,28 +877,25 @@
 	[self eq:[@"0" mutableCopy] v2:((NSMutableString)($this:(snd ctx.path)) BOOL _g = YES; int _g1 = 1; 
 	NSMutableString *_g2 = [@"foo" mutableCopy]
 	__r__ = ((NSMutableString)($this:(snd ctx.path)) switch (_g){
-		case YES:{
-			__r__2 = ((id)($this:(snd ctx.path)) switch (_g1){
-				case 1:{
-					__r__3 = ((id)($this:(snd ctx.path)) switch (_g2){
-						case [@"foo" mutableCopy]:{
-							__r__4 = [@"0" mutableCopy]}break;
-						default:{
-							__r__4 = [@"1" mutableCopy]}break;
-					}
-					return __r__4{
-						
-						id* __r__4}
-					}(self))}break;
-				default:{
-					__r__3 = [@"_" mutableCopy]}break;
+		case YES:__r__2 = ((id)($this:(snd ctx.path)) switch (_g1){
+			case 1:__r__3 = ((id)($this:(snd ctx.path)) switch (_g2){
+				case [@"foo" mutableCopy]:__r__4 = [@"0" mutableCopy];
+				break;
+				default:__r__4 = [@"1" mutableCopy];break;
 			}
-			return __r__3{
+			return __r__4{
 				
-				id* __r__3}
-			}(self))}break;
-		default:{
-			__r__2 = [@"_" mutableCopy]}break;
+				id* __r__4}
+			}(self));
+			break;
+			default:__r__3 = [@"_" mutableCopy];break;
+		}
+		return __r__3{
+			
+			id* __r__3}
+		}(self));
+		break;
+		default:__r__2 = [@"_" mutableCopy];break;
 	}
 	return __r__2{
 		
@@ -977,28 +908,25 @@
 	[self eq:[@"0" mutableCopy] v2:((NSMutableString)($this:(snd ctx.path)) BOOL _g3 = YES; int _g4 = 1; 
 	NSMutableString *_g5 = [@"foo" mutableCopy]
 	__r__5 = ((NSMutableString)($this:(snd ctx.path)) switch (_g3){
-		case YES:{
-			__r__6 = ((id)($this:(snd ctx.path)) switch (_g4){
-				case 1:{
-					__r__7 = ((id)($this:(snd ctx.path)) switch (_g5){
-						case [@"foo" mutableCopy]:{
-							__r__8 = [@"0" mutableCopy]}break;
-						default:{
-							__r__8 = [@"1" mutableCopy]}break;
-					}
-					return __r__8{
-						
-						id* __r__8}
-					}(self))}break;
-				default:{
-					__r__7 = [@"_" mutableCopy]}break;
+		case YES:__r__6 = ((id)($this:(snd ctx.path)) switch (_g4){
+			case 1:__r__7 = ((id)($this:(snd ctx.path)) switch (_g5){
+				case [@"foo" mutableCopy]:__r__8 = [@"0" mutableCopy];
+				break;
+				default:__r__8 = [@"1" mutableCopy];break;
 			}
-			return __r__7{
+			return __r__8{
 				
-				id* __r__7}
-			}(self))}break;
-		default:{
-			__r__6 = [@"_" mutableCopy]}break;
+				id* __r__8}
+			}(self));
+			break;
+			default:__r__7 = [@"_" mutableCopy];break;
+		}
+		return __r__7{
+			
+			id* __r__7}
+		}(self));
+		break;
+		default:__r__6 = [@"_" mutableCopy];break;
 	}
 	return __r__6{
 		
@@ -1011,28 +939,25 @@
 	[self eq:[@"1" mutableCopy] v2:((NSMutableString)($this:(snd ctx.path)) BOOL _g6 = YES; int _g7 = 1; 
 	NSMutableString *_g8 = [@"bar" mutableCopy]
 	__r__9 = ((NSMutableString)($this:(snd ctx.path)) switch (_g6){
-		case YES:{
-			__r__10 = ((id)($this:(snd ctx.path)) switch (_g7){
-				case 1:{
-					__r__11 = ((id)($this:(snd ctx.path)) switch (_g8){
-						case [@"foo" mutableCopy]:{
-							__r__12 = [@"0" mutableCopy]}break;
-						default:{
-							__r__12 = [@"1" mutableCopy]}break;
-					}
-					return __r__12{
-						
-						id* __r__12}
-					}(self))}break;
-				default:{
-					__r__11 = [@"_" mutableCopy]}break;
+		case YES:__r__10 = ((id)($this:(snd ctx.path)) switch (_g7){
+			case 1:__r__11 = ((id)($this:(snd ctx.path)) switch (_g8){
+				case [@"foo" mutableCopy]:__r__12 = [@"0" mutableCopy];
+				break;
+				default:__r__12 = [@"1" mutableCopy];break;
 			}
-			return __r__11{
+			return __r__12{
 				
-				id* __r__11}
-			}(self))}break;
-		default:{
-			__r__10 = [@"_" mutableCopy]}break;
+				id* __r__12}
+			}(self));
+			break;
+			default:__r__11 = [@"_" mutableCopy];break;
+		}
+		return __r__11{
+			
+			id* __r__11}
+		}(self));
+		break;
+		default:__r__10 = [@"_" mutableCopy];break;
 	}
 	return __r__10{
 		
@@ -1045,28 +970,25 @@
 	[self eq:[@"_" mutableCopy] v2:((NSMutableString)($this:(snd ctx.path)) BOOL _g9 = NO; int _g10 = 1; 
 	NSMutableString *_g11 = [@"foo" mutableCopy]
 	__r__13 = ((NSMutableString)($this:(snd ctx.path)) switch (_g9){
-		case YES:{
-			__r__14 = ((id)($this:(snd ctx.path)) switch (_g10){
-				case 1:{
-					__r__15 = ((id)($this:(snd ctx.path)) switch (_g11){
-						case [@"foo" mutableCopy]:{
-							__r__16 = [@"0" mutableCopy]}break;
-						default:{
-							__r__16 = [@"1" mutableCopy]}break;
-					}
-					return __r__16{
-						
-						id* __r__16}
-					}(self))}break;
-				default:{
-					__r__15 = [@"_" mutableCopy]}break;
+		case YES:__r__14 = ((id)($this:(snd ctx.path)) switch (_g10){
+			case 1:__r__15 = ((id)($this:(snd ctx.path)) switch (_g11){
+				case [@"foo" mutableCopy]:__r__16 = [@"0" mutableCopy];
+				break;
+				default:__r__16 = [@"1" mutableCopy];break;
 			}
-			return __r__15{
+			return __r__16{
 				
-				id* __r__15}
-			}(self))}break;
-		default:{
-			__r__14 = [@"_" mutableCopy]}break;
+				id* __r__16}
+			}(self));
+			break;
+			default:__r__15 = [@"_" mutableCopy];break;
+		}
+		return __r__15{
+			
+			id* __r__15}
+		}(self));
+		break;
+		default:__r__14 = [@"_" mutableCopy];break;
 	}
 	return __r__14{
 		
@@ -1078,32 +1000,29 @@
 	}(self)) pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"184", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
 	[self eq:[@"1" mutableCopy] v2:((NSMutableString)($this:(snd ctx.path)) int _g12 = 1; int _g13 = 2
 	__r__17 = ((NSMutableString)($this:(snd ctx.path)) switch (_g12){
-		case 0:{
-			__r__18 = ((id)($this:(snd ctx.path)) switch (_g13){
-				case 0:{
-					__r__19 = [@"1" mutableCopy]}break;
-				default:{
-					__r__19 = [@"_" mutableCopy]}break;
-			}
-			return __r__19{
-				
-				id* __r__19}
-			}(self))}break;
-		case 1:{
-			__r__18 = ((id)($this:(snd ctx.path)) switch (_g13){
-				case 2:{
-					__r__20 = [@"1" mutableCopy]}break;
-				case 1:{
-					__r__20 = [@"2" mutableCopy]}break;
-				default:{
-					__r__20 = [@"_" mutableCopy]}break;
-			}
-			return __r__20{
-				
-				id* __r__20}
-			}(self))}break;
-		default:{
-			__r__18 = [@"_" mutableCopy]}break;
+		case 0:__r__18 = ((id)($this:(snd ctx.path)) switch (_g13){
+			case 0:__r__19 = [@"1" mutableCopy];
+			break;
+			default:__r__19 = [@"_" mutableCopy];break;
+		}
+		return __r__19{
+			
+			id* __r__19}
+		}(self));
+		break;
+		case 1:__r__18 = ((id)($this:(snd ctx.path)) switch (_g13){
+			case 2:__r__20 = [@"1" mutableCopy];
+			break;
+			case 1:__r__20 = [@"2" mutableCopy];
+			break;
+			default:__r__20 = [@"_" mutableCopy];break;
+		}
+		return __r__20{
+			
+			id* __r__20}
+		}(self));
+		break;
+		default:__r__18 = [@"_" mutableCopy];break;
 	}
 	return __r__18{
 		
@@ -1114,27 +1033,24 @@
 		NSMutableString* __r__17}
 	}(self)) pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"190", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
 	
-	TestMatch *t = [TA:[@"foo" mutableCopy]];
+	A *t = [TA:[@"foo" mutableCopy]];
 	[self eq:[@"0" mutableCopy] v2:((NSMutableString)($this:(snd ctx.path)) 
 	enum s = e22 (t)
 	switch ( e22.index ) {
 		
 		case 0:
 		
-		var MATCH t_eTA_0 : id = e22.params[0]{
-			__r__21 = ((id)($this:(snd ctx.path)) switch (t_eTA_0){
-				case [@"foo" mutableCopy]:{
-					__r__23 = [@"0" mutableCopy]}break;
-				default:{
-					__r__23 = [@"1" mutableCopy]}break;
-			}
-			return __r__23{
-				
-				id* __r__23}
-			}(self))}break
+		var MATCH t_eTA_0 : id = e22.params[0]__r__21 = ((id)($this:(snd ctx.path)) switch (t_eTA_0){
+			case [@"foo" mutableCopy]:__r__23 = [@"0" mutableCopy];
+			break;
+			default:__r__23 = [@"1" mutableCopy];break;
+		}
+		return __r__23{
+			
+			id* __r__23}
+		}(self));break
 		case 2:
-		{
-			__r__21 = [@"2" mutableCopy]}break
+		__r__21 = [@"2" mutableCopy];break
 	}
 	return __r__21{
 		
@@ -1142,164 +1058,151 @@
 	}(self)) pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"197", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
 }
 - (void) testTuple{
-	id test = ^(int *a, int *b, int *c){
-		return ^(NSMutableString*)switch (a){
-			case 1:{
-				__r__ = ^(id)switch (b){
-					case 1:{
-						__r__2 = ^(id)switch (c){
-							case 2:{
-								__r__3 = [[@"0|x:" mutableCopy] stringByAppendingString:b]}break;
-							default:{
-								__r__3 = [[[[@"2|y:" mutableCopy] stringByAppendingString:b] stringByAppendingString:[@",z:" mutableCopy]] stringByAppendingString:c]}break;
-						}
-						return __r__3{
-							
-							id* __r__3}
-						}()}break;
-					case 2:{
-						__r__2 = [[@"0|x:" mutableCopy] stringByAppendingString:c]}break;
-					case 3:{
-						__r__2 = ^(id)switch (c){
-							case 2:{
-								__r__4 = [[@"0|x:" mutableCopy] stringByAppendingString:b]}break;
-							case 4:{
-								__r__4 = [[@"1|z:" mutableCopy] stringByAppendingString:a]}break;
-							default:{
-								__r__4 = [[[[@"2|y:" mutableCopy] stringByAppendingString:b] stringByAppendingString:[@",z:" mutableCopy]] stringByAppendingString:c]}break;
-						}
-						return __r__4{
-							
-							id* __r__4}
-						}()}break;
-					default:{
-						__r__2 = ^(id)switch (c){
-							case 2:{
-								__r__5 = [[@"0|x:" mutableCopy] stringByAppendingString:b]}break;
-							default:{
-								__r__5 = [[[[@"2|y:" mutableCopy] stringByAppendingString:b] stringByAppendingString:[@",z:" mutableCopy]] stringByAppendingString:c]}break;
-						}
-						return __r__5{
-							
-							id* __r__5}
-						}()}break;
+	
+	id test = ^(int x, int z, int y){
+		
+		return ^(NSMutableString*)switch (x){
+			case 1:__r__ = ^(id)switch (z){
+				case 1:__r__2 = ^(id)switch (y){
+					case 2:__r__3 = [[@"0|x:" mutableCopy] stringByAppendingString:z];
+					break;
+					default:__r__3 = [[[[@"2|y:" mutableCopy] stringByAppendingString:z] stringByAppendingString:[@",z:" mutableCopy]] stringByAppendingString:y];break;
 				}
-				return __r__2{
+				return __r__3{
 					
-					id* __r__2}
-				}()}break;
-			case 3:{
-				__r__ = ^(id)switch (b){
-					case 1:{
-						__r__6 = ^(id)switch (c){
-							case 2:{
-								__r__7 = [[@"0|x:" mutableCopy] stringByAppendingString:a]}break;
-							case 4:{
-								__r__7 = [[@"1|z:" mutableCopy] stringByAppendingString:b]}break;
-							default:{
-								__r__7 = [[[[[[@"_:x:" mutableCopy] stringByAppendingString:a] stringByAppendingString:[@",y:" mutableCopy]] stringByAppendingString:b] stringByAppendingString:[@",z:" mutableCopy]] stringByAppendingString:c]}break;
-						}
-						return __r__7{
-							
-							id* __r__7}
-						}()}break;
-					case 4:{
-						__r__6 = [[@"1|z:" mutableCopy] stringByAppendingString:c]}break;
-					case 3:{
-						__r__6 = ^(id)switch (c){
-							case 4:{
-								__r__8 = [[@"1|z:" mutableCopy] stringByAppendingString:b]}break;
-							default:{
-								__r__8 = [[[[[[@"_:x:" mutableCopy] stringByAppendingString:a] stringByAppendingString:[@",y:" mutableCopy]] stringByAppendingString:b] stringByAppendingString:[@",z:" mutableCopy]] stringByAppendingString:c]}break;
-						}
-						return __r__8{
-							
-							id* __r__8}
-						}()}break;
-					default:{
-						__r__6 = ^(id)switch (c){
-							case 4:{
-								__r__9 = [[@"1|z:" mutableCopy] stringByAppendingString:b]}break;
-							default:{
-								__r__9 = [[[[[[@"_:x:" mutableCopy] stringByAppendingString:a] stringByAppendingString:[@",y:" mutableCopy]] stringByAppendingString:b] stringByAppendingString:[@",z:" mutableCopy]] stringByAppendingString:c]}break;
-						}
-						return __r__9{
-							
-							id* __r__9}
-						}()}break;
+					id* __r__3}
+				}();
+				break;
+				case 2:__r__2 = [[@"0|x:" mutableCopy] stringByAppendingString:y];
+				break;
+				case 3:__r__2 = ^(id)switch (y){
+					case 2:__r__4 = [[@"0|x:" mutableCopy] stringByAppendingString:z];
+					break;
+					case 4:__r__4 = [[@"1|z:" mutableCopy] stringByAppendingString:x];
+					break;
+					default:__r__4 = [[[[@"2|y:" mutableCopy] stringByAppendingString:z] stringByAppendingString:[@",z:" mutableCopy]] stringByAppendingString:y];break;
 				}
-				return __r__6{
+				return __r__4{
 					
-					id* __r__6}
-				}()}break;
-			case 2:{
-				__r__ = ^(id)switch (b){
-					case 1:{
-						__r__10 = ^(id)switch (c){
-							case 2:{
-								__r__11 = [[@"0|x:" mutableCopy] stringByAppendingString:a]}break;
-							default:{
-								__r__11 = [[[[@"2|y:" mutableCopy] stringByAppendingString:c] stringByAppendingString:[@",z:" mutableCopy]] stringByAppendingString:b]}break;
-						}
-						return __r__11{
-							
-							id* __r__11}
-						}()}break;
-					case 3:{
-						__r__10 = ^(id)switch (c){
-							case 4:{
-								__r__12 = [[@"1|z:" mutableCopy] stringByAppendingString:a]}break;
-							default:{
-								__r__12 = [[[[@"2|y:" mutableCopy] stringByAppendingString:c] stringByAppendingString:[@",z:" mutableCopy]] stringByAppendingString:b]}break;
-						}
-						return __r__12{
-							
-							id* __r__12}
-						}()}break;
-					default:{
-						__r__10 = [[[[@"2|y:" mutableCopy] stringByAppendingString:c] stringByAppendingString:[@",z:" mutableCopy]] stringByAppendingString:b]}break;
+					id* __r__4}
+				}();
+				break;
+				default:__r__2 = ^(id)switch (y){
+					case 2:__r__5 = [[@"0|x:" mutableCopy] stringByAppendingString:z];
+					break;
+					default:__r__5 = [[[[@"2|y:" mutableCopy] stringByAppendingString:z] stringByAppendingString:[@",z:" mutableCopy]] stringByAppendingString:y];break;
 				}
-				return __r__10{
+				return __r__5{
 					
-					id* __r__10}
-				}()}break;
-			default:{
-				__r__ = ^(id)switch (b){
-					case 1:{
-						__r__13 = ^(id)switch (c){
-							case 2:{
-								__r__14 = [[@"0|x:" mutableCopy] stringByAppendingString:a]}break;
-							default:{
-								__r__14 = [[[[[[@"_:x:" mutableCopy] stringByAppendingString:a] stringByAppendingString:[@",y:" mutableCopy]] stringByAppendingString:b] stringByAppendingString:[@",z:" mutableCopy]] stringByAppendingString:c]}break;
-						}
-						return __r__14{
-							
-							id* __r__14}
-						}()}break;
-					case 3:{
-						__r__13 = ^(id)switch (c){
-							case 4:{
-								__r__15 = [[@"1|z:" mutableCopy] stringByAppendingString:a]}break;
-							default:{
-								__r__15 = [[[[[[@"_:x:" mutableCopy] stringByAppendingString:a] stringByAppendingString:[@",y:" mutableCopy]] stringByAppendingString:b] stringByAppendingString:[@",z:" mutableCopy]] stringByAppendingString:c]}break;
-						}
-						return __r__15{
-							
-							id* __r__15}
-						}()}break;
-					default:{
-						__r__13 = [[[[[[@"_:x:" mutableCopy] stringByAppendingString:a] stringByAppendingString:[@",y:" mutableCopy]] stringByAppendingString:b] stringByAppendingString:[@",z:" mutableCopy]] stringByAppendingString:c]}break;
+					id* __r__5}
+				}();break;
+			}
+			return __r__2{
+				
+				id* __r__2}
+			}();
+			break;
+			case 3:__r__ = ^(id)switch (z){
+				case 1:__r__6 = ^(id)switch (y){
+					case 2:__r__7 = [[@"0|x:" mutableCopy] stringByAppendingString:x];
+					break;
+					case 4:__r__7 = [[@"1|z:" mutableCopy] stringByAppendingString:z];
+					break;
+					default:__r__7 = [[[[[[@"_:x:" mutableCopy] stringByAppendingString:x] stringByAppendingString:[@",y:" mutableCopy]] stringByAppendingString:z] stringByAppendingString:[@",z:" mutableCopy]] stringByAppendingString:y];break;
 				}
-				return __r__13{
+				return __r__7{
 					
-					id* __r__13}
-				}()}break;
+					id* __r__7}
+				}();
+				break;
+				case 4:__r__6 = [[@"1|z:" mutableCopy] stringByAppendingString:y];
+				break;
+				case 3:__r__6 = ^(id)switch (y){
+					case 4:__r__8 = [[@"1|z:" mutableCopy] stringByAppendingString:z];
+					break;
+					default:__r__8 = [[[[[[@"_:x:" mutableCopy] stringByAppendingString:x] stringByAppendingString:[@",y:" mutableCopy]] stringByAppendingString:z] stringByAppendingString:[@",z:" mutableCopy]] stringByAppendingString:y];break;
+				}
+				return __r__8{
+					
+					id* __r__8}
+				}();
+				break;
+				default:__r__6 = ^(id)switch (y){
+					case 4:__r__9 = [[@"1|z:" mutableCopy] stringByAppendingString:z];
+					break;
+					default:__r__9 = [[[[[[@"_:x:" mutableCopy] stringByAppendingString:x] stringByAppendingString:[@",y:" mutableCopy]] stringByAppendingString:z] stringByAppendingString:[@",z:" mutableCopy]] stringByAppendingString:y];break;
+				}
+				return __r__9{
+					
+					id* __r__9}
+				}();break;
+			}
+			return __r__6{
+				
+				id* __r__6}
+			}();
+			break;
+			case 2:__r__ = ^(id)switch (z){
+				case 1:__r__10 = ^(id)switch (y){
+					case 2:__r__11 = [[@"0|x:" mutableCopy] stringByAppendingString:x];
+					break;
+					default:__r__11 = [[[[@"2|y:" mutableCopy] stringByAppendingString:y] stringByAppendingString:[@",z:" mutableCopy]] stringByAppendingString:z];break;
+				}
+				return __r__11{
+					
+					id* __r__11}
+				}();
+				break;
+				case 3:__r__10 = ^(id)switch (y){
+					case 4:__r__12 = [[@"1|z:" mutableCopy] stringByAppendingString:x];
+					break;
+					default:__r__12 = [[[[@"2|y:" mutableCopy] stringByAppendingString:y] stringByAppendingString:[@",z:" mutableCopy]] stringByAppendingString:z];break;
+				}
+				return __r__12{
+					
+					id* __r__12}
+				}();
+				break;
+				default:__r__10 = [[[[@"2|y:" mutableCopy] stringByAppendingString:y] stringByAppendingString:[@",z:" mutableCopy]] stringByAppendingString:z];break;
+			}
+			return __r__10{
+				
+				id* __r__10}
+			}();
+			break;
+			default:__r__ = ^(id)switch (z){
+				case 1:__r__13 = ^(id)switch (y){
+					case 2:__r__14 = [[@"0|x:" mutableCopy] stringByAppendingString:x];
+					break;
+					default:__r__14 = [[[[[[@"_:x:" mutableCopy] stringByAppendingString:x] stringByAppendingString:[@",y:" mutableCopy]] stringByAppendingString:z] stringByAppendingString:[@",z:" mutableCopy]] stringByAppendingString:y];break;
+				}
+				return __r__14{
+					
+					id* __r__14}
+				}();
+				break;
+				case 3:__r__13 = ^(id)switch (y){
+					case 4:__r__15 = [[@"1|z:" mutableCopy] stringByAppendingString:x];
+					break;
+					default:__r__15 = [[[[[[@"_:x:" mutableCopy] stringByAppendingString:x] stringByAppendingString:[@",y:" mutableCopy]] stringByAppendingString:z] stringByAppendingString:[@",z:" mutableCopy]] stringByAppendingString:y];break;
+				}
+				return __r__15{
+					
+					id* __r__15}
+				}();
+				break;
+				default:__r__13 = [[[[[[@"_:x:" mutableCopy] stringByAppendingString:x] stringByAppendingString:[@",y:" mutableCopy]] stringByAppendingString:z] stringByAppendingString:[@",z:" mutableCopy]] stringByAppendingString:y];break;
+			}
+			return __r__13{
+				
+				id* __r__13}
+			}();break;
 		}
 		return __r__{
 			
 			NSMutableString* __r__}
 		}();
-	}
+	};
 	[self eq:[@"0|x:9" mutableCopy] v2:[test:9 b:1 c:2] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"211", @"className":@"unit.TestMatch", @"methodName":@"testTuple"}];
 	[self eq:[@"0|x:9" mutableCopy] v2:[test:1 b:2 c:9] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"212", @"className":@"unit.TestMatch", @"methodName":@"testTuple"}];
 	[self eq:[@"0|x:9" mutableCopy] v2:[test:1 b:9 c:2] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"213", @"className":@"unit.TestMatch", @"methodName":@"testTuple"}];
@@ -1311,45 +1214,48 @@
 	[self eq:[@"_:x:9,y:8,z:7" mutableCopy] v2:[test:9 b:8 c:7] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"219", @"className":@"unit.TestMatch", @"methodName":@"testTuple"}];
 }
 - (void) testGrouping{
-	id test = ^(int *v){
-		return ^(NSMutableString*)switch (v){
-			case 1:case 2:case 3:{
-				__r__ = [@"0" mutableCopy]}break;
-			case 4:{
-				__r__ = ( (v == 5) ? [@"1" mutableCopy] : [@"2" mutableCopy])}break;
-			case 5:{
-				__r__ = ( (v == 5) ? [@"1" mutableCopy] : [@"2" mutableCopy])}break;
-			case 6:{
-				__r__ = ( (v == 5) ? [@"1" mutableCopy] : [@"2" mutableCopy])}break;
-			case 8:case 9:{
-				__r__ = [@"3" mutableCopy]}break;
-			default:{
-				__r__ = [[@"_:" mutableCopy] stringByAppendingString:v]}break;
+	
+	id test = ^(int val){
+		
+		return ^(NSMutableString*)switch (val){
+			case 1:case 2:case 3:__r__ = [@"0" mutableCopy];
+			break;
+			case 4:__r__ = ( (val == 5) ? [@"1" mutableCopy] : [@"2" mutableCopy]);
+			break;
+			case 5:__r__ = ( (val == 5) ? [@"1" mutableCopy] : [@"2" mutableCopy]);
+			break;
+			case 6:__r__ = ( (val == 5) ? [@"1" mutableCopy] : [@"2" mutableCopy]);
+			break;
+			case 8:case 9:__r__ = [@"3" mutableCopy];
+			break;
+			default:__r__ = [[@"_:" mutableCopy] stringByAppendingString:val];break;
 		}
 		return __r__{
 			
 			NSMutableString* __r__}
 		}();
-	}
+	};
 	
 	NSMutableArray *results = [@[[@"_:0" mutableCopy], [@"0" mutableCopy], [@"0" mutableCopy], [@"0" mutableCopy], [@"2" mutableCopy], [@"1" mutableCopy], [@"2" mutableCopy], [@"_:7" mutableCopy], [@"3" mutableCopy], [@"3" mutableCopy], [@"_:10" mutableCopy]] mutableCopy];
 	{
+		
 		int _g1 = 0; int _g = results.length;
 		while (_g1 < _g) {
+			
 			int i = _g1++;
-			[self eq:[results hx_objectAtIndex:i] v2:[test:i] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"232", @"className":@"unit.TestMatch", @"methodName":@"testGrouping"}];
+			[self eq:((NSMutableArray*)[results hx_objectAtIndex:i]) v2:[test:i] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"232", @"className":@"unit.TestMatch", @"methodName":@"testGrouping"}];
 		}
 	}
 }
 - (void) testSubtyping{
 	
+	
 	InitBase *c = [[InitBase alloc] init];
 	
 	NSMutableString *r = ((NSMutableString)($this:(snd ctx.path)) switch (c.s){
-		case [@"foo" mutableCopy]:{
-			__r__ = [@"s = foo" mutableCopy]}break;
-		default:{
-			__r__ = [@"_" mutableCopy]}break;
+		case [@"foo" mutableCopy]:__r__ = [@"s = foo" mutableCopy];
+		break;
+		default:__r__ = [@"_" mutableCopy];break;
 	}
 	return __r__{
 		
@@ -1374,16 +1280,19 @@
 	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"249", @"className":@"unit.TestMatch", @"methodName":@"testSubtyping"}];
 }
 - (void) testGadt{
+	
 	[self eq:[@"<=1" mutableCopy] v2:[TestMatch toStringX:[U1:1]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"262", @"className":@"unit.TestMatch", @"methodName":@"testGadt"}];
 	[self eq:[@">1" mutableCopy] v2:[TestMatch toStringX:[U1:2]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"263", @"className":@"unit.TestMatch", @"methodName":@"testGadt"}];
 	[self eq:[@"U2" mutableCopy] v2:[TestMatch toStringX:U2] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"264", @"className":@"unit.TestMatch", @"methodName":@"testGadt"}];
 }
 - (void) testClassSwitch{
+	
 	[self eq:[@"String" mutableCopy] v2:[TestMatch switchClass:NSMutableString] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"268", @"className":@"unit.TestMatch", @"methodName":@"testClassSwitch"}];
 	[self eq:[@"unit.MyClass" mutableCopy] v2:[TestMatch switchClass:MyClass] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"269", @"className":@"unit.TestMatch", @"methodName":@"testClassSwitch"}];
 	[self eq:[@"other: unit.TestMatch" mutableCopy] v2:[TestMatch switchClass:TestMatch] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"270", @"className":@"unit.TestMatch", @"methodName":@"testClassSwitch"}];
 }
 - (void) testOr{
+	
 	id i1 = (id)[@{
 		@"expr":[[EConst:[CInt:[@"1" mutableCopy]]] copy],
 		@"pos":[[@{
@@ -1435,7 +1344,8 @@
 }
 - (void) testStaticNull{
 	
-	TestMatch *v = [A];
+	
+	NE *v = [A];
 	
 	NSMutableString *r = ((NSMutableString)($this:(snd ctx.path)) 
 	enum s = e2 (v)
@@ -1443,8 +1353,7 @@
 		
 		case 0:
 		
-		var MATCH v_eA_0 : int = e2.params[0]{
-			__r__ = ( (v_eA_0 == nil) ? [@"null" mutableCopy] : [@"not null" mutableCopy])}break
+		var MATCH x : int = e2.params[0]__r__ = ( (x == nil) ? [@"null" mutableCopy] : [@"not null" mutableCopy]);break
 	}
 	return __r__{
 		
@@ -1453,6 +1362,7 @@
 	[self eq:[@"null" mutableCopy] v2:r pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"306", @"className":@"unit.TestMatch", @"methodName":@"testStaticNull"}];
 }
 - (void) testNonExhaustiveness{
+	
 	[self eq:[@"Unmatched patterns: false" mutableCopy] v2:[@"Unmatched patterns: false" mutableCopy] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"317", @"className":@"unit.TestMatch", @"methodName":@"testNonExhaustiveness"}];
 	[self eq:[@"Unmatched patterns: OpNegBits | OpNeg" mutableCopy] v2:[@"Unmatched patterns: OpNegBits | OpNeg" mutableCopy] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"320", @"className":@"unit.TestMatch", @"methodName":@"testNonExhaustiveness"}];
 	[self eq:[@"Unmatched patterns: Node(Leaf(_),_)" mutableCopy] v2:[@"Unmatched patterns: Node(Leaf(_),_)" mutableCopy] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"325", @"className":@"unit.TestMatch", @"methodName":@"testNonExhaustiveness"}];
@@ -1461,6 +1371,7 @@
 	[self eq:[@"Unmatched patterns: [_,false,_]" mutableCopy] v2:[@"Unmatched patterns: [_,false,_]" mutableCopy] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"337", @"className":@"unit.TestMatch", @"methodName":@"testNonExhaustiveness"}];
 }
 - (void) testInvalidBinding{
+	
 	[self eq:[@"Variable y must appear exactly once in each sub-pattern" mutableCopy] v2:[@"Variable y must appear exactly once in each sub-pattern" mutableCopy] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"343", @"className":@"unit.TestMatch", @"methodName":@"testInvalidBinding"}];
 	[self eq:[@"Variable y must appear exactly once in each sub-pattern" mutableCopy] v2:[@"Variable y must appear exactly once in each sub-pattern" mutableCopy] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"346", @"className":@"unit.TestMatch", @"methodName":@"testInvalidBinding"}];
 	[self eq:[@"Variable x must appear exactly once in each sub-pattern" mutableCopy] v2:[@"Variable x must appear exactly once in each sub-pattern" mutableCopy] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"349", @"className":@"unit.TestMatch", @"methodName":@"testInvalidBinding"}];

@@ -10,6 +10,7 @@
 @implementation GenericStack
 
 - (id) init{
+	
 	self = [super init];
 	return self;
 }

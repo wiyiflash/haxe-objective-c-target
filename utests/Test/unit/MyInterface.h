@@ -8,7 +8,7 @@
 
 
 
-@interface MyInterface : NSObject
+@protocol MyInterface<NSObject>
 
 
 @end

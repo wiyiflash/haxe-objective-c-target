@@ -10,22 +10,27 @@
 @implementation TestIO
 
 - (void) test{
+	
 	[self check:NO];
 	[self check:YES];
 }
 - (void) excv:(id)f e:(id)e pos:(id)pos{
+	
 	// Optional arguments
 	if (!pos) pos = nil;
 	
 	@try {
+		
 		[f];
 		[self eq:nil v2:e pos:pos];
 	}
 	@catch (NSException *e2) {
+		
 		[self eq:e2 v2:e pos:pos];
 	}
 }
 - (void) check:(BOOL)endian{
+	
 	[self infos:[[@"endian = " mutableCopy] stringByAppendingString:[Std string:endian]]];
 	
 	Bytes *b = [Bytes ofString:[@"ABCééé\r\n\t" mutableCopy]];
@@ -44,12 +49,15 @@
 	[o writeByte:55];
 	[o writeBytes:b pos:3 len:5];
 	[self excv:^(){
+		
 		[o writeBytes:b pos:-1 len:5];
 	} e:OutsideBounds pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"41", @"className":@"unit.TestIO", @"methodName":@"check"}];
 	[self excv:^(){
+		
 		[o writeBytes:b pos:3 len:-1];
 	} e:OutsideBounds pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"42", @"className":@"unit.TestIO", @"methodName":@"check"}];
 	[self excv:^(){
+		
 		[o writeBytes:b pos:3 len:20];
 	} e:OutsideBounds pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"43", @"className":@"unit.TestIO", @"methodName":@"check"}];
 	[o writeByte:98];
@@ -67,47 +75,59 @@
 	[o writeString:str];
 	[o writeInt16:-12345];
 	[self excv:^(){
+		
 		[o writeInt16:32768];
 	} e:Overflow pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"60", @"className":@"unit.TestIO", @"methodName":@"check"}];
 	[self excv:^(){
+		
 		[o writeInt16:-32769];
 	} e:Overflow pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"61", @"className":@"unit.TestIO", @"methodName":@"check"}];
 	[o writeInt24:-1234567];
 	[self excv:^(){
+		
 		[o writeInt16:16777216];
 	} e:Overflow pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"63", @"className":@"unit.TestIO", @"methodName":@"check"}];
 	[self excv:^(){
+		
 		[o writeInt16:-16777217];
 	} e:Overflow pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"64", @"className":@"unit.TestIO", @"methodName":@"check"}];
 	[o writeInt32:-123456789];
 	[o writeInt8:-5];
 	[self excv:^(){
+		
 		[o writeInt8:128];
 	} e:Overflow pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"68", @"className":@"unit.TestIO", @"methodName":@"check"}];
 	[self excv:^(){
+		
 		[o writeInt8:-129];
 	} e:Overflow pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"69", @"className":@"unit.TestIO", @"methodName":@"check"}];
 	[o writeUInt16:65365];
 	[self excv:^(){
+		
 		[o writeUInt16:65536];
 	} e:Overflow pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"71", @"className":@"unit.TestIO", @"methodName":@"check"}];
 	[self excv:^(){
+		
 		[o writeUInt16:-1];
 	} e:Overflow pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"72", @"className":@"unit.TestIO", @"methodName":@"check"}];
 	[o writeUInt24:16711918];
 	[self excv:^(){
+		
 		[o writeUInt24:16777216];
 	} e:Overflow pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"74", @"className":@"unit.TestIO", @"methodName":@"check"}];
 	[self excv:^(){
+		
 		[o writeUInt24:-1];
 	} e:Overflow pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"75", @"className":@"unit.TestIO", @"methodName":@"check"}];
 	[o writeInt32:1068153804];
 	[o writeInt32:-1593839907];
 	[o writeInt32:-1056968995];
 	[self unspec:^(){
+		
 		[o writeByte:-1];
 	} pos:nil];
 	[self unspec:^(){
+		
 		[o writeByte:257];
 	} pos:nil];
 	
@@ -140,28 +160,33 @@
 }
 - (void) testBytesBounds{
 	
+	
 	Bytes *b = [Bytes ofString:[@"ABCDEFGHIJ" mutableCopy]];
 	
 	Bytes *tmp = [Bytes alloc:7];
 	
 	BytesInput *i = [[BytesInput alloc] init:b pos:nil len:nil];
 	[self excv:^(){
+		
 		[i readBytes:tmp pos:1 len:7];
 	} e:OutsideBounds pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"121", @"className":@"unit.TestIO", @"methodName":@"testBytesBounds"}];
 	[self excv:^(){
+		
 		[i readBytes:tmp pos:-1 len:7];
 	} e:OutsideBounds pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"122", @"className":@"unit.TestIO", @"methodName":@"testBytesBounds"}];
 	[self excv:^(){
+		
 		[i readBytes:tmp pos:8 len:1];
 	} e:OutsideBounds pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"123", @"className":@"unit.TestIO", @"methodName":@"testBytesBounds"}];
 	[self eq:[i readBytes:tmp pos:0 len:7] v2:7 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"124", @"className":@"unit.TestIO", @"methodName":@"testBytesBounds"}];
-	[self eq:[tmp.b hx_objectAtIndex:0] v2:65 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"125", @"className":@"unit.TestIO", @"methodName":@"testBytesBounds"}];
-	[self eq:[tmp.b hx_objectAtIndex:6] v2:71 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"126", @"className":@"unit.TestIO", @"methodName":@"testBytesBounds"}];
+	[self eq:((CASTTType*)[tmp.b hx_objectAtIndex:0]) v2:65 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"125", @"className":@"unit.TestIO", @"methodName":@"testBytesBounds"}];
+	[self eq:((CASTTType*)[tmp.b hx_objectAtIndex:6]) v2:71 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"126", @"className":@"unit.TestIO", @"methodName":@"testBytesBounds"}];
 	[self eq:[i readBytes:tmp pos:0 len:7] v2:3 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"127", @"className":@"unit.TestIO", @"methodName":@"testBytesBounds"}];
-	[self eq:[tmp.b hx_objectAtIndex:0] v2:72 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"128", @"className":@"unit.TestIO", @"methodName":@"testBytesBounds"}];
-	[self eq:[tmp.b hx_objectAtIndex:2] v2:74 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"129", @"className":@"unit.TestIO", @"methodName":@"testBytesBounds"}];
-	[self eq:[tmp.b hx_objectAtIndex:3] v2:68 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"130", @"className":@"unit.TestIO", @"methodName":@"testBytesBounds"}];
+	[self eq:((CASTTType*)[tmp.b hx_objectAtIndex:0]) v2:72 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"128", @"className":@"unit.TestIO", @"methodName":@"testBytesBounds"}];
+	[self eq:((CASTTType*)[tmp.b hx_objectAtIndex:2]) v2:74 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"129", @"className":@"unit.TestIO", @"methodName":@"testBytesBounds"}];
+	[self eq:((CASTTType*)[tmp.b hx_objectAtIndex:3]) v2:68 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"130", @"className":@"unit.TestIO", @"methodName":@"testBytesBounds"}];
 	[self exc:^(){
+		
 		[i readBytes:tmp pos:0 len:7];
 	} pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"131", @"className":@"unit.TestIO", @"methodName":@"testBytesBounds"}];
 }

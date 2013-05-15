@@ -11,21 +11,25 @@
 
 - (void) testTimer{
 	
+	
 	TestHaxePack *_g = self;
 	
 	Timer *timer = [[Timer alloc] init:50];
-	timer.run = testTimerLoop;
+	timer.hx_dyn_run = ^(){ [self testTimerLoop]; };
 	[timer stop];
-	timer = [Timer delay:testTimerLoop time_ms:50];
+	timer = [Timer delay:^(){ [self testTimerLoop]; } time_ms:50];
 	timer = [Timer delay:^(){
+		
 		[_g testTimerLoop];
 	} time_ms:50];
-	[Timer measure:testTimerLoop pos:@{@"fileName":@"TestHaxePack.hx", @"lineNumber":@"22", @"className":@"TestHaxePack", @"methodName":@"testTimer"}];
+	[Timer measure:^(){ [self testTimerLoop]; } pos:@{@"fileName":@"TestHaxePack.hx", @"lineNumber":@"22", @"className":@"TestHaxePack", @"methodName":@"testTimer"}];
 	float f = [Timer stamp];
 }
 - (void) testTimerLoop{
+	
 }
 - (void) testCrypto{
+	
 	
 	NSMutableString *str1 = [Md5 encode:[@"Hello world" mutableCopy]];
 	
@@ -33,14 +37,17 @@
 }
 - (void) testResources{
 	
+	
 	NSMutableString *str = [Resource getString:[@"welcome" mutableCopy]];
 	[Log trace:str infos:@{@"fileName":@"TestHaxePack.hx", @"lineNumber":@"39", @"className":@"TestHaxePack", @"methodName":@"testResources"}];
 }
 - (void) testCallstack{
 	
+	
 	NSMutableArray *arr = [CallStack callStack];
 }
 - (void) testSerialization{
+	
 	
 	NSMutableString *str = [Serializer run:[@{
 		@"a":[[@"a" mutableCopy] copy],
@@ -48,6 +55,7 @@
 	id obj = [Unserializer run:str];
 }
 - (id) init{
+	
 	self = [super init];
 	
 	NSMutableString *str = [Json stringify:[@{

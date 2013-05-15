@@ -79,7 +79,7 @@
 
 
 
-@interface I1 : NSObject
+@protocol I1<NSObject>
 
 
 @end
@@ -88,7 +88,7 @@
 
 #import "../String.h"
 
-@interface Base : NSObject
+@protocol Base<NSObject>
 
 @property (nonatomic, strong) NSMutableString *s;
 - (id) init;
@@ -99,7 +99,7 @@
 
 #import "../unit/MyClass.h"
 
-@interface Child1 : Base 
+@protocol Child1<NSObject>
 
 - (id) init;
 
@@ -109,7 +109,7 @@
 
 #import "../unit/MyClass.h"
 
-@interface Child2 : Base <I1>
+@protocol Child2<NSObject>
 
 - (id) init;
 
@@ -119,7 +119,7 @@
 
 #import "../unit/MyClass.h"
 
-@interface Child2_1 : Child2 
+@protocol Child2_1<NSObject>
 
 - (id) init;
 
@@ -129,7 +129,7 @@
 
 #import "../String.h"
 
-@interface Unrelated : NSObject<I1>
+@protocol Unrelated<NSObject>
 
 @property (nonatomic, strong) NSMutableString *s;
 @property (nonatomic) int t;
@@ -140,7 +140,7 @@
 
 
 
-@interface I2 : NSObject<I1>
+@protocol I2<NSObject>
 
 
 @end
@@ -148,7 +148,7 @@
 
 
 
-@interface ClassI2 : NSObject<I2>
+@protocol ClassI2<NSObject>
 
 - (id) init;
 
@@ -158,7 +158,7 @@
 
 #import "../unit/MyClass.h"
 
-@interface CI1 : Base <I1>
+@protocol CI1<NSObject>
 
 - (id) init;
 
@@ -168,7 +168,7 @@
 
 #import "../unit/MyClass.h"
 
-@interface CI2 : Base <I1>
+@protocol CI2<NSObject>
 
 - (id) init;
 
@@ -178,7 +178,7 @@
 
 #import "../unit/MyClass.h"
 
-@interface CII1 : CI1 
+@protocol CII1<NSObject>
 
 - (id) init;
 
@@ -188,7 +188,7 @@
 
 #import "../unit/MyClass.h"
 
-@interface CII2 : CI2 
+@protocol CII2<NSObject>
 
 - (id) init;
 
@@ -197,17 +197,7 @@
 
 
 
-@interface PClassBase : NSObject
-
-- (id) init;
-
-@end
-
-
-
-#import "../unit/MyClass.h"
-
-@interface PClass1 : PClassBase 
+@protocol PClassBase<NSObject>
 
 - (id) init;
 
@@ -217,7 +207,17 @@
 
 #import "../unit/MyClass.h"
 
-@interface PClass2 : PClassBase 
+@protocol PClass1<NSObject>
+
+- (id) init;
+
+@end
+
+
+
+#import "../unit/MyClass.h"
+
+@protocol PClass2<NSObject>
 
 - (id) init:(id)t;
 
@@ -226,7 +226,7 @@
 
 
 
-@interface CovI : NSObject
+@protocol CovI<NSObject>
 
 
 
@@ -235,7 +235,7 @@
 
 
 
-@interface CovI2 : NSObject<CovI>
+@protocol CovI2<NSObject>
 
 
 @end
@@ -244,7 +244,7 @@
 
 #import "../unit/MyClass.h"
 
-@interface Cov1 : NSObject
+@protocol Cov1<NSObject>
 
 - (Base*) covariant;
 - (id) init;
@@ -255,7 +255,7 @@
 
 #import "../unit/MyClass.h"
 
-@interface Cov2 : Cov1 <CovI>
+@protocol Cov2<NSObject>
 
 - (Base*) covariant;
 - (id) init;
@@ -266,7 +266,7 @@
 
 #import "../unit/MyClass.h"
 
-@interface Cov3 : NSObject<CovI2>
+@protocol Cov3<NSObject>
 
 - (Base*) covariant;
 - (id) init;
@@ -277,7 +277,7 @@
 
 #import "../unit/MyClass.h"
 
-@interface Ctrv1 : NSObject
+@protocol Ctrv1<NSObject>
 
 - (void) contravariant:(Child1*)arg;
 - (id) init;
@@ -288,7 +288,7 @@
 
 #import "../unit/MyClass.h"
 
-@interface Ctrv2 : Ctrv1 
+@protocol Ctrv2<NSObject>
 
 - (void) contravariant:(Child1*)_tmp_arg;
 - (id) init;
@@ -299,7 +299,7 @@
 
 #import "../String.h"
 
-@interface InitBase : NSObject
+@protocol InitBase<NSObject>
 
 + (int) si;
 + (void) setSi:(int)val;
@@ -323,7 +323,7 @@
 
 #import "../unit/MyClass.h"
 
-@interface InitChild : InitBase 
+@protocol InitChild<NSObject>
 
 
 @end
@@ -332,7 +332,7 @@
 
 #import "../unit/MyClass.h"
 
-@interface InitChildWithCtor : InitBase 
+@protocol InitChildWithCtor<NSObject>
 
 - (id) init:(id)_;
 
@@ -341,7 +341,7 @@
 
 
 
-@interface InitWithoutCtor : NSObject
+@protocol InitWithoutCtor<NSObject>
 
 @property (nonatomic) int i;
 - (id) init;
@@ -351,7 +351,7 @@
 
 
 
-@interface InitProperties : NSObject
+@protocol InitProperties<NSObject>
 
 @property (nonatomic) int accNull;
 @property (nonatomic) int accDefault;
@@ -368,7 +368,7 @@
 
 #import "../String.h"
 
-@interface ParamConstraintsClass : NSObject
+@protocol ParamConstraintsClass<NSObject>
 
 + (id) staticSingle:(id)a;
 - (id) memberSingle:(id)a;
@@ -384,7 +384,7 @@
 
 
 
-@interface ParamConstraintsClass2 : NSObject
+@protocol ParamConstraintsClass2<NSObject>
 
 - (void) bind:(id)t;
 - (void) check:(id)a;
@@ -396,7 +396,7 @@
 
 #import "../String.h"
 
-@interface UsingBase : NSObject
+@protocol UsingBase<NSObject>
 
 + (NSMutableString*) privFunc:(NSMutableString*)s;
 + (NSMutableString*) pupFunc:(NSMutableString*)s;
@@ -408,7 +408,7 @@
 #import "../String.h"
 #import "../unit/MyClass.h"
 
-@interface UsingChild1 : UsingBase 
+@protocol UsingChild1<NSObject>
 
 + (NSMutableString*) test;
 + (NSMutableString*) siblingFunc:(NSMutableString*)s;
@@ -420,7 +420,7 @@
 #import "../String.h"
 #import "../unit/MyClass.h"
 
-@interface UsingChild2 : UsingBase 
+@protocol UsingChild2<NSObject>
 
 + (NSMutableString*) test;
 + (NSMutableString*) siblingFunc:(NSMutableString*)s;
@@ -432,7 +432,7 @@
 #import "../String.h"
 #import "../unit/MyClass.h"
 
-@interface UsingUnrelated : NSObject
+@protocol UsingUnrelated<NSObject>
 
 + (NSMutableString*) test;
 
@@ -442,7 +442,7 @@
 
 #import "../unit/MyClass.h"
 
-@interface VarProps : NSObject
+@protocol VarProps<NSObject>
 
 + (int) SX;
 + (void) setSX:(int)val;
@@ -468,7 +468,7 @@
 
 #import "../String.h"
 
-@interface BaseSuperProp : NSObject
+@protocol BaseSuperProp<NSObject>
 
 @property (nonatomic, getter=get_prop, setter=set_prop) int prop;
 
@@ -484,7 +484,7 @@
 #import "../String.h"
 #import "../unit/MyClass.h"
 
-@interface ChildSuperProp : BaseSuperProp 
+@protocol ChildSuperProp<NSObject>
 
 - (int) get_prop;
 - (int) set_prop:(int)v;
@@ -497,7 +497,7 @@
 
 #import "../unit/MyClass.h"
 
-@interface InlineCastA : NSObject
+@protocol InlineCastA<NSObject>
 
 - (InlineCastA*) _self;
 
@@ -508,7 +508,7 @@
 #import "../unit/MyClass.h"
 #import "../String.h"
 
-@interface InlineCastB : InlineCastA 
+@protocol InlineCastB<NSObject>
 
 - (InlineCastB*) test;
 - (NSMutableString*) quote;

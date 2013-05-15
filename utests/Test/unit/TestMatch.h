@@ -37,14 +37,14 @@ typedef enum{
 @interface TestMatch : Test 
 
 + (NSMutableString*) switchNormal:(id)e;
-+ (Expr*) switchCapture:(id)e;
++ (Constant*) switchCapture:(id)e;
 + (NSMutableString*) switchArray:(id)e;
 + (NSMutableString*) switchArray2:(NSMutableArray*)a;
 + (NSMutableString*) switchStructure:(id)a;
 + (NSMutableString*) switchCrazy:(id)e;
 + (NSMutableString*) switchGuard:(id)e;
-+ (NSMutableString*) switchClass:(Class*)cl;
-+ (NSMutableString*) toStringX:(TestMatch*)x1;
++ (NSMutableString*) switchClass:(Class*)a;
++ (NSMutableString*) toStringX:(X*)x1;
 + (NSMutableString*) orMatch:(id)e1 e2:(id)e2;
 - (void) testBasic;
 - (void) testTuple;

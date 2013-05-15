@@ -6,6 +6,7 @@
 //
 
 
+#import <Foundation/Foundation.h>
 
 #import "../String.h"
 #import "../Array.h"
@@ -14,7 +15,6 @@
 #import "../unit/Test.h"
 #import "../haxe/CallStack.h"
 #import "../Std.h"
-#import "../Math.h"
 #import "../Class.h"
 #import "../Lambda.h"
 #import "../Type.h"
@@ -37,9 +37,9 @@
 + (void) setAMAX:(int)val;
 + (Timer*) timer;
 + (void) setTimer:(Timer*)val;
-// Defining a dynamic method
+// Dynamic method defined with an objc method and a block property
 + (void) report:(NSMutableString*)msg pos:(id)pos;
-@property (nonatomic,copy) void(^property_report);
+@property (nonatomic,copy) void(^hx_dyn_report)(NSMutableString*, id);
 + (void) checkDone;
 + (void) asyncTimeout;
 + (void) resetTimer;

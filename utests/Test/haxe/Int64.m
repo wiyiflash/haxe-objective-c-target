@@ -10,7 +10,9 @@
 @implementation Int64
 
 + (int) toInt:(Int64*)x{
+	
 	if (x.high != 0) {
+		
 		if (x.high < 0) return -[Int64 toInt:^(Int64*)int high = ~x.high
 		int low = -x.low
 		if (low == 0) high++
@@ -24,24 +26,29 @@
 	return x.low;
 }
 + (int) getLow:(Int64*)x{
+	
 	return x.low;
 }
 + (int) getHigh:(Int64*)x{
+	
 	return x.high;
 }
 + (Int64*) add:(Int64*)a b:(Int64*)b{
+	
 	int high = a.high + b.high;
 	int low = a.low + b.low;
 	if ([Int64 uicompare:low b:a.low] < 0) high++;
 	return [[Int64 alloc] init:high low:low];
 }
 + (Int64*) sub:(Int64*)a b:(Int64*)b{
+	
 	int high = a.high - b.high;
 	int low = a.low - b.low;
 	if ([Int64 uicompare:a.low b:b.low] < 0) high--;
 	return [[Int64 alloc] init:high low:low];
 }
 + (Int64*) mul:(Int64*)a b:(Int64*)b{
+	
 	int mask = 65535;
 	int al = a.low & mask; int ah = a.low >>> 16;
 	int bl = b.low & mask; int bh = b.low >>> 16;
@@ -53,21 +60,23 @@
 	int high = p11 +  ( (p01 >>> 16) +  (p10 >>> 16));
 	p01 = p01 << 16;
 	low = low + p01;
-	if ([Int64 uicompare:low b:p01] < 0) high = [high stringByAppendingString:@"1"];
+	if ([Int64 uicompare:low b:p01] < 0) high = high + 1;
 	p10 = p10 << 16;
 	low = low + p10;
-	if ([Int64 uicompare:low b:p10] < 0) high = [high stringByAppendingString:@"1"];
+	if ([Int64 uicompare:low b:p10] < 0) high = high + 1;
 	high = high + a.low * b.high;
 	high = high + a.high * b.low;
 	return [[Int64 alloc] init:high low:low];
 }
 + (id) divMod:(Int64*)modulus divisor:(Int64*)divisor{
 	
+	
 	Int64 *quotient = [[Int64 alloc] init:0 low:0];
 	
 	Int64 *mask = [[Int64 alloc] init:0 low:1];
 	divisor = [[Int64 alloc] init:divisor high low:divisor low];
 	while (divisor.high >= 0) {
+		
 		int cmp = ^(int)int v = [Int64 uicompare:divisor.high b:modulus.high]
 		__r__ = ( (v != 0) ? v : [Int64 uicompare:divisor.low b:modulus.low])
 		return __r__{
@@ -81,12 +90,14 @@
 		if (cmp >= 0) break;
 	}
 	while ( (mask.low | mask.high) != 0) {
+		
 		if (^(int)int v = [Int64 uicompare:modulus.high b:divisor.high]
 		__r__2 = ( (v != 0) ? v : [Int64 uicompare:modulus.low b:divisor.low])
 		return __r__2{
 			
 			int* __r__2}
 		}() >= 0) {
+			
 			quotient.high |= mask.high;
 			quotient.low |= mask.low;
 			modulus = [Int64 sub:modulus b:divisor];
@@ -102,11 +113,13 @@
 	} mutableCopy];
 }
 + (int) uicompare:(int)a b:(int)b{
+	
 	return ( (a < 0) ? ( (b < 0) ? ~b - ~a : 1) : ( (b < 0) ? -1 : a - b));
 }
 @synthesize high;
 @synthesize low;
 - (NSMutableString*) toString{
+	
 	if ( (self.high | self.low) == 0) return [@"0" mutableCopy];
 	
 	NSMutableString *str = [@"" mutableCopy];
@@ -114,6 +127,7 @@
 	
 	Int64 *i = self;
 	if (i.high < 0) {
+		
 		neg = YES;
 		i = ((Int64)($this:(snd ctx.path)) int high = ~i.high
 		int low = -i.low
@@ -127,14 +141,16 @@
 	
 	Int64 *ten = [[Int64 alloc] init:0 low:10];
 	while (! ( (i.high | i.low) == 0)) {
+		
 		id r = [Int64 divMod:i divisor:ten];
-		str = [r[@"modulus"].low stringByAppendingString:str];
-		i = r[@"quotient"];
+		str = isstrFAnon[r modulus.low stringByAppendingString:str];
+		i = r quotient;
 	}
 	if (neg) str = [[@"-" mutableCopy] stringByAppendingString:str];
 	return str;
 }
 - (id) init:(int)high low:(int)low{
+	
 	self = [super init];
 	self.high = (int)high;
 	self.low = low;

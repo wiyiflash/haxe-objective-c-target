@@ -10,6 +10,7 @@
 
 #import "Map.h"
 #import "String.h"
+#import "haxe/ds/EnumValueMap.h"
 #import "haxe/ds/ObjectMap.h"
 
 @interface Map_Impl_ : NSObject
@@ -25,6 +26,7 @@
 + (id) arrayWrite:(IMap*)this1 k:(id)k v:(id)v;
 + (StringMap*) toStringMap:(IMap*)t;
 + (IntMap*) toIntMap:(IMap*)t;
++ (EnumValueMap*) toEnumValueMapMap:(IMap*)t;
 + (ObjectMap*) toObjectMap:(IMap*)t;
 + (Map*) fromStringMap:(StringMap*)map;
 + (Map*) fromIntMap:(IntMap*)map;
@@ -35,7 +37,7 @@
 
 
 
-@interface IMap : NSObject
+@protocol IMap<NSObject>
 
 
 

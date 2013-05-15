@@ -10,13 +10,16 @@
 @implementation StringTools
 
 + (NSMutableString*) urlEncode:(NSMutableString*)s{
+	
 	return [s stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
 }
 + (NSMutableString*) urlDecode:(NSMutableString*)s{
+	
 	return [s stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 }
 + (BOOL) startsWith:(NSMutableString*)s start:(NSMutableString*)start{
-	return s.length >= start.length && [s substr:0 len:start.length] == start;
+	
+	return s.length >= start.length && [s hx_dyn_substr:0 len:start.length] == start;
 }
 
 @end

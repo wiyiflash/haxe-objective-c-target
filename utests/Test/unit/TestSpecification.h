@@ -69,6 +69,14 @@
 
 
 
+
+@interface ReallyEmptyClass : NSObject
+
+
+@end
+
+
+
 #import "../String.h"
 
 @interface ClassWithToString : NSObject
@@ -146,6 +154,13 @@ typedef enum{
 	EB,
 	EC
 } EnumFlagTest;
+typedef enum{
+	EVMA,
+	EVMB,
+	EVMC,
+	EVMD,
+	EVME
+} EVMTest;
 
 
 #import "../unit/Test.h"

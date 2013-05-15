@@ -38,6 +38,8 @@
 		TESTSSRCM6353FF30B8AD2A3 /* Unserializer.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSSRCREFM3FF30B8AD2A3; };
 		TESTSSRCMB2684E523748E86 /* Md5.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSSRCREFM84E523748E86; };
 		TESTSSRCM05E4383D7313EB8 /* Sha1.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSSRCREFM4383D7313EB8; };
+		TESTSSRCMA8F254A14C9135F /* BalancedTree.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSSRCREFM254A14C9135F; };
+		TESTSSRCM5082C0A79BDDCD8 /* EnumValueMap.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSSRCREFM2C0A79BDDCD8; };
 		TESTSSRCM14DF8D0D0583986 /* GenericStack.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSSRCREFMF8D0D0583986; };
 		TESTSSRCM5D108B56D4448D7 /* HashMap.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSSRCREFM08B56D4448D7; };
 		TESTSSRCMDB5356064FE22DA /* IntMap.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSSRCREFM356064FE22DA; };
@@ -134,6 +136,10 @@
 		TESTSSRCREFH84E523748E86 /* haxe/crypto/Md5.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Md5.h; path = Tests/haxe/crypto/Md5.h; sourceTree = SOURCE_ROOT; };
 		TESTSSRCREFM4383D7313EB8 /* haxe/crypto/Sha1.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Sha1.m; path = Tests/haxe/crypto/Sha1.m; sourceTree = SOURCE_ROOT; };
 		TESTSSRCREFH4383D7313EB8 /* haxe/crypto/Sha1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Sha1.h; path = Tests/haxe/crypto/Sha1.h; sourceTree = SOURCE_ROOT; };
+		TESTSSRCREFM254A14C9135F /* haxe/ds/BalancedTree.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = BalancedTree.m; path = Tests/haxe/ds/BalancedTree.m; sourceTree = SOURCE_ROOT; };
+		TESTSSRCREFH254A14C9135F /* haxe/ds/BalancedTree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BalancedTree.h; path = Tests/haxe/ds/BalancedTree.h; sourceTree = SOURCE_ROOT; };
+		TESTSSRCREFM2C0A79BDDCD8 /* haxe/ds/EnumValueMap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = EnumValueMap.m; path = Tests/haxe/ds/EnumValueMap.m; sourceTree = SOURCE_ROOT; };
+		TESTSSRCREFH2C0A79BDDCD8 /* haxe/ds/EnumValueMap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = EnumValueMap.h; path = Tests/haxe/ds/EnumValueMap.h; sourceTree = SOURCE_ROOT; };
 		TESTSSRCREFMF8D0D0583986 /* haxe/ds/GenericStack.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = GenericStack.m; path = Tests/haxe/ds/GenericStack.m; sourceTree = SOURCE_ROOT; };
 		TESTSSRCREFHF8D0D0583986 /* haxe/ds/GenericStack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GenericStack.h; path = Tests/haxe/ds/GenericStack.h; sourceTree = SOURCE_ROOT; };
 		TESTSSRCREFM08B56D4448D7 /* haxe/ds/HashMap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = HashMap.m; path = Tests/haxe/ds/HashMap.m; sourceTree = SOURCE_ROOT; };
@@ -473,6 +479,8 @@ TESTSRESREF89B1422E28349 /* main.m in Sources */,
 				TESTSSRCM6353FF30B8AD2A3 /* haxe/Unserializer.m in Sources */,
 				TESTSSRCMB2684E523748E86 /* haxe/crypto/Md5.m in Sources */,
 				TESTSSRCM05E4383D7313EB8 /* haxe/crypto/Sha1.m in Sources */,
+				TESTSSRCMA8F254A14C9135F /* haxe/ds/BalancedTree.m in Sources */,
+				TESTSSRCM5082C0A79BDDCD8 /* haxe/ds/EnumValueMap.m in Sources */,
 				TESTSSRCM14DF8D0D0583986 /* haxe/ds/GenericStack.m in Sources */,
 				TESTSSRCM5D108B56D4448D7 /* haxe/ds/HashMap.m in Sources */,
 				TESTSSRCMDB5356064FE22DA /* haxe/ds/IntMap.m in Sources */,

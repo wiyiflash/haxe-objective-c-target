@@ -18,12 +18,15 @@ static NSMutableDictionary* __plist__;
 	__plist__ = hx_val;
 }
 + (NSMutableArray*) listNames{
+	
 	return [Resource.__plist__ allKeys];
 }
 + (NSMutableString*) getString:(NSMutableString*)name{
+	
 	return [Resource.__plist__ objectForKey:name];
 }
 + (Bytes*) getBytes:(NSMutableString*)name{
+	
 	
 	NSMutableArray *array = [Resource.__plist__ __hxcpp_resource_bytes:name];
 	if (array == nil) return nil;

@@ -11,84 +11,98 @@
 
 - (void) test{
 	
+	
 	Bytes *b = [Bytes alloc:10];
 	[self eq:b.length v2:10 pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"7", @"className":@"unit.TestBytes", @"methodName":@"test"}];
 	{
+		
 		int _g = 0;
 		while (_g < 10) {
+			
 			int i = _g++;
-			[self eq:[b.b hx_objectAtIndex:i] v2:0 pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"10", @"className":@"unit.TestBytes", @"methodName":@"test"}];
+			[self eq:((CASTTType*)[b.b hx_objectAtIndex:i]) v2:0 pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"10", @"className":@"unit.TestBytes", @"methodName":@"test"}];
 		}
 	}
 	[self unspec:^(){
-		[b.b hx_objectAtIndex:-1];
+		
+		((CASTTType*)[b.b hx_objectAtIndex:-1]);
 	} pos:nil];
 	[self unspec:^(){
-		[b.b hx_objectAtIndex:11];
+		
+		((CASTTType*)[b.b hx_objectAtIndex:11]);
 	} pos:nil];
 	[b.b hx_replaceObjectAtIndex:1 withObject:@20];
-	[self eq:[b.b hx_objectAtIndex:1] v2:20 pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"14", @"className":@"unit.TestBytes", @"methodName":@"test"}];
+	[self eq:((CASTTType*)[b.b hx_objectAtIndex:1]) v2:20 pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"14", @"className":@"unit.TestBytes", @"methodName":@"test"}];
 	[self unspec:^(){
+		
 		[b.b hx_replaceObjectAtIndex:-1 withObject:@20];
 	} pos:nil];
 	[self unspec:^(){
+		
 		[b.b hx_replaceObjectAtIndex:11 withObject:@20];
 	} pos:nil];
 	[self unspec:^(){
+		
 		[b.b hx_replaceObjectAtIndex:0 withObject:@232];
 	} pos:nil];
 	[b.b hx_replaceObjectAtIndex:1 withObject:@86];
-	[self eq:[b.b hx_objectAtIndex:1] v2:86 pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"19", @"className":@"unit.TestBytes", @"methodName":@"test"}];
+	[self eq:((CASTTType*)[b.b hx_objectAtIndex:1]) v2:86 pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"19", @"className":@"unit.TestBytes", @"methodName":@"test"}];
 	
 	Bytes *b2 = [Bytes ofString:[@"ABCD" mutableCopy]];
 	[self eq:b2.length v2:4 pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"22", @"className":@"unit.TestBytes", @"methodName":@"test"}];
-	[self eq:[b2.b hx_objectAtIndex:0] v2:[[@"A" mutableCopy] charCodeAt:0] pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"23", @"className":@"unit.TestBytes", @"methodName":@"test"}];
-	[self eq:[b2.b hx_objectAtIndex:1] v2:[[@"B" mutableCopy] charCodeAt:0] pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"24", @"className":@"unit.TestBytes", @"methodName":@"test"}];
-	[self eq:[b2.b hx_objectAtIndex:2] v2:[[@"C" mutableCopy] charCodeAt:0] pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"25", @"className":@"unit.TestBytes", @"methodName":@"test"}];
-	[self eq:[b2.b hx_objectAtIndex:3] v2:[[@"D" mutableCopy] charCodeAt:0] pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"26", @"className":@"unit.TestBytes", @"methodName":@"test"}];
+	[self eq:((CASTTType*)[b2.b hx_objectAtIndex:0]) v2:[[@"A" mutableCopy] charCodeAt:0] pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"23", @"className":@"unit.TestBytes", @"methodName":@"test"}];
+	[self eq:((CASTTType*)[b2.b hx_objectAtIndex:1]) v2:[[@"B" mutableCopy] charCodeAt:0] pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"24", @"className":@"unit.TestBytes", @"methodName":@"test"}];
+	[self eq:((CASTTType*)[b2.b hx_objectAtIndex:2]) v2:[[@"C" mutableCopy] charCodeAt:0] pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"25", @"className":@"unit.TestBytes", @"methodName":@"test"}];
+	[self eq:((CASTTType*)[b2.b hx_objectAtIndex:3]) v2:[[@"D" mutableCopy] charCodeAt:0] pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"26", @"className":@"unit.TestBytes", @"methodName":@"test"}];
 	
 	Bytes *b3 = [Bytes ofString:[@"é" mutableCopy]];
 	[self eq:b3.length v2:2 pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"28", @"className":@"unit.TestBytes", @"methodName":@"test"}];
-	[self eq:[b3.b hx_objectAtIndex:0] v2:195 pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"29", @"className":@"unit.TestBytes", @"methodName":@"test"}];
-	[self eq:[b3.b hx_objectAtIndex:1] v2:169 pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"30", @"className":@"unit.TestBytes", @"methodName":@"test"}];
+	[self eq:((CASTTType*)[b3.b hx_objectAtIndex:0]) v2:195 pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"29", @"className":@"unit.TestBytes", @"methodName":@"test"}];
+	[self eq:((CASTTType*)[b3.b hx_objectAtIndex:1]) v2:169 pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"30", @"className":@"unit.TestBytes", @"methodName":@"test"}];
 	[b blit:3 src:b2 srcpos:1 len:3];
-	[self eq:[b.b hx_objectAtIndex:2] v2:0 pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"33", @"className":@"unit.TestBytes", @"methodName":@"test"}];
-	[self eq:[b.b hx_objectAtIndex:3] v2:[[@"B" mutableCopy] charCodeAt:0] pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"34", @"className":@"unit.TestBytes", @"methodName":@"test"}];
-	[self eq:[b.b hx_objectAtIndex:4] v2:[[@"C" mutableCopy] charCodeAt:0] pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"35", @"className":@"unit.TestBytes", @"methodName":@"test"}];
-	[self eq:[b.b hx_objectAtIndex:5] v2:[[@"D" mutableCopy] charCodeAt:0] pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"36", @"className":@"unit.TestBytes", @"methodName":@"test"}];
-	[self eq:[b.b hx_objectAtIndex:6] v2:0 pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"37", @"className":@"unit.TestBytes", @"methodName":@"test"}];
+	[self eq:((CASTTType*)[b.b hx_objectAtIndex:2]) v2:0 pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"33", @"className":@"unit.TestBytes", @"methodName":@"test"}];
+	[self eq:((CASTTType*)[b.b hx_objectAtIndex:3]) v2:[[@"B" mutableCopy] charCodeAt:0] pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"34", @"className":@"unit.TestBytes", @"methodName":@"test"}];
+	[self eq:((CASTTType*)[b.b hx_objectAtIndex:4]) v2:[[@"C" mutableCopy] charCodeAt:0] pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"35", @"className":@"unit.TestBytes", @"methodName":@"test"}];
+	[self eq:((CASTTType*)[b.b hx_objectAtIndex:5]) v2:[[@"D" mutableCopy] charCodeAt:0] pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"36", @"className":@"unit.TestBytes", @"methodName":@"test"}];
+	[self eq:((CASTTType*)[b.b hx_objectAtIndex:6]) v2:0 pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"37", @"className":@"unit.TestBytes", @"methodName":@"test"}];
 	[self exc:^(){
+		
 		[b blit:-1 src:b2 srcpos:1 len:3];
 	} pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"38", @"className":@"unit.TestBytes", @"methodName":@"test"}];
 	[self exc:^(){
+		
 		[b blit:0 src:b2 srcpos:2 len:3];
 	} pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"39", @"className":@"unit.TestBytes", @"methodName":@"test"}];
 	[self exc:^(){
+		
 		[b blit:9 src:b2 srcpos:1 len:3];
 	} pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"40", @"className":@"unit.TestBytes", @"methodName":@"test"}];
 	[self exc:^(){
+		
 		[b blit:0 src:b2 srcpos:-1 len:3];
 	} pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"41", @"className":@"unit.TestBytes", @"methodName":@"test"}];
 	[self exc:^(){
+		
 		[b blit:0 src:b2 srcpos:1 len:-1];
 	} pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"42", @"className":@"unit.TestBytes", @"methodName":@"test"}];
 	[self exc:^(){
+		
 		[b blit:0 src:b2 srcpos:1 len:20];
 	} pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"43", @"className":@"unit.TestBytes", @"methodName":@"test"}];
 	[b blit:4 src:b srcpos:3 len:3];
-	[self eq:[b.b hx_objectAtIndex:2] v2:0 pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"46", @"className":@"unit.TestBytes", @"methodName":@"test"}];
-	[self eq:[b.b hx_objectAtIndex:3] v2:[[@"B" mutableCopy] charCodeAt:0] pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"47", @"className":@"unit.TestBytes", @"methodName":@"test"}];
-	[self eq:[b.b hx_objectAtIndex:4] v2:[[@"B" mutableCopy] charCodeAt:0] pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"48", @"className":@"unit.TestBytes", @"methodName":@"test"}];
-	[self eq:[b.b hx_objectAtIndex:5] v2:[[@"C" mutableCopy] charCodeAt:0] pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"49", @"className":@"unit.TestBytes", @"methodName":@"test"}];
-	[self eq:[b.b hx_objectAtIndex:6] v2:[[@"D" mutableCopy] charCodeAt:0] pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"50", @"className":@"unit.TestBytes", @"methodName":@"test"}];
-	[self eq:[b.b hx_objectAtIndex:7] v2:0 pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"51", @"className":@"unit.TestBytes", @"methodName":@"test"}];
+	[self eq:((CASTTType*)[b.b hx_objectAtIndex:2]) v2:0 pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"46", @"className":@"unit.TestBytes", @"methodName":@"test"}];
+	[self eq:((CASTTType*)[b.b hx_objectAtIndex:3]) v2:[[@"B" mutableCopy] charCodeAt:0] pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"47", @"className":@"unit.TestBytes", @"methodName":@"test"}];
+	[self eq:((CASTTType*)[b.b hx_objectAtIndex:4]) v2:[[@"B" mutableCopy] charCodeAt:0] pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"48", @"className":@"unit.TestBytes", @"methodName":@"test"}];
+	[self eq:((CASTTType*)[b.b hx_objectAtIndex:5]) v2:[[@"C" mutableCopy] charCodeAt:0] pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"49", @"className":@"unit.TestBytes", @"methodName":@"test"}];
+	[self eq:((CASTTType*)[b.b hx_objectAtIndex:6]) v2:[[@"D" mutableCopy] charCodeAt:0] pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"50", @"className":@"unit.TestBytes", @"methodName":@"test"}];
+	[self eq:((CASTTType*)[b.b hx_objectAtIndex:7]) v2:0 pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"51", @"className":@"unit.TestBytes", @"methodName":@"test"}];
 	[b blit:3 src:b srcpos:5 len:3];
-	[self eq:[b.b hx_objectAtIndex:2] v2:0 pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"54", @"className":@"unit.TestBytes", @"methodName":@"test"}];
-	[self eq:[b.b hx_objectAtIndex:3] v2:[[@"C" mutableCopy] charCodeAt:0] pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"55", @"className":@"unit.TestBytes", @"methodName":@"test"}];
-	[self eq:[b.b hx_objectAtIndex:4] v2:[[@"D" mutableCopy] charCodeAt:0] pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"56", @"className":@"unit.TestBytes", @"methodName":@"test"}];
-	[self eq:[b.b hx_objectAtIndex:5] v2:0 pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"57", @"className":@"unit.TestBytes", @"methodName":@"test"}];
-	[self eq:[b.b hx_objectAtIndex:6] v2:[[@"D" mutableCopy] charCodeAt:0] pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"58", @"className":@"unit.TestBytes", @"methodName":@"test"}];
-	[self eq:[b.b hx_objectAtIndex:7] v2:0 pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"59", @"className":@"unit.TestBytes", @"methodName":@"test"}];
+	[self eq:((CASTTType*)[b.b hx_objectAtIndex:2]) v2:0 pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"54", @"className":@"unit.TestBytes", @"methodName":@"test"}];
+	[self eq:((CASTTType*)[b.b hx_objectAtIndex:3]) v2:[[@"C" mutableCopy] charCodeAt:0] pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"55", @"className":@"unit.TestBytes", @"methodName":@"test"}];
+	[self eq:((CASTTType*)[b.b hx_objectAtIndex:4]) v2:[[@"D" mutableCopy] charCodeAt:0] pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"56", @"className":@"unit.TestBytes", @"methodName":@"test"}];
+	[self eq:((CASTTType*)[b.b hx_objectAtIndex:5]) v2:0 pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"57", @"className":@"unit.TestBytes", @"methodName":@"test"}];
+	[self eq:((CASTTType*)[b.b hx_objectAtIndex:6]) v2:[[@"D" mutableCopy] charCodeAt:0] pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"58", @"className":@"unit.TestBytes", @"methodName":@"test"}];
+	[self eq:((CASTTType*)[b.b hx_objectAtIndex:7]) v2:0 pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"59", @"className":@"unit.TestBytes", @"methodName":@"test"}];
 	
 	Bytes *bs = [Bytes ofString:[@"One é accent" mutableCopy]];
 	[bs.b hx_replaceObjectAtIndex:3 withObject:@0];
@@ -96,30 +110,37 @@
 	[self eq:[bs readString:4 len:bs.length - 4] v2:[@"é accent" mutableCopy] pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"64", @"className":@"unit.TestBytes", @"methodName":@"test"}];
 	[self eq:[bs readString:4 len:2] v2:[@"é" mutableCopy] pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"65", @"className":@"unit.TestBytes", @"methodName":@"test"}];
 	[self exc:^(){
+		
 		[bs readString:-1 len:1];
 	} pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"66", @"className":@"unit.TestBytes", @"methodName":@"test"}];
 	[self exc:^(){
+		
 		[bs readString:1 len:20];
 	} pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"67", @"className":@"unit.TestBytes", @"methodName":@"test"}];
 	[self unspec:^(){
+		
 		[bs readString:4 len:1];
 	} pos:nil];
 	[self unspec:^(){
+		
 		[bs readString:1 len:5];
 	} pos:nil];
 	[self eq:[b2 toString] v2:[@"ABCD" mutableCopy] pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"80", @"className":@"unit.TestBytes", @"methodName":@"test"}];
 	
 	NSMutableArray *strings = [@[[@"ABCD" mutableCopy], [@"ABDC" mutableCopy], [@"ABCDE" mutableCopy], [@"ABC" mutableCopy], [@"BC" mutableCopy], [@"AAAAAAAAA" mutableCopy]] mutableCopy];
 	{
+		
 		int _g = 0;
 		while (_g < strings.length) {
 			
-			NSMutableString *s1 = [strings hx_objectAtIndex:_g];
+			
+			NSMutableString *s1 = ((NSMutableArray*)[strings hx_objectAtIndex:_g]);
 			++_g;
 			int _g1 = 0;
 			while (_g1 < strings.length) {
 				
-				NSMutableString *s2 = [strings hx_objectAtIndex:_g1];
+				
+				NSMutableString *s2 = ((NSMutableArray*)[strings hx_objectAtIndex:_g1]);
 				++_g1;
 				int c = [[Bytes ofString:s1] compare:[Bytes ofString:s2]];
 				[self infos:[[[[@"compare " mutableCopy] stringByAppendingString:s1] stringByAppendingString:[@" and " mutableCopy]] stringByAppendingString:s2]];
@@ -134,21 +155,27 @@
 	Bytes *bs1 = [Bytes ofString:[@"ABCDEFGH" mutableCopy]];
 	[self eq:[[bs1 sub:1 len:3] compare:[Bytes ofString:[@"BCD" mutableCopy]]] v2:0 pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"95", @"className":@"unit.TestBytes", @"methodName":@"test"}];
 	[self exc:^(){
+		
 		[bs1 sub:-1 len:3];
 	} pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"96", @"className":@"unit.TestBytes", @"methodName":@"test"}];
 	[self exc:^(){
+		
 		[bs1 sub:1 len:-1];
 	} pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"97", @"className":@"unit.TestBytes", @"methodName":@"test"}];
 	[self exc:^(){
+		
 		[bs1 sub:1 len:10];
 	} pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"98", @"className":@"unit.TestBytes", @"methodName":@"test"}];
 }
 - (void) testBuffer{
 	
+	
 	BytesBuffer *_out = [[BytesBuffer alloc] init];
 	{
+		
 		int _g = 1;
 		while (_g < 6) {
+			
 			int i = _g++;
 			[_out.b appendBytes:_out.b.mutableBytes length:i];
 		}
@@ -160,14 +187,17 @@
 	NSMutableString *str = [@"ABCDEFBCD" mutableCopy];
 	[self eq:b.length v2:str.length pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"109", @"className":@"unit.TestBytes", @"methodName":@"testBuffer"}];
 	{
+		
 		int _g1 = 0; int _g = str.length;
 		while (_g1 < _g) {
+			
 			int i = _g1++;
-			[self eq:[b.b hx_objectAtIndex:i] v2:[str charCodeAt:i] pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"111", @"className":@"unit.TestBytes", @"methodName":@"testBuffer"}];
+			[self eq:((CASTTType*)[b.b hx_objectAtIndex:i]) v2:[str charCodeAt:i] pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"111", @"className":@"unit.TestBytes", @"methodName":@"testBuffer"}];
 		}
 	}
 }
 - (void) testInput{
+	
 	
 	Bytes *bs = [Bytes ofString:[@"One é accent" mutableCopy]];
 	

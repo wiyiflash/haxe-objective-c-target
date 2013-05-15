@@ -10,9 +10,10 @@
 @implementation TestOps
 
 - (void) testOps{
+	
 	[self eq:[@"3" stringByAppendingString:[@"" mutableCopy]] v2:[@"3" mutableCopy] pos:@{@"fileName":@"TestOps.hx", @"lineNumber":@"7", @"className":@"unit.TestOps", @"methodName":@"testOps"}];
 	[self eq:[@"3" stringByAppendingString:[@"" mutableCopy]] v2:[@"3" mutableCopy] pos:@{@"fileName":@"TestOps.hx", @"lineNumber":@"8", @"className":@"unit.TestOps", @"methodName":@"testOps"}];
-	[self eq:[@"1" stringByAppendingString: ([@"2" stringByAppendingString:[@"" mutableCopy]])] v2:[@"12" mutableCopy] pos:@{@"fileName":@"TestOps.hx", @"lineNumber":@"9", @"className":@"unit.TestOps", @"methodName":@"testOps"}];
+	[self eq:1 +  ([@"2" stringByAppendingString:[@"" mutableCopy]]) v2:[@"12" mutableCopy] pos:@{@"fileName":@"TestOps.hx", @"lineNumber":@"9", @"className":@"unit.TestOps", @"methodName":@"testOps"}];
 	[self eq:[@"1" stringByAppendingString:[@"" mutableCopy]] v2:[@"1" mutableCopy] pos:@{@"fileName":@"TestOps.hx", @"lineNumber":@"11", @"className":@"unit.TestOps", @"methodName":@"testOps"}];
 	[self eq:[@"1" stringByAppendingString:[@"" mutableCopy]] v2:[@"1" mutableCopy] pos:@{@"fileName":@"TestOps.hx", @"lineNumber":@"12", @"className":@"unit.TestOps", @"methodName":@"testOps"}];
 	[self eq:1 v2:1 pos:@{@"fileName":@"TestOps.hx", @"lineNumber":@"15", @"className":@"unit.TestOps", @"methodName":@"testOps"}];
@@ -56,8 +57,8 @@
 	[self t:isnan(5.0 % 0.0) pos:@{@"fileName":@"TestOps.hx", @"lineNumber":@"62", @"className":@"unit.TestOps", @"methodName":@"testOps"}];
 	[self t:isnan(x %= 0.0) pos:@{@"fileName":@"TestOps.hx", @"lineNumber":@"63", @"className":@"unit.TestOps", @"methodName":@"testOps"}];
 	id x1 = [@[@-101.5] mutableCopy];
-	[x1 hx_objectAtIndex:0] %= 100;
-	[self eq:[x1 hx_objectAtIndex:0] v2:-1.5 pos:@{@"fileName":@"TestOps.hx", @"lineNumber":@"71", @"className":@"unit.TestOps", @"methodName":@"testOps"}];
+	((TArray3TDynamic*)[x1 hx_objectAtIndex:0]) %= 100;
+	[self eq:((TArray3TDynamic*)[x1 hx_objectAtIndex:0]) v2:-1.5 pos:@{@"fileName":@"TestOps.hx", @"lineNumber":@"71", @"className":@"unit.TestOps", @"methodName":@"testOps"}];
 	[self eq:1 v2:1 pos:@{@"fileName":@"TestOps.hx", @"lineNumber":@"72", @"className":@"unit.TestOps", @"methodName":@"testOps"}];
 	[self eq:30 v2:30 pos:@{@"fileName":@"TestOps.hx", @"lineNumber":@"73", @"className":@"unit.TestOps", @"methodName":@"testOps"}];
 	[self eq:5 v2:5 pos:@{@"fileName":@"TestOps.hx", @"lineNumber":@"74", @"className":@"unit.TestOps", @"methodName":@"testOps"}];

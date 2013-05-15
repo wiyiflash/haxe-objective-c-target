@@ -11,9 +11,10 @@
 
 + (NSMutableArray*) array:(id)it{
 	
+	
 	NSMutableArray *a = [[NSMutableArray alloc] init];
 	{
-		id _it = [it[@"iterator"]];
+		id _it = [it iterator];
 		while ( [_it hasNext] ) do {
 			id i = [_it next];
 			[a push:i];
@@ -23,9 +24,10 @@
 }
 + (List*) list:(id)it{
 	
+	
 	List *l = [[List alloc] init];
 	{
-		id _it = [it[@"iterator"]];
+		id _it = [it iterator];
 		while ( [_it hasNext] ) do {
 			id i = [_it next];
 			[l add:i];
@@ -34,8 +36,9 @@
 	return l;
 }
 + (BOOL) has:(id)it elt:(id)elt{
+	
 	{
-		id _it = [it[@"iterator"]];
+		id _it = [it iterator];
 		while ( [_it hasNext] ) do {
 			id x = [_it next];
 			if (x == elt) return YES;
@@ -44,13 +47,15 @@
 	return NO;
 }
 + (int) count:(id)it pred:(id)pred{
+	
 	// Optional arguments
 	if (!pred) pred = nil;
 	
 	int n = 0;
 	if (pred == nil) {
+		
 		{
-			id _it = [it[@"iterator"]];
+			id _it = [it iterator];
 			while ( [_it hasNext] ) do {
 				id _ = [_it next];
 				n++;
@@ -58,8 +63,9 @@
 		}
 	}
 	else {
+		
 		{
-			id _it2 = [it[@"iterator"]];
+			id _it2 = [it iterator];
 			while ( [_it2 hasNext] ) do {
 				id x = [_it2 next];
 				if ([pred:x]) n++;

@@ -1087,6 +1087,7 @@ let match_expr ctx e cases def with_type p =
 			true,Value,Some with_type
 		| t -> true,t,None
 	in
+	(* turn default into case _ *)
 	let cases = match cases,def with
 		| [],None -> []
 		| cases,Some def ->
@@ -1097,9 +1098,8 @@ let match_expr ctx e cases def with_type p =
 			cases @ [[(EConst(Ident "_")),p],None,def]
 		| _ -> cases
 	in
-	let old_error = ctx.on_error in
-	ctx.on_error <- (fun ctx s p -> ctx.on_error <- old_error; error s p);
-	let evals = try (match fst e with
+	(* type subject(s) *)
+	let evals = match fst e with
 		| EArrayDecl el | EParenthesis(EArrayDecl el,_) ->
 			List.map (fun e -> type_expr ctx e Value) el
 		| _ ->
@@ -1110,14 +1110,11 @@ let match_expr ctx e cases def with_type p =
 			| _ ->
 				()
 			end;
-			[e])
-		with e ->
-			ctx.on_error <- old_error;
-			raise e
+			[e]
 	in
-	ctx.on_error <- old_error;
 	let var_inits = ref [] in
 	let a = List.length evals in
+	(* turn subjects to subterms and handle variable initialization where necessary *)
 	let stl = ExtList.List.mapi (fun i e ->
 		let rec loop e = match e.eexpr with
 			| TField (ef,s) when (match s with FEnum _ -> false | _ -> true) ->
@@ -1135,6 +1132,7 @@ let match_expr ctx e cases def with_type p =
 		if a = 1 then st else mk_st (STuple(st,i,a)) st.st_type st.st_pos
 	) evals in
 	let tl = List.map (fun st -> st.st_type) stl in
+	(* create matcher context *)
 	let mctx = {
 		ctx = ctx;
 		stl = stl;
@@ -1146,16 +1144,22 @@ let match_expr ctx e cases def with_type p =
 		used_paths = Hashtbl.create 0;
 		eval_stack = [];
 	} in
+	(* flatten cases *)
+	let cases = List.map (fun (el,eg,e) ->
+		List.iter (fun e -> match fst e with EBinop(OpOr,_,_) -> mctx.toplevel_or <- true; | _ -> ()) el;
+		collapse_case el,eg,e
+	) cases in
 	let add_pattern_locals (pat,locals) =
 		PMap.iter (fun n (v,p) -> ctx.locals <- PMap.add n v ctx.locals) locals;
 		pat
 	in
-	let pl = ExtList.List.mapi (fun i (el,eg,e) ->
-		List.iter (fun e -> match fst e with EBinop(OpOr,_,_) -> mctx.toplevel_or <- true; | _ -> ()) el;
-		let ep = collapse_case el in
+	(* evaluate patterns *)
+	let pl = ExtList.List.mapi (fun i (ep,eg,e) ->
 		let save = save_locals ctx in
+		(* type case patterns *)
 		let pl,restore,with_type = try (match tl with
 				| [t] ->
+					(* context type parameters are turned into monomorphs until the pattern has been typed *)
 					let monos = List.map (fun _ -> mk_mono()) ctx.type_params in
 					let t = apply_params ctx.type_params monos t in
 					let pl = [add_pattern_locals (to_pattern ctx ep t)] in
@@ -1163,11 +1167,14 @@ let match_expr ctx e cases def with_type p =
 						| Value | NoValue -> []
 						| WithType _ | WithTypeResume _ ->
 							PMap.fold (fun v acc ->
+								(* apply context monomorphs to locals and replace them back after typing the case body *)
 								let t = v.v_type in
 								v.v_type <- apply_params ctx.type_params monos v.v_type;
 								(fun () -> v.v_type <- t) :: acc
 							) ctx.locals []
 					in
+					(* turn any still unknown types back into type parameters *)
+					List.iter2 (fun m (_,t) -> match follow m with TMono _ -> Type.unify m t | _ -> ()) monos ctx.type_params;
 					pl,restore,(match with_type with
 						| WithType t -> WithType (apply_params ctx.type_params monos t)
 						| WithTypeResume t -> WithTypeResume (apply_params ctx.type_params monos t)
@@ -1176,10 +1183,11 @@ let match_expr ctx e cases def with_type p =
 					let t = monomorphs ctx.type_params (tfun tl fake_tuple_type) in
 					[add_pattern_locals (to_pattern ctx ep t)],[],with_type)
 			with Unrecognized_pattern (e,p) ->
-				error "Unrecognized_pattern" p
+				error "Case expression must be a constant value or a pattern, not an arbitrary expression" p
 		in
+		(* type case body *)
 		let e = match e with
-			| None -> mk (TBlock []) ctx.com.basic.tvoid (punion_el el)
+			| None -> mk (TBlock []) ctx.com.basic.tvoid (pos ep)
 			| Some e ->
 				let e = type_expr ctx e with_type in
 				match with_type with
@@ -1191,6 +1199,7 @@ let match_expr ctx e cases def with_type p =
 					Codegen.Abstract.check_cast ctx t e e.epos
 				| _ -> e
 		in
+		(* type case guard *)
 		let eg = match eg with
 			| None -> None
 			| Some e ->
@@ -1203,51 +1212,60 @@ let match_expr ctx e cases def with_type p =
 		let out = mk_out mctx i e eg pl (pos ep) in
 		Array.of_list pl,out
 	) cases in
-	let unused p =
-		display_error ctx "This pattern is unused" p
-(* 		let check_expr e p =
-			try
-				let old_error = ctx.on_error in
-				ctx.on_error <- (fun ctx s p -> ctx.on_error <- old_error; error s p);
-				ignore (type_expr ctx e Value);
-				ctx.on_error <- old_error;
-				display_error ctx "Case expression must be a constant value or a pattern, not an arbitrary expression" (pos e)
-			with _ ->
-				ctx.on_error <- old_error;
-				display_error ctx "This pattern is unused" p
+	let check_unused () =
+		let unused p =
+			display_error ctx "This pattern is unused" p;
+			let old_error = ctx.on_error in
+			ctx.on_error <- (fun ctx s p -> ctx.on_error <- old_error; raise Exit);
+	 		let check_expr e p =
+				try begin match fst e with
+						| EConst(Ident ("null" | "true" | "false")) -> ()
+						| EConst(Ident _) ->
+							ignore (type_expr ctx e Value);
+							display_error ctx "Case expression must be a constant value or a pattern, not an arbitrary expression" (pos e)
+						| _ -> ()
+				end with Exit -> ()
+			in
+			let rec loop prev cl = match cl with
+				| (_,Some _,_) :: cl -> loop prev cl
+				| ((e,p2),_,_) :: cl ->
+					if p2.pmin >= p.pmin then check_expr prev p else loop (e,p2) cl
+				| [] ->
+					check_expr prev p
+			in
+			(match cases with (e,_,_) :: cl -> loop e cl | [] -> assert false);
+			ctx.on_error <- old_error;
 		in
-		let rec loop prev cl = match cl with
-			| ((e,p2) :: _,_,_) :: cl ->
-				if p2.pmin = p.pmin then check_expr prev p else loop (e,p2) cl
-			| _ :: cl ->
-				assert false
-			| [] ->
-				check_expr prev p
-		in
-		loop (EConst (Ident "null"),Ast.null_pos) cases *)
-	in
-	begin try
-		let dt = compile mctx stl pl in
  		PMap.iter (fun _ out -> if not (Hashtbl.mem mctx.used_paths out.o_id) then begin
 			if out.o_pos == p then display_error ctx "The default pattern is unused" p
 			else unused out.o_pos;
-			if mctx.toplevel_or then match evals with
+			if mctx.toplevel_or then begin match evals with
 				| [{etype = t}] when (match follow t with TAbstract({a_path=[],"Int"},[]) -> true | _ -> false) ->
 					display_error ctx "Note: Int | Int is an or-pattern now" p;
 				| _ -> ()
+			end;
 		end) mctx.outcomes;
+	in
+	begin try
+		(* compile decision tree *)
+		let dt = compile mctx stl pl in
+		(* check for unused patterns *)
+		check_unused();
+		(* determine type of switch statement *)
 		let t = if not need_val then
 			mk_mono()
 		else match with_type with
 			| WithType t | WithTypeResume t -> t
 			| _ -> try Typer.unify_min_raise ctx (List.rev_map (fun (_,out) -> out.o_expr) (List.rev pl)) with Error (Unify l,p) -> error (error_msg (Unify l)) p
 		in
+		(* unify with expected type if necessary *)
 		begin match tmono with
 			| None -> ()
 			| Some (WithType t2) -> unify ctx t2 t p
 			| Some (WithTypeResume t2) -> (try unify_raise ctx t2 t p with Error (Unify l,p) -> raise (Typer.WithTypeError (l,p)))
 			| _ -> assert false
 		end;
+		(* generate typed AST from decision tree *)
 		let e = to_typed_ast mctx dt in
 		let e = { e with epos = p; etype = t} in
 		if !var_inits = [] then

@@ -41,6 +41,7 @@ static int staticVar3;
 @synthesize s;
 - (void) testVariables{
 	
+	
 	NSMutableArray *a = [[NSMutableArray alloc] init];
 	int b = 5;
 	float c = 5.0;
@@ -61,66 +62,82 @@ static int staticVar3;
 }
 - (void) testingFor{
 	
+	
 	NSMutableArray *aa = [@[@1, @2, @3, @4, @5] mutableCopy];
 	{
+		
 		int _g = 0;
 		while (_g < 5) {
+			
 			int i = _g++;
 			[aa push:i];
 		}
 	}
 	{
+		
 		int _g1 = 0; int _g = aa.length;
 		while (_g1 < _g) {
+			
 			int i = _g1++;
 			[aa push:i];
 		}
 	}
 	{
+		
 		int _g = 0;
 		while (_g < aa.length) {
-			int i = [aa hx_objectAtIndex:_g];
+			
+			int i = ((NSMutableArray*)[aa hx_objectAtIndex:_g]);
 			++_g;
 			[aa push:i];
 		}
 	}
 }
 - (void) testWhile{
+	
 	int aa = 5;
 	do {
+		
 		[Log trace:[@"do something" mutableCopy] infos:@{@"fileName":@"Tests.hx", @"lineNumber":@"84", @"className":@"Tests", @"methodName":@"testWhile"}];
 		aa++;
 	}while (aa < 10);
 	while (aa > 0) aa--;
 }
 - (void) testTry{
+	
 	@try {
+		
 		int a = 3;
 	}
 	@catch (NSException *e) {
+		
 		[Log trace:[@"error" mutableCopy] infos:@{@"fileName":@"Tests.hx", @"lineNumber":@"101", @"className":@"Tests", @"methodName":@"testTry"}];
 	}
 }
 - (void) testSwitch{
+	
 	BOOL _g = YES;
 	switch (_g){
 		case YES:{
-			{
-				int x = 0;
-			}}break;
+			
+			int x = 0;
+		}
+		break;
 		case NO:{
-			{
-				int y = 0;
-			}}break;
+			
+			int y = 0;
+		}
+		break;
 	}
 }
 - (void) testArray{
 	
+	
 	NSMutableArray *as = [[NSMutableArray alloc] init];
 	
 	NSMutableArray *aa = [@[@1.0, @2, @3, @4, @5] mutableCopy];
-	float aaa = [aa hx_objectAtIndex:2];
-	[aa hx_objectAtIndex:3];
+	float aaa = ((NSMutableArray*)[aa hx_objectAtIndex:2]);
+	((NSMutableArray*)[aa hx_objectAtIndex:3]);
 	
 	NSMutableArray *concatArray = [as concat:[@[[@"5" mutableCopy], [@"6" mutableCopy], [@"7" mutableCopy]] mutableCopy]];
 	concatArray = [as copy];
@@ -137,6 +154,7 @@ static int staticVar3;
 	
 	NSMutableArray *sliceArray = [as slice:1 end:3];
 	[as sort:^(NSMutableString *a, NSMutableString *b){
+		
 		return 0;
 	}];
 	sliceArray = [as splice:2 len:2];
@@ -146,8 +164,10 @@ static int staticVar3;
 	NSMutableArray *a_comprehention = ((NSMutableArray)($this:(snd ctx.path)) 
 	NSMutableArray *_g = [@[] mutableCopy]
 	{
+		
 		int _g1 = 0;
 		while (_g1 < 10) {
+			
 			int x = _g1++;
 			[_g push:x];
 		}
@@ -161,9 +181,11 @@ static int staticVar3;
 	NSMutableArray *b_comprehention = ((NSMutableArray)($this:(snd ctx.path)) 
 	NSMutableArray *_g1 = [@[] mutableCopy]
 	{
+		
 		int _g2 = 0;
 		while (_g2 < a_comprehention.length) {
-			int x = [a_comprehention hx_objectAtIndex:_g2];
+			
+			int x = ((NSMutableArray*)[a_comprehention hx_objectAtIndex:_g2]);
 			++_g2;
 			if (x % 2 == 0) [_g1 push:x];
 		}
@@ -177,11 +199,14 @@ static int staticVar3;
 	NSMutableArray *c_comprehention = ((NSMutableArray)($this:(snd ctx.path)) 
 	NSMutableArray *_g2 = [@[] mutableCopy]
 	{
+		
 		int _g3 = 0;
 		while (_g3 < 4) {
+			
 			int x = _g3++;
-			int _g5 = 0; int _g4 = [x stringByAppendingString:@"1"];
+			int _g5 = 0; int _g4 = x + 1;
 			while (_g5 < _g4) {
+				
 				int i = _g5++;
 				[_g2 push:i];
 			}
@@ -193,16 +218,19 @@ static int staticVar3;
 		NSMutableArray* __r__3}
 	}(self));
 	{
+		
 		int _g3 = 0;
 		while (_g3 < concatArray.length) {
 			
-			NSMutableString *val = [concatArray hx_objectAtIndex:_g3];
+			
+			NSMutableString *val = ((NSMutableArray*)[concatArray hx_objectAtIndex:_g3]);
 			++_g3;
 			[Log trace:val infos:@{@"fileName":@"Tests.hx", @"lineNumber":@"147", @"className":@"Tests", @"methodName":@"testArray"}];
 		}
 	}
 }
 - (void) testDate{
+	
 	
 	NSDate *d = [[NSDate alloc] init:2012 month:11 day:13 hour:19 min:30 sec:0];
 	int _int = [d getDate];
@@ -221,73 +249,63 @@ static int staticVar3;
 	d2 = [NSDatenow];
 	int x = [DateTools getMonthDays:d2];
 }
-- (int) enumToInt:(Tests*)c{
+- (int) enumToInt:(Color*)c{
+	
 	[self testEnum:ExternEnumValue1];
 	return ((int)($this:(snd ctx.path)) 
 	enum s = e2 (c)
 	switch ( e2.index ) {
 		
 		case 0:
-		{
-			__r__ = 16711680}break
+		__r__ = 16711680;break
 		case 1:
-		{
-			__r__ = 65280}break
+		__r__ = 65280;break
 		case 2:
-		{
-			__r__ = 255}break
+		__r__ = 255;break
 		case 3:
 		
-		var MATCH c_eGrey_0 : int = e2.params[0]{
-			__r__ = ((c_eGrey_0 << 16 | c_eGrey_0 << 8) | c_eGrey_0)}break
+		var MATCH v : int = e2.params[0]__r__ = ((v << 16 | v << 8) | v);break
 		case 4:
 		
-		var MATCH c_eRgb_2 : int = e2.params[2], MATCH c_eRgb_1 : int = e2.params[1], MATCH c_eRgb_0 : int = e2.params[0]{
-			__r__ = ((c_eRgb_0 << 16 | c_eRgb_1 << 8) | c_eRgb_2)}break
+		var MATCH b : int = e2.params[2], MATCH g : int = e2.params[1], MATCH r : int = e2.params[0]__r__ = ((r << 16 | g << 8) | b);break
 		case 5:
 		
-		var MATCH c_eAlpha_1 : Tests = e2.params[1], MATCH c_eAlpha_0 : int = e2.params[0]{
-			__r__ = (c_eAlpha_0 << 24 | ([self enumToInt:c_eAlpha_1] & 16777215))}break
+		var MATCH c1 : Color = e2.params[1], MATCH a : int = e2.params[0]__r__ = (a << 24 | ([self hx_dyn_enumToInt:c1] & 16777215));break
 	}
 	return __r__{
 		
 		int* __r__}
 	}(self));
 }
-- (void) testEnum:(id)v{
+- (void) testEnum:(TestsEnumExtern*)v{
+	
 	int i = ((int)($this:(snd ctx.path)) 
 	enum s = e2 (v)
 	switch ( e2.index ) {
 		
 		case 0:
-		{
-			__r__ = 5}break
+		__r__ = 5;break
 		case 1:
-		{
-			__r__ = 6}break
+		__r__ = 6;break
 		case 2:
-		{
-			__r__ = 7}break
+		__r__ = 7;break
 	}
 	return __r__{
 		
 		int* __r__}
 	}(self));
 	
-	Tests *red = Red2;
+	Color2 *red = Red2;
 	int j = ((int)($this:(snd ctx.path)) 
 	enum s = e4 (red)
 	switch ( e4.index ) {
 		
 		case 0:
-		{
-			__r__3 = 5}break
+		__r__3 = 5;break
 		case 1:
-		{
-			__r__3 = 6}break
+		__r__3 = 6;break
 		case 2:
-		{
-			__r__3 = 7}break
+		__r__3 = 7;break
 	}
 	return __r__3{
 		
@@ -295,8 +313,10 @@ static int staticVar3;
 	}(self));
 }
 - (void) testEReg{
+	
 }
 - (void) testMap{
+	
 	
 	StringMap *h = [[StringMap alloc] init];
 	[h set:[@"key" mutableCopy] v:[@"value" mutableCopy]];
@@ -310,11 +330,13 @@ static int staticVar3;
 }
 - (void) testLambda{
 	
+	
 	NSMutableArray *a = [Lambda array:[@[@0, @1, @2, @3] mutableCopy]];
 	
 	List *l = [Lambda concat:[@[@0, @1, @2, @3] mutableCopy] b:[@[@4, @5] mutableCopy]];
 }
 - (void) testGenericStack{
+	
 	
 	GenericStack *l = [[GenericStack alloc] init];
 	l.head = [[GenericCell alloc] init:2 next:l head];
@@ -337,6 +359,7 @@ static int staticVar3;
 	BOOL r = [l remove:5];
 }
 - (void) testReflect{
+	
 	id obj = [@{
 		@"a":[[@"aaaaa" mutableCopy] copy],
 	} mutableCopy];
@@ -345,19 +368,20 @@ static int staticVar3;
 	if (obj != nil) [obj hx_set_field:[@"a" mutableCopy] :[@"bbbbb" mutableCopy] :NO];
 	[self hx_set_field:[@"interfaceVar1" mutableCopy] :[@"bbbbb" mutableCopy] :YES];
 	id p = (id)[self hx_field:[@"interfaceVar1" mutableCopy] :YES];
-	[Reflect callMethod:self func:testStd args:[@[] mutableCopy]];
-	[Reflect callMethod:self func:callLotsOfArguments:arg2:arg3:arg4: args:[@[@1, @2, @3, @4] mutableCopy]];
+	[Reflect callMethod:self func:^(){ [self testStd]; } args:[@[] mutableCopy]];
+	[Reflect callMethod:self func:^(int arg1, int arg2, int arg3, int arg4){ [self callLotsOfArguments:arg1 arg2:arg2 arg3:arg3 arg4:arg4]; } args:[@[@1, @2, @3, @4] mutableCopy]];
 	
 	NSMutableArray *fs = [Reflect fields:obj];
-	BOOL isf = [Reflect isFunction:testStd];
+	BOOL isf = [Reflect isFunction:^(){ [self testStd]; }];
 	int i = [Reflect compare:1 b:2];
-	BOOL cm = [Reflect compareMethods:testStd f2:testString];
+	BOOL cm = [Reflect compareMethods:^(){ [self testStd]; } f2:^(){ [self testString]; }];
 	BOOL isobj = [Reflect isObject:obj];
-	isobj = [Reflect isObject:testStd];
+	isobj = [Reflect isObject:^(){ [self testStd]; }];
 	[Reflect deleteField:obj field:[@"a" mutableCopy]];
 	id obj2 = [Reflect copy:obj];
 }
 - (void) testStd{
+	
 	int _int = 3;
 	BOOL _BOOL = [Std is:self.d1 t: TAbstractDecl ];
 	float _float = [Std parseFloat:[@"55454.65" mutableCopy]];
@@ -367,6 +391,7 @@ static int staticVar3;
 	NSMutableString *string = [Std string:_int];
 }
 - (void) testString{
+	
 	
 	NSMutableString *string = [[NSMutableString alloc] init:[@"abcdefghijklmnopqrstuvwxyz" mutableCopy]];
 	int len = string.length;
@@ -420,6 +445,7 @@ static int staticVar3;
 	sfin = [@"55" stringByAppendingString:[@"abc" mutableCopy]];
 }
 - (void) testSys{
+	
 	[Sys print:[@"hello world" mutableCopy]];
 	[Sys println:[@"hello world" mutableCopy]];
 	
@@ -449,6 +475,7 @@ static int staticVar3;
 }
 - (void) testType{
 	
+	
 	Class *sup = [Type getSuperClass:NSString];
 	
 	NSMutableString *sups = [Type getClassName:NSString];
@@ -458,53 +485,66 @@ static int staticVar3;
 	NSString *inst = [Type createEmptyInstance:NSString];
 }
 - (void) testXml{
+	
 }
 - (void) foo{
+	
 }
 - (void) testOverload{
+	
 	[self foo];
 	[self foo:[@"bar" mutableCopy]];
 	[self foo:[@"str" mutableCopy] arr:[@[[@"bar1" mutableCopy], [@"bar2" mutableCopy]] mutableCopy]];
 	[self foo:[@[[@[[@"bar" mutableCopy], [@"1" mutableCopy]] mutableCopy], [@[[@"bar" mutableCopy], [@"2" mutableCopy]] mutableCopy]] mutableCopy]];
 }
 - (void) testFrameworksImport{
+	
 }
 - (int) get_width{
+	
 	return 0;
 }
 - (int) set_width:(int)v{
+	
 	return 0;
 }
 - (int) add:(int)a b:(int)b{
+	
 	return a + b;
 }
 - (int) minus:(int)a b:(int)b{
+	
 	return a - b;
 }
 - (void) callLotsOfArguments:(int)arg1 arg2:(int)arg2 arg3:(int)arg3 arg4:(int)arg4{
+	
 	[self optionalArguments:0 arg2:1 arg3:2 arg4:nil];
 	[self optionalArguments1:0 arg2:1 arg3:2 arg4:nil];
 	[self optionalArguments2:0 arg2:nil arg3:nil arg4:3];
 	[self optionalArguments3:0 arg2:1 arg3:nil arg4:nil];
 }
 - (void) optionalArguments:(int)arg1 arg2:(int)arg2 arg3:(int)arg3 arg4:(int)arg4{
+	
 	// Optional arguments
 	if (!arg4) arg4 = nil;
 	
-	int x = [arg4 stringByAppendingString:@"5"];
+	int x = arg4 + 5;
 }
 - (void) optionalArguments1:(int)arg1 arg2:(int)arg2 arg3:(int)arg3 arg4:(int)arg4{
+	
 	// Optional arguments
 	if (!arg4) arg4 = 5;
 	
 }
 - (void) optionalArguments2:(int)arg1 arg2:(int)arg2 arg3:(int)arg3 arg4:(int)arg4{
+	
 	// Optional arguments
 	if (!arg3) arg3 = nil;
 	if (!arg2) arg2 = nil;
 	
 }
 - (void) optionalArguments3:(int)arg1 arg2:(int)arg2 arg3:(BOOL)arg3 arg4:(BOOL)arg4{
+	
 	// Optional arguments
 	if (!arg4) arg4 = nil;
 	if (!arg2) arg2 = 6;
@@ -512,27 +552,32 @@ static int staticVar3;
 	
 }
 - (void) init{
+	
 	int x = 6;
 	self.s = [@"init" mutableCopy];
 }
 - (void) printHello{
+	
 	[Log trace:[@"Hello from Haxe Objective-C" mutableCopy] infos:@{@"fileName":@"Tests.hx", @"lineNumber":@"536", @"className":@"Tests", @"methodName":@"printHello"}];
 }
 - (void) functionToRedefine{
+	
 	[Log trace:[@"do something else" mutableCopy] infos:@{@"fileName":@"Tests.hx", @"lineNumber":@"551", @"className":@"Tests", @"methodName":@"functionToRedefine"}];
 }
 - (void) functionToRedefine2:(int)param1 param2:(NSMutableString*)param2{
+	
 	int i = param1;
 }
 - (id) init{
+	
 	self = [super init];
 	self.s = [@"str" mutableCopy];
 	self.d2 = 4.5;
 	self.d1 = 34;
 	
 	Tests2 *test2 = [[Tests2 alloc] init];
-	test2.functionToRedefine = functionToRedefine;
-	test2.functionToRedefine2 = functionToRedefine2:param2:;
+	test2.hx_dyn_functionToRedefine = ^(){ [self functionToRedefine]; };
+	test2.hx_dyn_functionToRedefine2 = ^(int param1, NSMutableString *param2){ [self functionToRedefine2:param1 param2:param2]; };
 	[[TestC alloc] init];
 	[[TestHaxePack alloc] init];
 	return self;
@@ -544,21 +589,25 @@ static int staticVar3;
 
 @synthesize d1;
 - (void) methodInTests2{
+	
 	[self functionToRedefine];
 	[self functionToRedefine2:0 param2:[@"00" mutableCopy]];
 }
-// Defining a dynamic method
+// Dynamic method defined with an objc method and a block property
 - (void) functionToRedefine{
+	if ( hx_dyn_functionToRedefine ) { hx_dyn_functionToRedefine(); return; }
 	[Log trace:[@"originally do something" mutableCopy] infos:@{@"fileName":@"Tests.hx", @"lineNumber":@"574", @"className":@"Tests2", @"methodName":@"functionToRedefine"}];
 }
-@synthesize property_functionToRedefine;
+@synthesize hx_dyn_functionToRedefine;
 
-// Defining a dynamic method
+// Dynamic method defined with an objc method and a block property
 - (void) functionToRedefine2:(int)param1 param2:(NSMutableString*)param2{
+	if ( hx_dyn_functionToRedefine2 ) { hx_dyn_functionToRedefine2(param1, param2); return; }
 }
-@synthesize property_functionToRedefine2;
+@synthesize hx_dyn_functionToRedefine2;
 
 - (id) init{
+	
 	self = [super init];
 	self.d1 = 34;
 	
