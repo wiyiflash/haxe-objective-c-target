@@ -63,17 +63,18 @@ int main(int argc, char *argv[])
 	//[self callBlock:^(){ NSLog(@"Block was called"); }];
 	
 	me = self;
+	hx_self = self;
 	
-	// redefine a method
+	// redefine a method, approach 1
 	Tests2 *test2 = [[Tests2 alloc] init];
-	test2.block1 = block_block1;
-	test2.block2 = block_block2;
-//	test2.block3 = ^(NSString*str){ NSLog(@"block3 called %@", str); [self login]; };
-	test2.block4 = ^(NSString*str){ NSLog(@"block4 called %@", str); return @"block 4 called inline"; };
+	test2.property_block1 = ^(){ [self block1]; };// property_block1_custom;
+	test2.property_block2 = property_block2_custom;
+	test2.property_block3 = ^(NSString*str){ NSLog(@"inlined block3 called with: %@", str); };
+	test2.property_block3 = ^(NSString*str){ [self block3:str]; };
+	test2.property_block4 = ^(NSString*str){ NSLog(@"inlined block4 called with: %@", str); return @"block 4 called inline"; };
 	[test2 callBlocks];
 	
-	// Redefine a method approach 2
-	self_c = self;
+	// Redefine a method, approach 2
 //	WebViewDelegate *w = [[WebViewDelegate alloc] init];
 //	w.loadFinished = &ttt;
 //	w.callString = &ttt2;
@@ -86,7 +87,8 @@ int main(int argc, char *argv[])
     //object_setInstanceVariable(e, "dynvar", (__bridge void *)([NSNumber numberWithInt:10908]));
 	
     // get
-    NSNumber *associatedObject = objc_getAssociatedObject(e, &fooKey);
+	fooKey = "init";
+    NSNumber *associatedObject = objc_getAssociatedObject(test2, &fooKey);
     NSLog(@"associatedObject: %@", associatedObject);
 	
 	self.window.backgroundColor = [UIColor grayColor];
@@ -125,8 +127,8 @@ int main(int argc, char *argv[])
 //	[req put];
 	
 	
-	int i = 0;
-	BOOL isRunning = YES;
+	//int i = 0;
+	//BOOL isRunning = YES;
 //	while (isRunning) {
 //		while(CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, TRUE) == kCFRunLoopRunHandledSource);
 //		
@@ -176,8 +178,17 @@ void tick(CFRunLoopTimerRef timer) {
 //	NSLog(@"fff");
 //}
 
-void(^block_block1)(void) = ^{ NSLog(@"block_block1 block_block1 block_block1"); };
-void(^block_block2)(int i) = ^(int i){ NSLog(@"block_block2 block_block2 block_block2 called %i", i); /*[me login];*/ };
+- (void) block1 {
+	 NSLog(@"custom block 1 called");
+}
+void(^property_block1_custom)(void) = ^(){ [me block1]; };
+- (void) block2:(int)i {
+	NSLog(@"custom block 2 called with i = %i", i);
+}
+void(^property_block2_custom)(int i) = ^(int i){ [me block2:i]; };
+- (void) block3:(NSString*)str {
+	NSLog(@"custom block 3 called with str = %@", str);
+}
 //void(^block_block22)(int i, id self) = ^(int i, id self){ NSLog(@"block_block2 block_block2 block_block2 called %i", i); [self login]; };
 
 
@@ -201,9 +212,9 @@ void(^block_block2)(int i) = ^(int i){ NSLog(@"block_block2 block_block2 block_b
 
 
 
-- (void) callThis:(SEL)sel {
-	[self performSelector:sel];
-}
+//- (void) callThis:(SEL)sel {
+//	[self performSelector:sel];
+//}
 //- (void) callBlock:(void)(^sel) {
 //	//[self performSelector:sel];
 //	sel();
@@ -258,34 +269,38 @@ static NSMutableArray *arr__;
 }
 
 @synthesize d1;
-@synthesize block1;
-@synthesize block2;
-@synthesize block3;
-@synthesize block4;
+@synthesize property_block1;
+@synthesize property_block2;
+@synthesize property_block3;
+@synthesize property_block4;
 
-- (void) callBlocks{
-	NSLog(@"callBlock is calling block1 : %@", block1);
-	block1();
-	block2(0);
-	//block3(@"dgdcgdfgcgcgdfg");
-	block4(@"block 4 called");
+- (void) callBlocks {
+	NSLog(@"callBlocks and wait for them to be dispatched to super class : %@", property_block1);
+	[self block1];
+	property_block2(0);
+	property_block3(@"block 3 argument");
+	property_block4(@"block 4 argument");
 	
-	NSLog(@"%@",[NSThread callStackSymbols]);
+	//NSLog(@"%@",[NSThread callStackSymbols]);
 }
+- (void) block1 {
+	if(property_block1) {property_block1(); return;}
+	NSLog(@"block1 content if the method is not redefined");
+}
+
 - (void) redefineThisMethod{
 }
 - (id) init{
 	self = [super init];
 	self.d1 = 34;
 	
-	self.block1 = ^(){ [self _block1]; };
+	// inlined block
+	//self.property_block1 = ^(){ [self block1]; };
 	
 	//NSMutableArray *arr = [[NSMutableArray alloc] initWithObjects:self.d1, self.d1, [NSNumber numberWithInt:50], nil];
 	return self;
 }
--(void)_block1{
-	NSLog(@"block1default was called");
-}
+
 - makeIdenticalTwin {
 	Tests2 *twin = [[Tests2 alloc] init];
 	twin->gender = gender;

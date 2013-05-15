@@ -14,11 +14,15 @@
 #import "RCHTTPRequest.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate, UIWebViewDelegate>{
-	id self_c;
+	id hx_self;
 	NSTimer *timer;
 }
 @property (strong, nonatomic) UIWindow *window;
 @property (nonatomic) int length;
+
+- (void) block1;
+- (void) block2:(int)i;
+- (void) block3:(NSString*)str;
 
 @end
 
@@ -26,10 +30,10 @@
 @interface Tests2 : NSObject
 
 @property (nonatomic) int d1;
-@property (nonatomic,copy) void(^block1)();
-@property (nonatomic,copy) void(^block2)(int);
-@property (nonatomic,copy) void(^block3)(NSString*);
-@property (nonatomic,copy) NSString*(^block4)(NSString*);
+@property (nonatomic,copy) void(^property_block1)();
+@property (nonatomic,copy) void(^property_block2)(int);
+@property (nonatomic,copy) void(^property_block3)(NSString*);
+@property (nonatomic,copy) NSString*(^property_block4)(NSString*);
 
 - (void) callBlocks;
 - (void) redefineThisMethod;

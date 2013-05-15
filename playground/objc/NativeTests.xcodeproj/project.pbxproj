@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		28534A1C169832E8005B2D11 /* String.m in Sources */ = {isa = PBXBuildFile; fileRef = 28534A1B169832E8005B2D11 /* String.m */; };
-		28534A2216996664005B2D11 /* FastList.m in Sources */ = {isa = PBXBuildFile; fileRef = 28534A1F16996663005B2D11 /* FastList.m */; };
 		28534A2316996664005B2D11 /* Timer.m in Sources */ = {isa = PBXBuildFile; fileRef = 28534A2116996664005B2D11 /* Timer.m */; };
 		28752FD4169042690048F960 /* Array.m in Sources */ = {isa = PBXBuildFile; fileRef = 28752FD3169042690048F960 /* Array.m */; };
 		28752FD7169042840048F960 /* Log.m in Sources */ = {isa = PBXBuildFile; fileRef = 28752FD6169042840048F960 /* Log.m */; };
@@ -18,9 +17,6 @@
 		2875300216906C1A0048F960 /* Date.m in Sources */ = {isa = PBXBuildFile; fileRef = 28752FE216906C180048F960 /* Date.m */; };
 		2875300316906C1A0048F960 /* DateTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 28752FE416906C190048F960 /* DateTools.m */; };
 		2875300416906C1A0048F960 /* EReg.m in Sources */ = {isa = PBXBuildFile; fileRef = 28752FE616906C190048F960 /* EReg.m */; };
-		2875300516906C1A0048F960 /* Hash.m in Sources */ = {isa = PBXBuildFile; fileRef = 28752FE816906C190048F960 /* Hash.m */; };
-		2875300616906C1A0048F960 /* IntHash.m in Sources */ = {isa = PBXBuildFile; fileRef = 28752FEC16906C190048F960 /* IntHash.m */; };
-		2875300716906C1A0048F960 /* IntIter.m in Sources */ = {isa = PBXBuildFile; fileRef = 28752FEE16906C190048F960 /* IntIter.m */; };
 		2875300816906C1A0048F960 /* Lambda.m in Sources */ = {isa = PBXBuildFile; fileRef = 28752FF016906C190048F960 /* Lambda.m */; };
 		2875300916906C1A0048F960 /* List.m in Sources */ = {isa = PBXBuildFile; fileRef = 28752FF216906C190048F960 /* List.m */; };
 		2875300A16906C1A0048F960 /* Reflect.m in Sources */ = {isa = PBXBuildFile; fileRef = 28752FF416906C190048F960 /* Reflect.m */; };
@@ -59,8 +55,6 @@
 /* Begin PBXFileReference section */
 		28534A1A169832E8005B2D11 /* String.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = String.h; path = Tests/String.h; sourceTree = SOURCE_ROOT; };
 		28534A1B169832E8005B2D11 /* String.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = String.m; path = Tests/String.m; sourceTree = SOURCE_ROOT; };
-		28534A1E16996662005B2D11 /* FastList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FastList.h; path = Tests/haxe/FastList.h; sourceTree = SOURCE_ROOT; };
-		28534A1F16996663005B2D11 /* FastList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FastList.m; path = Tests/haxe/FastList.m; sourceTree = SOURCE_ROOT; };
 		28534A2016996663005B2D11 /* Timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Timer.h; path = Tests/haxe/Timer.h; sourceTree = SOURCE_ROOT; };
 		28534A2116996664005B2D11 /* Timer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Timer.m; path = Tests/haxe/Timer.m; sourceTree = SOURCE_ROOT; };
 		28752FD2169042690048F960 /* Array.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Array.h; path = Tests/Array.h; sourceTree = SOURCE_ROOT; };
@@ -79,14 +73,6 @@
 		28752FE416906C190048F960 /* DateTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DateTools.m; path = Tests/DateTools.m; sourceTree = SOURCE_ROOT; };
 		28752FE516906C190048F960 /* EReg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EReg.h; path = Tests/EReg.h; sourceTree = SOURCE_ROOT; };
 		28752FE616906C190048F960 /* EReg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EReg.m; path = Tests/EReg.m; sourceTree = SOURCE_ROOT; };
-		28752FE716906C190048F960 /* Hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Hash.h; path = Tests/Hash.h; sourceTree = SOURCE_ROOT; };
-		28752FE816906C190048F960 /* Hash.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Hash.m; path = Tests/Hash.m; sourceTree = SOURCE_ROOT; };
-		28752FE916906C190048F960 /* Interface1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Interface1.h; path = Tests/Interface1.h; sourceTree = SOURCE_ROOT; };
-		28752FEA16906C190048F960 /* Interface2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Interface2.h; path = Tests/Interface2.h; sourceTree = SOURCE_ROOT; };
-		28752FEB16906C190048F960 /* IntHash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IntHash.h; path = Tests/IntHash.h; sourceTree = SOURCE_ROOT; };
-		28752FEC16906C190048F960 /* IntHash.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IntHash.m; path = Tests/IntHash.m; sourceTree = SOURCE_ROOT; };
-		28752FED16906C190048F960 /* IntIter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IntIter.h; path = Tests/IntIter.h; sourceTree = SOURCE_ROOT; };
-		28752FEE16906C190048F960 /* IntIter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IntIter.m; path = Tests/IntIter.m; sourceTree = SOURCE_ROOT; };
 		28752FEF16906C190048F960 /* Lambda.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Lambda.h; path = Tests/Lambda.h; sourceTree = SOURCE_ROOT; };
 		28752FF016906C190048F960 /* Lambda.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Lambda.m; path = Tests/Lambda.m; sourceTree = SOURCE_ROOT; };
 		28752FF116906C190048F960 /* List.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = List.h; path = Tests/List.h; sourceTree = SOURCE_ROOT; };
@@ -201,14 +187,6 @@
 				28752FE416906C190048F960 /* DateTools.m */,
 				28752FE516906C190048F960 /* EReg.h */,
 				28752FE616906C190048F960 /* EReg.m */,
-				28752FE716906C190048F960 /* Hash.h */,
-				28752FE816906C190048F960 /* Hash.m */,
-				28752FE916906C190048F960 /* Interface1.h */,
-				28752FEA16906C190048F960 /* Interface2.h */,
-				28752FEB16906C190048F960 /* IntHash.h */,
-				28752FEC16906C190048F960 /* IntHash.m */,
-				28752FED16906C190048F960 /* IntIter.h */,
-				28752FEE16906C190048F960 /* IntIter.m */,
 				28752FEF16906C190048F960 /* Lambda.h */,
 				28752FF016906C190048F960 /* Lambda.m */,
 				28752FF116906C190048F960 /* List.h */,
@@ -228,8 +206,6 @@
 				28752FFF16906C1A0048F960 /* Type.h */,
 				2875300016906C1A0048F960 /* Type.m */,
 				287530F81695918B0048F960 /* TestsEnumExtern.h */,
-				28534A1E16996662005B2D11 /* FastList.h */,
-				28534A1F16996663005B2D11 /* FastList.m */,
 				28534A2016996663005B2D11 /* Timer.h */,
 				28534A2116996664005B2D11 /* Timer.m */,
 				288B519B167673C000926232 /* AppDelegate.h */,
@@ -391,9 +367,6 @@
 				2875300216906C1A0048F960 /* Date.m in Sources */,
 				2875300316906C1A0048F960 /* DateTools.m in Sources */,
 				2875300416906C1A0048F960 /* EReg.m in Sources */,
-				2875300516906C1A0048F960 /* Hash.m in Sources */,
-				2875300616906C1A0048F960 /* IntHash.m in Sources */,
-				2875300716906C1A0048F960 /* IntIter.m in Sources */,
 				2875300816906C1A0048F960 /* Lambda.m in Sources */,
 				2875300916906C1A0048F960 /* List.m in Sources */,
 				2875300A16906C1A0048F960 /* Reflect.m in Sources */,
@@ -403,7 +376,6 @@
 				2875300F16906C1A0048F960 /* Sys.m in Sources */,
 				2875301016906C1A0048F960 /* Type.m in Sources */,
 				28534A1C169832E8005B2D11 /* String.m in Sources */,
-				28534A2216996664005B2D11 /* FastList.m in Sources */,
 				28534A2316996664005B2D11 /* Timer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
