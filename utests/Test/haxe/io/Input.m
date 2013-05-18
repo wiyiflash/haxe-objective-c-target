@@ -12,7 +12,7 @@
 
 - (int) readByte{
 	
-	return ((int)(self.__r__) @throw [@"Not implemented" mutableCopy];
+	return ((int)self.__r__ @throw [@"Not implemented" mutableCopy];
 	return __r__{
 		
 		int* __r__}
@@ -31,6 +31,9 @@
 		k--;
 	}
 	return len;
+}
+- (void) close{
+	
 }
 - (BOOL) set_bigEndian:(BOOL)b{
 	
@@ -84,6 +87,34 @@
 	}
 	return s;
 }
+- (NSMutableString*) readUntil:(int)end{
+	
+	
+	StringBuf *buf = [[StringBuf alloc] init];
+	int last;
+	while ( (last = [self readByte]) != end) [buf.b appendString:[NSMutableString:last]];
+	return buf.b;
+}
+- (NSMutableString*) readLine{
+	
+	
+	StringBuf *buf = [[StringBuf alloc] init];
+	int last;
+	
+	NSMutableString *s;
+	@try {
+		
+		while ( (last = [self readByte]) != 10) [buf.b appendString:[NSMutableString:last]];
+		s = buf.b;
+		if ([s charCodeAt:s.length - 1] == 13) s = [s substr:0 len:-1];
+	}
+	@catch (NSException *e) {
+		
+		s = buf.b;
+		if (s.length == 0) @throw e;;
+	}
+	return s;
+}
 - (float) readFloat{
 	
 	
@@ -101,7 +132,7 @@
 }
 - (float) readDouble{
 	
-	return ((float)(self.__r__) @throw [@"not implemented" mutableCopy];
+	return ((float)self.__r__ @throw [@"not implemented" mutableCopy];
 	return __r__{
 		
 		float* __r__}

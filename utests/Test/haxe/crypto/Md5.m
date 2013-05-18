@@ -69,6 +69,36 @@
 	((NSMutableArray*)[blks hx_objectAtIndex:k]) |=  (l >>> 24 & 255) << 24;
 	return blks;
 }
++ (NSMutableArray*) str2blks:(NSMutableString*)str{
+	
+	int nblk =  (str.length + 8 >> 6) + 1;
+	
+	NSMutableArray *blks = [[NSMutableArray alloc] init];
+	int blksSize = nblk * 16;
+	{
+		
+		int _g = 0;
+		while (_g < (int)blksSize) {
+			
+			int i = _g++;
+			[blks hx_replaceObjectAtIndex:i withObject:@0];
+		}
+	}
+	int i = 0;
+	while (i < str.length) {
+		
+		((NSMutableArray*)[blks hx_objectAtIndex:i >> 2]) |= [str hx_dyn_charCodeAt:i] <<  (str.length * 8 + i) % 4 * 8;
+		i++;
+	}
+	((NSMutableArray*)[blks hx_objectAtIndex:i >> 2]) |= 128 <<  (str.length * 8 + i) % 4 * 8;
+	int l = str.length * 8;
+	int k = nblk * 16 - 2;
+	[blks hx_replaceObjectAtIndex:k withObject:(l & @255)];
+	((NSMutableArray*)[blks hx_objectAtIndex:k]) |=  (l >>> 8 & 255) << 8;
+	((NSMutableArray*)[blks hx_objectAtIndex:k]) |=  (l >>> 16 & 255) << 16;
+	((NSMutableArray*)[blks hx_objectAtIndex:k]) |=  (l >>> 24 & 255) << 24;
+	return blks;
+}
 - (int) bitOR:(int)a b:(int)b{
 	
 	int lsb = (a & 1) | (b & 1);
@@ -92,6 +122,29 @@
 	int lsw =  (x & 65535) +  (y & 65535);
 	int msw =  (x >> 16) +  (y >> 16) +  (lsw >> 16);
 	return msw << 16 | (lsw & 65535);
+}
+- (NSMutableString*) hex:(NSMutableArray*)a{
+	
+	
+	NSMutableString *str = [@"" mutableCopy];
+	
+	NSMutableString *hex_chr = [@"0123456789abcdef" mutableCopy];
+	{
+		
+		int _g = 0;
+		while (_g < a.length) {
+			
+			int num = ((CASTTAbstract*)[a hx_objectAtIndex:_g]);
+			++_g;
+			int _g1 = 0;
+			while (_g1 < 4) {
+				
+				int j = _g1++;
+				[str appendString:[[hex_chr charAt:num >> j * @"8" + @"4" & @"15"] stringByAppendingString:[hex_chr charAt:num >> j * @"8" & @"15"]]];
+			}
+		}
+	}
+	return str;
 }
 - (int) rol:(int)num cnt:(int)cnt{
 	

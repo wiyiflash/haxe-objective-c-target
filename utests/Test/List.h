@@ -8,6 +8,10 @@
 
 
 #import "Array.h"
+#import "String.h"
+#import "StringBuf.h"
+#import "Std.h"
+#import "List.h"
 
 @interface List : NSObject
 
@@ -17,9 +21,16 @@
 - (void) add:(id)item;
 - (void) push:(id)item;
 - (id) first;
+- (id) last;
 - (id) pop;
 - (BOOL) isEmpty;
+- (void) clear;
+- (BOOL) remove:(id)v;
 - (id) iterator;
+- (NSMutableString*) toString;
+- (NSMutableString*) join:(NSMutableString*)sep;
+- (List*) filter:(id)f;
+- (List*) map:(id)f;
 - (id) init;
 
 @end

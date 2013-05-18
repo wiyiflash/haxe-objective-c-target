@@ -9,6 +9,31 @@
 
 @implementation Timer
 
++ (Timer*) delay:(id)f time_ms:(int)time_ms{
+	
+	
+	Timer *t = [[Timer alloc] init:time_ms];
+	t.hx_dyn_run = ^(){
+		
+		[t stop];
+		[f];
+	}
+	return t;
+}
++ (id) measure:(id)f pos:(id)pos{
+	
+	// Optional arguments
+	if (!pos) pos = nil;
+	
+	float t0 = [Timer stamp];
+	id r = [f];
+	[Log trace:[[Timer stamp] - t0 stringByAppendingString:[@"s" mutableCopy]] infos:pos];
+	return r;
+}
++ (float) stamp{
+	
+	return [Sys time];
+}
 @synthesize nstimer;
 @synthesize _id;
 - (void) stop{

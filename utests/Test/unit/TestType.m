@@ -457,7 +457,7 @@
 		count++;
 		[self eq:[@"TFun([{ name => b, t => TInst(String,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] v2:[@"TFun([{ name => b, t => TInst(String,[]), opt => false }],TAbstract(Int,[]))" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"254", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
 	}
-	[self eq:1 v2:[ (((id)(self.__r__) id f = func
+	[self eq:1 v2:[ (((id)self.__r__ id f = func
 	__r__ = ^(int a, NSMutableString *b, float c){
 		
 		return [f:a b:b c:c];
@@ -466,7 +466,7 @@
 		
 		id* __r__}
 	}(self))):1 b:[@"2" mutableCopy] c:3] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"258", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
-	[self eq:2 v2:[ (((id)(self.__r__2) id f = func
+	[self eq:2 v2:[ (((id)self.__r__2 id f = func
 	__r__2 = ^(NSMutableString *b, float c){
 		
 		return [f:2 b:b c:c];
@@ -475,7 +475,7 @@
 		
 		id* __r__2}
 	}(self))):[@"2" mutableCopy] c:3] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"259", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
-	[self eq:2 v2:[ (((id)(self.__r__3) id f = func
+	[self eq:2 v2:[ (((id)self.__r__3 id f = func
 	__r__3 = ^(float c){
 		
 		return [f:2 b:[@"3" mutableCopy] c:c];
@@ -484,7 +484,7 @@
 		
 		id* __r__3}
 	}(self))):3] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"260", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
-	[self eq:2 v2:[ (((id)(self.__r__4) id f = func
+	[self eq:2 v2:[ (((id)self.__r__4 id f = func
 	__r__4 = ^(){
 		
 		return [f:2 b:[@"3" mutableCopy] c:4];
@@ -493,7 +493,7 @@
 		
 		id* __r__4}
 	}(self)))] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"261", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
-	[self eq:1 v2:[ (((id)(self.__r__5) id f = func
+	[self eq:1 v2:[ (((id)self.__r__5 id f = func
 	__r__5 = ^(int a){
 		
 		return [f:a b:[@"2" mutableCopy] c:3];
@@ -502,7 +502,7 @@
 		
 		id* __r__5}
 	}(self))):1] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"263", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
-	[self eq:1 v2:[ (((id)(self.__r__6) id f = func
+	[self eq:1 v2:[ (((id)self.__r__6 id f = func
 	__r__6 = ^(int a, float c){
 		
 		return [f:a b:[@"2" mutableCopy] c:c];
@@ -511,7 +511,7 @@
 		
 		id* __r__6}
 	}(self))):1 c:3] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"264", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
-	[self eq:1 v2:[ (((id)(self.__r__7) id f = func
+	[self eq:1 v2:[ (((id)self.__r__7 id f = func
 	__r__7 = ^(int a, NSMutableString *b, float c){
 		
 		return [f:a b:b c:c];
@@ -520,7 +520,7 @@
 		
 		id* __r__7}
 	}(self))):1 b:[@"2" mutableCopy] c:3] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"265", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
-	[self eq:1 v2:[ (((id)(self.__r__8) id f = func
+	[self eq:1 v2:[ (((id)self.__r__8 id f = func
 	__r__8 = ^(int a, float c){
 		
 		return [f:a b:[@"2" mutableCopy] c:c];
@@ -529,7 +529,7 @@
 		
 		id* __r__8}
 	}(self))):1 c:2] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"267", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
-	[self eq:1 v2:[ (((id)(self.__r__9) id f = ((id)(self.__r__10) id f1 = func
+	[self eq:1 v2:[ (((id)self.__r__9 id f = ((id)self.__r__10 id f1 = func
 	__r__10 = ^(int a, NSMutableString *b, float c){
 		
 		return [f1:a b:b c:c];
@@ -546,7 +546,7 @@
 		
 		id* __r__9}
 	}(self))):1] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"269", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
-	[self eq:1 v2:[ (((id)(self.__r__11) id f = ((id)(self.__r__12) id f1 = func
+	[self eq:1 v2:[ (((id)self.__r__11 id f = ((id)self.__r__12 id f1 = func
 	__r__12 = ^(NSMutableString *b, float c){
 		
 		return [f1:1 b:b c:c];
@@ -563,7 +563,7 @@
 		
 		id* __r__11}
 	}(self)))] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"270", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
-	[self eq:1 v2:[ (((id)(self.__r__13) id f = ((id)(self.__r__14) id f1 = func
+	[self eq:1 v2:[ (((id)self.__r__13 id f = ((id)self.__r__14 id f1 = func
 	__r__14 = ^(NSMutableString *b, float c){
 		
 		return [f1:1 b:b c:c];
@@ -580,7 +580,7 @@
 		
 		id* __r__13}
 	}(self))):3] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"271", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
-	[self eq:1 v2:[ (((id)(self.__r__15) id f = ((id)(self.__r__16) id f1 = func
+	[self eq:1 v2:[ (((id)self.__r__15 id f = ((id)self.__r__16 id f1 = func
 	__r__16 = ^(int a, float c){
 		
 		return [f1:a b:[@"2" mutableCopy] c:c];
@@ -600,7 +600,7 @@
 	int a = 5;
 	
 	NSMutableString *b = [@"foo" mutableCopy];
-	id cb = ((id)(self.__r__17) id f = func; int a1 = a
+	id cb = ((id)self.__r__17 id f = func; int a1 = a
 	__r__17 = ^(NSMutableString *b1, float c){
 		
 		return [f:a1 b:b1 c:c];
@@ -623,7 +623,7 @@
 		
 		return a1 + b1 + c;
 	};
-	[self eq:6 v2:[ (((id)(self.__r__19) id f = optfunc
+	[self eq:6 v2:[ (((id)self.__r__19 id f = optfunc
 	__r__19 = ^(int b1){
 		
 		return [f:1 b:b1 c:nil];
@@ -632,7 +632,7 @@
 		
 		id* __r__19}
 	}(self))):3] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"282", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
-	[self eq:6 v2:[ (((id)(self.__r__20) id f = optfunc
+	[self eq:6 v2:[ (((id)self.__r__20 id f = optfunc
 	__r__20 = ^(){
 		
 		return [f:1 b:3 c:nil];
@@ -641,7 +641,7 @@
 		
 		id* __r__20}
 	}(self)))] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"283", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
-	[self eq:7 v2:[ (((id)(self.__r__21) id f = optfunc
+	[self eq:7 v2:[ (((id)self.__r__21 id f = optfunc
 	__r__21 = ^(int a1, int b1, int c){
 		
 		return [f:a1 b:b1 c:c];
@@ -650,7 +650,7 @@
 		
 		id* __r__21}
 	}(self))):1 b:2 c:4] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"285", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
-	[self eq:7 v2:[ (((id)(self.__r__22) id f = optfunc
+	[self eq:7 v2:[ (((id)self.__r__22 id f = optfunc
 	__r__22 = ^(int a1, int c){
 		
 		return [f:a1 b:2 c:c];
@@ -663,7 +663,7 @@
 		
 		return [[@"foo" mutableCopy] stringByAppendingString:x];
 	};
-	id f = ((id)(self.__r__23) id f1 = foo
+	id f = ((id)self.__r__23 id f1 = foo
 	__r__23 = ^(){
 		
 		return [f1:0 p:@{@"fileName":@"TestType.hx", @"lineNumber":@"289", @"className":@"unit.TestType", @"methodName":@"testCallback"}];
@@ -677,7 +677,7 @@
 		
 		return bar;
 	};
-	id l = ((id)(self.__r__24) id f1 = foo1
+	id l = ((id)self.__r__24 id f1 = foo1
 	__r__24 = ^(int a1){
 		
 		return [f1:a1];
@@ -691,7 +691,7 @@
 		
 		return bar;
 	};
-	id l1 = ((id)(self.__r__25) id f1 = foo2
+	id l1 = ((id)self.__r__25 id f1 = foo2
 	__r__25 = ^(int a1){
 		
 		return [f1:a1];
@@ -1107,7 +1107,7 @@
 	
 	IntMap *m = [[IntMap alloc] init];
 	
-	Map *map = ((Map)(self.__r__) 
+	Map *map = ((Map)self.__r__ 
 	IntMap *_g = [[IntMap alloc] init]
 	[_g set:1 :2]
 	[_g set:3 :4]
@@ -1127,7 +1127,7 @@
 	
 	StringMap *m1 = [[StringMap alloc] init];
 	
-	Map *map1 = ((Map)(self.__r__2) 
+	Map *map1 = ((Map)self.__r__2 
 	StringMap *_g1 = [[StringMap alloc] init]
 	[_g1 set:[@"1" mutableCopy] :2]
 	[_g1 set:[@"3" mutableCopy] :4]
@@ -1151,7 +1151,7 @@
 	
 	ObjectMap *m2 = [[ObjectMap alloc] init];
 	
-	Map *map2 = ((Map)(self.__r__3) 
+	Map *map2 = ((Map)self.__r__3 
 	ObjectMap *_g2 = [[ObjectMap alloc] init]
 	[_g2 set:a :2]
 	[_g2 set:b :4]
@@ -1254,7 +1254,7 @@
 - (void) testMapComprehension{
 	
 	
-	Map *map = ((Map)(self.__r__) 
+	Map *map = ((Map)self.__r__ 
 	StringMap *_g = [[StringMap alloc] init]
 	{
 		
@@ -1303,7 +1303,7 @@
 	[self eq:[Reflect field:mr field:[@"foo" mutableCopy]] v2:110 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"828", @"className":@"unit.TestType", @"methodName":@"testCustomArrayAccess"}];
 	{
 		
-		id value = ((id)(self.__r__) id value1 = isstringCASTTDynamicisstringCASTTDynamic[Reflect field:mr field:[@"bar" mutableCopy]] + [Reflect field:mr field:[@"foo" mutableCopy]]
+		id value = ((id)self.__r__ id value1 = isstringCASTTDynamicisstringCASTTDynamic[Reflect field:mr field:[@"bar" mutableCopy]] + [Reflect field:mr field:[@"foo" mutableCopy]]
 		if (mr != nil) [mr hx_set_field:[@"bar" mutableCopy] :value1 :NO]
 		__r__ = value1
 		return __r__{
@@ -1350,7 +1350,7 @@
 	[self eq:v v2:[@"hhhh" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"843", @"className":@"unit.TestType", @"methodName":@"testCustomArrayAccess"}];
 	{
 		
-		id value = ((id)(self.__r__2) id n = ^(int x){
+		id value = ((id)self.__r__2 id n = ^(int x){
 			
 			return 9 + x;
 		}

@@ -324,5 +324,9 @@ return __r__{
 	@throw [@"Unexpected end" mutableCopy];;
 	return 0;
 }
++ (BOOL) isValidChar:(int)c{
+	
+	return c >= 97 && c <= 122 || c >= 65 && c <= 90 || c >= 48 && c <= 57 || c == 58 || c == 46 || c == 95 || c == 45;
+}
 
 @end

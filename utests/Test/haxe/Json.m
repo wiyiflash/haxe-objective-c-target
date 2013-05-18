@@ -127,7 +127,7 @@
 			case 7:
 			{
 				
-				id i = ((int)(self.__r__3) 
+				id i = ((int)self.__r__3 
 				EnumValue *e = v
 				__r__3 = [e __Index]
 				return __r__3{
@@ -191,6 +191,10 @@
 	
 	self.pos--;
 	@throw [[[[@"Invalid char " mutableCopy] stringByAppendingString:[self.str characterAtIndex:self.pos]] stringByAppendingString:[@" at position " mutableCopy]] stringByAppendingString:self.pos];;
+}
+- (int) nextChar{
+	
+	return [self.str characterAtIndex:self.pos++];
 }
 - (id) parseRec{
 	
@@ -310,7 +314,7 @@
 			break;
 			case 34:return [self parseString];
 			break;
-			case 48:case 49:case 50:case 51:case 52:case 53:case 54:case 55:case 56:case 57:case 45:return ((float)(self.__r__) int c1 = c
+			case 48:case 49:case 50:case 51:case 52:case 53:case 54:case 55:case 56:case 57:case 45:return ((float)self.__r__ int c1 = c
 			int start = self.pos - 1
 			BOOL minus = c1 == 45; BOOL digit = !minus; BOOL zero = c1 == 48
 			BOOL point = NO; BOOL e = NO; BOOL pm = NO; BOOL end = NO
@@ -435,6 +439,68 @@
 - (void) invalidNumber:(int)start{
 	
 	@throw [[[[@"Invalid number at position " mutableCopy] stringByAppendingString:start] stringByAppendingString:[@": " mutableCopy]] stringByAppendingString:[self.str substr:start len:self.pos - start]];;
+}
+- (float) parseNumber:(int)c{
+	
+	int start = self.pos - 1;
+	BOOL minus = c == 45; BOOL digit = !minus; BOOL zero = c == 48;
+	BOOL point = NO; BOOL e = NO; BOOL pm = NO; BOOL end = NO;
+	while (YES) {
+		
+		c = [self.str characterAtIndex:self.pos++];
+		switch (c){
+			case 48:{
+				
+				if (zero && !point) [self invalidNumber:start];
+				if (minus) {
+					
+					minus = NO;
+					zero = YES;
+				}
+				digit = YES;
+			}
+			break;
+			case 49:case 50:case 51:case 52:case 53:case 54:case 55:case 56:case 57:{
+				
+				if (zero && !point) [self invalidNumber:start];
+				if (minus) minus = NO;
+				digit = YES;
+				zero = NO;
+			}
+			break;
+			case 46:{
+				
+				if (minus || point) [self invalidNumber:start];
+				digit = NO;
+				point = YES;
+			}
+			break;
+			case 101:case 69:{
+				
+				if (minus || zero || e) [self invalidNumber:start];
+				digit = NO;
+				e = YES;
+			}
+			break;
+			case 43:case 45:{
+				
+				if (!e || pm) [self invalidNumber:start];
+				digit = NO;
+				pm = YES;
+			}
+			break;
+			default:{
+				
+				if (!digit) [self invalidNumber:start];
+				self.pos--;
+				end = YES;
+			}break;
+		}
+		if (end) break;
+	}
+	float f = [Std parseFloat:[self.str substr:start len:self.pos - start]];
+	int i = [Std _int:f];
+	return ( (i == f) ? i : f);
 }
 - (id) init{
 	

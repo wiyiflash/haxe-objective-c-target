@@ -9,14 +9,18 @@
 		TESTSRCREFHF79750FFC0AF9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = TESTSRCREFHD76DDB92BD138; };
 		TESTSRCMD9E6C1A68100CA0C /* Array.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM6C1A68100CA0C; };
 		TESTSRCMDBEC183E983DCD78 /* Date.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFMC183E983DCD78; };
+		TESTSRCM60AC78D98324C87E /* DateTools.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFMC78D98324C87E; };
 		TESTSRCM3BEE6FE6145CFAE4 /* EReg.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFME6FE6145CFAE4; };
+		TESTSRCM6D4C01A6E57F102F /* IntIterator.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFMC01A6E57F102F; };
 		TESTSRCM5B04CAD85DA1EEBB /* Lambda.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM4CAD85DA1EEBB; };
 		TESTSRCM2C7D126654BD0E52 /* List.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFMD126654BD0E52; };
+		TESTSRCM6CAA3126B91F3F70 /* Map.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFMA3126B91F3F70; };
 		TESTSRCME4491E956E8DC18D /* Reflect.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM91E956E8DC18D; };
 		TESTSRCM0A9348C7DDEC66F1 /* Std.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM348C7DDEC66F1; };
 		TESTSRCM006D3829667A400A /* String.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFMD3829667A400A; };
 		TESTSRCME41A6FE0B349A561 /* StringBuf.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFMA6FE0B349A561; };
 		TESTSRCM92EAB3EE64B6B194 /* StringTools.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFMAB3EE64B6B194; };
+		TESTSRCMFFE68D3214BF8184 /* Sys.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM68D3214BF8184; };
 		TESTSRCM9242B4902F7AE3BD /* Type.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM2B4902F7AE3BD; };
 		TESTSRCMAB4C7EEBA097F27D /* Xml.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFMC7EEBA097F27D; };
 		TESTSRCMD58F7179F3DB42F0 /* CallStack.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFMF7179F3DB42F0; };
@@ -31,10 +35,14 @@
 		TESTSRCM54C5F29B0DD37C14 /* BaseCode.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM5F29B0DD37C14; };
 		TESTSRCM3B2684E523748E86 /* Md5.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM684E523748E86; };
 		TESTSRCMA05E4383D7313EB8 /* Sha1.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFME4383D7313EB8; };
+		TESTSRCM8A8F254A14C9135F /* BalancedTree.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFMF254A14C9135F; };
+		TESTSRCMC5082C0A79BDDCD8 /* EnumValueMap.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM82C0A79BDDCD8; };
 		TESTSRCMC14DF8D0D0583986 /* GenericStack.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFMDF8D0D0583986; };
+		TESTSRCM55D108B56D4448D7 /* HashMap.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM108B56D4448D7; };
 		TESTSRCM2DB5356064FE22DA /* IntMap.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM5356064FE22DA; };
 		TESTSRCMDAB1477FCB682C78 /* ObjectMap.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM1477FCB682C78; };
 		TESTSRCM32E96777F7216256 /* StringMap.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM96777F7216256; };
+		TESTSRCMCDD9A859B1252993 /* WeakMap.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM9A859B1252993; };
 		TESTSRCMEA8A279883CA2B15 /* Bytes.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFMA279883CA2B15; };
 		TESTSRCM6C36CBD688F0CA2B /* BytesBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM6CBD688F0CA2B; };
 		TESTSRCM7A261AF00EE89FD6 /* Input.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM61AF00EE89FD6; };
@@ -42,8 +50,11 @@
 		TESTSRCM3204328988BB5B14 /* Output.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM4328988BB5B14; };
 		TESTSRCMF17900ADA39EADB5 /* BytesOutput.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM900ADA39EADB5; };
 		TESTSRCM22F5D86EBF499A02 /* Eof.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM5D86EBF499A02; };
+		TESTSRCME7A89F7FB86DCA7B /* Expr.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM89F7FB86DCA7B; };
 		TESTSRCM37B5A0E642DF5D28 /* Meta.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM5A0E642DF5D28; };
 		TESTSRCM1CE34029147B283F /* Parser.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM34029147B283F; };
+		TESTSRCM02DA6B1872514B73 /* FileInput.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFMA6B1872514B73; };
+		TESTSRCM72AA39FFD7C0EBCE /* FileOutput.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFMA39FFD7C0EBCE; };
 		TESTSRCME7D1171999916242 /* MyAbstract.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM1171999916242; };
 		TESTSRCMC373700A375334E7 /* MyClass.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM3700A375334E7; };
 		TESTSRCM7A9513C7E470E4D1 /* MyMacro.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM513C7E470E4D1; };
@@ -99,12 +110,17 @@
 		TESTSRCREFH6C1A68100CA0C /* Array.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Array.h; sourceTree = "<group>"; };
 		TESTSRCREFMC183E983DCD78 /* Date.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Date.m; sourceTree = "<group>"; };
 		TESTSRCREFHC183E983DCD78 /* Date.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Date.h; sourceTree = "<group>"; };
+		TESTSRCREFMC78D98324C87E /* DateTools.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DateTools.m; sourceTree = "<group>"; };
+		TESTSRCREFHC78D98324C87E /* DateTools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DateTools.h; sourceTree = "<group>"; };
 		TESTSRCREFME6FE6145CFAE4 /* EReg.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EReg.m; sourceTree = "<group>"; };
 		TESTSRCREFHE6FE6145CFAE4 /* EReg.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EReg.h; sourceTree = "<group>"; };
+		TESTSRCREFMC01A6E57F102F /* IntIterator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IntIterator.m; sourceTree = "<group>"; };
+		TESTSRCREFHC01A6E57F102F /* IntIterator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IntIterator.h; sourceTree = "<group>"; };
 		TESTSRCREFM4CAD85DA1EEBB /* Lambda.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Lambda.m; sourceTree = "<group>"; };
 		TESTSRCREFH4CAD85DA1EEBB /* Lambda.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Lambda.h; sourceTree = "<group>"; };
 		TESTSRCREFMD126654BD0E52 /* List.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = List.m; sourceTree = "<group>"; };
 		TESTSRCREFHD126654BD0E52 /* List.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = List.h; sourceTree = "<group>"; };
+		TESTSRCREFMA3126B91F3F70 /* Map.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Map.m; sourceTree = "<group>"; };
 		TESTSRCREFHA3126B91F3F70 /* Map.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Map.h; sourceTree = "<group>"; };
 		TESTSRCREFM91E956E8DC18D /* Reflect.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Reflect.m; sourceTree = "<group>"; };
 		TESTSRCREFH91E956E8DC18D /* Reflect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Reflect.h; sourceTree = "<group>"; };
@@ -116,6 +132,8 @@
 		TESTSRCREFHA6FE0B349A561 /* StringBuf.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StringBuf.h; sourceTree = "<group>"; };
 		TESTSRCREFMAB3EE64B6B194 /* StringTools.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StringTools.m; sourceTree = "<group>"; };
 		TESTSRCREFHAB3EE64B6B194 /* StringTools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StringTools.h; sourceTree = "<group>"; };
+		TESTSRCREFM68D3214BF8184 /* Sys.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Sys.m; sourceTree = "<group>"; };
+		TESTSRCREFH68D3214BF8184 /* Sys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Sys.h; sourceTree = "<group>"; };
 		TESTSRCREFM2B4902F7AE3BD /* Type.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Type.m; sourceTree = "<group>"; };
 		TESTSRCREFMC7EEBA097F27D /* Xml.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Xml.m; sourceTree = "<group>"; };
 		TESTSRCREFMF7179F3DB42F0 /* haxe/CallStack.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CallStack.m; path = Test/haxe/CallStack.m; sourceTree = SOURCE_ROOT; };
@@ -140,14 +158,22 @@
 		TESTSRCREFH684E523748E86 /* haxe/crypto/Md5.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Md5.h; path = Test/haxe/crypto/Md5.h; sourceTree = SOURCE_ROOT; };
 		TESTSRCREFME4383D7313EB8 /* haxe/crypto/Sha1.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Sha1.m; path = Test/haxe/crypto/Sha1.m; sourceTree = SOURCE_ROOT; };
 		TESTSRCREFHE4383D7313EB8 /* haxe/crypto/Sha1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Sha1.h; path = Test/haxe/crypto/Sha1.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFMF254A14C9135F /* haxe/ds/BalancedTree.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = BalancedTree.m; path = Test/haxe/ds/BalancedTree.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFHF254A14C9135F /* haxe/ds/BalancedTree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BalancedTree.h; path = Test/haxe/ds/BalancedTree.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM82C0A79BDDCD8 /* haxe/ds/EnumValueMap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = EnumValueMap.m; path = Test/haxe/ds/EnumValueMap.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFH82C0A79BDDCD8 /* haxe/ds/EnumValueMap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = EnumValueMap.h; path = Test/haxe/ds/EnumValueMap.h; sourceTree = SOURCE_ROOT; };
 		TESTSRCREFMDF8D0D0583986 /* haxe/ds/GenericStack.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = GenericStack.m; path = Test/haxe/ds/GenericStack.m; sourceTree = SOURCE_ROOT; };
 		TESTSRCREFHDF8D0D0583986 /* haxe/ds/GenericStack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GenericStack.h; path = Test/haxe/ds/GenericStack.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM108B56D4448D7 /* haxe/ds/HashMap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = HashMap.m; path = Test/haxe/ds/HashMap.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFH108B56D4448D7 /* haxe/ds/HashMap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HashMap.h; path = Test/haxe/ds/HashMap.h; sourceTree = SOURCE_ROOT; };
 		TESTSRCREFM5356064FE22DA /* haxe/ds/IntMap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = IntMap.m; path = Test/haxe/ds/IntMap.m; sourceTree = SOURCE_ROOT; };
 		TESTSRCREFH5356064FE22DA /* haxe/ds/IntMap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IntMap.h; path = Test/haxe/ds/IntMap.h; sourceTree = SOURCE_ROOT; };
 		TESTSRCREFM1477FCB682C78 /* haxe/ds/ObjectMap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ObjectMap.m; path = Test/haxe/ds/ObjectMap.m; sourceTree = SOURCE_ROOT; };
 		TESTSRCREFH1477FCB682C78 /* haxe/ds/ObjectMap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ObjectMap.h; path = Test/haxe/ds/ObjectMap.h; sourceTree = SOURCE_ROOT; };
 		TESTSRCREFM96777F7216256 /* haxe/ds/StringMap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = StringMap.m; path = Test/haxe/ds/StringMap.m; sourceTree = SOURCE_ROOT; };
 		TESTSRCREFH96777F7216256 /* haxe/ds/StringMap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = StringMap.h; path = Test/haxe/ds/StringMap.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM9A859B1252993 /* haxe/ds/WeakMap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = WeakMap.m; path = Test/haxe/ds/WeakMap.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFH9A859B1252993 /* haxe/ds/WeakMap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = WeakMap.h; path = Test/haxe/ds/WeakMap.h; sourceTree = SOURCE_ROOT; };
 		TESTSRCREFMA279883CA2B15 /* haxe/io/Bytes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Bytes.m; path = Test/haxe/io/Bytes.m; sourceTree = SOURCE_ROOT; };
 		TESTSRCREFHA279883CA2B15 /* haxe/io/Bytes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Bytes.h; path = Test/haxe/io/Bytes.h; sourceTree = SOURCE_ROOT; };
 		TESTSRCREFM6CBD688F0CA2B /* haxe/io/BytesBuffer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = BytesBuffer.m; path = Test/haxe/io/BytesBuffer.m; sourceTree = SOURCE_ROOT; };
@@ -162,10 +188,15 @@
 		TESTSRCREFH900ADA39EADB5 /* haxe/io/BytesOutput.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BytesOutput.h; path = Test/haxe/io/BytesOutput.h; sourceTree = SOURCE_ROOT; };
 		TESTSRCREFM5D86EBF499A02 /* haxe/io/Eof.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Eof.m; path = Test/haxe/io/Eof.m; sourceTree = SOURCE_ROOT; };
 		TESTSRCREFH5D86EBF499A02 /* haxe/io/Eof.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Eof.h; path = Test/haxe/io/Eof.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFM89F7FB86DCA7B /* haxe/macro/Expr.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Expr.m; path = Test/haxe/macro/Expr.m; sourceTree = SOURCE_ROOT; };
 		TESTSRCREFM5A0E642DF5D28 /* haxe/rtti/Meta.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Meta.m; path = Test/haxe/rtti/Meta.m; sourceTree = SOURCE_ROOT; };
 		TESTSRCREFH5A0E642DF5D28 /* haxe/rtti/Meta.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Meta.h; path = Test/haxe/rtti/Meta.h; sourceTree = SOURCE_ROOT; };
 		TESTSRCREFM34029147B283F /* haxe/xml/Parser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Parser.m; path = Test/haxe/xml/Parser.m; sourceTree = SOURCE_ROOT; };
 		TESTSRCREFH34029147B283F /* haxe/xml/Parser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Parser.h; path = Test/haxe/xml/Parser.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFMA6B1872514B73 /* sys/io/FileInput.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = FileInput.m; path = Test/sys/io/FileInput.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFHA6B1872514B73 /* sys/io/FileInput.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FileInput.h; path = Test/sys/io/FileInput.h; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFMA39FFD7C0EBCE /* sys/io/FileOutput.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = FileOutput.m; path = Test/sys/io/FileOutput.m; sourceTree = SOURCE_ROOT; };
+		TESTSRCREFHA39FFD7C0EBCE /* sys/io/FileOutput.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FileOutput.h; path = Test/sys/io/FileOutput.h; sourceTree = SOURCE_ROOT; };
 		TESTSRCREFM1171999916242 /* unit/MyAbstract.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MyAbstract.m; path = Test/unit/MyAbstract.m; sourceTree = SOURCE_ROOT; };
 		TESTSRCREFH1171999916242 /* unit/MyAbstract.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MyAbstract.h; path = Test/unit/MyAbstract.h; sourceTree = SOURCE_ROOT; };
 		TESTSRCREFM3700A375334E7 /* unit/MyClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MyClass.m; path = Test/unit/MyClass.m; sourceTree = SOURCE_ROOT; };
@@ -213,6 +244,7 @@
 		TESTSRCREFM66D2B01621D69 /* unit/TestXML.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TestXML.m; path = Test/unit/TestXML.m; sourceTree = SOURCE_ROOT; };
 		TESTSRCREFH66D2B01621D69 /* unit/TestXML.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TestXML.h; path = Test/unit/TestXML.h; sourceTree = SOURCE_ROOT; };
 		TESTSRCDIRREFE85ABA96D37 /* haxe/ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = haxe; sourceTree = "<group>"; };
+		TESTSRCDIRREFCD61BD8E6AC /* sys/io/ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sys; sourceTree = "<group>"; };
 		TESTSRCDIRREF1A4C0EF0748 /* unit/ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = unit; sourceTree = "<group>"; };
 		TESTRESREF0C963413CD60D4 /* Default-568h@2x.png in Resources */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "/Users/Cristi/Documents/haxecompiler/hxcocoa/SupportingFiles/Default-568h@2x.png"; sourceTree = "<absolute>"; };
 		TESTRESREFE78008C5F0B41A /* Default-landscape~ipad.png in Resources */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-landscape~ipad.png"; path = "/Users/Cristi/Documents/haxecompiler/hxcocoa/SupportingFiles/Default-landscape~ipad.png"; sourceTree = "<absolute>"; };
@@ -287,12 +319,17 @@
 				TESTSRCREFH6C1A68100CA0C /* Array.h */,
 				TESTSRCREFMC183E983DCD78 /* Date.m */,
 				TESTSRCREFHC183E983DCD78 /* Date.h */,
+				TESTSRCREFMC78D98324C87E /* DateTools.m */,
+				TESTSRCREFHC78D98324C87E /* DateTools.h */,
 				TESTSRCREFME6FE6145CFAE4 /* EReg.m */,
 				TESTSRCREFHE6FE6145CFAE4 /* EReg.h */,
+				TESTSRCREFMC01A6E57F102F /* IntIterator.m */,
+				TESTSRCREFHC01A6E57F102F /* IntIterator.h */,
 				TESTSRCREFM4CAD85DA1EEBB /* Lambda.m */,
 				TESTSRCREFH4CAD85DA1EEBB /* Lambda.h */,
 				TESTSRCREFMD126654BD0E52 /* List.m */,
 				TESTSRCREFHD126654BD0E52 /* List.h */,
+				TESTSRCREFMA3126B91F3F70 /* Map.m */,
 				TESTSRCREFHA3126B91F3F70 /* Map.h */,
 				TESTSRCREFM91E956E8DC18D /* Reflect.m */,
 				TESTSRCREFH91E956E8DC18D /* Reflect.h */,
@@ -304,9 +341,12 @@
 				TESTSRCREFHA6FE0B349A561 /* StringBuf.h */,
 				TESTSRCREFMAB3EE64B6B194 /* StringTools.m */,
 				TESTSRCREFHAB3EE64B6B194 /* StringTools.h */,
+				TESTSRCREFM68D3214BF8184 /* Sys.m */,
+				TESTSRCREFH68D3214BF8184 /* Sys.h */,
 				TESTSRCREFM2B4902F7AE3BD /* Type.m */,
 				TESTSRCREFMC7EEBA097F27D /* Xml.m */,
 				TESTSRCDIRREFE85ABA96D37 /* haxe/ */,
+				TESTSRCDIRREFCD61BD8E6AC /* sys/io/ */,
 				TESTSRCDIRREF1A4C0EF0748 /* unit/ */,
 				TESTRESREF45E84E321C8F8F /* Supporting Files */,
 			);
@@ -426,6 +466,7 @@
 			files = (
 				TESTRESREF12485253914667 /* InfoPlist.strings in Resources */,
 				TESTSRCDIRB2DE85ABA96D37 /* haxe/ in Resoures */,
+				TESTSRCDIR529CD61BD8E6AC /* sys/io/ in Resoures */,
 				TESTSRCDIR7A81A4C0EF0748 /* unit/ in Resoures */,
 				TESTRESCED0C963413CD60D4 /* Default-568h@2x.png in Resoures */,
 				TESTRES625E78008C5F0B41A /* Default-landscape~ipad.png in Resoures */,
@@ -475,14 +516,18 @@
 TESTRESREF489B1422E28349 /* main.m in Sources */,
 				TESTSRCMD9E6C1A68100CA0C /* Array.m in Sources */,
 				TESTSRCMDBEC183E983DCD78 /* Date.m in Sources */,
+				TESTSRCM60AC78D98324C87E /* DateTools.m in Sources */,
 				TESTSRCM3BEE6FE6145CFAE4 /* EReg.m in Sources */,
+				TESTSRCM6D4C01A6E57F102F /* IntIterator.m in Sources */,
 				TESTSRCM5B04CAD85DA1EEBB /* Lambda.m in Sources */,
 				TESTSRCM2C7D126654BD0E52 /* List.m in Sources */,
+				TESTSRCM6CAA3126B91F3F70 /* Map.m in Sources */,
 				TESTSRCME4491E956E8DC18D /* Reflect.m in Sources */,
 				TESTSRCM0A9348C7DDEC66F1 /* Std.m in Sources */,
 				TESTSRCM006D3829667A400A /* String.m in Sources */,
 				TESTSRCME41A6FE0B349A561 /* StringBuf.m in Sources */,
 				TESTSRCM92EAB3EE64B6B194 /* StringTools.m in Sources */,
+				TESTSRCMFFE68D3214BF8184 /* Sys.m in Sources */,
 				TESTSRCM9242B4902F7AE3BD /* Type.m in Sources */,
 				TESTSRCMAB4C7EEBA097F27D /* Xml.m in Sources */,
 				TESTSRCMD58F7179F3DB42F0 /* haxe/CallStack.m in Sources */,
@@ -497,10 +542,14 @@ TESTRESREF489B1422E28349 /* main.m in Sources */,
 				TESTSRCM54C5F29B0DD37C14 /* haxe/crypto/BaseCode.m in Sources */,
 				TESTSRCM3B2684E523748E86 /* haxe/crypto/Md5.m in Sources */,
 				TESTSRCMA05E4383D7313EB8 /* haxe/crypto/Sha1.m in Sources */,
+				TESTSRCM8A8F254A14C9135F /* haxe/ds/BalancedTree.m in Sources */,
+				TESTSRCMC5082C0A79BDDCD8 /* haxe/ds/EnumValueMap.m in Sources */,
 				TESTSRCMC14DF8D0D0583986 /* haxe/ds/GenericStack.m in Sources */,
+				TESTSRCM55D108B56D4448D7 /* haxe/ds/HashMap.m in Sources */,
 				TESTSRCM2DB5356064FE22DA /* haxe/ds/IntMap.m in Sources */,
 				TESTSRCMDAB1477FCB682C78 /* haxe/ds/ObjectMap.m in Sources */,
 				TESTSRCM32E96777F7216256 /* haxe/ds/StringMap.m in Sources */,
+				TESTSRCMCDD9A859B1252993 /* haxe/ds/WeakMap.m in Sources */,
 				TESTSRCMEA8A279883CA2B15 /* haxe/io/Bytes.m in Sources */,
 				TESTSRCM6C36CBD688F0CA2B /* haxe/io/BytesBuffer.m in Sources */,
 				TESTSRCM7A261AF00EE89FD6 /* haxe/io/Input.m in Sources */,
@@ -508,8 +557,11 @@ TESTRESREF489B1422E28349 /* main.m in Sources */,
 				TESTSRCM3204328988BB5B14 /* haxe/io/Output.m in Sources */,
 				TESTSRCMF17900ADA39EADB5 /* haxe/io/BytesOutput.m in Sources */,
 				TESTSRCM22F5D86EBF499A02 /* haxe/io/Eof.m in Sources */,
+				TESTSRCME7A89F7FB86DCA7B /* haxe/macro/Expr.m in Sources */,
 				TESTSRCM37B5A0E642DF5D28 /* haxe/rtti/Meta.m in Sources */,
 				TESTSRCM1CE34029147B283F /* haxe/xml/Parser.m in Sources */,
+				TESTSRCM02DA6B1872514B73 /* sys/io/FileInput.m in Sources */,
+				TESTSRCM72AA39FFD7C0EBCE /* sys/io/FileOutput.m in Sources */,
 				TESTSRCME7D1171999916242 /* unit/MyAbstract.m in Sources */,
 				TESTSRCMC373700A375334E7 /* unit/MyClass.m in Sources */,
 				TESTSRCM7A9513C7E470E4D1 /* unit/MyMacro.m in Sources */,

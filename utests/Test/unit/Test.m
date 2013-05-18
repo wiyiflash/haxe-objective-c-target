@@ -272,7 +272,7 @@ Test report = ^(NSMutableString *msg1, id pos1){
 	
 	if (asyncWaits.length >= AMAX) {
 		
-		[asyncCache push:((id)(self.__r__) id f1 = ^(id f, id args, id v, id pos){ [self async:f args:args v:v pos:pos]; }; id f2 = f; id a1 = args; id v1 = v; id a2 = pos
+		[asyncCache push:((id)self.__r__ id f1 = ^(id f, id args, id v, id pos){ [self async:f args:args v:v pos:pos]; }; id f2 = f; id a1 = args; id v1 = v; id a2 = pos
 		__r__ = ^(){
 			
 			{
@@ -307,7 +307,7 @@ Test report = ^(NSMutableString *msg1, id pos1){
 		
 		if (asyncWaits.length >= AMAX) {
 			
-			[asyncCache push:((id)(self.__r__) id f1 = ^(id seterror, id f, id args, id pos){ [self asyncExc:seterror f:f args:args pos:pos]; }; id a1 = seterror; id f2 = f; id a2 = args; id a3 = pos
+			[asyncCache push:((id)self.__r__ id f1 = ^(id seterror, id f, id args, id pos){ [self asyncExc:seterror f:f args:args pos:pos]; }; id a1 = seterror; id f2 = f; id a2 = args; id a3 = pos
 			__r__ = ^(){
 				
 				{

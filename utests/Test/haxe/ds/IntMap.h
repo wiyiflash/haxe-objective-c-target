@@ -8,15 +8,17 @@
 
 
 #import "../../Array.h"
+#import "../../String.h"
 
 @interface NSMutableDictionary ( IntMap )
 
-- (void) set:(int)key value:(id)value;
-- (id) get:(int)key;
-- (BOOL) exists:(int)key;
-- (BOOL) remove:(int)key;
+- (void) set:(id)_tmp_key _tmp_value:(id)_tmp_value;
+- (id) get:(id)_tmp_key;
+- (BOOL) exists:(id)_tmp_key;
+- (BOOL) remove:(id)_tmp_key;
 - (id) keys;
 - (id) iterator;
+- (NSMutableString*) toString;
 - (id) init;
 
 @end

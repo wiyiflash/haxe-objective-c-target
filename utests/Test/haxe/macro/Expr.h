@@ -84,3 +84,41 @@ typedef enum{
 	TExtend,
 	TOptional
 } ComplexType;
+typedef enum{
+	TPType,
+	TPExpr
+} TypeParam;
+typedef enum{
+	APublic,
+	APrivate,
+	AStatic,
+	AOverride,
+	ADynamic,
+	AInline,
+	AMacro
+} Access;
+typedef enum{
+	FVar,
+	FFun,
+	FProp
+} FieldType;
+typedef enum{
+	TDEnum,
+	TDStructure,
+	TDClass,
+	TDAlias,
+	TDAbstract
+} TypeDefKind;
+
+
+#import "../../String.h"
+
+@interface Error : NSObject
+
+@property (nonatomic, strong) NSMutableString *message;
+@property (nonatomic) id pos;
+- (NSMutableString*) toString;
+- (id) init:(NSMutableString*)m p:(id)p;
+
+@end
+

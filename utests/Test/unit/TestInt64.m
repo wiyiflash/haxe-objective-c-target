@@ -22,7 +22,7 @@
 	[self eq:[Int64 getLow:p40] v2:0 pos:@{@"fileName":@"TestInt64.hx", @"lineNumber":@"15", @"className":@"unit.TestInt64", @"methodName":@"test"}];
 	[self eq:[Int64 getHigh:p40] v2:256 pos:@{@"fileName":@"TestInt64.hx", @"lineNumber":@"16", @"className":@"unit.TestInt64", @"methodName":@"test"}];
 	[self eq:[Std string:p40] v2:[@"1099511627776" mutableCopy] pos:@{@"fileName":@"TestInt64.hx", @"lineNumber":@"17", @"className":@"unit.TestInt64", @"methodName":@"test"}];
-	[self eq:[ (((Int64)(self.__r__) 
+	[self eq:[ (((Int64)self.__r__ 
 	Int64 *a = [Int64 alloc] :0 low:1
 	__r__ = a
 	return __r__{

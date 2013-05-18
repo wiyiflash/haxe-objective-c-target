@@ -47,10 +47,14 @@ typedef enum{
 @property (nonatomic, strong) NSMutableArray *_children;
 @property (nonatomic, strong) Xml *_parent;
 @property (nonatomic) XmlType *nodeType;
+@property (nonatomic, strong, getter=get_nodeName, setter=set_nodeName) NSMutableString *nodeName;
+@property (nonatomic, strong, getter=get_nodeValue, setter=set_nodeValue) NSMutableString *nodeValue;
 - (NSMutableString*) get_nodeName;
 - (NSMutableString*) set_nodeName:(NSMutableString*)n;
 - (NSMutableString*) get_nodeValue;
 - (NSMutableString*) set_nodeValue:(NSMutableString*)v;
+@property (nonatomic, strong, getter=get_parent) Xml *parent;
+- (Xml*) get_parent;
 - (NSMutableString*) get:(NSMutableString*)att;
 - (void) set:(NSMutableString*)att value:(NSMutableString*)value;
 - (void) remove:(NSMutableString*)att;

@@ -12,16 +12,20 @@
 #import "../../Array.h"
 #import "../../haxe/io/BytesBuffer.h"
 #import "../../String.h"
+#import "../../StringBuf.h"
 
 @interface Input : NSObject
 
 @property (nonatomic, setter=set_bigEndian) BOOL bigEndian;
 - (int) readByte;
 - (int) readBytes:(Bytes*)s pos:(int)pos len:(int)len;
+- (void) close;
 - (BOOL) set_bigEndian:(BOOL)b;
 - (Bytes*) readAll:(int)bufsize;
 - (void) readFullBytes:(Bytes*)s pos:(int)pos len:(int)len;
 - (Bytes*) read:(int)nbytes;
+- (NSMutableString*) readUntil:(int)end;
+- (NSMutableString*) readLine;
 - (float) readFloat;
 - (float) readDouble;
 - (int) readInt8;

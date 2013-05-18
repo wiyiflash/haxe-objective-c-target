@@ -20,6 +20,7 @@
 + (void) setEscapes:(StringMap*)val;
 + (Xml*) parse:(NSMutableString*)str;
 + (int) doParse:(NSMutableString*)str p:(int)p parent:(Xml*)parent;
++ (BOOL) isValidChar:(int)c;
 
 @end
 

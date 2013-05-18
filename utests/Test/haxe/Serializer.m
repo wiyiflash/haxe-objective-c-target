@@ -368,6 +368,11 @@ static NSMutableString* BASE64;
 		default:@throw [[@"Cannot serialize " mutableCopy] stringByAppendingString:[Std string:v]];;break
 	}
 }
+- (void) serializeException:(id)e{
+	
+	[self.buf.b appendString:[@"x" mutableCopy]];
+	[self serialize:e];
+}
 - (id) init{
 	
 	self = [super init];

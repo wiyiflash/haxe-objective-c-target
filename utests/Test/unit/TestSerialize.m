@@ -161,9 +161,9 @@
 	[self t:[Type enumEq:[self _id:c] b:c] pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"134", @"className":@"unit.TestSerialize", @"methodName":@"doTestEnums"}];
 	[self t:[Type enumEq:[self _id:[D:[D:c]]] b:[D:[D:c]]] pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"135", @"className":@"unit.TestSerialize", @"methodName":@"doTestEnums"}];
 	[self t:[Std is:[self _id:c] t:] pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"136", @"className":@"unit.TestSerialize", @"methodName":@"doTestEnums"}];
-	[self t:((BOOL)(self.__r__) 
+	[self t:((BOOL)self.__r__ 
 	MyEnum *_g = [self _id:c]
-	__r__ = ((BOOL)(self.__r__2) 
+	__r__ = ((BOOL)self.__r__2 
 	enum s = e3 (_g)
 	switch ( e3.index ) {
 		

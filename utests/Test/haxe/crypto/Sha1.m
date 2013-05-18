@@ -40,6 +40,36 @@
 	}
 	return _out;
 }
++ (NSMutableArray*) str2blks:(NSMutableString*)s{
+	
+	int nblk =  (s.length + 8 >> 6) + 1;
+	
+	NSMutableArray *blks = [[NSMutableArray alloc] init];
+	{
+		
+		int _g1 = 0; int _g = nblk * 16;
+		while (_g1 < _g) {
+			
+			int i = _g1++;
+			[blks hx_replaceObjectAtIndex:i withObject:@0];
+		}
+	}
+	{
+		
+		int _g1 = 0; int _g = s.length;
+		while (_g1 < _g) {
+			
+			int i = _g1++;
+			int p = i >> 2;
+			((NSMutableArray*)[blks hx_objectAtIndex:p]) |= [s hx_dyn_charCodeAt:i] << 24 -  ( (i & 3) << 3);
+		}
+	}
+	int i = s.length;
+	int p = i >> 2;
+	((NSMutableArray*)[blks hx_objectAtIndex:p]) |= 128 << 24 -  ( (i & 3) << 3);
+	[blks hx_replaceObjectAtIndex:nblk * 16 - 1 withObject:s.length * @8];
+	return blks;
+}
 + (NSMutableArray*) bytes2blks:(Bytes*)b{
 	
 	int nblk =  (b.length + 8 >> 6) + 1;
@@ -91,7 +121,7 @@
 		while (j < 80) {
 			
 			if (j < 16) [w hx_replaceObjectAtIndex:j withObject:x hx_replaceObjectAtIndex:i + j];
-			else [w hx_replaceObjectAtIndex:j withObject:((int)(self.__r__) int num = ((w hx_replaceObjectAtIndex:j - @3 ^ w hx_replaceObjectAtIndex:j - @8) ^ w hx_replaceObjectAtIndex:j - @14) ^ w hx_replaceObjectAtIndex:j - @16
+			else [w hx_replaceObjectAtIndex:j withObject:((int)self.__r__ int num = ((w hx_replaceObjectAtIndex:j - @3 ^ w hx_replaceObjectAtIndex:j - @8) ^ w hx_replaceObjectAtIndex:j - @14) ^ w hx_replaceObjectAtIndex:j - @16
 			__r__ = (num << @1 | num >>> @31)
 			return __r__{
 				
@@ -114,6 +144,10 @@
 	}
 	return [@[a, b, c, d, e] mutableCopy];
 }
+- (int) rol:(int)num cnt:(int)cnt{
+	
+	return num << cnt | num >>> 32 - cnt;
+}
 - (int) ft:(int)t b:(int)b c:(int)c d:(int)d{
 	
 	if (t < 20) return (b & c) | (~b & d);
@@ -127,6 +161,29 @@
 	if (t < 40) return 1859775393;
 	if (t < 60) return -1894007588;
 	return -899497514;
+}
+- (NSMutableString*) hex:(NSMutableArray*)a{
+	
+	
+	NSMutableString *str = [@"" mutableCopy];
+	
+	NSMutableString *hex_chr = [@"0123456789abcdef" mutableCopy];
+	{
+		
+		int _g = 0;
+		while (_g < a.length) {
+			
+			int num = ((CASTTAbstract*)[a hx_objectAtIndex:_g]);
+			++_g;
+			int j = 7;
+			while (j >= 0) {
+				
+				[str appendString:[hex_chr charAt:num >>>  (j << @"2") & @"15"]];
+				j--;
+			}
+		}
+	}
+	return str;
 }
 - (id) init{
 	

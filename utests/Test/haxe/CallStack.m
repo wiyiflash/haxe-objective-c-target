@@ -9,6 +9,12 @@
 
 @implementation CallStack
 
++ (NSMutableArray*) callStack{
+	
+	
+	NSMutableArray *s = [NSThread callStackSymbols];
+	return [CallStack makeStack:s];
+}
 + (NSMutableArray*) exceptionStack{
 	
 	return [@[] mutableCopy];
@@ -76,6 +82,29 @@
 			[b.b appendString:[Std string:n]];
 		}break
 	}
+}
++ (NSMutableArray*) makeStack:(NSMutableArray*)s{
+	
+	
+	NSMutableArray *stack = s;
+	
+	NSMutableArray *m = [[NSMutableArray alloc] init];
+	{
+		
+		int _g = 0;
+		while (_g < stack.length) {
+			
+			
+			NSMutableString *func = ((NSMutableString*)[stack hx_objectAtIndex:_g]);
+			++_g;
+			
+			NSMutableArray *words = [func split:[@"::" mutableCopy]];
+			if (words.length == 0) [m unshift:CFunction];
+			else if (words.length == 2) [m unshift:[Method:((NSMutableArray*)[words hx_objectAtIndex:0]) method:((NSMutableArray*)[words hx_objectAtIndex:1])]];
+			else if (words.length == 4) [m unshift:[FilePos:[Method:((NSMutableArray*)[words hx_objectAtIndex:0]) method:((NSMutableArray*)[words hx_objectAtIndex:1])] file:((NSMutableArray*)[words hx_objectAtIndex:2]) line:[Std parseInt:((NSMutableArray*)[words hx_objectAtIndex:3])]]];
+		}
+	}
+	return m;
 }
 
 @end

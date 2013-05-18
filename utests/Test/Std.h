@@ -16,6 +16,7 @@
 + (int) _int:(float)x;
 + (int) parseInt:(NSMutableString*)x;
 + (float) parseFloat:(NSMutableString*)x;
++ (int) random:(int)x;
 
 @end
 

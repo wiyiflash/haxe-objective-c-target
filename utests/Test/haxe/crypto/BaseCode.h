@@ -7,13 +7,16 @@
 
 
 
+#import "../../String.h"
+#import "../../haxe/crypto/BaseCode.h"
 #import "../../haxe/io/Bytes.h"
 #import "../../Array.h"
 #import "../../Std.h"
-#import "../../String.h"
 
 @interface BaseCode : NSObject
 
++ (NSMutableString*) encode:(NSMutableString*)s base:(NSMutableString*)base;
++ (NSMutableString*) decode:(NSMutableString*)s base:(NSMutableString*)base;
 @property (nonatomic, strong) Bytes *base;
 @property (nonatomic) int nbits;
 @property (nonatomic, strong) NSMutableArray *tbl;

@@ -9,6 +9,14 @@
 
 @implementation Int64
 
++ (Int64*) make:(int)high low:(int)low{
+	
+	return [[Int64 alloc] init:high low:low];
+}
++ (Int64*) ofInt:(int)x{
+	
+	return [[Int64 alloc] init:x >> 31 low:x];
+}
 + (int) toInt:(Int64*)x{
 	
 	if (x.high != 0) {
@@ -112,9 +120,122 @@
 		@"modulus":[modulus copy],
 	} mutableCopy];
 }
++ (Int64*) div:(Int64*)a b:(Int64*)b{
+	
+	BOOL sign =  (a.high | b.high) < 0;
+	if (a.high < 0) a = ^(Int64*)int high = ~a.high
+	int low = -a.low
+	if (low == 0) high++
+	__r__ = [[Int64 alloc] init:high low:low]
+	return __r__{
+		
+		Int64* __r__}
+	}();
+	if (b.high < 0) b = ^(Int64*)int high = ~b.high
+	int low = -b.low
+	if (low == 0) high++
+	__r__2 = [[Int64 alloc] init:high low:low]
+	return __r__2{
+		
+		Int64* __r__2}
+	}();
+	
+	Int64 *q = [Int64 divMod:a divisor:b] quotient;
+	return ( (sign) ? ^(Int64*)int high = ~q.high
+	int low = -q.low
+	if (low == 0) high++
+	__r__3 = [[Int64 alloc] init:high low:low]
+	return __r__3{
+		
+		Int64* __r__3}
+	}() : q);
+}
++ (Int64*) mod:(Int64*)a b:(Int64*)b{
+	
+	BOOL sign =  (a.high | b.high) < 0;
+	if (a.high < 0) a = ^(Int64*)int high = ~a.high
+	int low = -a.low
+	if (low == 0) high++
+	__r__ = [[Int64 alloc] init:high low:low]
+	return __r__{
+		
+		Int64* __r__}
+	}();
+	if (b.high < 0) b = ^(Int64*)int high = ~b.high
+	int low = -b.low
+	if (low == 0) high++
+	__r__2 = [[Int64 alloc] init:high low:low]
+	return __r__2{
+		
+		Int64* __r__2}
+	}();
+	
+	Int64 *m = [Int64 divMod:a divisor:b] modulus;
+	return ( (sign) ? ^(Int64*)int high = ~m.high
+	int low = -m.low
+	if (low == 0) high++
+	__r__3 = [[Int64 alloc] init:high low:low]
+	return __r__3{
+		
+		Int64* __r__3}
+	}() : m);
+}
++ (Int64*) shl:(Int64*)a b:(int)b{
+	
+	return ( ( (b & 63) == 0) ? a : ( ( (b & 63) < 32) ? [[Int64 alloc] init:a high << b | a low >>> 32 -  (b & 63) low:a low << b] : [[Int64 alloc] init:a low << b - 32 low:0]));
+}
++ (Int64*) shr:(Int64*)a b:(int)b{
+	
+	return ( ( (b & 63) == 0) ? a : ( ( (b & 63) < 32) ? [[Int64 alloc] init:a high >> b low:a low >>> b | a high << 32 -  (b & 63)] : [[Int64 alloc] init:a high >> 31 low:a high >> b - 32]));
+}
++ (Int64*) ushr:(Int64*)a b:(int)b{
+	
+	return ( ( (b & 63) == 0) ? a : ( ( (b & 63) < 32) ? [[Int64 alloc] init:a high >>> b low:a low >>> b | a high << 32 -  (b & 63)] : [[Int64 alloc] init:0 low:a high >>> b - 32]));
+}
++ (Int64*) _and:(Int64*)a b:(Int64*)b{
+	
+	return [[Int64 alloc] init:a high & b high low:a low & b low];
+}
++ (Int64*) _or:(Int64*)a b:(Int64*)b{
+	
+	return [[Int64 alloc] init:a high | b high low:a low | b low];
+}
++ (Int64*) _xor:(Int64*)a b:(Int64*)b{
+	
+	return [[Int64 alloc] init:a high ^ b high low:a low ^ b low];
+}
++ (Int64*) neg:(Int64*)a{
+	
+	int high = ~a.high;
+	int low = -a.low;
+	if (low == 0) high++;
+	return [[Int64 alloc] init:high low:low];
+}
++ (BOOL) isNeg:(Int64*)a{
+	
+	return a.high < 0;
+}
++ (BOOL) isZero:(Int64*)a{
+	
+	return  (a.high | a.low) == 0;
+}
 + (int) uicompare:(int)a b:(int)b{
 	
 	return ( (a < 0) ? ( (b < 0) ? ~b - ~a : 1) : ( (b < 0) ? -1 : a - b));
+}
++ (int) compare:(Int64*)a b:(Int64*)b{
+	
+	int v = a.high - b.high;
+	return ( (v != 0) ? v : [Int64 uicompare:a.low b:b.low]);
+}
++ (int) ucompare:(Int64*)a b:(Int64*)b{
+	
+	int v = [Int64 uicompare:a.high b:b.high];
+	return ( (v != 0) ? v : [Int64 uicompare:a.low b:b.low]);
+}
++ (NSMutableString*) toStr:(Int64*)a{
+	
+	return [a toString];
 }
 @synthesize high;
 @synthesize low;
@@ -129,7 +250,7 @@
 	if (i.high < 0) {
 		
 		neg = YES;
-		i = ((Int64)(self.__r__) int high = ~i.high
+		i = ((Int64)self.__r__ int high = ~i.high
 		int low = -i.low
 		if (low == 0) high++
 		__r__ = [[Int64 alloc] init:high low:low]

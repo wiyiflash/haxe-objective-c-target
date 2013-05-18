@@ -17,9 +17,95 @@
 	
 	return [s stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 }
++ (NSMutableString*) htmlEscape:(NSMutableString*)s quotes:(BOOL)quotes{
+	
+	// Optional arguments
+	if (!quotes) quotes = nil;
+	
+	s = [[[[[[s split:[@"&" mutableCopy]] join:[@"&amp;" mutableCopy]] split:[@"<" mutableCopy]] join:[@"&lt;" mutableCopy]] split:[@">" mutableCopy]] join:[@"&gt;" mutableCopy]];
+	return ( (quotes) ? [[[[s split:[@"\"" mutableCopy]] join:[@"&quot;" mutableCopy]] split:[@"'" mutableCopy]] join:[@"&#039;" mutableCopy]] : s);
+}
++ (NSMutableString*) htmlUnescape:(NSMutableString*)s{
+	
+	return [[[[[[[[[[s split:[@"&gt;" mutableCopy]] join:[@">" mutableCopy]] split:[@"&lt;" mutableCopy]] join:[@"<" mutableCopy]] split:[@"&quot;" mutableCopy]] join:[@"\"" mutableCopy]] split:[@"&#039;" mutableCopy]] join:[@"'" mutableCopy]] split:[@"&amp;" mutableCopy]] join:[@"&" mutableCopy]];
+}
 + (BOOL) startsWith:(NSMutableString*)s start:(NSMutableString*)start{
 	
 	return s.length >= start.length && [s hx_dyn_substr:0 len:start.length] == start;
+}
++ (BOOL) endsWith:(NSMutableString*)s end:(NSMutableString*)end{
+	
+	int elen = end.length;
+	int slen = s.length;
+	return slen >= elen && [s hx_dyn_substr:slen - elen len:elen] == end;
+}
++ (BOOL) isSpace:(NSMutableString*)s pos:(int)pos{
+	
+	int c = [s charCodeAt:pos];
+	return c > 8 && c < 14 || c == 32;
+}
++ (NSMutableString*) ltrim:(NSMutableString*)s{
+	
+	int l = s.length;
+	int r = 0;
+	while (r < l && [StringTools isSpace:s pos:r]) r++;
+	if (r > 0) return [s substr:r len:l - r];
+	else return s;
+	return nil;
+}
++ (NSMutableString*) rtrim:(NSMutableString*)s{
+	
+	int l = s.length;
+	int r = 0;
+	while (r < l && [StringTools isSpace:s pos:l - r - 1]) r++;
+	if (r > 0) return [s substr:0 len:l - r];
+	else return s;
+	return nil;
+}
++ (NSMutableString*) trim:(NSMutableString*)s{
+	
+	return [StringTools ltrim:[StringTools rtrim:s]];
+}
++ (NSMutableString*) lpad:(NSMutableString*)s c:(NSMutableString*)c l:(int)l{
+	
+	if (c.length <= 0) return s;
+	while (s.length < l) s = c + s;
+	return s;
+}
++ (NSMutableString*) rpad:(NSMutableString*)s c:(NSMutableString*)c l:(int)l{
+	
+	if (c.length <= 0) return s;
+	while (s.length < l) s = s + c;
+	return s;
+}
++ (NSMutableString*) replace:(NSMutableString*)s sub:(NSMutableString*)sub by:(NSMutableString*)by{
+	
+	return [s replaceOccurrencesOfString:sub withString:by options:nil range:nil];
+}
++ (NSMutableString*) hex:(int)n digits:(int)digits{
+	
+	// Optional arguments
+	if (!digits) digits = nil;
+	
+	
+	NSMutableString *s = [@"" mutableCopy];
+	
+	NSMutableString *hexChars = [@"0123456789ABCDEF" mutableCopy];
+	do {
+		
+		s = [[hexChars charAt:n & @"15"] stringByAppendingString:s];
+		n >>>= 4;
+	}while (n > 0);
+	if (digits != nil) while (s.length < digits) s = [[@"0" mutableCopy] stringByAppendingString:s];
+	return s;
+}
++ (int) fastCodeAt:(NSMutableString*)s index:(int)index{
+	
+	return [s characterAtIndex:index];
+}
++ (BOOL) isEof:(int)c{
+	
+	return c == -1;
 }
 
 @end

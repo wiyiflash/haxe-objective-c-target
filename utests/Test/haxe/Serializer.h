@@ -42,6 +42,7 @@
 - (BOOL) serializeRef:(id)v;
 - (void) serializeFields:(id)v;
 - (void) serialize:(id)v;
+- (void) serializeException:(id)e;
 - (id) init;
 
 @end

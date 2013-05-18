@@ -13,18 +13,21 @@ typedef enum{
 	Lambda
 } StackItem;
 
+#import <Foundation/Foundation.h>
 
 #import "../Array.h"
+#import "../haxe/CallStack.h"
 #import "../String.h"
 #import "../StringBuf.h"
-#import "../haxe/CallStack.h"
 #import "../Std.h"
 
 @interface CallStack : NSObject
 
++ (NSMutableArray*) callStack;
 + (NSMutableArray*) exceptionStack;
 + (NSMutableString*) toString:(NSMutableArray*)stack;
 + (void) itemToString:(StringBuf*)b s:(StackItem*)s;
++ (NSMutableArray*) makeStack:(NSMutableArray*)s;
 
 @end
 

@@ -17,6 +17,13 @@
 	NSDateComponents *components = [calendar components:((((NSYearCalendarUnit | NSMonthCalendarUnit) | NSDayCalendarUnit) | NSHourCalendarUnit) | NSMinuteCalendarUnit) | NSSecondCalendarUnit fromDate:[NSDate date]];
 	return [[NSDate alloc] init:[components year] month:[components month] day:[components day] hour:[components hour] min:[components minute] sec:[components second]];
 }
++ (NSDate*) fromTime:(float)t{
+	
+	
+	NSDate *result = [[NSDate alloc] init:0 month:0 day:0 hour:0 min:0 sec:0];
+	result._seconds = t * 0.001;
+	return result;
+}
 + (NSDate*) fromString:(NSMutableString*)s{
 	
 	switch (s.length){
@@ -51,10 +58,16 @@
 	}
 	return nil;
 }
+// Please provide a getterBody for the property: _seconds
+
 // Please provide a getterBody for the property: _calendar
 
 // Please provide a getterBody for the property: _components
 
+- (float) getTime{
+	
+	return self._seconds * 1000.0;
+}
 - (int) getHours{
 	
 	return [self._components hour];

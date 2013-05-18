@@ -15,9 +15,12 @@
 @interface NSDate ( Date )
 
 + (NSDate*) now;
++ (NSDate*) fromTime:(float)t;
 + (NSDate*) fromString:(NSMutableString*)s;
+@property (nonatomic) float _seconds;
 @property (nonatomic, strong) NSCalendar *_calendar;
 @property (nonatomic) id _components;
+- (float) getTime;
 - (int) getHours;
 - (int) getMinutes;
 - (int) getSeconds;

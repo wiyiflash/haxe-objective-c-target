@@ -14,8 +14,18 @@
 
 + (NSMutableArray*) array:(id)it;
 + (List*) list:(id)it;
++ (List*) map:(id)it f:(id)f;
++ (List*) mapi:(id)it f:(id)f;
 + (BOOL) has:(id)it elt:(id)elt;
++ (BOOL) exists:(id)it f:(id)f;
++ (BOOL) foreach:(id)it f:(id)f;
++ (void) iter:(id)it f:(id)f;
++ (List*) filter:(id)it f:(id)f;
++ (id) fold:(id)it f:(id)f first:(id)first;
 + (int) count:(id)it pred:(id)pred;
++ (BOOL) empty:(id)it;
++ (int) indexOf:(id)it v:(id)v;
++ (List*) concat:(id)a b:(id)b;
 
 @end
 

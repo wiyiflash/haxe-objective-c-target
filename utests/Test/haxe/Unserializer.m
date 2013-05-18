@@ -72,6 +72,14 @@ static NSMutableArray* CODES;
 	} mutableCopy];
 	else self.resolver = r;
 }
+- (id) getResolver{
+	
+	return self.resolver;
+}
+- (int) get:(int)p{
+	
+	return [self.buf characterAtIndex:p];
+}
 - (int) readDigits{
 	
 	int k = 0;

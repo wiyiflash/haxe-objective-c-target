@@ -209,6 +209,8 @@ static XmlType* Document;
 @synthesize _children;
 @synthesize _parent;
 @synthesize nodeType;
+
+
 - (NSMutableString*) get_nodeName{
 	
 	if (self.nodeType != ) @throw [@"bad nodeType" mutableCopy];;
@@ -228,6 +230,11 @@ static XmlType* Document;
 	
 	if (self.nodeType ==  || self.nodeType == ) @throw [@"bad nodeType" mutableCopy];;
 	return self._nodeValue = v;
+}
+
+- (Xml*) get_parent{
+	
+	return self._parent;
 }
 - (NSMutableString*) get:(NSMutableString*)att{
 	

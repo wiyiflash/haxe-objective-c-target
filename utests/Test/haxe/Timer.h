@@ -8,10 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+#import "../haxe/Timer.h"
 #import "../haxe/Log.h"
+#import "../Sys.h"
 
 @interface Timer : NSObject
 
++ (Timer*) delay:(id)f time_ms:(int)time_ms;
++ (id) measure:(id)f pos:(id)pos;
++ (float) stamp;
 @property (nonatomic, strong) NSTimer *nstimer;
 @property (nonatomic) int _id;
 - (void) stop;

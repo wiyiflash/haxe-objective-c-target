@@ -343,7 +343,7 @@ static NSMutableArray* TNAMES;
 	[self eq:c2.y v2:20 pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"293", @"className":@"unit.TestReflect", @"methodName":@"testGetProp"}];
 	[self eq:(id)( (c2 == nil) ? nil : [c2 hx_field:[@"y" mutableCopy] :YES]) v2:20 pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"294", @"className":@"unit.TestReflect", @"methodName":@"testGetProp"}];
 	[self eq:ClassWithProp.STAT_X v2:6 pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"296", @"className":@"unit.TestReflect", @"methodName":@"testGetProp"}];
-	[self eq:((id)(self.__r__) id o = ClassWithProp
+	[self eq:((id)self.__r__ id o = ClassWithProp
 	__r__ = ( (o == nil) ? nil : [o hx_field:[@"STAT_X" mutableCopy] :YES])
 	return __r__{
 		
@@ -355,7 +355,7 @@ static NSMutableArray* TNAMES;
 		if (o != nil) [o hx_set_field:[@"STAT_X" mutableCopy] :8 :YES];
 	}
 	[self eq:ClassWithProp.STAT_X v2:16 pos:@{@"fileName":@"TestReflect.hx", @"lineNumber":@"301", @"className":@"unit.TestReflect", @"methodName":@"testGetProp"}];
-	[self eq:((id)(self.__r__2) id o = ClassWithProp
+	[self eq:((id)self.__r__2 id o = ClassWithProp
 	__r__2 = ( (o == nil) ? nil : [o hx_field:[@"STAT_X" mutableCopy] :YES])
 	return __r__2{
 		

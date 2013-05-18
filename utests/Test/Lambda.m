@@ -35,6 +35,33 @@
 	}
 	return l;
 }
++ (List*) map:(id)it f:(id)f{
+	
+	
+	List *l = [[List alloc] init];
+	{
+		id _it = [it iterator];
+		while ( [_it hasNext] ) do {
+			id x = [_it next];
+			[l add:[f:x]];
+		}
+	}
+	return l;
+}
++ (List*) mapi:(id)it f:(id)f{
+	
+	
+	List *l = [[List alloc] init];
+	int i = 0;
+	{
+		id _it = [it iterator];
+		while ( [_it hasNext] ) do {
+			id x = [_it next];
+			[l add:[f:i++ :x]];
+		}
+	}
+	return l;
+}
 + (BOOL) has:(id)it elt:(id)elt{
 	
 	{
@@ -45,6 +72,62 @@
 		}
 	}
 	return NO;
+}
++ (BOOL) exists:(id)it f:(id)f{
+	
+	{
+		id _it = [it iterator];
+		while ( [_it hasNext] ) do {
+			id x = [_it next];
+			if ([f:x]) return YES;
+		}
+	}
+	return NO;
+}
++ (BOOL) foreach:(id)it f:(id)f{
+	
+	{
+		id _it = [it iterator];
+		while ( [_it hasNext] ) do {
+			id x = [_it next];
+			if (![f:x]) return NO;
+		}
+	}
+	return YES;
+}
++ (void) iter:(id)it f:(id)f{
+	
+	{
+		id _it = [it iterator];
+		while ( [_it hasNext] ) do {
+			id x = [_it next];
+			[f:x];
+		}
+	}
+}
++ (List*) filter:(id)it f:(id)f{
+	
+	
+	List *l = [[List alloc] init];
+	{
+		id _it = [it iterator];
+		while ( [_it hasNext] ) do {
+			id x = [_it next];
+			if ([f:x]) [l add:x];
+		}
+	}
+	return l;
+}
++ (id) fold:(id)it f:(id)f first:(id)first{
+	
+	{
+		id _it = [it iterator];
+		while ( [_it hasNext] ) do {
+			id x = [_it next];
+			first = [f:x :first];
+		}
+	}
+	return first;
 }
 + (int) count:(id)it pred:(id)pred{
 	
@@ -73,6 +156,46 @@
 		}
 	}
 	return n;
+}
++ (BOOL) empty:(id)it{
+	
+	return ![[it iterator] hasNext];
+}
++ (int) indexOf:(id)it v:(id)v{
+	
+	int i = 0;
+	{
+		id _it = [it iterator];
+		while ( [_it hasNext] ) do {
+			id v2 = [_it next];
+			{
+				
+				if (v == v2) return i;
+				i++;
+			};
+		}
+	}
+	return -1;
+}
++ (List*) concat:(id)a b:(id)b{
+	
+	
+	List *l = [[List alloc] init];
+	{
+		id _it = [a iterator];
+		while ( [_it hasNext] ) do {
+			id x = [_it next];
+			[l add:x];
+		}
+	}
+	{
+		id _it2 = [b iterator];
+		while ( [_it2 hasNext] ) do {
+			id x = [_it2 next];
+			[l add:x];
+		}
+	}
+	return l;
 }
 
 @end

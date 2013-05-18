@@ -390,7 +390,7 @@ static float sinline;
 
 - (int) set_accFunc:(int)v{
 	
-	return ((int)(self.__r__) @throw [@"setter was called" mutableCopy];
+	return ((int)self.__r__ @throw [@"setter was called" mutableCopy];
 	return __r__{
 		
 		int* __r__}
@@ -398,7 +398,7 @@ static float sinline;
 }
 - (id) set_accDynamic:(id)v{
 	
-	return ((id)(self.__r__) @throw [@"setter was called" mutableCopy];
+	return ((id)self.__r__ @throw [@"setter was called" mutableCopy];
 	return __r__{
 		
 		id* __r__}

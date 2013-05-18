@@ -26,6 +26,16 @@
 	}
 	return c;
 }
++ (Enum*) getEnum:(EnumValue*)o{
+	
+	if (o == nil) return nil;
+	return [o __GetClass];
+}
++ (Class*) getSuperClass:(Class*)c{
+	
+	if (c == nil) return nil;
+	return [c superclass];
+}
 + (NSMutableString*) getClassName:(Class*)c{
 	
 	if (c == nil) return nil;
@@ -65,6 +75,16 @@
 	if ([e mConstructEnum] != nil) return [e mConstructEnum:constr :params];
 	return nil;
 }
++ (id) createEnumIndex:(Enum*)e index:(int)index params:(NSMutableArray*)params{
+	
+	// Optional arguments
+	if (!params) params = nil;
+	
+	
+	NSMutableString *c = ((NSMutableString*)[[Type getEnumConstructs:e] hx_objectAtIndex:index]);
+	if (c == nil) @throw [index stringByAppendingString:[@" is not a valid enum constructor index" mutableCopy]];;
+	return [Type createEnum:e constr:c params:params];
+}
 + (NSMutableArray*) getInstanceFields:(Class*)c{
 	
 	return [c GetInstanceFields];
@@ -85,6 +105,20 @@
 + (BOOL) enumEq:(id)a b:(id)b{
 	
 	return a == b;
+}
++ (NSMutableString*) enumConstructor:(EnumValue*)e{
+	
+	return [e __Tag];
+}
++ (NSMutableArray*) enumParameters:(EnumValue*)e{
+	
+	
+	NSMutableArray *result = [e __EnumParams];
+	return ( (result == nil) ? [@[] mutableCopy] : result);
+}
++ (int) enumIndex:(EnumValue*)e{
+	
+	return [e __Index];
 }
 + (NSMutableArray*) allEnums:(Enum*)e{
 	

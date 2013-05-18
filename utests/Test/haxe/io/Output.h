@@ -10,6 +10,7 @@
 
 #import "../../haxe/io/Bytes.h"
 #import "../../Array.h"
+#import "../../haxe/io/Input.h"
 #import "../../String.h"
 
 @interface Output : NSObject
@@ -19,6 +20,8 @@
 @property (nonatomic, setter=set_bigEndian) BOOL bigEndian;
 - (void) writeByte:(int)c;
 - (int) writeBytes:(Bytes*)s pos:(int)pos len:(int)len;
+- (void) flush;
+- (void) close;
 - (BOOL) set_bigEndian:(BOOL)b;
 - (void) write:(Bytes*)s;
 - (void) writeFullBytes:(Bytes*)s pos:(int)pos len:(int)len;
@@ -31,6 +34,7 @@
 - (void) writeUInt24:(int)x;
 - (void) writeInt32:(int)x;
 - (void) prepare:(int)nbytes;
+- (void) writeInput:(Input*)i bufsize:(int)bufsize;
 - (void) writeString:(NSMutableString*)s;
 
 @end

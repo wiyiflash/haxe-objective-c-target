@@ -17,6 +17,9 @@
 @property (nonatomic, strong) NSMutableArray *b;
 @property (nonatomic) int pos;
 @property (nonatomic) int len;
+@property (nonatomic, getter=get_position, setter=set_position) int position;
+- (int) get_position;
+- (int) set_position:(int)p;
 - (int) readByte;
 - (int) readBytes:(Bytes*)buf pos:(int)pos len:(int)len;
 - (id) init:(Bytes*)b pos:(int)pos len:(int)len;

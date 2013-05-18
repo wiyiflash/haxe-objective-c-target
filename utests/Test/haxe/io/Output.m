@@ -36,6 +36,12 @@ static float LN2;
 	}
 	return len;
 }
+- (void) flush{
+	
+}
+- (void) close{
+	
+}
 - (BOOL) set_bigEndian:(BOOL)b{
 	
 	self.bigEndian = b;
@@ -196,6 +202,34 @@ static float LN2;
 }
 - (void) prepare:(int)nbytes{
 	
+}
+- (void) writeInput:(Input*)i bufsize:(int)bufsize{
+	
+	// Optional arguments
+	if (!bufsize) bufsize = nil;
+	
+	if (bufsize == nil) bufsize = 4096;
+	
+	Bytes *buf = [Bytes alloc:bufsize];
+	@try {
+		
+		while (YES) {
+			
+			int len = [i readBytes:buf pos:0 len:bufsize];
+			if (len == 0) @throw Blocked;;
+			int p = 0;
+			while (len > 0) {
+				
+				int k = [self writeBytes:buf pos:p len:len];
+				if (k == 0) @throw Blocked;;
+				p += k;
+				len -= k;
+			}
+		}
+	}
+	@catch (NSException *e) {
+		
+	}
 }
 - (void) writeString:(NSMutableString*)s{
 	

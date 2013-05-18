@@ -62,8 +62,20 @@
 	
 	return [[Bytes alloc] init:b length b:b];
 }
++ (int) fastGet:(NSMutableArray*)b pos:(int)pos{
+	
+	return ((BytesData*)[b hx_objectAtIndex:pos]);
+}
 @synthesize length;
 @synthesize b;
+- (int) get:(int)pos{
+	
+	return ((BytesData*)[self.b hx_objectAtIndex:pos]);
+}
+- (void) set:(int)pos v:(int)v{
+	
+	[self.b hx_replaceObjectAtIndex:pos withObject:(v & @255)];
+}
 - (void) blit:(int)pos src:(Bytes*)src srcpos:(int)srcpos len:(int)len{
 	
 	if (pos < 0 || srcpos < 0 || len < 0 || pos + len > self.length || srcpos + len > src.length) @throw OutsideBounds;;
@@ -180,6 +192,10 @@
 		}
 	}
 	return s.b;
+}
+- (NSMutableArray*) getData{
+	
+	return self.b;
 }
 - (id) init:(int)length b:(NSMutableArray*)b{
 	

@@ -12,6 +12,8 @@
 
 @interface Int64 : NSObject
 
++ (Int64*) make:(int)high low:(int)low;
++ (Int64*) ofInt:(int)x;
 + (int) toInt:(Int64*)x;
 + (int) getLow:(Int64*)x;
 + (int) getHigh:(Int64*)x;
@@ -19,7 +21,21 @@
 + (Int64*) sub:(Int64*)a b:(Int64*)b;
 + (Int64*) mul:(Int64*)a b:(Int64*)b;
 + (id) divMod:(Int64*)modulus divisor:(Int64*)divisor;
++ (Int64*) div:(Int64*)a b:(Int64*)b;
++ (Int64*) mod:(Int64*)a b:(Int64*)b;
++ (Int64*) shl:(Int64*)a b:(int)b;
++ (Int64*) shr:(Int64*)a b:(int)b;
++ (Int64*) ushr:(Int64*)a b:(int)b;
++ (Int64*) _and:(Int64*)a b:(Int64*)b;
++ (Int64*) _or:(Int64*)a b:(Int64*)b;
++ (Int64*) _xor:(Int64*)a b:(Int64*)b;
++ (Int64*) neg:(Int64*)a;
++ (BOOL) isNeg:(Int64*)a;
++ (BOOL) isZero:(Int64*)a;
 + (int) uicompare:(int)a b:(int)b;
++ (int) compare:(Int64*)a b:(Int64*)b;
++ (int) ucompare:(Int64*)a b:(Int64*)b;
++ (NSMutableString*) toStr:(Int64*)a;
 @property (nonatomic) int high;
 @property (nonatomic) int low;
 - (NSMutableString*) toString;

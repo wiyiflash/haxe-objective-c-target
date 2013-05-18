@@ -12,6 +12,15 @@
 @synthesize b;
 @synthesize pos;
 @synthesize len;
+
+- (int) get_position{
+	
+	return self.pos;
+}
+- (int) set_position:(int)p{
+	
+	return self.pos = p;
+}
 - (int) readByte{
 	
 	if (self.len == 0) @throw [[Eof alloc] init];;

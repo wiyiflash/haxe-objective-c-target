@@ -33,9 +33,11 @@
 - (void) quote:(NSMutableString*)s;
 - (id) doParse:(NSMutableString*)str;
 - (void) invalidChar;
+- (int) nextChar;
 - (id) parseRec;
 - (NSMutableString*) parseString;
 - (void) invalidNumber:(int)start;
+- (float) parseNumber:(int)c;
 - (id) init;
 
 @end

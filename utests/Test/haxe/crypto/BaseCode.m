@@ -9,6 +9,18 @@
 
 @implementation BaseCode
 
++ (NSMutableString*) encode:(NSMutableString*)s base:(NSMutableString*)base{
+	
+	
+	BaseCode *b = [[BaseCode alloc] init:[Bytes ofString:base]];
+	return [b encodeString:s];
+}
++ (NSMutableString*) decode:(NSMutableString*)s base:(NSMutableString*)base{
+	
+	
+	BaseCode *b = [[BaseCode alloc] init:[Bytes ofString:base]];
+	return [b decodeString:s];
+}
 @synthesize base;
 @synthesize nbits;
 @synthesize tbl;

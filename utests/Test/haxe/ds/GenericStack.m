@@ -7,8 +7,96 @@
 
 #import "../../haxe/ds/GenericStack.h"
 
+@implementation GenericCell
+
+@synthesize elt;
+@synthesize next;
+- (id) init:(id)elt next:(GenericCell*)next{
+	
+	self = [super init];
+	self.elt = elt;
+	self.next = next;
+	return self;
+}
+
+@end
+
 @implementation GenericStack
 
+@synthesize head;
+- (void) add:(id)item{
+	
+	self.head = [[GenericCell alloc] init:item next:self head];
+}
+- (id) first{
+	
+	return ( (self.head == nil) ? nil : self.head.elt);
+}
+- (id) pop{
+	
+	
+	GenericCell *k = self.head;
+	if (k == nil) return nil;
+	else {
+		
+		self.head = k.next;
+		return k.elt;
+	}
+	return nil;
+}
+- (BOOL) isEmpty{
+	
+	return self.head == nil;
+}
+- (BOOL) remove:(id)v{
+	
+	id prev = nil;
+	
+	GenericCell *l = self.head;
+	while (l != nil) {
+		
+		if (l.elt == v) {
+			
+			if (prev == nil) self.head = l.next;
+			else prev next = l.next;
+			break;
+		}
+		prev = l;
+		l = l.next;
+	}
+	return l != nil;
+}
+- (id) iterator{
+	
+	
+	GenericCell *l = self.head;
+	return [@{
+		@"hasNext":[^(){
+		
+		return l != [NSNull null];
+	} copy],
+		@"next":[^(){
+		
+		
+		GenericCell *k = l;
+		l = k.next;
+		return k.elt;
+	} copy],
+	} mutableCopy];
+}
+- (NSMutableString*) toString{
+	
+	
+	NSMutableArray *a = [[NSMutableArray alloc] init];
+	
+	GenericCell *l = self.head;
+	while (l != nil) {
+		
+		[a push:l.elt];
+		l = l.next;
+	}
+	return [[[@"{" mutableCopy] stringByAppendingString:[a join:[@"," mutableCopy]]] stringByAppendingString:[@"}" mutableCopy]];
+}
 - (id) init{
 	
 	self = [super init];

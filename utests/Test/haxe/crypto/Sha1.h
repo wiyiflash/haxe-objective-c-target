@@ -18,10 +18,13 @@
 
 + (NSMutableString*) encode:(NSMutableString*)s;
 + (Bytes*) make:(Bytes*)b;
++ (NSMutableArray*) str2blks:(NSMutableString*)s;
 + (NSMutableArray*) bytes2blks:(Bytes*)b;
 - (NSMutableArray*) doEncode:(NSMutableArray*)x;
+- (int) rol:(int)num cnt:(int)cnt;
 - (int) ft:(int)t b:(int)b c:(int)c d:(int)d;
 - (int) kt:(int)t;
+- (NSMutableString*) hex:(NSMutableArray*)a;
 - (id) init;
 
 @end

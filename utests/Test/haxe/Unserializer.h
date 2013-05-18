@@ -37,6 +37,8 @@
 @property (nonatomic, strong) NSMutableArray *scache;
 @property (nonatomic) id resolver;
 - (void) setResolver:(id)r;
+- (id) getResolver;
+- (int) get:(int)p;
 - (int) readDigits;
 - (void) unserializeObject:(id)o;
 - (id) unserializeEnum:(Enum*)edecl tag:(NSMutableString*)tag;

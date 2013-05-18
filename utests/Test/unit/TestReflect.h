@@ -10,7 +10,7 @@
 
 @protocol InterfWithProp<NSObject>
 
-@property (nonatomic) int x;
+@property (nonatomic, getter=get_x, setter=set_x) int x;
 
 @end
 
