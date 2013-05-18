@@ -19,7 +19,7 @@ static int Z;
 }
 // Dynamic method defined with an objc method and a block property
 + (int) staticDynamic:(int)x y:(int)y{
-	return CASTTMonoCASTTMonoZ + x + y;
+	return Z + x + y;
 }
 @synthesize hx_dyn_staticDynamic;
 
@@ -417,7 +417,7 @@ static NSMutableString* unit;
 	[self eq:[add2:1 y:2] v2:206 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"268", @"className":@"unit.TestMisc", @"methodName":@"testDynamicClosure"}];
 	inst2.hx_dyn_add = ^(int x, int y){
 		
-		return CASTTMonoCASTTMono[inst2 hx_dyn_get] * 2 + x + y;
+		return [inst2 hx_dyn_get] * 2 + x + y;
 	}
 	id add3 = ;
 	[self eq:[inst2 add:1 y:2] v2:203 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"273", @"className":@"unit.TestMisc", @"methodName":@"testDynamicClosure"}];

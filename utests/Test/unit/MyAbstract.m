@@ -214,7 +214,7 @@
 }
 + (MyVector*) add:(MyVector*)lhs rhs:(MyVector*)rhs{
 	
-	return [[MyPoint3 alloc] init:CASTTMonoCASTTMono[MyVector_Impl_ get_x:lhs] + [MyVector_Impl_ get_x:rhs] y:CASTTMonoCASTTMono[MyVector_Impl_ get_y:lhs] + [MyVector_Impl_ get_y:rhs] z:CASTTMonoCASTTMono[MyVector_Impl_ get_z:lhs] + [MyVector_Impl_ get_z:rhs]];
+	return [[MyPoint3 alloc] init:[MyVector_Impl_ get_x:lhs] + [MyVector_Impl_ get_x:rhs] y:[MyVector_Impl_ get_y:lhs] + [MyVector_Impl_ get_y:rhs] z:[MyVector_Impl_ get_z:lhs] + [MyVector_Impl_ get_z:rhs]];
 }
 + (MyVector*) scalarAssign:(MyVector*)lhs rhs:(float)rhs{
 	

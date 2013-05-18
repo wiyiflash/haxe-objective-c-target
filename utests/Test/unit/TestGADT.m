@@ -37,7 +37,7 @@
 	switch ( e2.index ) {
 		
 		case 0:
-		__r__ = CASTTMonoCASTTMono[TestGADT eval:e1] + [TestGADT eval:e2];break
+		__r__ = [TestGADT eval:e1] + [TestGADT eval:e2];break
 		case 1:
 		__r__ = [TestGADT eval:e1] == [TestGADT eval:e2];break
 	}

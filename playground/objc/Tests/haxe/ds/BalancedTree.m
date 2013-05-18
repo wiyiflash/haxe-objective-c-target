@@ -191,7 +191,7 @@
 @synthesize _height;
 - (NSMutableString*) toString{
 	
-	return  (( (self.left == nil) ? [@"" mutableCopy] : CASTTMono[[self.left toString] stringByAppendingString:[@", " mutableCopy]])) +  ([[[[@"" mutableCopy] stringByAppendingString:[Std string:self.key]] stringByAppendingString:[@"=" mutableCopy]] stringByAppendingString:[Std string:self.value]]) +  (( (self.right == nil) ? [@"" mutableCopy] : [[@", " mutableCopy] stringByAppendingString:[self.right toString]]));
+	return  (( (self.left == nil) ? [@"" mutableCopy] : [[self.left toString] stringByAppendingString:[@", " mutableCopy]])) +  ([[[[@"" mutableCopy] stringByAppendingString:[Std string:self.key]] stringByAppendingString:[@"=" mutableCopy]] stringByAppendingString:[Std string:self.value]]) +  (( (self.right == nil) ? [@"" mutableCopy] : [[@", " mutableCopy] stringByAppendingString:[self.right toString]]));
 }
 - (id) init:(TreeNode*)l k:(id)k v:(id)v r:(TreeNode*)r h:(int)h{
 	

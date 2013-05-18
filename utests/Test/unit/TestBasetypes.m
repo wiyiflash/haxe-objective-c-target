@@ -478,7 +478,7 @@
 	
 	MyVector *v2 = [[MyPoint3 alloc] init:1 y:2 z:3];
 	[self eq:[@"(2,3,4)" mutableCopy] v2:((NSMutableString)($this:(snd ctx.path)) 
-	MyPoint3 *this1 = (MyVector*)[[MyPoint3 alloc] init:CASTTMonoCASTTMono[MyVector_Impl_ get_x:v1] + [MyVector_Impl_ get_x:v2] y:CASTTMonoCASTTMono[MyVector_Impl_ get_y:v1] + [MyVector_Impl_ get_y:v2] z:CASTTMonoCASTTMono[MyVector_Impl_ get_z:v1] + [MyVector_Impl_ get_z:v2]]
+	MyPoint3 *this1 = (MyVector*)[[MyPoint3 alloc] init:[MyVector_Impl_ get_x:v1] + [MyVector_Impl_ get_x:v2] y:[MyVector_Impl_ get_y:v1] + [MyVector_Impl_ get_y:v2] z:[MyVector_Impl_ get_z:v1] + [MyVector_Impl_ get_z:v2]]
 	__r__ = [[[[[[[@"(" mutableCopy] stringByAppendingString:this1.x] stringByAppendingString:[@"," mutableCopy]] stringByAppendingString:this1.y] stringByAppendingString:[@"," mutableCopy]] stringByAppendingString:this1.z] stringByAppendingString:[@")" mutableCopy]]
 	return __r__{
 		

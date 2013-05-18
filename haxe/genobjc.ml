@@ -409,7 +409,21 @@ let rec isString ctx e =
 				| FStatic (tc,tcf) ->
 					let ft = field_type tcf in
 					(match ft with
-						| TMono _ -> ctx.writer#write "CASTTMono";false;
+						| TMono r ->
+							(match !r with
+							| None -> false
+							| Some t ->
+			
+								(match t with
+								| TInst (c,tl) ->
+					
+									(match c.cl_path with
+									| ([], "String") -> true
+									| _ -> false)
+					
+								| _ -> false
+								)
+							)
 						| TEnum _ -> ctx.writer#write "CASTTenum";false;
 						| TInst (tc, tp) -> (* ctx.writer#write (snd tc.cl_path);false; *)
 							if (snd tc.cl_path) = "String" then true
@@ -419,7 +433,21 @@ let rec isString ctx e =
 							(* ctx.writer#write ("TFun"^(snd tc.cl_path)); *)
 							(* Analize the return type of the function *)
 							(match t with
-								| TMono _ -> ctx.writer#write "CASTTMono";false;
+								| TMono r ->
+									(match !r with
+									| None -> false
+									| Some t ->
+			
+										(match t with
+										| TInst (c,tl) ->
+					
+											(match c.cl_path with
+											| ([], "String") -> true
+											| _ -> false)
+					
+										| _ -> false
+										)
+									)
 								| TEnum _ -> ctx.writer#write "CASTTenum";false;
 								| TInst (tc, tp) -> (* ctx.writer#write (snd tc.cl_path); *)
 									if (snd tc.cl_path) = "String" then true else false

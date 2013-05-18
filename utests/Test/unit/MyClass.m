@@ -487,7 +487,7 @@ static float sinline;
 
 + (NSMutableString*) test{
 	
-	return CASTTMonoCASTTMonoCASTTMonoCASTTMonoCASTTMono[UsingBase pupFunc:[@"foo" mutableCopy]] + [UsingBase privFunc:[@"foo" mutableCopy]] + [UsingChild2 siblingFunc:[@"FOO" mutableCopy]];
+	return [[[UsingBase pupFunc:[@"foo" mutableCopy]] stringByAppendingString:[UsingBase privFunc:[@"foo" mutableCopy]]] stringByAppendingString:[UsingChild2 siblingFunc:[@"FOO" mutableCopy]]];
 }
 + (NSMutableString*) siblingFunc:(NSMutableString*)s{
 	
@@ -513,7 +513,7 @@ static float sinline;
 
 + (NSMutableString*) test{
 	
-	return CASTTMonoCASTTMono[UsingBase pupFunc:[@"foo" mutableCopy]] + [UsingChild2 siblingFunc:[@"foo" mutableCopy]];
+	return [[UsingBase pupFunc:[@"foo" mutableCopy]] stringByAppendingString:[UsingChild2 siblingFunc:[@"foo" mutableCopy]]];
 }
 
 @end
@@ -606,11 +606,11 @@ static float sinline;
 
 - (int) get_prop{
 	
-	return CASTTMono[super hx_dyn_get_prop] + 1;
+	return [super hx_dyn_get_prop] + 1;
 }
 - (int) set_prop:(int)v{
 	
-	return CASTTMono[super hx_dyn_set_prop:v] + 1;
+	return [super hx_dyn_set_prop:v] + 1;
 }
 - (id) get_fProp{
 	
