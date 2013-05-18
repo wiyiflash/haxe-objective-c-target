@@ -390,7 +390,7 @@ static float sinline;
 
 - (int) set_accFunc:(int)v{
 	
-	return ((int)($this:(snd ctx.path)) @throw [@"setter was called" mutableCopy];
+	return ((int)(self.__r__) @throw [@"setter was called" mutableCopy];
 	return __r__{
 		
 		int* __r__}
@@ -398,7 +398,7 @@ static float sinline;
 }
 - (id) set_accDynamic:(id)v{
 	
-	return ((id)($this:(snd ctx.path)) @throw [@"setter was called" mutableCopy];
+	return ((id)(self.__r__) @throw [@"setter was called" mutableCopy];
 	return __r__{
 		
 		id* __r__}
@@ -437,11 +437,11 @@ static float sinline;
 }
 - (id) memberBasic:(id)a b:(id)b{
 	
-	return ((CASTTLazy*)[b hx_objectAtIndex:0]);
+	return ((id)[b hx_objectAtIndex:0]);
 }
 - (float) memberAnon:(id)v{
 	
-	return isstrFAnonisstrFAnonv x + v y;
+	return isstrFAnon-isstrFAnon-v x + v y;
 }
 - (void) memberOverload:(NSMutableString*)a b:(NSMutableString*)b{
 	

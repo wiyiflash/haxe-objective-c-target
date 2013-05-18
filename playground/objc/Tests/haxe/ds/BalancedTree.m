@@ -29,9 +29,9 @@
 }
 - (BOOL) remove:(id)k{
 	
-	return ((BOOL)($this:(snd ctx.path)) @try {
+	return ((BOOL)(self.__r__) @try {
 		
-		__r__ = ((BOOL)($this:(snd ctx.path)) self.root = [self removeLoop:k node:self.root]
+		__r__ = ((BOOL)(self.__r__2) self.root = [self removeLoop:k node:self.root]
 		__r__2 = YES
 		return __r__2{
 			
@@ -78,13 +78,13 @@
 	
 	if (node == nil) return [[TreeNode alloc] init:nil k:k v:v r:nil h:nil];
 	int c = [self compare:k k2:node.key];
-	return ( (c == 0) ? [[TreeNode alloc] init:node left k:k v:v r:node right h:( (node == nil) ? 0 : node _height)] : ( (c < 0) ? ((TreeNode)($this:(snd ctx.path)) 
+	return ( (c == 0) ? [[TreeNode alloc] init:node left k:k v:v r:node right h:( (node == nil) ? 0 : node _height)] : ( (c < 0) ? ((TreeNode)(self.__r__) 
 	TreeNode *nl = [self setLoop:k v:v node:node.left]
 	__r__ = [self balance:nl k:node.key v:node.value r:node.right]
 	return __r__{
 		
 		TreeNode* __r__}
-	}(self)) : ((TreeNode)($this:(snd ctx.path)) 
+	}(self)) : ((TreeNode)(self.__r__2) 
 	TreeNode *nr = [self setLoop:k v:v node:node.right]
 	__r__2 = [self balance:node.left k:node.key v:node.value r:nr]
 	return __r__2{
@@ -126,7 +126,7 @@
 }
 - (TreeNode*) minBinding:(TreeNode*)t{
 	
-	return ( (t == nil) ? ((TreeNode)($this:(snd ctx.path)) @throw [@"Not_found" mutableCopy];
+	return ( (t == nil) ? ((TreeNode)(self.__r__) @throw [@"Not_found" mutableCopy];
 	return __r__{
 		
 		TreeNode* __r__}
@@ -140,25 +140,25 @@
 	
 	int hl = ( (l == nil) ? 0 : l._height);
 	int hr = ( (r == nil) ? 0 : r._height);
-	return ( (hl > hr + 2) ? ( (((int)($this:(snd ctx.path)) 
+	return ( (hl > hr + 2) ? ( (((int)(self.__r__) 
 	TreeNode *_this = l.left
 	__r__ = ( (_this == nil) ? 0 : _this._height)
 	return __r__{
 		
 		int* __r__}
-	}(self)) >= ((int)($this:(snd ctx.path)) 
+	}(self)) >= ((int)(self.__r__2) 
 	TreeNode *_this = l.right
 	__r__2 = ( (_this == nil) ? 0 : _this._height)
 	return __r__2{
 		
 		int* __r__2}
-	}(self))) ? [[TreeNode alloc] init:l left k:l key v:l value r:[TreeNode alloc] :l right k:k v:v r:r h:nil h:nil] : [[TreeNode alloc] init:[TreeNode alloc] :l left k:l key v:l value r:l.right left h:nil k:l.right key v:l.right value r:[TreeNode alloc] :l.right right k:k v:v r:r h:nil h:nil]) : ( (hr > hl + 2) ? ( (((int)($this:(snd ctx.path)) 
+	}(self))) ? [[TreeNode alloc] init:l left k:l key v:l value r:[TreeNode alloc] :l right k:k v:v r:r h:nil h:nil] : [[TreeNode alloc] init:[TreeNode alloc] :l left k:l key v:l value r:l.right left h:nil k:l.right key v:l.right value r:[TreeNode alloc] :l.right right k:k v:v r:r h:nil h:nil]) : ( (hr > hl + 2) ? ( (((int)(self.__r__3) 
 	TreeNode *_this = r.right
 	__r__3 = ( (_this == nil) ? 0 : _this._height)
 	return __r__3{
 		
 		int* __r__3}
-	}(self)) > ((int)($this:(snd ctx.path)) 
+	}(self)) > ((int)(self.__r__4) 
 	TreeNode *_this = r.left
 	__r__4 = ( (_this == nil) ? 0 : _this._height)
 	return __r__4{
@@ -203,25 +203,25 @@
 	self.key = k;
 	self.value = v;
 	self.right = r;
-	if (h == -1) self._height =  (( (((int)($this:(snd ctx.path)) 
+	if (h == -1) self._height =  (( (((int)(self.__r__) 
 	TreeNode *_this = self.left
 	__r__ = ( (_this == nil) ? 0 : _this._height)
 	return __r__{
 		
 		int* __r__}
-	}(self)) > ((int)($this:(snd ctx.path)) 
+	}(self)) > ((int)(self.__r__2) 
 	TreeNode *_this = self.right
 	__r__2 = ( (_this == nil) ? 0 : _this._height)
 	return __r__2{
 		
 		int* __r__2}
-	}(self))) ? ((int)($this:(snd ctx.path)) 
+	}(self))) ? ((int)(self.__r__3) 
 	TreeNode *_this = self.left
 	__r__3 = ( (_this == nil) ? 0 : _this._height)
 	return __r__3{
 		
 		int* __r__3}
-	}(self)) : ((int)($this:(snd ctx.path)) 
+	}(self)) : ((int)(self.__r__4) 
 	TreeNode *_this = self.right
 	__r__4 = ( (_this == nil) ? 0 : _this._height)
 	return __r__4{

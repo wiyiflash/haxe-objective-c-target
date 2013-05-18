@@ -439,7 +439,7 @@
 }
 - (void) testAbstractInline{
 	
-	[self eq:((int)($this:(snd ctx.path)) int this1
+	[self eq:((int)(self.__r__) int this1
 	this1 = 1
 	counter++
 	__r__ = this1
@@ -448,7 +448,7 @@
 		int* __r__}
 	}(self)) + 1 v2:2 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"438", @"className":@"unit.TestBasetypes", @"methodName":@"testAbstractInline"}];
 	[self eq:counter v2:1 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"439", @"className":@"unit.TestBasetypes", @"methodName":@"testAbstractInline"}];
-	[self eq:((int)($this:(snd ctx.path)) int this1
+	[self eq:((int)(self.__r__2) int this1
 	this1 = 2
 	counter++
 	__r__2 = this1
@@ -457,7 +457,7 @@
 		int* __r__2}
 	}(self)) + 1 v2:3 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"440", @"className":@"unit.TestBasetypes", @"methodName":@"testAbstractInline"}];
 	[self eq:counter v2:2 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"441", @"className":@"unit.TestBasetypes", @"methodName":@"testAbstractInline"}];
-	[self eq:((int)($this:(snd ctx.path)) int this1
+	[self eq:((int)(self.__r__3) int this1
 	this1 = 3
 	counter++
 	__r__3 = this1
@@ -477,14 +477,14 @@
 	MyVector *v1 = [[MyPoint3 alloc] init:1 y:1 z:1];
 	
 	MyVector *v2 = [[MyPoint3 alloc] init:1 y:2 z:3];
-	[self eq:[@"(2,3,4)" mutableCopy] v2:((NSMutableString)($this:(snd ctx.path)) 
+	[self eq:[@"(2,3,4)" mutableCopy] v2:((NSMutableString)(self.__r__) 
 	MyPoint3 *this1 = (MyVector*)[[MyPoint3 alloc] init:[MyVector_Impl_ get_x:v1] + [MyVector_Impl_ get_x:v2] y:[MyVector_Impl_ get_y:v1] + [MyVector_Impl_ get_y:v2] z:[MyVector_Impl_ get_z:v1] + [MyVector_Impl_ get_z:v2]]
 	__r__ = [[[[[[[@"(" mutableCopy] stringByAppendingString:this1.x] stringByAppendingString:[@"," mutableCopy]] stringByAppendingString:this1.y] stringByAppendingString:[@"," mutableCopy]] stringByAppendingString:this1.z] stringByAppendingString:[@")" mutableCopy]]
 	return __r__{
 		
 		NSMutableString* __r__}
 	}(self)) pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"453", @"className":@"unit.TestBasetypes", @"methodName":@"testAbstractOperatorOverload"}];
-	[self eq:[@"(2,4,6)" mutableCopy] v2:((NSMutableString)($this:(snd ctx.path)) 
+	[self eq:[@"(2,4,6)" mutableCopy] v2:((NSMutableString)(self.__r__2) 
 	MyPoint3 *this1 = (MyVector*)[[MyPoint3 alloc] init:[MyVector_Impl_ get_x:v2] * 2. y:[MyVector_Impl_ get_y:v2] * 2. z:[MyVector_Impl_ get_z:v2] * 2.]
 	__r__2 = [[[[[[[@"(" mutableCopy] stringByAppendingString:this1.x] stringByAppendingString:[@"," mutableCopy]] stringByAppendingString:this1.y] stringByAppendingString:[@"," mutableCopy]] stringByAppendingString:this1.z] stringByAppendingString:[@")" mutableCopy]]
 	return __r__2{

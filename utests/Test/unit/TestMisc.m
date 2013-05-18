@@ -217,7 +217,7 @@ static NSMutableString* unit;
 	MyClass *c = [[MyClass alloc] init:100];
 	id add = ^(int x, int y){ [self add:x y:y]; };
 	[self eq:[c add:1 y:2] v2:103 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"137", @"className":@"unit.TestMisc", @"methodName":@"testClosure"}];
-	[self eq:[ (((id)($this:(snd ctx.path)) id f = ^(int x, int y){ [self add:x y:y]; }
+	[self eq:[ (((id)(self.__r__) id f = ^(int x, int y){ [self add:x y:y]; }
 	__r__ = ^(int y){
 		
 		return [f:1 y:y];
@@ -277,7 +277,7 @@ static NSMutableString* unit;
 }
 - (void) testCaptureUnique2{
 	
-	id foo = ((id)($this:(snd ctx.path)) id f = ^(int x){ [self id:x]; }
+	id foo = ((id)(self.__r__) id f = ^(int x){ [self id:x]; }
 	__r__ = ^(){
 		
 		return [f-TLazy call-];
@@ -286,7 +286,7 @@ static NSMutableString* unit;
 		
 		id* __r__}
 	}(self));
-	id bar = ((id)($this:(snd ctx.path)) id f = ^(int x){ [self sq:x]; }
+	id bar = ((id)(self.__r__2) id f = ^(int x){ [self sq:x]; }
 	__r__2 = ^(){
 		
 		return [f-TLazy call-];
@@ -377,7 +377,7 @@ static NSMutableString* unit;
 	MyDynamicClass *inst = [[MyDynamicClass alloc] init:100];
 	id add = ;
 	[self eq:[inst add:1 y:2] v2:103 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"252", @"className":@"unit.TestMisc", @"methodName":@"testDynamicClosure"}];
-	[self eq:[ (((id)($this:(snd ctx.path)) id f = 
+	[self eq:[ (((id)(self.__r__) id f = 
 	__r__ = ^(int y){
 		
 		return [f:1 y:y];
@@ -391,7 +391,7 @@ static NSMutableString* unit;
 	MyDynamicSubClass *inst1 = [[MyDynamicSubClass alloc] init];
 	id add1 = ;
 	[self eq:[inst1 add:1 y:2] v2:206 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"259", @"className":@"unit.TestMisc", @"methodName":@"testDynamicClosure"}];
-	[self eq:[ (((id)($this:(snd ctx.path)) id f = 
+	[self eq:[ (((id)(self.__r__2) id f = 
 	__r__2 = ^(int y){
 		
 		return [f:1 y:y];
@@ -405,7 +405,7 @@ static NSMutableString* unit;
 	MyDynamicSubClass2 *inst2 = [[MyDynamicSubClass2 alloc] init];
 	id add2 = ;
 	[self eq:[inst2 add:1 y:2] v2:206 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"266", @"className":@"unit.TestMisc", @"methodName":@"testDynamicClosure"}];
-	[self eq:[ (((id)($this:(snd ctx.path)) id f = 
+	[self eq:[ (((id)(self.__r__3) id f = 
 	__r__3 = ^(int y){
 		
 		return [f:1 y:y];
@@ -421,7 +421,7 @@ static NSMutableString* unit;
 	}
 	id add3 = ;
 	[self eq:[inst2 add:1 y:2] v2:203 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"273", @"className":@"unit.TestMisc", @"methodName":@"testDynamicClosure"}];
-	[self eq:[ (((id)($this:(snd ctx.path)) id f = 
+	[self eq:[ (((id)(self.__r__4) id f = 
 	__r__4 = ^(int y){
 		
 		return [f:1 y:y];
@@ -435,7 +435,7 @@ static NSMutableString* unit;
 	MyOtherDynamicClass *inst3 = [[MyOtherDynamicClass alloc] init:0];
 	id add4 = ;
 	[self eq:[inst3 add:1 y:2] v2:13 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"281", @"className":@"unit.TestMisc", @"methodName":@"testDynamicClosure"}];
-	[self eq:[ (((id)($this:(snd ctx.path)) id f = 
+	[self eq:[ (((id)(self.__r__5) id f = 
 	__r__5 = ^(int y){
 		
 		return [f:1 y:y];
@@ -591,7 +591,7 @@ static NSMutableString* unit;
 	[self eq:x1 v2:1 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"420", @"className":@"unit.TestMisc", @"methodName":@"testIncr"}];
 	[self eq:((NSMutableArray*)[arr1 hx_objectAtIndex:0]) v v2:4 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"421", @"className":@"unit.TestMisc", @"methodName":@"testIncr"}];
 	x1 = 0;
-	[self eq:isstrFAnon((NSMutableArray*)[arr1 hx_objectAtIndex:x1++]) v += 3 v2:7 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"425", @"className":@"unit.TestMisc", @"methodName":@"testIncr"}];
+	[self eq:isstrFAnon-((NSMutableArray*)[arr1 hx_objectAtIndex:x1++]) v += 3 v2:7 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"425", @"className":@"unit.TestMisc", @"methodName":@"testIncr"}];
 	[self eq:((NSMutableArray*)[arr1 hx_objectAtIndex:0]) v v2:7 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"426", @"className":@"unit.TestMisc", @"methodName":@"testIncr"}];
 	x1 = 0;
 	id arr2 = [@[[@{
@@ -601,7 +601,7 @@ static NSMutableString* unit;
 	[self eq:x1 v2:1 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"432", @"className":@"unit.TestMisc", @"methodName":@"testIncr"}];
 	[self eq:((TArray3TDynamic*)[arr2 hx_objectAtIndex:0]) v v2:4 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"433", @"className":@"unit.TestMisc", @"methodName":@"testIncr"}];
 	x1 = 0;
-	[self eq:isstrFAnon((TArray3TDynamic*)[arr2 hx_objectAtIndex:x1++]) v += 3 v2:7 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"437", @"className":@"unit.TestMisc", @"methodName":@"testIncr"}];
+	[self eq:isstrFAnon-Mono((TArray3TDynamic*)[arr2 hx_objectAtIndex:x1++]) v += 3 v2:7 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"437", @"className":@"unit.TestMisc", @"methodName":@"testIncr"}];
 	[self eq:((TArray3TDynamic*)[arr2 hx_objectAtIndex:0]) v v2:7 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"438", @"className":@"unit.TestMisc", @"methodName":@"testIncr"}];
 }
 - (void) testInitOrder{

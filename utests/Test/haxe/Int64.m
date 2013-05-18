@@ -129,7 +129,7 @@
 	if (i.high < 0) {
 		
 		neg = YES;
-		i = ((Int64)($this:(snd ctx.path)) int high = ~i.high
+		i = ((Int64)(self.__r__) int high = ~i.high
 		int low = -i.low
 		if (low == 0) high++
 		__r__ = [[Int64 alloc] init:high low:low]
@@ -143,7 +143,7 @@
 	while (! ( (i.high | i.low) == 0)) {
 		
 		id r = [Int64 divMod:i divisor:ten];
-		str = isstrFAnon[r modulus.low stringByAppendingString:str];
+		str = isstrFAnon-[r modulus.low stringByAppendingString:str];
 		i = r quotient;
 	}
 	if (neg) str = [[@"-" mutableCopy] stringByAppendingString:str];

@@ -471,7 +471,23 @@ let rec isString ctx e =
 							else false
 					)
 				(* | FStatic _ -> ctx.writer#write "isstrFStatic";false; *)
-				| FAnon _ -> ctx.writer#write "isstrFAnon";false;
+				| FAnon tcf -> ctx.writer#write "isstrFAnon-";
+					(match tcf.cf_type with
+						| TMono r -> ctx.writer#write "Mono";false;
+						| TEnum _ -> ctx.writer#write "Tenum";false;
+						| TInst (tc, tp) -> (* ctx.writer#write (snd tc.cl_path); *)
+							if (snd tc.cl_path) = "String" then true else false
+						| TType _ -> ctx.writer#write "Type";false;
+						| TFun (_,t) -> ctx.writer#write "TFun";
+							(* ctx.writer#write ("TFun"^(snd tc.cl_path)); *)
+							false;
+						| TAnon _ -> ctx.writer#write "TAnon";false;
+						| TDynamic _ -> ctx.writer#write "isstringCASTTDynamic";false;
+						| TLazy _ -> ctx.writer#write "TLazy";false;
+						| TAbstract (ta,tp) -> (* ctx.writer#write "CASTTAbstract"; *)
+							if (snd ta.a_path) = "String" then true
+							else false
+					)
 				| FDynamic _ -> ctx.writer#write "isstrFDynamic";false;
 				| FClosure _ -> ctx.writer#write "isstrFClosure";false;
 				| FEnum _ -> ctx.writer#write "isstrFEnum";false;
@@ -1156,7 +1172,7 @@ and generateExpression ctx e =
 								| TFun _ -> ctx.writer#write "CASTTFun";
 								| TAnon _ -> ctx.writer#write "CASTTAnon";
 								| TDynamic _ -> ctx.writer#write "TArrayCASTTDynamic";
-								| TLazy _ -> ctx.writer#write "CASTTLazy";
+								| TLazy _ -> ctx.writer#write "CASTTLazyExpr";
 								| TAbstract _ -> ctx.writer#write "CASTTAbstract";
 								);
 								(* let ttt = (typeToString ctx e.etype e.epos) in
@@ -1186,7 +1202,7 @@ and generateExpression ctx e =
 						| TDynamic t -> (* ctx.writer#write "TArray2TDynamic"; *)
 							ctx.writer#write (typeToString ctx e.etype e.epos);
 							pointer := false;
-						| TLazy _ -> ctx.writer#write "CASTTLazy";
+						| TLazy _ -> ctx.writer#write "CASTTLazyExprInst";
 						| TAbstract _ -> ctx.writer#write "CASTTAbstract";
 						);
 					)tp;
@@ -1194,7 +1210,7 @@ and generateExpression ctx e =
 				(* | TFun (tc, tp) -> ctx.writer#write ("TFun"^(snd tc.cl_path)); *)
 				| TAnon _ -> ctx.writer#write "CASTTAnon";
 				| TDynamic _ -> ctx.writer#write "TArray3TDynamic";
-				| TLazy _ -> ctx.writer#write "CASTTLazy";
+				| TLazy _ -> ctx.writer#write "id"; pointer := false;
 				| TAbstract _ -> ctx.writer#write "CASTTAbstract";
 				| _ -> ctx.writer#write "CASTOther";
 			);
@@ -1963,7 +1979,7 @@ and generateValue ctx e =
 		if ctx.in_static then
 			ctx.writer#write (Printf.sprintf "^(%s%s)" t (addPointerIfNeeded t))
 		else
-			ctx.writer#write (Printf.sprintf "((%s)($this:%s) " t "(snd ctx.path)");
+			ctx.writer#write (Printf.sprintf "((%s)self.%s " t r.v_name);
 		(fun() ->
 			if block then begin
 				ctx.writer#new_line;

@@ -874,11 +874,11 @@
 		@"max":[@4278 copy],
 	} mutableCopy] copy],
 	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"164", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
-	[self eq:[@"0" mutableCopy] v2:((NSMutableString)($this:(snd ctx.path)) BOOL _g = YES; int _g1 = 1; 
+	[self eq:[@"0" mutableCopy] v2:((NSMutableString)(self.__r__) BOOL _g = YES; int _g1 = 1; 
 	NSMutableString *_g2 = [@"foo" mutableCopy]
-	__r__ = ((NSMutableString)($this:(snd ctx.path)) switch (_g){
-		case YES:__r__2 = ((id)($this:(snd ctx.path)) switch (_g1){
-			case 1:__r__3 = ((id)($this:(snd ctx.path)) switch (_g2){
+	__r__ = ((NSMutableString)(self.__r__2) switch (_g){
+		case YES:__r__2 = ((id)(self.__r__3) switch (_g1){
+			case 1:__r__3 = ((id)(self.__r__4) switch (_g2){
 				case [@"foo" mutableCopy]:__r__4 = [@"0" mutableCopy];
 				break;
 				default:__r__4 = [@"1" mutableCopy];break;
@@ -905,11 +905,11 @@
 		
 		NSMutableString* __r__}
 	}(self)) pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"166", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
-	[self eq:[@"0" mutableCopy] v2:((NSMutableString)($this:(snd ctx.path)) BOOL _g3 = YES; int _g4 = 1; 
+	[self eq:[@"0" mutableCopy] v2:((NSMutableString)(self.__r__5) BOOL _g3 = YES; int _g4 = 1; 
 	NSMutableString *_g5 = [@"foo" mutableCopy]
-	__r__5 = ((NSMutableString)($this:(snd ctx.path)) switch (_g3){
-		case YES:__r__6 = ((id)($this:(snd ctx.path)) switch (_g4){
-			case 1:__r__7 = ((id)($this:(snd ctx.path)) switch (_g5){
+	__r__5 = ((NSMutableString)(self.__r__6) switch (_g3){
+		case YES:__r__6 = ((id)(self.__r__7) switch (_g4){
+			case 1:__r__7 = ((id)(self.__r__8) switch (_g5){
 				case [@"foo" mutableCopy]:__r__8 = [@"0" mutableCopy];
 				break;
 				default:__r__8 = [@"1" mutableCopy];break;
@@ -936,11 +936,11 @@
 		
 		NSMutableString* __r__5}
 	}(self)) pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"172", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
-	[self eq:[@"1" mutableCopy] v2:((NSMutableString)($this:(snd ctx.path)) BOOL _g6 = YES; int _g7 = 1; 
+	[self eq:[@"1" mutableCopy] v2:((NSMutableString)(self.__r__9) BOOL _g6 = YES; int _g7 = 1; 
 	NSMutableString *_g8 = [@"bar" mutableCopy]
-	__r__9 = ((NSMutableString)($this:(snd ctx.path)) switch (_g6){
-		case YES:__r__10 = ((id)($this:(snd ctx.path)) switch (_g7){
-			case 1:__r__11 = ((id)($this:(snd ctx.path)) switch (_g8){
+	__r__9 = ((NSMutableString)(self.__r__10) switch (_g6){
+		case YES:__r__10 = ((id)(self.__r__11) switch (_g7){
+			case 1:__r__11 = ((id)(self.__r__12) switch (_g8){
 				case [@"foo" mutableCopy]:__r__12 = [@"0" mutableCopy];
 				break;
 				default:__r__12 = [@"1" mutableCopy];break;
@@ -967,11 +967,11 @@
 		
 		NSMutableString* __r__9}
 	}(self)) pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"178", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
-	[self eq:[@"_" mutableCopy] v2:((NSMutableString)($this:(snd ctx.path)) BOOL _g9 = NO; int _g10 = 1; 
+	[self eq:[@"_" mutableCopy] v2:((NSMutableString)(self.__r__13) BOOL _g9 = NO; int _g10 = 1; 
 	NSMutableString *_g11 = [@"foo" mutableCopy]
-	__r__13 = ((NSMutableString)($this:(snd ctx.path)) switch (_g9){
-		case YES:__r__14 = ((id)($this:(snd ctx.path)) switch (_g10){
-			case 1:__r__15 = ((id)($this:(snd ctx.path)) switch (_g11){
+	__r__13 = ((NSMutableString)(self.__r__14) switch (_g9){
+		case YES:__r__14 = ((id)(self.__r__15) switch (_g10){
+			case 1:__r__15 = ((id)(self.__r__16) switch (_g11){
 				case [@"foo" mutableCopy]:__r__16 = [@"0" mutableCopy];
 				break;
 				default:__r__16 = [@"1" mutableCopy];break;
@@ -998,9 +998,9 @@
 		
 		NSMutableString* __r__13}
 	}(self)) pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"184", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
-	[self eq:[@"1" mutableCopy] v2:((NSMutableString)($this:(snd ctx.path)) int _g12 = 1; int _g13 = 2
-	__r__17 = ((NSMutableString)($this:(snd ctx.path)) switch (_g12){
-		case 0:__r__18 = ((id)($this:(snd ctx.path)) switch (_g13){
+	[self eq:[@"1" mutableCopy] v2:((NSMutableString)(self.__r__17) int _g12 = 1; int _g13 = 2
+	__r__17 = ((NSMutableString)(self.__r__18) switch (_g12){
+		case 0:__r__18 = ((id)(self.__r__19) switch (_g13){
 			case 0:__r__19 = [@"1" mutableCopy];
 			break;
 			default:__r__19 = [@"_" mutableCopy];break;
@@ -1010,7 +1010,7 @@
 			id* __r__19}
 		}(self));
 		break;
-		case 1:__r__18 = ((id)($this:(snd ctx.path)) switch (_g13){
+		case 1:__r__18 = ((id)(self.__r__20) switch (_g13){
 			case 2:__r__20 = [@"1" mutableCopy];
 			break;
 			case 1:__r__20 = [@"2" mutableCopy];
@@ -1034,13 +1034,13 @@
 	}(self)) pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"190", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
 	
 	A *t = [TA:[@"foo" mutableCopy]];
-	[self eq:[@"0" mutableCopy] v2:((NSMutableString)($this:(snd ctx.path)) 
+	[self eq:[@"0" mutableCopy] v2:((NSMutableString)(self.__r__21) 
 	enum s = e22 (t)
 	switch ( e22.index ) {
 		
 		case 0:
 		
-		var MATCH t_eTA_0 : id = e22.params[0]__r__21 = ((id)($this:(snd ctx.path)) switch (t_eTA_0){
+		var MATCH t_eTA_0 : id = e22.params[0]__r__21 = ((id)(self.__r__23) switch (t_eTA_0){
 			case [@"foo" mutableCopy]:__r__23 = [@"0" mutableCopy];
 			break;
 			default:__r__23 = [@"1" mutableCopy];break;
@@ -1252,7 +1252,7 @@
 	
 	InitBase *c = [[InitBase alloc] init];
 	
-	NSMutableString *r = ((NSMutableString)($this:(snd ctx.path)) switch (c.s){
+	NSMutableString *r = ((NSMutableString)(self.__r__) switch (c.s){
 		case [@"foo" mutableCopy]:__r__ = [@"s = foo" mutableCopy];
 		break;
 		default:__r__ = [@"_" mutableCopy];break;
@@ -1347,7 +1347,7 @@
 	
 	NE *v = [A];
 	
-	NSMutableString *r = ((NSMutableString)($this:(snd ctx.path)) 
+	NSMutableString *r = ((NSMutableString)(self.__r__) 
 	enum s = e2 (v)
 	switch ( e2.index ) {
 		

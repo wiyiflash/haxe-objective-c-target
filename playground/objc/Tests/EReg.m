@@ -36,7 +36,7 @@
 - (NSMutableString*) matchedRight{
 	
 	id p = nil;
-	int sz = isstrFAnonisstrFAnonp pos + p len;
+	int sz = isstrFAnon-MonoisstrFAnon-Monop pos + p len;
 	return [self.last substr:sz len:self.last.length - sz];
 }
 - (id) matchedPos{
@@ -63,10 +63,10 @@
 		if (p len == 0 && !first) {
 			
 			if (p pos == s.length) break;
-			isstrFAnonp pos += 1;
+			isstrFAnon-Monop pos += 1;
 		}
 		[a push:[s substr:pos len:p pos - pos]];
-		int tot = isstrFAnonisstrFAnonp pos + p len - pos;
+		int tot = isstrFAnon-MonoisstrFAnon-Monop pos + p len - pos;
 		pos += tot;
 		len -= tot;
 		first = NO;
@@ -89,7 +89,7 @@
 		if (p len == 0 && !first) {
 			
 			if (p pos == s.length) break;
-			isstrFAnonp pos += 1;
+			isstrFAnon-Monop pos += 1;
 		}
 		{
 			
@@ -136,7 +136,7 @@
 			else [b.b appendString:[Std string:[[@"$" mutableCopy] stringByAppendingString:k]]];
 			i++;
 		}
-		int tot = isstrFAnonisstrFAnonp pos + p len - pos;
+		int tot = isstrFAnon-MonoisstrFAnon-Monop pos + p len - pos;
 		pos += tot;
 		len -= tot;
 		first = NO;

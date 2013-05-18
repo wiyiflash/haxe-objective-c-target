@@ -121,7 +121,7 @@
 		while (j < 80) {
 			
 			if (j < 16) [w hx_replaceObjectAtIndex:j withObject:x hx_replaceObjectAtIndex:i + j];
-			else [w hx_replaceObjectAtIndex:j withObject:((int)($this:(snd ctx.path)) int num = ((w hx_replaceObjectAtIndex:j - @3 ^ w hx_replaceObjectAtIndex:j - @8) ^ w hx_replaceObjectAtIndex:j - @14) ^ w hx_replaceObjectAtIndex:j - @16
+			else [w hx_replaceObjectAtIndex:j withObject:((int)(self.__r__) int num = ((w hx_replaceObjectAtIndex:j - @3 ^ w hx_replaceObjectAtIndex:j - @8) ^ w hx_replaceObjectAtIndex:j - @14) ^ w hx_replaceObjectAtIndex:j - @16
 			__r__ = (num << @1 | num >>> @31)
 			return __r__{
 				

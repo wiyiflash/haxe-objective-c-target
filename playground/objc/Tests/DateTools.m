@@ -119,7 +119,7 @@ static NSMutableArray* DAYS_OF_MONTH;
 	
 	int month = [d getMonth];
 	int year = [d getFullYear];
-	if (month != 1) return ((CASTTLazy*)[DAYS_OF_MONTH hx_objectAtIndex:month]);
+	if (month != 1) return ((id)[DAYS_OF_MONTH hx_objectAtIndex:month]);
 	BOOL isB = year % 4 == 0 && year % 100 != 0 || year % 400 == 0;
 	return ( (isB) ? 29 : 28);
 }
@@ -154,7 +154,7 @@ static NSMutableArray* DAYS_OF_MONTH;
 }
 + (float) make:(id)o{
 	
-	return isstrFAnono ms + 1000.0 *  (isstrFAnono seconds + 60.0 *  (isstrFAnono minutes + 60.0 *  (isstrFAnonisstrFAnono hours + 24.0 * o days)));
+	return isstrFAnon-o ms + 1000.0 *  (isstrFAnon-o seconds + 60.0 *  (isstrFAnon-o minutes + 60.0 *  (isstrFAnon-isstrFAnon-o hours + 24.0 * o days)));
 }
 
 @end

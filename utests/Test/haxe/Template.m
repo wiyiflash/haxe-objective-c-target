@@ -104,14 +104,14 @@ static id globals;
 		if ([data charCodeAt:p pos] == 58) {
 			
 			[tokens add:[@{
-				@"p":[[data substr:isstrFAnonp pos + @2 len:p len - @4] copy],
+				@"p":[[data substr:isstrFAnon-p pos + @2 len:p len - @4] copy],
 				@"s":[NO copy],
 				@"l":[[NSNull null] copy],
 			} mutableCopy]];
 			data = [splitter matchedRight];
 			continue;
 		}
-		int parp = isstrFAnonisstrFAnonp pos + p len;
+		int parp = isstrFAnon-isstrFAnon-p pos + p len;
 		int npar = 1;
 		while (npar > 0) {
 			
@@ -122,7 +122,7 @@ static id globals;
 			parp++;
 		}
 		
-		NSMutableArray *params = [[data substr:isstrFAnonisstrFAnonp pos + p len len:parp -  (isstrFAnonisstrFAnonp pos + p len) - 1] split:[@"," mutableCopy]];
+		NSMutableArray *params = [[data substr:isstrFAnon-isstrFAnon-p pos + p len len:parp -  (isstrFAnon-isstrFAnon-p pos + p len) - 1] split:[@"," mutableCopy]];
 		[tokens add:[@{
 			@"p":[[splitter matched:@2] copy],
 			@"s":[NO copy],
@@ -226,7 +226,7 @@ static id globals;
 	while ([expr_splitter match:data]) {
 		
 		id p = [expr_splitter matchedPos];
-		int k = isstrFAnonisstrFAnonp pos + p len;
+		int k = isstrFAnon-isstrFAnon-p pos + p len;
 		if (p pos != 0) [l add:[@{
 			@"p":[[data substr:@0 len:p pos] copy],
 			@"s":[YES copy],
@@ -337,7 +337,7 @@ static id globals;
 			id e2 = [self makeExpr:l];
 			id p2 = [l pop];
 			if (p2 == nil || p2 p != [@")" mutableCopy]) @throw p2 p;;
-			return ((id)($this:(snd ctx.path)) switch (p1 p){
+			return ((id)(self.__r__) switch (p1 p){
 				case [@"+" mutableCopy]:__r__ = ^(){
 					
 					return (id)[e1] + [e2];;
@@ -398,7 +398,7 @@ static id globals;
 					return (id)[e1] || [e2];;
 				};
 				break;
-				default:__r__ = ((id)($this:(snd ctx.path)) @throw [[@"Unknown operation " mutableCopy] stringByAppendingString:p1 p];
+				default:__r__ = ((id)(self.__r__2) @throw [[@"Unknown operation " mutableCopy] stringByAppendingString:p1 p];
 				return __r__2{
 					
 					id* __r__2}
@@ -549,7 +549,7 @@ static id globals;
 			@catch (NSException *e1) {
 				
 				
-				NSMutableString *plstr = ((NSMutableString)($this:(snd ctx.path)) @try {
+				NSMutableString *plstr = ((NSMutableString)(self.__r__6) @try {
 					
 					__r__6 = [pl join:[@"," mutableCopy]];
 				}

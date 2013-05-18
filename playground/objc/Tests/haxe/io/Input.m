@@ -12,7 +12,7 @@
 
 - (int) readByte{
 	
-	return ((int)($this:(snd ctx.path)) @throw [@"Not implemented" mutableCopy];
+	return ((int)(self.__r__) @throw [@"Not implemented" mutableCopy];
 	return __r__{
 		
 		int* __r__}
@@ -132,7 +132,7 @@
 }
 - (float) readDouble{
 	
-	return ((float)($this:(snd ctx.path)) @throw [@"not implemented" mutableCopy];
+	return ((float)(self.__r__) @throw [@"not implemented" mutableCopy];
 	return __r__{
 		
 		float* __r__}
