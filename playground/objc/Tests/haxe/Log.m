@@ -11,7 +11,6 @@
 
 // Dynamic method defined with an objc method and a block property
 + (void) trace:(id)v infos:(id)infos{
-	if ( hx_dyn_trace ) { hx_dyn_trace(v, infos); return; }
 	// Optional arguments
 	if (!infos) infos = nil;
 	

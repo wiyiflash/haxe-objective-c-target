@@ -1263,7 +1263,7 @@
 		while (_g1 < _g2.length) {
 			
 			
-			NSMutableString *x = ((CASTTMono-TMonoSome-NSMutableArrayNSMutableString*)[_g2 hx_objectAtIndex:_g1]);
+			NSMutableString *x = ((CASTTMonoNSMutableArrayNSMutableString*)[_g2 hx_objectAtIndex:_g1]);
 			++_g1;
 			[_g set:x v:[x toUpperCase]];
 		}

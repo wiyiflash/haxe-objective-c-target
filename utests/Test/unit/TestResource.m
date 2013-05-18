@@ -43,7 +43,7 @@ static NSMutableString* STR;
 		while (_g1 < _g) {
 			
 			int i = _g1++;
-			[self eq:((CASTTType*)[b.b hx_objectAtIndex:i]) v2:((NSMutableArray*)[firsts hx_objectAtIndex:i]) pos:@{@"fileName":@"TestResource.hx", @"lineNumber":@"29", @"className":@"unit.TestResource", @"methodName":@"testResources"}];
+			[self eq:((BytesData*)[b.b hx_objectAtIndex:i]) v2:((NSMutableArray*)[firsts hx_objectAtIndex:i]) pos:@{@"fileName":@"TestResource.hx", @"lineNumber":@"29", @"className":@"unit.TestResource", @"methodName":@"testResources"}];
 		}
 	}
 	{
@@ -52,7 +52,7 @@ static NSMutableString* STR;
 		while (_g1 < _g) {
 			
 			int i = _g1++;
-			[self eq:((CASTTType*)[b.b hx_objectAtIndex:b.length - lasts.length + i]) v2:((NSMutableArray*)[lasts hx_objectAtIndex:i]) pos:@{@"fileName":@"TestResource.hx", @"lineNumber":@"31", @"className":@"unit.TestResource", @"methodName":@"testResources"}];
+			[self eq:((BytesData*)[b.b hx_objectAtIndex:b.length - lasts.length + i]) v2:((NSMutableArray*)[lasts hx_objectAtIndex:i]) pos:@{@"fileName":@"TestResource.hx", @"lineNumber":@"31", @"className":@"unit.TestResource", @"methodName":@"testResources"}];
 		}
 	}
 }

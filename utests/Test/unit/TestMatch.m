@@ -185,9 +185,9 @@
 		var MATCH e_fexpr_eEArrayDecl_0 : NSMutableArray = e2.params[0]__r__ = ^(id)switch (e_fexpr_eEArrayDecl_0.length){
 			case 0:__r__3 = [@"[]" mutableCopy];
 			break;
-			case 1:__r__3 = [[[@"[" mutableCopy] stringByAppendingString:[Std string:((CASTTType*)[e_fexpr_eEArrayDecl_0 hx_objectAtIndex:@"0"]) expr]] stringByAppendingString:[@"]" mutableCopy]];
+			case 1:__r__3 = [[[@"[" mutableCopy] stringByAppendingString:[Std string:((CASTTType--*)[e_fexpr_eEArrayDecl_0 hx_objectAtIndex:@"0"]) expr]] stringByAppendingString:[@"]" mutableCopy]];
 			break;
-			case 2:__r__3 = [[[[[@"[" mutableCopy] stringByAppendingString:[Std string:((CASTTType*)[e_fexpr_eEArrayDecl_0 hx_objectAtIndex:@"0"]) expr]] stringByAppendingString:[@"," mutableCopy]] stringByAppendingString:[Std string:((CASTTType*)[e_fexpr_eEArrayDecl_0 hx_objectAtIndex:@"1"]) expr]] stringByAppendingString:[@"]" mutableCopy]];
+			case 2:__r__3 = [[[[[@"[" mutableCopy] stringByAppendingString:[Std string:((CASTTType--*)[e_fexpr_eEArrayDecl_0 hx_objectAtIndex:@"0"]) expr]] stringByAppendingString:[@"," mutableCopy]] stringByAppendingString:[Std string:((CASTTType--*)[e_fexpr_eEArrayDecl_0 hx_objectAtIndex:@"1"]) expr]] stringByAppendingString:[@"]" mutableCopy]];
 			break;
 			default:__r__3 = [@"_" mutableCopy];break;
 		}

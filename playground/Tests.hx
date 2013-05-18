@@ -118,6 +118,7 @@ class Tests/* implements Interface1 implements Interface2*/ {
 	// Test Array
 	
 	function testArray(){
+		
 		var as = new Array<String>();
 		var aa = [1.0, 2, 3, 4, 5];
 		var aaa = aa[2];
@@ -271,8 +272,6 @@ class Tests/* implements Interface1 implements Interface2*/ {
 		var item = l.first();
 		var empty = l.isEmpty();
 		var iter = l.iterator();
-/*		var s = l.join(", ");
-		s = l.toString();*/
 		item = l.first();
 		item = l.pop();
 		var r = l.remove ( 5 );
@@ -379,7 +378,7 @@ class Tests/* implements Interface1 implements Interface2*/ {
 	
 	
 	// Test Sys
-	#if objc
+/*	if objc*/
 	function testSys () {
 		Sys.print("hello world");
 		Sys.println("hello world");
@@ -405,7 +404,7 @@ class Tests/* implements Interface1 implements Interface2*/ {
 		string = Sys.systemName();
 		float = Sys.time();
 	}
-	#end
+	//#end
 	
 	// Test Type
 	

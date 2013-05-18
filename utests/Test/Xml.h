@@ -8,3 +8,65 @@
 typedef enum{
 	
 } XmlType;
+
+
+#import "Xml.h"
+#import "String.h"
+#import "Array.h"
+#import "Reflect.h"
+#import "StringBuf.h"
+#import "Std.h"
+
+@interface Xml : NSObject
+
++ (XmlType*) Element;
++ (void) setElement:(XmlType*)val;
++ (XmlType*) PCData;
++ (void) setPCData:(XmlType*)val;
++ (XmlType*) CData;
++ (void) setCData:(XmlType*)val;
++ (XmlType*) Comment;
++ (void) setComment:(XmlType*)val;
++ (XmlType*) DocType;
++ (void) setDocType:(XmlType*)val;
++ (XmlType*) ProcessingInstruction;
++ (void) setProcessingInstruction:(XmlType*)val;
++ (XmlType*) Document;
++ (void) setDocument:(XmlType*)val;
++ (Xml*) parse:(NSMutableString*)str;
++ (Xml*) createElement:(NSMutableString*)name;
++ (Xml*) createPCData:(NSMutableString*)data;
++ (Xml*) createCData:(NSMutableString*)data;
++ (Xml*) createComment:(NSMutableString*)data;
++ (Xml*) createDocType:(NSMutableString*)data;
++ (Xml*) createProcessingInstruction:(NSMutableString*)data;
++ (Xml*) createDocument;
+@property (nonatomic, strong) NSMutableString *_nodeName;
+@property (nonatomic, strong) NSMutableString *_nodeValue;
+@property (nonatomic) id _attributes;
+@property (nonatomic, strong) NSMutableArray *_children;
+@property (nonatomic, strong) Xml *_parent;
+@property (nonatomic) XmlType *nodeType;
+- (NSMutableString*) get_nodeName;
+- (NSMutableString*) set_nodeName:(NSMutableString*)n;
+- (NSMutableString*) get_nodeValue;
+- (NSMutableString*) set_nodeValue:(NSMutableString*)v;
+- (NSMutableString*) get:(NSMutableString*)att;
+- (void) set:(NSMutableString*)att value:(NSMutableString*)value;
+- (void) remove:(NSMutableString*)att;
+- (BOOL) exists:(NSMutableString*)att;
+- (id) attributes;
+- (id) iterator;
+- (id) elements;
+- (id) elementsNamed:(NSMutableString*)name;
+- (Xml*) firstChild;
+- (Xml*) firstElement;
+- (void) addChild:(Xml*)x;
+- (BOOL) removeChild:(Xml*)x;
+- (void) insertChild:(Xml*)x pos:(int)pos;
+- (NSMutableString*) toString;
+- (void) toStringRec:(StringBuf*)s;
+- (id) init;
+
+@end
+

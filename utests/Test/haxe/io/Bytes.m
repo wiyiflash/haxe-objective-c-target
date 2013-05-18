@@ -174,7 +174,7 @@
 		while (_g1 < _g) {
 			
 			int i = _g1++;
-			int c = ((CASTTType*)[self.b hx_objectAtIndex:i]);
+			int c = ((BytesData*)[self.b hx_objectAtIndex:i]);
 			[s.b appendString:[NSMutableString:((NSMutableArray*)[chars hx_objectAtIndex:c >> @"4"])]];
 			[s.b appendString:[NSMutableString:((NSMutableArray*)[chars hx_objectAtIndex:c & @"15"])]];
 		}

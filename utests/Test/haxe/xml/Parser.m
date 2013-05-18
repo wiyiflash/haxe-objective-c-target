@@ -120,14 +120,14 @@ return __r__{
 				case 33:if ([str characterAtIndex:p + 1] == 91) {
 					
 					p += 2;
-					if ([[str hx_dyn_substr:p len:6] hx_dyn_toUpperCase] != [@"CDATA[" mutableCopy]) @throw [@"Expected <![CDATA[" mutableCopy];;
+					if ([[str substr:p len:6] toUpperCase] != [@"CDATA[" mutableCopy]) @throw [@"Expected <![CDATA[" mutableCopy];;
 					p += 5;
 					state = 17;
 					start = p + 1;
 				}
 				else if ([str characterAtIndex:p + 1] == 68 || [str characterAtIndex:p + 1] == 100) {
 					
-					if ([[str hx_dyn_substr:p + 2 len:6] toUpperCase] != [@"OCTYPE" mutableCopy]) @throw [@"Expected <!DOCTYPE" mutableCopy];;
+					if ([[str substr:p + 2 len:6] toUpperCase] != [@"OCTYPE" mutableCopy]) @throw [@"Expected <!DOCTYPE" mutableCopy];;
 					p += 8;
 					state = 16;
 					start = p + 1;

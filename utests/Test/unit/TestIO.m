@@ -179,12 +179,12 @@
 		[i readBytes:tmp pos:8 len:1];
 	} e:OutsideBounds pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"123", @"className":@"unit.TestIO", @"methodName":@"testBytesBounds"}];
 	[self eq:[i readBytes:tmp pos:0 len:7] v2:7 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"124", @"className":@"unit.TestIO", @"methodName":@"testBytesBounds"}];
-	[self eq:((CASTTType*)[tmp.b hx_objectAtIndex:0]) v2:65 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"125", @"className":@"unit.TestIO", @"methodName":@"testBytesBounds"}];
-	[self eq:((CASTTType*)[tmp.b hx_objectAtIndex:6]) v2:71 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"126", @"className":@"unit.TestIO", @"methodName":@"testBytesBounds"}];
+	[self eq:((BytesData*)[tmp.b hx_objectAtIndex:0]) v2:65 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"125", @"className":@"unit.TestIO", @"methodName":@"testBytesBounds"}];
+	[self eq:((BytesData*)[tmp.b hx_objectAtIndex:6]) v2:71 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"126", @"className":@"unit.TestIO", @"methodName":@"testBytesBounds"}];
 	[self eq:[i readBytes:tmp pos:0 len:7] v2:3 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"127", @"className":@"unit.TestIO", @"methodName":@"testBytesBounds"}];
-	[self eq:((CASTTType*)[tmp.b hx_objectAtIndex:0]) v2:72 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"128", @"className":@"unit.TestIO", @"methodName":@"testBytesBounds"}];
-	[self eq:((CASTTType*)[tmp.b hx_objectAtIndex:2]) v2:74 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"129", @"className":@"unit.TestIO", @"methodName":@"testBytesBounds"}];
-	[self eq:((CASTTType*)[tmp.b hx_objectAtIndex:3]) v2:68 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"130", @"className":@"unit.TestIO", @"methodName":@"testBytesBounds"}];
+	[self eq:((BytesData*)[tmp.b hx_objectAtIndex:0]) v2:72 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"128", @"className":@"unit.TestIO", @"methodName":@"testBytesBounds"}];
+	[self eq:((BytesData*)[tmp.b hx_objectAtIndex:2]) v2:74 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"129", @"className":@"unit.TestIO", @"methodName":@"testBytesBounds"}];
+	[self eq:((BytesData*)[tmp.b hx_objectAtIndex:3]) v2:68 pos:@{@"fileName":@"TestIO.hx", @"lineNumber":@"130", @"className":@"unit.TestIO", @"methodName":@"testBytesBounds"}];
 	[self exc:^(){
 		
 		[i readBytes:tmp pos:0 len:7];

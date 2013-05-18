@@ -101,7 +101,7 @@ static id globals;
 			@"s":[YES copy],
 			@"l":[[NSNull null] copy],
 		} mutableCopy]];
-		if ([data hx_dyn_charCodeAt:p pos] == 58) {
+		if ([data charCodeAt:p pos] == 58) {
 			
 			[tokens add:[@{
 				@"p":[[data substr:isstrFAnonp pos + @2 len:p len - @4] copy],
@@ -145,7 +145,7 @@ static id globals;
 		
 		id t = [tokens first];
 		if (t == nil) break;
-		if (!t s &&  (t p == [@"end" mutableCopy] || t p == [@"else" mutableCopy] || [t p hx_dyn_substr:0 len:7] == [@"elseif " mutableCopy])) break;
+		if (!t s &&  (t p == [@"end" mutableCopy] || t p == [@"else" mutableCopy] || [t p substr:0 len:7] == [@"elseif " mutableCopy])) break;
 		[l add:[self parse:tokens]];
 	}
 	if (l.length == 1) return [l first];
@@ -175,7 +175,7 @@ static id globals;
 		}
 		return [OpMacro:p params:pe];
 	}
-	if ([p hx_dyn_substr:0 len:3] == [@"if " mutableCopy]) {
+	if ([p substr:0 len:3] == [@"if " mutableCopy]) {
 		
 		p = [p substr:3 len:p.length - 3];
 		id e = [self parseExpr:p];
@@ -204,7 +204,7 @@ static id globals;
 		}
 		return [OpIf:e eif:eif eelse:eelse];
 	}
-	if ([p hx_dyn_substr:0 len:8] == [@"foreach " mutableCopy]) {
+	if ([p substr:0 len:8] == [@"foreach " mutableCopy]) {
 		
 		p = [p substr:8 len:p.length - 8];
 		id e = [self parseExpr:p];
@@ -270,7 +270,7 @@ static id globals;
 	
 	[expr_trim match:v];
 	v = [expr_trim matched:1];
-	if ([v hx_dyn_charCodeAt:0] == 34) {
+	if ([v charCodeAt:0] == 34) {
 		
 		
 		NSMutableString *str = [v substr:1 len:v.length - 2];

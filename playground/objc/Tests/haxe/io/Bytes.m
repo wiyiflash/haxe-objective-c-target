@@ -64,13 +64,13 @@
 }
 + (int) fastGet:(NSMutableArray*)b pos:(int)pos{
 	
-	return ((CASTTType*)[b hx_objectAtIndex:pos]);
+	return ((BytesData*)[b hx_objectAtIndex:pos]);
 }
 @synthesize length;
 @synthesize b;
 - (int) get:(int)pos{
 	
-	return ((CASTTType*)[self.b hx_objectAtIndex:pos]);
+	return ((BytesData*)[self.b hx_objectAtIndex:pos]);
 }
 - (void) set:(int)pos v:(int)v{
 	
@@ -186,7 +186,7 @@
 		while (_g1 < _g) {
 			
 			int i = _g1++;
-			int c = ((CASTTType*)[self.b hx_objectAtIndex:i]);
+			int c = ((BytesData*)[self.b hx_objectAtIndex:i]);
 			[s.b appendString:[NSMutableString:((NSMutableArray*)[chars hx_objectAtIndex:c >> @"4"])]];
 			[s.b appendString:[NSMutableString:((NSMutableArray*)[chars hx_objectAtIndex:c & @"15"])]];
 		}

@@ -57,7 +57,7 @@
 	int i = 0;
 	while (i < b.length) {
 		
-		((NSMutableArray*)[blks hx_objectAtIndex:i >> 2]) |= ((CASTTType*)[b.b hx_objectAtIndex:i]) <<  ( ( (b.length << 3) + i & 3) << 3);
+		((NSMutableArray*)[blks hx_objectAtIndex:i >> 2]) |= ((BytesData*)[b.b hx_objectAtIndex:i]) <<  ( ( (b.length << 3) + i & 3) << 3);
 		i++;
 	}
 	((NSMutableArray*)[blks hx_objectAtIndex:i >> 2]) |= 128 <<  (b.length * 8 + i) % 4 * 8;

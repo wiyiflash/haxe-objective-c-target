@@ -159,11 +159,11 @@ static NSMutableArray* CODES;
 				return s;;
 			}
 			break;
-			case 107:return -fa3-NaN;;
+			case 107:return NAN;;
 			break;
-			case 109:return -fa3-NEGATIVE_INFINITY;;
+			case 109:return -DBL_MAX;;
 			break;
-			case 112:return -fa3-POSITIVE_INFINITY;;
+			case 112:return DBL_MAX;;
 			break;
 			case 97:{
 				

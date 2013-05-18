@@ -31,7 +31,7 @@
 			
 			curbits += 8;
 			buf <<= 8;
-			buf |= ((CASTTType*)[b.b hx_objectAtIndex:pin++]);
+			buf |= ((BytesData*)[b.b hx_objectAtIndex:pin++]);
 		}
 		curbits -= nbits;
 		[_out.b hx_replaceObjectAtIndex:pout++ withObject:(base.b hx_replaceObjectAtIndex:buf >> curbits & mask & @255)];
@@ -84,7 +84,7 @@
 			
 			curbits += nbits;
 			buf <<= nbits;
-			int i = ((NSMutableArray*)[tbl hx_objectAtIndex:((CASTTType*)[b.b hx_objectAtIndex:pin++])]);
+			int i = ((NSMutableArray*)[tbl hx_objectAtIndex:((BytesData*)[b.b hx_objectAtIndex:pin++])]);
 			if (i == -1) @throw [@"BaseCode : invalid encoded char" mutableCopy];;
 			buf |= i;
 		}

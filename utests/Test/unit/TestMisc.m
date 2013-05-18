@@ -19,7 +19,6 @@ static int Z;
 }
 // Dynamic method defined with an objc method and a block property
 + (int) staticDynamic:(int)x y:(int)y{
-	if ( hx_dyn_staticDynamic ) { hx_dyn_staticDynamic(x, y); return; }
 	return CASTTMonoCASTTMonoZ + x + y;
 }
 @synthesize hx_dyn_staticDynamic;
@@ -747,9 +746,9 @@ static NSMutableString* unit;
 		@"array":[mix copy],
 	} mutableCopy]];
 	[self eq:[Json parse:[@"\"\\u00E9\"" mutableCopy]] v2:[@"é" mutableCopy] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"574", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
-	[self eq:[Json stringify:-fa3-POSITIVE_INFINITY replacer:nil] v2:[@"null" mutableCopy] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"576", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
-	[self eq:[Json stringify:-fa3-NEGATIVE_INFINITY replacer:nil] v2:[@"null" mutableCopy] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"577", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
-	[self eq:[Json stringify:-fa3-NaN replacer:nil] v2:[@"null" mutableCopy] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"578", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
+	[self eq:[Json stringify:DBL_MAX replacer:nil] v2:[@"null" mutableCopy] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"576", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
+	[self eq:[Json stringify:-DBL_MAX replacer:nil] v2:[@"null" mutableCopy] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"577", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
+	[self eq:[Json stringify:NAN replacer:nil] v2:[@"null" mutableCopy] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"578", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
 }
 - (void) testConstructorsOpts{
 	

@@ -277,9 +277,9 @@ static NSMutableString* BASE64;
 					NSMutableString *b64 = BASE64;
 					while (i < max) {
 						
-						int b1 = ((CASTTType*)[v1.b hx_objectAtIndex:i++]);
-						int b2 = ((CASTTType*)[v1.b hx_objectAtIndex:i++]);
-						int b3 = ((CASTTType*)[v1.b hx_objectAtIndex:i++]);
+						int b1 = ((BytesData*)[v1.b hx_objectAtIndex:i++]);
+						int b2 = ((BytesData*)[v1.b hx_objectAtIndex:i++]);
+						int b3 = ((BytesData*)[v1.b hx_objectAtIndex:i++]);
 						[charsBuf.b appendString:[Std string:[b64 charAt:b1 >> @"2"]]];
 						[charsBuf.b appendString:[Std string:[b64 charAt: (b1 << @"4" | b2 >> @"4") & @"63"]]];
 						[charsBuf.b appendString:[Std string:[b64 charAt: (b2 << @"2" | b3 >> @"6") & @"63"]]];
@@ -287,15 +287,15 @@ static NSMutableString* BASE64;
 					}
 					if (i == max) {
 						
-						int b1 = ((CASTTType*)[v1.b hx_objectAtIndex:i++]);
-						int b2 = ((CASTTType*)[v1.b hx_objectAtIndex:i++]);
+						int b1 = ((BytesData*)[v1.b hx_objectAtIndex:i++]);
+						int b2 = ((BytesData*)[v1.b hx_objectAtIndex:i++]);
 						[charsBuf.b appendString:[Std string:[b64 charAt:b1 >> @"2"]]];
 						[charsBuf.b appendString:[Std string:[b64 charAt: (b1 << @"4" | b2 >> @"4") & @"63"]]];
 						[charsBuf.b appendString:[Std string:[b64 charAt:b2 << @"2" & @"63"]]];
 					}
 					else if (i == max + 1) {
 						
-						int b1 = ((CASTTType*)[v1.b hx_objectAtIndex:i++]);
+						int b1 = ((BytesData*)[v1.b hx_objectAtIndex:i++]);
 						[charsBuf.b appendString:[Std string:[b64 charAt:b1 >> @"2"]]];
 						[charsBuf.b appendString:[Std string:[b64 charAt:b1 << @"4" & @"63"]]];
 					}

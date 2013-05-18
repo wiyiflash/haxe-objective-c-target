@@ -106,7 +106,7 @@
 		
 		while ( (last = [self readByte]) != 10) [buf.b appendString:[NSMutableString:last]];
 		s = buf.b;
-		if ([s hx_dyn_charCodeAt:s.length - 1] == 13) s = [s substr:0 len:-1];
+		if ([s charCodeAt:s.length - 1] == 13) s = [s substr:0 len:-1];
 	}
 	@catch (NSException *e) {
 		

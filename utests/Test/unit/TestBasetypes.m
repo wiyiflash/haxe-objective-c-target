@@ -14,23 +14,23 @@
 	
 	NSMutableArray *a = [@[@1, @2, @3] mutableCopy];
 	[self eq:a.length v2:3 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"7", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
-	[self eq:((CASTTType*)[a hx_objectAtIndex:0]) v2:1 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"8", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
-	[self eq:((CASTTType*)[a hx_objectAtIndex:2]) v2:3 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"9", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
-	[self eq:((CASTTType*)[a hx_objectAtIndex:3]) v2:nil pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"11", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
-	[self eq:((CASTTType*)[a hx_objectAtIndex:1000]) v2:nil pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"12", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
-	[self eq:((CASTTType*)[a hx_objectAtIndex:-1]) v2:nil pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"13", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
+	[self eq:((CASTTType--*)[a hx_objectAtIndex:0]) v2:1 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"8", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
+	[self eq:((CASTTType--*)[a hx_objectAtIndex:2]) v2:3 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"9", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
+	[self eq:((CASTTType--*)[a hx_objectAtIndex:3]) v2:nil pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"11", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
+	[self eq:((CASTTType--*)[a hx_objectAtIndex:1000]) v2:nil pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"12", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
+	[self eq:((CASTTType--*)[a hx_objectAtIndex:-1]) v2:nil pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"13", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
 	[a remove:2];
 	[self eq:a.length v2:2 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"16", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
-	[self eq:((CASTTType*)[a hx_objectAtIndex:0]) v2:1 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"17", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
-	[self eq:((CASTTType*)[a hx_objectAtIndex:1]) v2:3 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"18", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
-	[self eq:((CASTTType*)[a hx_objectAtIndex:2]) v2:nil pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"19", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
+	[self eq:((CASTTType--*)[a hx_objectAtIndex:0]) v2:1 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"17", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
+	[self eq:((CASTTType--*)[a hx_objectAtIndex:1]) v2:3 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"18", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
+	[self eq:((CASTTType--*)[a hx_objectAtIndex:2]) v2:nil pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"19", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
 	
 	NSMutableArray *a1 = [@[@1, @2, @3] mutableCopy];
 	[a1 splice:1 len:1];
 	[self eq:a1.length v2:2 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"23", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
-	[self eq:((CASTTType*)[a1 hx_objectAtIndex:0]) v2:1 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"24", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
-	[self eq:((CASTTType*)[a1 hx_objectAtIndex:1]) v2:3 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"25", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
-	[self eq:((CASTTType*)[a1 hx_objectAtIndex:2]) v2:nil pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"26", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
+	[self eq:((CASTTType--*)[a1 hx_objectAtIndex:0]) v2:1 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"24", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
+	[self eq:((CASTTType--*)[a1 hx_objectAtIndex:1]) v2:3 pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"25", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
+	[self eq:((CASTTType--*)[a1 hx_objectAtIndex:2]) v2:nil pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"26", @"className":@"unit.TestBasetypes", @"methodName":@"testArray"}];
 }
 - (void) testString{
 	

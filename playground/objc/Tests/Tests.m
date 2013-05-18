@@ -225,7 +225,7 @@ static int staticVar3;
 			
 			NSMutableString *val = ((NSMutableArray*)[concatArray hx_objectAtIndex:_g3]);
 			++_g3;
-			[Log trace:val infos:@{@"fileName":@"Tests.hx", @"lineNumber":@"147", @"className":@"Tests", @"methodName":@"testArray"}];
+			[Log trace:val infos:@{@"fileName":@"Tests.hx", @"lineNumber":@"148", @"className":@"Tests", @"methodName":@"testArray"}];
 		}
 	}
 }
@@ -558,11 +558,11 @@ static int staticVar3;
 }
 - (void) printHello{
 	
-	[Log trace:[@"Hello from Haxe Objective-C" mutableCopy] infos:@{@"fileName":@"Tests.hx", @"lineNumber":@"536", @"className":@"Tests", @"methodName":@"printHello"}];
+	[Log trace:[@"Hello from Haxe Objective-C" mutableCopy] infos:@{@"fileName":@"Tests.hx", @"lineNumber":@"535", @"className":@"Tests", @"methodName":@"printHello"}];
 }
 - (void) functionToRedefine{
 	
-	[Log trace:[@"do something else" mutableCopy] infos:@{@"fileName":@"Tests.hx", @"lineNumber":@"551", @"className":@"Tests", @"methodName":@"functionToRedefine"}];
+	[Log trace:[@"do something else" mutableCopy] infos:@{@"fileName":@"Tests.hx", @"lineNumber":@"550", @"className":@"Tests", @"methodName":@"functionToRedefine"}];
 }
 - (void) functionToRedefine2:(int)param1 param2:(NSMutableString*)param2{
 	
@@ -596,7 +596,7 @@ static int staticVar3;
 // Dynamic method defined with an objc method and a block property
 - (void) functionToRedefine{
 	if ( hx_dyn_functionToRedefine ) { hx_dyn_functionToRedefine(); return; }
-	[Log trace:[@"originally do something" mutableCopy] infos:@{@"fileName":@"Tests.hx", @"lineNumber":@"574", @"className":@"Tests2", @"methodName":@"functionToRedefine"}];
+	[Log trace:[@"originally do something" mutableCopy] infos:@{@"fileName":@"Tests.hx", @"lineNumber":@"573", @"className":@"Tests2", @"methodName":@"functionToRedefine"}];
 }
 @synthesize hx_dyn_functionToRedefine;
 

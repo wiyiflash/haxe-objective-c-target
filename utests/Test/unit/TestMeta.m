@@ -104,8 +104,8 @@ static int foo;
 		@"args":[[@[[@"1" mutableCopy], [@"foo" mutableCopy]] mutableCopy] copy],
 	} mutableCopy];
 	[self eq:m name v2:[@"bar" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"63", @"className":@"unit.TestMeta", @"methodName":@"testExprMeta"}];
-	[self eq:((CASTTMono-TMonoSome-NSMutableArrayNSMutableString*)[m args hx_objectAtIndex:0]) v2:[@"1" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"64", @"className":@"unit.TestMeta", @"methodName":@"testExprMeta"}];
-	[self eq:((CASTTMono-TMonoSome-NSMutableArrayNSMutableString*)[m args hx_objectAtIndex:1]) v2:[@"foo" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"65", @"className":@"unit.TestMeta", @"methodName":@"testExprMeta"}];
+	[self eq:((CASTTMonoNSMutableArrayNSMutableString*)[m args hx_objectAtIndex:0]) v2:[@"1" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"64", @"className":@"unit.TestMeta", @"methodName":@"testExprMeta"}];
+	[self eq:((CASTTMonoNSMutableArrayNSMutableString*)[m args hx_objectAtIndex:1]) v2:[@"foo" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"65", @"className":@"unit.TestMeta", @"methodName":@"testExprMeta"}];
 	[self eq:[@{
 		@"name":[[@"foo" mutableCopy] copy],
 		@"args":[[@[] mutableCopy] copy],

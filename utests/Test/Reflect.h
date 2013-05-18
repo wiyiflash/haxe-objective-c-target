@@ -22,6 +22,7 @@
 + (int) compare:(id)a b:(id)b;
 + (BOOL) compareMethods:(id)f1 f2:(id)f2;
 + (BOOL) isObject:(id)v;
++ (BOOL) deleteField:(id)o field:(NSMutableString*)field;
 
 @end
 

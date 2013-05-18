@@ -11,10 +11,10 @@
 
 - (void) testMath{
 	
-	float pi = -fa3-PI;
-	float max = -fa3-NEGATIVE_INFINITY;
-	float min = -fa3-POSITIVE_INFINITY;
-	float nan = -fa3-NaN;
+	float pi = M_PI;
+	float max = -DBL_MAX;
+	float min = DBL_MAX;
+	float nan = NAN;
 	float x = sqrtf(5);
 	x = fabsf(5);
 	x = fmaxf(5, 45555);

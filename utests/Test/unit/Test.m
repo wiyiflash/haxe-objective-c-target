@@ -75,7 +75,6 @@ static Timer* timer;
 }
 // Dynamic method defined with an objc method and a block property
 + (void) report:(NSMutableString*)msg pos:(id)pos{
-	if ( hx_dyn_report ) { hx_dyn_report(msg, pos); return; }
 	// Optional arguments
 	if (!pos) pos = nil;
 	

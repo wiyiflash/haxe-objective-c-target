@@ -1152,7 +1152,7 @@ and generateExpression ctx e =
 						| TInst (tc, tp) ->
 							(* let t = (typeToString ctx e.etype e.epos) in *)
 							ctx.writer#write (remapHaxeTypeToObjc ctx false tc.cl_path e.epos);
-						| TType _ -> ctx.writer#write "CASTTType";
+						| TType _ -> ctx.writer#write "CASTTType--";
 						| TFun _ -> ctx.writer#write "CASTTFun";
 						| TAnon _ -> ctx.writer#write "CASTTAnon";
 						| TDynamic t -> (* ctx.writer#write "TArray2TDynamic"; *)
@@ -1162,7 +1162,7 @@ and generateExpression ctx e =
 						| TAbstract _ -> ctx.writer#write "CASTTAbstract";
 						);
 					)tp;
-				| TType _ -> ctx.writer#write "CASTTType";
+				| TType (td,tp) -> ctx.writer#write (snd td.t_path);
 				(* | TFun (tc, tp) -> ctx.writer#write ("TFun"^(snd tc.cl_path)); *)
 				| TAnon _ -> ctx.writer#write "CASTTAnon";
 				| TDynamic _ -> ctx.writer#write "TArray3TDynamic";
@@ -1275,9 +1275,10 @@ and generateExpression ctx e =
 				| ([],"Math")
 				| ([],"String")
 				| ([],"Date") ->
+					redefineCStatic ctx e.etype (field_name fa);
 					(* generateValue ctx e; *)
 					(* generateFieldAccess ctx e.etype (field_name fa); *)
-					ctx.writer#write ("-fa3-"^(remapKeyword (field_name fa)));
+					(* ctx.writer#write ("-fa3-"^(remapKeyword (field_name fa))); *)
 				| _ ->
 					generateValue ctx e;
 					ctx.writer#write ("."^(remapKeyword (field_name fa)))

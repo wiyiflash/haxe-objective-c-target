@@ -18,6 +18,7 @@
 		TESTSRCME41A6FE0B349A561 /* StringBuf.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFMA6FE0B349A561; };
 		TESTSRCM92EAB3EE64B6B194 /* StringTools.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFMAB3EE64B6B194; };
 		TESTSRCM9242B4902F7AE3BD /* Type.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM2B4902F7AE3BD; };
+		TESTSRCMAB4C7EEBA097F27D /* Xml.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFMC7EEBA097F27D; };
 		TESTSRCMD58F7179F3DB42F0 /* CallStack.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFMF7179F3DB42F0; };
 		TESTSRCM40F6D0E926C84B12 /* Int64.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFM6D0E926C84B12; };
 		TESTSRCM958EC66401912A34 /* Json.m in Sources */ = {isa = PBXBuildFile; fileRef = TESTSRCREFMEC66401912A34; };
@@ -116,6 +117,7 @@
 		TESTSRCREFMAB3EE64B6B194 /* StringTools.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StringTools.m; sourceTree = "<group>"; };
 		TESTSRCREFHAB3EE64B6B194 /* StringTools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StringTools.h; sourceTree = "<group>"; };
 		TESTSRCREFM2B4902F7AE3BD /* Type.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Type.m; sourceTree = "<group>"; };
+		TESTSRCREFMC7EEBA097F27D /* Xml.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Xml.m; sourceTree = "<group>"; };
 		TESTSRCREFMF7179F3DB42F0 /* haxe/CallStack.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CallStack.m; path = Test/haxe/CallStack.m; sourceTree = SOURCE_ROOT; };
 		TESTSRCREFM6D0E926C84B12 /* haxe/Int64.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Int64.m; path = Test/haxe/Int64.m; sourceTree = SOURCE_ROOT; };
 		TESTSRCREFH6D0E926C84B12 /* haxe/Int64.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Int64.h; path = Test/haxe/Int64.h; sourceTree = SOURCE_ROOT; };
@@ -212,15 +214,15 @@
 		TESTSRCREFH66D2B01621D69 /* unit/TestXML.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TestXML.h; path = Test/unit/TestXML.h; sourceTree = SOURCE_ROOT; };
 		TESTSRCDIRREFE85ABA96D37 /* haxe/ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = haxe; sourceTree = "<group>"; };
 		TESTSRCDIRREF1A4C0EF0748 /* unit/ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = unit; sourceTree = "<group>"; };
-		TESTRESREF0C963413CD60D4 /* Default-568h@2x.png in Resources */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "..//Users/Cristi/Documents/haxecompiler/hxcocoa/SupportingFiles/Default-568h@2x.png"; sourceTree = SOURCE_ROOT; };
-		TESTRESREFE78008C5F0B41A /* Default-landscape~ipad.png in Resources */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-landscape~ipad.png"; path = "..//Users/Cristi/Documents/haxecompiler/hxcocoa/SupportingFiles/Default-landscape~ipad.png"; sourceTree = SOURCE_ROOT; };
-		TESTRESREFE5BC9EA6704057 /* Default-portrait~ipad.png in Resources */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-portrait~ipad.png"; path = "..//Users/Cristi/Documents/haxecompiler/hxcocoa/SupportingFiles/Default-portrait~ipad.png"; sourceTree = SOURCE_ROOT; };
-		TESTRESREF3E6E7B686AAA68 /* Default.png in Resources */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default.png"; path = "..//Users/Cristi/Documents/haxecompiler/hxcocoa/SupportingFiles/Default.png"; sourceTree = SOURCE_ROOT; };
-		TESTRESREF33BB17EB997C60 /* Default@2x.png in Resources */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "..//Users/Cristi/Documents/haxecompiler/hxcocoa/SupportingFiles/Default@2x.png"; sourceTree = SOURCE_ROOT; };
-		TESTRESREF493FF4ED3F396D /* Icon-72.png in Resources */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-72.png"; path = "..//Users/Cristi/Documents/haxecompiler/hxcocoa/SupportingFiles/Icon-72.png"; sourceTree = SOURCE_ROOT; };
-		TESTRESREF4F061747389F57 /* Icon-72@2x.png in Resources */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-72@2x.png"; path = "..//Users/Cristi/Documents/haxecompiler/hxcocoa/SupportingFiles/Icon-72@2x.png"; sourceTree = SOURCE_ROOT; };
-		TESTRESREF91ED824047C2FF /* Icon.png in Resources */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon.png"; path = "..//Users/Cristi/Documents/haxecompiler/hxcocoa/SupportingFiles/Icon.png"; sourceTree = SOURCE_ROOT; };
-		TESTRESREF96566C326C4BE6 /* Icon@2x.png in Resources */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "..//Users/Cristi/Documents/haxecompiler/hxcocoa/SupportingFiles/Icon@2x.png"; sourceTree = SOURCE_ROOT; };
+		TESTRESREF0C963413CD60D4 /* Default-568h@2x.png in Resources */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "/Users/Cristi/Documents/haxecompiler/hxcocoa/SupportingFiles/Default-568h@2x.png"; sourceTree = "<absolute>"; };
+		TESTRESREFE78008C5F0B41A /* Default-landscape~ipad.png in Resources */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-landscape~ipad.png"; path = "/Users/Cristi/Documents/haxecompiler/hxcocoa/SupportingFiles/Default-landscape~ipad.png"; sourceTree = "<absolute>"; };
+		TESTRESREFE5BC9EA6704057 /* Default-portrait~ipad.png in Resources */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-portrait~ipad.png"; path = "/Users/Cristi/Documents/haxecompiler/hxcocoa/SupportingFiles/Default-portrait~ipad.png"; sourceTree = "<absolute>"; };
+		TESTRESREF3E6E7B686AAA68 /* Default.png in Resources */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default.png"; path = "/Users/Cristi/Documents/haxecompiler/hxcocoa/SupportingFiles/Default.png"; sourceTree = "<absolute>"; };
+		TESTRESREF33BB17EB997C60 /* Default@2x.png in Resources */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "/Users/Cristi/Documents/haxecompiler/hxcocoa/SupportingFiles/Default@2x.png"; sourceTree = "<absolute>"; };
+		TESTRESREF493FF4ED3F396D /* Icon-72.png in Resources */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-72.png"; path = "/Users/Cristi/Documents/haxecompiler/hxcocoa/SupportingFiles/Icon-72.png"; sourceTree = "<absolute>"; };
+		TESTRESREF4F061747389F57 /* Icon-72@2x.png in Resources */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-72@2x.png"; path = "/Users/Cristi/Documents/haxecompiler/hxcocoa/SupportingFiles/Icon-72@2x.png"; sourceTree = "<absolute>"; };
+		TESTRESREF91ED824047C2FF /* Icon.png in Resources */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon.png"; path = "/Users/Cristi/Documents/haxecompiler/hxcocoa/SupportingFiles/Icon.png"; sourceTree = "<absolute>"; };
+		TESTRESREF96566C326C4BE6 /* Icon@2x.png in Resources */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "/Users/Cristi/Documents/haxecompiler/hxcocoa/SupportingFiles/Icon@2x.png"; sourceTree = "<absolute>"; };
 		TESTRESREFC398B4972FE836 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		TESTRESREFD17FEB0DE87B92 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		TESTRESREF96BF51AA985FFE /* Test-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Test-Info.plist"; sourceTree = "<group>"; };
@@ -303,6 +305,7 @@
 				TESTSRCREFMAB3EE64B6B194 /* StringTools.m */,
 				TESTSRCREFHAB3EE64B6B194 /* StringTools.h */,
 				TESTSRCREFM2B4902F7AE3BD /* Type.m */,
+				TESTSRCREFMC7EEBA097F27D /* Xml.m */,
 				TESTSRCDIRREFE85ABA96D37 /* haxe/ */,
 				TESTSRCDIRREF1A4C0EF0748 /* unit/ */,
 				TESTRESREF45E84E321C8F8F /* Supporting Files */,
@@ -481,6 +484,7 @@ TESTRESREF489B1422E28349 /* main.m in Sources */,
 				TESTSRCME41A6FE0B349A561 /* StringBuf.m in Sources */,
 				TESTSRCM92EAB3EE64B6B194 /* StringTools.m in Sources */,
 				TESTSRCM9242B4902F7AE3BD /* Type.m in Sources */,
+				TESTSRCMAB4C7EEBA097F27D /* Xml.m in Sources */,
 				TESTSRCMD58F7179F3DB42F0 /* haxe/CallStack.m in Sources */,
 				TESTSRCM40F6D0E926C84B12 /* haxe/Int64.m in Sources */,
 				TESTSRCM958EC66401912A34 /* haxe/Json.m in Sources */,

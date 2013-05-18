@@ -91,7 +91,7 @@
 			
 			int i = _g1++;
 			int p = i >> 2;
-			((NSMutableArray*)[blks hx_objectAtIndex:p]) |= ((CASTTType*)[b.b hx_objectAtIndex:i]) << 24 -  ( (i & 3) << 3);
+			((NSMutableArray*)[blks hx_objectAtIndex:p]) |= ((BytesData*)[b.b hx_objectAtIndex:i]) << 24 -  ( (i & 3) << 3);
 		}
 	}
 	int i = b.length;

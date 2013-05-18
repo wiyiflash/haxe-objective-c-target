@@ -63,7 +63,7 @@
 }
 - (void) toStringRec:(id)k v:(id)v{
 	
-	if (self.hx_dyn_replacer != nil) v = [self replacer:k :v];
+	if (self.replacer != nil) v = [self replacer:k :v];
 	{
 		
 		

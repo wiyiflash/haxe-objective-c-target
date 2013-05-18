@@ -27,11 +27,11 @@
 			[self eq:[self _id:v] v2:v pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"13", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
 		}
 	}
-	[self t:isnan([self _id:-fa3-NaN]) pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"15", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
-	[self t:[self hx_dyn__id:-fa3-POSITIVE_INFINITY] > 0 pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"16", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
-	[self f:[self hx_dyn__id:-fa3-NEGATIVE_INFINITY] > 0 pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"17", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
-	[self f:isfinite([self _id:-fa3-POSITIVE_INFINITY]) pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"18", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
-	[self f:isfinite([self _id:-fa3-NEGATIVE_INFINITY]) pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"19", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
+	[self t:isnan([self _id:NAN]) pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"15", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
+	[self t:[self hx_dyn__id:DBL_MAX] > 0 pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"16", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
+	[self f:[self hx_dyn__id:-DBL_MAX] > 0 pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"17", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
+	[self f:isfinite([self _id:DBL_MAX]) pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"18", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
+	[self f:isfinite([self _id:-DBL_MAX]) pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"19", @"className":@"unit.TestSerialize", @"methodName":@"test"}];
 	[self doTestCollection:[@[] mutableCopy]];
 	[self doTestCollection:[@[@1, @2, @4, @5] mutableCopy]];
 	[self doTestCollection:[@[@1, @2, [NSNull null], [NSNull null], [NSNull null], [NSNull null], [NSNull null], @4, @5] mutableCopy]];
@@ -222,7 +222,7 @@
 		while (_g1 < _g) {
 			
 			int i = _g1++;
-			[self eq:((CASTTType*)[b2.b hx_objectAtIndex:i]) v2:((CASTTType*)[b.b hx_objectAtIndex:i]) pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"163", @"className":@"unit.TestSerialize", @"methodName":@"doTestBytes"}];
+			[self eq:((BytesData*)[b2.b hx_objectAtIndex:i]) v2:((BytesData*)[b.b hx_objectAtIndex:i]) pos:@{@"fileName":@"TestSerialize.hx", @"lineNumber":@"163", @"className":@"unit.TestSerialize", @"methodName":@"doTestBytes"}];
 		}
 	}
 	[self infos:nil];

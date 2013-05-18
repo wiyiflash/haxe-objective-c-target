@@ -16,7 +16,7 @@
 	
 	if (self.len == 0) @throw [[Eof alloc] init];;
 	self.len--;
-	return ((CASTTType*)[self.b hx_objectAtIndex:self.pos++]);
+	return ((BytesData*)[self.b hx_objectAtIndex:self.pos++]);
 }
 - (int) readBytes:(Bytes*)buf pos:(int)pos len:(int)len{
 	

@@ -51,5 +51,10 @@
 	int t = [v hx_get_type];
 	return t == __global__ vtObject || t == __global__ vtClass || t == __global__ vtString || t == __global__ vtArray;
 }
++ (BOOL) deleteField:(id)o field:(NSMutableString*)field{
+	
+	if (o == nil) return NO;
+	return [__global__ __hxcpp_anon_remove:o :f];
+}
 
 @end
