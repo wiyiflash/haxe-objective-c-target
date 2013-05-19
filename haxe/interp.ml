@@ -252,7 +252,8 @@ let constants =
 	"constraints";"opt";"type";"value";"ret";"expr";"field";"values";"get";"__string";"toString";
 	"$";"add";"remove";"has";"__t";"module";"isPrivate";"isPublic";"isExtern";"isInterface";"exclude";
 	"constructs";"names";"superClass";"interfaces";"fields";"statics";"constructor";"init";"t";
-	"gid";"uid";"atime";"mtime";"ctime";"dev";"ino";"nlink";"rdev";"size";"mode";"pos";"len"];
+	"gid";"uid";"atime";"mtime";"ctime";"dev";"ino";"nlink";"rdev";"size";"mode";"pos";"len";
+	"binops";"unops";"from";"to";"array";"op";"isPostfix";"impl"];
 	h
 
 let h_get = hash "__get" and h_set = hash "__set"
@@ -1685,12 +1686,12 @@ let std_lib =
 		"sys_read_dir", Fun1 (fun dir ->
 			let d = Sys.readdir (vstring dir) in
 			let rec loop acc i =
-				if i = Array.length d then
+				if i < 0 then
 					acc
 				else
-					loop (VArray [|VString d.(i);acc|]) (i + 1)
+					loop (VArray [|VString d.(i);acc|]) (i - 1)
 			in
-			loop VNull 0
+			loop VNull (Array.length d - 1)
 		);
 		"file_full_path", Fun1 (fun file ->
 			VString (try Extc.get_full_path (vstring file) with _ -> error())
@@ -1701,13 +1702,13 @@ let std_lib =
 		"sys_env", Fun0 (fun() ->
 			let env = Unix.environment() in
 			let rec loop acc i =
-				if i = Array.length env then
+				if i < 0 then
 					acc
 				else
 					let e, v = ExtString.String.split "=" env.(i) in
-					loop (VArray [|VString e;VString v;acc|]) (i + 1)
+					loop (VArray [|VString e;VString v;acc|]) (i - 1)
 			in
-			loop VNull 0
+			loop VNull (Array.length env - 1)
 		);
 		"sys_getch", Fun1 (fun echo ->
 			match echo with
@@ -4092,6 +4093,13 @@ and encode_tenum e =
 
 and encode_tabstract a =
 	encode_mtype (TAbstractDecl a) [
+		"type", encode_type a.a_this;
+		"impl", (match a.a_impl with None -> VNull | Some c -> encode_clref c);
+		"binops", enc_array (List.map (fun (op,cf) -> enc_obj [ "op",encode_binop op; "field",encode_cfield cf]) a.a_ops);
+		"unops", enc_array (List.map (fun (op,postfix,cf) -> enc_obj [ "op",encode_unop op; "isPostfix",VBool (match postfix with Postfix -> true | Prefix -> false); "field",encode_cfield cf]) a.a_unops);
+		"from", enc_array (List.map (fun (t,cfo) -> enc_obj [ "t",encode_type t; "field",match cfo with None -> VNull | Some cf -> encode_cfield cf]) a.a_from);
+		"to", enc_array (List.map (fun (t,cfo) -> enc_obj [ "t",encode_type t; "field",match cfo with None -> VNull | Some cf -> encode_cfield cf]) a.a_to);
+		"array", enc_array (List.map encode_cfield a.a_array);
 	]
 
 and encode_efield f =

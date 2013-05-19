@@ -161,7 +161,7 @@ static int staticVar3;
 	s = [as toString];
 	[as unshift:[@"44" mutableCopy]];
 	
-	NSMutableArray *a_comprehention = ((NSMutableArray)(self.__r__) 
+	NSMutableArray *a_comprehention = ((NSMutableArray)self.__r__ 
 	NSMutableArray *_g = [@[] mutableCopy]
 	{
 		
@@ -178,7 +178,7 @@ static int staticVar3;
 		NSMutableArray* __r__}
 	}(self));
 	
-	NSMutableArray *b_comprehention = ((NSMutableArray)(self.__r__2) 
+	NSMutableArray *b_comprehention = ((NSMutableArray)self.__r__2 
 	NSMutableArray *_g1 = [@[] mutableCopy]
 	{
 		
@@ -196,7 +196,7 @@ static int staticVar3;
 		NSMutableArray* __r__2}
 	}(self));
 	
-	NSMutableArray *c_comprehention = ((NSMutableArray)(self.__r__3) 
+	NSMutableArray *c_comprehention = ((NSMutableArray)self.__r__3 
 	NSMutableArray *_g2 = [@[] mutableCopy]
 	{
 		
@@ -252,7 +252,7 @@ static int staticVar3;
 - (int) enumToInt:(Color*)c{
 	
 	[self testEnum:ExternEnumValue1];
-	return ((int)(self.__r__) 
+	return ((int)self.__r__ 
 	enum s = e2 (c)
 	switch ( e2.index ) {
 		
@@ -279,7 +279,7 @@ static int staticVar3;
 }
 - (void) testEnum:(TestsEnumExtern*)v{
 	
-	int i = ((int)(self.__r__) 
+	int i = ((int)self.__r__ 
 	enum s = e2 (v)
 	switch ( e2.index ) {
 		
@@ -296,7 +296,7 @@ static int staticVar3;
 	}(self));
 	
 	Color2 *red = Red2;
-	int j = ((int)(self.__r__3) 
+	int j = ((int)self.__r__3 
 	enum s = e4 (red)
 	switch ( e4.index ) {
 		
@@ -344,9 +344,9 @@ static int staticVar3;
 	BOOL empty = l.head == nil;
 	id iter = [l iterator];
 	item = ( (l.head == nil) ? nil : l.head.elt);
-	item = ((int)(self.__r__) 
+	item = ((int)self.__r__ 
 	GenericCell *k = l.head
-	__r__ = ( (k == nil) ? nil : ((int)(self.__r__2) l.head = k.next
+	__r__ = ( (k == nil) ? nil : ((int)self.__r__2 l.head = k.next
 	__r__2 = k.elt
 	return __r__2{
 		

@@ -127,7 +127,7 @@
 			case 7:
 			{
 				
-				id i = ((int)(self.__r__3) 
+				id i = ((int)self.__r__3 
 				EnumValue *e = v
 				__r__3 = [e __Index]
 				return __r__3{
@@ -314,7 +314,7 @@
 			break;
 			case 34:return [self parseString];
 			break;
-			case 48:case 49:case 50:case 51:case 52:case 53:case 54:case 55:case 56:case 57:case 45:return ((float)(self.__r__) int c1 = c
+			case 48:case 49:case 50:case 51:case 52:case 53:case 54:case 55:case 56:case 57:case 45:return ((float)self.__r__ int c1 = c
 			int start = self.pos - 1
 			BOOL minus = c1 == 45; BOOL digit = !minus; BOOL zero = c1 == 48
 			BOOL point = NO; BOOL e = NO; BOOL pm = NO; BOOL end = NO

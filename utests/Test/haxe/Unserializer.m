@@ -415,12 +415,12 @@ static NSMutableArray* CODES;
 	self.pos = 0;
 	self.scache = [[NSMutableArray alloc] init];
 	self.cache = [[NSMutableArray alloc] init];
-	id r = -TType-;
+	id r = -FStaticTType-TypeResolver;
 	if (r == nil) {
 		
 		self = [super init];
 		r = Type;
-		-TType- = r;
+		-FStaticTType-TypeResolver = r;
 		return self;
 	}
 	[self setResolver:r];

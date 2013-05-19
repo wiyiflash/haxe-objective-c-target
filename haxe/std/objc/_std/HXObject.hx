@@ -1,4 +1,6 @@
-class HXObject extends objc.foundation.NSObject {
+import objc.foundation.NSObject;
+
+class HxObject extends objc.foundation.NSObject {
 
 
 	public static function hx_has_field () :Bool { return true; }

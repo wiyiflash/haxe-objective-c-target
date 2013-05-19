@@ -94,14 +94,15 @@ typedef NSDateComponents = Dynamic;
 	public static function fromString( s : String ) : Date {
 		switch( s.length ) {
 			case 8: // hh:mm:ss
-				var k = s.split(":");
+				//TODO: the compiler needs clues on the type of the array, otherwise the casting is returning NSMutableArray. Check why.
+				var k :Array<String> = s.split(":");
 				var d : Date = new Date(0,0,0,Std.parseInt(k[0]),Std.parseInt(k[1]),Std.parseInt(k[2]));
 				return d;
 			case 10: // YYYY-MM-DD
-				var k = s.split("-");
+				var k :Array<String> = s.split("-");
 				return new Date(Std.parseInt(k[0]),Std.parseInt(k[1])-1,Std.parseInt(k[2]),0,0,0);
 			case 19: // YYYY-MM-DD hh:mm:ss
-				var k = s.split(" ");
+				var k :Array<String> = s.split(" ");
 				var y = k[0].split("-");
 				var t = k[1].split(":");
 				return new Date(Std.parseInt(y[0]),Std.parseInt(y[1]) - 1,Std.parseInt(y[2]),

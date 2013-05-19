@@ -41,7 +41,7 @@
 	
 	if (self.h == nil) return nil;
 	id x = ((id)[self.h hx_objectAtIndex:0]);
-	self.h = ((NSMutableArray)[self.h hx_objectAtIndex:1]);
+	self.h = ((NSMutableArray*)[self.h hx_objectAtIndex:1]);
 	if (self.h == nil) self.q = nil;
 	self.length--;
 	return x;
@@ -89,7 +89,7 @@
 		
 		if (self.h == [NSNull null]) return [NSNull null];
 		id x = ((id)[self.h hx_objectAtIndex:@0]);
-		self.h = ((NSMutableArray)[self.h hx_objectAtIndex:@1]);
+		self.h = ((NSMutableArray*)[self.h hx_objectAtIndex:@1]);
 		return x;
 	} copy],
 	} mutableCopy];

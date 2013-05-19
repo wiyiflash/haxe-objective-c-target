@@ -21,7 +21,7 @@ echo " "
 echo "Build the playground..."
 echo " "
 cd ../../../playground
-# ./../haxe/haxe compile.hxml
+./../haxe/haxe compile.hxml
 # ./haxe/haxe -main Tests -dce no -cp tests -as3 tests/as3
 # echo "Build Cpp tests..."
 # ./haxe/haxe -main Tests -dce no -cp tests -cpp tests/cpp
@@ -36,4 +36,4 @@ echo "Build utests..."
 echo " "
 
 cd ..
-./haxe/haxe -cp haxe/tests -objc utests -main unit.Test -lib hxcocoa -dce no --times
+# ./haxe/haxe -cp haxe/tests -objc utests -main unit.Test -lib hxcocoa -dce no --times

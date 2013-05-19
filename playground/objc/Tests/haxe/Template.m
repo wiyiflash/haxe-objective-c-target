@@ -337,7 +337,7 @@ static id globals;
 			id e2 = [self makeExpr:l];
 			id p2 = [l pop];
 			if (p2 == nil || p2 p != [@")" mutableCopy]) @throw p2 p;;
-			return ((id)(self.__r__) switch (p1 p){
+			return ((id)self.__r__ switch (p1 p){
 				case [@"+" mutableCopy]:__r__ = ^(){
 					
 					return (id)[e1] + [e2];;
@@ -398,7 +398,7 @@ static id globals;
 					return (id)[e1] || [e2];;
 				};
 				break;
-				default:__r__ = ((id)(self.__r__2) @throw [[@"Unknown operation " mutableCopy] stringByAppendingString:p1 p];
+				default:__r__ = ((id)self.__r__2 @throw [[@"Unknown operation " mutableCopy] stringByAppendingString:p1 p];
 				return __r__2{
 					
 					id* __r__2}
@@ -549,7 +549,7 @@ static id globals;
 			@catch (NSException *e1) {
 				
 				
-				NSMutableString *plstr = ((NSMutableString)(self.__r__6) @try {
+				NSMutableString *plstr = ((NSMutableString)self.__r__6 @try {
 					
 					__r__6 = [pl join:[@"," mutableCopy]];
 				}

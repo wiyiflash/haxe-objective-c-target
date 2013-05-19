@@ -1200,8 +1200,9 @@ and generateExpression ctx e =
 						| TFun _ -> ctx.writer#write "CASTTFun";
 						| TAnon _ -> ctx.writer#write "CASTTAnon";
 						| TDynamic t -> (* ctx.writer#write "TArray2TDynamic"; *)
-							ctx.writer#write (typeToString ctx e.etype e.epos);
-							pointer := false;
+							let ts = typeToString ctx e.etype e.epos in
+							ctx.writer#write ts;
+							pointer := isPointer ts;
 						| TLazy _ -> ctx.writer#write "CASTTLazyExprInst";
 						| TAbstract _ -> ctx.writer#write "CASTTAbstract";
 						);
@@ -1327,7 +1328,9 @@ and generateExpression ctx e =
 					generateValue ctx e;
 					ctx.writer#write ("."^(remapKeyword (field_name fa)))
 				);
-			| TType _ -> ctx.writer#write "-TType-";
+			| TType (td,tp) ->
+				ctx.writer#write "-FStaticTType-";
+				ctx.writer#write (snd td.t_path);
 			| TFun _ -> (* Generating static call *)
 				generateValue ctx e;
 				(match cls.cl_path with
@@ -1426,97 +1429,6 @@ and generateExpression ctx e =
 			ctx.writer#write (field_name fa)
 		);
 		ctx.generating_fields <- ctx.generating_fields - 1;
-		(* if (ctx.generating_right_side_of_operator && false) then begin *)
-			(* (match fa with
-			| FInstance (cls, cls_f) -> (* ctx.writer#write "-FInstance-"; *)
-				(match cls_f.cf_type with
-				| TMono _ -> ctx.writer#write "-TMono-";
-				| TEnum _ -> ctx.writer#write "-TEnum-";
-				| TInst _ (* -> ctx.writer#write "-TInst-"; *)
-				| TAbstract _ -> (* ctx.writer#write "-TAbstract-2-"; *)
-					ctx.generating_property_access <- true;
-					generateValue ctx e;
-					(* generateFieldAccess ctx e.etype (field_name fa); *)
-					ctx.writer#write ("."^(field_name fa));
-					ctx.generating_property_access <- false;
-				| TType _ -> ctx.writer#write "-TType-";
-				| TFun _ ->(* ctx.writer#write "-TFun-"; *)
-					generateValue ctx e;
-					(* generateFieldAccess ctx e.etype (field_name fa); *)
-					ctx.writer#write (" "^(field_name fa));
-				| TAnon _ -> ctx.writer#write "-TAnon-";
-				| TDynamic _ -> ctx.writer#write "-TDynamic-";
-				| TLazy _ -> ctx.writer#write "-TLazy-");
-				
-			| FStatic (cls, cls_f) -> (* ctx.writer#write "-FStatic-"; *)
-				(match cls_f.cf_type with
-					| TMono _ -> ctx.writer#write "-TMono-";
-					| TEnum _ -> ctx.writer#write "-TEnum-";
-					| TInst _
-					| TAbstract _ -> (* ctx.writer#write "-TAbstract-"; *)
-						(match cls.cl_path with
-						| ([],"Math")
-						| ([],"String")
-						| ([],"Date") ->
-							generateValue ctx e;
-							(* generateFieldAccess ctx e.etype (field_name fa); *)
-							ctx.writer#write ("-fa5-"^(remapKeyword (field_name fa)));
-						| _ ->
-							ctx.writer#write "[";
-							generateValue ctx e;
-							ctx.writer#write (" "^(remapKeyword (field_name fa))^":nil]"));
-					| TType _ -> ctx.writer#write "-TType-";
-					| TFun _ ->ctx.writer#write "-TFun-";
-						generateValue ctx e;
-						redefineCStatic ctx e.etype (field_name fa);
-						(* ctx.writer#write (" "^(remapKeyword (field_name fa))); *)
-					| TAnon _ -> ctx.writer#write "-TAnon-";
-					| TDynamic _ -> ctx.writer#write "-TDynamic-";
-					| TLazy _ -> ctx.writer#write "-TLazy-");
-				
-			(* | FAnon _ -> ctx.writer#write "-FAnon-"; *)
-			(* | FDynamic _ -> ctx.writer#write "-FDynamic-"; *)
-			| FClosure (_,fa2) ->
-				(* ctx.writer#write "-FClosure-"; *)
-				(match fa2.cf_expr, fa2.cf_kind with
-				| Some { eexpr = TFunction fd }, Method (MethNormal | MethInline) ->
-					
-					(* let generateFunctionHeader ctx name f params p is_static = *)	
-					(* let name = (Some (fa2.cf_name, fa2.cf_meta)) in *)
-					
-					ctx.writer#write "^";
-					let gen_block_args = fun() -> (
-						ctx.writer#write "(";
-						concat ctx ", " (fun (v,c) ->
-							let pos = ctx.class_def.cl_pos in
-							let type_name = typeToString ctx v.v_type pos in
-							ctx.writer#write (Printf.sprintf "%s %s%s" type_name (addPointerIfNeeded type_name) (remapKeyword v.v_name));
-						) fd.tf_args;
-						ctx.writer#write ")";
-					) in
-					gen_block_args();
-					ctx.writer#write (Printf.sprintf "{ [%s " (if false then "Static" else "self"));
-					ctx.writer#write fa2.cf_name;
-					let first_arg = ref true in
-					concat ctx " " (fun (v,c) ->
-						(* let pos = ctx.class_def.cl_pos in *)
-						(* let type_name = typeToString ctx v.v_type pos in *)
-						let message_name = if !first_arg then "" else (remapKeyword v.v_name) in
-						ctx.writer#write (Printf.sprintf "%s:%s" message_name (remapKeyword v.v_name));
-						first_arg := false;
-					) fd.tf_args;
-					ctx.writer#write "]; }";
-					
-					
-				| Some { eexpr = TFunction fd }, Method (MethDynamic) ->
-					ctx.writer#write "-MethDynamic-";
-				| _ -> ctx.writer#write "CCCCCCCCCCCCCCCC");
-			(* | FEnum _ -> ctx.writer#write "-FEnum-"; *)
-			| _ ->
-				generateValue ctx e;
-				(* generateFieldAccess_ ctx e.etype (field_name fa)); *)
-				ctx.writer#write ("-fa4-"^(field_name fa))
-		); *)
 		
 	| TTypeExpr t ->
 		(* ctx.writer#write (Printf.sprintf "%d" ctx.generating_calls); *)
