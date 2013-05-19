@@ -78,7 +78,7 @@
 }
 - (void) blit:(int)pos src:(Bytes*)src srcpos:(int)srcpos len:(int)len{
 	
-	if (pos < 0 || srcpos < 0 || len < 0 || pos + len > self.length || srcpos + len > src.length) @throw OutsideBounds;;
+	if (pos < 0 || srcpos < 0 || len < 0 || pos + len > self.length || srcpos + len > src.length) @throw OutsideBounds;
 	
 	NSMutableArray *b1 = self.b;
 	
@@ -89,7 +89,7 @@
 		while (i > 0) {
 			
 			i--;
-			[b1 hx_replaceObjectAtIndex:i + pos withObject:((CASTTType*)[b2 hx_objectAtIndex:i + srcpos])];
+			[b1 hx_replaceObjectAtIndex:i + pos withObject:((BytesData*)[b2 hx_objectAtIndex:i + srcpos])];
 		}
 		return;
 	}
@@ -99,13 +99,13 @@
 		while (_g < len) {
 			
 			int i = _g++;
-			[b1 hx_replaceObjectAtIndex:i + pos withObject:((CASTTType*)[b2 hx_objectAtIndex:i + srcpos])];
+			[b1 hx_replaceObjectAtIndex:i + pos withObject:((BytesData*)[b2 hx_objectAtIndex:i + srcpos])];
 		}
 	}
 }
 - (Bytes*) sub:(int)pos len:(int)len{
 	
-	if (pos < 0 || len < 0 || pos + len > self.length) @throw OutsideBounds;;
+	if (pos < 0 || len < 0 || pos + len > self.length) @throw OutsideBounds;
 	return [[Bytes alloc] init:len b:[self.b slice:pos end:pos + len]];
 }
 - (int) compare:(Bytes*)other{
@@ -121,14 +121,14 @@
 		while (_g < (int)len) {
 			
 			int i = _g++;
-			if (((CASTTType*)[b1 hx_objectAtIndex:i]) != ((CASTTType*)[b2 hx_objectAtIndex:i])) return ((CASTTType*)[b1 hx_objectAtIndex:i]) - ((CASTTType*)[b2 hx_objectAtIndex:i]);
+			if (((BytesData*)[b1 hx_objectAtIndex:i]) != ((BytesData*)[b2 hx_objectAtIndex:i])) return ((BytesData*)[b1 hx_objectAtIndex:i]) - ((BytesData*)[b2 hx_objectAtIndex:i]);
 		}
 	}
 	return self.length - other.length;
 }
 - (NSMutableString*) readString:(int)pos len:(int)len{
 	
-	if (pos < 0 || len < 0 || pos + len > self.length) @throw OutsideBounds;;
+	if (pos < 0 || len < 0 || pos + len > self.length) @throw OutsideBounds;
 	
 	NSMutableString *s = [@"" mutableCopy];
 	
@@ -138,23 +138,23 @@
 	int max = pos + len;
 	while (i < max) {
 		
-		int c = ((CASTTType*)[b hx_objectAtIndex:i++]);
+		int c = ((BytesData*)[b hx_objectAtIndex:i++]);
 		if (c < 128) {
 			
 			if (c == 0) break;
 			[s appendString:[fcc:c]];
 		}
-		else if (c < 224) [s appendString:[fcc: (c & @"63") << @"6" | (((CASTTType*)[b hx_objectAtIndex:i++]) & @"127")]];
+		else if (c < 224) [s appendString:[fcc: (c & @"63") << @"6" | (((BytesData*)[b hx_objectAtIndex:i++]) & @"127")]];
 		else if (c < 240) {
 			
-			int c2 = ((CASTTType*)[b hx_objectAtIndex:i++]);
-			[s appendString:[fcc:( (c & @"31") << @"12" |  (c2 & @"127") << @"6") | (((CASTTType*)[b hx_objectAtIndex:i++]) & @"127")]];
+			int c2 = ((BytesData*)[b hx_objectAtIndex:i++]);
+			[s appendString:[fcc:( (c & @"31") << @"12" |  (c2 & @"127") << @"6") | (((BytesData*)[b hx_objectAtIndex:i++]) & @"127")]];
 		}
 		else {
 			
-			int c2 = ((CASTTType*)[b hx_objectAtIndex:i++]);
-			int c3 = ((CASTTType*)[b hx_objectAtIndex:i++]);
-			[s appendString:[fcc:(( (c & @"15") << @"18" |  (c2 & @"127") << @"12") | (c3 << @"6" & @"127")) | (((CASTTType*)[b hx_objectAtIndex:i++]) & @"127")]];
+			int c2 = ((BytesData*)[b hx_objectAtIndex:i++]);
+			int c3 = ((BytesData*)[b hx_objectAtIndex:i++]);
+			[s appendString:[fcc:(( (c & @"15") << @"18" |  (c2 & @"127") << @"12") | (c3 << @"6" & @"127")) | (((BytesData*)[b hx_objectAtIndex:i++]) & @"127")]];
 		}
 	}
 	return s;

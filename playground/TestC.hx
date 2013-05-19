@@ -1,7 +1,6 @@
 import objc.graphics.CGGeometry;
 
 @:import("NSObjCRuntime.h")
-@:import("NSObjCRuntime2.h")
 @:include("objc/runtime.h")
 class TestC {
 

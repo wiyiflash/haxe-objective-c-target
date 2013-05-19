@@ -82,7 +82,7 @@
 	
 	
 	NSMutableString *c = ((NSMutableString*)[[Type getEnumConstructs:e] hx_objectAtIndex:index]);
-	if (c == nil) @throw [index stringByAppendingString:[@" is not a valid enum constructor index" mutableCopy]];;
+	if (c == nil) @throw [index stringByAppendingString:[@" is not a valid enum constructor index" mutableCopy]];
 	return [Type createEnum:e constr:c params:params];
 }
 + (NSMutableArray*) getInstanceFields:(Class*)c{

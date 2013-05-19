@@ -54,7 +54,7 @@
 			return [[NSDate alloc] init:[Std parseInt:((NSMutableArray*)[y hx_objectAtIndex:0])] month:[Std parseInt:((NSMutableArray*)[y hx_objectAtIndex:1])] - 1 day:[Std parseInt:((NSMutableArray*)[y hx_objectAtIndex:2])] hour:[Std parseInt:((NSMutableArray*)[t hx_objectAtIndex:0])] min:[Std parseInt:((NSMutableArray*)[t hx_objectAtIndex:1])] sec:[Std parseInt:((NSMutableArray*)[t hx_objectAtIndex:2])]];;
 		}
 		break;
-		default:@throw [[@"Invalid date format : " mutableCopy] stringByAppendingString:s];;break;
+		default:@throw [[@"Invalid date format : " mutableCopy] stringByAppendingString:s];break;
 	}
 	return nil;
 }

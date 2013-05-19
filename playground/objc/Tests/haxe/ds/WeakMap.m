@@ -43,7 +43,7 @@
 - (id) init{
 	
 	self = [super init];
-	@throw [@"Not implemented for this platform" mutableCopy];;
+	@throw [@"Not implemented for this platform" mutableCopy];
 	return self;
 }
 

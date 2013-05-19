@@ -471,7 +471,7 @@ let rec isString ctx e =
 							else false
 					)
 				(* | FStatic _ -> ctx.writer#write "isstrFStatic";false; *)
-				| FAnon tcf -> ctx.writer#write "isstrFAnon-";
+				| FAnon tcf -> (* ctx.writer#write "isstrFAnon-"; *)
 					(match tcf.cf_type with
 						| TMono r -> ctx.writer#write "Mono";false;
 						| TEnum _ -> ctx.writer#write "Tenum";false;
@@ -1168,7 +1168,10 @@ and generateExpression ctx e =
 								| TInst (tc, tp) ->
 									(* let t = (typeToString ctx e.etype e.epos) in *)
 									ctx.writer#write (remapHaxeTypeToObjc ctx false tc.cl_path e.epos);
-								| TType _ -> ctx.writer#write "CASTTType";
+								| TType (td,tp) ->
+									let n = snd td.t_path in
+									ctx.writer#write n;
+									pointer := isPointer n;
 								| TFun _ -> ctx.writer#write "CASTTFun";
 								| TAnon _ -> ctx.writer#write "CASTTAnon";
 								| TDynamic _ -> ctx.writer#write "TArrayCASTTDynamic";
@@ -1200,9 +1203,9 @@ and generateExpression ctx e =
 						| TFun _ -> ctx.writer#write "CASTTFun";
 						| TAnon _ -> ctx.writer#write "CASTTAnon";
 						| TDynamic t -> (* ctx.writer#write "TArray2TDynamic"; *)
-							let ts = typeToString ctx e.etype e.epos in
-							ctx.writer#write ts;
-							pointer := isPointer ts;
+							let n = typeToString ctx e.etype e.epos in
+							ctx.writer#write n;
+							pointer := isPointer n;
 						| TLazy _ -> ctx.writer#write "CASTTLazyExprInst";
 						| TAbstract _ -> ctx.writer#write "CASTTAbstract";
 						);
@@ -1257,10 +1260,8 @@ and generateExpression ctx e =
 			ctx.writer#write " withObject:";
 			ctx.generating_array_insert <- false;
 			ctx.require_pointer <- true;
-			(* ctx.generating_array_insert_right <- true; *)
 			generateValueOp ctx e2;
 			ctx.require_pointer <- false;
-			(* ctx.generating_array_insert_right <- false; *)
 			ctx.writer#write "]";
 		end else begin
 			ctx.generating_left_side_of_operator <- true;
@@ -1610,7 +1611,7 @@ and generateExpression ctx e =
 	| TThrow e ->
 		ctx.writer#write "@throw ";
 		generateValue ctx e;
-		ctx.writer#write ";";
+		(* ctx.writer#write ";"; *)
 	| TVars [] ->
 		()
 	| TVars vl ->

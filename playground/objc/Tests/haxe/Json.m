@@ -190,7 +190,7 @@
 - (void) invalidChar{
 	
 	self.pos--;
-	@throw [[[[@"Invalid char " mutableCopy] stringByAppendingString:[self.str characterAtIndex:self.pos]] stringByAppendingString:[@" at position " mutableCopy]] stringByAppendingString:self.pos];;
+	@throw [[[[@"Invalid char " mutableCopy] stringByAppendingString:[self.str characterAtIndex:self.pos]] stringByAppendingString:[@" at position " mutableCopy]] stringByAppendingString:self.pos];
 }
 - (int) nextChar{
 	
@@ -422,11 +422,11 @@
 					[buf.b appendString:[NSMutableString:uc]];
 				}
 				break;
-				default:@throw [[[[@"Invalid escape sequence \\" mutableCopy] stringByAppendingString:[NSMutableString:c]] stringByAppendingString:[@" at position " mutableCopy]] stringByAppendingString: (self.pos - @"1")];;break;
+				default:@throw [[[[@"Invalid escape sequence \\" mutableCopy] stringByAppendingString:[NSMutableString:c]] stringByAppendingString:[@" at position " mutableCopy]] stringByAppendingString: (self.pos - @"1")];break;
 			}
 			start = self.pos;
 		}
-		else if (c == -1) @throw [@"Unclosed string" mutableCopy];;
+		else if (c == -1) @throw [@"Unclosed string" mutableCopy];
 	}
 	{
 		
@@ -438,7 +438,7 @@
 }
 - (void) invalidNumber:(int)start{
 	
-	@throw [[[[@"Invalid number at position " mutableCopy] stringByAppendingString:start] stringByAppendingString:[@": " mutableCopy]] stringByAppendingString:[self.str substr:start len:self.pos - start]];;
+	@throw [[[[@"Invalid number at position " mutableCopy] stringByAppendingString:start] stringByAppendingString:[@": " mutableCopy]] stringByAppendingString:[self.str substr:start len:self.pos - start]];
 }
 - (float) parseNumber:(int)c{
 	

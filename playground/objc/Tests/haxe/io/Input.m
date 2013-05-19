@@ -12,7 +12,7 @@
 
 - (int) readByte{
 	
-	return ((int)self.__r__ @throw [@"Not implemented" mutableCopy];
+	return ((int)self.__r__ @throw [@"Not implemented" mutableCopy]
 	return __r__{
 		
 		int* __r__}
@@ -23,7 +23,7 @@
 	int k = len;
 	
 	NSMutableArray *b = s.b;
-	if (pos < 0 || len < 0 || pos + len > s.length) @throw OutsideBounds;;
+	if (pos < 0 || len < 0 || pos + len > s.length) @throw OutsideBounds;
 	while (k > 0) {
 		
 		[b hx_replaceObjectAtIndex:pos withObject:(int)[self readByte]];
@@ -55,8 +55,8 @@
 		while (YES) {
 			
 			int len = [self readBytes:buf pos:0 len:bufsize];
-			if (len == 0) @throw Blocked;;
-			if (len < 0 || len > buf.length) @throw OutsideBounds;;
+			if (len == 0) @throw Blocked;
+			if (len < 0 || len > buf.length) @throw OutsideBounds;
 		}
 	}
 	@catch (NSException *e) {
@@ -81,7 +81,7 @@
 	while (nbytes > 0) {
 		
 		int k = [self readBytes:s pos:p len:nbytes];
-		if (k == 0) @throw Blocked;;
+		if (k == 0) @throw Blocked;
 		p += k;
 		nbytes -= k;
 	}
@@ -111,7 +111,7 @@
 	@catch (NSException *e) {
 		
 		s = buf.b;
-		if (s.length == 0) @throw e;;
+		if (s.length == 0) @throw e;
 	}
 	return s;
 }
@@ -132,7 +132,7 @@
 }
 - (float) readDouble{
 	
-	return ((float)self.__r__ @throw [@"not implemented" mutableCopy];
+	return ((float)self.__r__ @throw [@"not implemented" mutableCopy]
 	return __r__{
 		
 		float* __r__}
