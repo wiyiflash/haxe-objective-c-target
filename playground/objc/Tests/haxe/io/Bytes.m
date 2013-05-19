@@ -89,7 +89,7 @@
 		while (i > 0) {
 			
 			i--;
-			[b1 hx_replaceObjectAtIndex:i + pos withObject:b2 hx_replaceObjectAtIndex:i + srcpos];
+			[b1 hx_replaceObjectAtIndex:i + pos withObject:((CASTTType*)[b2 hx_objectAtIndex:i + srcpos])];
 		}
 		return;
 	}
@@ -99,7 +99,7 @@
 		while (_g < len) {
 			
 			int i = _g++;
-			[b1 hx_replaceObjectAtIndex:i + pos withObject:b2 hx_replaceObjectAtIndex:i + srcpos];
+			[b1 hx_replaceObjectAtIndex:i + pos withObject:((CASTTType*)[b2 hx_objectAtIndex:i + srcpos])];
 		}
 	}
 }

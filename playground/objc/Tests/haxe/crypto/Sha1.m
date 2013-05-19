@@ -32,10 +32,10 @@
 		while (_g < 5) {
 			
 			int i = _g++;
-			[_out.b hx_replaceObjectAtIndex:p++ withObject:(h hx_replaceObjectAtIndex:i >>> @24 & @255)];
-			[_out.b hx_replaceObjectAtIndex:p++ withObject:((h hx_replaceObjectAtIndex:i >> @16 & @255) & @255)];
-			[_out.b hx_replaceObjectAtIndex:p++ withObject:((h hx_replaceObjectAtIndex:i >> @8 & @255) & @255)];
-			[_out.b hx_replaceObjectAtIndex:p++ withObject:((h hx_replaceObjectAtIndex:i & @255) & @255)];
+			[_out.b hx_replaceObjectAtIndex:p++ withObject:(((NSMutableArray*)[h hx_objectAtIndex:i]) >>> @24 & @255)];
+			[_out.b hx_replaceObjectAtIndex:p++ withObject:((((NSMutableArray*)[h hx_objectAtIndex:i]) >> @16 & @255) & @255)];
+			[_out.b hx_replaceObjectAtIndex:p++ withObject:((((NSMutableArray*)[h hx_objectAtIndex:i]) >> @8 & @255) & @255)];
+			[_out.b hx_replaceObjectAtIndex:p++ withObject:((((NSMutableArray*)[h hx_objectAtIndex:i]) & @255) & @255)];
 		}
 	}
 	return _out;
@@ -120,8 +120,8 @@
 		int j = 0;
 		while (j < 80) {
 			
-			if (j < 16) [w hx_replaceObjectAtIndex:j withObject:x hx_replaceObjectAtIndex:i + j];
-			else [w hx_replaceObjectAtIndex:j withObject:((int)self.__r__ int num = ((w hx_replaceObjectAtIndex:j - @3 ^ w hx_replaceObjectAtIndex:j - @8) ^ w hx_replaceObjectAtIndex:j - @14) ^ w hx_replaceObjectAtIndex:j - @16
+			if (j < 16) [w hx_replaceObjectAtIndex:j withObject:((CASTTAbstract*)[x hx_objectAtIndex:i + j])];
+			else [w hx_replaceObjectAtIndex:j withObject:((int)self.__r__ int num = ((((NSMutableArray*)[w hx_objectAtIndex:j - @3]) ^ ((NSMutableArray*)[w hx_objectAtIndex:j - @8])) ^ ((NSMutableArray*)[w hx_objectAtIndex:j - @14])) ^ ((NSMutableArray*)[w hx_objectAtIndex:j - @16])
 			__r__ = (num << @1 | num >>> @31)
 			return __r__{
 				

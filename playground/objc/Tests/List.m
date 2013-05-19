@@ -67,7 +67,7 @@
 		if (((NSMutableArray*)[l hx_objectAtIndex:0]) == v) {
 			
 			if (prev == nil) self.h = ((NSMutableArray*)[l hx_objectAtIndex:1]);
-			else [prev hx_replaceObjectAtIndex:1 withObject:l hx_replaceObjectAtIndex:@1];
+			else [prev hx_replaceObjectAtIndex:1 withObject:((NSMutableArray*)[l hx_objectAtIndex:@1])];
 			if (self.q == l) self.q = prev;
 			self.length--;
 			return YES;

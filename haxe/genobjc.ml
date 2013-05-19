@@ -1255,11 +1255,13 @@ and generateExpression ctx e =
 			ctx.writer#write "[";
 			generateValueOp ctx e1;
 			ctx.writer#write " withObject:";
+			ctx.generating_array_insert <- false;
 			ctx.require_pointer <- true;
+			(* ctx.generating_array_insert_right <- true; *)
 			generateValueOp ctx e2;
 			ctx.require_pointer <- false;
+			(* ctx.generating_array_insert_right <- false; *)
 			ctx.writer#write "]";
-			ctx.generating_array_insert <- false;
 		end else begin
 			ctx.generating_left_side_of_operator <- true;
 			generateValueOp ctx e1;
