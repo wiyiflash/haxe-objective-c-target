@@ -116,19 +116,37 @@ static int staticVar3;
 }
 - (void) testSwitch{
 	
-	BOOL _g = YES;
-	switch (_g){
-		case YES:{
-			
-			int x = 0;
+	{
+		
+		BOOL _g = YES;
+		switch (_g){
+			case YES:{
+				
+				int x = 0;
+			}
+			break;
+			case NO:{
+				
+				int y = 0;
+			}
+			break;
 		}
+	}
+	int x = ((int)self.__r__ BOOL _g1 = YES
+	__r__ = ((int)self.__r__2 switch (_g1){
+		case YES:__r__2 = 8;
 		break;
-		case NO:{
-			
-			int y = 0;
-		}
+		case NO:__r__2 = 9;
 		break;
 	}
+	return __r__2{
+		
+		int* __r__2}
+	}(self))
+	return __r__{
+		
+		int* __r__}
+	}(self));
 }
 - (void) testArray{
 	
@@ -225,7 +243,7 @@ static int staticVar3;
 			
 			NSMutableString *val = ((NSMutableArray*)[concatArray hx_objectAtIndex:_g3]);
 			++_g3;
-			[Log trace:val infos:@{@"fileName":@"Tests.hx", @"lineNumber":@"148", @"className":@"Tests", @"methodName":@"testArray"}];
+			[Log trace:val infos:@{@"fileName":@"Tests.hx", @"lineNumber":@"153", @"className":@"Tests", @"methodName":@"testArray"}];
 		}
 	}
 }
@@ -558,11 +576,11 @@ static int staticVar3;
 }
 - (void) printHello{
 	
-	[Log trace:[@"Hello from Haxe Objective-C" mutableCopy] infos:@{@"fileName":@"Tests.hx", @"lineNumber":@"535", @"className":@"Tests", @"methodName":@"printHello"}];
+	[Log trace:[@"Hello from Haxe Objective-C" mutableCopy] infos:@{@"fileName":@"Tests.hx", @"lineNumber":@"540", @"className":@"Tests", @"methodName":@"printHello"}];
 }
 - (void) functionToRedefine{
 	
-	[Log trace:[@"do something else" mutableCopy] infos:@{@"fileName":@"Tests.hx", @"lineNumber":@"550", @"className":@"Tests", @"methodName":@"functionToRedefine"}];
+	[Log trace:[@"do something else" mutableCopy] infos:@{@"fileName":@"Tests.hx", @"lineNumber":@"555", @"className":@"Tests", @"methodName":@"functionToRedefine"}];
 }
 - (void) functionToRedefine2:(int)param1 param2:(NSMutableString*)param2{
 	
@@ -596,7 +614,7 @@ static int staticVar3;
 // Dynamic method defined with an objc method and a block property
 - (void) functionToRedefine{
 	if ( hx_dyn_functionToRedefine ) { hx_dyn_functionToRedefine(); return; }
-	[Log trace:[@"originally do something" mutableCopy] infos:@{@"fileName":@"Tests.hx", @"lineNumber":@"573", @"className":@"Tests2", @"methodName":@"functionToRedefine"}];
+	[Log trace:[@"originally do something" mutableCopy] infos:@{@"fileName":@"Tests.hx", @"lineNumber":@"578", @"className":@"Tests2", @"methodName":@"functionToRedefine"}];
 }
 @synthesize hx_dyn_functionToRedefine;
 

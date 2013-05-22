@@ -222,7 +222,7 @@
 						case 125:{
 							
 							if (field != nil || comma == NO) [self invalidChar];
-							return obj;;
+							return obj;
 						}
 						break;
 						case 58:{
@@ -262,7 +262,7 @@
 						case 93:{
 							
 							if (comma == NO) [self invalidChar];
-							return arr;;
+							return arr;
 						}
 						break;
 						case 44:if (comma) comma = NO;

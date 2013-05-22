@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+//#import "Array.h"
 
 @implementation AppDelegate
 
@@ -23,22 +24,24 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
 	
+	NSMutableArray *arr1 = [[NSMutableArray alloc] init];
 	NSDate *d1 = [NSDate date];
 	for (int i=0; i<1000000; i++) {
 		NSMutableString *s = [NSMutableString stringWithString:@"def"];
-		//NSLog(@"%@", s);
 	}
 	NSDate *d2 = [NSDate date];
 	
 	for (int i=0; i<1000000; i++) {
 		NSMutableString *s = [@"def" mutableCopy];
 		//NSLog(@"%@", s);
+		//[arr1 hx_replaceObjectAtIndex:i withObject:s];
 	}
 	NSDate *d3 = [NSDate date];
 	
 	for (int i=0; i<1000000; i++) {
 		NSMutableString *s = @"def";
 		//NSLog(@"%@", s);
+//		[arr1 hx_objectAtIndex:s];
 	}
 	NSDate *d4 = [NSDate date];
 	

@@ -33,14 +33,14 @@
 			NSMutableArray *k = [s split:[@":" mutableCopy]];
 			
 			NSDate *d = [[NSDate alloc] init:0 month:0 day:0 hour:[Std parseInt:((NSMutableString*)[k hx_objectAtIndex:0])] min:[Std parseInt:((NSMutableString*)[k hx_objectAtIndex:1])] sec:[Std parseInt:((NSMutableString*)[k hx_objectAtIndex:2])]];
-			return d;;
+			return d;
 		}
 		break;
 		case 10:{
 			
 			
 			NSMutableArray *k = [s split:[@"-" mutableCopy]];
-			return [[NSDate alloc] init:[Std parseInt:((NSMutableString*)[k hx_objectAtIndex:0])] month:[Std parseInt:((NSMutableString*)[k hx_objectAtIndex:1])] - 1 day:[Std parseInt:((NSMutableString*)[k hx_objectAtIndex:2])] hour:0 min:0 sec:0];;
+			return [[NSDate alloc] init:[Std parseInt:((NSMutableString*)[k hx_objectAtIndex:0])] month:[Std parseInt:((NSMutableString*)[k hx_objectAtIndex:1])] - 1 day:[Std parseInt:((NSMutableString*)[k hx_objectAtIndex:2])] hour:0 min:0 sec:0];
 		}
 		break;
 		case 19:{
@@ -51,7 +51,7 @@
 			NSMutableArray *y = [((NSMutableString*)[k hx_objectAtIndex:0]) split:[@"-" mutableCopy]];
 			
 			NSMutableArray *t = [((NSMutableString*)[k hx_objectAtIndex:1]) split:[@":" mutableCopy]];
-			return [[NSDate alloc] init:[Std parseInt:((NSMutableArray*)[y hx_objectAtIndex:0])] month:[Std parseInt:((NSMutableArray*)[y hx_objectAtIndex:1])] - 1 day:[Std parseInt:((NSMutableArray*)[y hx_objectAtIndex:2])] hour:[Std parseInt:((NSMutableArray*)[t hx_objectAtIndex:0])] min:[Std parseInt:((NSMutableArray*)[t hx_objectAtIndex:1])] sec:[Std parseInt:((NSMutableArray*)[t hx_objectAtIndex:2])]];;
+			return [[NSDate alloc] init:[Std parseInt:((NSMutableArray*)[y hx_objectAtIndex:0])] month:[Std parseInt:((NSMutableArray*)[y hx_objectAtIndex:1])] - 1 day:[Std parseInt:((NSMutableArray*)[y hx_objectAtIndex:2])] hour:[Std parseInt:((NSMutableArray*)[t hx_objectAtIndex:0])] min:[Std parseInt:((NSMutableArray*)[t hx_objectAtIndex:1])] sec:[Std parseInt:((NSMutableArray*)[t hx_objectAtIndex:2])]];
 		}
 		break;
 		default:@throw [[@"Invalid date format : " mutableCopy] stringByAppendingString:s];break;

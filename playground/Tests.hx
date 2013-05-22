@@ -112,6 +112,11 @@ class Tests/* implements Interface1 implements Interface2*/ {
 			case true : var x = 0;
 			case false : var y = 0;
 		}
+		
+		var x = switch (true) {
+			case true : 8;
+			case false : 9;
+		};
 	}
 	
 	

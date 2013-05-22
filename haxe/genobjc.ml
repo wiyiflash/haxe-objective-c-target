@@ -21,6 +21,7 @@ open Ast
 open Type
 open Common
 open Unix
+open Gencommon
 
 let d = false;;
 let joinClassPath path separator =
@@ -1457,6 +1458,19 @@ and generateExpression ctx e =
 	| TReturn eo ->
 		(* TODO: what is supported and what not *)
 		(* if ctx.in_value <> None then unsupported e.epos; *)
+		(* let add_return ec = (match ec.eexpr with
+			   | TBlock (el) -> (match List.rev el with e :: el -> {ec with eexpr = TBlock(List.rev ((mk (TReturn e) t_dynamic e.epos) :: el)) } | [] -> ec)
+			   | TReturn _ -> ctx.writer#write "RETURN UHMM";
+			   | _ -> mk (TReturn ec) t_dynamic e.epos
+		) in
+		let gen_return e = (match e.eexpr with
+			| TSwitch (e1, el, edef) ->
+			    let el = List.map (fun (ep, ec) -> ep,add_return ec) in
+			    generateExpression { e with eexpr = TSwitch(e1,el,match edef with None -> None | Some e -> add_return e)}
+			| _ -> ctx.writer#write "no switch";
+		) in
+		gen_return eo; *)
+		
 		(match eo with
 		| None ->
 			ctx.writer#write "return"
@@ -3302,6 +3316,12 @@ let generate common_ctx =
 		| TClassDecl class_def ->
 			
 			if not class_def.cl_extern then begin
+				(* let gen = new_ctx common_ctx in
+				init_ctx gen;
+				Hashtbl.add gen.gspecial_vars "__objc__" true; (* add here all special __vars__ you need *)
+				ExpressionUnwrap.configure gen (ExpressionUnwrap.traverse gen (fun e -> Some { eexpr = TVars([mk_temp gen "expr" e.etype, Some e]); etype = gen.gcon.basic.tvoid; epos = e.epos }));
+				run_filters gen; *)
+				
 				let module_path = class_def.cl_module.m_path in
 				let class_path = class_def.cl_path in
 				let is_category = (Meta.has Meta.Category class_def.cl_meta) in

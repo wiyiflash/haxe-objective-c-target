@@ -26,9 +26,9 @@ cd ../../../playground
 # echo "Build Cpp tests..."
 # ./haxe/haxe -main Tests -dce no -cp tests -cpp tests/cpp
 # echo "Build CS tests..."
-# ./haxe/haxe -main Tests -cp tests -cs tests/cs
+# ./../haxe/haxe -main Tests -cp . -cs tests/cs
 # echo "Build Java tests..."
-# ./haxe/haxe -main Tests -cp tests -java tests/java
+# ./../haxe/haxe -main Tests -cp tests -java tests/java -lib hxjava
 
 
 echo " "
