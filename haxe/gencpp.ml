@@ -341,7 +341,7 @@ List.filter (function (t,pl) ->
 
 let rec is_function_expr expr =
    match expr.eexpr with
-   | TParenthesis expr -> is_function_expr expr
+   | TParenthesis expr | TMeta(_,expr) -> is_function_expr expr
    | TCast (e,None) -> is_function_expr e
    | TFunction _ -> true
    | _ -> false;;
@@ -383,6 +383,10 @@ let is_numeric = function
 
 let cant_be_null type_string =
    is_numeric type_string
+;;
+
+let is_object type_string =
+   not (is_numeric type_string || type_string="::String");
 ;;
 
 
@@ -756,7 +760,7 @@ let rec iter_retval f retval e =
 	| TField (e,_)
 	| TUnop (_,_,e) ->
 		f true e
-	| TParenthesis e ->
+	| TParenthesis e | TMeta(_,e) ->
 		f retval e
 	| TBlock expr_list when retval ->
 		let rec return_last = function
@@ -852,7 +856,7 @@ let tmatch_params_to_args params =
 let rec is_null expr =
    match expr.eexpr with
    | TConst TNull -> true
-   | TParenthesis expr -> is_null expr
+   | TParenthesis expr | TMeta (_,expr) -> is_null expr
    | TCast (e,None) -> is_null e
    | _ -> false
 ;;
@@ -967,7 +971,7 @@ let rec is_dynamic_in_cpp ctx expr =
                    is_dynamic_in_cpp ctx func
                | _ -> ctx.ctx_dbgout "/* not TFun */";  true
            );
-		| TParenthesis(expr) -> is_dynamic_in_cpp ctx expr
+		| TParenthesis(expr) | TMeta(_,expr) -> is_dynamic_in_cpp ctx expr
       | TCast (e,None) -> is_dynamic_in_cpp ctx e
 		| TLocal { v_name = "__global__" } -> false
 		| TConst TNull -> true
@@ -998,7 +1002,7 @@ and is_dynamic_member_lookup_in_cpp ctx field_object member =
 				with Not_found -> true
    )
 and is_dynamic_member_return_in_cpp ctx field_object member =
-	if (is_array field_object.etype) then member="map" else
+	if (is_array field_object.etype) then false else
 	if (is_internal_member member) then false else
    match field_object.eexpr with
    | TTypeExpr t ->
@@ -1450,7 +1454,7 @@ and gen_expression ctx retval expression =
 	let gen_array_cast cast_name real_type call =
      output (cast_name ^ "< " ^ real_type ^ " >" ^ call)
    in
-	let rec check_array_cast array_type cast_name call =
+	let rec check_array_element_cast array_type cast_name call =
 	   match follow array_type with
 	   | TInst (klass,[element]) ->
          ( match type_string element with
@@ -1459,9 +1463,22 @@ and gen_expression ctx retval expression =
            | real_type -> gen_array_cast cast_name real_type call
          )
 	   | TAbstract (abs,pl) when abs.a_impl <> None ->
-		   check_array_cast (Codegen.Abstract.get_underlying_type abs pl) cast_name call
+		   check_array_element_cast (Codegen.Abstract.get_underlying_type abs pl) cast_name call
       | _ -> ()
    in
+	let rec check_array_cast array_type =
+	   match follow array_type with
+	   | TInst (klass,[element]) ->
+         let name = type_string element in
+         if ( is_object name ) then
+            gen_array_cast ".StaticCast" "Array<Dynamic>" "()"
+         else
+            gen_array_cast ".StaticCast" (type_string array_type) "()"
+	   | TAbstract (abs,pl) when abs.a_impl <> None ->
+		   check_array_cast (Codegen.Abstract.get_underlying_type abs pl)
+      | _ -> ()
+   in
+	
 	let rec gen_tfield field_object field =
       let member = (field_name field) in
 		let remap_name = keyword_remap member in
@@ -1501,7 +1518,7 @@ and gen_expression ctx retval expression =
                cast_if_required ctx field_object (type_string field_object.etype);
                output ( "->" ^ remap_name );
                if (calling && (is_array field_object.etype) && remap_name="iterator" ) then
-                  check_array_cast field_object.etype "Fast" "";
+                  check_array_element_cast field_object.etype "Fast" "";
 
                already_dynamic := (match field with
                   | FInstance(_,var) when is_var_field var -> true
@@ -1562,7 +1579,7 @@ and gen_expression ctx retval expression =
 		let rec is_variable e = match e.eexpr with
 		| TField _ -> false
 		| TLocal { v_name = "__global__" } -> false
-		| TParenthesis p -> is_variable p
+		| TParenthesis p | TMeta(_,p) -> is_variable p
 		| TCast (e,None) -> is_variable e
 		| _ -> true
       in
@@ -1579,7 +1596,7 @@ and gen_expression ctx retval expression =
             end;
             fixed
           )
-		| TParenthesis p -> is_fixed_override p
+		| TParenthesis p | TMeta(_,p) -> is_fixed_override p
 		| _ -> false
       in
       let is_super = (match func.eexpr with | TConst TSuper -> true | _ -> false ) in
@@ -1605,10 +1622,11 @@ and gen_expression ctx retval expression =
          match func.eexpr with
             | TField(obj,field) when is_array obj.etype ->
                (match field_name field with
-                  | "pop" | "shift" -> check_array_cast obj.etype ".StaticCast" "()"
+                  | "pop" | "shift" -> check_array_element_cast obj.etype ".StaticCast" "()"
+                  | "map" -> check_array_cast expression.etype
                   | _ -> ()
                )
-            | TParenthesis p -> cast_array_output p
+            | TParenthesis p | TMeta(_,p) -> cast_array_output p
             | _ -> ()
       in
       cast_array_output func;
@@ -1710,7 +1728,7 @@ and gen_expression ctx retval expression =
 			output "->__get(";
 			gen_expression ctx true index;
 			output ")";
-			check_array_cast array_expr.etype ".StaticCast" "()";
+			check_array_element_cast array_expr.etype ".StaticCast" "()";
 		end
 	(* Get precidence matching haxe ? *)
 	| TBinop (op,expr1,expr2) -> gen_bin_op op expr1 expr2
@@ -1722,6 +1740,7 @@ and gen_expression ctx retval expression =
 	| TParenthesis expr when not retval ->
 			gen_expression ctx retval expr;
 	| TParenthesis expr -> output "("; gen_expression ctx retval expr; output ")"
+	| TMeta (_,expr) -> gen_expression ctx retval expr;
 	| TObjectDecl (
       ("fileName" , { eexpr = (TConst (TString file)) }) ::
          ("lineNumber" , { eexpr = (TConst (TInt line)) }) ::

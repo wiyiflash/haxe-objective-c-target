@@ -333,69 +333,69 @@ static id globals;
 			id e1 = [self makeExpr:l];
 			id p1 = [l pop];
 			if (p1 == nil || p1 s) @throw p1 p;
-			if (p1 p == [@")" mutableCopy]) return e1;
+			if (p1 p == [@")" mutableCopy]) return e1;;
 			id e2 = [self makeExpr:l];
 			id p2 = [l pop];
 			if (p2 == nil || p2 p != [@")" mutableCopy]) @throw p2 p;
 			return ((id)self.__r__ switch (p1 p){
 				case [@"+" mutableCopy]:__r__ = ^(){
 					
-					return (id)[e1] + [e2];
+					return (id)[e1] + [e2];;
 				};
 				break;
 				case [@"-" mutableCopy]:__r__ = ^(){
 					
-					return (id)[e1] - [e2];
+					return (id)[e1] - [e2];;
 				};
 				break;
 				case [@"*" mutableCopy]:__r__ = ^(){
 					
-					return (id)[e1] * [e2];
+					return (id)[e1] * [e2];;
 				};
 				break;
 				case [@"/" mutableCopy]:__r__ = ^(){
 					
-					return (id)[e1] / [e2];
+					return (id)[e1] / [e2];;
 				};
 				break;
 				case [@">" mutableCopy]:__r__ = ^(){
 					
-					return (id)[e1] > [e2];
+					return (id)[e1] > [e2];;
 				};
 				break;
 				case [@"<" mutableCopy]:__r__ = ^(){
 					
-					return (id)[e1] < [e2];
+					return (id)[e1] < [e2];;
 				};
 				break;
 				case [@">=" mutableCopy]:__r__ = ^(){
 					
-					return (id)[e1] >= [e2];
+					return (id)[e1] >= [e2];;
 				};
 				break;
 				case [@"<=" mutableCopy]:__r__ = ^(){
 					
-					return (id)[e1] <= [e2];
+					return (id)[e1] <= [e2];;
 				};
 				break;
 				case [@"==" mutableCopy]:__r__ = ^(){
 					
-					return (id)[e1] == [e2];
+					return (id)[e1] == [e2];;
 				};
 				break;
 				case [@"!=" mutableCopy]:__r__ = ^(){
 					
-					return (id)[e1] != [e2];
+					return (id)[e1] != [e2];;
 				};
 				break;
 				case [@"&&" mutableCopy]:__r__ = ^(){
 					
-					return (id)[e1] && [e2];
+					return (id)[e1] && [e2];;
 				};
 				break;
 				case [@"||" mutableCopy]:__r__ = ^(){
 					
-					return (id)[e1] || [e2];
+					return (id)[e1] || [e2];;
 				};
 				break;
 				default:__r__ = ((id)self.__r__2 @throw [[@"Unknown operation " mutableCopy] stringByAppendingString:p1 p]

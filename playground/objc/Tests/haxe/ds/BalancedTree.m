@@ -29,23 +29,16 @@
 }
 - (BOOL) remove:(id)k{
 	
-	return ((BOOL)self.__r__ @try {
+	@try {
 		
-		__r__ = ((BOOL)self.__r__2 self.root = [self removeLoop:k node:self.root]
-		__r__2 = YES
-		return __r__2{
-			
-			BOOL* __r__2}
-		}(self));
+		self.root = [self removeLoop:k node:self.root];
+		return YES;
 	}
 	@catch (NSException *e) {
 		
-		__r__ = NO;
+		return NO;
 	}
-	return __r__{
-		
-		BOOL* __r__}
-	}(self));
+	return NO;
 }
 - (BOOL) exists:(id)k{
 	

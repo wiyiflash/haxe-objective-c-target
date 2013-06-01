@@ -34,7 +34,7 @@ let has_side_effect e =
 		| TConst _ | TLocal _ | TField (_,FEnum _) | TTypeExpr _ | TFunction _ -> ()
 		| TMatch _ | TNew _ | TCall _ | TField _ | TArray _ | TBinop ((OpAssignOp _ | OpAssign),_,_) | TUnop ((Increment|Decrement),_,_) -> raise Exit
 		| TReturn _ | TBreak | TContinue | TThrow _ | TCast (_,Some _) -> raise Exit
-		| TCast (_,None) | TBinop _ | TUnop _ | TParenthesis _ | TWhile _ | TFor _ | TIf _ | TTry _ | TSwitch _ | TArrayDecl _ | TVars _ | TBlock _ | TObjectDecl _ -> Type.iter loop e
+		| TCast (_,None) | TBinop _ | TUnop _ | TParenthesis _ | TMeta _ | TWhile _ | TFor _ | TIf _ | TTry _ | TSwitch _ | TArrayDecl _ | TVars _ | TBlock _ | TObjectDecl _ -> Type.iter loop e
 	in
 	try
 		loop e; false
@@ -600,7 +600,7 @@ let standard_precedence op =
 
 let rec need_parent e =
 	match e.eexpr with
-	| TConst _ | TLocal _ | TArray _ | TField _ | TParenthesis _ | TCall _ | TNew _ | TTypeExpr _ | TObjectDecl _ | TArrayDecl _ -> false
+	| TConst _ | TLocal _ | TArray _ | TField _ | TParenthesis _ | TMeta _ | TCall _ | TNew _ | TTypeExpr _ | TObjectDecl _ | TArrayDecl _ -> false
 	| TCast (e,None) -> need_parent e
 	| TCast _ | TThrow _ | TReturn _ | TTry _ | TMatch _ | TSwitch _ | TFor _ | TIf _ | TWhile _ | TBinop _ | TContinue | TBreak
 	| TBlock _ | TVars _ | TFunction _ | TUnop _ -> true
@@ -954,7 +954,7 @@ let rec make_constant_expression ctx ?(concat_strings=false) e =
 			Some (mk (TConst (TString (s1 ^ s2))) ctx.com.basic.tstring (punion e1.epos e2.epos))
 		| Some e1, Some e2 -> Some (mk (TBinop(op, e1, e2)) e.etype e.epos)
 		| _ -> None)
-	| TParenthesis e -> Some e
+	| TParenthesis e | TMeta(_,e) -> Some e
 	| TTypeExpr _ -> Some e
 	(* try to inline static function calls *)
 	| TCall ({ etype = TFun(_,ret); eexpr = TField (_,FStatic (c,cf)) },el) ->
@@ -989,9 +989,9 @@ let inline_constructors ctx e =
 			Type.iter find_locals e;
 			List.iter (fun (v,e) ->
 				match e with
-				| Some ({ eexpr = TNew ({ cl_constructor = Some ({ cf_kind = Method MethInline; cf_expr = Some { eexpr = TFunction f } } as cst) },_,pl) } as n) ->
+				| Some ({ eexpr = TNew ({ cl_constructor = Some ({ cf_kind = Method MethInline; cf_expr = Some { eexpr = TFunction f } } as cst) } as c,_,pl) } as n) ->
 					(* inline the constructor *)
-					(match (try type_inline ctx cst f (mk (TLocal v) v.v_type n.epos) pl v.v_type None n.epos true with Error (Custom _,_) -> None) with
+					(match (try type_inline ctx cst f (mk (TLocal v) v.v_type n.epos) pl ctx.t.tvoid None n.epos true with Error (Custom _,_) -> None) with
 					| None -> ()
 					| Some ecst ->
 						let assigns = ref [] in
@@ -1000,15 +1000,15 @@ let inline_constructors ctx e =
 							match e.eexpr with
 							| TBlock el ->
 								List.iter get_assigns el
-							| TBinop (OpAssign, { eexpr = TField ({ eexpr = TLocal vv },FInstance(_,cf)) }, e) when v == vv ->
-								assigns := (cf.cf_name,e) :: !assigns
+							| TBinop (OpAssign, { eexpr = TField ({ eexpr = TLocal vv },FInstance(_,cf)); etype = t }, e) when v == vv ->
+								assigns := (cf.cf_name,e,t) :: !assigns
 							| _ ->
 								raise Exit
 						in
 						try
 							get_assigns ecst;
 							(* mark variable as candidate for inlining *)
-							vars := PMap.add v.v_id (v,List.rev !assigns) !vars;
+							vars := PMap.add v.v_id (v,List.rev !assigns,c.cl_extern || Meta.has Meta.Extern cst.cf_meta,n.epos) !vars;
 							v.v_id <- -v.v_id; (* mark *)
 							(* recurse with the constructor code which will be inlined here *)
 							find_locals ecst
@@ -1020,6 +1020,12 @@ let inline_constructors ctx e =
 			()
 		| TLocal v when v.v_id < 0 ->
 			v.v_id <- -v.v_id;
+			(* error if the constructor is extern *)
+			(match PMap.find v.v_id !vars with
+			| _,_,true,p ->
+				display_error ctx "Extern constructor could not be inlined" p;
+				error "Variable is used here" e.epos
+			| _ -> ());
 			vars := PMap.remove v.v_id !vars;
 		| _ ->
 			Type.iter find_locals e
@@ -1029,9 +1035,9 @@ let inline_constructors ctx e =
 	if PMap.is_empty vars then
 		e
 	else begin
-		let vfields = PMap.map (fun (v,assigns) ->
-			List.fold_left (fun (acc,map) (name,e) ->
-				let vf = alloc_var (v.v_name ^ "_" ^ name) e.etype in
+		let vfields = PMap.map (fun (v,assigns,_,_) ->
+			List.fold_left (fun (acc,map) (name,e,t) ->
+				let vf = alloc_var (v.v_name ^ "_" ^ name) t in
 				((vf,e) :: acc, PMap.add name vf map)
 			) ([],PMap.empty) assigns
 		) vars in
@@ -1062,7 +1068,7 @@ let inline_constructors ctx e =
 				Type.map_expr subst e
 		in
 		let e = (try subst e with Not_found -> assert false) in
-		PMap.iter (fun _ (v,_) -> v.v_id <- -v.v_id) vars;
+		PMap.iter (fun _ (v,_,_,_) -> v.v_id <- -v.v_id) vars;
 		e
 	end
 

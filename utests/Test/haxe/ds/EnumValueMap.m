@@ -9,11 +9,8 @@
 
 @implementation EnumValueMap
 
-- (int) compare:(id)_tmp_k1 _tmp_k2:(id)_tmp_k2{
+- (int) compare:(EnumValue*)k1 k2:(EnumValue*)k2{
 	
-	
-	EnumValue *k1 = (EnumValue*)_tmp_k1; 
-	EnumValue *k2 = (EnumValue*)_tmp_k2;
 	int d = [k1 __Index] - [k2 __Index];
 	if (d != 0) return d;
 	

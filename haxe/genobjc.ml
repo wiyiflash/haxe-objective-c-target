@@ -1879,6 +1879,9 @@ and generateExpression ctx e =
 		generateExpression ctx e1;
 	| TCast (e1,Some t) -> 
 		ctx.writer#write "-CASTSomeType-"
+	| TMeta (_,e) -> 
+		ctx.writer#write "-TMeta-";
+		generateValue ctx e
 		(* generateExpression ctx (Codegen.default_cast ctx.common_ctx e1 t e.etype e.epos) *)
 
 and generateCaseBlock ctx e =
@@ -1942,6 +1945,7 @@ and generateValue ctx e =
 	| TCall _
 	| TNew _
 	| TUnop _
+	| TMeta _
 	| TFunction _ ->
 		generateExpression ctx e
 	| TCast (e1,t) ->

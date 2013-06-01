@@ -238,6 +238,7 @@
 @protocol CovI2<NSObject>
 
 
+
 @end
 
 
@@ -257,7 +258,7 @@
 
 @protocol Cov2<NSObject>
 
-- (Base*) covariant;
+- (Child1*) covariant;
 - (id) init;
 
 @end
@@ -268,7 +269,7 @@
 
 @protocol Cov3<NSObject>
 
-- (Base*) covariant;
+- (Child2_1*) covariant;
 - (id) init;
 
 @end
@@ -290,7 +291,7 @@
 
 @protocol Ctrv2<NSObject>
 
-- (void) contravariant:(Child1*)_tmp_arg;
+- (void) contravariant:(Base*)arg;
 - (id) init;
 
 @end

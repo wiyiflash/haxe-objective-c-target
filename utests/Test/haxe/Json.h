@@ -15,6 +15,7 @@
 #import "../Reflect.h"
 #import "../Type.h"
 #import "../Std.h"
+#import "../Math.h"
 #import "../Class.h"
 #import "../EnumValue.h"
 

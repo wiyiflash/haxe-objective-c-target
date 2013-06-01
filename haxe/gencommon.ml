@@ -25,14 +25,14 @@
 
   This module intends to be a common set of utilities common to all targets.
 
-  It's intended to provide a set of tools to be able to make targets in haXe more easily, and to
+  It's intended to provide a set of tools to be able to make targets in Haxe more easily, and to
   allow the programmer to have more control of how the target language will handle the program.
 
   For example, as of now, the hxcpp target, while greatly done, relies heavily on cpp's own operator
   overloading, and implicit conversions, which make it very hard to deliver a similar solution for languages
   that lack these features.
 
-  So this little framework is here so you can manipulate the HaXe AST and start bringing the AST closer
+  So this little framework is here so you can manipulate the Haxe AST and start bringing the AST closer
   to how it's intenteded to be in your host language.
 
   Rules
@@ -110,7 +110,7 @@ struct
   let mk_heexpr = function
     | TConst _ -> 0 | TLocal _ -> 1 | TArray _ -> 3 | TBinop _ -> 4 | TField _ -> 5 | TTypeExpr _ -> 7 | TParenthesis _ -> 8 | TObjectDecl _ -> 9
     | TArrayDecl _ -> 10 | TCall _ -> 11 | TNew _ -> 12 | TUnop _ -> 13 | TFunction _ -> 14 | TVars _ -> 15 | TBlock _ -> 16 | TFor _ -> 17 | TIf _ -> 18 | TWhile _ -> 19
-    | TSwitch _ -> 20 | TMatch _ -> 21 | TTry _ -> 22 | TReturn _ -> 23 | TBreak -> 24 | TContinue -> 25 | TThrow _ -> 26 | TCast _ -> 27
+    | TSwitch _ -> 20 | TMatch _ -> 21 | TTry _ -> 22 | TReturn _ -> 23 | TBreak -> 24 | TContinue -> 25 | TThrow _ -> 26 | TCast _ -> 27 | TMeta _ -> 28
 
   let mk_heetype = function
     | TMono _ -> 0 | TEnum _ -> 1 | TInst _ -> 2 | TType _ -> 3 | TFun _ -> 4
@@ -1208,7 +1208,7 @@ let mk_class m path pos =
   cl
 
 type tfield_access =
-  | FClassField of tclass * tparams * tclass (* declared class *) * tclass_field * bool (* is static? *) * t (* the actual cf type, in relation to the class type params *)
+  | FClassField of tclass * tparams * tclass (* declared class *) * tclass_field * bool (* is static? *) * t (* the actual cf type, in relation to the class type params *) * t (* declared type *)
   | FEnumField of tenum * tenum_field * bool (* is parameterized enum ? *)
   | FAnonField of tclass_field
   | FDynamicField of t
@@ -1285,7 +1285,7 @@ let field_access gen (t:t) (field:string) : (tfield_access) =
       let not_found () =
         try
           let cf = PMap.find field gen.gbase_class_fields in
-          FClassField (orig_cl, orig_params, gen.gclasses.cl_dyn, cf, false, cf.cf_type)
+          FClassField (orig_cl, orig_params, gen.gclasses.cl_dyn, cf, false, cf.cf_type, cf.cf_type)
         with
           | Not_found -> not_found cl params
       in
@@ -1305,37 +1305,37 @@ let field_access gen (t:t) (field:string) : (tfield_access) =
       in
       (match types with
           | None -> not_found()
-          | Some (cf, actual_t, _, declared_cl) ->
-            FClassField(orig_cl, orig_params, declared_cl, cf, false, actual_t))
+          | Some (cf, actual_t, declared_t, declared_cl) ->
+            FClassField(orig_cl, orig_params, declared_cl, cf, false, actual_t, declared_t))
     | TEnum _ | TAbstract _ ->
       (* enums have no field *) FNotFound
     | TAnon anon ->
       (try match !(anon.a_status) with
         | Statics cl ->
           let cf = PMap.find field cl.cl_statics in
-          FClassField(cl, List.map (fun _ -> t_dynamic) cl.cl_types, cl, cf, true, cf.cf_type)
+          FClassField(cl, List.map (fun _ -> t_dynamic) cl.cl_types, cl, cf, true, cf.cf_type, cf.cf_type)
         | EnumStatics e ->
           let f = PMap.find field e.e_constrs in
           let is_param = match follow f.ef_type with | TFun _ -> true | _ -> false in
           FEnumField(e, f, is_param)
         | _ when PMap.mem field gen.gbase_class_fields ->
           let cf = PMap.find field gen.gbase_class_fields in
-          FClassField(gen.gclasses.cl_dyn, [t_dynamic], gen.gclasses.cl_dyn, cf, false, cf.cf_type)
+          FClassField(gen.gclasses.cl_dyn, [t_dynamic], gen.gclasses.cl_dyn, cf, false, cf.cf_type, cf.cf_type)
         | _ ->
           FAnonField(PMap.find field anon.a_fields)
       with | Not_found -> FNotFound)
     | _ when PMap.mem field gen.gbase_class_fields ->
       let cf = PMap.find field gen.gbase_class_fields in
-      FClassField(gen.gclasses.cl_dyn, [t_dynamic], gen.gclasses.cl_dyn, cf, false, cf.cf_type)
+      FClassField(gen.gclasses.cl_dyn, [t_dynamic], gen.gclasses.cl_dyn, cf, false, cf.cf_type, cf.cf_type)
     | TDynamic t -> FDynamicField t
     | TMono _ -> FDynamicField t_dynamic
     | _ -> FNotFound
 
 let mk_field_access gen expr field pos =
   match field_access gen expr.etype field with
-    | FClassField(c,p,dc,cf,false,at) ->
+    | FClassField(c,p,dc,cf,false,at,_) ->
         { eexpr = TField(expr, FInstance(dc,cf)); etype = apply_params c.cl_types p at; epos = pos }
-    | FClassField(c,p,dc,cf,true,at) ->
+    | FClassField(c,p,dc,cf,true,at,_) ->
         { eexpr = TField(expr, FStatic(dc,cf)); etype = at; epos = pos }
     | FAnonField cf ->
         { eexpr = TField(expr, FAnon cf); etype = cf.cf_type; epos = pos }
@@ -2279,7 +2279,7 @@ struct
               )
           | TField(({ eexpr = TTypeExpr _ } as tf), f) ->
             (match field_access gen tf.etype (field_name f) with
-              | FClassField(_,_,_,cf,_,_) ->
+              | FClassField(_,_,_,cf,_,_,_) ->
                 (match cf.cf_kind with
                   | Method(MethDynamic)
                   | Var _ ->
@@ -2396,7 +2396,7 @@ struct
           change_expr e (run fexpr) (field_name f) (Some (run evalue)) true
         | TBinop(OpAssign, { eexpr = TField(fexpr, f) }, evalue) ->
             (match field_access gen fexpr.etype (field_name f) with
-              | FClassField(_,_,_,cf,false,t) when (try PMap.find cf.cf_name gen.gbase_class_fields == cf with Not_found -> false) ->
+              | FClassField(_,_,_,cf,false,t,_) when (try PMap.find cf.cf_name gen.gbase_class_fields == cf with Not_found -> false) ->
                   change_expr e (run fexpr) (field_name f) (Some (run evalue)) true
               | _ -> Type.map_expr run e
             )
@@ -2749,7 +2749,7 @@ struct
           (* check to see if called field is known and if it is a MethNormal (only MethNormal fields can be called directly) *)
           let name = field_name f in
           (match field_access gen (gen.greal_type ecl.etype) name with
-            | FClassField(_,_,_,cf,_,_) ->
+            | FClassField(_,_,_,cf,_,_,_) ->
               (match cf.cf_kind with
                 | Method MethNormal
                 | Method MethInline ->
@@ -4451,7 +4451,7 @@ end;;
   and will unwrap statements where expressions are expected, and vice-versa.
 
   It should be one of the first syntax filters to be applied. As a consequence, it's applied after all filters that add code to the AST, and by being
-  the first of the syntax filters, it will also have the AST retain most of the meaning of normal HaXe code. So it's easier to detect cases which are
+  the first of the syntax filters, it will also have the AST retain most of the meaning of normal Haxe code. So it's easier to detect cases which are
   side-effects free, for example
 
   Any target can make use of this, but there is one requirement: The target must accept null to be set to any kind of variable. For example,
@@ -4460,7 +4460,7 @@ end;;
   dependencies:
     While it's best for Expression Unwrap to delay its execution as much as possible, since theoretically any
     filter can return an expression that needs to be unwrapped, it is also desirable for ExpresionUnwrap to have
-    the AST as close as possible as HaXe's, so it can make some correct predictions (for example, so it can
+    the AST as close as possible as Haxe's, so it can make some correct predictions (for example, so it can
     more accurately know what can be side-effects-free and what can't).
     This way, it will run slightly after the Normal priority, so if you don't say that a syntax filter must run
     before Expression Unwrap, it will run after it.
@@ -4616,45 +4616,7 @@ struct
       | TBlock _ -> expr (* there is no expected expression here. Only statements *)
       | _ -> assert false (* we only expect valid statements here. other expressions aren't valid statements *)
 
-  (* statements: *)
-  (* Error CS0201: Only assignment, call, increment,           *)
-  (* decrement, and new object expressions can be used as a    *)
-  (* statement (CS0201). *)
-  let rec shallow_expr_type expr : shallow_expr_type =
-    match expr.eexpr with
-      | TCall _ when not (is_void expr.etype) -> Both expr
-      | TNew _
-      | TUnop (Ast.Increment, _, _)
-      | TUnop (Ast.Decrement, _, _)
-      | TBinop (Ast.OpAssign, _, _)
-      | TBinop (Ast.OpAssignOp _, _, _) -> Both expr
-      | TIf (cond, eif, Some(eelse)) when (shallow_expr_type eif <> Statement) && (shallow_expr_type eelse <> Statement) -> Both expr
-      | TConst _
-      | TLocal _
-      | TArray _
-      | TBinop _
-      | TField _
-      | TTypeExpr _
-      | TObjectDecl _
-      | TArrayDecl _
-      | TFunction _
-      | TCast _
-      | TUnop _ -> Expression (expr)
-      | TParenthesis p -> shallow_expr_type p
-      | TBlock ([e]) -> shallow_expr_type e
-      | TCall _
-      | TVars _
-      | TBlock _
-      | TFor _
-      | TWhile _
-      | TSwitch _
-      | TMatch _
-      | TTry _
-      | TReturn _
-      | TBreak
-      | TContinue
-      | TIf _
-      | TThrow _ -> Statement
+  let is_expr = function | Expression _ -> true | _ -> false
 
   let aggregate_expr_type map_fn side_effects_free children =
     let rec loop acc children =
@@ -4673,7 +4635,49 @@ struct
     in
     loop (if side_effects_free then KNoSideEffects else KNormalExpr) children
 
-  let rec expr_kind expr =
+  (* statements: *)
+  (* Error CS0201: Only assignment, call, increment,           *)
+  (* decrement, and new object expressions can be used as a    *)
+  (* statement (CS0201). *)
+  let rec shallow_expr_type expr : shallow_expr_type =
+    match expr.eexpr with
+      | TCall _ when not (is_void expr.etype) -> Both expr
+      | TNew _
+      | TUnop (Ast.Increment, _, _)
+      | TUnop (Ast.Decrement, _, _)
+      | TBinop (Ast.OpAssign, _, _)
+      | TBinop (Ast.OpAssignOp _, _, _) -> Both expr
+      | TIf (cond, eif, Some(eelse)) -> (match aggregate_expr_type expr_kind true [cond;eif;eelse] with
+        | KExprWithStatement -> Statement
+        | _ -> Both expr)
+      | TConst _
+      | TLocal _
+      | TArray _
+      | TBinop _
+      | TField _
+      | TTypeExpr _
+      | TObjectDecl _
+      | TArrayDecl _
+      | TFunction _
+      | TCast _
+      | TUnop _ -> Expression (expr)
+      | TParenthesis p | TMeta(_,p) -> shallow_expr_type p
+      | TBlock ([e]) -> shallow_expr_type e
+      | TCall _
+      | TVars _
+      | TBlock _
+      | TFor _
+      | TWhile _
+      | TSwitch _
+      | TMatch _
+      | TTry _
+      | TReturn _
+      | TBreak
+      | TContinue
+      | TIf _
+      | TThrow _ -> Statement
+
+  and expr_kind expr =
     match shallow_expr_type expr with
       | Statement -> KStatement
       | Both expr | Expression expr ->
@@ -4707,6 +4711,7 @@ struct
           | TArray (e1,e2) ->
             aggregate true [e1;e2]
           | TParenthesis e
+          | TMeta(_,e)
           | TField (e,_) ->
             aggregate true [e]
           | TArrayDecl (el) ->
@@ -4801,7 +4806,7 @@ struct
       | TReturn _
       | TBreak
       | TContinue -> right
-      | TParenthesis p ->
+      | TParenthesis p | TMeta(_,p) ->
         apply_assign assign_fun p
       | _ ->
         match follow right.etype with
@@ -5175,6 +5180,7 @@ struct
     let default_implementation gen =
       let rec extract_expr e = match e.eexpr with
         | TParenthesis e
+        | TMeta (_,e)
         | TCast(e,_) -> extract_expr e
         | _ -> e
       in
@@ -5211,7 +5217,7 @@ struct
         | TBinop ( (Ast.OpAssign as op),({ eexpr = TField(tf, f) } as e1), e2 )
         | TBinop ( (Ast.OpAssignOp _ as op),({ eexpr = TField(tf, f) } as e1), e2 ) ->
           (match field_access gen (gen.greal_type tf.etype) (field_name f) with
-            | FClassField(cl,params,_,_,is_static,actual_t) ->
+            | FClassField(cl,params,_,_,is_static,actual_t,_) ->
               let actual_t = if is_static then actual_t else apply_params cl.cl_types params actual_t in
               let e1 = extract_expr (run e1) in
               { e with eexpr = TBinop(op, e1, handle (run e2) actual_t e2.etype); etype = e1.etype }
@@ -5727,7 +5733,7 @@ struct
     let real_type = gen.greal_type ef.etype in
     (* this part was rewritten at roughly r6477 in order to correctly support overloads *)
     (match field_access gen real_type (field_name f) with
-    | FClassField (cl, params, _, cf, is_static, actual_t) when e <> None && (cf.cf_kind = Method MethNormal || cf.cf_kind = Method MethInline) ->
+    | FClassField (cl, params, _, cf, is_static, actual_t, declared_t) when e <> None && (cf.cf_kind = Method MethNormal || cf.cf_kind = Method MethInline) ->
         (* C# target changes params with a real_type function *)
         let params = match follow clean_ef.etype with
         | TInst(_,params) -> params
@@ -5738,13 +5744,7 @@ struct
         let cf, actual_t, error = match is_overload with
           | false ->
               (* since actual_t from FClassField already applies greal_type, we're using the get_overloads helper to get this info *)
-              let overloads = Typeload.get_overloads cl (field_name f) in
-              (match overloads with
-              | [] -> cf, cf.cf_type, false
-              | _ -> try
-                  let t, cf = List.find (fun (t,f) -> f == cf) overloads in
-                  cf,t,false
-                  with | Not_found -> cf,actual_t,true)
+              cf,declared_t,false
           | true ->
           let (cf, actual_t, error), is_static = match f with
             | FInstance(c,cf) | FClosure(Some c,cf) ->
@@ -5827,11 +5827,11 @@ struct
           let new_ecall = if fparams <> [] then gen.gparam_func_call new_ecall { e1 with eexpr = TField(!ef, f) } fparams elist else new_ecall in
           handle_cast gen new_ecall (gen.greal_type ecall.etype) (gen.greal_type ret_ft)
         end
-    | FClassField (cl,params,_,{ cf_kind = (Method MethDynamic | Var _) },_,actual_t) ->
+    | FClassField (cl,params,_,{ cf_kind = (Method MethDynamic | Var _) },_,actual_t,_) ->
       (* if it's a var, we will just try to apply the class parameters that have been changed with greal_type_param *)
       let t = apply_params cl.cl_types (gen.greal_type_param (TClassDecl cl) params) (gen.greal_type actual_t) in
       return_var (handle_cast gen { e1 with eexpr = TField(ef, f) } (gen.greal_type e1.etype) (gen.greal_type t))
-    | FClassField (cl,params,_,cf,_,actual_t) ->
+    | FClassField (cl,params,_,cf,_,actual_t,_) ->
       return_var (handle_cast gen { e1 with eexpr = TField({ ef with etype = t_dynamic }, f) } e1.etype t_dynamic) (* force dynamic and cast back to needed type *)
     | FEnumField (en, efield, true) ->
       let ecall = match e with | None -> trace (field_name f); trace efield.ef_name; gen.gcon.error "This field should be called immediately" ef.epos; assert false | Some ecall -> ecall in
@@ -6023,7 +6023,7 @@ struct
           let rec get_null e =
             match e.eexpr with
             | TConst TNull -> Some e
-            | TParenthesis e -> get_null e
+            | TParenthesis e | TMeta(_,e) -> get_null e
             | _ -> None
           in
           (match get_null expr with
@@ -6660,7 +6660,7 @@ struct
         | TIf(cond,e1,Some e2) ->
           is_side_effects_free cond && is_side_effects_free e1 && is_side_effects_free e2
         | TField(e,_)
-        | TParenthesis e -> is_side_effects_free e
+        | TParenthesis e | TMeta(_,e) -> is_side_effects_free e
         | TArrayDecl el -> List.for_all is_side_effects_free el
         | TCast(e,_) -> is_side_effects_free e
         | _ -> false
@@ -8197,7 +8197,7 @@ struct
     let priority = min_dep +. 10.
 
     let default_implementation gen baseclass baseinterface basedynamic =
-      baseinterface.cl_meta <- (Meta.BaseInterface, [], baseinterface.cl_pos) :: baseinterface.cl_meta;
+      (* baseinterface.cl_meta <- (Meta.BaseInterface, [], baseinterface.cl_pos) :: baseinterface.cl_meta; *)
       let rec run md =
         (if is_hxgen md then
           match md with
@@ -8231,10 +8231,10 @@ struct
   *)
   let priority = solve_deps name [DAfter UniversalBaseClass.priority]
 
-  let configure ?slow_invoke ctx =
+  let configure ?slow_invoke ctx baseinterface =
     let gen = ctx.rcf_gen in
     let run = (fun md -> match md with
-      | TClassDecl cl when is_hxgen md && ( not cl.cl_interface || Meta.has Meta.BaseInterface cl.cl_meta ) ->
+      | TClassDecl cl when is_hxgen md && ( not cl.cl_interface || cl.cl_path = baseinterface.cl_path ) ->
         (if Meta.has Meta.ReplaceReflection cl.cl_meta then replace_reflection ctx cl);
         (implement_dynamics ctx cl);
         (if not (PMap.mem (gen.gmk_internal_name "hx" "lookupField") cl.cl_fields) then implement_final_lookup ctx cl);
@@ -8448,7 +8448,6 @@ struct
             cf
         in
         cl.cl_statics <- PMap.add cf.cf_name cf cl.cl_statics;
-        cf.cf_meta <- (Meta.Alias, [ EConst( String (string_of_int old_i) ), pos ], pos) :: [];
         cf
       ) en.e_names in
       let constructs_cf = mk_class_field "constructs" (basic.tarray basic.tstring) true pos (Var { v_read = AccNormal; v_write = AccNormal }) [] in
@@ -9426,7 +9425,7 @@ struct
     match e.eexpr with
       | TConst (v) -> Some v
       | TBinop(op, v1, v2) -> aggregate_constant op (get_constant_expr v1) (get_constant_expr v2)
-      | TParenthesis(e) -> get_constant_expr e
+      | TParenthesis(e) | TMeta(_,e) -> get_constant_expr e
       | _ -> None
 
   let traverse gen should_warn handle_switch_break handle_not_final_returns java_mode =
@@ -10018,23 +10017,24 @@ struct
             let real_ftype = get_real_fun gen (apply_params iface.cl_types real_itl f.cf_type) in
             replace_mono real_ftype;
             let overloads = Typeload.get_overloads c f.cf_name in
-            (* if we find a function with the exact type of real_ftype, it means this interface has already been taken care of *)
-            if not (List.exists (fun (t,_) -> replace_mono t; type_iseq (get_real_fun gen t) real_ftype) overloads) then
-              try
+            try
+              let t2, f2 =
+                match overloads with
+                | (_, cf) :: _ when Meta.has Meta.Overload cf.cf_meta -> (* overloaded function *)
+                  (* try to find exact function *)
+                  List.find (fun (t,f2) ->
+                    Typeload.same_overload_args ftype t f f2
+                  ) overloads
+                | _ :: _ ->
+                  (match field_access gen (TInst(c, List.map snd c.cl_types)) f.cf_name with
+                  | FClassField(_,_,_,f2,false,t,_) -> t,f2 (* if it's not an overload, all functions should have the same signature *)
+                  | _ -> raise Not_found)
+                | [] -> raise Not_found
+              in
+              replace_mono t2;
+              (* if we find a function with the exact type of real_ftype, it means this interface has already been taken care of *)
+              if not (type_iseq (get_real_fun gen (apply_params f2.cf_params (List.map snd f.cf_params) t2)) real_ftype) then begin
                 (match f.cf_kind with | Method (MethNormal | MethInline) -> () | _ -> raise Not_found);
-                let t2, f2 =
-                  match overloads with
-                  | (_, cf) :: _ when Meta.has Meta.Overload cf.cf_meta -> (* overloaded function *)
-                    (* try to find exact function *)
-                    List.find (fun (t,f2) ->
-                      Typeload.same_overload_args ftype t f f2
-                    ) overloads
-                  | _ :: _ ->
-                    (match field_access gen (TInst(c, List.map snd c.cl_types)) f.cf_name with
-                    | FClassField(_,_,_,f2,false,t) -> t,f2 (* if it's not an overload, all functions should have the same signature *)
-                    | _ -> raise Not_found)
-                  | [] -> raise Not_found
-                in
                 let t2 = get_real_fun gen t2 in
                 if List.length f.cf_params <> List.length f2.cf_params then raise Not_found;
                 replace_mono t2;
@@ -10062,7 +10062,7 @@ struct
                         f2.cf_expr <- Some { e with eexpr = TFunction { tf with tf_type = newr } }
                     | _ -> ())
                   end
-               | TFun(a1,r1), TFun(a2,r2) ->
+                | TFun(a1,r1), TFun(a2,r2) ->
                   (* just implement a function that will call the main one *)
                   let name, is_explicit = match explicit_fn_name with
                     | Some fn when not (type_iseq r1 r2) && Typeload.same_overload_args real_ftype t2 f f2 ->
@@ -10104,7 +10104,8 @@ struct
                   (* gen.gafter_filters_ended <- delay :: gen.gafter_filters_ended *)
                   delay();
                 | _ -> assert false
-              with | Not_found -> ()
+              end
+            with | Not_found -> ()
           in
           List.iter loop_f iface.cl_ordered_fields
         in

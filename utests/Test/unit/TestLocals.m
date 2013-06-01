@@ -77,7 +77,7 @@
 	[self eq:x v2:0 pos:@{@"fileName":@"TestLocals.hx", @"lineNumber":@"49", @"className":@"unit.TestLocals", @"methodName":@"testScope"}];
 	@try {
 		
-		@throw [@"hello" mutableCopy];;
+		@throw [@"hello" mutableCopy];
 	}
 	@catch (NSException *x1) {
 		

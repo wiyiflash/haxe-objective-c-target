@@ -882,7 +882,7 @@ let configure gen =
     match e.eexpr with
       | TLocal _ -> e
       | TCast(e,_)
-      | TParenthesis e -> ensure_local e explain
+      | TParenthesis e | TMeta(_,e) -> ensure_local e explain
       | _ -> gen.gcon.error ("This function argument " ^ explain ^ " must be a local variable.") e.epos; e
   in
 
@@ -992,6 +992,8 @@ let configure gen =
           )
         | TParenthesis e ->
           write w "("; expr_s w e; write w ")"
+        | TMeta (_,e) ->
+            expr_s w e 
         | TArrayDecl el ->
           print w "new %s" (t_s e.etype);
           write w "{";
@@ -1409,6 +1411,7 @@ let configure gen =
               | TDynamic _, TEnum({ e_path = ([], "Bool") }, [])
               | TDynamic _, TAbstract({ a_path = ([], "Bool") }, []) -> true
               | _ -> false)
+          | "GetHashCode", TFun([],_) -> true
           | _ -> false
         in
 
@@ -1419,7 +1422,7 @@ let configure gen =
         let modifiers = modifiers @ modf in
         let visibility, is_virtual = if is_explicit_iface then "",false else visibility, is_virtual in
         let v_n = if is_static then "static " else if is_override && not is_interface then "override " else if is_virtual then "virtual " else "" in
-        let cf_type = if is_override && not is_overload && not (Meta.has Meta.Overload cf.cf_meta) then match field_access gen (TInst(cl, List.map snd cl.cl_types)) cf.cf_name with | FClassField(_,_,_,_,_,actual_t) -> actual_t | _ -> assert false else cf.cf_type in
+        let cf_type = if is_override && not is_overload && not (Meta.has Meta.Overload cf.cf_meta) then match field_access gen (TInst(cl, List.map snd cl.cl_types)) cf.cf_name with | FClassField(_,_,_,_,_,actual_t,_) -> actual_t | _ -> assert false else cf.cf_type in
         let ret_type, args = match follow cf_type with | TFun (strbtl, t) -> (t, strbtl) | _ -> assert false in
 
         (* public static void funcName *)
@@ -2013,7 +2016,7 @@ let configure gen =
     eexpr = TCall(slow_invoke, [ethis; efield; eargs]);
     etype = t_dynamic;
     epos = ethis.epos;
-  } );
+  } ) object_iface;
 
   let objdecl_fn = ReflectionCFs.implement_dynamic_object_ctor rcf_ctx dynamic_object in
 
@@ -2075,7 +2078,7 @@ let configure gen =
 
   let is_null_expr e = is_null e.etype || match e.eexpr with
     | TField(tf, f) -> (match field_access gen (real_type tf.etype) (field_name f) with
-      | FClassField(_,_,_,_,_,actual_t) -> is_null actual_t
+      | FClassField(_,_,_,_,_,actual_t,_) -> is_null actual_t
       | _ -> false)
     | _ -> false
   in

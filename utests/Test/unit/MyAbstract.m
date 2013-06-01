@@ -445,3 +445,36 @@ static int counter;
 }
 
 @end
+
+@implementation MyDebugString_Impl_
+
++ (NSMutableString*) _new:(NSMutableString*)s{
+	
+	return s;
+}
++ (NSMutableString*) substr:(NSMutableString*)this1 i:(int)i len:(int)len{
+	
+	// Optional arguments
+	if (!len) len = nil;
+	
+	return [this1 substr:i len:nil];
+}
+
+@end
+
+@implementation MySpecialString_Impl_
+
+
++ (NSMutableString*) substr:(NSMutableString*)this1 i:(int)i len:(int)len{
+	
+	// Optional arguments
+	if (!len) len = nil;
+	
+	return ( (len == nil) ? [this1 substr:i len:nil] : [this1 substr:i len:len]);
+}
++ (MyDebugString*) toNormal:(NSMutableString*)t value:(NSMutableString*)value{
+	
+	return (MyDebugString*)value;
+}
+
+@end

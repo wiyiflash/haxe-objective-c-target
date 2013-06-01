@@ -6,8 +6,8 @@
 //
 
 
-#import <Foundation/Foundation.h>
 
+#import "../Math.h"
 #import "../unit/Test.h"
 
 @interface TestOps : Test 

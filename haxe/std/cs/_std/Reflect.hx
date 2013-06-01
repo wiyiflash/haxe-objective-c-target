@@ -21,7 +21,7 @@
  */
 import cs.internal.Function;
 /*
- * Copyright (c) 2005, The haXe Project Contributors
+ * Copyright (c) 2005, The Haxe Project Contributors
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -207,7 +207,7 @@ import cs.internal.Function;
 
 	**/
 	@:functionCode('
-		return v != null && !(v is haxe.lang.DynamicObject || v is haxe.lang.Function || v is System.Enum);
+		return v != null && !(v is haxe.lang.Enum || v is haxe.lang.Function || v is System.ValueType);
 	')
 	public static function isObject( v : Dynamic ) : Bool
 	{

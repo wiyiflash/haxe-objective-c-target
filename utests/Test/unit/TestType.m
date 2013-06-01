@@ -612,7 +612,7 @@
 	a = 6;
 	func = ^(int a1, NSMutableString *b1, float c){
 		
-		return ^(int)@throw [@"error" mutableCopy];
+		return ^(int)@throw [@"error" mutableCopy]
 		return __r__18{
 			
 			int* __r__18}
@@ -963,8 +963,8 @@
 	NSMutableArray *r1 = [@[@1, [@[@2, @3] mutableCopy]] mutableCopy];
 	[self eq:r1.length v2:2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"527", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
 	[self eq:((int)[r1 hx_objectAtIndex:0]) v2:1 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"528", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
-	[self eq:((NSMutableArray*)[((NSMutableArray)[r1 hx_objectAtIndex:1]) hx_objectAtIndex:0]) v2:2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"529", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
-	[self eq:((NSMutableArray*)[((NSMutableArray)[r1 hx_objectAtIndex:1]) hx_objectAtIndex:1]) v2:3 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"530", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
+	[self eq:((NSMutableArray*)[((NSMutableArray*)[r1 hx_objectAtIndex:1]) hx_objectAtIndex:0]) v2:2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"529", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
+	[self eq:((NSMutableArray*)[((NSMutableArray*)[r1 hx_objectAtIndex:1]) hx_objectAtIndex:1]) v2:3 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"530", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
 	
 	NSMutableArray *r2 = [@[@1] mutableCopy];
 	[self eq:r2.length v2:1 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"533", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
@@ -986,7 +986,7 @@
 	[self eq:r5.length v2:3 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"549", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
 	[self eq:((int)[r5 hx_objectAtIndex:0]) v2:1 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"550", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
 	[self eq:((int)[r5 hx_objectAtIndex:1]) v2:2 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"551", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
-	[self eq:((NSMutableArray*)[((NSMutableArray)[r5 hx_objectAtIndex:2]) hx_objectAtIndex:0]) v2:3 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"552", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
+	[self eq:((NSMutableArray*)[((NSMutableArray*)[r5 hx_objectAtIndex:2]) hx_objectAtIndex:0]) v2:3 pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"552", @"className":@"unit.TestType", @"methodName":@"testMacroRest"}];
 }
 - (void) testGenericFunction{
 	
@@ -1057,32 +1057,32 @@
 	
 	[self exc:^(){
 		
-		@throw nil;;
+		@throw nil;
 		return 1;
 	} pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"669", @"className":@"unit.TestType", @"methodName":@"testVoidFunc"}];
 	[self exc:^(){
 		
-		@throw nil;;
+		@throw nil;
 		return [@"foo" mutableCopy];
 	} pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"670", @"className":@"unit.TestType", @"methodName":@"testVoidFunc"}];
 	[self exc:^(){
 		
-		@throw nil;;
+		@throw nil;
 		return A;
 	} pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"671", @"className":@"unit.TestType", @"methodName":@"testVoidFunc"}];
 	[self exc:^(){
 		
-		@throw nil;;
+		@throw nil;
 		return [[Template alloc] init:[@"foo" mutableCopy]];
 	} pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"673", @"className":@"unit.TestType", @"methodName":@"testVoidFunc"}];
 	[self exc:^(){
 		
-		@throw nil;;
+		@throw nil;
 		return nil;
 	} pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"675", @"className":@"unit.TestType", @"methodName":@"testVoidFunc"}];
 	[self exc:^(){
 		
-		@throw nil;;
+		@throw nil;
 		return [@{
 			@"foo":[@1 copy],
 		} mutableCopy];
@@ -1373,6 +1373,13 @@
 	s = [@"bar" mutableCopy];
 	[self eq:[func1] v2:[@"foo" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"855", @"className":@"unit.TestType", @"methodName":@"testAbstractClosure"}];
 	[self eq:[[MyAbstractClosure_Impl_ test:s]] v2:[@"bar" mutableCopy] pos:@{@"fileName":@"TestType.hx", @"lineNumber":@"856", @"className":@"unit.TestType", @"methodName":@"testAbstractClosure"}];
+}
+- (void) testAbstractTypeParameterVariance{
+	
+	
+	NSMutableArray *a = [@[@1, @2, @3] mutableCopy];
+	
+	NSMutableArray *b = a;
 }
 
 @end

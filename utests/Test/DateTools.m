@@ -64,7 +64,7 @@
 		break;
 		case [@"Y" mutableCopy]:__r__ = [Std string:[d getFullYear]];
 		break;
-		default:__r__ = ^(NSMutableString*)@throw [[[@"Date.format %" mutableCopy] stringByAppendingString:e] stringByAppendingString:[@"- not implemented yet." mutableCopy]];
+		default:__r__ = ^(NSMutableString*)@throw [[[@"Date.format %" mutableCopy] stringByAppendingString:e] stringByAppendingString:[@"- not implemented yet." mutableCopy]]
 		return __r__4{
 			
 			NSMutableString* __r__4}
@@ -154,7 +154,7 @@ static NSMutableArray* DAYS_OF_MONTH;
 }
 + (float) make:(id)o{
 	
-	return isstrFAnon-o ms + 1000.0 *  (isstrFAnon-o seconds + 60.0 *  (isstrFAnon-o minutes + 60.0 *  (isstrFAnon-isstrFAnon-o hours + 24.0 * o days)));
+	return o ms + 1000.0 *  (o seconds + 60.0 *  (o minutes + 60.0 *  (o hours + 24.0 * o days)));
 }
 
 @end

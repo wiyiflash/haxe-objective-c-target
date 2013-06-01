@@ -6,7 +6,6 @@
 //
 
 
-#import <Foundation/Foundation.h>
 
 #import "../String.h"
 #import "../Array.h"
@@ -15,6 +14,7 @@
 #import "../unit/Test.h"
 #import "../haxe/CallStack.h"
 #import "../Std.h"
+#import "../Math.h"
 #import "../Class.h"
 #import "../Lambda.h"
 #import "../Type.h"

@@ -46,9 +46,9 @@
 			buf |= ((BytesData*)[b.b hx_objectAtIndex:pin++]);
 		}
 		curbits -= nbits;
-		[_out.b hx_replaceObjectAtIndex:pout++ withObject:(base.b hx_replaceObjectAtIndex:buf >> curbits & mask & @255)];
+		[_out.b hx_replaceObjectAtIndex:pout++ withObject:(((BytesData*)[base.b hx_objectAtIndex:buf >> curbits & mask]) & @255)];
 	}
-	if (curbits > 0) [_out.b hx_replaceObjectAtIndex:pout++ withObject:(base.b hx_replaceObjectAtIndex:buf << nbits - curbits & mask & @255)];
+	if (curbits > 0) [_out.b hx_replaceObjectAtIndex:pout++ withObject:(((BytesData*)[base.b hx_objectAtIndex:buf << nbits - curbits & mask]) & @255)];
 	return _out;
 }
 - (void) initTable{
@@ -97,7 +97,7 @@
 			curbits += nbits;
 			buf <<= nbits;
 			int i = ((NSMutableArray*)[tbl hx_objectAtIndex:((BytesData*)[b.b hx_objectAtIndex:pin++])]);
-			if (i == -1) @throw [@"BaseCode : invalid encoded char" mutableCopy];;
+			if (i == -1) @throw [@"BaseCode : invalid encoded char" mutableCopy];
 			buf |= i;
 		}
 		curbits -= 8;
@@ -119,7 +119,7 @@
 	int len = base.length;
 	int nbits = 1;
 	while (len > 1 << nbits) nbits++;
-	if (nbits > 8 || len != 1 << nbits) @throw [@"BaseCode : base length must be a power of two." mutableCopy];;
+	if (nbits > 8 || len != 1 << nbits) @throw [@"BaseCode : base length must be a power of two." mutableCopy];
 	self.base = base;
 	self.nbits = nbits;
 	return self;

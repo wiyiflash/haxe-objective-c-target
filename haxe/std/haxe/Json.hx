@@ -26,7 +26,7 @@ package haxe;
 	Use -D haxeJSON to force usage of the haXe implementation even if a native API is found : this will provide
 	extra encoding features such as enums (replaced by their index), Hashs and Iterable.
 **/
-#if (objc && !haxeJSON)
+#if ((objc_version>=5) && !haxeJSON)
 	import objc.foundation.NSError;
 	import objc.foundation.NSString;
 	import objc.foundation.NSData;
@@ -406,10 +406,10 @@ class Json {
 		return phpJsonDecode(text);
 		#elseif (flash11 && !haxeJSON)
 		return null;
-		#elseif (objc && !haxeJSON && ios5_0)
-			var err:NSError = null;
-			var data:NSData = untyped text.dataUsingEncoding(NSUTF8StringEncoding);
-			var obj:Dynamic = NSJSONSerialization.JSONObjectWithData (data, NSJSONReadingMutableLeaves, err);
+		#elseif ((objc_version>=5) && !haxeJSON)
+			var err :NSError = null;
+			var data :NSData = untyped text.dataUsingEncoding(NSUTF8StringEncoding);
+			var obj :Dynamic = NSJSONSerialization.JSONObjectWithData (data, NSJSONReadingMutableLeaves, err);
 			return obj;
 		#else
 		return new Json().doParse(text);
@@ -421,10 +421,11 @@ class Json {
 		return phpJsonEncode(value);
 		#elseif (flash11 && !haxeJSON)
 		return null;
-		#elseif (objc && !haxeJSON && ios5_0)
-			var err:NSError = null;
-			var data:NSData = NSJSONSerialization.dataWithJSONObject (value, NSJSONWritingPrettyPrinted, err);
-			return untyped new String("").initWithData ( data );
+		#elseif ((objc_version>=5.0) && !haxeJSON)
+			var err :NSError = null;
+			var data :NSData = NSJSONSerialization.dataWithJSONObject (value, NSJSONWritingPrettyPrinted, err);
+			var str :String = untyped __objc__("[NSMutableString stringWithData:data]");
+			return str;
 		#else
 		return new Json().toString(value, replacer);
 		#end

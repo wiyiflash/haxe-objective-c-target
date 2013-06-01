@@ -29,23 +29,16 @@
 }
 - (BOOL) remove:(id)k{
 	
-	return ((BOOL)self.__r__ @try {
+	@try {
 		
-		__r__ = ((BOOL)self.__r__2 self.root = [self removeLoop:k node:self.root]
-		__r__2 = YES
-		return __r__2{
-			
-			BOOL* __r__2}
-		}(self));
+		self.root = [self removeLoop:k node:self.root];
+		return YES;
 	}
 	@catch (NSException *e) {
 		
-		__r__ = NO;
+		return NO;
 	}
-	return __r__{
-		
-		BOOL* __r__}
-	}(self));
+	return NO;
 }
 - (BOOL) exists:(id)k{
 	
@@ -94,7 +87,7 @@
 }
 - (TreeNode*) removeLoop:(id)k node:(TreeNode*)node{
 	
-	if (node == nil) @throw [@"Not_found" mutableCopy];;
+	if (node == nil) @throw [@"Not_found" mutableCopy];
 	int c = [self compare:k k2:node.key];
 	return ( (c == 0) ? [self merge:node.left t2:node.right] : ( (c < 0) ? [self balance:[self removeLoop:k node:node.left] k:node.key v:node.value r:node.right] : [self balance:node.left k:node.key v:node.value r:[self removeLoop:k node:node.right]]));
 }
@@ -126,7 +119,7 @@
 }
 - (TreeNode*) minBinding:(TreeNode*)t{
 	
-	return ( (t == nil) ? ((TreeNode)self.__r__ @throw [@"Not_found" mutableCopy];
+	return ( (t == nil) ? ((TreeNode)self.__r__ @throw [@"Not_found" mutableCopy]
 	return __r__{
 		
 		TreeNode* __r__}

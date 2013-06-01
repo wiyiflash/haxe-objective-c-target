@@ -18,9 +18,9 @@
 		
 		NSMutableString *_g = [c toString];
 		switch (_g){
-			case [@"__Anon" mutableCopy]:return nil;
+			case [@"__Anon" mutableCopy]:return nil;;
 			break;
-			case [@"Class" mutableCopy]:return nil;
+			case [@"Class" mutableCopy]:return nil;;
 			break;
 		}
 	}

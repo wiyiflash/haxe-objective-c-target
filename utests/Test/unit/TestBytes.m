@@ -171,28 +171,66 @@
 	
 	
 	BytesBuffer *_out = [[BytesBuffer alloc] init];
+	[self eq:_out.b.length v2:0 pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"103", @"className":@"unit.TestBytes", @"methodName":@"testBuffer"}];
+	{
+		
+		
+		Bytes *src = [Bytes ofString:[@"ABCDEF" mutableCopy]];
+		
+		NSMutableArray *b1 = _out.b;
+		
+		NSMutableArray *b2 = src.b;
+		{
+			
+			int _g1 = 0; int _g = src.length;
+			while (_g1 < _g) {
+				
+				int i = _g1++;
+				[_out.b push:((BytesData*)[b2 hx_objectAtIndex:i])];
+			}
+		}
+	}
 	{
 		
 		int _g = 1;
 		while (_g < 6) {
 			
 			int i = _g++;
-			[_out.b appendBytes:_out.b.mutableBytes length:i];
+			[_out.b push:i];
 		}
 	}
-	if (4 > [Bytes ofString:[@"ABCDEF" mutableCopy]].length) @throw OutsideBounds;;
+	{
+		
+		
+		Bytes *src = [Bytes ofString:[@"ABCDEF" mutableCopy]];
+		if (4 > src.length) @throw OutsideBounds;
+		
+		NSMutableArray *b1 = _out.b;
+		
+		NSMutableArray *b2 = src.b;
+		{
+			
+			int _g1 = 1; int _g = 4;
+			while (_g1 < _g) {
+				
+				int i = _g1++;
+				[_out.b push:((BytesData*)[b2 hx_objectAtIndex:i])];
+			}
+		}
+	}
+	[self eq:_out.b.length v2:14 pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"108", @"className":@"unit.TestBytes", @"methodName":@"testBuffer"}];
 	
 	Bytes *b = [_out getBytes];
 	
 	NSMutableString *str = [@"ABCDEFBCD" mutableCopy];
-	[self eq:b.length v2:str.length pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"109", @"className":@"unit.TestBytes", @"methodName":@"testBuffer"}];
+	[self eq:b.length v2:str.length pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"111", @"className":@"unit.TestBytes", @"methodName":@"testBuffer"}];
 	{
 		
 		int _g1 = 0; int _g = str.length;
 		while (_g1 < _g) {
 			
 			int i = _g1++;
-			[self eq:((BytesData*)[b.b hx_objectAtIndex:i]) v2:[str charCodeAt:i] pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"111", @"className":@"unit.TestBytes", @"methodName":@"testBuffer"}];
+			[self eq:((BytesData*)[b.b hx_objectAtIndex:i]) v2:[str charCodeAt:i] pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"113", @"className":@"unit.TestBytes", @"methodName":@"testBuffer"}];
 		}
 	}
 }
@@ -202,7 +240,7 @@
 	Bytes *bs = [Bytes ofString:[@"One é accent" mutableCopy]];
 	
 	BytesInput *input = [[BytesInput alloc] init:bs pos:nil len:nil];
-	[self eq:[[input readAll] toString] v2:[@"One é accent" mutableCopy] pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"118", @"className":@"unit.TestBytes", @"methodName":@"testInput"}];
+	[self eq:[[input readAll] toString] v2:[@"One é accent" mutableCopy] pos:@{@"fileName":@"TestBytes.hx", @"lineNumber":@"120", @"className":@"unit.TestBytes", @"methodName":@"testInput"}];
 }
 
 @end

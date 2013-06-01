@@ -16,6 +16,7 @@
 #import "../StringTools.h"
 #import "../Reflect.h"
 #import "../Type.h"
+#import "../Math.h"
 #import "../Class.h"
 #import "../List.h"
 #import "../haxe/ds/ObjectMap.h"

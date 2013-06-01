@@ -34,7 +34,7 @@
 		while (_g1 < _g) {
 			
 			int i = _g1++;
-			int c = [s characterAtIndex:i];
+			int c = [s cca:i];
 			if (c <= 127) [a push:c];
 			else if (c <= 2047) {
 				

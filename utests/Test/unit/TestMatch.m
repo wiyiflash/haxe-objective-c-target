@@ -426,7 +426,7 @@
 		
 		case 0:
 		
-		var MATCH x : int = e2.params[0]__r__ = ( (x > 1) ? [@">1" mutableCopy] : ( (x <= 1) ? [@"<=1" mutableCopy] : ^(NSMutableString*)@throw [@"this is impossible to reach actually" mutableCopy];
+		var MATCH x : int = e2.params[0]__r__ = ( (x > 1) ? [@">1" mutableCopy] : ( (x <= 1) ? [@"<=1" mutableCopy] : ^(NSMutableString*)@throw [@"this is impossible to reach actually" mutableCopy]
 		return __r__3{
 			
 			NSMutableString* __r__3}
@@ -530,8 +530,8 @@
 		@"expr":[[EConst:[CString:[@"bar" mutableCopy]]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@2861 copy],
-		@"max":[@2866 copy],
+		@"min":[@2735 copy],
+		@"max":[@2740 copy],
 	} mutableCopy] copy],
 	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"127", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
 	[self eq:[@"bar" mutableCopy] v2:[TestMatch switchNormal:(id)[@{
@@ -539,14 +539,14 @@
 		@"expr":[[EConst:[CString:[@"bar" mutableCopy]]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@2903 copy],
-		@"max":[@2908 copy],
+		@"min":[@2776 copy],
+		@"max":[@2781 copy],
 	} mutableCopy] copy],
 	} mutableCopy]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@2902 copy],
-		@"max":[@2909 copy],
+		@"min":[@2775 copy],
+		@"max":[@2782 copy],
 	} mutableCopy] copy],
 	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"128", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
 	[self eq:[@"bar" mutableCopy] v2:[TestMatch switchNormal:(id)[@{
@@ -554,14 +554,14 @@
 		@"expr":[[EConst:[CString:[@"bar" mutableCopy]]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@2953 copy],
-		@"max":[@2958 copy],
+		@"min":[@2825 copy],
+		@"max":[@2830 copy],
 	} mutableCopy] copy],
 	} mutableCopy]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@2945 copy],
-		@"max":[@2958 copy],
+		@"min":[@2817 copy],
+		@"max":[@2830 copy],
 	} mutableCopy] copy],
 	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"129", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
 	[self eq:[@"foo" mutableCopy] v2:[TestMatch switchNormal:(id)[@{
@@ -569,14 +569,14 @@
 		@"expr":[[EConst:[CIdent:[@"null" mutableCopy]]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@2994 copy],
-		@"max":[@2998 copy],
+		@"min":[@2865 copy],
+		@"max":[@2869 copy],
 	} mutableCopy] copy],
 	} mutableCopy] field:[@"foo" mutableCopy]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@2994 copy],
-		@"max":[@3002 copy],
+		@"min":[@2865 copy],
+		@"max":[@2873 copy],
 	} mutableCopy] copy],
 	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"130", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
 	[self eq:[@"22" mutableCopy] v2:[TestMatch switchNormal:(id)[@{
@@ -584,21 +584,21 @@
 		@"expr":[[EConst:[CIdent:[@"null" mutableCopy]]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@3037 copy],
-		@"max":[@3041 copy],
+		@"min":[@2907 copy],
+		@"max":[@2911 copy],
 	} mutableCopy] copy],
 	} mutableCopy] e2:[@{
 		@"expr":[[EConst:[CInt:[@"22" mutableCopy]]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@3042 copy],
-		@"max":[@3044 copy],
+		@"min":[@2912 copy],
+		@"max":[@2914 copy],
 	} mutableCopy] copy],
 	} mutableCopy]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@3037 copy],
-		@"max":[@3045 copy],
+		@"min":[@2907 copy],
+		@"max":[@2915 copy],
 	} mutableCopy] copy],
 	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"131", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
 	[self eq:[@"22.5" mutableCopy] v2:[TestMatch switchNormal:(id)[@{
@@ -606,21 +606,21 @@
 		@"expr":[[EConst:[CIdent:[@"null" mutableCopy]]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@3082 copy],
-		@"max":[@3086 copy],
+		@"min":[@2951 copy],
+		@"max":[@2955 copy],
 	} mutableCopy] copy],
 	} mutableCopy] e2:[@{
 		@"expr":[[EConst:[CFloat:[@"22.5" mutableCopy]]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@3087 copy],
-		@"max":[@3091 copy],
+		@"min":[@2956 copy],
+		@"max":[@2960 copy],
 	} mutableCopy] copy],
 	} mutableCopy]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@3082 copy],
-		@"max":[@3092 copy],
+		@"min":[@2951 copy],
+		@"max":[@2961 copy],
 	} mutableCopy] copy],
 	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"132", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
 	[self eq:[@"EConst(CInt(0))" mutableCopy] v2:[TestMatch switchNormal:(id)[@{
@@ -628,21 +628,21 @@
 		@"expr":[[EConst:[CInt:[@"1" mutableCopy]]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@3140 copy],
-		@"max":[@3141 copy],
+		@"min":[@3008 copy],
+		@"max":[@3009 copy],
 	} mutableCopy] copy],
 	} mutableCopy] e2:[@{
 		@"expr":[[EConst:[CInt:[@"0" mutableCopy]]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@3145 copy],
-		@"max":[@3146 copy],
+		@"min":[@3013 copy],
+		@"max":[@3014 copy],
 	} mutableCopy] copy],
 	} mutableCopy]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@3140 copy],
-		@"max":[@3146 copy],
+		@"min":[@3008 copy],
+		@"max":[@3014 copy],
 	} mutableCopy] copy],
 	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"133", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
 	[self eq:[@"not_found" mutableCopy] v2:[TestMatch switchNormal:(id)[@{
@@ -650,69 +650,69 @@
 		@"expr":[[EConst:[CIdent:[@"null" mutableCopy]]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@3188 copy],
-		@"max":[@3192 copy],
+		@"min":[@3055 copy],
+		@"max":[@3059 copy],
 	} mutableCopy] copy],
 	} mutableCopy] e2:[@{
 		@"expr":[[EConst:[CString:[@"22" mutableCopy]]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@3193 copy],
-		@"max":[@3197 copy],
+		@"min":[@3060 copy],
+		@"max":[@3064 copy],
 	} mutableCopy] copy],
 	} mutableCopy]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@3188 copy],
-		@"max":[@3198 copy],
+		@"min":[@3055 copy],
+		@"max":[@3065 copy],
 	} mutableCopy] copy],
 	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"134", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
 	[self t:nil != [TestMatch switchCapture:(id)[@{
 		@"expr":[[EConst:[CString:[@"foobar" mutableCopy]]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@3237 copy],
-		@"max":[@3245 copy],
+		@"min":[@3102 copy],
+		@"max":[@3110 copy],
 	} mutableCopy] copy],
 	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"136", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
 	[self t:nil == [TestMatch switchCapture:(id)[@{
 		@"expr":[[EConst:[CString:[@"fooba" mutableCopy]]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@3282 copy],
-		@"max":[@3289 copy],
+		@"min":[@3146 copy],
+		@"max":[@3153 copy],
 	} mutableCopy] copy],
 	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"137", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
 	[self t:nil != [TestMatch switchCapture:(id)[@{
 		@"expr":[[EConst:[CInt:[@"9" mutableCopy]]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@3326 copy],
-		@"max":[@3327 copy],
+		@"min":[@3189 copy],
+		@"max":[@3190 copy],
 	} mutableCopy] copy],
 	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"138", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
 	[self t:nil == [TestMatch switchCapture:(id)[@{
 		@"expr":[[EConst:[CInt:[@"10" mutableCopy]]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@3364 copy],
-		@"max":[@3366 copy],
+		@"min":[@3226 copy],
+		@"max":[@3228 copy],
 	} mutableCopy] copy],
 	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"139", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
 	[self eq:[@"[]" mutableCopy] v2:[TestMatch switchArray:(id)[@{
 		@"expr":[[EArrayDecl:[@[] mutableCopy]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@3402 copy],
-		@"max":[@3404 copy],
+		@"min":[@3262 copy],
+		@"max":[@3264 copy],
 	} mutableCopy] copy],
 	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"141", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
 	[self eq:[@"_" mutableCopy] v2:[TestMatch switchArray:(id)[@{
 		@"expr":[[EConst:[CInt:[@"2" mutableCopy]]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@3437 copy],
-		@"max":[@3438 copy],
+		@"min":[@3296 copy],
+		@"max":[@3297 copy],
 	} mutableCopy] copy],
 	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"142", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
 	[self eq:[@"[EConst(CInt(22))]" mutableCopy] v2:[TestMatch switchArray:(id)[@{
@@ -720,14 +720,14 @@
 		@"expr":[[EConst:[CInt:[@"22" mutableCopy]]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@3489 copy],
-		@"max":[@3491 copy],
+		@"min":[@3347 copy],
+		@"max":[@3349 copy],
 	} mutableCopy] copy],
 	} mutableCopy]] mutableCopy]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@3488 copy],
-		@"max":[@3492 copy],
+		@"min":[@3346 copy],
+		@"max":[@3350 copy],
 	} mutableCopy] copy],
 	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"143", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
 	[self eq:[@"[EConst(CInt(22)),EConst(CString(foo))]" mutableCopy] v2:[TestMatch switchArray:(id)[@{
@@ -735,21 +735,21 @@
 		@"expr":[[EConst:[CInt:[@"22" mutableCopy]]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@3564 copy],
-		@"max":[@3566 copy],
+		@"min":[@3421 copy],
+		@"max":[@3423 copy],
 	} mutableCopy] copy],
 	} mutableCopy], [@{
 		@"expr":[[EConst:[CString:[@"foo" mutableCopy]]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@3567 copy],
-		@"max":[@3572 copy],
+		@"min":[@3424 copy],
+		@"max":[@3429 copy],
 	} mutableCopy] copy],
 	} mutableCopy]] mutableCopy]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@3563 copy],
-		@"max":[@3573 copy],
+		@"min":[@3420 copy],
+		@"max":[@3430 copy],
 	} mutableCopy] copy],
 	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"144", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
 	[self eq:[@"_" mutableCopy] v2:[TestMatch switchArray:(id)[@{
@@ -757,28 +757,28 @@
 		@"expr":[[EConst:[CInt:[@"22" mutableCopy]]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@3607 copy],
-		@"max":[@3609 copy],
+		@"min":[@3463 copy],
+		@"max":[@3465 copy],
 	} mutableCopy] copy],
 	} mutableCopy], [@{
 		@"expr":[[EConst:[CString:[@"foo" mutableCopy]]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@3611 copy],
-		@"max":[@3616 copy],
+		@"min":[@3467 copy],
+		@"max":[@3472 copy],
 	} mutableCopy] copy],
 	} mutableCopy], [@{
 		@"expr":[[EConst:[CString:[@"bar" mutableCopy]]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@3618 copy],
-		@"max":[@3623 copy],
+		@"min":[@3474 copy],
+		@"max":[@3479 copy],
 	} mutableCopy] copy],
 	} mutableCopy]] mutableCopy]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@3606 copy],
-		@"max":[@3624 copy],
+		@"min":[@3462 copy],
+		@"max":[@3480 copy],
 	} mutableCopy] copy],
 	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"145", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
 	[self eq:[@"0" mutableCopy] v2:[TestMatch switchArray2:[@[[@"a" mutableCopy], [@"b" mutableCopy]] mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"147", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
@@ -797,81 +797,81 @@
 		@"expr":[[EConst:[CString:[@"foobar" mutableCopy]]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@4037 copy],
-		@"max":[@4045 copy],
+		@"min":[@3881 copy],
+		@"max":[@3889 copy],
 	} mutableCopy] copy],
 	} mutableCopy] e2:[@{
 		@"expr":[[EConst:[CInt:[@"12" mutableCopy]]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@4046 copy],
-		@"max":[@4048 copy],
+		@"min":[@3890 copy],
+		@"max":[@3892 copy],
 	} mutableCopy] copy],
 	} mutableCopy]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@4037 copy],
-		@"max":[@4049 copy],
+		@"min":[@3881 copy],
+		@"max":[@3893 copy],
 	} mutableCopy] copy],
 	} mutableCopy]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@4036 copy],
-		@"max":[@4050 copy],
+		@"min":[@3880 copy],
+		@"max":[@3894 copy],
 	} mutableCopy] copy],
 	} mutableCopy]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@4028 copy],
-		@"max":[@4050 copy],
+		@"min":[@3872 copy],
+		@"max":[@3894 copy],
 	} mutableCopy] copy],
 	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"157", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
 	[self eq:[@"1" mutableCopy] v2:[TestMatch switchGuard:(id)[@{
 		@"expr":[[EConst:[CString:[@"foobar" mutableCopy]]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@4085 copy],
-		@"max":[@4093 copy],
+		@"min":[@3927 copy],
+		@"max":[@3935 copy],
 	} mutableCopy] copy],
 	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"159", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
 	[self eq:[@"2" mutableCopy] v2:[TestMatch switchGuard:(id)[@{
 		@"expr":[[EConst:[CString:[@"barfoo" mutableCopy]]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@4126 copy],
-		@"max":[@4134 copy],
+		@"min":[@3967 copy],
+		@"max":[@3975 copy],
 	} mutableCopy] copy],
 	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"160", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
 	[self eq:[@"3" mutableCopy] v2:[TestMatch switchGuard:(id)[@{
 		@"expr":[[EConst:[CInt:[@"2" mutableCopy]]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@4167 copy],
-		@"max":[@4168 copy],
+		@"min":[@4007 copy],
+		@"max":[@4008 copy],
 	} mutableCopy] copy],
 	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"161", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
 	[self eq:[@"4" mutableCopy] v2:[TestMatch switchGuard:(id)[@{
 		@"expr":[[EConst:[CInt:[@"5" mutableCopy]]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@4201 copy],
-		@"max":[@4202 copy],
+		@"min":[@4040 copy],
+		@"max":[@4041 copy],
 	} mutableCopy] copy],
 	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"162", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
 	[self eq:[@"4" mutableCopy] v2:[TestMatch switchGuard:(id)[@{
 		@"expr":[[EConst:[CString:[@"bazfoo" mutableCopy]]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@4235 copy],
-		@"max":[@4243 copy],
+		@"min":[@4073 copy],
+		@"max":[@4081 copy],
 	} mutableCopy] copy],
 	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"163", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
 	[self eq:[@"5" mutableCopy] v2:[TestMatch switchGuard:(id)[@{
 		@"expr":[[EArrayDecl:[@[] mutableCopy]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@4276 copy],
-		@"max":[@4278 copy],
+		@"min":[@4113 copy],
+		@"max":[@4115 copy],
 	} mutableCopy] copy],
 	} mutableCopy]] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"164", @"className":@"unit.TestMatch", @"methodName":@"testBasic"}];
 	[self eq:[@"0" mutableCopy] v2:((NSMutableString)self.__r__ BOOL _g = YES; int _g1 = 1; 
@@ -1297,32 +1297,32 @@
 		@"expr":[[EConst:[CInt:[@"1" mutableCopy]]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@6960 copy],
-		@"max":[@6961 copy],
+		@"min":[@6687 copy],
+		@"max":[@6688 copy],
 	} mutableCopy] copy],
 	} mutableCopy];
 	id i2 = (id)[@{
 		@"expr":[[EConst:[CInt:[@"2" mutableCopy]]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@6981 copy],
-		@"max":[@6982 copy],
+		@"min":[@6707 copy],
+		@"max":[@6708 copy],
 	} mutableCopy] copy],
 	} mutableCopy];
 	id f1 = (id)[@{
 		@"expr":[[EConst:[CFloat:[@"3.9" mutableCopy]]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@7002 copy],
-		@"max":[@7005 copy],
+		@"min":[@6727 copy],
+		@"max":[@6730 copy],
 	} mutableCopy] copy],
 	} mutableCopy];
 	id f2 = (id)[@{
 		@"expr":[[EConst:[CFloat:[@"4.8" mutableCopy]]] copy],
 		@"pos":[[@{
 		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
-		@"min":[@7025 copy],
-		@"max":[@7028 copy],
+		@"min":[@6749 copy],
+		@"max":[@6752 copy],
 	} mutableCopy] copy],
 	} mutableCopy];
 	[self eq:[@"11" mutableCopy] v2:[TestMatch orMatch:i1 e2:i1] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"278", @"className":@"unit.TestMatch", @"methodName":@"testOr"}];
@@ -1369,15 +1369,145 @@
 	[self eq:[@"Unmatched patterns: Leaf" mutableCopy] v2:[@"Unmatched patterns: Leaf" mutableCopy] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"329", @"className":@"unit.TestMatch", @"methodName":@"testNonExhaustiveness"}];
 	[self eq:[@"Unmatched patterns: Leaf(_)" mutableCopy] v2:[@"Unmatched patterns: Leaf(_)" mutableCopy] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"333", @"className":@"unit.TestMatch", @"methodName":@"testNonExhaustiveness"}];
 	[self eq:[@"Unmatched patterns: [_,false,_]" mutableCopy] v2:[@"Unmatched patterns: [_,false,_]" mutableCopy] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"337", @"className":@"unit.TestMatch", @"methodName":@"testNonExhaustiveness"}];
+	BOOL x = YES;
+	[self eq:[@"Unmatched patterns: null" mutableCopy] v2:[@"Unmatched patterns: null" mutableCopy] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"341", @"className":@"unit.TestMatch", @"methodName":@"testNonExhaustiveness"}];
+	
+	Tree *t = nil;
+	[self eq:[@"Unmatched patterns: null" mutableCopy] v2:[@"Unmatched patterns: null" mutableCopy] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"346", @"className":@"unit.TestMatch", @"methodName":@"testNonExhaustiveness"}];
 }
 - (void) testInvalidBinding{
 	
-	[self eq:[@"Variable y must appear exactly once in each sub-pattern" mutableCopy] v2:[@"Variable y must appear exactly once in each sub-pattern" mutableCopy] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"343", @"className":@"unit.TestMatch", @"methodName":@"testInvalidBinding"}];
-	[self eq:[@"Variable y must appear exactly once in each sub-pattern" mutableCopy] v2:[@"Variable y must appear exactly once in each sub-pattern" mutableCopy] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"346", @"className":@"unit.TestMatch", @"methodName":@"testInvalidBinding"}];
-	[self eq:[@"Variable x must appear exactly once in each sub-pattern" mutableCopy] v2:[@"Variable x must appear exactly once in each sub-pattern" mutableCopy] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"349", @"className":@"unit.TestMatch", @"methodName":@"testInvalidBinding"}];
-	[self eq:[@"Variable l must appear exactly once in each sub-pattern" mutableCopy] v2:[@"Variable l must appear exactly once in each sub-pattern" mutableCopy] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"352", @"className":@"unit.TestMatch", @"methodName":@"testInvalidBinding"}];
-	[self eq:[@"Variable l must appear exactly once in each sub-pattern" mutableCopy] v2:[@"Variable l must appear exactly once in each sub-pattern" mutableCopy] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"355", @"className":@"unit.TestMatch", @"methodName":@"testInvalidBinding"}];
-	[self eq:[@"String should be unit.Tree<String>" mutableCopy] v2:[@"String should be unit.Tree<String>" mutableCopy] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"358", @"className":@"unit.TestMatch", @"methodName":@"testInvalidBinding"}];
+	[self eq:[@"Variable y must appear exactly once in each sub-pattern" mutableCopy] v2:[@"Variable y must appear exactly once in each sub-pattern" mutableCopy] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"353", @"className":@"unit.TestMatch", @"methodName":@"testInvalidBinding"}];
+	[self eq:[@"Variable y must appear exactly once in each sub-pattern" mutableCopy] v2:[@"Variable y must appear exactly once in each sub-pattern" mutableCopy] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"356", @"className":@"unit.TestMatch", @"methodName":@"testInvalidBinding"}];
+	[self eq:[@"Variable x must appear exactly once in each sub-pattern" mutableCopy] v2:[@"Variable x must appear exactly once in each sub-pattern" mutableCopy] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"359", @"className":@"unit.TestMatch", @"methodName":@"testInvalidBinding"}];
+	[self eq:[@"Variable l must appear exactly once in each sub-pattern" mutableCopy] v2:[@"Variable l must appear exactly once in each sub-pattern" mutableCopy] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"362", @"className":@"unit.TestMatch", @"methodName":@"testInvalidBinding"}];
+	[self eq:[@"Variable l must appear exactly once in each sub-pattern" mutableCopy] v2:[@"Variable l must appear exactly once in each sub-pattern" mutableCopy] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"365", @"className":@"unit.TestMatch", @"methodName":@"testInvalidBinding"}];
+	[self eq:[@"String should be unit.Tree<String>" mutableCopy] v2:[@"String should be unit.Tree<String>" mutableCopy] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"368", @"className":@"unit.TestMatch", @"methodName":@"testInvalidBinding"}];
+}
+- (void) testNullPattern{
+	
+	int i = nil;
+	int r = ( (nil == i) ? 2 : ((id)self.__r__ switch (i){
+		case 1:__r__ = 1;
+		break;
+		default:__r__ = 3;break;
+	}
+	return __r__{
+		
+		id* __r__}
+	}(self)));
+	[self eq:2 v2:r pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"380", @"className":@"unit.TestMatch", @"methodName":@"testNullPattern"}];
+	
+	Tree *t = nil;
+	int r1 = ( (nil == t) ? ( (i != nil) ? 2 : 3) : ((id)self.__r__2 
+	enum s = e3 (t)
+	switch ( e3.index ) {
+		
+		case 0:
+		__r__2 = 1;break
+		case 1:
+		__r__2 = 4;break
+	}
+	return __r__2{
+		
+		id* __r__2}
+	}(self)));
+	[self eq:r1 v2:3 pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"396", @"className":@"unit.TestMatch", @"methodName":@"testNullPattern"}];
+	id e1 = (id)[@{
+		@"expr":[[EIf:[@{
+		@"expr":[[EConst:[CInt:[@"1" mutableCopy]]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@10011 copy],
+		@"max":[@10012 copy],
+	} mutableCopy] copy],
+	} mutableCopy] eif:[@{
+		@"expr":[[EConst:[CInt:[@"2" mutableCopy]]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@10014 copy],
+		@"max":[@10015 copy],
+	} mutableCopy] copy],
+	} mutableCopy] eelse:nil] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@10007 copy],
+		@"max":[@10015 copy],
+	} mutableCopy] copy],
+	} mutableCopy];
+	id e2 = (id)[@{
+		@"expr":[[EIf:[@{
+		@"expr":[[EConst:[CInt:[@"1" mutableCopy]]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@10038 copy],
+		@"max":[@10039 copy],
+	} mutableCopy] copy],
+	} mutableCopy] eif:[@{
+		@"expr":[[EConst:[CInt:[@"2" mutableCopy]]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@10041 copy],
+		@"max":[@10042 copy],
+	} mutableCopy] copy],
+	} mutableCopy] eelse:[@{
+		@"expr":[[EConst:[CInt:[@"3" mutableCopy]]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@10048 copy],
+		@"max":[@10049 copy],
+	} mutableCopy] copy],
+	} mutableCopy]] copy],
+		@"pos":[[@{
+		@"file":[[@"haxe/tests/unit/TestMatch.hx" mutableCopy] copy],
+		@"min":[@10034 copy],
+		@"max":[@10049 copy],
+	} mutableCopy] copy],
+	} mutableCopy];
+	id matchIf = ^(id e){
+		
+		return ^(int)
+		enum s = e5 (e expr)
+		switch ( e5.index ) {
+			
+			case 15:
+			
+			var MATCH e_fexpr_eEIf_2 : id = e5.params[2], MATCH e_fexpr_eEIf_1 : id = e5.params[1], MATCH e_fexpr_eEIf_0 : id = e5.params[0]__r__4 = ( (nil == e_fexpr_eEIf_2) ? 1 : 2);break
+			default:__r__4 = 3;break
+		}
+		return __r__4{
+			
+			int* __r__4}
+		}();
+	};
+	[self eq:1 v2:[matchIf:e1] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"407", @"className":@"unit.TestMatch", @"methodName":@"testNullPattern"}];
+	[self eq:2 v2:[matchIf:e2] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"408", @"className":@"unit.TestMatch", @"methodName":@"testNullPattern"}];
+	
+	Tree *t1 = [Leaf:[@"foo" mutableCopy]];
+	id f = ^(Tree *t2){
+		
+		return ^(NSMutableString*)
+		enum s = e7 (t2)
+		switch ( e7.index ) {
+			
+			case 0:
+			
+			var MATCH e : id = e7.params[0]__r__6 = ( (nil == e) ? [@"null" mutableCopy] : ^(id)switch (e){
+				default:__r__8 = e;break;
+			}
+			return __r__8{
+				
+				id* __r__8}
+			}());break
+			case 1:
+			__r__6 = [@"default" mutableCopy];break
+		}
+		return __r__6{
+			
+			NSMutableString* __r__6}
+		}();
+	};
+	[self eq:[f:t1] v2:[@"foo" mutableCopy] pos:@{@"fileName":@"TestMatch.hx", @"lineNumber":@"416", @"className":@"unit.TestMatch", @"methodName":@"testNullPattern"}];
 }
 
 @end

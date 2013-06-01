@@ -213,22 +213,22 @@ static XmlType* Document;
 
 - (NSMutableString*) get_nodeName{
 	
-	if (self.nodeType != ) @throw [@"bad nodeType" mutableCopy];;
+	if (self.nodeType != ) @throw [@"bad nodeType" mutableCopy];
 	return self._nodeName;
 }
 - (NSMutableString*) set_nodeName:(NSMutableString*)n{
 	
-	if (self.nodeType != ) @throw [@"bad nodeType" mutableCopy];;
+	if (self.nodeType != ) @throw [@"bad nodeType" mutableCopy];
 	return self._nodeName = n;
 }
 - (NSMutableString*) get_nodeValue{
 	
-	if (self.nodeType ==  || self.nodeType == ) @throw [@"bad nodeType" mutableCopy];;
+	if (self.nodeType ==  || self.nodeType == ) @throw [@"bad nodeType" mutableCopy];
 	return self._nodeValue;
 }
 - (NSMutableString*) set_nodeValue:(NSMutableString*)v{
 	
-	if (self.nodeType ==  || self.nodeType == ) @throw [@"bad nodeType" mutableCopy];;
+	if (self.nodeType ==  || self.nodeType == ) @throw [@"bad nodeType" mutableCopy];
 	return self._nodeValue = v;
 }
 
@@ -238,12 +238,12 @@ static XmlType* Document;
 }
 - (NSMutableString*) get:(NSMutableString*)att{
 	
-	if (self.nodeType != ) @throw [@"bad nodeType" mutableCopy];;
+	if (self.nodeType != ) @throw [@"bad nodeType" mutableCopy];
 	return [Reflect field:self._attributes field:att];
 }
 - (void) set:(NSMutableString*)att value:(NSMutableString*)value{
 	
-	if (self.nodeType != ) @throw [@"bad nodeType" mutableCopy];;
+	if (self.nodeType != ) @throw [@"bad nodeType" mutableCopy];
 	if (self._attributes == nil) self._attributes = [@{
 	} mutableCopy];
 	{
@@ -259,7 +259,7 @@ static XmlType* Document;
 	}
 	- (void) remove:(NSMutableString*)att{
 		
-		if (self.nodeType != ) @throw [@"bad nodeType" mutableCopy];;
+		if (self.nodeType != ) @throw [@"bad nodeType" mutableCopy];
 		[Reflect deleteField:self._attributes field:att];
 		{
 		nil
@@ -269,22 +269,22 @@ static XmlType* Document;
 		}
 		- (BOOL) exists:(NSMutableString*)att{
 			
-			if (self.nodeType != ) @throw [@"bad nodeType" mutableCopy];;
+			if (self.nodeType != ) @throw [@"bad nodeType" mutableCopy];
 			return [Reflect hasField:self._attributes field:att];
 		}
 		- (id) attributes{
 			
-			if (self.nodeType != ) @throw [@"bad nodeType" mutableCopy];;
+			if (self.nodeType != ) @throw [@"bad nodeType" mutableCopy];
 			return [[Reflect fields:self _attributes] iterator];
 		}
 		- (id) iterator{
 			
-			if (self._children == nil) @throw [@"bad nodetype" mutableCopy];;
+			if (self._children == nil) @throw [@"bad nodetype" mutableCopy];
 			return [self._children iterator];
 		}
 		- (id) elements{
 			
-			if (self._children == nil) @throw [@"bad nodetype" mutableCopy];;
+			if (self._children == nil) @throw [@"bad nodetype" mutableCopy];
 			
 			NSMutableArray *children = self._children;
 			return [@{
@@ -322,7 +322,7 @@ static XmlType* Document;
 		}
 		- (id) elementsNamed:(NSMutableString*)name{
 			
-			if (self._children == nil) @throw [@"bad nodetype" mutableCopy];;
+			if (self._children == nil) @throw [@"bad nodetype" mutableCopy];
 			
 			NSMutableArray *children = self._children;
 			return [@{
@@ -362,12 +362,12 @@ static XmlType* Document;
 		}
 		- (Xml*) firstChild{
 			
-			if (self._children == nil) @throw [@"bad nodetype" mutableCopy];;
+			if (self._children == nil) @throw [@"bad nodetype" mutableCopy];
 			return ((Xml*)[self._children hx_objectAtIndex:0]);
 		}
 		- (Xml*) firstElement{
 			
-			if (self._children == nil) @throw [@"bad nodetype" mutableCopy];;
+			if (self._children == nil) @throw [@"bad nodetype" mutableCopy];
 			{
 				
 				int _g1 = 0; int _g = self._children.length;
@@ -383,7 +383,7 @@ static XmlType* Document;
 		}
 		- (void) addChild:(Xml*)x{
 			
-			if (self._children == nil) @throw [@"bad nodetype" mutableCopy];;
+			if (self._children == nil) @throw [@"bad nodetype" mutableCopy];
 			if (x._parent != nil) [x._parent._children remove:x];
 			x._parent = self;
 			[self._children push:x];
@@ -395,14 +395,14 @@ static XmlType* Document;
 			}
 			- (BOOL) removeChild:(Xml*)x{
 				
-				if (self._children == nil) @throw [@"bad nodetype" mutableCopy];;
+				if (self._children == nil) @throw [@"bad nodetype" mutableCopy];
 				BOOL b = [self._children remove:x];
 				if (b) x._parent = nil;
 				return b;
 			}
 			- (void) insertChild:(Xml*)x pos:(int)pos{
 				
-				if (self._children == nil) @throw [@"bad nodetype" mutableCopy];;
+				if (self._children == nil) @throw [@"bad nodetype" mutableCopy];
 				if (x._parent != nil) [x._parent._children remove:x];
 				x._parent = self;
 				[self._children insert:pos x:x];

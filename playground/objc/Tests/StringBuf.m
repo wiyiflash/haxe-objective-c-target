@@ -10,6 +10,11 @@
 @implementation StringBuf
 
 @synthesize b;
+
+- (int) get_length{
+	
+	return self.b.length;
+}
 - (void) add:(id)x{
 	
 	[self.b appendString:[Std string:x]];

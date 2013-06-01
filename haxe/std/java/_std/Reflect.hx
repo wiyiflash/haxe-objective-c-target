@@ -22,7 +22,7 @@
 import java.internal.Function;
 import java.Boot;
 /*
- * Copyright (c) 2005, The haXe Project Contributors
+ * Copyright (c) 2005, The Haxe Project Contributors
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -209,7 +209,7 @@ import java.Boot;
 
 	**/
 	@:functionCode('
-		return v != null && !(v instanceof haxe.lang.Enum || v instanceof haxe.lang.Function || v instanceof java.lang.Enum);
+		return v != null && !(v instanceof haxe.lang.Enum || v instanceof haxe.lang.Function || v instanceof java.lang.Enum || v instanceof java.lang.Number || v instanceof java.lang.Boolean);
 	')
 	public static function isObject( v : Dynamic ) : Bool
 	{

@@ -11,11 +11,11 @@
 
 + (NSMutableString*) urlEncode:(NSMutableString*)s{
 	
-	return [s stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+	return nil;
 }
 + (NSMutableString*) urlDecode:(NSMutableString*)s{
 	
-	return [s stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+	return nil;
 }
 + (NSMutableString*) htmlEscape:(NSMutableString*)s quotes:(BOOL)quotes{
 	
@@ -80,7 +80,7 @@
 }
 + (NSMutableString*) replace:(NSMutableString*)s sub:(NSMutableString*)sub by:(NSMutableString*)by{
 	
-	return [s replaceOccurrencesOfString:sub withString:by options:nil range:nil];
+	return [[s split:sub] join:by];
 }
 + (NSMutableString*) hex:(int)n digits:(int)digits{
 	
@@ -101,11 +101,11 @@
 }
 + (int) fastCodeAt:(NSMutableString*)s index:(int)index{
 	
-	return [s characterAtIndex:index];
+	return [s cca:index];
 }
 + (BOOL) isEof:(int)c{
 	
-	return c == -1;
+	return NO;
 }
 
 @end

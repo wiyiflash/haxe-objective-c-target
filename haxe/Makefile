@@ -31,7 +31,7 @@ RELDIR=../../..
 EXPORT=../../../projects/motionTools/haxe
 
 MODULES=ast type lexer common genxml parser typecore optimizer typeload \
-	codegen gencommon genas3 gencpp genjs genneko genphp genswf8 \
+codegen gencommon genas3 gencpp genjs genneko genphp genswf8 \
 	genswf9 genswf genjava gencs genobjc interp typer matcher dce main
 
 export HAXE_STD_PATH=$(CURDIR)/std
@@ -64,9 +64,9 @@ tools: haxelib haxedoc
 install:
 	cp haxe $(INSTALL_DIR)/bin/haxe
 	rm -rf $(INSTALL_DIR)/lib/haxe/std
-	-mkdir $(INSTALL_DIR)/lib/haxe
-	svn export std/ $(INSTALL_DIR)/lib/haxe/std
-	-mkdir $(INSTALL_DIR)/lib/haxe/lib
+	-mkdir -p $(INSTALL_DIR)/lib/haxe
+	cp -rf std $(INSTALL_DIR)/lib/haxe/std
+	-mkdir -p $(INSTALL_DIR)/lib/haxe/lib
 	chmod -R a+rx $(INSTALL_DIR)/lib/haxe
 	chmod 777 $(INSTALL_DIR)/lib/haxe/lib
 	cp std/tools/haxelib/haxelib.sh $(INSTALL_DIR)/bin/haxelib

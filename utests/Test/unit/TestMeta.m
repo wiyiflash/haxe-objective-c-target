@@ -77,7 +77,7 @@ static int foo;
 	[self eq:[self fields:[m4 foo]] v2:[@"_int#complex#empty" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"45", @"className":@"unit.TestMeta", @"methodName":@"testMeta"}];
 	[self eq:[[m4 foo] empty] v2:nil pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"46", @"className":@"unit.TestMeta", @"methodName":@"testMeta"}];
 	[self eq:[Std string:[[m4 foo] _int]] v2:[@"[-45]" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"47", @"className":@"unit.TestMeta", @"methodName":@"testMeta"}];
-	id c = ((NSMutableArray*)[((NSMutableArray)[[[m4 foo] complex] hx_objectAtIndex:0]) hx_objectAtIndex:0]);
+	id c = ((NSMutableArray*)[((NSMutableArray*)[[[m4 foo] complex] hx_objectAtIndex:0]) hx_objectAtIndex:0]);
 	[self eq:[self fields:c] v2:[@"b#k#x#y#z" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"49", @"className":@"unit.TestMeta", @"methodName":@"testMeta"}];
 	[self eq:[c x] v2:0 pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"50", @"className":@"unit.TestMeta", @"methodName":@"testMeta"}];
 	[self eq:[c y] v2:[@"hello" mutableCopy] pos:@{@"fileName":@"TestMeta.hx", @"lineNumber":@"51", @"className":@"unit.TestMeta", @"methodName":@"testMeta"}];

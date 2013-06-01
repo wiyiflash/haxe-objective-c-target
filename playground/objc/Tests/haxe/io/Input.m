@@ -56,7 +56,23 @@
 			
 			int len = [self readBytes:buf pos:0 len:bufsize];
 			if (len == 0) @throw Blocked;
-			if (len < 0 || len > buf.length) @throw OutsideBounds;
+			{
+				
+				if (len < 0 || len > buf.length) @throw OutsideBounds;
+				
+				NSMutableArray *b1 = total.b;
+				
+				NSMutableArray *b2 = buf.b;
+				{
+					
+					int _g1 = 0; int _g = len;
+					while (_g1 < _g) {
+						
+						int i = _g1++;
+						[total.b push:((BytesData*)[b2 hx_objectAtIndex:i])];
+					}
+				}
+			}
 		}
 	}
 	@catch (NSException *e) {

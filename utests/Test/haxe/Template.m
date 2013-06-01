@@ -104,25 +104,25 @@ static id globals;
 		if ([data charCodeAt:p pos] == 58) {
 			
 			[tokens add:[@{
-				@"p":[[data substr:isstrFAnon-p pos + @2 len:p len - @4] copy],
+				@"p":[[data substr:p pos + @2 len:p len - @4] copy],
 				@"s":[NO copy],
 				@"l":[[NSNull null] copy],
 			} mutableCopy]];
 			data = [splitter matchedRight];
 			continue;
 		}
-		int parp = isstrFAnon-isstrFAnon-p pos + p len;
+		int parp = p pos + p len;
 		int npar = 1;
 		while (npar > 0) {
 			
 			int c = [data charCodeAt:parp];
 			if (c == 40) npar++;
 			else if (c == 41) npar--;
-			else if (c == nil) @throw [@"Unclosed macro parenthesis" mutableCopy];;
+			else if (c == nil) @throw [@"Unclosed macro parenthesis" mutableCopy];
 			parp++;
 		}
 		
-		NSMutableArray *params = [[data substr:isstrFAnon-isstrFAnon-p pos + p len len:parp -  (isstrFAnon-isstrFAnon-p pos + p len) - 1] split:[@"," mutableCopy]];
+		NSMutableArray *params = [[data substr:p pos + p len len:parp -  (p pos + p len) - 1] split:[@"," mutableCopy]];
 		[tokens add:[@{
 			@"p":[[splitter matched:@2] copy],
 			@"s":[NO copy],
@@ -184,7 +184,7 @@ static id globals;
 		id t1 = [tokens first];
 		
 		TemplateExpr *eelse;
-		if (t1 == nil) @throw [@"Unclosed 'if'" mutableCopy];;
+		if (t1 == nil) @throw [@"Unclosed 'if'" mutableCopy];
 		if (t1 p == [@"end" mutableCopy]) {
 			
 			[tokens pop];
@@ -195,7 +195,7 @@ static id globals;
 			[tokens pop];
 			eelse = [self parseBlock:tokens];
 			t1 = [tokens pop];
-			if (t1 == nil || t1 p != [@"end" mutableCopy]) @throw [@"Unclosed 'else'" mutableCopy];;
+			if (t1 == nil || t1 p != [@"end" mutableCopy]) @throw [@"Unclosed 'else'" mutableCopy];
 		}
 		else {
 			
@@ -211,7 +211,7 @@ static id globals;
 		
 		TemplateExpr *efor = [self parseBlock:tokens];
 		id t1 = [tokens pop];
-		if (t1 == nil || t1 p != [@"end" mutableCopy]) @throw [@"Unclosed 'foreach'" mutableCopy];;
+		if (t1 == nil || t1 p != [@"end" mutableCopy]) @throw [@"Unclosed 'foreach'" mutableCopy];
 		return [OpForeach:e loop:efor];
 	}
 	if ([expr_splitter match:p]) return [OpExpr:[self parseExpr:p]];
@@ -226,7 +226,7 @@ static id globals;
 	while ([expr_splitter match:data]) {
 		
 		id p = [expr_splitter matchedPos];
-		int k = isstrFAnon-isstrFAnon-p pos + p len;
+		int k = p pos + p len;
 		if (p pos != 0) [l add:[@{
 			@"p":[[data substr:@0 len:p pos] copy],
 			@"s":[YES copy],
@@ -247,11 +247,11 @@ static id globals;
 	@try {
 		
 		e = [self makeExpr:l];
-		if (![l isEmpty]) @throw [l first] p;;
+		if (![l isEmpty]) @throw [l first] p;
 	}
 	@catch (NSException *s) {
 		
-		@throw [[[[@"Unexpected '" mutableCopy] stringByAppendingString:s] stringByAppendingString:[@"' in " mutableCopy]] stringByAppendingString:expr];;
+		@throw [[[[@"Unexpected '" mutableCopy] stringByAppendingString:s] stringByAppendingString:[@"' in " mutableCopy]] stringByAppendingString:expr];
 	}
 	return ^(){
 		
@@ -261,7 +261,7 @@ static id globals;
 		}
 		@catch (NSException *exc) {
 			
-			@throw [[[[@"Error : " mutableCopy] stringByAppendingString:[Std string:exc]] stringByAppendingString:[@" in " mutableCopy]] stringByAppendingString:expr];;
+			@throw [[[[@"Error : " mutableCopy] stringByAppendingString:[Std string:exc]] stringByAppendingString:[@" in " mutableCopy]] stringByAppendingString:expr];
 		}
 		return 0;
 	}
@@ -308,7 +308,7 @@ static id globals;
 	if (p == nil || p p != [@"." mutableCopy]) return e;
 	[l pop];
 	id field = [l pop];
-	if (field == nil || !field s) @throw field p;;
+	if (field == nil || !field s) @throw field p;
 	
 	NSMutableString *f = field p;
 	[expr_trim match:f];
@@ -325,18 +325,18 @@ static id globals;
 - (id) makeExpr2:(List*)l{
 	
 	id p = [l pop];
-	if (p == nil) @throw [@"<eof>" mutableCopy];;
+	if (p == nil) @throw [@"<eof>" mutableCopy];
 	if (p s) return [self makeConst:p p];
 	switch (p p){
 		case [@"(" mutableCopy]:{
 			
 			id e1 = [self makeExpr:l];
 			id p1 = [l pop];
-			if (p1 == nil || p1 s) @throw p1 p;;
+			if (p1 == nil || p1 s) @throw p1 p;
 			if (p1 p == [@")" mutableCopy]) return e1;;
 			id e2 = [self makeExpr:l];
 			id p2 = [l pop];
-			if (p2 == nil || p2 p != [@")" mutableCopy]) @throw p2 p;;
+			if (p2 == nil || p2 p != [@")" mutableCopy]) @throw p2 p;
 			return ((id)self.__r__ switch (p1 p){
 				case [@"+" mutableCopy]:__r__ = ^(){
 					
@@ -398,7 +398,7 @@ static id globals;
 					return (id)[e1] || [e2];;
 				};
 				break;
-				default:__r__ = ((id)self.__r__2 @throw [[@"Unknown operation " mutableCopy] stringByAppendingString:p1 p];
+				default:__r__ = ((id)self.__r__2 @throw [[@"Unknown operation " mutableCopy] stringByAppendingString:p1 p]
 				return __r__2{
 					
 					id* __r__2}
@@ -430,7 +430,7 @@ static id globals;
 		}
 		break;
 	}
-	@throw p p;;
+	@throw p p;
 	return nil;
 }
 - (void) run:(TemplateExpr*)e{
@@ -479,18 +479,18 @@ static id globals;
 			@try {
 				
 				id x = [v iterator];
-				if ([x hasNext] == nil) @throw nil;;
+				if ([x hasNext] == nil) @throw nil;
 				v = x;
 			}
 			@catch (NSException *e2) {
 				
 				@try {
 					
-					if ([v hasNext] == nil) @throw nil;;
+					if ([v hasNext] == nil) @throw nil;
 				}
 				@catch (NSException *e3) {
 					
-					@throw [[@"Cannot iter on " mutableCopy] stringByAppendingString:[Std string:v]];;
+					@throw [[@"Cannot iter on " mutableCopy] stringByAppendingString:[Std string:v]];
 				}
 			}
 			[self.stack push:self.context];
@@ -563,7 +563,7 @@ static id globals;
 				}(self));
 				
 				NSMutableString *msg = [[[[[[[@"Macro call " mutableCopy] stringByAppendingString:m] stringByAppendingString:[@"(" mutableCopy]] stringByAppendingString:plstr] stringByAppendingString:[@") failed (" mutableCopy]] stringByAppendingString:[Std string:e1]] stringByAppendingString:[@")" mutableCopy]];
-				@throw msg;;
+				@throw msg;
 			}
 		}break
 	}
@@ -574,7 +574,7 @@ static id globals;
 	
 	List *tokens = [self parseTokens:str];
 	self.expr = [self parseBlock:tokens];
-	if (![tokens isEmpty]) @throw [[[@"Unexpected '" mutableCopy] stringByAppendingString:[Std string:[tokens first] s]] stringByAppendingString:[@"'" mutableCopy]];;
+	if (![tokens isEmpty]) @throw [[[@"Unexpected '" mutableCopy] stringByAppendingString:[Std string:[tokens first] s]] stringByAppendingString:[@"'" mutableCopy]];
 	return self;
 }
 

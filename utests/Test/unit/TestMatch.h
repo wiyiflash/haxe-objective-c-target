@@ -56,6 +56,7 @@ typedef enum{
 - (void) testStaticNull;
 - (void) testNonExhaustiveness;
 - (void) testInvalidBinding;
+- (void) testNullPattern;
 
 @end
 

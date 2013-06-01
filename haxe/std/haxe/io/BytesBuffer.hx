@@ -21,9 +21,6 @@
  */
 package haxe.io;
 
-#if objc
-	import objc.foundation.NSData;
-#end
 class BytesBuffer {
 
 	#if neko
@@ -38,11 +35,12 @@ class BytesBuffer {
 	var b : cs.system.io.MemoryStream;
 	#elseif java
 	var b : java.io.ByteArrayOutputStream;
-	#elseif objc
-	var b : NSMutableData;
 	#else
 	var b : Array<Int>;
 	#end
+
+	/** The length of the buffer in bytes. **/
+	public var length(get,never) : Int;
 
 	public function new() {
 		#if neko
@@ -57,10 +55,20 @@ class BytesBuffer {
 		b = new cs.system.io.MemoryStream();
 		#elseif java
 		b = new java.io.ByteArrayOutputStream();
-		#elseif objc
-		b = new NSMutableData();
 		#else
 		b = new Array();
+		#end
+	}
+
+	inline function get_length() : Int {
+		#if neko
+		return untyped __dollar__ssize( StringBuf.__to_string(b) );
+		#elseif cs
+		return haxe.Int64.toInt( b.Length );
+		#elseif java
+		return b.size();
+		#else
+		return b.length;
 		#end
 	}
 
@@ -77,8 +85,6 @@ class BytesBuffer {
 		b.WriteByte(byte);
 		#elseif java
 		b.write(byte);
-		#elseif objc
-		b.appendBytes ( b.mutableBytes, byte );
 		#else
 		b.push(byte);
 		#end
@@ -95,8 +101,6 @@ class BytesBuffer {
 		b.Write(src.getData(), 0, src.length);
 		#elseif java
 		b.write(src.getData(), 0, src.length);
-		#elseif objc
-		
 		#else
 		var b1 = b;
 		var b2 = src.getData();
@@ -119,8 +123,6 @@ class BytesBuffer {
 		b.Write(src.getData(), pos, len);
 		#elseif java
 		b.write(src.getData(), pos, len);
-		#elseif objc
-		
 		#else
 		var b1 = b;
 		var b2 = src.getData();
@@ -148,8 +150,6 @@ class BytesBuffer {
 		#elseif java
 		var buf = b.toByteArray();
 		var bytes = new Bytes(buf.length, buf);
-		#elseif objc
-		
 		#else
 		var bytes = new Bytes(b.length,b);
 		#end

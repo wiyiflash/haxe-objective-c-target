@@ -116,7 +116,9 @@ let make_module ctx mpath file tdecls loadp =
 			} in
 			decls := (TAbstractDecl a, decl) :: !decls;
 			match d.d_data with
-			| [] when Meta.has Meta.CoreType a.a_meta -> acc
+			| [] when Meta.has Meta.CoreType a.a_meta ->
+				a.a_this <- t_dynamic;
+				acc
 			| fields ->
 				let rec loop = function
 					| [] ->
@@ -161,7 +163,11 @@ let make_module ctx mpath file tdecls loadp =
 						{ f with cff_name = "_new"; cff_access = AStatic :: f.cff_access; cff_kind = FFun fu; cff_meta = (Meta.Impl,[],p) :: f.cff_meta }
 					| FFun fu when not stat ->
 						if Meta.has Meta.From f.cff_meta then error "@:from cast functions must be static" f.cff_pos;
-						let fu = { fu with f_args = ("this",false,Some this_t,None) :: fu.f_args } in
+						let first = if List.mem AMacro f.cff_access
+							then CTPath ({ tpackage = ["haxe";"macro"]; tname = "Expr"; tsub = Some ("ExprOf"); tparams = [TPType this_t] })
+							else this_t
+						in
+						let fu = { fu with f_args = ("this",false,Some first,None) :: fu.f_args } in
 						{ f with cff_kind = FFun fu; cff_access = AStatic :: f.cff_access; cff_meta = (Meta.Impl,[],p) :: f.cff_meta }
 					| _ ->
 						f
@@ -203,6 +209,7 @@ let type_function_param ctx t e opt p =
 		let e = (match e with None -> Some (EConst (Ident "null"),p) | _ -> e) in
 		ctx.t.tnull t, e
 	else
+		let t = match e with Some (EConst (Ident "null"),p) -> ctx.t.tnull t | _ -> t in
 		t, e
 
 let type_var_field ctx t e stat p =
@@ -639,23 +646,6 @@ let copy_meta meta_src meta_target sl =
 	) meta_src;
 	!meta
 
-(** retrieves all overloads from class c and field i, as (Type.t * tclass_field) list *)
-let rec get_overloads c i =
-	let ret = try
-			let f = PMap.find i c.cl_fields in
-			List.filter (fun (_,f) -> not (List.memq f c.cl_overrides)) ((f.cf_type, f) :: (List.map (fun f -> f.cf_type, f) f.cf_overloads))
-		with | Not_found -> []
-	in
-	match c.cl_super with
-	| None when c.cl_interface ->
-			let ifaces = List.concat (List.map (fun (c,tl) ->
-				List.map (fun (t,f) -> apply_params c.cl_types tl t, f) (get_overloads c i)
-			) c.cl_implements) in
-			ret @ ifaces
-	| None -> ret
-	| Some (c,tl) ->
-			ret @ ( List.map (fun (t,f) -> apply_params c.cl_types tl t, f) (get_overloads c i) )
-
 let same_overload_args t1 t2 f1 f2 =
   if List.length f1.cf_params <> List.length f2.cf_params then
     false
@@ -691,6 +681,26 @@ let same_overload_args t1 t2 f1 f2 =
       with | Invalid_argument("List.for_all2") ->
         false)
     | _ -> assert false
+
+(** retrieves all overloads from class c and field i, as (Type.t * tclass_field) list *)
+let rec get_overloads c i =
+	let ret = try
+			let f = PMap.find i c.cl_fields in
+			(f.cf_type, f) :: (List.map (fun f -> f.cf_type, f) f.cf_overloads)
+		with | Not_found -> []
+	in
+	let rsup = match c.cl_super with
+	| None when c.cl_interface ->
+			let ifaces = List.concat (List.map (fun (c,tl) ->
+				List.map (fun (t,f) -> apply_params c.cl_types tl t, f) (get_overloads c i)
+			) c.cl_implements) in
+			ret @ ifaces
+	| None -> ret
+	| Some (c,tl) ->
+			ret @ ( List.map (fun (t,f) -> apply_params c.cl_types tl t, f) (get_overloads c i) )
+	in
+	ret @ (List.filter (fun (t,f) -> not (List.exists (fun (t2,f2) -> same_overload_args t t2 f f2) ret)) rsup)
+
 
 let check_overloads ctx c =
 	(* check if field with same signature was declared more than once *)
@@ -855,7 +865,7 @@ let rec return_flow ctx e =
 	let return_flow = return_flow ctx in
 	match e.eexpr with
 	| TReturn _ | TThrow _ -> ()
-	| TParenthesis e ->
+	| TParenthesis e | TMeta(_,e) ->
 		return_flow e
 	| TBlock el ->
 		let rec loop = function
@@ -1027,13 +1037,14 @@ let type_function ctx args ret fmode f do_display p =
 	ctx.opened <- [];
 	let e = match f.f_expr with None -> error "Function body required" p | Some e -> e in
 	let e = if not do_display then type_expr ctx e NoValue else try
+		if Common.defined ctx.com Define.NoCOpt then raise Exit;
 		type_expr ctx (Optimizer.optimize_completion_expr e) NoValue
-	with DisplayTypes [TMono _] | Parser.TypePath (_,None) ->
+	with DisplayTypes [TMono _] | Parser.TypePath (_,None) | Exit ->
 		type_expr ctx e NoValue
 	in
 	let rec loop e =
 		match e.eexpr with
-		| TReturn (Some _) -> raise Exit
+		| TReturn (Some e) -> (match follow e.etype with TAbstract({a_path = [],"Void"},[]) -> () | _ -> raise Exit)
 		| TFunction _ -> ()
 		| _ -> Type.iter loop e
 	in
@@ -1544,22 +1555,34 @@ let init_class ctx c p context_init herits fields =
 					let ta = TAbstract(a, List.map (fun _ -> mk_mono()) a.a_types) in
 					let tthis = if Meta.has Meta.Impl f.cff_meta || Meta.has Meta.To f.cff_meta then monomorphs a.a_types a.a_this else a.a_this in
 					if Meta.has Meta.From f.cff_meta then begin
+						if is_macro then error "Macro cast functions are not supported" cf.cf_pos;
 						(* the return type of a from-function must be the abstract, not the underlying type *)
 						(try unify_raise ctx t (tfun [m] ta) f.cff_pos with Error (Unify l,p) -> error (error_msg (Unify l)) p);
 						a.a_from <- (follow m, Some cf) :: a.a_from
 					end else if Meta.has Meta.To f.cff_meta then begin
+						if is_macro then error "Macro cast functions are not supported" cf.cf_pos;
+						let args = if Meta.has Meta.MultiType a.a_meta then begin
+							(* the return type of multitype @:to functions must unify with a_this *)
+							delay ctx PFinal (fun () -> unify ctx m tthis f.cff_pos);
+							(* the arguments must be compatible with the original constructor, which we have to find at this point *)
+							try (match follow (monomorphs a.a_types (PMap.find "_new" c.cl_statics).cf_type) with
+								| TFun(args,_) -> List.map (fun (_,_,t) -> t) args
+								| _ -> assert false)
+							with Not_found ->
+								error "Constructor of multi-type abstract must be defined before the individual @:to-functions are" cf.cf_pos
+						end else [] in
 						(* the first argument of a to-function must be the underlying type, not the abstract *)
-						(try unify_raise ctx t (tfun [tthis] m) f.cff_pos with Error (Unify l,p) -> error (error_msg (Unify l)) p);
-						(* multitype @:to functions must unify with a_this *)
-						if Meta.has Meta.MultiType a.a_meta then delay ctx PFinal (fun () -> unify ctx m tthis f.cff_pos);
+						(try unify_raise ctx t (tfun (tthis :: args) m) f.cff_pos with Error (Unify l,p) -> error (error_msg (Unify l)) p);
 						if not (Meta.has Meta.Impl cf.cf_meta) then cf.cf_meta <- (Meta.Impl,[],cf.cf_pos) :: cf.cf_meta;
 						a.a_to <- (follow m, Some cf) :: a.a_to
 					end else if Meta.has Meta.ArrayAccess f.cff_meta then begin
+						if is_macro then error "Macro array-access functions are not supported" cf.cf_pos;
 						a.a_array <- cf :: a.a_array;
 					end else if f.cff_name = "_new" && Meta.has Meta.MultiType a.a_meta then
 						do_bind := false
 					else (try match Meta.get Meta.Op cf.cf_meta with
 						| _,[EBinop(op,_,_),_],_ ->
+							if is_macro then error "Macro operator functions are not supported" cf.cf_pos;
 							let targ = if Meta.has Meta.Impl f.cff_meta then tthis else ta in
 							let left_eq = type_iseq t (tfun [targ;m] (mk_mono())) in
 							let right_eq = type_iseq t (tfun [mk_mono();targ] (mk_mono())) in
@@ -1568,6 +1591,7 @@ let init_class ctx c p context_init herits fields =
 							a.a_ops <- (op,cf) :: a.a_ops;
 							if fd.f_expr = None then do_bind := false;
 						| _,[EUnop(op,flag,_),_],_ ->
+							if is_macro then error "Macro operator functions are not supported" cf.cf_pos;
 							let targ = if Meta.has Meta.Impl f.cff_meta then tthis else ta in
 							(try type_eq EqStrict t (tfun [targ] (mk_mono())) with Unify_error l -> raise (Error ((Unify l),f.cff_pos)));
 							a.a_unops <- (op,flag,cf) :: a.a_unops;
@@ -1692,13 +1716,15 @@ let init_class ctx c p context_init herits fields =
 		| (Meta.Require,conds,_) :: l ->
 			let rec loop = function
 				| [] -> check_require l
-				| [EConst (String _),_] -> check_require l
-				| (EConst (Ident i),_) :: l ->
-					if not (Common.raw_defined ctx.com i) then
-						Some (i,(match List.rev l with (EConst (String msg),_) :: _ -> Some msg | _ -> None))
+				| e :: l ->
+					let sc = match fst e with
+						| EConst (Ident s) -> s
+						| _ -> ""
+					in
+					if not (Parser.is_true (Parser.eval ctx.com e)) then
+						Some (sc,(match List.rev l with (EConst (String msg),_) :: _ -> Some msg | _ -> None))
 					else
 						loop l
-				| _ -> error "Invalid require identifier" p
 			in
 			loop conds
 		| _ :: l ->

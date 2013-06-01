@@ -29,7 +29,7 @@
 			
 			Int64* __r__}
 		}()];
-		@throw [@"Overflow" mutableCopy];;
+		@throw [@"Overflow" mutableCopy];
 	}
 	return x.low;
 }
@@ -65,7 +65,7 @@
 	int p01 = al * bh;
 	int p11 = ah * bh;
 	int low = p00;
-	int high = p11 +  ( (p01 >>> 16) +  (p10 >>> 16));
+	int high = p11 +  (p01 >>> 16) +  (p10 >>> 16);
 	p01 = p01 << 16;
 	low = low + p01;
 	if ([Int64 uicompare:low b:p01] < 0) high = high + 1;
@@ -80,8 +80,7 @@
 	
 	
 	Int64 *quotient = [[Int64 alloc] init:0 low:0];
-	
-	Int64 *mask = [[Int64 alloc] init:0 low:1];
+	int mask_high = (int)0; int mask_low = 1;
 	divisor = [[Int64 alloc] init:divisor high low:divisor low];
 	while (divisor.high >= 0) {
 		
@@ -93,11 +92,11 @@
 		}();
 		divisor.high = (divisor.high << 1 | divisor.low >>> 31);
 		divisor.low <<= 1;
-		mask.high = (mask.high << 1 | mask.low >>> 31);
-		mask.low <<= 1;
+		mask_high = (mask_high << 1 | mask_low >>> 31);
+		mask_low <<= 1;
 		if (cmp >= 0) break;
 	}
-	while ( (mask.low | mask.high) != 0) {
+	while ( (mask_low | mask_high) != 0) {
 		
 		if (^(int)int v = [Int64 uicompare:modulus.high b:divisor.high]
 		__r__2 = ( (v != 0) ? v : [Int64 uicompare:modulus.low b:divisor.low])
@@ -106,12 +105,12 @@
 			int* __r__2}
 		}() >= 0) {
 			
-			quotient.high |= mask.high;
-			quotient.low |= mask.low;
+			quotient.high |= mask_high;
+			quotient.low |= mask_low;
 			modulus = [Int64 sub:modulus b:divisor];
 		}
-		mask.low = (mask.low >>> 1 | mask.high << 31);
-		mask.high >>>= 1;
+		mask_low = (mask_low >>> 1 | mask_high << 31);
+		mask_high >>>= 1;
 		divisor.low = (divisor.low >>> 1 | divisor.high << 31);
 		divisor.high >>>= 1;
 	}
@@ -264,7 +263,7 @@
 	while (! ( (i.high | i.low) == 0)) {
 		
 		id r = [Int64 divMod:i divisor:ten];
-		str = isstrFAnon-[r modulus.low stringByAppendingString:str];
+		str = [r modulus.low stringByAppendingString:str];
 		i = r quotient;
 	}
 	if (neg) str = [[@"-" mutableCopy] stringByAppendingString:str];

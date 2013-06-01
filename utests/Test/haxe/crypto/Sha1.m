@@ -11,13 +11,11 @@
 
 + (NSMutableString*) encode:(NSMutableString*)s{
 	
-	const char *cstr = [input cStringUsingEncoding:NSUTF8StringEncoding];
-	NSData *data = [NSData dataWithBytes:cstr length:input.length];
-	uint8_t digest[CC_SHA1_DIGEST_LENGTH];
-	CC_SHA1(data.bytes, data.length, digest);
-	NSMutableString* output = [NSMutableString stringWithCapacity:CC_SHA1_DIGEST_LENGTH * 2];
-	for (int i = 0; i < CC_SHA1_DIGEST_LENGTH; i++) [output appendFormat:@"%02x", digest[i]];;
-	return output;
+	
+	Sha1 *sh = [[Sha1 alloc] init];
+	
+	NSMutableArray *h = [sh doEncode:[Sha1 str2blks:s]];
+	return [sh hex:h];
 }
 + (Bytes*) make:(Bytes*)b{
 	
@@ -32,10 +30,10 @@
 		while (_g < 5) {
 			
 			int i = _g++;
-			[_out.b hx_replaceObjectAtIndex:p++ withObject:(h hx_replaceObjectAtIndex:i >>> @24 & @255)];
-			[_out.b hx_replaceObjectAtIndex:p++ withObject:((h hx_replaceObjectAtIndex:i >> @16 & @255) & @255)];
-			[_out.b hx_replaceObjectAtIndex:p++ withObject:((h hx_replaceObjectAtIndex:i >> @8 & @255) & @255)];
-			[_out.b hx_replaceObjectAtIndex:p++ withObject:((h hx_replaceObjectAtIndex:i & @255) & @255)];
+			[_out.b hx_replaceObjectAtIndex:p++ withObject:(((NSMutableArray*)[h hx_objectAtIndex:i]) >>> @24 & @255)];
+			[_out.b hx_replaceObjectAtIndex:p++ withObject:((((NSMutableArray*)[h hx_objectAtIndex:i]) >> @16 & @255) & @255)];
+			[_out.b hx_replaceObjectAtIndex:p++ withObject:((((NSMutableArray*)[h hx_objectAtIndex:i]) >> @8 & @255) & @255)];
+			[_out.b hx_replaceObjectAtIndex:p++ withObject:((((NSMutableArray*)[h hx_objectAtIndex:i]) & @255) & @255)];
 		}
 	}
 	return _out;
@@ -120,8 +118,8 @@
 		int j = 0;
 		while (j < 80) {
 			
-			if (j < 16) [w hx_replaceObjectAtIndex:j withObject:x hx_replaceObjectAtIndex:i + j];
-			else [w hx_replaceObjectAtIndex:j withObject:((int)self.__r__ int num = ((w hx_replaceObjectAtIndex:j - @3 ^ w hx_replaceObjectAtIndex:j - @8) ^ w hx_replaceObjectAtIndex:j - @14) ^ w hx_replaceObjectAtIndex:j - @16
+			if (j < 16) [w hx_replaceObjectAtIndex:j withObject:((CASTTAbstract*)[x hx_objectAtIndex:i + j])];
+			else [w hx_replaceObjectAtIndex:j withObject:((int)self.__r__ int num = ((((NSMutableArray*)[w hx_objectAtIndex:j - @3]) ^ ((NSMutableArray*)[w hx_objectAtIndex:j - @8])) ^ ((NSMutableArray*)[w hx_objectAtIndex:j - @14])) ^ ((NSMutableArray*)[w hx_objectAtIndex:j - @16])
 			__r__ = (num << @1 | num >>> @31)
 			return __r__{
 				

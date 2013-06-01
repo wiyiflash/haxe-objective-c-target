@@ -74,6 +74,7 @@
 - (void) testMapComprehension;
 - (void) testCustomArrayAccess;
 - (void) testAbstractClosure;
+- (void) testAbstractTypeParameterVariance;
 
 @end
 

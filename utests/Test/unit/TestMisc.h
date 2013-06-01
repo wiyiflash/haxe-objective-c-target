@@ -141,6 +141,7 @@
 
 #import "../String.h"
 #import "../unit/MyClass.h"
+#import "../Math.h"
 #import "../Type.h"
 #import "../haxe/crypto/Md5.h"
 #import "../unit/TestMisc.h"

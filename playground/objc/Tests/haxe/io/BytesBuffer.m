@@ -10,26 +10,59 @@
 @implementation BytesBuffer
 
 @synthesize b;
+
+- (int) get_length{
+	
+	return self.b.length;
+}
 - (void) addByte:(int)byte{
 	
-	[self.b appendBytes:self.b.mutableBytes length:byte];
+	[self.b push:byte];
 }
 - (void) add:(Bytes*)src{
 	
+	
+	NSMutableArray *b1 = self.b;
+	
+	NSMutableArray *b2 = src.b;
+	{
+		
+		int _g1 = 0; int _g = src.length;
+		while (_g1 < _g) {
+			
+			int i = _g1++;
+			[self.b push:((BytesData*)[b2 hx_objectAtIndex:i])];
+		}
+	}
 }
 - (void) addBytes:(Bytes*)src pos:(int)pos len:(int)len{
 	
 	if (pos < 0 || len < 0 || pos + len > src.length) @throw OutsideBounds;
+	
+	NSMutableArray *b1 = self.b;
+	
+	NSMutableArray *b2 = src.b;
+	{
+		
+		int _g1 = pos; int _g = pos + len;
+		while (_g1 < _g) {
+			
+			int i = _g1++;
+			[self.b push:((BytesData*)[b2 hx_objectAtIndex:i])];
+		}
+	}
 }
 - (Bytes*) getBytes{
 	
+	
+	Bytes *bytes = [[Bytes alloc] init:self.b length b:self b];
 	self.b = nil;
 	return bytes;
 }
 - (id) init{
 	
 	self = [super init];
-	self.b = [[NSMutableData alloc] init];
+	self.b = [[NSMutableArray alloc] init];
 	return self;
 }
 

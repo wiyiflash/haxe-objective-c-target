@@ -9,23 +9,19 @@
 
 @implementation WeakMap
 
-- (void) set:(id)_tmp_key _tmp_value:(id)_tmp_value{
+- (void) set:(id)key value:(id)value{
 	
-	id key = (id)_tmp_key; id value = (id)_tmp_value;
 }
-- (id) get:(id)_tmp_key{
+- (id) get:(id)key{
 	
-	id key = (id)_tmp_key;
 	return nil;
 }
-- (BOOL) exists:(id)_tmp_key{
+- (BOOL) exists:(id)key{
 	
-	id key = (id)_tmp_key;
 	return NO;
 }
-- (BOOL) remove:(id)_tmp_key{
+- (BOOL) remove:(id)key{
 	
-	id key = (id)_tmp_key;
 	return NO;
 }
 - (id) keys{
@@ -43,7 +39,7 @@
 - (id) init{
 	
 	self = [super init];
-	@throw [@"Not implemented for this platform" mutableCopy];;
+	@throw [@"Not implemented for this platform" mutableCopy];
 	return self;
 }
 

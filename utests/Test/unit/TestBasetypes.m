@@ -552,5 +552,11 @@
 	MyAbstractThatCallsAMember *as = [MyAbstractThatCallsAMember_Impl_ _new:2];
 	[self eq:3 v2:as pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"483", @"className":@"unit.TestBasetypes", @"methodName":@"testAbstractMemberCall"}];
 }
+- (void) testAbstractMultitypeInline{
+	
+	
+	MyDebugString *a = [@"My debugging abstract" mutableCopy];
+	[self eq:[@"debugging abstract" mutableCopy] v2:[a substr:3 len:nil] pos:@{@"fileName":@"TestBasetypes.hx", @"lineNumber":@"488", @"className":@"unit.TestBasetypes", @"methodName":@"testAbstractMultitypeInline"}];
+}
 
 @end

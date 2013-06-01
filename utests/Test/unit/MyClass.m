@@ -242,7 +242,7 @@
 
 @implementation Cov2
 
-- (Base*) covariant{
+- (Child1*) covariant{
 	
 	return [[Child1 alloc] init];
 }
@@ -256,7 +256,7 @@
 
 @implementation Cov3
 
-- (Base*) covariant{
+- (Child2_1*) covariant{
 	
 	return [[Child2_1 alloc] init];
 }
@@ -283,10 +283,8 @@
 
 @implementation Ctrv2
 
-- (void) contravariant:(Child1*)_tmp_arg{
+- (void) contravariant:(Base*)arg{
 	
-	
-	Base *arg = (Base*)_tmp_arg;
 }
 - (id) init{
 	
@@ -390,7 +388,7 @@ static float sinline;
 
 - (int) set_accFunc:(int)v{
 	
-	return ((int)self.__r__ @throw [@"setter was called" mutableCopy];
+	return ((int)self.__r__ @throw [@"setter was called" mutableCopy]
 	return __r__{
 		
 		int* __r__}
@@ -398,7 +396,7 @@ static float sinline;
 }
 - (id) set_accDynamic:(id)v{
 	
-	return ((id)self.__r__ @throw [@"setter was called" mutableCopy];
+	return ((id)self.__r__ @throw [@"setter was called" mutableCopy]
 	return __r__{
 		
 		id* __r__}
@@ -441,7 +439,7 @@ static float sinline;
 }
 - (float) memberAnon:(id)v{
 	
-	return isstrFAnon-isstrFAnon-v x + v y;
+	return v x + v y;
 }
 - (void) memberOverload:(NSMutableString*)a b:(NSMutableString*)b{
 	

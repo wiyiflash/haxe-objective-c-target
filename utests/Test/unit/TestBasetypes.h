@@ -13,6 +13,7 @@
 #import "../Std.h"
 #import "../unit/Test.h"
 #import "../unit/MyEnum.h"
+#import "../Math.h"
 #import "../Lambda.h"
 #import "../Reflect.h"
 #import "../unit/MyAbstract.h"
@@ -39,6 +40,7 @@
 - (void) testAbstractOperatorOverload;
 - (void) testAbstractSetter;
 - (void) testAbstractMemberCall;
+- (void) testAbstractMultitypeInline;
 
 @end
 

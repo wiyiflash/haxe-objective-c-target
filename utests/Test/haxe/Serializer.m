@@ -364,8 +364,8 @@ static NSMutableString* BASE64;
 			[self.cache push:v];
 		}break
 		case 5:
-		@throw [@"Cannot serialize function" mutableCopy];;break
-		default:@throw [[@"Cannot serialize " mutableCopy] stringByAppendingString:[Std string:v]];;break
+		@throw [@"Cannot serialize function" mutableCopy];break
+		default:@throw [[@"Cannot serialize " mutableCopy] stringByAppendingString:[Std string:v]];break
 	}
 }
 - (void) serializeException:(id)e{

@@ -6,13 +6,15 @@
 //
 
 
-#import <Foundation/Foundation.h>
 
+#import "../../Array.h"
 #import "../../haxe/io/Bytes.h"
 
 @interface BytesBuffer : NSObject
 
-@property (nonatomic, strong) NSMutableData *b;
+@property (nonatomic, strong) NSMutableArray *b;
+@property (nonatomic, getter=get_length) int length;
+- (int) get_length;
 - (void) addByte:(int)byte;
 - (void) add:(Bytes*)src;
 - (void) addBytes:(Bytes*)src pos:(int)pos len:(int)len;

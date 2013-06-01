@@ -10,15 +10,36 @@
 @implementation BytesOutput
 
 @synthesize b;
+
+- (int) get_length{
+	
+	return self.b.b.length;
+}
 - (void) writeByte:(int)c{
 	
-	
-	BytesBuffer *_this = self.b;
-	[_this.b appendBytes:_this.b.mutableBytes length:c];
+	[self.b.b push:c];
 }
 - (int) writeBytes:(Bytes*)buf pos:(int)pos len:(int)len{
 	
-	if (pos < 0 || len < 0 || pos + len > buf.length) @throw OutsideBounds;;
+	{
+		
+		
+		BytesBuffer *_this = self.b;
+		if (pos < 0 || len < 0 || pos + len > buf.length) @throw OutsideBounds;
+		
+		NSMutableArray *b1 = _this.b;
+		
+		NSMutableArray *b2 = buf.b;
+		{
+			
+			int _g1 = pos; int _g = pos + len;
+			while (_g1 < _g) {
+				
+				int i = _g1++;
+				[_this.b push:((BytesData*)[b2 hx_objectAtIndex:i])];
+			}
+		}
+	}
 	return len;
 }
 - (Bytes*) getBytes{

@@ -159,8 +159,7 @@
 	int i = 0;
 	while (YES) {
 		
-		int c = [s characterAtIndex:i++];
-		if (c == -1) break;
+		int c = [s cca:i++];
 		switch (c){
 			case 34:[self.buf.b appendString:[@"\\\"" mutableCopy]];
 			break;
@@ -190,17 +189,17 @@
 - (void) invalidChar{
 	
 	self.pos--;
-	@throw [[[[@"Invalid char " mutableCopy] stringByAppendingString:[self.str characterAtIndex:self.pos]] stringByAppendingString:[@" at position " mutableCopy]] stringByAppendingString:self.pos];;
+	@throw [[[[@"Invalid char " mutableCopy] stringByAppendingString:[self.str cca:self.pos]] stringByAppendingString:[@" at position " mutableCopy]] stringByAppendingString:self.pos];
 }
 - (int) nextChar{
 	
-	return [self.str characterAtIndex:self.pos++];
+	return [self.str cca:self.pos++];
 }
 - (id) parseRec{
 	
 	while (YES) {
 		
-		int c = [self.str characterAtIndex:self.pos++];
+		int c = [self.str cca:self.pos++];
 		switch (c){
 			case 32:case 13:case 10:case 9:{
 				
@@ -213,7 +212,7 @@
 				NSMutableString *field = nil; BOOL comma = nil;
 				while (YES) {
 					
-					int c1 = [self.str characterAtIndex:self.pos++];
+					int c1 = [self.str cca:self.pos++];
 					switch (c1){
 						case 32:case 13:case 10:case 9:{
 							
@@ -253,7 +252,7 @@
 				NSMutableArray *arr = [@[] mutableCopy]; BOOL comma = nil;
 				while (YES) {
 					
-					int c1 = [self.str characterAtIndex:self.pos++];
+					int c1 = [self.str cca:self.pos++];
 					switch (c1){
 						case 32:case 13:case 10:case 9:{
 							
@@ -282,7 +281,7 @@
 			case 116:{
 				
 				int save = self.pos;
-				if ([self.str characterAtIndex:self.pos++] != 114 || [self.str characterAtIndex:self.pos++] != 117 || [self.str characterAtIndex:self.pos++] != 101) {
+				if ([self.str cca:self.pos++] != 114 || [self.str cca:self.pos++] != 117 || [self.str cca:self.pos++] != 101) {
 					
 					self.pos = save;
 					[self invalidChar];
@@ -293,7 +292,7 @@
 			case 102:{
 				
 				int save = self.pos;
-				if ([self.str characterAtIndex:self.pos++] != 97 || [self.str characterAtIndex:self.pos++] != 108 || [self.str characterAtIndex:self.pos++] != 115 || [self.str characterAtIndex:self.pos++] != 101) {
+				if ([self.str cca:self.pos++] != 97 || [self.str cca:self.pos++] != 108 || [self.str cca:self.pos++] != 115 || [self.str cca:self.pos++] != 101) {
 					
 					self.pos = save;
 					[self invalidChar];
@@ -304,7 +303,7 @@
 			case 110:{
 				
 				int save = self.pos;
-				if ([self.str characterAtIndex:self.pos++] != 117 || [self.str characterAtIndex:self.pos++] != 108 || [self.str characterAtIndex:self.pos++] != 108) {
+				if ([self.str cca:self.pos++] != 117 || [self.str cca:self.pos++] != 108 || [self.str cca:self.pos++] != 108) {
 					
 					self.pos = save;
 					[self invalidChar];
@@ -320,7 +319,7 @@
 			BOOL point = NO; BOOL e = NO; BOOL pm = NO; BOOL end = NO
 			while (YES) {
 				
-				c1 = [self.str characterAtIndex:self.pos++];
+				c1 = [self.str cca:self.pos++];
 				switch (c1){
 					case 48:{
 						
@@ -391,7 +390,7 @@
 	StringBuf *buf = [[StringBuf alloc] init];
 	while (YES) {
 		
-		int c = [self.str characterAtIndex:self.pos++];
+		int c = [self.str cca:self.pos++];
 		if (c == 34) break;
 		if (c == 92) {
 			
@@ -401,7 +400,7 @@
 				NSMutableString *s = self.str; int len = self.pos - start - 1;
 				[buf.b appendString:( (len == nil) ? [s substr:start len:nil] : [s substr:start len:len])];
 			}
-			c = [self.str characterAtIndex:self.pos++];
+			c = [self.str cca:self.pos++];
 			switch (c){
 				case 114:[buf.b appendString:[@"\r" mutableCopy]];
 				break;
@@ -422,11 +421,13 @@
 					[buf.b appendString:[NSMutableString:uc]];
 				}
 				break;
-				default:@throw [[[[@"Invalid escape sequence \\" mutableCopy] stringByAppendingString:[NSMutableString:c]] stringByAppendingString:[@" at position " mutableCopy]] stringByAppendingString: (self.pos - @"1")];;break;
+				default:@throw [[[[@"Invalid escape sequence \\" mutableCopy] stringByAppendingString:[NSMutableString:c]] stringByAppendingString:[@" at position " mutableCopy]] stringByAppendingString: (self.pos - @"1")];break;
 			}
 			start = self.pos;
 		}
-		else if (c == -1) @throw [@"Unclosed string" mutableCopy];;
+		else {
+			
+		}
 	}
 	{
 		
@@ -438,7 +439,7 @@
 }
 - (void) invalidNumber:(int)start{
 	
-	@throw [[[[@"Invalid number at position " mutableCopy] stringByAppendingString:start] stringByAppendingString:[@": " mutableCopy]] stringByAppendingString:[self.str substr:start len:self.pos - start]];;
+	@throw [[[[@"Invalid number at position " mutableCopy] stringByAppendingString:start] stringByAppendingString:[@": " mutableCopy]] stringByAppendingString:[self.str substr:start len:self.pos - start]];
 }
 - (float) parseNumber:(int)c{
 	
@@ -447,7 +448,7 @@
 	BOOL point = NO; BOOL e = NO; BOOL pm = NO; BOOL end = NO;
 	while (YES) {
 		
-		c = [self.str characterAtIndex:self.pos++];
+		c = [self.str cca:self.pos++];
 		switch (c){
 			case 48:{
 				

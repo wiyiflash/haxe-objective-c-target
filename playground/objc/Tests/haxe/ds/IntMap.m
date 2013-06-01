@@ -9,24 +9,20 @@
 
 @implementation NSMutableDictionary ( IntMap )
 
-- (void) set:(id)_tmp_key _tmp_value:(id)_tmp_value{
+- (void) set:(int)key value:(id)value{
 	
-	int key = (int)_tmp_key; id value = (id)_tmp_value;
 	[self setObject:value forKey:[NSString stringWithFormat:@"%i",key]];
 }
-- (id) get:(id)_tmp_key{
+- (id) get:(int)key{
 	
-	int key = (int)_tmp_key;
 	return [self objectForKey:[NSString stringWithFormat:@"%i",key]];
 }
-- (BOOL) exists:(id)_tmp_key{
+- (BOOL) exists:(int)key{
 	
-	int key = (int)_tmp_key;
 	return [self objectForKey:[NSString stringWithFormat:@"%i",key]] != nil;
 }
-- (BOOL) remove:(id)_tmp_key{
+- (BOOL) remove:(int)key{
 	
-	int key = (int)_tmp_key;
 	if ([self exists:key]) {
 		
 		[self removeObjectForKey:[NSString stringWithFormat:@"%i",key]];

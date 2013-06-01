@@ -15,7 +15,7 @@
 
 @interface EnumValueMap : BalancedTree <IMap>
 
-- (int) compare:(id)_tmp_k1 _tmp_k2:(id)_tmp_k2;
+- (int) compare:(EnumValue*)k1 k2:(EnumValue*)k2;
 - (int) compareArgs:(NSMutableArray*)a1 a2:(NSMutableArray*)a2;
 
 @end

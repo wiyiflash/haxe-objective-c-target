@@ -92,12 +92,7 @@
 }
 - (id) iterator{
 	
-	__block int p = 0;
-	
-	return [NSMutableDictionary dictionaryWithObjectsAndKeys:
-			[^BOOL() { return p < [self count]; } copy], @"hasNext",
-			[^id() { id i = [self objectAtIndex:p]; p += 1; return i; } copy], @"next",
-			nil];
+	__block int p = 0;		return [NSMutableDictionary dictionaryWithObjectsAndKeys:			[^BOOL() { return p < [self count]; } copy], @"hasNext",			[^id() { id i = [self objectAtIndex:p]; p += 1; return i; } copy], @"next",			nil];
 	return nil;
 }
 - (NSMutableArray*) map:(id)f{
@@ -109,7 +104,7 @@
 	return nil;
 }
 - (void) hx_replaceObjectAtIndex:(int)index withObject:(id)withObject{
-	NSLog(@"add %@", withObject);
+	
 	if (index >= [self count]) while ([self count] <= index) [self addObject:[NSNull null]];
 	[self replaceObjectAtIndex:index withObject:(withObject==nil?[NSNull null]:withObject)];
 }

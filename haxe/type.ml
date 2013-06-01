@@ -126,6 +126,7 @@ and texpr_expr =
 	| TContinue
 	| TThrow of texpr
 	| TCast of texpr * module_type option
+	| TMeta of metadata_entry * texpr
 
 and tfield_access =
 	| FInstance of tclass * tclass_field
@@ -1039,16 +1040,20 @@ let rec unify a b =
 		in
 		if not (loop c1 tl1) then error [cannot_unify a b]
 	| TFun (l1,r1) , TFun (l2,r2) when List.length l1 = List.length l2 ->
+		let i = ref 0 in
 		(try
 			(match r2 with
 			| TAbstract ({a_path=[],"Void"},_) -> ()
-			| _ -> unify r1 r2);
+			| _ -> unify r1 r2; incr i);
 			List.iter2 (fun (_,o1,t1) (_,o2,t2) ->
 				if o1 && not o2 then error [Cant_force_optional];
-				unify t1 t2
+				unify t1 t2;
+				incr i
 			) l2 l1 (* contravariance *)
 		with
-			Unify_error l -> error (cannot_unify a b :: l))
+			Unify_error l ->
+				let msg = if !i = 0 then "Cannot unify return types" else "Cannot unify argument " ^ (string_of_int !i) in
+				error (cannot_unify a b :: Unify_custom msg :: l))
 	| TInst (c,tl) , TAnon an ->
 		if PMap.is_empty an.a_fields then (match c.cl_kind with
 			| KTypeParameter pl ->
@@ -1214,7 +1219,7 @@ and unify_to_field ab tl b (t,cfo) =
 	let unify_func = match follow b with TAbstract({a_impl = Some _},_) when ab.a_impl <> None -> type_eq EqStrict | _ -> unify in
 	let b = try begin match cfo with
 		| Some cf -> (match follow cf.cf_type with
-			| TFun([_,_,ta],_) ->
+			| TFun((_,_,ta) :: _,_) ->
 				let monos = List.map (fun _ -> mk_mono()) cf.cf_params in
 				let map t = apply_params ab.a_types tl (apply_params cf.cf_params monos t) in
 				let athis = map ab.a_this in
@@ -1224,7 +1229,7 @@ and unify_to_field ab tl b (t,cfo) =
 				(* immediate constraints checking is ok here because we know there are no monomorphs *)
 				List.iter2 (fun m (name,t) -> match follow t with
 					| TInst ({ cl_kind = KTypeParameter constr },_) when constr <> [] ->
-						List.iter (fun tc -> unify m (map tc) ) constr
+						List.iter (fun tc -> match follow m with TMono _ -> raise (Unify_error []) | _ -> unify m (map tc) ) constr
 					| _ -> ()
 				) monos cf.cf_params;
 				unify_func (map t) b;
@@ -1245,7 +1250,14 @@ and unify_types a b tl1 tl2 =
 			type_eq EqRightDynamic t1 t2
 		with Unify_error l ->
 			let err = cannot_unify a b in
-			error (try unify t1 t2; (err :: (Invariant_parameter (t1,t2)) :: l) with _ -> err :: l)
+			(try (match follow t1, follow t2 with
+				| TAbstract({a_impl = Some _} as a1,pl1),TAbstract({a_impl = Some _ } as a2,pl2) ->
+					type_eq EqStrict (apply_params a1.a_types pl1 a1.a_this) (apply_params a2.a_types pl2 a2.a_this)
+				| TAbstract({a_impl = Some _} as a,pl),t -> type_eq EqStrict (apply_params a.a_types pl a.a_this) t
+				| t,TAbstract({a_impl = Some _ } as a,pl) -> type_eq EqStrict t (apply_params a.a_types pl a.a_this)
+				| _ -> raise (Unify_error l))
+			with Unify_error _ ->
+				error (err :: (Invariant_parameter (t1,t2)) :: l))
 	) tl1 tl2
 
 and unify_with_access t1 f2 =
@@ -1275,7 +1287,8 @@ let iter f e =
 	| TField (e,_)
 	| TParenthesis e
 	| TCast (e,_)
-	| TUnop (_,_,e) ->
+	| TUnop (_,_,e)
+	| TMeta(_,e) ->
 		f e
 	| TArrayDecl el
 	| TNew (_,_,el)
@@ -1358,6 +1371,8 @@ let map_expr f e =
 		{ e with eexpr = TReturn (match eo with None -> None | Some e -> Some (f e)) }
 	| TCast (e1,t) ->
 		{ e with eexpr = TCast (f e1,t) }
+	| TMeta (m,e1) ->
+		 {e with eexpr = TMeta(m,f e1)}
 
 let map_expr_type f ft fv e =
 	match e.eexpr with
@@ -1425,6 +1440,8 @@ let map_expr_type f ft fv e =
 		{ e with eexpr = TReturn (match eo with None -> None | Some e -> Some (f e)); etype = ft e.etype }
 	| TCast (e1,t) ->
 		{ e with eexpr = TCast (f e1,t); etype = ft e.etype }
+	| TMeta (m,e1) ->
+		{e with eexpr = TMeta(m, f e1); etype = ft e.etype }
 
 let s_expr_kind e =
 	match e.eexpr with
@@ -1454,6 +1471,7 @@ let s_expr_kind e =
 	| TContinue -> "Continue"
 	| TThrow _ -> "Throw"
 	| TCast _ -> "Cast"
+	| TMeta _ -> "Meta"
 
 let s_const = function
 	| TInt i -> Int32.to_string i
@@ -1539,6 +1557,8 @@ let rec s_expr s_type e =
 		"Throw " ^ (loop e)
 	| TCast (e,t) ->
 		sprintf "Cast %s%s" (match t with None -> "" | Some t -> s_type_path (t_path t) ^ ": ") (loop e)
+	| TMeta ((n,el,_),e) ->
+		sprintf "@%s%s %s" (Meta.to_string n) (match el with [] -> "" | _ -> "(" ^ (String.concat ", " (List.map Ast.s_expr el)) ^ ")") (loop e)
 	) in
 	sprintf "(%s : %s)" str (s_type e.etype)
 
@@ -1614,3 +1634,5 @@ let rec s_expr_pretty tabs s_type e =
 		sprintf "cast %s" (loop e)
 	| TCast (e,Some mt) ->
 		sprintf "cast (%s,%s)" (loop e) (s_type_path (t_path mt))
+	| TMeta ((n,el,_),e) ->
+		sprintf "@%s%s %s" (Meta.to_string n) (match el with [] -> "" | _ -> "(" ^ (String.concat ", " (List.map Ast.s_expr el)) ^ ")") (loop e)		

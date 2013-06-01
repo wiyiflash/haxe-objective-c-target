@@ -9,28 +9,20 @@
 
 @implementation NSMutableDictionary ( StringMap )
 
-- (void) set:(id)_tmp_key _tmp_value:(id)_tmp_value{
+- (void) set:(NSMutableString*)key value:(id)value{
 	
-	
-	NSMutableString *key = (NSMutableString*)_tmp_key; id value = (id)_tmp_value;
 	[self setObject:value forKey:key];
 }
-- (id) get:(id)_tmp_key{
+- (id) get:(NSMutableString*)key{
 	
-	
-	NSMutableString *key = (NSMutableString*)_tmp_key;
 	return [self objectForKey:key];
 }
-- (BOOL) exists:(id)_tmp_key{
+- (BOOL) exists:(NSMutableString*)key{
 	
-	
-	NSMutableString *key = (NSMutableString*)_tmp_key;
 	return [self objectForKey:key] != nil;
 }
-- (BOOL) remove:(id)_tmp_key{
+- (BOOL) remove:(NSMutableString*)key{
 	
-	
-	NSMutableString *key = (NSMutableString*)_tmp_key;
 	if ([self exists:key]) {
 		
 		[self removeObjectForKey:key];

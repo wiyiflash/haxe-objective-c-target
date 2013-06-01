@@ -36,4 +36,4 @@ echo "Build utests..."
 echo " "
 
 cd ..
-# ./haxe/haxe -cp haxe/tests -objc utests -main unit.Test -lib hxcocoa -dce no --times
+# ./haxe/haxe -cp haxe/tests -objc utests -main unit.Test -dce no -D haxeJSON --times

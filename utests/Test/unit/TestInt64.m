@@ -54,6 +54,19 @@
 	
 	Int64 *c2 = [Int64 add:a2 b:b2];
 	[self eq:[c2 toString] v2:[@"5613028097" mutableCopy] pos:@{@"fileName":@"TestInt64.hx", @"lineNumber":@"39", @"className":@"unit.TestInt64", @"methodName":@"testMath"}];
+	
+	Int64 *a3 = [[Int64 alloc] init:-910118 low:-1758557277];
+	
+	Int64 *b3 = [[Int64 alloc] init:10011291 low:-2130706431];
+	
+	Int64 *c3 = [Int64 mul:a3 b:b3];
+	int expected_high = (int)-571956504; int expected_low = -1171354717;
+	[self eq:((int)self.__r__ int v = expected_high - c3.high
+	__r__ = ( (v != 0) ? v : [Int64 uicompare:expected_low b:c3.low])
+	return __r__{
+		
+		int* __r__}
+	}(self)) v2:0 pos:@{@"fileName":@"TestInt64.hx", @"lineNumber":@"45", @"className":@"unit.TestInt64", @"methodName":@"testMath"}];
 }
 
 @end

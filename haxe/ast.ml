@@ -30,12 +30,10 @@ module Meta = struct
 	type strict_meta =
 		| Abstract
 		| Access
-		| Alias
 		| Allow
 		| Annotation
 		| ArrayAccess
 		| AutoBuild
-		| BaseInterface
 		| Bind
 		| Bitmap
 		| Build
@@ -120,13 +118,11 @@ module Meta = struct
 		| Sound
 		| Struct
 		| SuppressWarnings
-		| Synchronized
 		| Throws
 		| To
 		| ToString
 		| Transient
 		| ValueUsed
-		| VarArgs
 		| Volatile
 		| UnifyMinDynamic
 		| Unreflective
@@ -147,6 +143,9 @@ module Meta = struct
 
 	let has m ml = List.exists (fun (m2,_,_) -> m = m2) ml
 	let get m ml = List.find (fun (m2,_,_) -> m = m2) ml
+
+	let to_string_ref = ref (fun _ -> assert false)
+	let to_string (m : strict_meta) : string = !to_string_ref m 
 end
 
 type keyword =
@@ -687,3 +686,11 @@ let map_expr loop (e,p) =
 	| EMeta (m,e) -> EMeta(m, loop e)
 	) in
 	(e,p)
+
+let rec s_expr (e,_) =
+	match e with
+	| EConst c -> s_constant c
+	| EParenthesis e -> "(" ^ (s_expr e) ^ ")"
+	| EArrayDecl el -> "[" ^ (String.concat "," (List.map s_expr el)) ^ "]"
+	| EObjectDecl fl -> "{" ^ (String.concat "," (List.map (fun (n,e) -> n ^ ":" ^ (s_expr e)) fl)) ^ "}"
+	| _ -> "'???'"

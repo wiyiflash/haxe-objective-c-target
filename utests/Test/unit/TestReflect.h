@@ -52,6 +52,7 @@
 #import "../String.h"
 #import "../List.h"
 #import "../Xml.h"
+#import "../Math.h"
 #import "../unit/MyClass.h"
 #import "../unit/MySubClass.h"
 #import "../unit/MyInterface.h"

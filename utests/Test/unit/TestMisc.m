@@ -591,7 +591,7 @@ static NSMutableString* unit;
 	[self eq:x1 v2:1 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"420", @"className":@"unit.TestMisc", @"methodName":@"testIncr"}];
 	[self eq:((NSMutableArray*)[arr1 hx_objectAtIndex:0]) v v2:4 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"421", @"className":@"unit.TestMisc", @"methodName":@"testIncr"}];
 	x1 = 0;
-	[self eq:isstrFAnon-((NSMutableArray*)[arr1 hx_objectAtIndex:x1++]) v += 3 v2:7 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"425", @"className":@"unit.TestMisc", @"methodName":@"testIncr"}];
+	[self eq:((NSMutableArray*)[arr1 hx_objectAtIndex:x1++]) v += 3 v2:7 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"425", @"className":@"unit.TestMisc", @"methodName":@"testIncr"}];
 	[self eq:((NSMutableArray*)[arr1 hx_objectAtIndex:0]) v v2:7 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"426", @"className":@"unit.TestMisc", @"methodName":@"testIncr"}];
 	x1 = 0;
 	id arr2 = [@[[@{
@@ -601,7 +601,7 @@ static NSMutableString* unit;
 	[self eq:x1 v2:1 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"432", @"className":@"unit.TestMisc", @"methodName":@"testIncr"}];
 	[self eq:((TArray3TDynamic*)[arr2 hx_objectAtIndex:0]) v v2:4 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"433", @"className":@"unit.TestMisc", @"methodName":@"testIncr"}];
 	x1 = 0;
-	[self eq:isstrFAnon-Mono((TArray3TDynamic*)[arr2 hx_objectAtIndex:x1++]) v += 3 v2:7 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"437", @"className":@"unit.TestMisc", @"methodName":@"testIncr"}];
+	[self eq:Mono((TArray3TDynamic*)[arr2 hx_objectAtIndex:x1++]) v += 3 v2:7 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"437", @"className":@"unit.TestMisc", @"methodName":@"testIncr"}];
 	[self eq:((TArray3TDynamic*)[arr2 hx_objectAtIndex:0]) v v2:7 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"438", @"className":@"unit.TestMisc", @"methodName":@"testIncr"}];
 }
 - (void) testInitOrder{
@@ -665,6 +665,7 @@ static NSMutableString* unit;
 	
 	
 	StringBuf *b = [[StringBuf alloc] init];
+	[self eq:b.b.length v2:0 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"500", @"className":@"unit.TestMisc", @"methodName":@"testStringBuf"}];
 	[b.b appendString:[@"-45" mutableCopy]];
 	[b.b appendString:[Std string:@"1.456"]];
 	[b.b appendString:[Std string:nil]];
@@ -673,7 +674,8 @@ static NSMutableString* unit;
 	[b.b appendString:[@"Hello!" mutableCopy]];
 	[b.b appendString:[[@"Bla" mutableCopy] substr:@"1" len:@"2"]];
 	[b.b appendString:[@"R" mutableCopy]];
-	[self eq:b.b v2:[@"-451.456nulltruefalseHello!laR" mutableCopy] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"508", @"className":@"unit.TestMisc", @"methodName":@"testStringBuf"}];
+	[self eq:b.b v2:[@"-451.456nulltruefalseHello!laR" mutableCopy] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"509", @"className":@"unit.TestMisc", @"methodName":@"testStringBuf"}];
+	[self eq:b.b.length v2:30 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"510", @"className":@"unit.TestMisc", @"methodName":@"testStringBuf"}];
 }
 - (void) testToString{
 	
@@ -683,13 +685,13 @@ static NSMutableString* unit;
 		return [@"foo" mutableCopy];
 	} copy],
 	} mutableCopy];
-	[self eq:[Std string:x] v2:[@"foo" mutableCopy] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"514", @"className":@"unit.TestMisc", @"methodName":@"testToString"}];
+	[self eq:[Std string:x] v2:[@"foo" mutableCopy] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"516", @"className":@"unit.TestMisc", @"methodName":@"testToString"}];
 }
 - (void) testFormat{
 	
 	int x = 5;
 	int y = 6;
-	[self eq:[[[@"" mutableCopy] stringByAppendingString:x] stringByAppendingString: (x + y)] v2:[@"511" mutableCopy] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"530", @"className":@"unit.TestMisc", @"methodName":@"testFormat"}];
+	[self eq:[[[@"" mutableCopy] stringByAppendingString:x] stringByAppendingString: (x + y)] v2:[@"511" mutableCopy] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"532", @"className":@"unit.TestMisc", @"methodName":@"testFormat"}];
 }
 - (void) testJSon{
 	
@@ -704,34 +706,34 @@ static NSMutableString* unit;
 	str = [str substr:1 len:str.length - 2];
 	
 	NSMutableArray *parts = [str split:[@"," mutableCopy]];
-	[self t:[parts remove:[@"\"x\":-4500" mutableCopy]] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"538", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
-	[self t:[parts remove:[@"\"y\":1.456" mutableCopy]] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"539", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
-	[self t:[parts remove:[@"\"a\":[\"hello\"" mutableCopy]] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"540", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
-	[self t:[parts remove:[@"\"wor'\\\"\\n\\t\\rd\"]" mutableCopy]] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"541", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
-	[self eq:[parts join:[@"#" mutableCopy]] v2:[@"" mutableCopy] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"542", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
+	[self t:[parts remove:[@"\"x\":-4500" mutableCopy]] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"540", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
+	[self t:[parts remove:[@"\"y\":1.456" mutableCopy]] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"541", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
+	[self t:[parts remove:[@"\"a\":[\"hello\"" mutableCopy]] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"542", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
+	[self t:[parts remove:[@"\"wor'\\\"\\n\\t\\rd\"]" mutableCopy]] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"543", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
+	[self eq:[parts join:[@"#" mutableCopy]] v2:[@"" mutableCopy] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"544", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
 	id _id = ^(id v, id pos){
 		
-		[_g eq:[Json parse:[Json stringify:v replacer:nil]] v2:v pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"549", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
+		[_g eq:[Json parse:[Json stringify:v replacer:nil]] v2:v pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"551", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
 	};
 	id deepId = ^(id v){
 		
 		
 		NSMutableString *str1 = [Json stringify:v replacer:nil];
-		[_g eq:[Json stringify:[Json parse:str1] replacer:nil] v2:str1 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"552", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
+		[_g eq:[Json stringify:[Json parse:str1] replacer:nil] v2:str1 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"554", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
 	};
-	[_id:YES pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"555", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
-	[_id:NO pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"556", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
-	[_id:nil pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"557", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
-	[_id:0 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"558", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
-	[_id:145 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"559", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
-	[_id:-145 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"560", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
-	[_id:0.15461 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"561", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
-	[_id:-485.15461 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"562", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
-	[_id:1e10 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"563", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
-	[_id:-1e-10 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"564", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
-	[_id:[@"" mutableCopy] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"565", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
-	[_id:[@"hello" mutableCopy] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"566", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
-	[_id:[@"he\n\r\t\\\\llo" mutableCopy] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"567", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
+	[_id:YES pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"557", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
+	[_id:NO pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"558", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
+	[_id:nil pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"559", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
+	[_id:0 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"560", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
+	[_id:145 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"561", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
+	[_id:-145 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"562", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
+	[_id:0.15461 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"563", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
+	[_id:-485.15461 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"564", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
+	[_id:1e10 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"565", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
+	[_id:-1e-10 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"566", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
+	[_id:[@"" mutableCopy] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"567", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
+	[_id:[@"hello" mutableCopy] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"568", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
+	[_id:[@"he\n\r\t\\\\llo" mutableCopy] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"569", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
 	[deepId:[@{
 		@"field":[@4 copy],
 	} mutableCopy]];
@@ -745,38 +747,38 @@ static NSMutableString* unit;
 	[deepId:[@{
 		@"array":[mix copy],
 	} mutableCopy]];
-	[self eq:[Json parse:[@"\"\\u00E9\"" mutableCopy]] v2:[@"é" mutableCopy] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"574", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
-	[self eq:[Json stringify:DBL_MAX replacer:nil] v2:[@"null" mutableCopy] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"576", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
-	[self eq:[Json stringify:-DBL_MAX replacer:nil] v2:[@"null" mutableCopy] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"577", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
-	[self eq:[Json stringify:NAN replacer:nil] v2:[@"null" mutableCopy] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"578", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
+	[self eq:[Json parse:[@"\"\\u00E9\"" mutableCopy]] v2:[@"é" mutableCopy] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"576", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
+	[self eq:[Json stringify:DBL_MAX replacer:nil] v2:[@"null" mutableCopy] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"578", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
+	[self eq:[Json stringify:-DBL_MAX replacer:nil] v2:[@"null" mutableCopy] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"579", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
+	[self eq:[Json stringify:NAN replacer:nil] v2:[@"null" mutableCopy] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"580", @"className":@"unit.TestMisc", @"methodName":@"testJSon"}];
 }
 - (void) testConstructorsOpts{
 	
 	
 	BaseConstrOpt *b = [[BaseConstrOpt alloc] init];
-	[self eq:b.s v2:[@"test" mutableCopy] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"583", @"className":@"unit.TestMisc", @"methodName":@"testConstructorsOpts"}];
-	[self eq:b.i v2:-5 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"584", @"className":@"unit.TestMisc", @"methodName":@"testConstructorsOpts"}];
-	[self eq:b.b v2:YES pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"585", @"className":@"unit.TestMisc", @"methodName":@"testConstructorsOpts"}];
+	[self eq:b.s v2:[@"test" mutableCopy] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"585", @"className":@"unit.TestMisc", @"methodName":@"testConstructorsOpts"}];
+	[self eq:b.i v2:-5 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"586", @"className":@"unit.TestMisc", @"methodName":@"testConstructorsOpts"}];
+	[self eq:b.b v2:YES pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"587", @"className":@"unit.TestMisc", @"methodName":@"testConstructorsOpts"}];
 	
 	BaseConstrOpt *b1 = [[BaseConstrOpt alloc] init:nil i:99 b:nil];
-	[self eq:b1.s v2:[@"test" mutableCopy] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"588", @"className":@"unit.TestMisc", @"methodName":@"testConstructorsOpts"}];
-	[self eq:b1.i v2:99 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"589", @"className":@"unit.TestMisc", @"methodName":@"testConstructorsOpts"}];
-	[self eq:b1.b v2:YES pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"590", @"className":@"unit.TestMisc", @"methodName":@"testConstructorsOpts"}];
+	[self eq:b1.s v2:[@"test" mutableCopy] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"590", @"className":@"unit.TestMisc", @"methodName":@"testConstructorsOpts"}];
+	[self eq:b1.i v2:99 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"591", @"className":@"unit.TestMisc", @"methodName":@"testConstructorsOpts"}];
+	[self eq:b1.b v2:YES pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"592", @"className":@"unit.TestMisc", @"methodName":@"testConstructorsOpts"}];
 	
 	SubConstrOpt *b2 = [[SubConstrOpt alloc] init];
-	[self eq:b2.s v2:[@"test" mutableCopy] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"593", @"className":@"unit.TestMisc", @"methodName":@"testConstructorsOpts"}];
-	[self eq:b2.i v2:-5 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"594", @"className":@"unit.TestMisc", @"methodName":@"testConstructorsOpts"}];
-	[self eq:b2.b v2:YES pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"595", @"className":@"unit.TestMisc", @"methodName":@"testConstructorsOpts"}];
+	[self eq:b2.s v2:[@"test" mutableCopy] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"595", @"className":@"unit.TestMisc", @"methodName":@"testConstructorsOpts"}];
+	[self eq:b2.i v2:-5 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"596", @"className":@"unit.TestMisc", @"methodName":@"testConstructorsOpts"}];
+	[self eq:b2.b v2:YES pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"597", @"className":@"unit.TestMisc", @"methodName":@"testConstructorsOpts"}];
 	
 	SubConstrOpt2 *b3 = [[SubConstrOpt2 alloc] init];
-	[self eq:b3.s v2:[@"test" mutableCopy] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"598", @"className":@"unit.TestMisc", @"methodName":@"testConstructorsOpts"}];
-	[self eq:b3.i v2:-5 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"599", @"className":@"unit.TestMisc", @"methodName":@"testConstructorsOpts"}];
-	[self eq:b3.b v2:YES pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"600", @"className":@"unit.TestMisc", @"methodName":@"testConstructorsOpts"}];
+	[self eq:b3.s v2:[@"test" mutableCopy] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"600", @"className":@"unit.TestMisc", @"methodName":@"testConstructorsOpts"}];
+	[self eq:b3.i v2:-5 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"601", @"className":@"unit.TestMisc", @"methodName":@"testConstructorsOpts"}];
+	[self eq:b3.b v2:YES pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"602", @"className":@"unit.TestMisc", @"methodName":@"testConstructorsOpts"}];
 	
 	SubConstrOpt3 *b4 = [[SubConstrOpt3 alloc] init];
-	[self eq:b4.s v2:[@"test2" mutableCopy] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"603", @"className":@"unit.TestMisc", @"methodName":@"testConstructorsOpts"}];
-	[self eq:b4.i v2:-6 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"604", @"className":@"unit.TestMisc", @"methodName":@"testConstructorsOpts"}];
-	[self eq:b4.b v2:YES pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"605", @"className":@"unit.TestMisc", @"methodName":@"testConstructorsOpts"}];
+	[self eq:b4.s v2:[@"test2" mutableCopy] pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"605", @"className":@"unit.TestMisc", @"methodName":@"testConstructorsOpts"}];
+	[self eq:b4.i v2:-6 pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"606", @"className":@"unit.TestMisc", @"methodName":@"testConstructorsOpts"}];
+	[self eq:b4.b v2:YES pos:@{@"fileName":@"TestMisc.hx", @"lineNumber":@"607", @"className":@"unit.TestMisc", @"methodName":@"testConstructorsOpts"}];
 }
 
 @end

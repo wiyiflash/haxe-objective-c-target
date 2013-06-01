@@ -271,3 +271,27 @@
 
 @end
 
+
+
+#import "../String.h"
+
+@interface MyDebugString_Impl_ : NSObject
+
++ (NSMutableString*) _new:(NSMutableString*)s;
++ (NSMutableString*) substr:(NSMutableString*)this1 i:(int)i len:(int)len;
+
+@end
+
+
+
+#import "../String.h"
+#import "../unit/MyAbstract.h"
+
+@interface MySpecialString_Impl_ : NSObject
+
+
++ (NSMutableString*) substr:(NSMutableString*)this1 i:(int)i len:(int)len;
++ (MyDebugString*) toNormal:(NSMutableString*)t value:(NSMutableString*)value;
+
+@end
+

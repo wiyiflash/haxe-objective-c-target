@@ -364,6 +364,12 @@ let rec gen_call ctx e el in_value =
 		spr ctx ")";
 	| TLocal { v_name = "__js__" }, [{ eexpr = TConst (TString code) }] ->
 		spr ctx (String.concat "\n" (ExtString.String.nsplit code "\r\n"))
+	| TLocal { v_name = "__instanceof__" },  [o;t] ->
+		spr ctx "(";
+		gen_value ctx o;
+		print ctx " instanceof ";
+		gen_value ctx t;
+		spr ctx ")";
 	| TLocal ({v_name = "__define_feature__"}), [_;e] ->
 		gen_expr ctx e
 	| TLocal { v_name = "__feature__" }, { eexpr = TConst (TString f) } :: eif :: eelse ->
@@ -453,6 +459,8 @@ and gen_expr ctx e =
 		spr ctx "(";
 		gen_value ctx e;
 		spr ctx ")";
+	| TMeta (_,e) ->
+		gen_value ctx e
 	| TReturn eo ->
 		if ctx.in_value <> None then unsupported e.epos;
 		(match eo with
@@ -780,6 +788,7 @@ and gen_value ctx e =
 	| TField _
 	| TTypeExpr _
 	| TParenthesis _
+	| TMeta _
 	| TObjectDecl _
 	| TArrayDecl _
 	| TNew _
@@ -1149,6 +1158,7 @@ let generate com =
 		print ctx "function $extend(from, fields) {
 	function inherit() {}; inherit.prototype = from; var proto = new inherit();
 	for (var name in fields) proto[name] = fields[name];
+	if( fields.toString !== Object.prototype.toString ) proto.toString = fields.toString;
 	return proto;
 }
 ";

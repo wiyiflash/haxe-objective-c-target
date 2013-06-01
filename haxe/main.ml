@@ -782,17 +782,9 @@ try
 	let force_typing = ref false in
 	let pre_compilation = ref [] in
 	let interp = ref false in
-	if version < 300 then begin
-		for i = 0 to 4 do
-			let v = version - i in
-			Common.raw_define com ("haxe_" ^ string_of_int v);
-		done;
-	end else begin
-		Common.define_value com Define.HaxeVer (string_of_float (float_of_int version /. 100.));
-		(* TODO: fix this line for 3.0 release *)
-		Common.raw_define com (if false && ((version / 10) land 1 == 0) then "haxe_release" else "haxe_svn");
-		Common.raw_define com "haxe3";
-	end;
+	Common.define_value com Define.HaxeVer (string_of_float (float_of_int version /. 100.));
+	Common.raw_define com (if ((version / 10) land 1 == 0) then "haxe_release" else "haxe_svn");
+	Common.raw_define com "haxe3";
 	Common.define_value com Define.Dce "std";
 	com.warning <- (fun msg p -> message ctx ("Warning : " ^ msg) p);
 	com.error <- error ctx;
@@ -816,10 +808,10 @@ try
 		Not_found ->
 			if Sys.os_type = "Unix" then
 				com.class_path <- ["/Users/Cristi/Documents/haxecompiler/haxe/std/";"";"/"]
-				(* com.class_path <- ["/usr/lib/haxe/std/";"/usr/local/lib/haxe/std/";"/usr/lib/haxe/std/libs/";"/usr/local/lib/haxe/std/libs/";"";"/"] *)
+				(* com.class_path <- ["/usr/lib/haxe/std/";"/usr/local/lib/haxe/std/";"/usr/lib/haxe/extraLibs/";"/usr/local/lib/haxe/extraLibs/";"";"/"] *)
 			else
 				let base_path = normalize_path (Extc.get_real_path (try executable_path() with _ -> "./")) in
-				com.class_path <- [base_path ^ "std/";base_path ^ "std/libs/";""]);
+				com.class_path <- [base_path ^ "std/";base_path ^ "extraLibs/";""]);
 	com.std_path <- List.filter (fun p -> ExtString.String.ends_with p "std/" || ExtString.String.ends_with p "std\\") com.class_path;
 	let set_platform pf file =
 		if com.platform <> Cross then failwith "Multiple targets";
@@ -867,6 +859,7 @@ try
 			set_platform Java dir;
 		),"<directory> : generate Java code into target directory");
 		("-objc",Arg.String (fun dir ->
+			cp_libs := "hxcocoa" :: !cp_libs;
 			set_platform ObjC dir;
 		),"<directory> : generate Objective-C code into target directory");
 		("-xml",Arg.String (fun file ->
@@ -1013,6 +1006,43 @@ try
 			com.php_prefix <- Some f;
 			Common.define com Define.PhpPrefix;
 		),"<name> : prefix all classes with given name");
+		(* ObjC related parameters. *)
+		("-objc-platform",Arg.String (fun v ->
+			com.objc_platform <- v;
+		),"<platform> : set the platform. e.g. iphone, ipad, ios, osx, generic");
+		("-objc-version",Arg.Float (fun v ->
+			com.objc_version <- v;
+			(* Common.raw_define com (Printf.sprintf "objc_version=%f.0" v); *)
+			Common.raw_define com "objc_version=5.0";
+		),"<version> : set the cocoa sdk version. e.g. 4-6.1 for iOS, 10.7-10.8 for OSX");
+		("-objc-bundle-version",Arg.Float (fun v ->
+			com.objc_bundle_version <- v;
+		),"<version> : set the version of the app. e.g. 1.0");
+		("-objc-identifier",Arg.String (fun v ->
+			com.objc_identifier <- Some v;
+		),"<identifier> : set the identifier for the app. e.g. com.domain.appname");
+		("-objc-owner",Arg.String (fun v ->
+			com.objc_owner <- Some v;
+		),"<owner> : set the owner name of the app");
+		("-objc-bundle-name",Arg.String (fun v ->
+			com.objc_bundle_name <- Some v;
+		),"<name> : set the name of the executable");
+		("-objc-supporting-files",Arg.String (fun path ->
+			com.objc_supporting_files <- Some (normalize_path path);
+		),"<path> : set a custom SupportingFiles folder that contains resources and custom project files.");
+		("-objc-lib",Arg.String (fun path ->
+			com.objc_libs <- path :: com.objc_libs
+		),"<name> : add a linker flag to the app. e.g. ObjC");
+		("-objc-framework",Arg.String (fun name ->
+			com.objc_frameworks <- name :: com.objc_frameworks
+		),"<name> : add a linker flag to the app. e.g. ObjC");
+		("-objc-linker-flag",Arg.String (fun name ->
+			com.objc_linker_flags <- name :: com.objc_linker_flags
+		),"<path> : add a custom framework");
+		("-ios-orientation",Arg.String (fun v ->
+			com.ios_orientations <- v :: com.ios_orientations
+		),"<orientation> : add iOS orientations. e.g. UIInterfaceOrientationPortrait");
+		(* ObjC ends *)
 		("--remap", Arg.String (fun s ->
 			let pack, target = (try ExtString.String.split s ":" with _ -> raise (Arg.Bad "Invalid remap format, expected source:target")) in
 			com.package_rules <- PMap.add pack (Remap target) com.package_rules;
@@ -1055,64 +1085,34 @@ try
 			List.iter (fun msg -> ctx.com.print (msg ^ "\n")) all;
 			did_something := true
 		),": print help for all compiler specific defines");
-		(* ObjectiveC related parameters. *)
-		("-objc-platform",Arg.String (fun v ->
-			com.objc_platform <- v;
-		),"<platform> : set the platform. e.g. iphone, ipad, ios, osx, generic");
-		("-objc-version",Arg.Float (fun v ->
-			com.objc_version <- v;
-		),"<version> : set the cocoa sdk version. e.g. 4-6.1 for iOS, 10.7-10.8 for OSX");
-		("-objc-bundle-version",Arg.Float (fun v ->
-			com.objc_bundle_version <- v;
-		),"<version> : set the version of the app. e.g. 1.0");
-		("-objc-identifier",Arg.String (fun v ->
-			com.objc_identifier <- Some v;
-		),"<identifier> : set the identifier for the app. e.g. com.domain.appname");
-		("-objc-owner",Arg.String (fun v ->
-			com.objc_owner <- Some v;
-		),"<owner> : set the owner name of the app");
-		("-objc-bundle-name",Arg.String (fun v ->
-			com.objc_bundle_name <- Some v;
-		),"<name> : set the name of the executable");
-		("-objc-supporting-files",Arg.String (fun path ->
-			com.objc_supporting_files <- Some (normalize_path path);
-		),"<path> : set a custom SupportingFiles folder that contains resources and custom project files.");
-		("-objc-lib",Arg.String (fun path ->
-			com.objc_libs <- path :: com.objc_libs
-		),"<name> : add a linker flag to the app. e.g. ObjC");
-		("-objc-framework",Arg.String (fun name ->
-			com.objc_frameworks <- name :: com.objc_frameworks
-		),"<name> : add a linker flag to the app. e.g. ObjC");
-		("-objc-linker-flag",Arg.String (fun name ->
-			com.objc_linker_flags <- name :: com.objc_linker_flags
-		),"<path> : add a custom framework");
-		("-ios-orientation",Arg.String (fun v ->
-			com.ios_orientations <- v :: com.ios_orientations
-		),"<orientation> : add iOS orientations. e.g. UIInterfaceOrientationPortrait");
 		("--help-metas", Arg.Unit (fun() ->
 			let rec loop i =
 				let d = Obj.magic i in
 				if d <> Meta.Last then begin
 					let t, (doc,flags) = MetaInfo.to_string d in
-					let params = ref [] and used = ref [] and pfs = ref [] in
-					List.iter (function
-						| MetaInfo.HasParam s -> params := s :: !params
-						| MetaInfo.Platform f -> pfs := f :: !pfs
-						| MetaInfo.Platforms fl -> pfs := fl @ !pfs
-						| MetaInfo.UsedOn u -> used := u :: !used
-						| MetaInfo.UsedOnEither ul -> used := ul @ !used
-					) flags;
-					let params = (match List.rev !params with
-						| [] -> ""
-						| l -> "(" ^ String.concat "," l ^ ")"
-					) in
-					let pfs = (match List.rev !pfs with
-						| [] -> ""
-						| [p] -> " (" ^ platform_name p ^ " only)"
-						| pl -> " (for " ^ String.concat "," (List.map platform_name pl) ^ ")"
-					) in
-					let str = "@" ^ t ^ params ^ " : " ^ doc ^ pfs in
-					str :: loop (i + 1)
+					if not (List.mem MetaInfo.Internal flags) then begin
+						let params = ref [] and used = ref [] and pfs = ref [] in
+						List.iter (function
+							| MetaInfo.HasParam s -> params := s :: !params
+							| MetaInfo.Platform f -> pfs := f :: !pfs
+							| MetaInfo.Platforms fl -> pfs := fl @ !pfs
+							| MetaInfo.UsedOn u -> used := u :: !used
+							| MetaInfo.UsedOnEither ul -> used := ul @ !used
+							| MetaInfo.Internal -> assert false
+						) flags;
+						let params = (match List.rev !params with
+							| [] -> ""
+							| l -> "(" ^ String.concat "," l ^ ")"
+						) in
+						let pfs = (match List.rev !pfs with
+							| [] -> ""
+							| [p] -> " (" ^ platform_name p ^ " only)"
+							| pl -> " (for " ^ String.concat "," (List.map platform_name pl) ^ ")"
+						) in
+						let str = "@" ^ t ^ params ^ " : " ^ doc ^ pfs in
+						str :: loop (i + 1)
+					end else
+						loop (i + 1)
 				end else
 					[]
 			in
@@ -1206,6 +1206,17 @@ try
 			Genjava.before_generate com;
 			add_std "java"; "java"
 		| ObjC ->
+			let rec loop = function
+				| [] -> ()
+				| (v,def) :: l ->
+					if v >= com.objc_version then begin
+						print_endline ("ios" ^ def);
+						Common.raw_define com ("ios" ^ def);
+					end;
+					loop l
+			in
+			loop Common.objc_ios_versions;
+			Common.raw_define com "ios";
 			add_std "objc";
 			"m"
 	) in
@@ -1276,7 +1287,7 @@ try
 		| Some file ->
 			Common.log com ("Generating xml : " ^ file);
 			Genxml.generate com file);
-		if com.platform = Flash || com.platform = Cpp || com.platform = ObjC then List.iter (Codegen.fix_overrides com) com.types;
+		if com.platform = Flash || com.platform = Cpp then List.iter (Codegen.fix_overrides com) com.types;
 		if Common.defined com Define.Dump then Codegen.dump_types com;
 		if Common.defined com Define.DumpDependencies then Codegen.dump_dependencies com;
 		t();
@@ -1396,7 +1407,7 @@ with
 			Buffer.add_string b ("<meta name=\"" ^ (fst (MetaInfo.to_string m)) ^ "\"");
 			if el = [] then Buffer.add_string b "/>" else begin
 				Buffer.add_string b ">\n";
-				List.iter (fun e -> Buffer.add_string b ((htmlescape (Genxml.sexpr e)) ^ "\n")) el;
+				List.iter (fun e -> Buffer.add_string b ((htmlescape (Ast.s_expr e)) ^ "\n")) el;
 				Buffer.add_string b "</meta>\n";
 			end
 		) m;

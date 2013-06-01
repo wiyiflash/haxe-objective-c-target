@@ -8,11 +8,9 @@
 
 
 #import "../../String.h"
-#import "../../haxe/io/Bytes.h"
-#import "../../Array.h"
 #import "../../haxe/crypto/Md5.h"
-#import <CommonCrypto/CommonCryptor.h>
-#import <CommonCrypto/CommonDigest.h>
+#import "../../Array.h"
+#import "../../haxe/io/Bytes.h"
 
 @interface Md5 : NSObject
 
